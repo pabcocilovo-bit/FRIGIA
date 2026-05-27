@@ -1,9 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
 import React, { useEffect, useRef, useState } from "react";
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
-);
+import { supabase } from "./supabase";
+import Landing from "./Landing";
 const COLORS = {
   orangeStart: "#FF6B35",
   orangeEnd: "#FF9A3C",
@@ -2105,8 +2102,6 @@ function FAQItem({ theme, q, a }: { theme: Theme; q: string; a: string }) {
 // ─── Main App ─────────────────────────────────────────────────────────────────
 export default function Frigia() {
   const [user, setUser] = useState<any>(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [theme, setTheme] = useState<Theme>("dark");
   const [showSettings, setShowSettings] = useState(false);
   const [chatInput, setChatInput] = useState("");
@@ -2135,30 +2130,6 @@ useEffect(() => {
 
   return () => subscription.unsubscribe();
 }, []);
-
-async function signUp() {
-  const { error } = await supabase.auth.signUp({
-    email,
-    password,
-  });
-
-  if (error) {
-    alert(error.message);
-  } else {
-    alert("Compte créé !");
-  }
-}
-
-async function signIn() {
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-
-  if (error) {
-    alert(error.message);
-  }
-}
 
 async function signOut() {
   await supabase.auth.signOut();
@@ -2227,113 +2198,7 @@ async function signOut() {
   };
 
 if (!user) {
-  return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#0A0A0F",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <div
-        style={{
-          width: 420,
-          background: "#12121A",
-          padding: 30,
-          borderRadius: 24,
-          border: "1px solid rgba(255,255,255,0.08)",
-        }}
-      >
-        <h1
-          style={{
-            color: "white",
-            textAlign: "center",
-            marginBottom: 10,
-            fontSize: 52,
-          }}
-        >
-          Frigia
-        </h1>
-
-        <p
-          style={{
-            color: "#888",
-            textAlign: "center",
-            marginBottom: 30,
-          }}
-        >
-          Connexion à votre compte
-        </p>
-
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={{
-            width: "100%",
-            padding: 16,
-            marginBottom: 16,
-            borderRadius: 14,
-            border: "1px solid rgba(255,255,255,0.08)",
-            background: "#1A1A24",
-            color: "white",
-          }}
-        />
-
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{
-            width: "100%",
-            padding: 16,
-            marginBottom: 24,
-            borderRadius: 14,
-            border: "1px solid rgba(255,255,255,0.08)",
-            background: "#1A1A24",
-            color: "white",
-          }}
-        />
-
-        <button
-          onClick={signIn}
-          style={{
-            width: "100%",
-            padding: 16,
-            borderRadius: 14,
-            border: "none",
-            background: "#FF6B35",
-            color: "white",
-            fontWeight: "bold",
-            marginBottom: 12,
-            cursor: "pointer",
-          }}
-        >
-          Connexion
-        </button>
-
-        <button
-          onClick={signUp}
-          style={{
-            width: "100%",
-            padding: 16,
-            borderRadius: 14,
-            border: "1px solid rgba(255,255,255,0.08)",
-            background: "transparent",
-            color: "white",
-            fontWeight: "bold",
-            cursor: "pointer",
-          }}
-        >
-          Créer un compte
-        </button>
-      </div>
-    </div>
-  );
+  return <Landing />;
 }
 
 return (
