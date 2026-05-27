@@ -71,7 +71,7 @@ type GeneratedRecipe = {
   time: string;
   cal: number;
   diff: string;
-  imageUrl?: string;
+  imageSearch?: string;
   steps?: string[];
   recipeIngredients?: RecipeIngredient[];
 };
@@ -201,76 +201,70 @@ function recipeIcon(title: string) {
 }
 
 
-function hashStr(str: string): number {
-  let h = 5381;
-  for (let i = 0; i < str.length; i++) {
-    h = (Math.imul(33, h) ^ str.charCodeAt(i)) >>> 0;
-  }
-  return h % 99999;
-}
+// Module-level cache — survives re-renders, resets on page reload
+const mealImageCache: Record<string, string> = {};
 
-function getAiImageUrl(title: string): string {
-  const prompt = `professional food photography, ${title}, beautifully plated gourmet dish, soft bokeh background, warm golden lighting, appetizing, cinematic, Michelin star restaurant quality, 8k`;
-  return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=600&height=400&nologo=true&model=flux&seed=${hashStr(title)}`;
+async function fetchTheMealImage(query: string): Promise<string | null> {
+  const trySearch = async (q: string) => {
+    try {
+      const r = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(q)}`);
+      const d = await r.json() as { meals?: { strMealThumb: string }[] };
+      if (d.meals?.[0]) return d.meals[0].strMealThumb;
+    } catch {}
+    return null;
+  };
+  const url = await trySearch(query);
+  if (url) return url;
+  // Fallback: try just the first keyword
+  const firstWord = query.split(" ")[0];
+  if (firstWord && firstWord !== query) return trySearch(firstWord);
+  return null;
 }
 
 function RecipeImage({
   title,
+  imageSearch,
   style,
 }: {
   title: string;
+  imageSearch?: string;
   style?: React.CSSProperties;
 }) {
-  const [loaded, setLoaded] = useState(false);
+  const query = imageSearch || title;
+  const [src, setSrc] = useState<string | null>(mealImageCache[query] || null);
+  const [loaded, setLoaded] = useState(!!mealImageCache[query]);
   const [errored, setErrored] = useState(false);
-  const src = getAiImageUrl(title);
+
+  useEffect(() => {
+    if (mealImageCache[query]) return;
+    let cancelled = false;
+    fetchTheMealImage(query).then((url) => {
+      if (cancelled) return;
+      if (url) { mealImageCache[query] = url; setSrc(url); }
+      else setErrored(true);
+    });
+    return () => { cancelled = true; };
+  }, [query]);
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", ...style }}>
       {!loaded && !errored && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(90deg, rgba(255,107,53,0.07) 0%, rgba(255,255,255,0.13) 40%, rgba(46,204,113,0.07) 70%, rgba(255,107,53,0.07) 100%)",
-            backgroundSize: "250% 100%",
-            animation: "shimmer 2.2s ease-in-out infinite",
-          }}
-        />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg,rgba(255,107,53,0.07) 0%,rgba(255,255,255,0.13) 40%,rgba(46,204,113,0.07) 70%,rgba(255,107,53,0.07) 100%)", backgroundSize: "250% 100%", animation: "shimmer 2.2s ease-in-out infinite" }} />
       )}
       {errored && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(135deg,rgba(255,107,53,0.15),rgba(46,204,113,0.15))",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 28,
-          }}
-        >
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg,rgba(255,107,53,0.15),rgba(46,204,113,0.15))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28 }}>
           {recipeIcon(title)}
         </div>
       )}
-      <img
-        src={src}
-        alt={title}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          opacity: loaded ? 1 : 0,
-          animation: loaded ? "imgFadeIn 0.55s ease both" : "none",
-          transition: "opacity 0.45s ease",
-        }}
-        onLoad={() => setLoaded(true)}
-        onError={() => setErrored(true)}
-      />
+      {src && (
+        <img
+          src={src}
+          alt={title}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: loaded ? 1 : 0, animation: loaded ? "imgFadeIn 0.55s ease both" : "none", transition: "opacity 0.45s ease" }}
+          onLoad={() => setLoaded(true)}
+          onError={() => { setSrc(null); setErrored(true); }}
+        />
+      )}
     </div>
   );
 }
@@ -1591,7 +1585,7 @@ function RecipeDetailModal({
       >
         {/* Hero */}
         <div style={{ height: 240, position: "relative", overflow: "hidden", flexShrink: 0 }}>
-          <RecipeImage title={recipe.title} />
+          <RecipeImage title={recipe.title} imageSearch={recipe.imageSearch} />
           <div
             style={{
               position: "absolute",
@@ -1973,7 +1967,7 @@ function HistoryTab({
                     overflow: "hidden",
                   }}
                 >
-                  <RecipeImage title={recipe.title} />
+                  <RecipeImage title={recipe.title} imageSearch={recipe.imageSearch} />
                   <div
                     style={{
                       position: "absolute",
@@ -2420,7 +2414,7 @@ function FridgeAIScanner({
             time: String(r.time || "15 min"),
             cal: Number(r.calories) || 350,
             diff: String(r.difficulty || "Facile"),
-            imageUrl: String(r.imageUrl || ""),
+            imageSearch: String(r.imageSearch || r.title || ""),
             steps: Array.isArray(r.steps) ? r.steps.map(String) : undefined,
             recipeIngredients: Array.isArray(r.ingredients)
               ? r.ingredients.map((i: any) => ({
@@ -2634,7 +2628,7 @@ function FridgeAIScanner({
                       position: "relative",
                     }}
                   >
-                    <RecipeImage title={r.title} />
+                    <RecipeImage title={r.title} imageSearch={r.imageSearch} />
                   </div>
                   <div style={{ flex: 1 }}>
                     <div
@@ -2680,7 +2674,7 @@ function RecipeCard({
   time,
   cal,
   diff,
-  imageUrl: _imageUrl,
+  imageSearch,
   delay = 0,
   onClick,
 }: GeneratedRecipe & { theme: Theme; delay?: number; onClick?: () => void }) {
@@ -2705,7 +2699,7 @@ function RecipeCard({
       }}
     >
       <div style={{ height: 180, position: "relative", overflow: "hidden" }}>
-        <RecipeImage title={title} />
+        <RecipeImage title={title} imageSearch={imageSearch} />
         <div
           style={{
             position: "absolute",
