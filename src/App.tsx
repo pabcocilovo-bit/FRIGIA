@@ -70,6 +70,7 @@ type GeneratedRecipe = {
   time: string;
   cal: number;
   diff: string;
+  imageUrl?: string;
 };
 type ChatMessage = { role: "ai" | "user"; text: string };
 
@@ -1633,56 +1634,29 @@ function FridgeAIScanner({
     const reader = new FileReader();
     reader.onloadend = async () => {
       try {
-        const imageBase64 = reader.result as string;
-        const response = await fetch("https://api.anthropic.com/v1/messages", {
+        const imageBase64 = (reader.result as string).split(",")[1];
+        const response = await fetch("/api/analyze", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY ?? "",
-            "anthropic-version": "2023-06-01",
-            "anthropic-dangerous-direct-browser-access": "true",
-          },
-          body: JSON.stringify({
-            model: "claude-sonnet-4-6",
-            max_tokens: 1000,
-            messages: [
-              {
-                role: "user",
-                content: [
-                  {
-                    type: "text",
-                    text: 'Analyse cette photo de frigo. Retourne uniquement un JSON valide sous cette forme: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"8 min","calories":330,"difficulty":"Facile"}]}',
-                  },
-                  {
-                    type: "image",
-                    source: {
-                      type: "base64",
-                      media_type: file.type || "image/jpeg",
-                      data: imageBase64.split(",")[1],
-                    },
-                  },
-                ],
-              },
-            ],
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageBase64, mediaType: file.type || "image/jpeg" }),
         });
         const data = await response.json();
-        const text = data.content?.map((i: any) => i.text || "").join("") || "";
-        const parsed = extractJson(text);
-        const detected: DetectedIngredient[] = (parsed.ingredients || []).map(
+        if (!response.ok) throw new Error(data.error || "Erreur serveur");
+        const detected: DetectedIngredient[] = (data.ingredients || []).map(
           (i: any) => ({
             name: String(i.name || "Aliment"),
             icon: ingredientIcon(String(i.name || "")),
             conf: Number(i.confidence) || 90,
           })
         );
-        const generated: GeneratedRecipe[] = (parsed.recipes || []).map(
+        const generated: GeneratedRecipe[] = (data.recipes || []).map(
           (r: any) => ({
             emoji: recipeIcon(String(r.title || "")),
             title: String(r.title || "Recette"),
             time: String(r.time || "15 min"),
             cal: Number(r.calories) || 350,
             diff: String(r.difficulty || "Facile"),
+            imageUrl: String(r.imageUrl || ""),
           })
         );
         setIngredients(detected);
@@ -1945,7 +1919,7 @@ function RecipeCard({
     >
       <div style={{ height: 160, position: "relative", overflow: "hidden" }}>
         <img
-          src={recipeImage(title)}
+          src={imageUrl || recipeImage(title)}
           alt={title}
           style={{
             width: "100%",
