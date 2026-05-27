@@ -63,6 +63,7 @@ function glassCard(theme: Theme): React.CSSProperties {
   };
 }
 
+type RecipeIngredient = { name: string; qty: string };
 type DetectedIngredient = { name: string; icon: string; conf: number };
 type GeneratedRecipe = {
   emoji: string;
@@ -71,6 +72,15 @@ type GeneratedRecipe = {
   cal: number;
   diff: string;
   imageUrl?: string;
+  steps?: string[];
+  recipeIngredients?: RecipeIngredient[];
+};
+type HistoryEntry = {
+  id: string;
+  date: Date;
+  ingredients: DetectedIngredient[];
+  recipes: GeneratedRecipe[];
+  servings: number;
 };
 type ChatMessage = { role: "ai" | "user"; text: string };
 
@@ -87,6 +97,8 @@ function GlobalStyles({ theme }: { theme: Theme }) {
       @keyframes orb1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(40px,20px) scale(1.08)} }
       @keyframes orb2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-35px,-25px) scale(1.1)} }
       @keyframes modalIn { from{opacity:0;transform:translateY(40px) scale(0.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+      @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+      @keyframes imgFadeIn { from{opacity:0;transform:scale(1.04)} to{opacity:1;transform:scale(1)} }
       body { margin:0; background:${v.bg}; transition: background 0.3s; }
       * { box-sizing:border-box; }
       button { transition:transform 0.2s,opacity 0.2s,background 0.2s; }
@@ -208,6 +220,80 @@ function recipeImage(title: string): string {
   if (l.includes("wrap"))
     return "/images/wrap-proteine.jpg";
   return "/images/pasta-legumes.jpg";
+}
+
+function hashStr(str: string): number {
+  let h = 5381;
+  for (let i = 0; i < str.length; i++) {
+    h = (Math.imul(33, h) ^ str.charCodeAt(i)) >>> 0;
+  }
+  return h % 99999;
+}
+
+function getAiImageUrl(title: string): string {
+  const prompt = `professional food photography, ${title}, beautifully plated gourmet dish, soft bokeh background, warm golden lighting, appetizing, cinematic, Michelin star restaurant quality, 8k`;
+  return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=600&height=400&nologo=true&model=flux&seed=${hashStr(title)}`;
+}
+
+function RecipeImage({
+  title,
+  style,
+}: {
+  title: string;
+  style?: React.CSSProperties;
+}) {
+  const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
+  const src = getAiImageUrl(title);
+
+  return (
+    <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", ...style }}>
+      {!loaded && !errored && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(90deg, rgba(255,107,53,0.07) 0%, rgba(255,255,255,0.13) 40%, rgba(46,204,113,0.07) 70%, rgba(255,107,53,0.07) 100%)",
+            backgroundSize: "250% 100%",
+            animation: "shimmer 2.2s ease-in-out infinite",
+          }}
+        />
+      )}
+      {errored && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(135deg,rgba(255,107,53,0.15),rgba(46,204,113,0.15))",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 28,
+          }}
+        >
+          {recipeIcon(title)}
+        </div>
+      )}
+      <img
+        src={src}
+        alt={title}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          opacity: loaded ? 1 : 0,
+          animation: loaded ? "imgFadeIn 0.55s ease both" : "none",
+          transition: "opacity 0.45s ease",
+        }}
+        onLoad={() => setLoaded(true)}
+        onError={() => setErrored(true)}
+      />
+    </div>
+  );
 }
 
 // ─── Settings Modal ───────────────────────────────────────────────────────────
@@ -1246,6 +1332,661 @@ function SettingsModal({
   );
 }
 
+// ─── ServingsModal ────────────────────────────────────────────────────────────
+function ServingsModal({
+  theme,
+  onConfirm,
+  onSkip,
+}: {
+  theme: Theme;
+  onConfirm: (n: number) => void;
+  onSkip: () => void;
+}) {
+  const v = getThemeVars(theme);
+  const [servings, setServings] = useState(2);
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 2000,
+        background: "rgba(0,0,0,0.75)",
+        backdropFilter: "blur(8px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 20,
+      }}
+    >
+      <div
+        style={{
+          ...glassCard(theme),
+          padding: 40,
+          maxWidth: 420,
+          width: "100%",
+          animation: "modalIn 0.35s ease both",
+          background:
+            theme === "light"
+              ? "rgba(244,244,240,0.97)"
+              : "rgba(14,14,20,0.97)",
+          textAlign: "center",
+        }}
+      >
+        <div style={{ fontSize: 52, marginBottom: 16 }}>👨‍👩‍👧‍👦</div>
+        <h3
+          style={{
+            fontSize: 22,
+            fontWeight: 900,
+            color: v.text,
+            marginBottom: 8,
+          }}
+        >
+          Pour combien de personnes ?
+        </h3>
+        <p style={{ color: v.muted, fontSize: 14, marginBottom: 32 }}>
+          Les quantités des recettes seront ajustées automatiquement.
+        </p>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 24,
+            marginBottom: 28,
+          }}
+        >
+          <button
+            onClick={() => setServings(Math.max(1, servings - 1))}
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: "50%",
+              border: `1px solid ${v.border}`,
+              background: v.inputBg,
+              color: v.text,
+              fontSize: 24,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            −
+          </button>
+          <div
+            style={{
+              fontSize: 52,
+              fontWeight: 900,
+              color: v.text,
+              minWidth: 64,
+              textAlign: "center",
+              lineHeight: 1,
+            }}
+          >
+            {servings}
+          </div>
+          <button
+            onClick={() => setServings(Math.min(10, servings + 1))}
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: "50%",
+              border: `1px solid ${v.border}`,
+              background: v.inputBg,
+              color: v.text,
+              fontSize: 24,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            +
+          </button>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gap: 8,
+            justifyContent: "center",
+            marginBottom: 28,
+            flexWrap: "wrap",
+          }}
+        >
+          {[1, 2, 3, 4, 6].map((n) => (
+            <button
+              key={n}
+              onClick={() => setServings(n)}
+              style={{
+                padding: "8px 18px",
+                borderRadius: 100,
+                border:
+                  servings === n
+                    ? "2px solid #FF6B35"
+                    : `1px solid ${v.border}`,
+                background:
+                  servings === n ? "rgba(255,107,53,0.15)" : v.inputBg,
+                color: servings === n ? "#FF6B35" : v.muted,
+                cursor: "pointer",
+                fontWeight: servings === n ? 700 : 400,
+                fontSize: 14,
+              }}
+            >
+              {n} pers.
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={() => onConfirm(servings)}
+          style={{
+            width: "100%",
+            padding: "14px",
+            borderRadius: 100,
+            background: "linear-gradient(135deg,#FF6B35,#2ECC71)",
+            border: "none",
+            color: "#fff",
+            fontWeight: 800,
+            fontSize: 16,
+            cursor: "pointer",
+            marginBottom: 12,
+          }}
+        >
+          Voir les recettes pour {servings} personne{servings > 1 ? "s" : ""}
+        </button>
+        <button
+          onClick={onSkip}
+          style={{
+            background: "none",
+            border: "none",
+            color: v.muted,
+            cursor: "pointer",
+            fontSize: 13,
+          }}
+        >
+          Ignorer
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── RecipeDetailModal ────────────────────────────────────────────────────────
+function RecipeDetailModal({
+  theme,
+  recipe,
+  servings,
+  onClose,
+}: {
+  theme: Theme;
+  recipe: GeneratedRecipe;
+  servings: number;
+  onClose: () => void;
+}) {
+  const v = getThemeVars(theme);
+  const baseServings = 2;
+  const ratio = servings / baseServings;
+
+  const steps = recipe.steps?.length
+    ? recipe.steps
+    : [
+        "Préparez et lavez tous vos ingrédients avant de commencer.",
+        "Faites chauffer une poêle à feu moyen avec un filet d'huile ou de beurre.",
+        "Ajoutez les ingrédients principaux et cuisez en remuant régulièrement.",
+        "Assaisonnez selon votre goût, dressez et servez chaud.",
+      ];
+
+  const ingredients = recipe.recipeIngredients || [];
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 2000,
+        background: "rgba(0,0,0,0.8)",
+        backdropFilter: "blur(10px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 20,
+        overflowY: "auto",
+      }}
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <div
+        style={{
+          ...glassCard(theme),
+          width: "100%",
+          maxWidth: 660,
+          animation: "modalIn 0.35s ease both",
+          background:
+            theme === "light"
+              ? "rgba(244,244,240,0.97)"
+              : "rgba(14,14,20,0.97)",
+          overflow: "hidden",
+          maxHeight: "92vh",
+          overflowY: "auto",
+        }}
+      >
+        {/* Hero */}
+        <div style={{ height: 240, position: "relative", overflow: "hidden", flexShrink: 0 }}>
+          <RecipeImage title={recipe.title} />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.75) 100%)",
+            }}
+          />
+          <button
+            onClick={onClose}
+            style={{
+              position: "absolute",
+              top: 16,
+              right: 16,
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              background: "rgba(0,0,0,0.55)",
+              border: "none",
+              color: "#fff",
+              cursor: "pointer",
+              fontSize: 16,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            ✕
+          </button>
+          <div style={{ position: "absolute", bottom: 20, left: 24 }}>
+            <div style={{ fontSize: 30, marginBottom: 8 }}>{recipe.emoji}</div>
+            <h2 style={{ fontSize: 22, fontWeight: 900, color: "#fff", margin: 0, lineHeight: 1.3 }}>
+              {recipe.title}
+            </h2>
+          </div>
+        </div>
+
+        <div style={{ padding: 28 }}>
+          {/* Meta chips */}
+          <div
+            style={{
+              display: "flex",
+              gap: 10,
+              marginBottom: 28,
+              flexWrap: "wrap",
+            }}
+          >
+            {[
+              { icon: "⏱", label: recipe.time },
+              { icon: "🔥", label: `${recipe.cal} kcal` },
+              { icon: "📊", label: recipe.diff },
+              { icon: "👥", label: `${servings} pers.` },
+            ].map((m, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "8px 16px",
+                  borderRadius: 100,
+                  background: v.inputBg,
+                  border: `1px solid ${v.border}`,
+                }}
+              >
+                <span>{m.icon}</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: v.text }}>
+                  {m.label}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Ingredients */}
+          {ingredients.length > 0 && (
+            <div style={{ marginBottom: 28 }}>
+              <h3
+                style={{
+                  fontSize: 16,
+                  fontWeight: 800,
+                  color: v.text,
+                  marginBottom: 14,
+                }}
+              >
+                Ingrédients{" "}
+                <span
+                  style={{
+                    color: v.muted,
+                    fontWeight: 400,
+                    fontSize: 13,
+                  }}
+                >
+                  pour {servings} personne{servings > 1 ? "s" : ""}
+                </span>
+              </h3>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 10,
+                }}
+              >
+                {ingredients.map((ing, i) => {
+                  const numMatch = ing.qty.match(/^([\d.]+)/);
+                  const unit = ing.qty.replace(/^[\d.]+\s*/, "");
+                  const adjustedQty = numMatch
+                    ? `${
+                        Math.round(
+                          parseFloat(numMatch[1]) * ratio * 10
+                        ) / 10
+                      }${unit ? " " + unit : ""}`
+                    : ing.qty;
+                  return (
+                    <div
+                      key={i}
+                      style={{
+                        display: "flex",
+                        gap: 10,
+                        alignItems: "center",
+                        padding: "10px 14px",
+                        borderRadius: 12,
+                        background: v.inputBg,
+                        border: `1px solid ${v.border}`,
+                      }}
+                    >
+                      <span style={{ fontSize: 22 }}>
+                        {ingredientIcon(ing.name)}
+                      </span>
+                      <div>
+                        <div
+                          style={{
+                            fontSize: 13,
+                            fontWeight: 600,
+                            color: v.text,
+                          }}
+                        >
+                          {ing.name}
+                        </div>
+                        <div style={{ fontSize: 12, color: v.muted }}>
+                          {adjustedQty}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Steps */}
+          <div>
+            <h3
+              style={{
+                fontSize: 16,
+                fontWeight: 800,
+                color: v.text,
+                marginBottom: 16,
+              }}
+            >
+              Étapes de préparation
+            </h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {steps.map((step, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    gap: 16,
+                    alignItems: "flex-start",
+                    animation: `fadeUp 0.4s ease ${i * 0.08}s both`,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 34,
+                      height: 34,
+                      borderRadius: "50%",
+                      background:
+                        "linear-gradient(135deg,#FF6B35,#2ECC71)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      fontSize: 14,
+                      fontWeight: 900,
+                      color: "#fff",
+                    }}
+                  >
+                    {i + 1}
+                  </div>
+                  <div
+                    style={{
+                      flex: 1,
+                      paddingTop: 6,
+                      fontSize: 14,
+                      color: v.text,
+                      lineHeight: 1.65,
+                    }}
+                  >
+                    {step}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── HistoryTab ───────────────────────────────────────────────────────────────
+function HistoryTab({
+  theme,
+  history,
+  onDeleteRecipe,
+  onRecipeClick,
+}: {
+  theme: Theme;
+  history: HistoryEntry[];
+  onDeleteRecipe: (entryId: string, recipeTitle: string) => void;
+  onRecipeClick: (recipe: GeneratedRecipe, servings: number) => void;
+}) {
+  const v = getThemeVars(theme);
+
+  if (history.length === 0) {
+    return (
+      <div style={{ textAlign: "center", padding: "60px 20px" }}>
+        <div style={{ fontSize: 64, marginBottom: 16 }}>📭</div>
+        <h3
+          style={{
+            fontSize: 20,
+            fontWeight: 800,
+            color: v.text,
+            marginBottom: 8,
+          }}
+        >
+          Aucun historique pour l'instant
+        </h3>
+        <p style={{ color: v.muted, fontSize: 14 }}>
+          Scannez votre frigo pour commencer à construire votre historique de
+          recettes.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+      {history.map((entry) => (
+        <div key={entry.id} style={{ ...glassCard(theme), padding: 24 }}>
+          {/* Entry header */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "space-between",
+              marginBottom: 16,
+              flexWrap: "wrap",
+              gap: 8,
+            }}
+          >
+            <div>
+              <div
+                style={{ fontWeight: 800, fontSize: 15, color: v.text }}
+              >
+                📅{" "}
+                {entry.date.toLocaleDateString("fr-FR", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}{" "}
+                à{" "}
+                {entry.date.toLocaleTimeString("fr-FR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </div>
+              <div
+                style={{ fontSize: 13, color: v.muted, marginTop: 3 }}
+              >
+                👥 {entry.servings} personne{entry.servings > 1 ? "s" : ""}{" "}
+                · 🛒 {entry.ingredients.length} ingrédients détectés ·{" "}
+                🍽️ {entry.recipes.length} recette
+                {entry.recipes.length > 1 ? "s" : ""}
+              </div>
+            </div>
+          </div>
+
+          {/* Ingredients */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 8,
+              marginBottom: 20,
+            }}
+          >
+            {entry.ingredients.map((ing) => (
+              <div
+                key={ing.name}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  padding: "5px 12px",
+                  background: "rgba(46,204,113,0.1)",
+                  border: "1px solid rgba(46,204,113,0.2)",
+                  borderRadius: 100,
+                  fontSize: 12,
+                  color: v.text,
+                }}
+              >
+                <span>{ing.icon}</span>
+                <span style={{ fontWeight: 600 }}>{ing.name}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Recipe cards grid */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns:
+                "repeat(auto-fill, minmax(180px, 1fr))",
+              gap: 12,
+            }}
+          >
+            {entry.recipes.map((recipe) => (
+              <div
+                key={recipe.title}
+                style={{
+                  position: "relative",
+                  ...glassCard(theme),
+                  overflow: "hidden",
+                  cursor: "pointer",
+                  transition: "transform 0.2s",
+                }}
+                onClick={() => onRecipeClick(recipe, entry.servings)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-4px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                {/* Delete button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteRecipe(entry.id, recipe.title);
+                  }}
+                  style={{
+                    position: "absolute",
+                    top: 8,
+                    right: 8,
+                    zIndex: 10,
+                    width: 26,
+                    height: 26,
+                    borderRadius: "50%",
+                    background: "rgba(0,0,0,0.65)",
+                    border: "none",
+                    color: "#fff",
+                    cursor: "pointer",
+                    fontSize: 11,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: 700,
+                  }}
+                  title="Supprimer"
+                >
+                  ✕
+                </button>
+                <div
+                  style={{
+                    height: 110,
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                >
+                  <RecipeImage title={recipe.title} />
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.5) 100%)",
+                    }}
+                  />
+                </div>
+                <div style={{ padding: "10px 12px" }}>
+                  <div
+                    style={{
+                      fontWeight: 700,
+                      fontSize: 12,
+                      color: v.text,
+                      marginBottom: 4,
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {recipe.emoji} {recipe.title}
+                  </div>
+                  <div style={{ fontSize: 11, color: v.muted }}>
+                    {recipe.time} · {recipe.cal} kcal
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 function Nav({
   theme,
@@ -1610,9 +2351,11 @@ function IPhoneMockup() {
 function FridgeAIScanner({
   theme,
   onRecipesGenerated,
+  onRecipeClick,
 }: {
   theme: Theme;
   onRecipesGenerated: (r: GeneratedRecipe[], i: DetectedIngredient[]) => void;
+  onRecipeClick?: (r: GeneratedRecipe) => void;
 }) {
   const v = getThemeVars(theme);
   const gc = glassCard(theme);
@@ -1641,7 +2384,7 @@ function FridgeAIScanner({
           body: JSON.stringify({ imageBase64, mediaType: file.type || "image/jpeg" }),
         });
         const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Erreur serveur");
+        if (!response.ok) throw new Error(data.detail || data.error || "Erreur serveur");
         const detected: DetectedIngredient[] = (data.ingredients || []).map(
           (i: any) => ({
             name: String(i.name || "Aliment"),
@@ -1657,6 +2400,13 @@ function FridgeAIScanner({
             cal: Number(r.calories) || 350,
             diff: String(r.difficulty || "Facile"),
             imageUrl: String(r.imageUrl || ""),
+            steps: Array.isArray(r.steps) ? r.steps.map(String) : undefined,
+            recipeIngredients: Array.isArray(r.ingredients)
+              ? r.ingredients.map((i: any) => ({
+                  name: String(i.name || ""),
+                  qty: String(i.qty || "1"),
+                }))
+              : undefined,
           })
         );
         setIngredients(detected);
@@ -1846,14 +2596,25 @@ function FridgeAIScanner({
                   key={r.title}
                   style={{
                     ...gc,
-                    padding: 16,
+                    padding: 12,
                     display: "flex",
                     alignItems: "center",
                     gap: 14,
                     animation: `fadeUp 0.4s ease ${i * 0.12}s both`,
                   }}
                 >
-                  <div style={{ fontSize: 34 }}>{r.emoji}</div>
+                  <div
+                    style={{
+                      width: 72,
+                      height: 72,
+                      borderRadius: 14,
+                      overflow: "hidden",
+                      flexShrink: 0,
+                      position: "relative",
+                    }}
+                  >
+                    <RecipeImage title={r.title} />
+                  </div>
                   <div style={{ flex: 1 }}>
                     <div
                       style={{ fontWeight: 800, fontSize: 15, color: v.text }}
@@ -1866,17 +2627,19 @@ function FridgeAIScanner({
                   </div>
                   <button
                     type="button"
+                    onClick={() => onRecipeClick?.(r)}
                     style={{
-                      padding: "8px 12px",
+                      padding: "8px 14px",
                       borderRadius: 100,
                       border: `1px solid ${v.border}`,
                       background: `rgba(255,255,255,0.06)`,
                       color: v.text,
                       cursor: "pointer",
                       fontSize: 12,
+                      fontWeight: 600,
                     }}
                   >
-                    Voir
+                    Voir →
                   </button>
                 </div>
               ))}
@@ -1896,12 +2659,15 @@ function RecipeCard({
   time,
   cal,
   diff,
+  imageUrl,
   delay = 0,
-}: GeneratedRecipe & { theme: Theme; delay?: number }) {
+  onClick,
+}: GeneratedRecipe & { theme: Theme; delay?: number; onClick?: () => void }) {
   const v = getThemeVars(theme);
   const [liked, setLiked] = useState(false);
   return (
     <div
+      onClick={onClick}
       style={{
         ...glassCard(theme),
         padding: 0,
@@ -1917,27 +2683,15 @@ function RecipeCard({
         e.currentTarget.style.transform = "translateY(0)";
       }}
     >
-      <div style={{ height: 160, position: "relative", overflow: "hidden" }}>
-        <img
-          src={imageUrl || recipeImage(title)}
-          alt={title}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            display: "block",
-          }}
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = "none";
-            (e.target as HTMLImageElement).parentElement!.style.background =
-              "linear-gradient(135deg,rgba(255,107,53,0.22),rgba(46,204,113,0.22))";
-          }}
-        />
+      <div style={{ height: 180, position: "relative", overflow: "hidden" }}>
+        <RecipeImage title={title} />
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background: "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.45) 100%)",
+            background:
+              "linear-gradient(to bottom, transparent 35%, rgba(0,0,0,0.55) 100%)",
+            pointerEvents: "none",
           }}
         />
         <div
@@ -1945,13 +2699,14 @@ function RecipeCard({
             position: "absolute",
             top: 10,
             right: 10,
-            background: "rgba(0,0,0,0.55)",
-            backdropFilter: "blur(6px)",
+            background: "rgba(0,0,0,0.6)",
+            backdropFilter: "blur(8px)",
             borderRadius: 100,
             padding: "4px 10px",
             fontSize: 11,
             color: "#fff",
-            fontWeight: 600,
+            fontWeight: 700,
+            letterSpacing: 0.5,
           }}
         >
           {diff}
@@ -1962,7 +2717,7 @@ function RecipeCard({
             bottom: 10,
             left: 14,
             fontSize: 26,
-            filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.5))",
+            filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.7))",
           }}
         >
           {emoji}
@@ -2082,6 +2837,12 @@ export default function Frigia() {
   const [typing, setTyping] = useState(false);
   const [aiRecipes, setAiRecipes] = useState<GeneratedRecipe[]>([]);
   const [, setDetectedIngredients] = useState<DetectedIngredient[]>([]);
+  const [scannerTab, setScannerTab] = useState<"scanner" | "history">("scanner");
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [servings, setServings] = useState(2);
+  const [showServingsModal, setShowServingsModal] = useState(false);
+  const [pendingData, setPendingData] = useState<{ recipes: GeneratedRecipe[]; ingredients: DetectedIngredient[] } | null>(null);
+  const [selectedRecipe, setSelectedRecipe] = useState<{ recipe: GeneratedRecipe; servings: number } | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     {
       role: "ai",
@@ -2171,6 +2932,57 @@ async function signOut() {
     }, 1200);
   };
 
+  const confirmServings = (n: number) => {
+    setServings(n);
+    if (pendingData) {
+      setAiRecipes(pendingData.recipes);
+      setDetectedIngredients(pendingData.ingredients);
+      setHistory((prev) => [
+        {
+          id: Date.now().toString(),
+          date: new Date(),
+          ingredients: pendingData.ingredients,
+          recipes: pendingData.recipes,
+          servings: n,
+        },
+        ...prev,
+      ]);
+      setPendingData(null);
+    }
+    setShowServingsModal(false);
+  };
+
+  const skipServings = () => {
+    if (pendingData) {
+      setAiRecipes(pendingData.recipes);
+      setDetectedIngredients(pendingData.ingredients);
+      setHistory((prev) => [
+        {
+          id: Date.now().toString(),
+          date: new Date(),
+          ingredients: pendingData.ingredients,
+          recipes: pendingData.recipes,
+          servings,
+        },
+        ...prev,
+      ]);
+      setPendingData(null);
+    }
+    setShowServingsModal(false);
+  };
+
+  const deleteRecipe = (entryId: string, recipeTitle: string) => {
+    setHistory((prev) =>
+      prev
+        .map((entry) =>
+          entry.id === entryId
+            ? { ...entry, recipes: entry.recipes.filter((r) => r.title !== recipeTitle) }
+            : entry
+        )
+        .filter((entry) => entry.recipes.length > 0)
+    );
+  };
+
 if (!user) {
   return <Landing />;
 }
@@ -2210,6 +3022,21 @@ return (
           theme={theme}
           onClose={() => setShowSettings(false)}
           onThemeChange={setTheme}
+        />
+      )}
+      {showServingsModal && (
+        <ServingsModal
+          theme={theme}
+          onConfirm={confirmServings}
+          onSkip={skipServings}
+        />
+      )}
+      {selectedRecipe && (
+        <RecipeDetailModal
+          theme={theme}
+          recipe={selectedRecipe.recipe}
+          servings={selectedRecipe.servings}
+          onClose={() => setSelectedRecipe(null)}
         />
       )}
 
@@ -2647,13 +3474,64 @@ return (
               génère des recettes instantanément.
             </p>
           </div>
-          <FridgeAIScanner
-            theme={theme}
-            onRecipesGenerated={(recipes, ingredients) => {
-              setAiRecipes(recipes);
-              setDetectedIngredients(ingredients);
+          {/* Tabs */}
+          <div
+            style={{
+              display: "flex",
+              gap: 0,
+              marginBottom: 40,
+              borderRadius: 14,
+              overflow: "hidden",
+              border: `1px solid ${v.border}`,
+              maxWidth: 340,
+              margin: "0 auto 40px",
             }}
-          />
+          >
+            {(["scanner", "history"] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setScannerTab(tab)}
+                style={{
+                  flex: 1,
+                  padding: "13px 20px",
+                  border: "none",
+                  cursor: "pointer",
+                  background:
+                    scannerTab === tab
+                      ? "linear-gradient(135deg,#FF6B35,#2ECC71)"
+                      : v.inputBg,
+                  color: scannerTab === tab ? "#fff" : v.muted,
+                  fontWeight: scannerTab === tab ? 700 : 400,
+                  fontSize: 14,
+                  transition: "all 0.2s",
+                }}
+              >
+                {tab === "scanner" ? "📷 Scanner" : `📋 Historique${history.length > 0 ? ` (${history.length})` : ""}`}
+              </button>
+            ))}
+          </div>
+
+          {scannerTab === "scanner" ? (
+            <FridgeAIScanner
+              theme={theme}
+              onRecipesGenerated={(recipes, ingredients) => {
+                setPendingData({ recipes, ingredients });
+                setShowServingsModal(true);
+              }}
+              onRecipeClick={(r) =>
+                setSelectedRecipe({ recipe: r, servings })
+              }
+            />
+          ) : (
+            <HistoryTab
+              theme={theme}
+              history={history}
+              onDeleteRecipe={deleteRecipe}
+              onRecipeClick={(recipe, s) =>
+                setSelectedRecipe({ recipe, servings: s })
+              }
+            />
+          )}
         </div>
       </section>
 
@@ -2731,7 +3609,13 @@ return (
           }}
         >
           {(aiRecipes.length > 0 ? aiRecipes : defaultRecipes).map((r, i) => (
-            <RecipeCard key={r.title} theme={theme} {...r} delay={i * 0.05} />
+            <RecipeCard
+              key={r.title}
+              theme={theme}
+              {...r}
+              delay={i * 0.05}
+              onClick={() => setSelectedRecipe({ recipe: r, servings })}
+            />
           ))}
         </div>
       </section>

@@ -21,14 +21,14 @@ export default async function handler(req: any, res: any) {
     },
     body: JSON.stringify({
       model: "claude-sonnet-4-6",
-      max_tokens: 1200,
+      max_tokens: 2500,
       messages: [
         {
           role: "user",
           content: [
             {
               type: "text",
-              text: 'Analyse cette photo de frigo. Retourne EXACTEMENT 4 recettes réalisables avec les ingrédients visibles. JSON valide uniquement, sans texte avant ou après: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"8 min","calories":330,"difficulty":"Facile","imageSearch":"tomato omelette"},{"title":"...","time":"...","calories":0,"difficulty":"...","imageSearch":"english food keyword"}]}',
+              text: 'Analyse cette photo de frigo. Retourne EXACTEMENT 4 recettes réalisables avec les ingrédients visibles. JSON valide uniquement, sans texte avant ou après: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"8 min","calories":330,"difficulty":"Facile","imageSearch":"tomato omelette","ingredients":[{"name":"Oeufs","qty":"3"},{"name":"Tomates","qty":"2"},{"name":"Sel","qty":"1 pincée"}],"steps":["Casser les oeufs dans un bol et battre avec sel et poivre.","Couper les tomates en dés.","Faire fondre du beurre dans une poêle à feu moyen.","Verser les oeufs, ajouter les tomates, cuire 3 min et servir."]}]}',
             },
             {
               type: "image",
@@ -58,24 +58,16 @@ export default async function handler(req: any, res: any) {
     if (match) parsed = JSON.parse(match[0]);
   } catch {}
 
-  const recipesWithImages = await Promise.all(
-    (parsed.recipes || []).slice(0, 4).map(async (recipe: any) => {
-      const searchTerm = recipe.imageSearch || recipe.title;
-      let imageUrl = `https://loremflickr.com/640/360/${encodeURIComponent(searchTerm)},food/all`;
+  // Pass through all recipe fields including steps and ingredients
+  const recipes = (parsed.recipes || []).slice(0, 4).map((recipe: any) => ({
+    title: recipe.title || "Recette",
+    time: recipe.time || "15 min",
+    calories: recipe.calories || 350,
+    difficulty: recipe.difficulty || "Facile",
+    imageSearch: recipe.imageSearch || recipe.title,
+    ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
+    steps: Array.isArray(recipe.steps) ? recipe.steps : [],
+  }));
 
-      try {
-        const mealRes = await fetch(
-          `https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(searchTerm)}`
-        );
-        const mealData = await mealRes.json();
-        if (mealData.meals?.[0]?.strMealThumb) {
-          imageUrl = mealData.meals[0].strMealThumb;
-        }
-      } catch {}
-
-      return { ...recipe, imageUrl };
-    })
-  );
-
-  res.json({ ingredients: parsed.ingredients || [], recipes: recipesWithImages });
+  res.json({ ingredients: parsed.ingredients || [], recipes });
 }
