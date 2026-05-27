@@ -3092,11 +3092,6 @@ if (isMobile) {
               <div style={{ fontSize: 11, fontWeight: 700, color: COLORS.orangeStart, letterSpacing: 3, textTransform: "uppercase", marginBottom: 6 }}>Suggestions</div>
               <h1 style={{ fontSize: 22, fontWeight: 900, color: v.text, margin: 0, fontFamily: "Georgia, serif" }}>Recettes IA</h1>
             </div>
-            <div className="hide-scrollbar" style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 8, marginBottom: 16, scrollbarWidth: "none" }}>
-              {["Tout", "⚡ Rapide", "🥗 Healthy", "💪 Protéiné", "🌱 Vegan"].map((c, i) => (
-                <button key={c} style={{ padding: "7px 16px", borderRadius: 100, border: `1px solid ${v.border}`, background: i === 0 ? "linear-gradient(135deg,#FF6B35,#2ECC71)" : v.inputBg, color: v.text, cursor: "pointer", fontSize: 13, fontWeight: 600, whiteSpace: "nowrap", flexShrink: 0 }}>{c}</button>
-              ))}
-            </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {(aiRecipes.length > 0 ? aiRecipes : defaultRecipes).map((r, i) => (
                 <RecipeCard key={r.title} theme={theme} {...r} delay={i * 0.05} onClick={() => setSelectedRecipe({ recipe: r, servings })} />
@@ -3780,44 +3775,6 @@ return (
           >
             Suggestions générées par IA
           </h2>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            gap: 10,
-            flexWrap: "wrap",
-            justifyContent: "center",
-            marginBottom: 36,
-          }}
-        >
-          {[
-            "Tout",
-            "⚡ Rapide",
-            "🥗 Healthy",
-            "💪 Protéiné",
-            "🎓 Étudiant",
-            "🌱 Vegan",
-          ].map((c, i) => (
-            <button
-              key={c}
-              type="button"
-              style={{
-                padding: "8px 18px",
-                borderRadius: 100,
-                border: `1px solid ${v.border}`,
-                background:
-                  i === 0
-                    ? "linear-gradient(135deg,#FF6B35,#2ECC71)"
-                    : "rgba(255,255,255,0.04)",
-                color: v.text,
-                cursor: "pointer",
-                fontSize: 13,
-                fontWeight: 600,
-              }}
-            >
-              {c}
-            </button>
-          ))}
         </div>
         <div
           style={{

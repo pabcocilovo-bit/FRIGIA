@@ -47,13 +47,13 @@ export default defineConfig(({ mode }) => {
                 },
                 body: JSON.stringify({
                   model: 'claude-sonnet-4-6',
-                  max_tokens: 2500,
+                  max_tokens: 4000,
                   messages: [{
                     role: 'user',
                     content: [
                       {
                         type: 'text',
-                        text: 'Analyse cette photo de frigo. Retourne EXACTEMENT 4 recettes réalisables avec les ingrédients visibles. JSON valide uniquement, sans texte avant ou après: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"8 min","calories":330,"difficulty":"Facile","imageSearch":"tomato omelette","ingredients":[{"name":"Oeufs","qty":"3"},{"name":"Tomates","qty":"2"},{"name":"Sel","qty":"1 pincée"}],"steps":["Casser les oeufs dans un bol et battre avec sel et poivre.","Couper les tomates en dés.","Faire fondre du beurre dans une poêle à feu moyen.","Verser les oeufs, ajouter les tomates, cuire 3 min et servir."]}]}',
+                        text: 'Analyse cette photo de frigo. Retourne EXACTEMENT 4 recettes détaillées réalisables avec les ingrédients visibles. Chaque recette doit avoir AU MINIMUM 6 étapes détaillées et précises (températures, durées, techniques). JSON valide uniquement, sans texte avant ou après: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"12 min","calories":380,"difficulty":"Facile","imageSearch":"tomato cheese omelette","ingredients":[{"name":"Oeufs","qty":"3"},{"name":"Tomates","qty":"2"},{"name":"Fromage râpé","qty":"40g"},{"name":"Beurre","qty":"10g"},{"name":"Sel","qty":"1 pincée"},{"name":"Poivre","qty":"1 pincée"}],"steps":["Casser les 3 oeufs dans un bol, ajouter une pincée de sel et de poivre. Battre énergiquement à la fourchette pendant 1 minute jusqu\'à obtenir un mélange homogène et légèrement mousseux.","Laver les tomates et les couper en petits dés de 1 cm. Égoutter sur du papier absorbant pour retirer l\'excès d\'eau.","Faire chauffer une poêle antiadhésive de 24 cm à feu moyen (6/9). Ajouter le beurre et le laisser fondre sans le brûler jusqu\'à ce qu\'il mousse légèrement.","Verser les oeufs battus dans la poêle. Avec une spatule souple, ramener délicatement les bords vers le centre tout en inclinant la poêle pour que l\'oeuf liquide se répande.","Quand l\'omelette est encore légèrement baveuse sur le dessus (après environ 2-3 min), déposer les dés de tomate et le fromage râpé sur une moitié de l\'omelette.","Plier délicatement l\'omelette en deux à l\'aide de la spatule. Laisser cuire encore 30 secondes pour faire fondre le fromage. Glisser sur l\'assiette et servir immédiatement."]}]}',
                       },
                       {
                         type: 'image',
