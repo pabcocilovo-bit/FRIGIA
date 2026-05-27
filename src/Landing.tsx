@@ -190,7 +190,7 @@ function AuthModal({ onClose }: { onClose: () => void }) {
         <button onClick={onClose} style={{ position:"absolute",top:16,right:18,background:"none",border:"none",color:C.muted,fontSize:22,lineHeight:1 }}>✕</button>
 
         <div style={{ textAlign:"center",marginBottom:32 }}>
-          <div style={{ fontSize:38,marginBottom:10 }}>🥗</div>
+          <div style={{ marginBottom:10,display:"flex",justifyContent:"center" }}><img src="/logo.png" alt="Frigia" style={{ width:64,height:64,borderRadius:16,objectFit:"contain" }} /></div>
           <h2 style={{ fontSize:22,fontWeight:900,color:C.text,marginBottom:6 }}>
             {mode === "signup" ? "Commencer gratuitement" : "Bon retour !"}
           </h2>
@@ -255,7 +255,7 @@ function Nav({ onOpen }: { onOpen: () => void }) {
       display:"flex",alignItems:"center",justifyContent:"space-between",
     }}>
       <div style={{ display:"flex",alignItems:"center",gap:10 }}>
-        <div style={{ width:34,height:34,borderRadius:10,background:grad,display:"flex",alignItems:"center",justifyContent:"center",fontSize:17 }}>🥗</div>
+        <img src="/logo.png" alt="Frigia" style={{ width:34,height:34,borderRadius:10,objectFit:"contain" }} />
         <span style={{ fontWeight:900,fontSize:22,color:C.text,fontFamily:"Georgia,serif" }}>Frigia</span>
       </div>
       <div className="land-nav-links" style={{ display:"flex",gap:28,fontSize:14 }}>
@@ -612,7 +612,7 @@ function Footer() {
         <div style={{ display:"flex",gap:48,flexWrap:"wrap",marginBottom:48 }}>
           <div style={{ flex:2,minWidth:220 }}>
             <div style={{ display:"flex",alignItems:"center",gap:10,marginBottom:16 }}>
-              <div style={{ width:34,height:34,borderRadius:10,background:grad,display:"flex",alignItems:"center",justifyContent:"center" }}>🥗</div>
+              <img src="/logo.png" alt="Frigia" style={{ width:34,height:34,borderRadius:10,objectFit:"contain" }} />
               <span style={{ fontWeight:900,fontSize:22,color:C.text,fontFamily:"Georgia,serif" }}>Frigia</span>
             </div>
             <p style={{ color:C.muted,fontSize:14,lineHeight:1.75,maxWidth:260 }}>
