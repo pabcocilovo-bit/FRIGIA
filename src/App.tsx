@@ -111,6 +111,11 @@ function GlobalStyles({ theme }: { theme: Theme }) {
         .nav-links { display:none !important; }
         .nav-actions { display:none !important; }
       }
+      @media (max-width:767px) {
+        input, textarea, select { font-size:16px !important; }
+        * { -webkit-tap-highlight-color:transparent; }
+        .hide-scrollbar::-webkit-scrollbar { display:none; }
+      }
     `}</style>
   );
 }
@@ -2817,6 +2822,8 @@ export default function Frigia() {
   const [showServingsModal, setShowServingsModal] = useState(false);
   const [pendingData, setPendingData] = useState<{ recipes: GeneratedRecipe[]; ingredients: DetectedIngredient[] } | null>(null);
   const [selectedRecipe, setSelectedRecipe] = useState<{ recipe: GeneratedRecipe; servings: number } | null>(null);
+  const [windowWidth, setWindowWidth] = useState(() => window.innerWidth);
+  const [mobileTab, setMobileTab] = useState<"scan" | "recipes" | "chat" | "profile">("scan");
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     {
       role: "ai",
@@ -2826,6 +2833,7 @@ export default function Frigia() {
 
   const v = getThemeVars(theme);
   const gc = glassCard(theme);
+  const isMobile = windowWidth < 768;
 useEffect(() => {
   supabase.auth.getSession().then(({ data }) => {
     setUser(data.session?.user ?? null);
@@ -2838,6 +2846,12 @@ useEffect(() => {
   });
 
   return () => subscription.unsubscribe();
+}, []);
+
+useEffect(() => {
+  const onResize = () => setWindowWidth(window.innerWidth);
+  window.addEventListener("resize", onResize);
+  return () => window.removeEventListener("resize", onResize);
 }, []);
 
 async function signOut() {
@@ -2959,6 +2973,180 @@ async function signOut() {
 
 if (!user) {
   return <Landing />;
+}
+
+// ─── MOBILE LAYOUT ───────────────────────────────────────────────────────────
+if (isMobile) {
+  const mobileTabs = [
+    { id: "scan" as const,    icon: "📷", label: "Scanner"  },
+    { id: "recipes" as const, icon: "🍽️", label: "Recettes" },
+    { id: "chat" as const,    icon: "🤖", label: "Chef IA"  },
+    { id: "profile" as const, icon: "👤", label: "Profil"   },
+  ];
+
+  return (
+    <div style={{ background: v.bg, minHeight: "100vh", fontFamily: "Helvetica Neue, Arial, sans-serif", color: v.text, overflowX: "hidden" }}>
+      <GlobalStyles theme={theme} />
+      {showServingsModal && <ServingsModal theme={theme} onConfirm={confirmServings} onSkip={skipServings} />}
+      {selectedRecipe && <RecipeDetailModal theme={theme} recipe={selectedRecipe.recipe} servings={selectedRecipe.servings} onClose={() => setSelectedRecipe(null)} />}
+      {showSettings && <SettingsModal theme={theme} onClose={() => setShowSettings(false)} onThemeChange={setTheme} />}
+
+      {/* ── HEADER ── */}
+      <header style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 56, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", background: v.navBg, backdropFilter: "blur(20px)", borderBottom: `1px solid ${v.border}` }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ width: 30, height: 30, borderRadius: 9, background: "linear-gradient(135deg,#FF6B35,#2ECC71)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15 }}>🥗</div>
+          <span style={{ fontWeight: 800, fontSize: 19, color: v.text, fontFamily: "Georgia, serif" }}>Frigia</span>
+        </div>
+        <button onClick={() => setShowSettings(true)} style={{ background: "none", border: "none", color: v.muted, fontSize: 22, cursor: "pointer", padding: "6px 8px" }}>⚙️</button>
+      </header>
+
+      {/* ── CONTENT ── */}
+      <main style={{ paddingTop: 56, paddingBottom: 74, minHeight: "100vh" }}>
+
+        {/* SCANNER TAB */}
+        {mobileTab === "scan" && (
+          <div style={{ padding: "20px 16px" }}>
+            <div style={{ textAlign: "center", marginBottom: 20 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#2ECC71", letterSpacing: 3, textTransform: "uppercase", marginBottom: 6 }}>Scan IA</div>
+              <h1 style={{ fontSize: 22, fontWeight: 900, color: v.text, margin: 0, fontFamily: "Georgia, serif", lineHeight: 1.2 }}>Votre frigo intelligent</h1>
+            </div>
+            <div style={{ display: "flex", borderRadius: 14, overflow: "hidden", border: `1px solid ${v.border}`, marginBottom: 20 }}>
+              {(["scanner", "history"] as const).map((tab) => (
+                <button key={tab} onClick={() => setScannerTab(tab)} style={{ flex: 1, padding: "12px", border: "none", cursor: "pointer", background: scannerTab === tab ? "linear-gradient(135deg,#FF6B35,#2ECC71)" : v.inputBg, color: scannerTab === tab ? "#fff" : v.muted, fontWeight: scannerTab === tab ? 700 : 400, fontSize: 14, transition: "all 0.2s" }}>
+                  {tab === "scanner" ? "📷 Scanner" : `📋 Historique${history.length > 0 ? ` (${history.length})` : ""}`}
+                </button>
+              ))}
+            </div>
+            {scannerTab === "scanner" ? (
+              <FridgeAIScanner
+                theme={theme}
+                onRecipesGenerated={(recipes, ingredients) => { setPendingData({ recipes, ingredients }); setShowServingsModal(true); }}
+                onRecipeClick={(r) => setSelectedRecipe({ recipe: r, servings })}
+              />
+            ) : (
+              <HistoryTab theme={theme} history={history} onDeleteRecipe={deleteRecipe} onRecipeClick={(recipe, s) => setSelectedRecipe({ recipe, servings: s })} />
+            )}
+          </div>
+        )}
+
+        {/* RECETTES TAB */}
+        {mobileTab === "recipes" && (
+          <div style={{ padding: "20px 16px" }}>
+            <div style={{ textAlign: "center", marginBottom: 20 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: COLORS.orangeStart, letterSpacing: 3, textTransform: "uppercase", marginBottom: 6 }}>Suggestions</div>
+              <h1 style={{ fontSize: 22, fontWeight: 900, color: v.text, margin: 0, fontFamily: "Georgia, serif" }}>Recettes IA</h1>
+            </div>
+            <div className="hide-scrollbar" style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 8, marginBottom: 16, scrollbarWidth: "none" }}>
+              {["Tout", "⚡ Rapide", "🥗 Healthy", "💪 Protéiné", "🌱 Vegan"].map((c, i) => (
+                <button key={c} style={{ padding: "7px 16px", borderRadius: 100, border: `1px solid ${v.border}`, background: i === 0 ? "linear-gradient(135deg,#FF6B35,#2ECC71)" : v.inputBg, color: v.text, cursor: "pointer", fontSize: 13, fontWeight: 600, whiteSpace: "nowrap", flexShrink: 0 }}>{c}</button>
+              ))}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {(aiRecipes.length > 0 ? aiRecipes : defaultRecipes).map((r, i) => (
+                <RecipeCard key={r.title} theme={theme} {...r} delay={i * 0.05} onClick={() => setSelectedRecipe({ recipe: r, servings })} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* CHAT TAB */}
+        {mobileTab === "chat" && (
+          <div style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 130px)" }}>
+            <div style={{ padding: "14px 16px 8px", textAlign: "center" }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#2ECC71", letterSpacing: 3, textTransform: "uppercase", marginBottom: 4 }}>Chef IA</div>
+              <div style={{ fontSize: 20, fontWeight: 900, color: v.text, fontFamily: "Georgia, serif" }}>Votre assistant cuisine</div>
+            </div>
+            <div style={{ ...gc, margin: "0 16px", flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+              <div style={{ padding: "12px 16px", borderBottom: `1px solid ${v.border}`, display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ width: 38, height: 38, borderRadius: "50%", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>🤖</div>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 13, color: v.text }}>Chef IA Frigia</div>
+                  <div style={{ fontSize: 11, color: "#2ECC71" }}>En ligne · Répond en secondes</div>
+                </div>
+              </div>
+              <div style={{ flex: 1, overflowY: "auto", padding: 16, display: "flex", flexDirection: "column", gap: 12 }}>
+                {chatMessages.map((m, i) => (
+                  <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start", gap: 8, animation: "fadeUp 0.3s ease both" }}>
+                    {m.role === "ai" && <div style={{ width: 28, height: 28, borderRadius: "50%", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0 }}>🤖</div>}
+                    <div style={{ maxWidth: "78%", padding: "10px 14px", borderRadius: m.role === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px", background: m.role === "user" ? "linear-gradient(135deg,#FF6B35,#FF9A3C)" : v.inputBg, fontSize: 14, lineHeight: 1.55, color: v.text }}>{m.text}</div>
+                  </div>
+                ))}
+                {typing && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ width: 28, height: 28, borderRadius: "50%", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", flexShrink: 0 }} />
+                    <div style={{ ...gc, padding: "10px 14px", borderRadius: 18, display: "flex", gap: 4 }}>
+                      {[0, 0.2, 0.4].map((d, idx) => <div key={idx} style={{ width: 6, height: 6, borderRadius: "50%", background: v.muted, animation: `pulse 1s ease ${d}s infinite` }} />)}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div style={{ padding: "8px 12px 12px", borderTop: `1px solid ${v.border}` }}>
+                <div className="hide-scrollbar" style={{ display: "flex", gap: 6, overflowX: "auto", paddingBottom: 8, scrollbarWidth: "none" }}>
+                  {["Repas rapide", "Peu de calories", "Protéiné"].map((p) => (
+                    <button key={p} onClick={() => setChatInput(p)} style={{ padding: "5px 12px", borderRadius: 100, border: `1px solid ${v.border}`, background: v.inputBg, color: v.muted, cursor: "pointer", fontSize: 12, whiteSpace: "nowrap", flexShrink: 0 }}>{p}</button>
+                  ))}
+                </div>
+                <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
+                  <input value={chatInput} onChange={(e) => setChatInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && sendMessage()} placeholder="Demandez à votre Chef IA…" style={{ flex: 1, background: v.inputBg, border: `1px solid ${v.inputBorder}`, borderRadius: 100, padding: "10px 16px", color: v.text, fontSize: 14, outline: "none" }} />
+                  <button onClick={sendMessage} style={{ width: 42, height: 42, borderRadius: "50%", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", border: "none", cursor: "pointer", fontSize: 17, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>↑</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* PROFIL TAB */}
+        {mobileTab === "profile" && (
+          <div style={{ padding: "28px 16px" }}>
+            <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <div style={{ width: 84, height: 84, borderRadius: "50%", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 38, margin: "0 auto 14px" }}>👩‍🍳</div>
+              <div style={{ fontWeight: 800, fontSize: 20, color: v.text, marginBottom: 8 }}>Mon compte</div>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 14px", background: "rgba(46,204,113,0.1)", border: "1px solid rgba(46,204,113,0.25)", borderRadius: 100, fontSize: 12, color: "#2ECC71", fontWeight: 700 }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#2ECC71", display: "inline-block" }} />
+                Essai gratuit en cours
+              </div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {([
+                { icon: "⚙️", label: "Paramètres", sub: "Profil, abonnement, sécurité", onClick: () => setShowSettings(true) },
+                { icon: theme === "dark" ? "☀️" : "🌙", label: theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre", sub: "Changer l'apparence", onClick: () => setTheme(theme === "dark" ? "light" : "dark") },
+              ] as { icon: string; label: string; sub: string; onClick: () => void }[]).map((item) => (
+                <button key={item.label} onClick={item.onClick} style={{ ...gc, padding: "16px 18px", display: "flex", alignItems: "center", gap: 14, border: "none", cursor: "pointer", textAlign: "left", width: "100%", borderRadius: 16 }}>
+                  <div style={{ width: 46, height: 46, borderRadius: 13, background: "rgba(255,107,53,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>{item.icon}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 700, fontSize: 15, color: v.text }}>{item.label}</div>
+                    <div style={{ fontSize: 12, color: v.muted, marginTop: 2 }}>{item.sub}</div>
+                  </div>
+                  <span style={{ color: v.muted, fontSize: 20 }}>›</span>
+                </button>
+              ))}
+              <button onClick={signOut} style={{ padding: "16px 18px", borderRadius: 16, border: "1px solid rgba(255,80,80,0.25)", background: "rgba(255,80,80,0.06)", display: "flex", alignItems: "center", gap: 14, cursor: "pointer", width: "100%", textAlign: "left" }}>
+                <div style={{ width: 46, height: 46, borderRadius: 13, background: "rgba(255,80,80,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>🚪</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 700, fontSize: 15, color: "#FF5050" }}>Déconnexion</div>
+                  <div style={{ fontSize: 12, color: v.muted, marginTop: 2 }}>Se déconnecter de Frigia</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* ── BOTTOM NAV ── */}
+      <nav style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 100, background: v.navBg, backdropFilter: "blur(20px)", borderTop: `1px solid ${v.border}`, display: "flex" }}>
+        {mobileTabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setMobileTab(tab.id)}
+            style={{ flex: 1, padding: "10px 0 14px", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 3, borderTop: `2px solid ${mobileTab === tab.id ? "#FF6B35" : "transparent"}`, transition: "all 0.2s" }}
+          >
+            <span style={{ fontSize: 22 }}>{tab.icon}</span>
+            <span style={{ fontSize: 10, fontWeight: mobileTab === tab.id ? 700 : 400, color: mobileTab === tab.id ? "#FF6B35" : v.muted, transition: "color 0.2s" }}>{tab.label}</span>
+          </button>
+        ))}
+      </nav>
+    </div>
+  );
 }
 
 return (
