@@ -49,7 +49,7 @@ export default async function handler(req: any, res: any) {
     return res.status(502).json({ error: "Anthropic API error", detail });
   }
 
-  const data = await anthropicRes.json();
+  const data = await anthropicRes.json() as { content?: { text?: string }[] };
   const text = (data.content || []).map((i: any) => i.text || "").join("");
 
   const match = text.match(/\{[\s\S]*\}/);

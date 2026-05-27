@@ -160,16 +160,6 @@ function Brackets({ color = "#2ECC71", size = 16 }) {
   );
 }
 
-function extractJson(text: string) {
-  const cleaned = text
-    .replace(/```json/g, "")
-    .replace(/```/g, "")
-    .trim();
-  const start = cleaned.indexOf("{"),
-    end = cleaned.lastIndexOf("}");
-  if (start === -1 || end === -1) throw new Error("JSON introuvable.");
-  return JSON.parse(cleaned.slice(start, end + 1));
-}
 
 function ingredientIcon(name: string) {
   const l = name.toLowerCase();
@@ -205,22 +195,6 @@ function recipeIcon(title: string) {
   return "🍽️";
 }
 
-function recipeImage(title: string): string {
-  const l = title.toLowerCase();
-  if (l.includes("omelette") || l.includes("œuf") || l.includes("oeuf"))
-    return "/images/omelette-tomates.jpg";
-  if (l.includes("salade") || l.includes("bowl") || l.includes("caprese"))
-    return "/images/salade-caprese.jpg";
-  if (l.includes("pasta") || l.includes("pâte") || l.includes("légume") || l.includes("legume"))
-    return "/images/pasta-legumes.jpg";
-  if (l.includes("soupe") || l.includes("soup") || l.includes("detox") || l.includes("détox"))
-    return "/images/soupe-detox.jpg";
-  if (l.includes("gratin"))
-    return "/images/gratin-courgettes.jpg";
-  if (l.includes("wrap"))
-    return "/images/wrap-proteine.jpg";
-  return "/images/pasta-legumes.jpg";
-}
 
 function hashStr(str: string): number {
   let h = 5381;
@@ -2659,7 +2633,7 @@ function RecipeCard({
   time,
   cal,
   diff,
-  imageUrl,
+  imageUrl: _imageUrl,
   delay = 0,
   onClick,
 }: GeneratedRecipe & { theme: Theme; delay?: number; onClick?: () => void }) {
