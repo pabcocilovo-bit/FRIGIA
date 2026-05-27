@@ -166,6 +166,15 @@ function AuthModal({ onClose }: { onClose: () => void }) {
     } finally { setLoading(false); }
   };
 
+  const signInWithGoogle = async () => {
+    setLoading(true); setMsg("");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin },
+    });
+    if (error) { setMsg(error.message); setLoading(false); }
+  };
+
   const inp: React.CSSProperties = {
     width:"100%", padding:"14px 18px", borderRadius:14,
     border:"1px solid rgba(255,255,255,.1)", background:"rgba(255,255,255,.06)",
@@ -211,6 +220,35 @@ function AuthModal({ onClose }: { onClose: () => void }) {
               {m === "signup" ? "Créer un compte" : "Connexion"}
             </button>
           ))}
+        </div>
+
+        {/* Google OAuth */}
+        <button
+          onClick={signInWithGoogle}
+          disabled={loading}
+          style={{
+            width:"100%", padding:"14px", borderRadius:14,
+            border:"1px solid rgba(255,255,255,.15)",
+            background:"rgba(255,255,255,.06)",
+            color:C.text, fontSize:15, fontWeight:600,
+            display:"flex", alignItems:"center", justifyContent:"center", gap:12,
+            marginBottom:20, opacity: loading ? 0.7 : 1,
+          }}
+        >
+          <svg width="20" height="20" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.14 0 5.95 1.08 8.17 2.86l6.09-6.09C34.46 3.08 29.5 1 24 1 14.82 1 7.07 6.48 3.96 14.18l7.1 5.52C12.73 13.44 17.94 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.52 24.5c0-1.64-.15-3.22-.42-4.75H24v9h12.67c-.55 2.97-2.2 5.48-4.68 7.17l7.18 5.58C43.32 37.45 46.52 31.4 46.52 24.5z"/>
+            <path fill="#FBBC05" d="M11.06 28.3A14.56 14.56 0 0 1 9.5 24c0-1.49.26-2.93.72-4.28l-7.1-5.52A23.94 23.94 0 0 0 0 24c0 3.87.92 7.53 2.54 10.76l8.52-6.46z"/>
+            <path fill="#34A853" d="M24 47c5.5 0 10.12-1.82 13.49-4.96l-7.18-5.58C28.52 37.82 26.37 38.5 24 38.5c-6.06 0-11.27-3.94-13.14-9.44l-8.52 6.46C5.8 43.18 14.27 47 24 47z"/>
+          </svg>
+          Continuer avec Google
+        </button>
+
+        {/* Divider */}
+        <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:20 }}>
+          <div style={{ flex:1, height:1, background:"rgba(255,255,255,.08)" }} />
+          <span style={{ fontSize:12, color:C.muted, whiteSpace:"nowrap" }}>ou avec votre email</span>
+          <div style={{ flex:1, height:1, background:"rgba(255,255,255,.08)" }} />
         </div>
 
         <div style={{ display:"flex",flexDirection:"column",gap:13 }}>
