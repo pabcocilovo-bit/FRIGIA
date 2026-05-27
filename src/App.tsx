@@ -324,6 +324,13 @@ function SettingsModal({
     tips: true,
   });
 
+  const [isMobileSettings, setIsMobileSettings] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const onResize = () => setIsMobileSettings(window.innerWidth < 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   const tabs: { id: SettingsTab; icon: string; label: string }[] = [
     { id: "profile", icon: "👤", label: "Profil" },
     { id: "subscription", icon: "💳", label: "Abonnement" },
@@ -410,98 +417,68 @@ function SettingsModal({
         position: "fixed",
         inset: 0,
         zIndex: 1000,
-        background: "rgba(0,0,0,0.7)",
-        backdropFilter: "blur(8px)",
+        background: isMobileSettings
+          ? theme === "light" ? "rgba(244,244,240,0.99)" : "rgba(14,14,20,0.99)"
+          : "rgba(0,0,0,0.7)",
+        backdropFilter: isMobileSettings ? "none" : "blur(8px)",
         display: "flex",
-        alignItems: "center",
+        alignItems: isMobileSettings ? "stretch" : "center",
         justifyContent: "center",
-        padding: 20,
+        padding: isMobileSettings ? 0 : 20,
       }}
-      onClick={(e) => e.target === e.currentTarget && onClose()}
+      onClick={(e) => !isMobileSettings && e.target === e.currentTarget && onClose()}
     >
       <div
         style={{
           ...glassCard(theme),
           width: "100%",
-          maxWidth: 820,
-          maxHeight: "90vh",
+          maxWidth: isMobileSettings ? "100%" : 820,
+          maxHeight: isMobileSettings ? "100vh" : "90vh",
+          height: isMobileSettings ? "100vh" : undefined,
           display: "flex",
+          flexDirection: isMobileSettings ? "column" : "row",
           overflow: "hidden",
           animation: "modalIn 0.35s ease both",
-          background:
-            theme === "light"
-              ? "rgba(244,244,240,0.97)"
-              : "rgba(14,14,20,0.97)",
+          background: theme === "light" ? "rgba(244,244,240,0.99)" : "rgba(14,14,20,0.99)",
+          borderRadius: isMobileSettings ? 0 : 24,
         }}
       >
-        {/* Sidebar */}
-        <div
-          style={{
-            width: 220,
-            borderRight: `1px solid ${v.border}`,
-            padding: "28px 0",
-            flexShrink: 0,
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <div
-            style={{
-              padding: "0 24px 24px",
-              fontWeight: 900,
-              fontSize: 18,
-              color: v.text,
-              fontFamily: "Georgia, serif",
-            }}
-          >
-            ⚙️ Paramètres
-          </div>
-          {tabs.map((t) => (
-            <button
-              key={t.id}
-              onClick={() => setTab(t.id)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                padding: "13px 24px",
-                background:
-                  tab === t.id
-                    ? "linear-gradient(90deg,rgba(255,107,53,0.15),rgba(46,204,113,0.1))"
-                    : "none",
-                border: "none",
-                borderLeft:
-                  tab === t.id ? "3px solid #FF6B35" : "3px solid transparent",
-                color: tab === t.id ? v.text : v.muted,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: tab === t.id ? 700 : 400,
-                textAlign: "left",
-              }}
-            >
-              <span style={{ fontSize: 18 }}>{t.icon}</span> {t.label}
+        {isMobileSettings ? (
+          <>
+            {/* Mobile: header */}
+            <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"16px 20px", borderBottom:`1px solid ${v.border}`, flexShrink:0 }}>
+              <div style={{ fontWeight:900, fontSize:18, color:v.text, fontFamily:"Georgia, serif" }}>⚙️ Paramètres</div>
+              <button onClick={onClose} style={{ background:"none", border:`1px solid ${v.border}`, color:v.muted, cursor:"pointer", borderRadius:10, padding:"7px 14px", fontSize:13 }}>✕ Fermer</button>
+            </div>
+            {/* Mobile: horizontal tabs */}
+            <div className="hide-scrollbar" style={{ display:"flex", gap:6, overflowX:"auto", padding:"10px 16px", borderBottom:`1px solid ${v.border}`, flexShrink:0, scrollbarWidth:"none" }}>
+              {tabs.map((t) => (
+                <button key={t.id} onClick={() => setTab(t.id)} style={{ padding:"8px 14px", borderRadius:100, border:`1px solid ${tab===t.id ? "#FF6B35" : v.border}`, background: tab===t.id ? "rgba(255,107,53,0.15)" : "none", color: tab===t.id ? "#FF6B35" : v.text, cursor:"pointer", fontSize:13, fontWeight: tab===t.id ? 700 : 400, whiteSpace:"nowrap", flexShrink:0, transition:"all 0.2s" }}>
+                  {t.icon} {t.label}
+                </button>
+              ))}
+            </div>
+          </>
+        ) : (
+          /* Desktop: sidebar */
+          <div style={{ width: 220, borderRight: `1px solid ${v.border}`, padding: "28px 0", flexShrink: 0, display: "flex", flexDirection: "column" }}>
+            <div style={{ padding: "0 24px 24px", fontWeight: 900, fontSize: 18, color: v.text, fontFamily: "Georgia, serif" }}>
+              ⚙️ Paramètres
+            </div>
+            {tabs.map((t) => (
+              <button key={t.id} onClick={() => setTab(t.id)} style={{ display:"flex", alignItems:"center", gap:12, padding:"13px 24px", background: tab===t.id ? "linear-gradient(90deg,rgba(255,107,53,0.15),rgba(46,204,113,0.1))" : "none", border:"none", borderLeft: tab===t.id ? "3px solid #FF6B35" : "3px solid transparent", color: tab===t.id ? v.text : v.muted, cursor:"pointer", fontSize:14, fontWeight: tab===t.id ? 700 : 400, textAlign:"left" }}>
+                <span style={{ fontSize: 18 }}>{t.icon}</span> {t.label}
+              </button>
+            ))}
+            <div style={{ flex: 1 }} />
+            <button onClick={onClose} style={{ margin:"0 16px 16px", padding:"10px", borderRadius:12, border:`1px solid ${v.border}`, background:"none", color:v.muted, cursor:"pointer", fontSize:13 }}>
+              ✕ Fermer
             </button>
-          ))}
-          <div style={{ flex: 1 }} />
-          <button
-            onClick={onClose}
-            style={{
-              margin: "0 16px 16px",
-              padding: "10px",
-              borderRadius: 12,
-              border: `1px solid ${v.border}`,
-              background: "none",
-              color: v.muted,
-              cursor: "pointer",
-              fontSize: 13,
-            }}
-          >
-            ✕ Fermer
-          </button>
-        </div>
+          </div>
+        )}
 
-        {/* Content */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "36px 36px" }}>
+        {/* Content - shared desktop + mobile */}
+        <div style={{ flex: 1, overflowY: "auto", padding: isMobileSettings ? "24px 20px" : "36px 36px" }}>
           {/* ── PROFIL ── */}
           {tab === "profile" && (
             <div style={{ animation: "fadeUp 0.3s ease both" }}>
@@ -1305,6 +1282,71 @@ function SettingsModal({
               </div>
             </div>
           )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── OnboardingScreen ────────────────────────────────────────────────────────
+function OnboardingScreen({ onContinue }: { onContinue: () => void }) {
+  const [checked, setChecked] = useState(false);
+  return (
+    <div style={{ position:"fixed", inset:0, zIndex:2000, background:"#0A0A0F", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"24px 20px", overflowY:"auto" }}>
+      <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}`}</style>
+
+      {/* Logo */}
+      <div style={{ animation:"fadeUp 0.4s ease both", textAlign:"center", marginBottom:32 }}>
+        <div style={{ width:64, height:64, borderRadius:18, background:"linear-gradient(135deg,#FF6B35,#2ECC71)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:30, margin:"0 auto 14px" }}>🥗</div>
+        <div style={{ fontWeight:900, fontSize:26, color:"#FAFAFA", fontFamily:"Georgia, serif" }}>Bienvenue sur Frigia</div>
+        <div style={{ color:"#6B7280", fontSize:15, marginTop:6 }}>Votre chef IA personnel vous attend</div>
+      </div>
+
+      {/* Pricing card */}
+      <div style={{ animation:"fadeUp 0.4s 0.1s ease both", width:"100%", maxWidth:420, background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,107,53,0.35)", borderRadius:24, padding:28, marginBottom:20, position:"relative" }}>
+        <div style={{ position:"absolute", top:-14, left:"50%", transform:"translateX(-50%)", background:"linear-gradient(135deg,#FF6B35,#2ECC71)", borderRadius:100, padding:"5px 20px", fontSize:13, fontWeight:800, color:"#fff", whiteSpace:"nowrap" }}>🎉 4 jours gratuits inclus</div>
+        <div style={{ textAlign:"center", marginBottom:20 }}>
+          <div style={{ fontSize:11, fontWeight:700, color:"#FF6B35", letterSpacing:3, textTransform:"uppercase", marginBottom:8 }}>Plan unique</div>
+          <div style={{ display:"flex", alignItems:"baseline", justifyContent:"center", gap:4 }}>
+            <span style={{ fontSize:58, fontWeight:900, color:"#FAFAFA", lineHeight:1 }}>7,99€</span>
+            <span style={{ color:"#6B7280", fontSize:15 }}>/mois</span>
+          </div>
+          <div style={{ color:"#6B7280", fontSize:13, marginTop:6 }}>Après 4 jours d'essai gratuit</div>
+        </div>
+        {[
+          "Scans IA illimités de votre frigo",
+          "Recettes personnalisées illimitées",
+          "Chef IA disponible 24h/24",
+          "Suivi nutritionnel & alertes péremption",
+        ].map((f) => (
+          <div key={f} style={{ display:"flex", alignItems:"center", gap:10, padding:"9px 0", borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
+            <span style={{ color:"#2ECC71", fontWeight:700, fontSize:15 }}>✓</span>
+            <span style={{ fontSize:14, color:"#FAFAFA" }}>{f}</span>
+          </div>
+        ))}
+        <div style={{ color:"#6B7280", fontSize:12, textAlign:"center", marginTop:16 }}>Aucune carte bancaire requise pendant l'essai</div>
+      </div>
+
+      {/* Checkbox */}
+      <div style={{ animation:"fadeUp 0.4s 0.2s ease both", width:"100%", maxWidth:420, marginBottom:20 }}>
+        <label style={{ display:"flex", alignItems:"center", gap:12, cursor:"pointer", padding:"14px 16px", borderRadius:14, border:`1px solid ${checked ? "rgba(46,204,113,0.4)" : "rgba(255,255,255,0.1)"}`, background: checked ? "rgba(46,204,113,0.08)" : "rgba(255,255,255,0.03)", transition:"all 0.2s" }}>
+          <div onClick={() => setChecked(!checked)} style={{ width:22, height:22, borderRadius:6, border:`2px solid ${checked ? "#2ECC71" : "rgba(255,255,255,0.3)"}`, background: checked ? "#2ECC71" : "transparent", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.2s" }}>
+            {checked && <span style={{ color:"#fff", fontSize:14, fontWeight:900 }}>✓</span>}
+          </div>
+          <span style={{ fontSize:14, color:"#FAFAFA", lineHeight:1.5 }}>Je commence mon essai gratuit de 4 jours — sans engagement, sans carte bancaire</span>
+        </label>
+      </div>
+
+      {/* CTA */}
+      <div style={{ animation:"fadeUp 0.4s 0.3s ease both", width:"100%", maxWidth:420 }}>
+        <button
+          onClick={() => checked && onContinue()}
+          style={{ width:"100%", padding:"16px", borderRadius:100, border:"none", background: checked ? "linear-gradient(135deg,#FF6B35,#2ECC71)" : "rgba(255,255,255,0.08)", color: checked ? "#fff" : "#6B7280", fontWeight:800, fontSize:16, cursor: checked ? "pointer" : "not-allowed", transition:"all 0.3s", letterSpacing:0.5 }}
+        >
+          Accéder à Frigia →
+        </button>
+        <div style={{ textAlign:"center", marginTop:12, fontSize:12, color:"#6B7280" }}>
+          ✓ Sans engagement · ✓ Résiliable à tout moment
         </div>
       </div>
     </div>
@@ -2824,6 +2866,7 @@ export default function Frigia() {
   const [selectedRecipe, setSelectedRecipe] = useState<{ recipe: GeneratedRecipe; servings: number } | null>(null);
   const [windowWidth, setWindowWidth] = useState(() => window.innerWidth);
   const [mobileTab, setMobileTab] = useState<"scan" | "recipes" | "chat" | "profile">("scan");
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     {
       role: "ai",
@@ -2836,13 +2879,21 @@ export default function Frigia() {
   const isMobile = windowWidth < 768;
 useEffect(() => {
   supabase.auth.getSession().then(({ data }) => {
-    setUser(data.session?.user ?? null);
+    const u = data.session?.user ?? null;
+    setUser(u);
+    if (u && !localStorage.getItem(`frigia_onboarded_${u.id}`)) {
+      setShowOnboarding(true);
+    }
   });
 
   const {
     data: { subscription },
   } = supabase.auth.onAuthStateChange((_event, session) => {
-    setUser(session?.user ?? null);
+    const u = session?.user ?? null;
+    setUser(u);
+    if (u && !localStorage.getItem(`frigia_onboarded_${u.id}`)) {
+      setShowOnboarding(true);
+    }
   });
 
   return () => subscription.unsubscribe();
@@ -2973,6 +3024,17 @@ async function signOut() {
 
 if (!user) {
   return <Landing />;
+}
+
+if (showOnboarding) {
+  return (
+    <OnboardingScreen
+      onContinue={() => {
+        localStorage.setItem(`frigia_onboarded_${user.id}`, "1");
+        setShowOnboarding(false);
+      }}
+    />
+  );
 }
 
 // ─── MOBILE LAYOUT ───────────────────────────────────────────────────────────
