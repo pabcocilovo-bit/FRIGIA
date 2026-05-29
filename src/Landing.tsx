@@ -689,15 +689,17 @@ function Footer() {
 }
 
 // ── Browser detection ─────────────────────────────────────────────────────────
-function detectBrowser(): "ios-safari" | "chrome-android" | "chrome-desktop" | "samsung" | "firefox-android" | "edge-mobile" | "unknown" {
+function detectBrowser(): "ios-safari" | "ios-chrome" | "chrome-android" | "chrome-desktop" | "samsung" | "firefox-android" | "edge-mobile" | "unknown" {
   const ua = navigator.userAgent;
   const isIos = /iphone|ipad|ipod/i.test(ua);
   const isAndroid = /android/i.test(ua);
+  const isCriOS = /CriOS/i.test(ua);
   const isChrome = /chrome/i.test(ua) && !/edg\//i.test(ua);
   const isSamsung = /samsungbrowser/i.test(ua);
   const isFirefox = /firefox/i.test(ua);
   const isEdge = /edg\//i.test(ua);
-  if (isIos && !isChrome) return "ios-safari";
+  if (isIos && isCriOS) return "ios-chrome";
+  if (isIos) return "ios-safari";
   if (isAndroid && isSamsung) return "samsung";
   if (isAndroid && isFirefox) return "firefox-android";
   if (isAndroid && isEdge) return "edge-mobile";
@@ -713,11 +715,20 @@ function InstallHint({ onClose }: { onClose: () => void }) {
   const configs = {
     "ios-safari": {
       steps: [
-        { label: "Appuyez sur", strong: "le bouton Partager", sub: "L'icône □↑ en bas au centre de Safari", color: C.orange },
-        { label: "Faites défiler et appuyez sur", strong: "Sur l'écran d'accueil", sub: "Dans le menu qui s'ouvre", color: "#2ECC71" },
+        { label: "Appuyez sur", strong: "···", sub: "Les 3 petits points en bas à droite de Safari", color: C.orange },
+        { label: "Appuyez sur", strong: "Partager", sub: "Dans le menu qui apparaît", color: "#2ECC71" },
+        { label: "Appuyez sur", strong: "Sur l'écran d'accueil", sub: "Faites défiler si besoin", color: "#FFB800" },
+        { label: "Appuyez sur", strong: "Ajouter", sub: "En haut à droite — c'est tout !", color: "#2ECC71" },
+      ],
+      arrow: "bottom-right" as const,
+    },
+    "ios-chrome": {
+      steps: [
+        { label: "Appuyez sur", strong: "le bouton Partager", sub: "L'icône □↑ en haut à droite de Chrome", color: C.orange },
+        { label: "Appuyez sur", strong: "Sur l'écran d'accueil", sub: "Faites défiler dans la liste si besoin", color: "#2ECC71" },
         { label: "Appuyez sur", strong: "Ajouter", sub: "En haut à droite — c'est tout !", color: "#FFB800" },
       ],
-      arrow: true,
+      arrow: "top-right" as const,
     },
     "chrome-android": {
       steps: [
@@ -725,7 +736,7 @@ function InstallHint({ onClose }: { onClose: () => void }) {
         { label: "Appuyez sur", strong: "Ajouter à l'écran d'accueil", sub: "Ou \"Installer l'application\"", color: "#2ECC71" },
         { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
       ],
-      arrow: false,
+      arrow: false as const,
     },
     "samsung": {
       steps: [
@@ -733,7 +744,7 @@ function InstallHint({ onClose }: { onClose: () => void }) {
         { label: "Appuyez sur", strong: "Ajouter page à", sub: "Puis \"Écran d'accueil\"", color: "#2ECC71" },
         { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
       ],
-      arrow: false,
+      arrow: false as const,
     },
     "firefox-android": {
       steps: [
@@ -741,7 +752,7 @@ function InstallHint({ onClose }: { onClose: () => void }) {
         { label: "Appuyez sur", strong: "Installer", sub: "Ou \"Ajouter à l'écran d'accueil\"", color: "#2ECC71" },
         { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
       ],
-      arrow: false,
+      arrow: false as const,
     },
     "edge-mobile": {
       steps: [
@@ -749,14 +760,14 @@ function InstallHint({ onClose }: { onClose: () => void }) {
         { label: "Appuyez sur", strong: "Ajouter à l'écran d'accueil", sub: "Dans la liste des options", color: "#2ECC71" },
         { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
       ],
-      arrow: false,
+      arrow: false as const,
     },
     "chrome-desktop": {
       steps: [
         { label: "Cliquez sur l'icône", strong: "⊕", sub: "Dans la barre d'adresse à droite", color: C.orange },
         { label: "Cliquez sur", strong: "Installer Frigia", sub: "Dans la fenêtre qui apparaît — c'est tout !", color: "#2ECC71" },
       ],
-      arrow: false,
+      arrow: false as const,
     },
     "unknown": {
       steps: [
@@ -764,23 +775,30 @@ function InstallHint({ onClose }: { onClose: () => void }) {
         { label: "Cherchez", strong: "Ajouter à l'écran d'accueil", sub: "Ou \"Installer l'application\"", color: "#2ECC71" },
         { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
       ],
-      arrow: false,
+      arrow: false as const,
     },
   };
 
   const { steps, arrow } = configs[browser] ?? configs["unknown"];
+  const cardBottom = arrow ? 110 : 24;
 
   return (
     <div onClick={onClose} style={{ position:"fixed",inset:0,zIndex:9999,background:"rgba(0,0,0,0.65)",backdropFilter:"blur(6px)" }}>
-      {arrow && (
-        <div style={{ position:"absolute",bottom:12,left:"50%",transform:"translateX(-50%)",display:"flex",flexDirection:"column",alignItems:"center",gap:4,pointerEvents:"none" }}>
-          <div style={{ fontSize:13,fontWeight:700,color:"#fff",background:"rgba(255,107,53,0.95)",padding:"6px 14px",borderRadius:100,whiteSpace:"nowrap",marginBottom:4 }}>Appuyez ici ↓</div>
-          <div style={{ fontSize:36,animation:"bounceUp 1s ease-in-out infinite",color:C.orange }}>↓</div>
+      {arrow === "bottom-right" && (
+        <div style={{ position:"absolute",bottom:12,right:20,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4,pointerEvents:"none" }}>
+          <div style={{ fontSize:13,fontWeight:700,color:"#fff",background:"rgba(255,107,53,0.95)",padding:"6px 14px",borderRadius:100,whiteSpace:"nowrap" }}>Appuyez ici ↓</div>
+          <div style={{ fontSize:32,animation:"bounceUp 1s ease-in-out infinite",color:C.orange,alignSelf:"center" }}>↓</div>
+        </div>
+      )}
+      {arrow === "top-right" && (
+        <div style={{ position:"absolute",top:60,right:20,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4,pointerEvents:"none" }}>
+          <div style={{ fontSize:32,animation:"bounceUp 1s ease-in-out infinite",color:C.orange,transform:"rotate(180deg)" }}>↓</div>
+          <div style={{ fontSize:13,fontWeight:700,color:"#fff",background:"rgba(255,107,53,0.95)",padding:"6px 14px",borderRadius:100,whiteSpace:"nowrap" }}>Appuyez ici ↑</div>
         </div>
       )}
       <div
         onClick={e => e.stopPropagation()}
-        style={{ position:"absolute",bottom: arrow ? 100 : 24,left:12,right:12,background:"#13131F",border:"1px solid rgba(255,255,255,0.12)",borderRadius:24,padding:"24px 20px",animation:"slideUp 0.35s ease both",boxShadow:"0 -20px 60px rgba(0,0,0,0.5)" }}
+        style={{ position:"absolute",bottom:cardBottom,left:12,right:12,background:"#13131F",border:"1px solid rgba(255,255,255,0.12)",borderRadius:24,padding:"24px 20px",animation:"slideUp 0.35s ease both",boxShadow:"0 -20px 60px rgba(0,0,0,0.5)" }}
       >
         <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:22 }}>
           <div style={{ display:"flex",alignItems:"center",gap:10 }}>
