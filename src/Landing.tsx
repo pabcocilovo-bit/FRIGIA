@@ -688,13 +688,127 @@ function Footer() {
   );
 }
 
+// ── Browser detection ─────────────────────────────────────────────────────────
+function detectBrowser(): "ios-safari" | "chrome-android" | "chrome-desktop" | "samsung" | "firefox-android" | "edge-mobile" | "unknown" {
+  const ua = navigator.userAgent;
+  const isIos = /iphone|ipad|ipod/i.test(ua);
+  const isAndroid = /android/i.test(ua);
+  const isChrome = /chrome/i.test(ua) && !/edg\//i.test(ua);
+  const isSamsung = /samsungbrowser/i.test(ua);
+  const isFirefox = /firefox/i.test(ua);
+  const isEdge = /edg\//i.test(ua);
+  if (isIos && !isChrome) return "ios-safari";
+  if (isAndroid && isSamsung) return "samsung";
+  if (isAndroid && isFirefox) return "firefox-android";
+  if (isAndroid && isEdge) return "edge-mobile";
+  if (isAndroid && isChrome) return "chrome-android";
+  if (isChrome) return "chrome-desktop";
+  return "unknown";
+}
+
+// ── Install hint modal ────────────────────────────────────────────────────────
+function InstallHint({ onClose }: { onClose: () => void }) {
+  const browser = detectBrowser();
+
+  const configs = {
+    "ios-safari": {
+      steps: [
+        { label: "Appuyez sur", strong: "le bouton Partager", sub: "L'icône □↑ en bas au centre de Safari", color: C.orange },
+        { label: "Faites défiler et appuyez sur", strong: "Sur l'écran d'accueil", sub: "Dans le menu qui s'ouvre", color: "#2ECC71" },
+        { label: "Appuyez sur", strong: "Ajouter", sub: "En haut à droite — c'est tout !", color: "#FFB800" },
+      ],
+      arrow: true,
+    },
+    "chrome-android": {
+      steps: [
+        { label: "Appuyez sur", strong: "⋮", sub: "Les 3 points en haut à droite de Chrome", color: C.orange },
+        { label: "Appuyez sur", strong: "Ajouter à l'écran d'accueil", sub: "Ou \"Installer l'application\"", color: "#2ECC71" },
+        { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
+      ],
+      arrow: false,
+    },
+    "samsung": {
+      steps: [
+        { label: "Appuyez sur", strong: "⋮", sub: "Les 3 points en bas à droite de Samsung Internet", color: C.orange },
+        { label: "Appuyez sur", strong: "Ajouter page à", sub: "Puis \"Écran d'accueil\"", color: "#2ECC71" },
+        { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
+      ],
+      arrow: false,
+    },
+    "firefox-android": {
+      steps: [
+        { label: "Appuyez sur", strong: "⋮", sub: "Le menu en bas à droite de Firefox", color: C.orange },
+        { label: "Appuyez sur", strong: "Installer", sub: "Ou \"Ajouter à l'écran d'accueil\"", color: "#2ECC71" },
+        { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
+      ],
+      arrow: false,
+    },
+    "edge-mobile": {
+      steps: [
+        { label: "Appuyez sur", strong: "···", sub: "Le menu en bas de Edge", color: C.orange },
+        { label: "Appuyez sur", strong: "Ajouter à l'écran d'accueil", sub: "Dans la liste des options", color: "#2ECC71" },
+        { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
+      ],
+      arrow: false,
+    },
+    "chrome-desktop": {
+      steps: [
+        { label: "Cliquez sur l'icône", strong: "⊕", sub: "Dans la barre d'adresse à droite", color: C.orange },
+        { label: "Cliquez sur", strong: "Installer Frigia", sub: "Dans la fenêtre qui apparaît — c'est tout !", color: "#2ECC71" },
+      ],
+      arrow: false,
+    },
+    "unknown": {
+      steps: [
+        { label: "Ouvrez le", strong: "menu de votre navigateur", sub: "Bouton ⋮ ou ··· selon le navigateur", color: C.orange },
+        { label: "Cherchez", strong: "Ajouter à l'écran d'accueil", sub: "Ou \"Installer l'application\"", color: "#2ECC71" },
+        { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
+      ],
+      arrow: false,
+    },
+  };
+
+  const { steps, arrow } = configs[browser] ?? configs["unknown"];
+
+  return (
+    <div onClick={onClose} style={{ position:"fixed",inset:0,zIndex:9999,background:"rgba(0,0,0,0.65)",backdropFilter:"blur(6px)" }}>
+      {arrow && (
+        <div style={{ position:"absolute",bottom:12,left:"50%",transform:"translateX(-50%)",display:"flex",flexDirection:"column",alignItems:"center",gap:4,pointerEvents:"none" }}>
+          <div style={{ fontSize:13,fontWeight:700,color:"#fff",background:"rgba(255,107,53,0.95)",padding:"6px 14px",borderRadius:100,whiteSpace:"nowrap",marginBottom:4 }}>Appuyez ici ↓</div>
+          <div style={{ fontSize:36,animation:"bounceUp 1s ease-in-out infinite",color:C.orange }}>↓</div>
+        </div>
+      )}
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ position:"absolute",bottom: arrow ? 100 : 24,left:12,right:12,background:"#13131F",border:"1px solid rgba(255,255,255,0.12)",borderRadius:24,padding:"24px 20px",animation:"slideUp 0.35s ease both",boxShadow:"0 -20px 60px rgba(0,0,0,0.5)" }}
+      >
+        <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:22 }}>
+          <div style={{ display:"flex",alignItems:"center",gap:10 }}>
+            <img src="/logo.png" alt="Frigia" style={{ width:34,height:34,borderRadius:10,objectFit:"contain" }} />
+            <span style={{ fontWeight:800,fontSize:17,color:C.text }}>Installer Frigia</span>
+          </div>
+          <button onClick={onClose} style={{ background:"rgba(255,255,255,0.08)",border:"none",borderRadius:"50%",width:30,height:30,color:C.muted,fontSize:16,display:"flex",alignItems:"center",justifyContent:"center" }}>✕</button>
+        </div>
+        {steps.map((s, i) => (
+          <div key={i} style={{ display:"flex",gap:14,alignItems:"flex-start",marginBottom:i < steps.length - 1 ? 16 : 0 }}>
+            <div style={{ width:34,height:34,borderRadius:12,background:`${s.color}22`,border:`1px solid ${s.color}55`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontWeight:800,fontSize:14,color:s.color }}>{i + 1}</div>
+            <div>
+              <div style={{ fontSize:14,color:C.muted,lineHeight:1.5 }}>{s.label} <strong style={{ color:C.text }}>{s.strong}</strong></div>
+              <div style={{ fontSize:12,color:"rgba(255,255,255,0.35)",marginTop:3 }}>{s.sub}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Landing ───────────────────────────────────────────────────────────────────
 export default function Landing() {
   const [authOpen, setAuthOpen] = useState(false);
   const open = useCallback(() => setAuthOpen(true), []);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
-  const [showIosHint, setShowIosHint] = useState(false);
-  const [showChromeHint, setShowChromeHint] = useState(false);
+  const [showInstallHint, setShowInstallHint] = useState(false);
 
   useEffect(() => {
     const handler = (e: Event) => { e.preventDefault(); setInstallPrompt(e); };
@@ -703,15 +817,12 @@ export default function Landing() {
   }, []);
 
   const handleInstall = async () => {
-    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
     if (installPrompt) {
       installPrompt.prompt();
       await installPrompt.userChoice;
       setInstallPrompt(null);
-    } else if (isIos) {
-      setShowIosHint(true);
     } else {
-      setShowChromeHint(true);
+      setShowInstallHint(true);
     }
   };
 
@@ -720,106 +831,7 @@ export default function Landing() {
   return (
     <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden" }}>
       <style>{CSS}</style>
-      {showIosHint && (
-        <div
-          onClick={() => setShowIosHint(false)}
-          style={{ position:"fixed",inset:0,zIndex:9999,background:"rgba(0,0,0,0.6)",backdropFilter:"blur(6px)" }}
-        >
-          {/* Flèche animée pointant vers le bouton Partager Safari */}
-          <div style={{ position:"absolute",bottom:12,left:"50%",transform:"translateX(-50%)",display:"flex",flexDirection:"column",alignItems:"center",gap:4,pointerEvents:"none" }}>
-            <div style={{ fontSize:13,fontWeight:700,color:"#fff",background:"rgba(255,107,53,0.95)",padding:"6px 14px",borderRadius:100,whiteSpace:"nowrap",marginBottom:4 }}>
-              Appuyez ici ↓
-            </div>
-            <div style={{ fontSize:36,animation:"bounceUp 1s ease-in-out infinite",color:C.orange }}>↓</div>
-          </div>
-
-          {/* Carte d'instructions */}
-          <div
-            onClick={e => e.stopPropagation()}
-            style={{ position:"absolute",bottom:90,left:12,right:12,background:"#13131F",border:"1px solid rgba(255,255,255,0.12)",borderRadius:24,padding:"24px 20px",animation:"slideUp 0.35s ease both",boxShadow:"0 -20px 60px rgba(0,0,0,0.5)" }}
-          >
-            <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20 }}>
-              <div style={{ display:"flex",alignItems:"center",gap:10 }}>
-                <img src="/logo.png" alt="Frigia" style={{ width:34,height:34,borderRadius:10,objectFit:"contain" }} />
-                <span style={{ fontWeight:800,fontSize:17,color:C.text }}>Installer Frigia</span>
-              </div>
-              <button onClick={() => setShowIosHint(false)} style={{ background:"rgba(255,255,255,0.08)",border:"none",borderRadius:"50%",width:30,height:30,color:C.muted,fontSize:16,display:"flex",alignItems:"center",justifyContent:"center" }}>✕</button>
-            </div>
-
-            {[
-              { n:"1", icon:"□↑", label:"Appuyez sur", strong:"Partager", sub:"Le bouton en bas au centre de Safari" },
-              { n:"2", icon:"⊞", label:"Faites défiler et appuyez sur", strong:"Sur l'écran d'accueil", sub:"Dans le menu qui s'ouvre" },
-              { n:"3", icon:"＋", label:"Appuyez sur", strong:"Ajouter", sub:"En haut à droite — c'est tout !" },
-            ].map((s, i) => (
-              <div key={i} style={{ display:"flex",gap:14,alignItems:"flex-start",marginBottom:i < 2 ? 16 : 0 }}>
-                <div style={{ width:36,height:36,borderRadius:12,background:i===0?"rgba(255,107,53,0.2)":i===1?"rgba(46,204,113,0.15)":"rgba(255,184,0,0.15)",border:`1px solid ${i===0?"rgba(255,107,53,0.4)":i===1?"rgba(46,204,113,0.3)":"rgba(255,184,0,0.3)"}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:16 }}>
-                  {s.n}
-                </div>
-                <div>
-                  <div style={{ fontSize:14,color:C.muted }}>{s.label} <strong style={{ color:C.text }}>{s.strong}</strong></div>
-                  <div style={{ fontSize:12,color:"rgba(255,255,255,0.35)",marginTop:2 }}>{s.sub}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      {showChromeHint && (
-        <div
-          onClick={() => setShowChromeHint(false)}
-          style={{ position:"fixed",inset:0,zIndex:9999,background:"rgba(0,0,0,0.6)",backdropFilter:"blur(6px)" }}
-        >
-          <div
-            onClick={e => e.stopPropagation()}
-            style={{ position:"absolute",bottom:24,left:12,right:12,background:"#13131F",border:"1px solid rgba(255,255,255,0.12)",borderRadius:24,padding:"24px 20px",animation:"slideUp 0.35s ease both",boxShadow:"0 -20px 60px rgba(0,0,0,0.5)" }}
-          >
-            <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20 }}>
-              <div style={{ display:"flex",alignItems:"center",gap:10 }}>
-                <img src="/logo.png" alt="Frigia" style={{ width:34,height:34,borderRadius:10,objectFit:"contain" }} />
-                <span style={{ fontWeight:800,fontSize:17,color:C.text }}>Installer Frigia</span>
-              </div>
-              <button onClick={() => setShowChromeHint(false)} style={{ background:"rgba(255,255,255,0.08)",border:"none",borderRadius:"50%",width:30,height:30,color:C.muted,fontSize:16,display:"flex",alignItems:"center",justifyContent:"center" }}>✕</button>
-            </div>
-
-            {/* Mobile Chrome */}
-            <div style={{ marginBottom:20 }}>
-              <div style={{ fontSize:11,fontWeight:700,color:C.orange,letterSpacing:3,textTransform:"uppercase",marginBottom:12 }}>Sur téléphone (Chrome)</div>
-              {[
-                { n:"1", label:"Appuyez sur", strong:"⋮", sub:"Les 3 points en haut à droite de Chrome" },
-                { n:"2", label:"Appuyez sur", strong:"Ajouter à l'écran d'accueil", sub:"Ou \"Installer l'application\"" },
-                { n:"3", label:"Confirmez en appuyant sur", strong:"Ajouter", sub:"C'est tout !" },
-              ].map((s, i) => (
-                <div key={i} style={{ display:"flex",gap:14,alignItems:"flex-start",marginBottom:i < 2 ? 12 : 0 }}>
-                  <div style={{ width:32,height:32,borderRadius:10,background:"rgba(255,107,53,0.15)",border:"1px solid rgba(255,107,53,0.3)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:13,fontWeight:700,color:C.orange }}>{s.n}</div>
-                  <div>
-                    <div style={{ fontSize:14,color:C.muted }}>{s.label} <strong style={{ color:C.text }}>{s.strong}</strong></div>
-                    <div style={{ fontSize:12,color:"rgba(255,255,255,0.35)",marginTop:2 }}>{s.sub}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div style={{ height:1,background:"rgba(255,255,255,0.07)",marginBottom:20 }} />
-
-            {/* Desktop Chrome */}
-            <div>
-              <div style={{ fontSize:11,fontWeight:700,color:"#2ECC71",letterSpacing:3,textTransform:"uppercase",marginBottom:12 }}>Sur ordinateur (Chrome)</div>
-              {[
-                { n:"1", label:"Regardez l'icône", strong:"⊕", sub:"Dans la barre d'adresse à droite" },
-                { n:"2", label:"Cliquez sur", strong:"Installer Frigia", sub:"Dans la fenêtre qui apparaît" },
-              ].map((s, i) => (
-                <div key={i} style={{ display:"flex",gap:14,alignItems:"flex-start",marginBottom:i < 1 ? 12 : 0 }}>
-                  <div style={{ width:32,height:32,borderRadius:10,background:"rgba(46,204,113,0.15)",border:"1px solid rgba(46,204,113,0.3)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:13,fontWeight:700,color:"#2ECC71" }}>{s.n}</div>
-                  <div>
-                    <div style={{ fontSize:14,color:C.muted }}>{s.label} <strong style={{ color:C.text }}>{s.strong}</strong></div>
-                    <div style={{ fontSize:12,color:"rgba(255,255,255,0.35)",marginTop:2 }}>{s.sub}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      {showInstallHint && <InstallHint onClose={() => setShowInstallHint(false)} />}
       <Nav onOpen={open} />
       <Hero onOpen={open} onInstall={isInstallable ? handleInstall : undefined} />
       <Marquee />
