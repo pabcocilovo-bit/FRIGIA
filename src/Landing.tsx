@@ -29,6 +29,8 @@ const CSS = `
   @keyframes orbFloat2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-38px,-22px) scale(1.07)} }
   @keyframes modalIn { from{opacity:0;transform:translateY(32px) scale(0.97)} to{opacity:1;transform:none} }
   @keyframes glow { 0%,100%{box-shadow:0 0 40px rgba(255,107,53,0.15)} 50%{box-shadow:0 0 80px rgba(255,107,53,0.3)} }
+  @keyframes bounceUp { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  @keyframes slideUp { from{opacity:0;transform:translateY(100%)} to{opacity:1;transform:translateY(0)} }
   *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
   html { scroll-behavior:smooth; }
   body { background:${C.bg}; font-family:'Helvetica Neue',Arial,sans-serif; color:${C.text}; overflow-x:hidden; }
@@ -716,13 +718,47 @@ export default function Landing() {
     <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden" }}>
       <style>{CSS}</style>
       {showIosHint && (
-        <div style={{ position:"fixed",bottom:24,left:16,right:16,zIndex:9999,background:"#1A1A2E",border:"1px solid rgba(255,255,255,0.15)",borderRadius:20,padding:"20px 24px",textAlign:"center",boxShadow:"0 20px 60px rgba(0,0,0,0.6)" }}>
-          <div style={{ fontSize:22,marginBottom:8 }}>📲</div>
-          <div style={{ fontWeight:700,color:C.text,marginBottom:6 }}>Installer Frigia</div>
-          <div style={{ fontSize:13,color:C.muted,lineHeight:1.6,marginBottom:16 }}>
-            Appuyez sur <strong style={{color:C.text}}>Partager</strong> puis <strong style={{color:C.text}}>"Sur l'écran d'accueil"</strong>
+        <div
+          onClick={() => setShowIosHint(false)}
+          style={{ position:"fixed",inset:0,zIndex:9999,background:"rgba(0,0,0,0.6)",backdropFilter:"blur(6px)" }}
+        >
+          {/* Flèche animée pointant vers le bouton Partager Safari */}
+          <div style={{ position:"absolute",bottom:12,left:"50%",transform:"translateX(-50%)",display:"flex",flexDirection:"column",alignItems:"center",gap:4,pointerEvents:"none" }}>
+            <div style={{ fontSize:13,fontWeight:700,color:"#fff",background:"rgba(255,107,53,0.95)",padding:"6px 14px",borderRadius:100,whiteSpace:"nowrap",marginBottom:4 }}>
+              Appuyez ici ↓
+            </div>
+            <div style={{ fontSize:36,animation:"bounceUp 1s ease-in-out infinite",color:C.orange }}>↓</div>
           </div>
-          <button onClick={() => setShowIosHint(false)} style={{ background:"none",border:`1px solid rgba(255,255,255,0.2)`,borderRadius:100,padding:"8px 20px",color:C.text,fontSize:13,cursor:"pointer" }}>Fermer</button>
+
+          {/* Carte d'instructions */}
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{ position:"absolute",bottom:90,left:12,right:12,background:"#13131F",border:"1px solid rgba(255,255,255,0.12)",borderRadius:24,padding:"24px 20px",animation:"slideUp 0.35s ease both",boxShadow:"0 -20px 60px rgba(0,0,0,0.5)" }}
+          >
+            <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20 }}>
+              <div style={{ display:"flex",alignItems:"center",gap:10 }}>
+                <img src="/logo.png" alt="Frigia" style={{ width:34,height:34,borderRadius:10,objectFit:"contain" }} />
+                <span style={{ fontWeight:800,fontSize:17,color:C.text }}>Installer Frigia</span>
+              </div>
+              <button onClick={() => setShowIosHint(false)} style={{ background:"rgba(255,255,255,0.08)",border:"none",borderRadius:"50%",width:30,height:30,color:C.muted,fontSize:16,display:"flex",alignItems:"center",justifyContent:"center" }}>✕</button>
+            </div>
+
+            {[
+              { n:"1", icon:"□↑", label:"Appuyez sur", strong:"Partager", sub:"Le bouton en bas au centre de Safari" },
+              { n:"2", icon:"⊞", label:"Faites défiler et appuyez sur", strong:"Sur l'écran d'accueil", sub:"Dans le menu qui s'ouvre" },
+              { n:"3", icon:"＋", label:"Appuyez sur", strong:"Ajouter", sub:"En haut à droite — c'est tout !" },
+            ].map((s, i) => (
+              <div key={i} style={{ display:"flex",gap:14,alignItems:"flex-start",marginBottom:i < 2 ? 16 : 0 }}>
+                <div style={{ width:36,height:36,borderRadius:12,background:i===0?"rgba(255,107,53,0.2)":i===1?"rgba(46,204,113,0.15)":"rgba(255,184,0,0.15)",border:`1px solid ${i===0?"rgba(255,107,53,0.4)":i===1?"rgba(46,204,113,0.3)":"rgba(255,184,0,0.3)"}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:16 }}>
+                  {s.n}
+                </div>
+                <div>
+                  <div style={{ fontSize:14,color:C.muted }}>{s.label} <strong style={{ color:C.text }}>{s.strong}</strong></div>
+                  <div style={{ fontSize:12,color:"rgba(255,255,255,0.35)",marginTop:2 }}>{s.sub}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
       <Nav onOpen={open} />
