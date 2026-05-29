@@ -717,7 +717,7 @@ function InstallHint({ onClose }: { onClose: () => void }) {
       steps: [
         { label: "Appuyez sur", strong: "···", sub: "Les 3 petits points en bas à droite de Safari", color: C.orange },
         { label: "Appuyez sur", strong: "Partager", sub: "Dans le menu qui apparaît", color: "#2ECC71" },
-        { label: "Appuyez sur", strong: "En savoir plus", sub: "Pour voir toutes les options", color: "#FFB800" },
+        { label: "Appuyez sur", strong: "En voir plus", sub: "Pour voir toutes les options", color: "#FFB800" },
         { label: "Appuyez sur", strong: "Sur l'écran d'accueil", sub: "Dans la liste qui s'affiche", color: "#2ECC71" },
         { label: "Appuyez sur", strong: "Ajouter", sub: "En haut à droite — c'est tout !", color: C.orange },
       ],
@@ -726,7 +726,7 @@ function InstallHint({ onClose }: { onClose: () => void }) {
     "ios-chrome": {
       steps: [
         { label: "Appuyez sur", strong: "le bouton Partager", sub: "L'icône □↑ en haut à droite de Chrome", color: C.orange },
-        { label: "Appuyez sur", strong: "En savoir plus", sub: "Pour voir toutes les options", color: "#FFB800" },
+        { label: "Appuyez sur", strong: "En voir plus", sub: "Pour voir toutes les options", color: "#FFB800" },
         { label: "Appuyez sur", strong: "Sur l'écran d'accueil", sub: "Dans la liste qui s'affiche", color: "#2ECC71" },
         { label: "Appuyez sur", strong: "Ajouter", sub: "En haut à droite — c'est tout !", color: C.orange },
       ],
