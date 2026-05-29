@@ -1,13 +1,35 @@
+import { createClient } from "@supabase/supabase-js";
+
 export default async function handler(req: any, res: any) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
+  const authHeader = req.headers.authorization as string | undefined;
+  if (!authHeader?.startsWith("Bearer ")) return res.status(401).json({ error: "Missing token" });
+  const token = authHeader.replace("Bearer ", "");
+
+  const admin = createClient(process.env.VITE_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+  const { data: { user }, error } = await admin.auth.getUser(token);
+  if (error || !user) return res.status(401).json({ error: "Invalid token" });
+
+  const meta = user.user_metadata || {};
+  const hasAccess = meta.is_whitelisted ||
+    meta.subscription_status === "active" ||
+    meta.subscription_status === "trialing";
+  if (!hasAccess) return res.status(403).json({ error: "No active subscription" });
+
   const { imageBase64, mediaType } = req.body as { imageBase64: string; mediaType: string };
   if (!imageBase64) return res.status(400).json({ error: "Missing imageBase64" });
+  if (imageBase64.length > 4 * 1024 * 1024) return res.status(400).json({ error: "Image trop lourde" });
+
+  const SUPPORTED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+  const safeMediaType = SUPPORTED_TYPES.includes(mediaType) ? mediaType : "image/jpeg";
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return res.status(500).json({ error: "ANTHROPIC_API_KEY not configured" });
@@ -21,20 +43,20 @@ export default async function handler(req: any, res: any) {
     },
     body: JSON.stringify({
       model: "claude-sonnet-4-6",
-      max_tokens: 4000,
+      max_tokens: 2000,
       messages: [
         {
           role: "user",
           content: [
             {
               type: "text",
-              text: 'Analyse cette photo de frigo. Retourne EXACTEMENT 4 recettes détaillées réalisables avec les ingrédients visibles. Chaque recette doit avoir AU MINIMUM 6 étapes détaillées et précises (températures, durées, techniques). JSON valide uniquement, sans texte avant ou après: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"12 min","calories":380,"difficulty":"Facile","imageSearch":"tomato cheese omelette","ingredients":[{"name":"Oeufs","qty":"3"},{"name":"Tomates","qty":"2"},{"name":"Fromage râpé","qty":"40g"},{"name":"Beurre","qty":"10g"},{"name":"Sel","qty":"1 pincée"},{"name":"Poivre","qty":"1 pincée"}],"steps":["Casser les 3 oeufs dans un bol, ajouter une pincée de sel et de poivre. Battre énergiquement à la fourchette pendant 1 minute jusqu\'à obtenir un mélange homogène et légèrement mousseux.","Laver les tomates et les couper en petits dés de 1 cm. Égoutter sur du papier absorbant pour retirer l\'excès d\'eau.","Faire chauffer une poêle antiadhésive de 24 cm à feu moyen (6/9). Ajouter le beurre et le laisser fondre sans le brûler jusqu\'à ce qu\'il mousse légèrement.","Verser les oeufs battus dans la poêle. Avec une spatule souple, ramener délicatement les bords vers le centre tout en inclinant la poêle pour que l\'oeuf liquide se répande.","Quand l\'omelette est encore légèrement baveuse sur le dessus (après environ 2-3 min), déposer les dés de tomate et le fromage râpé sur une moitié de l\'omelette.","Plier délicatement l\'omelette en deux à l\'aide de la spatule. Laisser cuire encore 30 secondes pour faire fondre le fromage. Glisser sur l\'assiette et servir immédiatement."]}]}',
+              text: 'Analyse cette photo de frigo. Retourne EXACTEMENT 3 recettes réalisables avec les ingrédients visibles. Étapes : format chef — courtes, précises, avec quantités + températures + durées, sans phrases longues. REGLE ABSOLUE imageSearch : EN ANGLAIS + TYPE DE PLAT SEULEMENT (2 mots max, ZERO ingrédient, ZERO sauce, ZERO adjectif). Exemples corrects: "scrambled eggs", "beef steak", "milkshake", "green salad", "pasta", "chicken soup", "fried rice", "omelette". JAMAIS: "eggs soy milk", "marinated steak citrus". JSON uniquement: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"12 min","calories":380,"difficulty":"Facile","imageSearch":"omelette","ingredients":[{"name":"Oeufs","qty":"3"},{"name":"Tomates","qty":"2"},{"name":"Fromage râpé","qty":"40g"},{"name":"Beurre","qty":"10g"}],"steps":["Battre 3 oeufs + sel + poivre à la fourchette 1 min, légère mousse","Couper 2 tomates en dés 1cm, égoutter papier absorbant","Poêle 24cm feu moyen (6/9), fondre 10g beurre sans brûler","Verser oeufs, spatule : ramener bords au centre + incliner poêle, 2-3 min","Garnir une moitié : tomates + 40g fromage, plier, couvrir 30s, servir"]}]}',
             },
             {
               type: "image",
               source: {
                 type: "base64",
-                media_type: mediaType || "image/jpeg",
+                media_type: safeMediaType,
                 data: imageBase64,
               },
             },
@@ -52,14 +74,31 @@ export default async function handler(req: any, res: any) {
   const data = await anthropicRes.json() as { content?: { text?: string }[] };
   const text = (data.content || []).map((i: any) => i.text || "").join("");
 
-  const match = text.match(/\{[\s\S]*\}/);
-  let parsed: any = { ingredients: [], recipes: [] };
-  try {
-    if (match) parsed = JSON.parse(match[0]);
-  } catch {}
+  // Extract the first balanced JSON object (avoids greedy regex cutting across braces)
+  function extractFirstJSON(str: string): string | null {
+    const start = str.indexOf("{");
+    if (start === -1) return null;
+    let depth = 0;
+    for (let i = start; i < str.length; i++) {
+      if (str[i] === "{") depth++;
+      else if (str[i] === "}") { depth--; if (depth === 0) return str.slice(start, i + 1); }
+    }
+    return null;
+  }
 
-  // Pass through all recipe fields including steps and ingredients
-  const recipes = (parsed.recipes || []).slice(0, 4).map((recipe: any) => ({
+  const jsonStr = extractFirstJSON(text);
+  let parsed: any = null;
+  if (jsonStr) {
+    try { parsed = JSON.parse(jsonStr); } catch (e) {
+      return res.status(500).json({ error: "Réponse IA invalide (JSON malformé)", detail: jsonStr.slice(0, 500) });
+    }
+  }
+
+  if (!parsed || (!parsed.ingredients?.length && !parsed.recipes?.length)) {
+    return res.status(500).json({ error: "Aucun aliment détecté dans la photo. Essayez avec une image plus nette ou mieux éclairée.", detail: text.slice(0, 300) });
+  }
+
+  const baseRecipes = (parsed.recipes || []).slice(0, 3).map((recipe: any) => ({
     title: recipe.title || "Recette",
     time: recipe.time || "15 min",
     calories: recipe.calories || 350,
@@ -68,6 +107,25 @@ export default async function handler(req: any, res: any) {
     ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
     steps: Array.isArray(recipe.steps) ? recipe.steps : [],
   }));
+
+  const pexelsKey = process.env.PEXELS_API_KEY;
+  const recipes = await Promise.all(
+    baseRecipes.map(async (recipe: typeof baseRecipes[number]) => {
+      if (!pexelsKey) return recipe;
+      try {
+        const query = `${recipe.imageSearch} food photography`;
+        const r = await fetch(
+          `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=10&orientation=landscape`,
+          { headers: { Authorization: pexelsKey } }
+        );
+        const d = await r.json() as any;
+        const photos = d.photos || [];
+        const photo = photos[1] || photos[0];
+        if (photo) return { ...recipe, imageUrl: photo.src.large };
+      } catch {}
+      return recipe;
+    })
+  );
 
   res.json({ ingredients: parsed.ingredients || [], recipes });
 }

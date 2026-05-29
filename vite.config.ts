@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 
 function readBody(req: IncomingMessage): Promise<string> {
@@ -17,6 +18,19 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
+      VitePWA({
+        registerType: 'autoUpdate',
+        includeAssets: ['logo.png', 'apple-touch-icon.png'],
+        manifest: false,
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+          runtimeCaching: [{
+            urlPattern: /^https:\/\/images\.pexels\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: { cacheName: 'pexels-images', expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 7 } },
+          }],
+        },
+      }),
       {
         name: 'api-analyze',
         configureServer(server) {
@@ -47,13 +61,13 @@ export default defineConfig(({ mode }) => {
                 },
                 body: JSON.stringify({
                   model: 'claude-sonnet-4-6',
-                  max_tokens: 4000,
+                  max_tokens: 2000,
                   messages: [{
                     role: 'user',
                     content: [
                       {
                         type: 'text',
-                        text: 'Analyse cette photo de frigo. Retourne EXACTEMENT 4 recettes détaillées réalisables avec les ingrédients visibles. Chaque recette doit avoir AU MINIMUM 6 étapes détaillées et précises (températures, durées, techniques). JSON valide uniquement, sans texte avant ou après: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"12 min","calories":380,"difficulty":"Facile","imageSearch":"tomato cheese omelette","ingredients":[{"name":"Oeufs","qty":"3"},{"name":"Tomates","qty":"2"},{"name":"Fromage râpé","qty":"40g"},{"name":"Beurre","qty":"10g"},{"name":"Sel","qty":"1 pincée"},{"name":"Poivre","qty":"1 pincée"}],"steps":["Casser les 3 oeufs dans un bol, ajouter une pincée de sel et de poivre. Battre énergiquement à la fourchette pendant 1 minute jusqu\'à obtenir un mélange homogène et légèrement mousseux.","Laver les tomates et les couper en petits dés de 1 cm. Égoutter sur du papier absorbant pour retirer l\'excès d\'eau.","Faire chauffer une poêle antiadhésive de 24 cm à feu moyen (6/9). Ajouter le beurre et le laisser fondre sans le brûler jusqu\'à ce qu\'il mousse légèrement.","Verser les oeufs battus dans la poêle. Avec une spatule souple, ramener délicatement les bords vers le centre tout en inclinant la poêle pour que l\'oeuf liquide se répande.","Quand l\'omelette est encore légèrement baveuse sur le dessus (après environ 2-3 min), déposer les dés de tomate et le fromage râpé sur une moitié de l\'omelette.","Plier délicatement l\'omelette en deux à l\'aide de la spatule. Laisser cuire encore 30 secondes pour faire fondre le fromage. Glisser sur l\'assiette et servir immédiatement."]}]}',
+                        text: 'Analyse cette photo de frigo. Retourne EXACTEMENT 3 recettes réalisables avec les ingrédients visibles. Étapes : format chef — courtes, précises, avec quantités + températures + durées, sans phrases longues. REGLE ABSOLUE imageSearch : EN ANGLAIS + TYPE DE PLAT SEULEMENT (2 mots max, ZERO ingrédient, ZERO sauce, ZERO adjectif). Exemples corrects: "scrambled eggs", "beef steak", "milkshake", "green salad", "pasta", "chicken soup", "fried rice", "omelette". JAMAIS: "eggs soy milk", "marinated steak citrus". JSON uniquement: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"12 min","calories":380,"difficulty":"Facile","imageSearch":"omelette","ingredients":[{"name":"Oeufs","qty":"3"},{"name":"Tomates","qty":"2"},{"name":"Fromage râpé","qty":"40g"},{"name":"Beurre","qty":"10g"}],"steps":["Battre 3 oeufs + sel + poivre à la fourchette 1 min, légère mousse","Couper 2 tomates en dés 1cm, égoutter papier absorbant","Poêle 24cm feu moyen (6/9), fondre 10g beurre sans brûler","Verser oeufs, spatule : ramener bords au centre + incliner poêle, 2-3 min","Garnir une moitié : tomates + 40g fromage, plier, couvrir 30s, servir"]}]}',
                       },
                       {
                         type: 'image',
@@ -77,16 +91,22 @@ export default defineConfig(({ mode }) => {
               let parsed: any = { ingredients: [], recipes: [] }
               try { if (match) parsed = JSON.parse(match[0]) } catch {}
 
+              const pexelsKey = env.PEXELS_API_KEY
               const recipesWithImages = await Promise.all(
-                (parsed.recipes || []).slice(0, 4).map(async (recipe: any) => {
-                  const searchTerm = recipe.imageSearch || recipe.title
-                  let imageUrl = ''
+                (parsed.recipes || []).slice(0, 3).map(async (recipe: any) => {
+                  if (!pexelsKey) return recipe
                   try {
-                    const mealRes = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(searchTerm)}`)
-                    const mealData = await mealRes.json() as any
-                    if (mealData.meals?.[0]?.strMealThumb) imageUrl = mealData.meals[0].strMealThumb
+                    const query = `${recipe.imageSearch || recipe.title} food photography`
+                    const pexRes = await fetch(
+                      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=10&orientation=landscape`,
+                      { headers: { Authorization: pexelsKey } }
+                    )
+                    const pexData = await pexRes.json() as any
+                    const photos = pexData.photos || []
+                    const photo = photos[1] || photos[0]
+                    if (photo) return { ...recipe, imageUrl: photo.src.large }
                   } catch {}
-                  return { ...recipe, imageUrl }
+                  return recipe
                 })
               )
 

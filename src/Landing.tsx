@@ -285,7 +285,10 @@ function Nav({ onOpen }: { onOpen: () => void }) {
   return (
     <nav style={{
       position:"fixed",top:0,left:0,right:0,zIndex:200,
-      padding:"16px 48px",
+      paddingTop:"calc(16px + env(safe-area-inset-top))",
+      paddingBottom:"16px",
+      paddingLeft:"48px",
+      paddingRight:"48px",
       background: scrolled ? "rgba(7,7,14,.92)" : "transparent",
       backdropFilter: scrolled ? "blur(22px)" : "none",
       borderBottom: scrolled ? "1px solid rgba(255,255,255,.06)" : "none",
@@ -310,7 +313,7 @@ function Nav({ onOpen }: { onOpen: () => void }) {
 }
 
 // ── Hero ──────────────────────────────────────────────────────────────────────
-function Hero({ onOpen }: { onOpen: () => void }) {
+function Hero({ onOpen, onInstall }: { onOpen: () => void; onInstall?: () => void }) {
   const orb1 = useRef<HTMLDivElement>(null);
   const orb2 = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -354,9 +357,11 @@ function Hero({ onOpen }: { onOpen: () => void }) {
             <button onClick={onOpen} style={{ padding:"16px 34px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:800,fontSize:16,boxShadow:"0 10px 38px rgba(255,107,53,.38)" }}>
               Démarrer 4 jours gratuits
             </button>
-            <button style={{ padding:"16px 34px",background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.1)",borderRadius:100,color:C.text,fontWeight:700,fontSize:16 }}>
-              ▶ Voir une démo
-            </button>
+            {onInstall && (
+              <button onClick={onInstall} style={{ padding:"16px 28px",background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:100,color:C.text,fontWeight:700,fontSize:15,display:"flex",alignItems:"center",gap:8 }}>
+                📲 Télécharger l'app
+              </button>
+            )}
           </div>
 
           <div style={{ display:"flex",alignItems:"center",gap:14,animation:"fadeIn .8s ease .36s both" }}>
@@ -448,58 +453,15 @@ function HowItWorks() {
 
 // ── Stats ─────────────────────────────────────────────────────────────────────
 function Stats() {
-  const data = [["4 800+","Utilisateurs actifs"],["98%","Précision IA"],["120k+","Recettes générées"],["2,3 kg","Gaspillage évité/mois"]];
   return (
-    <section style={{ background:"rgba(255,255,255,.016)",borderTop:"1px solid rgba(255,255,255,.06)",borderBottom:"1px solid rgba(255,255,255,.06)",padding:"72px 48px" }}>
-      <div style={{ maxWidth:960,margin:"0 auto",display:"flex",flexWrap:"wrap" }}>
-        {data.map(([n,l],i)=>(
-          <R key={i} delay={i*.09} style={{ flex:1,minWidth:180,textAlign:"center",padding:"28px 20px",borderRight:i<3?"1px solid rgba(255,255,255,.06)":"none" }}>
-            <div style={{ fontSize:44,fontWeight:900,...gradText,marginBottom:8 }}>{n}</div>
-            <div style={{ fontSize:13,color:C.muted }}>{l}</div>
-          </R>
-        ))}
+    <section style={{ background:"rgba(255,255,255,.016)",borderTop:"1px solid rgba(255,255,255,.06)",borderBottom:"1px solid rgba(255,255,255,.06)",padding:"72px 16px" }}>
+      <div style={{ maxWidth:960,margin:"0 auto",display:"flex",justifyContent:"center" }}>
+        <R delay={0} style={{ textAlign:"center",padding:"28px 16px",width:"100%",overflow:"visible" }}>
+          <div style={{ fontSize:"clamp(40px,12vw,64px)",fontWeight:900,...gradText,marginBottom:8,lineHeight:1.4,paddingBottom:12,display:"inline-block" }}>2,3 kg</div>
+          <div style={{ fontSize:14,color:C.muted }}>Gaspillage évité par mois</div>
+        </R>
       </div>
     </section>
-  );
-}
-
-// ── Feature block ─────────────────────────────────────────────────────────────
-function Feat({ eyebrow, title, desc, points, icon, reverse }: {
-  eyebrow: string; title: string; desc: string; points: string[]; icon: string; reverse?: boolean;
-}) {
-  const [ref, vis] = useReveal(.08);
-  return (
-    <div ref={ref} className="land-feat" style={{
-      display:"flex",gap:70,alignItems:"center",flexWrap:"wrap",
-      flexDirection: reverse ? "row-reverse" : "row",
-      marginBottom:110,
-      opacity: vis ? 1 : 0,
-      transform: vis ? "none" : "translateY(44px)",
-      transition:"opacity .85s ease, transform .85s ease",
-    }}>
-      <div style={{ flex:1,minWidth:300 }}>
-        <div style={{ fontSize:11,fontWeight:700,color:"#2ECC71",letterSpacing:3,textTransform:"uppercase",marginBottom:16 }}>{eyebrow}</div>
-        <h2 style={{ fontSize:"clamp(26px,3.4vw,44px)",fontWeight:900,letterSpacing:-1,color:C.text,marginBottom:16,lineHeight:1.18 }}>{title}</h2>
-        <p style={{ fontSize:16,color:C.muted,lineHeight:1.82,marginBottom:28 }}>{desc}</p>
-        <ul style={{ listStyle:"none",display:"flex",flexDirection:"column",gap:12 }}>
-          {points.map((p,i)=>(
-            <li key={i} style={{ display:"flex",gap:12,alignItems:"flex-start",fontSize:15,color:C.text }}>
-              <span style={{ color:"#2ECC71",fontWeight:900,marginTop:2,flexShrink:0 }}>✓</span>{p}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div style={{
-        flex:1,minWidth:280,maxWidth:380,aspectRatio:"1",
-        background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.07)",
-        borderRadius:32,display:"flex",alignItems:"center",justifyContent:"center",
-        opacity: vis ? 1 : 0,
-        transform: vis ? "none" : `translateX(${reverse?-44:44}px)`,
-        transition:"opacity .85s ease .18s, transform .85s ease .18s",
-      }}>
-        <span style={{ fontSize:96,animation:"floatY 4.5s ease-in-out infinite" }}>{icon}</span>
-      </div>
-    </div>
   );
 }
 
@@ -637,14 +599,76 @@ function CTA({ onOpen }: { onOpen: () => void }) {
   );
 }
 
+// ── Legal Modal ───────────────────────────────────────────────────────────────
+function LegalModal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [onClose]);
+  return (
+    <div style={{ position:"fixed",inset:0,zIndex:9999,background:"rgba(0,0,0,0.85)",display:"flex",alignItems:"center",justifyContent:"center",padding:24 }} onClick={onClose}>
+      <div onClick={e=>e.stopPropagation()} style={{ background:"#12121A",border:"1px solid rgba(255,255,255,0.1)",borderRadius:20,padding:40,maxWidth:680,width:"100%",maxHeight:"80vh",overflowY:"auto" }}>
+        <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:28 }}>
+          <h2 style={{ fontSize:22,fontWeight:900,color:C.text }}>{title}</h2>
+          <button onClick={onClose} style={{ background:"none",border:"none",color:C.muted,fontSize:22,lineHeight:1 }}>✕</button>
+        </div>
+        <div style={{ color:"rgba(255,255,255,0.7)",fontSize:14,lineHeight:1.8 }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
 // ── Footer ────────────────────────────────────────────────────────────────────
 function Footer() {
-  const cols = [
-    { title:"Produit",links:["Fonctionnalités","Tarifs","Roadmap","Changelog"] },
-    { title:"Ressources",links:["Blog recettes","Guide nutrition","Centre d'aide"] },
-    { title:"Légal",links:["CGU","Confidentialité","Cookies","RGPD"] },
-  ];
+  const [modal, setModal] = useState<"cgu"|"confidentialite"|"mentions"|null>(null);
+  const s = { heading:{ fontWeight:700,color:C.text,marginTop:20,marginBottom:6,display:"block" } as React.CSSProperties };
+
   return (
+    <>
+    {modal === "mentions" && (
+      <LegalModal title="Mentions légales" onClose={() => setModal(null)}>
+        <span style={s.heading}>Éditeur</span>
+        Frigia — Application web éditée par un particulier.<br />
+        Contact : <a href="mailto:contact.frigia@gmail.com" style={{ color:C.orange }}>contact.frigia@gmail.com</a>
+        <span style={s.heading}>Hébergement</span>
+        Vercel Inc., 340 Pine Street Suite 900, San Francisco, CA 94104, USA.
+        <span style={s.heading}>Propriété intellectuelle</span>
+        L'ensemble du contenu de ce site (textes, images, logo) est protégé par le droit d'auteur. Toute reproduction est interdite sans autorisation.
+      </LegalModal>
+    )}
+    {modal === "cgu" && (
+      <LegalModal title="Conditions Générales d'Utilisation" onClose={() => setModal(null)}>
+        <span style={s.heading}>1. Objet</span>
+        Les présentes CGU régissent l'utilisation de l'application Frigia, service d'analyse de réfrigérateur par intelligence artificielle.
+        <span style={s.heading}>2. Accès au service</span>
+        L'accès à Frigia nécessite la création d'un compte et la souscription à un abonnement. Un essai gratuit de 4 jours est proposé, avec saisie des informations bancaires obligatoire. À l'issue de l'essai, l'abonnement est de 7,99€/mois.
+        <span style={s.heading}>3. Résiliation</span>
+        L'abonnement peut être résilié à tout moment depuis les paramètres de l'application, sans frais. La résiliation prend effet à la fin de la période en cours.
+        <span style={s.heading}>4. Droit de rétractation</span>
+        Conformément à l'article L221-28 du Code de la consommation, le droit de rétractation ne s'applique pas aux contenus numériques fournis immédiatement après souscription.
+        <span style={s.heading}>5. Responsabilité</span>
+        Les recettes générées par l'IA sont fournies à titre indicatif. Frigia ne peut être tenu responsable d'une utilisation inappropriée des suggestions.
+        <span style={s.heading}>6. Contact</span>
+        <a href="mailto:contact.frigia@gmail.com" style={{ color:C.orange }}>contact.frigia@gmail.com</a>
+      </LegalModal>
+    )}
+    {modal === "confidentialite" && (
+      <LegalModal title="Politique de confidentialité" onClose={() => setModal(null)}>
+        <span style={s.heading}>Données collectées</span>
+        Frigia collecte : adresse e-mail, photos de réfrigérateur (traitées et non stockées), historique des recettes, favoris.
+        <span style={s.heading}>Finalité</span>
+        Ces données sont utilisées uniquement pour fournir le service (génération de recettes, historique personnel). Elles ne sont jamais vendues à des tiers.
+        <span style={s.heading}>Hébergement des données</span>
+        Vos données sont stockées sur Supabase (UE) et traitées par Anthropic pour l'analyse IA.
+        <span style={s.heading}>Durée de conservation</span>
+        Vos données sont conservées tant que votre compte est actif. Elles sont supprimées intégralement à la suppression du compte.
+        <span style={s.heading}>Vos droits (RGPD)</span>
+        Vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits : <a href="mailto:contact.frigia@gmail.com" style={{ color:C.orange }}>contact.frigia@gmail.com</a>
+        <span style={s.heading}>Cookies</span>
+        Frigia n'utilise pas de cookies de suivi ou publicitaires.
+      </LegalModal>
+    )}
     <footer style={{ borderTop:"1px solid rgba(255,255,255,.07)",padding:"60px 48px 32px",background:"rgba(0,0,0,.28)" }}>
       <div style={{ maxWidth:1100,margin:"0 auto" }}>
         <div style={{ display:"flex",gap:48,flexWrap:"wrap",marginBottom:48 }}>
@@ -656,13 +680,18 @@ function Footer() {
             <p style={{ color:C.muted,fontSize:14,lineHeight:1.75,maxWidth:260 }}>
               Votre Chef IA personnel.<br />4 jours gratuits, puis 7,99€/mois.
             </p>
+            <p style={{ color:C.muted,fontSize:13,marginTop:12 }}>
+              <a href="mailto:contact.frigia@gmail.com" style={{ color:C.muted }} onMouseEnter={e=>(e.currentTarget.style.color=C.text)} onMouseLeave={e=>(e.currentTarget.style.color=C.muted)}>contact.frigia@gmail.com</a>
+            </p>
           </div>
-          {cols.map(col=>(
-            <div key={col.title} style={{ flex:1,minWidth:140 }}>
-              <div style={{ fontWeight:700,fontSize:11,color:C.text,marginBottom:16,textTransform:"uppercase",letterSpacing:1 }}>{col.title}</div>
-              {col.links.map(l=><div key={l} style={{ marginBottom:10 }}><a href="#" style={{ color:C.muted,fontSize:14,transition:"color .2s" }} onMouseEnter={e=>(e.currentTarget.style.color=C.text)} onMouseLeave={e=>(e.currentTarget.style.color=C.muted)}>{l}</a></div>)}
-            </div>
-          ))}
+          <div style={{ flex:1,minWidth:140 }}>
+            <div style={{ fontWeight:700,fontSize:11,color:C.text,marginBottom:16,textTransform:"uppercase",letterSpacing:1 }}>Légal</div>
+            {([["Mentions légales","mentions"],["CGU","cgu"],["Confidentialité & RGPD","confidentialite"]] as const).map(([label,key])=>(
+              <div key={key} style={{ marginBottom:10 }}>
+                <button onClick={()=>setModal(key)} style={{ background:"none",border:"none",padding:0,color:C.muted,fontSize:14,cursor:"pointer",transition:"color .2s" }} onMouseEnter={e=>(e.currentTarget.style.color=C.text)} onMouseLeave={e=>(e.currentTarget.style.color=C.muted)}>{label}</button>
+              </div>
+            ))}
+          </div>
         </div>
         <div style={{ borderTop:"1px solid rgba(255,255,255,.07)",paddingTop:24,display:"flex",justifyContent:"space-between",flexWrap:"wrap",gap:16,fontSize:13,color:C.muted }}>
           <span>© 2026 Frigia. Tous droits réservés.</span>
@@ -670,6 +699,7 @@ function Footer() {
         </div>
       </div>
     </footer>
+    </>
   );
 }
 
@@ -677,39 +707,46 @@ function Footer() {
 export default function Landing() {
   const [authOpen, setAuthOpen] = useState(false);
   const open = useCallback(() => setAuthOpen(true), []);
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [showIosHint, setShowIosHint] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: Event) => { e.preventDefault(); setInstallPrompt(e); };
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  const handleInstall = async () => {
+    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    if (installPrompt) {
+      installPrompt.prompt();
+      await installPrompt.userChoice;
+      setInstallPrompt(null);
+    } else if (isIos) {
+      setShowIosHint(true);
+    }
+  };
+
+  const isInstallable = !!installPrompt || /iphone|ipad|ipod/i.test(navigator.userAgent);
 
   return (
     <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden" }}>
       <style>{CSS}</style>
+      {showIosHint && (
+        <div style={{ position:"fixed",bottom:24,left:16,right:16,zIndex:9999,background:"#1A1A2E",border:"1px solid rgba(255,255,255,0.15)",borderRadius:20,padding:"20px 24px",textAlign:"center",boxShadow:"0 20px 60px rgba(0,0,0,0.6)" }}>
+          <div style={{ fontSize:22,marginBottom:8 }}>📲</div>
+          <div style={{ fontWeight:700,color:C.text,marginBottom:6 }}>Installer Frigia</div>
+          <div style={{ fontSize:13,color:C.muted,lineHeight:1.6,marginBottom:16 }}>
+            Appuyez sur <strong style={{color:C.text}}>Partager</strong> puis <strong style={{color:C.text}}>"Sur l'écran d'accueil"</strong>
+          </div>
+          <button onClick={() => setShowIosHint(false)} style={{ background:"none",border:`1px solid rgba(255,255,255,0.2)`,borderRadius:100,padding:"8px 20px",color:C.text,fontSize:13,cursor:"pointer" }}>Fermer</button>
+        </div>
+      )}
       <Nav onOpen={open} />
-      <Hero onOpen={open} />
+      <Hero onOpen={open} onInstall={isInstallable ? handleInstall : undefined} />
       <Marquee />
       <HowItWorks />
       <Stats />
-      <section style={{ padding:"100px 48px",maxWidth:1100,margin:"0 auto" }}>
-        <Feat
-          eyebrow="Intelligence artificielle"
-          icon="🤖"
-          title="Détection IA ultra-précise"
-          desc="Notre IA analyse votre frigo en quelques secondes et identifie chaque aliment avec une précision de 98%."
-          points={["Reconnaissance de +200 types d'aliments","Détection des dates de péremption","Estimation des quantités","Mise à jour en temps réel"]}
-        />
-        <Feat
-          eyebrow="Recettes personnalisées"
-          icon="🍽️"
-          title="Des recettes faites pour vous"
-          desc="Chaque suggestion est adaptée à vos ingrédients, vos préférences alimentaires et votre niveau en cuisine."
-          points={["Filtres : vegan, gluten-free, keto…","Tri par temps et calories","Étapes détaillées avec photos","Partage facile avec la famille"]}
-          reverse
-        />
-        <Feat
-          eyebrow="Chef IA"
-          icon="👨‍🍳"
-          title="Votre assistant culinaire 24h/24"
-          desc="Posez n'importe quelle question à votre Chef IA. Il connaît des milliers de recettes et s'adapte à chaque situation."
-          points={["Conseils en temps réel","Substitution d'ingrédients","Suggestions anti-gaspi","Mémorisation de vos préférences"]}
-        />
-      </section>
       <Testimonials />
       <Pricing onOpen={open} />
       <FAQ />
