@@ -793,7 +793,7 @@ function InstallHint({ onClose }: { onClose: () => void }) {
       )}
       {arrow === "top-right" && (
         <div style={{ position:"absolute",top:16,right:24,pointerEvents:"none",display:"flex",flexDirection:"column",alignItems:"center" }}>
-          <div style={{ fontSize:40,animation:"bounceUp 1s ease-in-out infinite",color:C.orange,lineHeight:1,transform:"rotate(180deg)" }}>↓</div>
+          <div style={{ fontSize:40,animation:"bounceUp 1s ease-in-out infinite",color:C.orange,lineHeight:1 }}>↑</div>
         </div>
       )}
       <div
