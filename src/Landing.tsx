@@ -465,6 +465,49 @@ function Stats() {
   );
 }
 
+// ── Testimonials Marquee ──────────────────────────────────────────────────────
+function TestimonialsMarquee() {
+  const items = [
+    { name:"Sophie M.",role:"Maman de 3 enfants",text:"Fini le gaspillage et les repas répétitifs. Frigia a changé mon quotidien.",emoji:"👩",stars:5 },
+    { name:"Thomas D.",role:"Étudiant en médecine",text:"Je mange sain avec un budget serré. L'IA génère des recettes créatives en quelques secondes.",emoji:"👨",stars:5 },
+    { name:"Amélie R.",role:"Chef amateur",text:"Des combinaisons auxquelles je n'aurais jamais pensé seule. Incroyable !",emoji:"🧑",stars:5 },
+    { name:"Lucas B.",role:"Sportif",text:"Les macros et calories calculées automatiquement. Mon coach est jaloux.",emoji:"👨‍🍳",stars:5 },
+    { name:"Camille V.",role:"Végétarienne",text:"Enfin des recettes vegan créatives à partir de ce que j'ai déjà. Parfait.",emoji:"👩‍🍳",stars:5 },
+    { name:"Marc L.",role:"Père de famille",text:"On ne jette plus rien depuis qu'on utilise Frigia. Les enfants adorent choisir les recettes.",emoji:"👨",stars:5 },
+    { name:"Inès F.",role:"Étudiante",text:"Budget ultra serré, zéro gaspillage. L'app m'a sauvé la mise chaque semaine.",emoji:"👩",stars:5 },
+    { name:"Kevin T.",role:"Cuisinier passionné",text:"La précision de détection est bluffante. 98% c'est vraiment exact.",emoji:"🧑",stars:5 },
+  ];
+  const all = [...items, ...items];
+  return (
+    <div style={{ overflow:"hidden", padding:"36px 0", background:"rgba(255,255,255,.012)", borderBottom:"1px solid rgba(255,255,255,.06)", userSelect:"none" }}>
+      <div style={{ display:"flex", gap:20, whiteSpace:"nowrap", animation:"marquee 40s linear infinite", width:"max-content", alignItems:"stretch" }}>
+        {all.map((item, i) => (
+          <div key={i} style={{
+            display:"inline-flex", flexDirection:"column", justifyContent:"space-between",
+            width:280, whiteSpace:"normal",
+            background:"rgba(255,255,255,.04)",
+            border:"1px solid rgba(255,255,255,.08)",
+            borderRadius:20, padding:"20px 22px",
+            flexShrink:0, verticalAlign:"top",
+          }}>
+            <div>
+              <div style={{ color:"#FFB800", fontSize:13, letterSpacing:2, marginBottom:10 }}>{"★".repeat(item.stars)}</div>
+              <p style={{ fontSize:13, color:"rgba(255,255,255,.82)", lineHeight:1.7, marginBottom:14, fontStyle:"italic" }}>"{item.text}"</p>
+            </div>
+            <div style={{ display:"flex", gap:10, alignItems:"center" }}>
+              <div style={{ width:32, height:32, borderRadius:"50%", background:`hsl(${i*44},60%,35%)`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, flexShrink:0 }}>{item.emoji}</div>
+              <div>
+                <div style={{ fontWeight:700, color:C.text, fontSize:12 }}>{item.name}</div>
+                <div style={{ fontSize:11, color:C.muted }}>{item.role}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Testimonials ──────────────────────────────────────────────────────────────
 function Testimonials() {
   const t = [
@@ -747,6 +790,7 @@ export default function Landing() {
       <Marquee />
       <HowItWorks />
       <Stats />
+      <TestimonialsMarquee />
       <Testimonials />
       <Pricing onOpen={open} />
       <FAQ />
