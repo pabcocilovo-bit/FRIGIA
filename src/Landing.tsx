@@ -582,32 +582,6 @@ function FAQ() {
 }
 
 // ── CTA ───────────────────────────────────────────────────────────────────────
-function CTA({ onOpen }: { onOpen: () => void }) {
-  return (
-    <section style={{ padding:"120px 48px",textAlign:"center",position:"relative",overflow:"hidden",background:"linear-gradient(180deg,transparent,rgba(255,107,53,.055) 50%,transparent)" }}>
-      <div style={{ position:"absolute",inset:0,pointerEvents:"none",backgroundImage:"linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px)",backgroundSize:"90px 90px" }} />
-      <R style={{ position:"relative",zIndex:1 }}>
-        <h2 style={{ fontSize:"clamp(34px,5.5vw,68px)",fontWeight:900,letterSpacing:-2.5,marginBottom:20,color:C.text,lineHeight:1.04 }}>
-          Votre frigo cache des{" "}
-          <span style={gradText}>recettes<br />extraordinaires</span>
-        </h2>
-        <p style={{ color:C.muted,fontSize:18,marginBottom:46,lineHeight:1.65 }}>
-          4 jours gratuits · Puis 7,99€/mois · Résiliable à tout moment.
-        </p>
-        <div style={{ display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap" }}>
-          <button onClick={onOpen} style={{ padding:"18px 46px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:800,fontSize:18,boxShadow:"0 14px 50px rgba(255,107,53,.42)" }}>
-            Démarrer gratuitement
-          </button>
-          <button style={{ padding:"18px 46px",background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.1)",borderRadius:100,color:C.text,fontWeight:700,fontSize:18 }}>
-            Télécharger l'app
-          </button>
-        </div>
-        <p style={{ color:C.muted,fontSize:13,marginTop:22 }}>✓ 4 jours gratuits · ✓ Sans engagement · ✓ Résiliable en un clic</p>
-      </R>
-    </section>
-  );
-}
-
 // ── Legal Modal ───────────────────────────────────────────────────────────────
 function LegalModal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
   useEffect(() => {
@@ -759,7 +733,6 @@ export default function Landing() {
       <TestimonialsMarquee />
       <Pricing onOpen={open} />
       <FAQ />
-      <CTA onOpen={open} />
       <Footer />
       {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
     </div>
