@@ -509,40 +509,6 @@ function TestimonialsMarquee() {
 }
 
 // ── Testimonials ──────────────────────────────────────────────────────────────
-function Testimonials() {
-  const t = [
-    { name:"Sophie M.",role:"Maman de 3 enfants",text:"Je cuisine maintenant avec ce que j'ai. Fini le gaspillage et les repas répétitifs. Frigia a changé mon quotidien.",stars:5 },
-    { name:"Thomas D.",role:"Étudiant en médecine",text:"Je mange sain avec un budget serré et sans planification. L'IA génère des recettes créatives en quelques secondes.",stars:5 },
-    { name:"Amélie R.",role:"Chef amateur",text:"Les recettes sont vraiment créatives. J'ai découvert des combinaisons auxquelles je n'aurais jamais pensé seule.",stars:5 },
-  ];
-  return (
-    <section style={{ padding:"100px 48px" }}>
-      <R style={{ textAlign:"center",marginBottom:64 }}>
-        <div style={{ fontSize:11,fontWeight:700,color:C.orange,letterSpacing:4,textTransform:"uppercase",marginBottom:16 }}>Témoignages</div>
-        <h2 style={{ fontSize:"clamp(28px,4vw,50px)",fontWeight:900,letterSpacing:-1,color:C.text }}>
-          Ils <span style={gradText}>adorent</span> Frigia
-        </h2>
-      </R>
-      <div style={{ maxWidth:1020,margin:"0 auto",display:"flex",gap:22,flexWrap:"wrap",justifyContent:"center" }}>
-        {t.map((r,i)=>(
-          <R key={i} delay={i*.12} style={{ flex:1,minWidth:290,maxWidth:320 }}>
-            <div style={{ background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.07)",borderRadius:24,padding:28,height:"100%" }}>
-              <div style={{ color:"#FFB800",fontSize:16,marginBottom:14,letterSpacing:2 }}>{"★".repeat(r.stars)}</div>
-              <p style={{ fontSize:15,color:C.text,lineHeight:1.78,marginBottom:22,fontStyle:"italic" }}>"{r.text}"</p>
-              <div style={{ display:"flex",gap:12,alignItems:"center" }}>
-                <div style={{ width:40,height:40,borderRadius:"50%",background:grad,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0 }}>👤</div>
-                <div>
-                  <div style={{ fontWeight:700,color:C.text,fontSize:14 }}>{r.name}</div>
-                  <div style={{ fontSize:12,color:C.muted }}>{r.role}</div>
-                </div>
-              </div>
-            </div>
-          </R>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 // ── Pricing ───────────────────────────────────────────────────────────────────
 function Pricing({ onOpen }: { onOpen: () => void }) {
@@ -791,7 +757,6 @@ export default function Landing() {
       <HowItWorks />
       <Stats />
       <TestimonialsMarquee />
-      <Testimonials />
       <Pricing onOpen={open} />
       <FAQ />
       <CTA onOpen={open} />
