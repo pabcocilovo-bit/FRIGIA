@@ -787,15 +787,13 @@ function InstallHint({ onClose }: { onClose: () => void }) {
   return (
     <div onClick={onClose} style={{ position:"fixed",inset:0,zIndex:9999,background:"rgba(0,0,0,0.65)",backdropFilter:"blur(6px)" }}>
       {arrow === "bottom-right" && (
-        <div style={{ position:"absolute",bottom:12,right:20,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4,pointerEvents:"none" }}>
-          <div style={{ fontSize:13,fontWeight:700,color:"#fff",background:"rgba(255,107,53,0.95)",padding:"6px 14px",borderRadius:100,whiteSpace:"nowrap" }}>Appuyez ici ↓</div>
-          <div style={{ fontSize:32,animation:"bounceUp 1s ease-in-out infinite",color:C.orange,alignSelf:"center" }}>↓</div>
+        <div style={{ position:"absolute",bottom:16,right:24,pointerEvents:"none",display:"flex",flexDirection:"column",alignItems:"center" }}>
+          <div style={{ fontSize:40,animation:"bounceUp 1s ease-in-out infinite",color:C.orange,lineHeight:1 }}>↓</div>
         </div>
       )}
       {arrow === "top-right" && (
-        <div style={{ position:"absolute",top:60,right:20,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4,pointerEvents:"none" }}>
-          <div style={{ fontSize:32,animation:"bounceUp 1s ease-in-out infinite",color:C.orange,transform:"rotate(180deg)" }}>↓</div>
-          <div style={{ fontSize:13,fontWeight:700,color:"#fff",background:"rgba(255,107,53,0.95)",padding:"6px 14px",borderRadius:100,whiteSpace:"nowrap" }}>Appuyez ici ↑</div>
+        <div style={{ position:"absolute",top:16,right:24,pointerEvents:"none",display:"flex",flexDirection:"column",alignItems:"center" }}>
+          <div style={{ fontSize:40,animation:"bounceUp 1s ease-in-out infinite",color:C.orange,lineHeight:1,transform:"rotate(180deg)" }}>↓</div>
         </div>
       )}
       <div
