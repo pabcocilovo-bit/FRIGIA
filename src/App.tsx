@@ -1856,41 +1856,40 @@ function HistoryTab({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
       {history.map((entry) => (
-        <div key={entry.id} style={{ ...glassCard(theme), padding: 24 }}>
+        <div key={entry.id} style={{ ...glassCard(theme), padding: 24, position: "relative" }}>
+          {/* Trash button — top-right corner */}
+          {confirmDeleteId === entry.id ? (
+            <div style={{ position: "absolute", top: 16, right: 16, display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ fontSize: 12, color: "#e74c3c", fontWeight: 600 }}>Supprimer ?</span>
+              <button
+                onClick={() => { onDeleteScan(entry.id); setConfirmDeleteId(null); }}
+                style={{ padding: "5px 12px", borderRadius: 8, border: "none", background: "#e74c3c", color: "#fff", fontSize: 12, fontWeight: 700, cursor: "pointer" }}
+              >Oui</button>
+              <button
+                onClick={() => setConfirmDeleteId(null)}
+                style={{ padding: "5px 10px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", background: "none", color: v.muted, fontSize: 12, cursor: "pointer" }}
+              >Non</button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setConfirmDeleteId(entry.id)}
+              title="Supprimer ce scan"
+              style={{ position: "absolute", top: 16, right: 16, width: 30, height: 30, borderRadius: "50%", border: "1px solid rgba(231,76,60,0.3)", background: "rgba(231,76,60,0.08)", color: "#e74c3c", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}
+            >🗑️</button>
+          )}
           {/* Entry header */}
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-              <div style={{ fontWeight: 800, fontSize: 15, color: v.text }}>
-                {entry.date.toLocaleDateString("fr-FR", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}{" "}
-                à{" "}
-                {entry.date.toLocaleTimeString("fr-FR", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </div>
-              {confirmDeleteId === entry.id ? (
-                <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
-                  <span style={{ fontSize: 12, color: "#e74c3c", fontWeight: 600 }}>Supprimer ?</span>
-                  <button
-                    onClick={() => { onDeleteScan(entry.id); setConfirmDeleteId(null); }}
-                    style={{ padding: "5px 12px", borderRadius: 8, border: "none", background: "#e74c3c", color: "#fff", fontSize: 12, fontWeight: 700, cursor: "pointer" }}
-                  >Oui</button>
-                  <button
-                    onClick={() => setConfirmDeleteId(null)}
-                    style={{ padding: "5px 10px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", background: "none", color: v.muted, fontSize: 12, cursor: "pointer" }}
-                  >Non</button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setConfirmDeleteId(entry.id)}
-                  title="Supprimer ce scan"
-                  style={{ flexShrink: 0, width: 30, height: 30, borderRadius: "50%", border: "1px solid rgba(231,76,60,0.3)", background: "rgba(231,76,60,0.08)", color: "#e74c3c", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}
-                >🗑️</button>
-              )}
+          <div style={{ marginBottom: 16, paddingRight: 42 }}>
+            <div style={{ fontWeight: 800, fontSize: 15, color: v.text }}>
+              {entry.date.toLocaleDateString("fr-FR", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}{" "}
+              à{" "}
+              {entry.date.toLocaleTimeString("fr-FR", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
             </div>
             <div style={{ fontSize: 13, color: v.muted, marginTop: 3 }}>
               👥 {entry.servings} personne{entry.servings > 1 ? "s" : ""}{" "}
