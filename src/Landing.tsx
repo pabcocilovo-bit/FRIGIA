@@ -688,6 +688,204 @@ function Footer() {
   );
 }
 
+// ── Onboarding ────────────────────────────────────────────────────────────────
+function Onboarding({ onComplete }: { onComplete: () => void }) {
+  const [step, setStep] = useState(0);
+  const [equipment, setEquipment] = useState<string[]>([]);
+  const [equipOther, setEquipOther] = useState("");
+  const [goal, setGoal] = useState("");
+  const [diet, setDiet] = useState<string[]>([]);
+  const [time, setTime] = useState("");
+
+  const steps = [
+    {
+      id: "equipment", optional: true, multi: true,
+      title: "Tu as un équipement\nparticulier ?",
+      sub: "On adaptera les recettes à ce que tu as",
+      options: [
+        { id:"airfryer",  icon:"🔥", label:"AirFryer"  },
+        { id:"moulinex",  icon:"🥣", label:"Moulinex"  },
+        { id:"thermomix", icon:"⚙️", label:"Thermomix" },
+        { id:"autre",     icon:"✏️", label:"Autre"      },
+      ],
+    },
+    {
+      id: "goal", optional: false, multi: false,
+      title: "Ton objectif\nprincipal ?",
+      sub: "On se concentrera sur ce qui compte pour toi",
+      options: [
+        { id:"healthy", icon:"🥗", label:"Manger sain"      },
+        { id:"nogaspi", icon:"♻️", label:"Zéro gaspillage"  },
+        { id:"quick",   icon:"⚡", label:"Gagner du temps"  },
+      ],
+    },
+    {
+      id: "diet", optional: false, multi: true,
+      title: "Tu manges\ncomment ?",
+      sub: "On te proposera uniquement des recettes adaptées",
+      options: [
+        { id:"all",        icon:"🍖", label:"Tout"         },
+        { id:"veggie",     icon:"🥦", label:"Végétarien"   },
+        { id:"vegan",      icon:"🌱", label:"Vegan"        },
+        { id:"glutenfree", icon:"🌾", label:"Sans gluten"  },
+      ],
+    },
+    {
+      id: "time", optional: false, multi: false,
+      title: "Combien de temps\npour cuisiner ?",
+      sub: "On calibre la complexité des recettes",
+      options: [
+        { id:"15min", icon:"⚡",  label:"Moins de 15 min" },
+        { id:"30min", icon:"🕐",  label:"30 minutes"      },
+        { id:"any",   icon:"👨‍🍳", label:"Peu importe"     },
+      ],
+    },
+  ];
+
+  const cur = steps[step];
+
+  const isSelected = (id: string) => {
+    if (cur.id === "equipment") return equipment.includes(id);
+    if (cur.id === "goal") return goal === id;
+    if (cur.id === "diet") return diet.includes(id);
+    if (cur.id === "time") return time === id;
+    return false;
+  };
+
+  const toggle = (id: string) => {
+    if (cur.id === "equipment") {
+      setEquipment(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+    } else if (cur.id === "goal") {
+      setGoal(id);
+    } else if (cur.id === "diet") {
+      if (id === "all") { setDiet(prev => prev.includes("all") ? [] : ["all"]); return; }
+      setDiet(prev => {
+        const without = prev.filter(x => x !== "all");
+        return without.includes(id) ? without.filter(x => x !== id) : [...without, id];
+      });
+    } else if (cur.id === "time") {
+      setTime(id);
+    }
+  };
+
+  const canContinue = () => {
+    if (cur.optional) return true;
+    if (cur.id === "goal") return !!goal;
+    if (cur.id === "diet") return diet.length > 0;
+    if (cur.id === "time") return !!time;
+    return true;
+  };
+
+  const goNext = () => {
+    if (!canContinue()) return;
+    if (step < steps.length - 1) { setStep(s => s + 1); }
+    else onComplete();
+  };
+
+  const goBack = () => {
+    if (step > 0) { setStep(s => s - 1); }
+  };
+  const showOther = cur.id === "equipment" && equipment.includes("autre");
+
+  return (
+    <div style={{ position:"fixed",inset:0,zIndex:500,background:C.bg,display:"flex",flexDirection:"column",overflow:"hidden" }}>
+      {/* Orbs déco */}
+      <div style={{ position:"absolute",width:400,height:400,borderRadius:"50%",background:"radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%)",top:"-10%",right:"-10%",pointerEvents:"none" }} />
+      <div style={{ position:"absolute",width:360,height:360,borderRadius:"50%",background:"radial-gradient(circle,rgba(46,204,113,.09) 0%,transparent 70%)",bottom:"5%",left:"-8%",pointerEvents:"none" }} />
+
+      {/* Header */}
+      <div style={{ padding:"calc(52px + env(safe-area-inset-top)) 28px 0",position:"relative",zIndex:1 }}>
+        {/* Barre de progression */}
+        <div style={{ display:"flex",gap:6,marginBottom:36 }}>
+          {steps.map((_, i) => (
+            <div key={i} style={{ flex:1,height:3,borderRadius:100,overflow:"hidden",background:"rgba(255,255,255,0.08)" }}>
+              <div style={{ height:"100%",background:grad,borderRadius:100,width: i <= step ? "100%" : "0%",transition:"width 0.45s ease" }} />
+            </div>
+          ))}
+        </div>
+
+        {/* Titre */}
+        <div style={{ fontSize:12,color:C.muted,marginBottom:10,fontWeight:600,letterSpacing:1 }}>
+          {step + 1} / {steps.length}
+          {cur.optional && <span style={{ marginLeft:10,color:"rgba(255,255,255,0.2)",fontSize:11 }}>· Facultatif</span>}
+        </div>
+        <h2 style={{ fontSize:"clamp(28px,7vw,40px)",fontWeight:900,color:C.text,lineHeight:1.12,letterSpacing:-1.5,whiteSpace:"pre-line",marginBottom:8 }}>
+          {cur.title}
+        </h2>
+        <p style={{ fontSize:14,color:C.muted,lineHeight:1.6 }}>{cur.sub}</p>
+      </div>
+
+      {/* Options */}
+      <div style={{ flex:1,padding:"28px 28px 0",display:"flex",flexDirection:"column",gap:11,overflowY:"auto",position:"relative",zIndex:1 }}>
+        {cur.options.map(opt => {
+          const sel = isSelected(opt.id);
+          return (
+            <React.Fragment key={opt.id}>
+              <button
+                onClick={() => toggle(opt.id)}
+                style={{
+                  display:"flex",alignItems:"center",gap:16,
+                  padding:"17px 20px",borderRadius:20,
+                  background: sel ? "rgba(255,107,53,0.1)" : "rgba(255,255,255,0.04)",
+                  border:`1.5px solid ${sel ? "rgba(255,107,53,0.55)" : "rgba(255,255,255,0.07)"}`,
+                  color:C.text,textAlign:"left",width:"100%",
+                  transition:"all 0.2s",
+                  boxShadow: sel ? "0 4px 20px rgba(255,107,53,0.12)" : "none",
+                }}
+              >
+                <div style={{ width:44,height:44,borderRadius:14,background:sel?"rgba(255,107,53,0.18)":"rgba(255,255,255,0.06)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0,transition:"background 0.2s" }}>
+                  {opt.icon}
+                </div>
+                <span style={{ fontWeight:700,fontSize:16,flex:1 }}>{opt.label}</span>
+                <div style={{ width:22,height:22,borderRadius:"50%",border:`2px solid ${sel ? C.orange : "rgba(255,255,255,0.15)"}`,background:sel ? C.orange : "transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all 0.2s" }}>
+                  {sel && <span style={{ color:"#fff",fontSize:12,fontWeight:900 }}>✓</span>}
+                </div>
+              </button>
+              {opt.id === "autre" && showOther && (
+                <input
+                  autoFocus
+                  placeholder="Ex: Cookeo, four vapeur, wok…"
+                  value={equipOther}
+                  onChange={e => setEquipOther(e.target.value)}
+                  style={{
+                    width:"100%",padding:"14px 18px",borderRadius:14,
+                    border:"1px solid rgba(255,107,53,0.3)",
+                    background:"rgba(255,107,53,0.06)",
+                    color:C.text,fontSize:15,outline:"none",
+                    animation:"fadeIn 0.25s ease both",
+                  }}
+                />
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
+
+      {/* Footer */}
+      <div style={{ padding:"20px 28px calc(28px + env(safe-area-inset-bottom))",position:"relative",zIndex:1 }}>
+        <button
+          onClick={goNext}
+          style={{
+            width:"100%",padding:"17px",borderRadius:100,border:"none",
+            background: canContinue() ? grad : "rgba(255,255,255,0.07)",
+            color: canContinue() ? "#fff" : "rgba(255,255,255,0.3)",
+            fontWeight:800,fontSize:17,
+            transition:"all 0.25s",
+            boxShadow: canContinue() ? "0 10px 32px rgba(255,107,53,0.28)" : "none",
+          }}
+        >
+          {step === steps.length - 1 ? "Démarrer mes 4 jours gratuits →" : "Continuer →"}
+        </button>
+        {step > 0 && (
+          <button onClick={goBack} style={{ width:"100%",marginTop:12,padding:"10px",background:"none",border:"none",color:C.muted,fontSize:14,fontWeight:500 }}>
+            ← Retour
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ── Browser detection ─────────────────────────────────────────────────────────
 function detectBrowser(): "ios-safari" | "ios-chrome" | "chrome-android" | "chrome-desktop" | "samsung" | "firefox-android" | "edge-mobile" | "unknown" {
   const ua = navigator.userAgent;
@@ -824,7 +1022,8 @@ function InstallHint({ onClose }: { onClose: () => void }) {
 // ── Landing ───────────────────────────────────────────────────────────────────
 export default function Landing() {
   const [authOpen, setAuthOpen] = useState(false);
-  const open = useCallback(() => setAuthOpen(true), []);
+  const [onboardingOpen, setOnboardingOpen] = useState(false);
+  const open = useCallback(() => setOnboardingOpen(true), []);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showInstallHint, setShowInstallHint] = useState(false);
 
@@ -849,6 +1048,7 @@ export default function Landing() {
   return (
     <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden" }}>
       <style>{CSS}</style>
+      {onboardingOpen && <Onboarding onComplete={() => { setOnboardingOpen(false); setAuthOpen(true); }} />}
       {showInstallHint && <InstallHint onClose={() => setShowInstallHint(false)} />}
       <Nav onOpen={open} />
       <Hero onOpen={open} onInstall={isInstallable ? handleInstall : undefined} />
