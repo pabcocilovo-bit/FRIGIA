@@ -148,34 +148,35 @@ function AuthModal({ onClose }: { onClose: () => void }) {
   const [pw, setPw] = useState("");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
-  const [awaitingConfirm, setAwaitingConfirm] = useState(false);
+  const [reviewing, setReviewing] = useState(false);
 
   const submit = async () => {
     if (!email || !pw) { setMsg("Remplissez tous les champs."); return; }
-    setLoading(true); setMsg("");
+    setMsg("");
+    if (mode === "signup") {
+      setReviewing(true);
+      return;
+    }
+    setLoading(true);
     try {
-      if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
-          email, password: pw,
-          options: { emailRedirectTo: window.location.origin },
-        });
-        if (error) throw error;
-        setAwaitingConfirm(true);
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password: pw });
-        if (error) throw error;
-        onClose();
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password: pw });
+      if (error) throw error;
+      onClose();
     } catch (e: any) {
       setMsg(e.message || "Une erreur est survenue.");
     } finally { setLoading(false); }
   };
 
-  const resendConfirmation = async () => {
-    setLoading(true);
-    await supabase.auth.resend({ type: "signup", email, options: { emailRedirectTo: window.location.origin } });
-    setLoading(false);
-    setMsg("Email renvoyé !");
+  const confirmSignup = async () => {
+    setLoading(true); setMsg("");
+    try {
+      const { error } = await supabase.auth.signUp({ email, password: pw });
+      if (error) throw error;
+      onClose();
+    } catch (e: any) {
+      setMsg(e.message || "Une erreur est survenue.");
+      setReviewing(false);
+    } finally { setLoading(false); }
   };
 
   const signInWithGoogle = async () => {
@@ -210,26 +211,33 @@ function AuthModal({ onClose }: { onClose: () => void }) {
       }}>
         <button onClick={onClose} style={{ position:"absolute",top:16,right:18,background:"none",border:"none",color:C.muted,fontSize:22,lineHeight:1 }}>✕</button>
 
-        {awaitingConfirm && (
+        {reviewing && (
           <div style={{ textAlign:"center", padding:"8px 0" }}>
-            <div style={{ fontSize:48, marginBottom:16 }}>📧</div>
-            <h2 style={{ fontSize:20, fontWeight:900, color:C.text, marginBottom:10 }}>Confirmez votre adresse</h2>
-            <p style={{ fontSize:14, color:C.muted, lineHeight:1.7, marginBottom:24 }}>
-              Un lien de confirmation a été envoyé à<br />
-              <strong style={{ color:C.text }}>{email}</strong><br />
-              Cliquez dessus pour activer votre compte.
+            <div style={{ fontSize:44, marginBottom:16 }}>👀</div>
+            <h2 style={{ fontSize:20, fontWeight:900, color:C.text, marginBottom:10 }}>Vérifiez vos informations</h2>
+            <p style={{ fontSize:14, color:C.muted, lineHeight:1.6, marginBottom:24 }}>
+              Votre compte sera créé avec cette adresse :
             </p>
-            <p style={{ fontSize:12, color:C.muted, marginBottom:16 }}>Pensez à vérifier vos spams.</p>
+            <div style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", borderRadius:14, padding:"14px 20px", marginBottom:8, fontSize:16, fontWeight:700, color:C.text, wordBreak:"break-all" }}>
+              {email}
+            </div>
+            <p style={{ fontSize:12, color:C.muted, marginBottom:28 }}>
+              Vérifiez l'orthographe — c'est sur cet email que vous recevrez vos reçus de paiement et la réinitialisation de mot de passe.
+            </p>
+            {msg && <div style={{ fontSize:13, color:"#FF5050", marginBottom:12 }}>{msg}</div>}
             <button
-              onClick={resendConfirmation}
+              onClick={confirmSignup}
               disabled={loading}
-              style={{ background:"none", border:`1px solid ${C.border}`, color:C.muted, borderRadius:10, padding:"9px 20px", fontSize:13, cursor:"pointer" }}
-            >{loading ? "…" : "Renvoyer l'email"}</button>
-            {msg && <div style={{ marginTop:12, fontSize:13, color:C.green }}>{msg}</div>}
+              style={{ width:"100%", padding:"15px", borderRadius:14, border:"none", background:grad, color:"#fff", fontWeight:800, fontSize:15, cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1, marginBottom:12 }}
+            >{loading ? "Création…" : "Confirmer et démarrer →"}</button>
+            <button
+              onClick={() => { setReviewing(false); setMsg(""); }}
+              style={{ background:"none", border:"none", color:C.muted, fontSize:13, cursor:"pointer" }}
+            >← Corriger l'email</button>
           </div>
         )}
 
-        {!awaitingConfirm && (<>
+        {!reviewing && (<>
 
         <div style={{ textAlign:"center",marginBottom:32 }}>
           <div style={{ marginBottom:10,display:"flex",justifyContent:"center" }}><img src="/logo.png" alt="Frigia" style={{ width:64,height:64,borderRadius:16,objectFit:"contain" }} /></div>
