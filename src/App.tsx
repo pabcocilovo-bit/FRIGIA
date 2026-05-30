@@ -1117,7 +1117,7 @@ function SettingsModal({
 }
 
 // ─── OnboardingScreen ────────────────────────────────────────────────────────
-function OnboardingScreen({ onContinue }: { onContinue: () => void }) {
+function OnboardingScreen({ onContinue, loading }: { onContinue: () => void; loading?: boolean }) {
   const grad = "linear-gradient(135deg,#FF6B35,#2ECC71)";
   const features = [
     "Scans IA illimités",
@@ -1169,8 +1169,8 @@ function OnboardingScreen({ onContinue }: { onContinue: () => void }) {
           </div>
 
           {/* CTA */}
-          <button onClick={onContinue} style={{ width:"100%", padding:"17px", borderRadius:100, border:"none", background:grad, color:"#fff", fontWeight:800, fontSize:16, cursor:"pointer", boxShadow:"0 8px 28px rgba(255,107,53,.35)", marginBottom:14 }}>
-            Commencer 4j gratuit →
+          <button onClick={onContinue} disabled={loading} style={{ width:"100%", padding:"17px", borderRadius:100, border:"none", background:grad, color:"#fff", fontWeight:800, fontSize:16, cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1, boxShadow:"0 8px 28px rgba(255,107,53,.35)", marginBottom:14 }}>
+            {loading ? "Redirection..." : "Commencer 4j gratuit →"}
           </button>
 
           {/* Disclaimers */}
@@ -3463,9 +3463,11 @@ if (showQuestionnaire) {
 if (showOnboarding) {
   return (
     <OnboardingScreen
+      loading={checkoutLoading}
       onContinue={() => {
         localStorage.setItem(`frigia_onboarded_${user.id}`, "1");
         setShowOnboarding(false);
+        startCheckout();
       }}
     />
   );
