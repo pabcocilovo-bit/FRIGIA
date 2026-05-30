@@ -1544,7 +1544,7 @@ function QuestionnaireScreen({ onComplete }: { onComplete: () => void }) {
 
       <div style={{ padding:"20px 28px calc(28px + env(safe-area-inset-bottom))",position:"relative",zIndex:1 }}>
         <button onClick={goNext} style={{ width:"100%",padding:"17px",borderRadius:100,border:"none",background:canContinue()?Q_GRAD:"rgba(255,255,255,0.07)",color:canContinue()?"#fff":"rgba(255,255,255,0.3)",fontWeight:800,fontSize:17,transition:"all 0.25s",boxShadow:canContinue()?"0 10px 32px rgba(255,107,53,0.28)":"none" }}>
-          {step === steps.length-1 ? "Continuer →" : "Continuer →"}
+          {step === steps.length-1 ? "Commencer !" : "Continuer →"}
         </button>
         {step > 0 && (
           <button onClick={() => setStep(s => s-1)} style={{ width:"100%",marginTop:12,padding:"10px",background:"none",border:"none",color:Q_C.muted,fontSize:14,fontWeight:500 }}>
@@ -2226,21 +2226,6 @@ function Nav({
       </div>
 
       <div
-        className="nav-links"
-        style={{ display: "flex", gap: 24, fontSize: 14 }}
-      >
-        {["Fonctionnalités", "Comment ça marche", "Tarifs", "FAQ"].map((l) => (
-          <a
-            key={l}
-            href="#"
-            style={{ color: v.muted, textDecoration: "none" }}
-          >
-            {l}
-          </a>
-        ))}
-      </div>
-
-      <div
         className="nav-actions"
         style={{ display: "flex", gap: 12, alignItems: "center" }}
       >
@@ -2258,31 +2243,6 @@ function Nav({
           title="Paramètres"
         >
           ⚙️
-        </button>
-        <button
-          style={{
-            padding: "10px 20px",
-            background: "none",
-            border: `1px solid ${v.border}`,
-            borderRadius: 100,
-            color: v.text,
-            cursor: "pointer",
-          }}
-        >
-          Connexion
-        </button>
-        <button
-          style={{
-            padding: "10px 20px",
-            background: "linear-gradient(135deg,#FF6B35,#2ECC71)",
-            border: "none",
-            borderRadius: 100,
-            color: "#fff",
-            fontWeight: 700,
-            cursor: "pointer",
-          }}
-        >
-          Essayer
         </button>
       </div>
     </nav>
@@ -3855,24 +3815,6 @@ return (
     >
       <GlobalStyles theme={theme} />
       <Nav theme={theme} onSettingsOpen={() => setShowSettings(true)} />
-<button
-  onClick={signOut}
-  style={{
-    position: "fixed",
-    top: 20,
-    right: 20,
-    zIndex: 9999,
-    padding: "10px 18px",
-    borderRadius: 12,
-    border: "none",
-    background: "#FF6B35",
-    color: "white",
-    cursor: "pointer",
-    fontWeight: 700,
-  }}
->
-  Déconnexion
-</button>
       {showSettings && (
         <SettingsModal
           theme={theme}
