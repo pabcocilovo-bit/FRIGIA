@@ -3340,6 +3340,7 @@ useEffect(() => {
     const u = session?.user ?? null;
     setUser(u);
     if (u) {
+      setMobileTab("scan");
       loadUserData(u);
       const pending = localStorage.getItem("frigia_checkout_pending");
       if (!localStorage.getItem(`frigia_onboarded_${u.id}`) && !pending) {
