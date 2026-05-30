@@ -3171,9 +3171,6 @@ async function dbInsertHistoryEntry(userId: string, entry: HistoryEntry) {
   });
 }
 
-async function dbUpdateHistoryRecipes(entryId: string, recipes: GeneratedRecipe[]) {
-  await supabase.from("user_history").update({ recipes }).eq("id", entryId);
-}
 
 async function dbDeleteHistoryEntry(entryId: string) {
   await supabase.from("user_history").delete().eq("id", entryId);
