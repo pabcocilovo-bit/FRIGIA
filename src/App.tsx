@@ -3745,10 +3745,19 @@ if (isMobile) {
                 {user?.user_metadata?.full_name || user?.user_metadata?.name || "Mon compte"}
               </div>
               <div style={{ fontSize: 13, color: v.muted, marginBottom: 8 }}>{user?.email}</div>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 14px", background: "rgba(46,204,113,0.1)", border: "1px solid rgba(46,204,113,0.25)", borderRadius: 100, fontSize: 12, color: "#2ECC71", fontWeight: 700 }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#2ECC71", display: "inline-block" }} />
-                Essai gratuit en cours
-              </div>
+              {(() => {
+                const status = user?.user_metadata?.subscription_status;
+                const daysUsed = user ? Math.floor((Date.now() - new Date(user.created_at).getTime()) / (1000 * 60 * 60 * 24)) : 0;
+                const isActive = status === "active" || user?.user_metadata?.is_whitelisted;
+                const isTrialing = status === "trialing" || (!status && daysUsed <= 4);
+                const label = isActive ? "Abonné actif" : isTrialing ? "Essai gratuit en cours" : "Essai gratuit en cours";
+                return (
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 14px", background: "rgba(46,204,113,0.1)", border: "1px solid rgba(46,204,113,0.25)", borderRadius: 100, fontSize: 12, color: "#2ECC71", fontWeight: 700 }}>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#2ECC71", display: "inline-block" }} />
+                    {label}
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Bloc préférences questionnaire */}
