@@ -121,7 +121,8 @@ function GlobalStyles({ theme }: { theme: Theme }) {
       @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
       @keyframes imgFadeIn { from{opacity:0;transform:scale(1.04)} to{opacity:1;transform:scale(1)} }
       body { margin:0; background:${v.bg}; transition: background 0.3s; }
-      * { box-sizing:border-box; }
+      * { box-sizing:border-box; user-select:none; -webkit-user-select:none; }
+      input, textarea, [contenteditable] { user-select:text; -webkit-user-select:text; }
       button { transition:transform 0.2s,opacity 0.2s,background 0.2s; }
       button:hover { opacity:0.9; }
       a:hover { color:${v.text} !important; }
@@ -2187,10 +2188,8 @@ function HistoryTab({
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 function Nav({
   theme,
-  onSettingsOpen,
 }: {
   theme: Theme;
-  onSettingsOpen: () => void;
 }) {
   const v = getThemeVars(theme);
   const [scrolled, setScrolled] = useState(false);
@@ -3812,7 +3811,7 @@ return (
       }}
     >
       <GlobalStyles theme={theme} />
-      <Nav theme={theme} onSettingsOpen={() => setShowSettings(true)} />
+      <Nav theme={theme} />
       {showSettings && (
         <SettingsModal
           theme={theme}
