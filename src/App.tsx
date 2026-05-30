@@ -3298,7 +3298,7 @@ export default function Frigia() {
   const [aiRecipes, setAiRecipes] = useState<GeneratedRecipe[]>([]);
   const [, setDetectedIngredients] = useState<DetectedIngredient[]>([]);
   const [scanSuccess, setScanSuccess] = useState(false);
-  const [recipesSubTab, setRecipesSubTab] = useState<"history" | "popular" | "favorites">("popular");
+  const [recipesSubTab, setRecipesSubTab] = useState<"history" | "popular" | "favorites">("history");
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [favorites, setFavorites] = useState<GeneratedRecipe[]>([]);
   const [servings, setServings] = useState(2);
@@ -3593,9 +3593,9 @@ if (isMobile) {
             {/* Sub-tab switcher */}
             <div style={{ display: "flex", borderRadius: 14, overflow: "hidden", border: `1px solid ${v.border}`, marginBottom: 20 }}>
               {([
-                { id: "popular" as const, label: "⭐ Populaires" },
                 { id: "history" as const, label: `📋 Historique${history.length > 0 ? ` (${history.length})` : ""}` },
                 { id: "favorites" as const, label: `❤️ Favoris${favorites.length > 0 ? ` (${favorites.length})` : ""}` },
+                { id: "popular" as const, label: "⭐ Populaires" },
               ]).map((tab) => (
                 <button key={tab.id} onClick={() => setRecipesSubTab(tab.id)} style={{ flex: 1, padding: "10px 4px", border: "none", cursor: "pointer", background: recipesSubTab === tab.id ? "linear-gradient(135deg,#FF6B35,#2ECC71)" : v.inputBg, color: recipesSubTab === tab.id ? "#fff" : v.muted, fontWeight: recipesSubTab === tab.id ? 700 : 400, fontSize: 12, transition: "all 0.2s" }}>
                   {tab.label}
