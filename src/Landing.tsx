@@ -222,7 +222,7 @@ function AuthModal({ onClose }: { onClose: () => void }) {
               {email}
             </div>
             <p style={{ fontSize:12, color:C.muted, marginBottom:28 }}>
-              Vérifiez l'orthographe — c'est sur cet email que vous recevrez vos reçus de paiement et la réinitialisation de mot de passe.
+              C'est à cette adresse que vous recevrez vos reçus et que vous pourrez récupérer votre compte.
             </p>
             {msg && <div style={{ fontSize:13, color:"#FF5050", marginBottom:12 }}>{msg}</div>}
             <button
