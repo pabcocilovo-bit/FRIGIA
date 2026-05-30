@@ -1995,11 +1995,15 @@ function HistoryTab({
   history,
   onDeleteScan,
   onRecipeClick,
+  isFavorite,
+  onToggleFavorite,
 }: {
   theme: Theme;
   history: HistoryEntry[];
   onDeleteScan: (entryId: string) => void;
   onRecipeClick: (recipe: GeneratedRecipe, servings: number) => void;
+  isFavorite: (recipe: GeneratedRecipe) => boolean;
+  onToggleFavorite: (recipe: GeneratedRecipe) => void;
 }) {
   const v = getThemeVars(theme);
   const [openIngredients, setOpenIngredients] = useState<Record<string, boolean>>({});
@@ -2143,6 +2147,10 @@ function HistoryTab({
                         "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.5) 100%)",
                     }}
                   />
+                  <button
+                    onClick={(e) => { e.stopPropagation(); onToggleFavorite(recipe); }}
+                    style={{ position: "absolute", top: 8, right: 8, width: 30, height: 30, borderRadius: "50%", background: isFavorite(recipe) ? "rgba(255,107,53,0.9)" : "rgba(0,0,0,0.5)", backdropFilter: "blur(8px)", border: "none", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}
+                  >{isFavorite(recipe) ? "❤️" : "🤍"}</button>
                 </div>
                 <div style={{ padding: "10px 12px" }}>
                   <div style={{ fontWeight: 700, fontSize: 12, color: v.text, marginBottom: 4, lineHeight: 1.3 }}>
@@ -3707,7 +3715,7 @@ if (isMobile) {
 
             {/* Historique */}
             {recipesSubTab === "history" && (
-              <HistoryTab theme={theme} history={history} onDeleteScan={deleteScan} onRecipeClick={(r, s) => setSelectedRecipe({ recipe: r, servings: s })} />
+              <HistoryTab theme={theme} history={history} onDeleteScan={deleteScan} onRecipeClick={(r, s) => setSelectedRecipe({ recipe: r, servings: s })} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />
             )}
 
             {/* Favoris */}
