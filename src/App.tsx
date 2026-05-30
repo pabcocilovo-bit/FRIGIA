@@ -449,6 +449,181 @@ type SettingsTab =
   | "notifications"
   | "security";
 
+type LegalPage = "mentions" | "cgu" | "privacy" | "cookies" | "rgpd";
+
+const LEGAL_CONTENT: Record<LegalPage, { title: string; body: React.ReactNode }> = {
+  mentions: {
+    title: "Mentions légales",
+    body: (
+      <div>
+        <h3>Éditeur</h3>
+        <p>Frigia est édité par Pablo Cocilovo, particulier.</p>
+        <p>Contact : <a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a></p>
+
+        <h3>Hébergement</h3>
+        <p>L'application est hébergée par <strong>Vercel Inc.</strong>, 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis — <a href="https://vercel.com" target="_blank" rel="noreferrer">vercel.com</a></p>
+
+        <h3>Propriété intellectuelle</h3>
+        <p>L'ensemble du contenu de Frigia (textes, images, logo, code) est la propriété exclusive de l'éditeur. Toute reproduction sans autorisation écrite est interdite.</p>
+
+        <h3>Responsabilité</h3>
+        <p>Les recettes générées par intelligence artificielle sont fournies à titre indicatif. L'éditeur ne saurait être tenu responsable d'allergies, d'intolérances ou de problèmes de santé liés à leur consommation. Consultez un professionnel de santé en cas de doute.</p>
+      </div>
+    ),
+  },
+  cgu: {
+    title: "Conditions Générales d'Utilisation",
+    body: (
+      <div>
+        <h3>1. Objet</h3>
+        <p>Les présentes CGU régissent l'utilisation de l'application Frigia, service de génération de recettes par intelligence artificielle.</p>
+
+        <h3>2. Accès au service</h3>
+        <p>L'accès à Frigia nécessite la création d'un compte. Une période d'essai gratuite de 4 jours est proposée, suivie d'un abonnement à 7,99 €/mois.</p>
+
+        <h3>3. Utilisation</h3>
+        <p>L'utilisateur s'engage à utiliser Frigia conformément aux lois en vigueur et à ne pas tenter de contourner les mesures de sécurité de l'application.</p>
+
+        <h3>4. Contenu généré</h3>
+        <p>Les recettes sont générées par IA et peuvent contenir des erreurs. L'éditeur ne garantit pas leur exactitude nutritionnelle. L'utilisateur est seul responsable de l'usage qu'il en fait.</p>
+
+        <h3>5. Résiliation</h3>
+        <p>L'utilisateur peut résilier son abonnement à tout moment depuis les paramètres de son compte. Aucun remboursement ne sera effectué pour la période en cours.</p>
+
+        <h3>6. Modification des CGU</h3>
+        <p>L'éditeur se réserve le droit de modifier les présentes CGU à tout moment. Les modifications prennent effet à compter de leur publication dans l'application.</p>
+
+        <h3>Contact</h3>
+        <p><a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a></p>
+      </div>
+    ),
+  },
+  privacy: {
+    title: "Politique de confidentialité",
+    body: (
+      <div>
+        <h3>Responsable du traitement</h3>
+        <p>Pablo Cocilovo — <a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a></p>
+
+        <h3>Données collectées</h3>
+        <ul>
+          <li><strong>Compte :</strong> adresse e-mail, mot de passe (chiffré), photo de profil (optionnelle)</li>
+          <li><strong>Utilisation :</strong> photos de frigo scannées, ingrédients détectés, recettes générées, favoris</li>
+          <li><strong>Technique :</strong> logs de connexion, type d'appareil, langue</li>
+        </ul>
+
+        <h3>Finalités</h3>
+        <p>Les données sont utilisées pour fournir le service, améliorer les suggestions de recettes et assurer la sécurité des comptes. Elles ne sont jamais vendues à des tiers.</p>
+
+        <h3>Conservation</h3>
+        <p>Les données sont conservées pendant la durée de l'abonnement actif + 12 mois. Elles sont ensuite supprimées définitivement.</p>
+
+        <h3>Vos droits (RGPD)</h3>
+        <p>Vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Pour exercer ces droits, contactez : <a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a></p>
+
+        <h3>Sous-traitants</h3>
+        <ul>
+          <li><strong>Supabase</strong> — base de données et authentification</li>
+          <li><strong>Vercel</strong> — hébergement</li>
+          <li><strong>Anthropic / Google</strong> — génération de recettes par IA</li>
+        </ul>
+      </div>
+    ),
+  },
+  cookies: {
+    title: "Politique de cookies",
+    body: (
+      <div>
+        <h3>Qu'est-ce qu'un cookie ?</h3>
+        <p>Un cookie est un petit fichier stocké sur votre appareil lors de la visite d'un site ou d'une application web.</p>
+
+        <h3>Cookies utilisés par Frigia</h3>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+          <thead>
+            <tr>
+              <th style={{ textAlign: "left", paddingBottom: 8, borderBottom: "1px solid rgba(255,255,255,0.1)" }}>Nom</th>
+              <th style={{ textAlign: "left", paddingBottom: 8, borderBottom: "1px solid rgba(255,255,255,0.1)" }}>Type</th>
+              <th style={{ textAlign: "left", paddingBottom: 8, borderBottom: "1px solid rgba(255,255,255,0.1)" }}>Finalité</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style={{ padding: "6px 0" }}>sb-auth-token</td><td>Essentiel</td><td>Session d'authentification Supabase</td></tr>
+            <tr><td style={{ padding: "6px 0" }}>frigia_theme</td><td>Fonctionnel</td><td>Mémorisation du thème choisi</td></tr>
+            <tr><td style={{ padding: "6px 0" }}>frigia_avatar</td><td>Fonctionnel</td><td>Cache de la photo de profil</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Cookies tiers</h3>
+        <p>Vercel peut déposer des cookies techniques nécessaires au bon fonctionnement de l'hébergement. Aucun cookie publicitaire ou de tracking n'est utilisé.</p>
+
+        <h3>Gestion</h3>
+        <p>Vous pouvez bloquer ou supprimer les cookies depuis les paramètres de votre navigateur. Le blocage des cookies essentiels peut empêcher la connexion à votre compte.</p>
+      </div>
+    ),
+  },
+  rgpd: {
+    title: "Conformité RGPD",
+    body: (
+      <div>
+        <h3>Base légale des traitements</h3>
+        <ul>
+          <li><strong>Exécution du contrat</strong> — fourniture du service de recettes</li>
+          <li><strong>Intérêt légitime</strong> — sécurité et amélioration du service</li>
+          <li><strong>Consentement</strong> — communications optionnelles</li>
+        </ul>
+
+        <h3>Vos droits</h3>
+        <ul>
+          <li><strong>Accès :</strong> obtenir une copie de vos données</li>
+          <li><strong>Rectification :</strong> corriger des données inexactes</li>
+          <li><strong>Suppression :</strong> demander l'effacement de votre compte</li>
+          <li><strong>Portabilité :</strong> recevoir vos données dans un format lisible</li>
+          <li><strong>Opposition :</strong> vous opposer à certains traitements</li>
+        </ul>
+
+        <h3>Exercer vos droits</h3>
+        <p>Envoyez votre demande à <a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a>. Réponse sous 30 jours.</p>
+
+        <h3>Réclamation</h3>
+        <p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la <strong>CNIL</strong> (Commission Nationale de l'Informatique et des Libertés) — <a href="https://www.cnil.fr" target="_blank" rel="noreferrer">cnil.fr</a></p>
+
+        <h3>Transferts hors UE</h3>
+        <p>Certains sous-traitants (Vercel, Anthropic) sont basés aux États-Unis. Ces transferts sont encadrés par les clauses contractuelles types de la Commission européenne.</p>
+      </div>
+    ),
+  },
+};
+
+function LegalModal({ page, theme, onClose }: { page: LegalPage; theme: Theme; onClose: () => void }) {
+  const v = getThemeVars(theme);
+  const content = LEGAL_CONTENT[page];
+  return (
+    <div
+      onClick={onClose}
+      style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{ ...glassCard(theme), width: "100%", maxWidth: 680, maxHeight: "80vh", display: "flex", flexDirection: "column", borderRadius: 20, overflow: "hidden" }}
+      >
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 24px", borderBottom: `1px solid ${v.border}` }}>
+          <span style={{ fontWeight: 800, fontSize: 18, color: v.text }}>{content.title}</span>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: v.muted, fontSize: 22, cursor: "pointer", lineHeight: 1 }}>×</button>
+        </div>
+        <div
+          style={{ padding: "24px", overflowY: "auto", color: v.muted, fontSize: 14, lineHeight: 1.8 }}
+          className="legal-content"
+        >
+          {content.body}
+        </div>
+        <div style={{ padding: "12px 24px", borderTop: `1px solid ${v.border}`, fontSize: 12, color: v.muted, textAlign: "center" }}>
+          Contact : <a href="mailto:frigia.contact@gmail.com" style={{ color: "#FF6B35" }}>frigia.contact@gmail.com</a> — © 2026 Frigia
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SettingsModal({
   theme,
   onClose,
@@ -3251,6 +3426,7 @@ export default function Frigia() {
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
   const [theme, setTheme] = useState<Theme>("dark");
   const [showSettings, setShowSettings] = useState(false);
+  const [showLegal, setShowLegal] = useState<LegalPage | null>(null);
   const [aiRecipes, setAiRecipes] = useState<GeneratedRecipe[]>([]);
   const [, setDetectedIngredients] = useState<DetectedIngredient[]>([]);
   const [scanSuccess, setScanSuccess] = useState(false);
@@ -3707,6 +3883,7 @@ return (
           onAvatarChange={setAvatarSrc}
         />
       )}
+      {showLegal && <LegalModal page={showLegal} theme={theme} onClose={() => setShowLegal(null)} />}
       {showServingsModal && (
         <ServingsModal
           theme={theme}
@@ -4568,46 +4745,44 @@ return (
             {[
               {
                 title: "Produit",
-                links: ["Fonctionnalités", "Tarifs", "Roadmap", "Changelog"],
+                links: [
+                  { label: "Fonctionnalités", action: null },
+                  { label: "Tarifs", action: null },
+                  { label: "Roadmap", action: null },
+                  { label: "Changelog", action: null },
+                ],
               },
               {
                 title: "Ressources",
-                links: ["Blog recettes", "Guide nutrition", "Centre d'aide"],
+                links: [
+                  { label: "Blog recettes", action: null },
+                  { label: "Guide nutrition", action: null },
+                  { label: "Centre d'aide", action: null },
+                ],
               },
               {
                 title: "Légal",
                 links: [
-                  "CGU",
-                  "Politique de confidentialité",
-                  "Cookies",
-                  "RGPD",
+                  { label: "Mentions légales", action: () => setShowLegal("mentions") },
+                  { label: "CGU", action: () => setShowLegal("cgu") },
+                  { label: "Politique de confidentialité", action: () => setShowLegal("privacy") },
+                  { label: "Cookies", action: () => setShowLegal("cookies") },
+                  { label: "RGPD", action: () => setShowLegal("rgpd") },
                 ],
               },
             ].map((col) => (
               <div key={col.title} style={{ flex: 1, minWidth: 140 }}>
-                <div
-                  style={{
-                    fontWeight: 700,
-                    fontSize: 13,
-                    color: v.text,
-                    marginBottom: 16,
-                    textTransform: "uppercase",
-                    letterSpacing: 1,
-                  }}
-                >
+                <div style={{ fontWeight: 700, fontSize: 13, color: v.text, marginBottom: 16, textTransform: "uppercase", letterSpacing: 1 }}>
                   {col.title}
                 </div>
                 {col.links.map((l) => (
-                  <div key={l} style={{ marginBottom: 10 }}>
+                  <div key={l.label} style={{ marginBottom: 10 }}>
                     <a
                       href="#"
-                      style={{
-                        color: v.muted,
-                        fontSize: 14,
-                        textDecoration: "none",
-                      }}
+                      onClick={(e) => { e.preventDefault(); l.action?.(); }}
+                      style={{ color: v.muted, fontSize: 14, textDecoration: "none" }}
                     >
-                      {l}
+                      {l.label}
                     </a>
                   </div>
                 ))}
