@@ -2677,6 +2677,41 @@ function ShowcaseRecipeCard({
   );
 }
 
+// ─── MealTypeModal ────────────────────────────────────────────────────────────
+function MealTypeModal({ theme, onConfirm, onClose }: { theme: Theme; onConfirm: (type: string) => void; onClose: () => void }) {
+  const v = getThemeVars(theme);
+  const [selected, setSelected] = useState("mix");
+  const options = [
+    { id: "protein", label: "Protéiné", sub: "3 recettes riches en protéines" },
+    { id: "healthy", label: "Healthy", sub: "3 recettes légères et équilibrées" },
+    { id: "gourmand", label: "Gourmand", sub: "3 recettes généreuses et savoureuses" },
+    { id: "mix", label: "Une de chaque", sub: "1 protéinée, 1 healthy, 1 gourmande" },
+  ];
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 2000, background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+      <div style={{ ...glassCard(theme), padding: 32, maxWidth: 400, width: "100%", animation: "modalIn 0.35s ease both", background: theme === "light" ? "rgba(244,244,240,0.97)" : "rgba(14,14,20,0.97)" }}>
+        <h3 style={{ fontSize: 20, fontWeight: 900, color: v.text, marginBottom: 6, textAlign: "center" }}>Quel type de plat ?</h3>
+        <p style={{ fontSize: 13, color: v.muted, textAlign: "center", marginBottom: 24 }}>L'IA adaptera les 3 recettes à ton choix.</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
+          {options.map(opt => (
+            <button key={opt.id} onClick={() => setSelected(opt.id)} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", borderRadius: 16, border: selected === opt.id ? "2px solid #FF6B35" : `1px solid ${v.border}`, background: selected === opt.id ? "rgba(255,107,53,0.1)" : v.inputBg, cursor: "pointer", textAlign: "left" }}>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 14, color: v.text }}>{opt.label}</div>
+                <div style={{ fontSize: 12, color: v.muted, marginTop: 2 }}>{opt.sub}</div>
+              </div>
+              {selected === opt.id && <span style={{ marginLeft: "auto", color: "#FF6B35", fontWeight: 900, fontSize: 16 }}>✓</span>}
+            </button>
+          ))}
+        </div>
+        <button onClick={() => onConfirm(selected)} style={{ width: "100%", padding: "14px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontWeight: 800, fontSize: 16, cursor: "pointer", marginBottom: 10 }}>
+          Choisir une photo →
+        </button>
+        <button onClick={onClose} style={{ width: "100%", padding: "10px", background: "none", border: "none", color: v.muted, fontSize: 13, cursor: "pointer" }}>Annuler</button>
+      </div>
+    </div>
+  );
+}
+
 // ─── FridgeAIScanner ──────────────────────────────────────────────────────────
 function FridgeAIScanner({
   theme,
@@ -2695,6 +2730,10 @@ function FridgeAIScanner({
   const [ingredients, setIngredients] = useState<DetectedIngredient[]>([]);
   const [recipes, setRecipes] = useState<GeneratedRecipe[]>([]);
   const [error, setError] = useState("");
+  const [showMealTypeModal, setShowMealTypeModal] = useState(false);
+  const [mealType, setMealType] = useState<string>("mix");
+
+  const handleScanClick = () => setShowMealTypeModal(true);
 
   const handleImage = (file?: File) => {
     if (!file) return;
@@ -2735,7 +2774,7 @@ function FridgeAIScanner({
         const response = await fetch("/api/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${scanSession?.access_token}` },
-          body: JSON.stringify({ imageBase64, mediaType, prefs, recentTitles }),
+          body: JSON.stringify({ imageBase64, mediaType, prefs, recentTitles, mealType }),
         });
         const data = await response.json();
         if (response.status === 401 || response.status === 403) {
@@ -2780,6 +2819,14 @@ function FridgeAIScanner({
   };
 
   return (
+    <>
+    {showMealTypeModal && (
+      <MealTypeModal
+        theme={theme}
+        onConfirm={(type) => { setMealType(type); setShowMealTypeModal(false); inputRef.current?.click(); }}
+        onClose={() => setShowMealTypeModal(false)}
+      />
+    )}
     <div
       style={{
         display: "flex",
@@ -2790,7 +2837,7 @@ function FridgeAIScanner({
     >
       <div style={{ flex: 1, minWidth: 300 }}>
         <div
-          onClick={() => inputRef.current?.click()}
+          onClick={handleScanClick}
           style={{
             ...gc,
             padding: 24,
@@ -2872,6 +2919,7 @@ function FridgeAIScanner({
             {!analyzing && (
               <button
                 type="button"
+                onClick={(e) => { e.stopPropagation(); handleScanClick(); }}
                 style={{
                   marginTop: 22,
                   padding: "12px 22px",
@@ -3033,6 +3081,7 @@ function FridgeAIScanner({
         </div>
       </div>
     </div>
+    </>
   );
 }
 
