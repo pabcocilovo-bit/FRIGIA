@@ -2237,21 +2237,6 @@ function Nav({
         className="nav-actions"
         style={{ display: "flex", gap: 12, alignItems: "center" }}
       >
-        <button
-          onClick={onSettingsOpen}
-          style={{
-            padding: "10px 16px",
-            background: "none",
-            border: `1px solid ${v.border}`,
-            borderRadius: 100,
-            color: v.text,
-            cursor: "pointer",
-            fontSize: 16,
-          }}
-          title="Paramètres"
-        >
-          ⚙️
-        </button>
       </div>
     </nav>
   );
