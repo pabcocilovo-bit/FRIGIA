@@ -1118,63 +1118,66 @@ function SettingsModal({
 
 // ─── OnboardingScreen ────────────────────────────────────────────────────────
 function OnboardingScreen({ onContinue }: { onContinue: () => void }) {
-  const [checked, setChecked] = useState(false);
+  const grad = "linear-gradient(135deg,#FF6B35,#2ECC71)";
+  const features = [
+    "Scans IA illimités",
+    "Recettes personnalisées illimitées",
+    "Suivi nutritionnel avancé",
+    "Toutes futures fonctionnalités incluses",
+  ];
   return (
-    <div style={{ position:"fixed", inset:0, zIndex:2000, background:"#0A0A0F", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"24px 20px", overflowY:"auto", overflowX:"hidden" }}>
-      <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}} html,body{margin:0;background:#0A0A0F;overflow-x:hidden!important;}`}</style>
+    <div style={{ position:"fixed", inset:0, zIndex:2000, background:"#07070E", display:"flex", flexDirection:"column", overflow:"hidden" }}>
+      <style>{`html,body{margin:0;background:#07070E;overflow:hidden!important;}`}</style>
 
-      {/* Logo */}
-      <div style={{ animation:"fadeUp 0.4s ease both", textAlign:"center", marginBottom:32 }}>
-        <img src="/logo.png" alt="Frigia" style={{ width:64, height:64, borderRadius:18, objectFit:"cover", margin:"0 auto 14px", display:"block" }} />
-        <div style={{ fontWeight:900, fontSize:26, color:"#FAFAFA", fontFamily:"Georgia, serif" }}>Bienvenue sur Frigia</div>
-        <div style={{ color:"#6B7280", fontSize:15, marginTop:6 }}>Votre chef IA personnel vous attend</div>
+      {/* Orbs */}
+      <div style={{ position:"absolute", width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle,rgba(255,107,53,.18) 0%,transparent 70%)", top:"-15%", right:"-15%", pointerEvents:"none" }} />
+      <div style={{ position:"absolute", width:400, height:400, borderRadius:"50%", background:"radial-gradient(circle,rgba(46,204,113,.13) 0%,transparent 70%)", bottom:"-10%", left:"-10%", pointerEvents:"none" }} />
+
+      {/* Header */}
+      <div style={{ padding:"calc(18px + env(safe-area-inset-top)) 24px 16px", display:"flex", alignItems:"center", gap:10, position:"relative", zIndex:1 }}>
+        <img src="/logo.png" alt="Frigia" style={{ width:38, height:38, borderRadius:10, objectFit:"contain" }} />
+        <span style={{ fontWeight:900, fontSize:20, color:"#FAFAFA", fontFamily:"Georgia,serif" }}>Frigia</span>
       </div>
 
-      {/* Pricing card */}
-      <div style={{ animation:"fadeUp 0.4s 0.1s ease both", width:"100%", maxWidth:420, background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,107,53,0.35)", borderRadius:24, padding:28, marginBottom:20, position:"relative" }}>
-        <div style={{ position:"absolute", top:-14, left:"50%", transform:"translateX(-50%)", background:"linear-gradient(135deg,#FF6B35,#2ECC71)", borderRadius:100, padding:"5px 20px", fontSize:13, fontWeight:800, color:"#fff", whiteSpace:"nowrap" }}>🎉 4 jours gratuits inclus</div>
-        <div style={{ textAlign:"center", marginBottom:20 }}>
-          <div style={{ fontSize:11, fontWeight:700, color:"#FF6B35", letterSpacing:3, textTransform:"uppercase", marginBottom:8 }}>Plan unique</div>
-          <div style={{ display:"flex", alignItems:"baseline", justifyContent:"center", gap:4 }}>
-            <span style={{ fontSize:58, fontWeight:900, color:"#FAFAFA", lineHeight:1 }}>7,99€</span>
-            <span style={{ color:"#6B7280", fontSize:15 }}>/mois</span>
-          </div>
-          <div style={{ color:"#6B7280", fontSize:13, marginTop:6 }}>Après 4 jours d'essai gratuit</div>
-        </div>
-        {[
-          "Scans IA illimités de votre frigo",
-          "Recettes personnalisées illimitées",
-          "Chef IA disponible 24h/24",
-          "Suivi nutritionnel & alertes péremption",
-        ].map((f) => (
-          <div key={f} style={{ display:"flex", alignItems:"center", gap:10, padding:"9px 0", borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
-            <span style={{ color:"#2ECC71", fontWeight:700, fontSize:15 }}>✓</span>
-            <span style={{ fontSize:14, color:"#FAFAFA" }}>{f}</span>
-          </div>
-        ))}
-        <div style={{ color:"#6B7280", fontSize:12, textAlign:"center", marginTop:16 }}>Aucune carte bancaire requise pendant l'essai</div>
-      </div>
+      {/* Card */}
+      <div style={{ flex:1, display:"flex", flexDirection:"column", justifyContent:"center", padding:"0 20px calc(24px + env(safe-area-inset-bottom))", position:"relative", zIndex:1 }}>
+        <div style={{ background:"linear-gradient(135deg,rgba(255,107,53,.1),rgba(46,204,113,.08))", border:"1px solid rgba(255,107,53,.35)", borderRadius:28, padding:"32px 24px 24px", position:"relative" }}>
 
-      {/* Checkbox */}
-      <div style={{ animation:"fadeUp 0.4s 0.2s ease both", width:"100%", maxWidth:420, marginBottom:20 }}>
-        <label style={{ display:"flex", alignItems:"center", gap:12, cursor:"pointer", padding:"14px 16px", borderRadius:14, border:`1px solid ${checked ? "rgba(46,204,113,0.4)" : "rgba(255,255,255,0.1)"}`, background: checked ? "rgba(46,204,113,0.08)" : "rgba(255,255,255,0.03)", transition:"all 0.2s" }}>
-          <div onClick={() => setChecked(!checked)} style={{ width:22, height:22, borderRadius:6, border:`2px solid ${checked ? "#2ECC71" : "rgba(255,255,255,0.3)"}`, background: checked ? "#2ECC71" : "transparent", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.2s" }}>
-            {checked && <span style={{ color:"#fff", fontSize:14, fontWeight:900 }}>✓</span>}
-          </div>
-          <span style={{ fontSize:14, color:"#FAFAFA", lineHeight:1.5 }}>Je commence mon essai gratuit de 4 jours — sans engagement, sans carte bancaire</span>
-        </label>
-      </div>
+          {/* Badge */}
+          <div style={{ position:"absolute", top:-18, left:"50%", transform:"translateX(-50%)", background:grad, borderRadius:100, padding:"7px 22px", fontSize:14, fontWeight:800, color:"#fff", whiteSpace:"nowrap", boxShadow:"0 6px 20px rgba(255,107,53,.35)" }}>🎉 4 jours gratuits inclus</div>
 
-      {/* CTA */}
-      <div style={{ animation:"fadeUp 0.4s 0.3s ease both", width:"100%", maxWidth:420 }}>
-        <button
-          onClick={() => checked && onContinue()}
-          style={{ width:"100%", padding:"16px", borderRadius:100, border:"none", background: checked ? "linear-gradient(135deg,#FF6B35,#2ECC71)" : "rgba(255,255,255,0.08)", color: checked ? "#fff" : "#6B7280", fontWeight:800, fontSize:16, cursor: checked ? "pointer" : "not-allowed", transition:"all 0.3s", letterSpacing:0.5 }}
-        >
-          Accéder à Frigia →
-        </button>
-        <div style={{ textAlign:"center", marginTop:12, fontSize:12, color:"#6B7280" }}>
-          ✓ Sans engagement · ✓ Résiliable à tout moment
+          {/* Title */}
+          <div style={{ fontSize:11, fontWeight:700, color:"#FF6B35", letterSpacing:3, textTransform:"uppercase", textAlign:"center", marginBottom:10 }}>Frigia Premium</div>
+
+          {/* Price */}
+          <div style={{ display:"flex", alignItems:"baseline", justifyContent:"center", gap:6, marginBottom:6 }}>
+            <span style={{ fontSize:64, fontWeight:900, color:"#FAFAFA", lineHeight:1 }}>7,99€</span>
+            <span style={{ color:"#6B7280", fontSize:16 }}>/mois</span>
+          </div>
+
+          {/* Tagline */}
+          <div style={{ textAlign:"center", color:"#2ECC71", fontSize:14, fontWeight:600, marginBottom:24 }}>✓ Résiliable à tout moment</div>
+
+          {/* Features */}
+          <div style={{ display:"flex", flexDirection:"column", gap:14, marginBottom:28 }}>
+            {features.map(f => (
+              <div key={f} style={{ display:"flex", alignItems:"center", gap:14 }}>
+                <span style={{ color:"#2ECC71", fontWeight:900, fontSize:16, flexShrink:0 }}>✓</span>
+                <span style={{ fontSize:15, color:"#FAFAFA" }}>{f}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <button onClick={onContinue} style={{ width:"100%", padding:"17px", borderRadius:100, border:"none", background:grad, color:"#fff", fontWeight:800, fontSize:16, cursor:"pointer", boxShadow:"0 8px 28px rgba(255,107,53,.35)", marginBottom:14 }}>
+            Commencer 4j gratuit →
+          </button>
+
+          {/* Disclaimers */}
+          <div style={{ textAlign:"center", fontSize:12, color:"#6B7280", lineHeight:1.7 }}>
+            Aucune carte bancaire requise pendant l'essai<br />
+            Résiliation en 1 clic
+          </div>
         </div>
       </div>
     </div>
