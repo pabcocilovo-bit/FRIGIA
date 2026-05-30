@@ -218,7 +218,7 @@ function AuthModal({ onClose }: { onClose: () => void }) {
             <p style={{ fontSize:14, color:C.muted, lineHeight:1.6, marginBottom:24 }}>
               Votre compte sera créé avec cette adresse :
             </p>
-            <div style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", borderRadius:14, padding:"14px 20px", marginBottom:8, fontSize:16, fontWeight:700, color:C.text, wordBreak:"break-all" }}>
+            <div style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", borderRadius:14, padding:"14px 20px", marginBottom:8, fontSize:14, fontWeight:700, color:C.text, overflowWrap:"anywhere" }}>
               {email}
             </div>
             <p style={{ fontSize:12, color:C.muted, marginBottom:28 }}>
