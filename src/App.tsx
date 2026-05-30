@@ -2655,7 +2655,7 @@ function ShowcaseRecipeCard({
           >{isFavorite ? "❤️" : "🤍"}</button>
         )}
         {/* Difficulty badge */}
-        <div style={{ position: "absolute", top: 14, right: 14, padding: "4px 10px", borderRadius: 100, background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)", fontSize: 11, fontWeight: 700, color: "#fff" }}>
+        <div style={{ position: "absolute", top: 14, left: 64, padding: "4px 10px", borderRadius: 100, background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)", fontSize: 11, fontWeight: 700, color: "#fff" }}>
           {recipe.diff}
         </div>
         {/* Title overlay */}
