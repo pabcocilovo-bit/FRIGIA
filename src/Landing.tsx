@@ -359,7 +359,7 @@ function Hero({ onOpen, onInstall }: { onOpen: () => void; onInstall?: () => voi
 
           <div style={{ display:"flex",gap:14,flexWrap:"wrap",marginBottom:52,animation:"fadeIn .8s ease .28s both" }}>
             <button onClick={onOpen} style={{ padding:"16px 34px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:800,fontSize:16,boxShadow:"0 10px 38px rgba(255,107,53,.38)" }}>
-              Démarrer 4 jours gratuits
+              Démarrer gratuitement
             </button>
             {onInstall && (
               <button onClick={onInstall} style={{ padding:"16px 28px",background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:100,color:C.text,fontWeight:700,fontSize:15,display:"flex",alignItems:"center",gap:8 }}>
@@ -540,7 +540,7 @@ function Pricing({ onOpen }: { onOpen: () => void }) {
             ))}
           </ul>
           <button onClick={onOpen} style={{ width:"100%",padding:"16px",borderRadius:100,fontWeight:800,fontSize:16,border:"none",background:grad,color:"#fff",boxShadow:"0 8px 32px rgba(255,107,53,.3)" }}>
-            Commencer 4 jours gratuits →
+            Commencer gratuitement →
           </button>
           <p style={{ fontSize:12,color:C.muted,marginTop:14 }}>Aucune carte bancaire requise pendant l'essai</p>
         </div>
