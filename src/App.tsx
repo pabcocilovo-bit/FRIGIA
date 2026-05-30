@@ -1858,20 +1858,9 @@ function HistoryTab({
       {history.map((entry) => (
         <div key={entry.id} style={{ ...glassCard(theme), padding: 24 }}>
           {/* Entry header */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-start",
-              justifyContent: "space-between",
-              marginBottom: 16,
-              flexWrap: "wrap",
-              gap: 8,
-            }}
-          >
-            <div>
-              <div
-                style={{ fontWeight: 800, fontSize: 15, color: v.text }}
-              >
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+              <div style={{ fontWeight: 800, fontSize: 15, color: v.text }}>
                 {entry.date.toLocaleDateString("fr-FR", {
                   day: "numeric",
                   month: "long",
@@ -1883,34 +1872,32 @@ function HistoryTab({
                   minute: "2-digit",
                 })}
               </div>
-              <div
-                style={{ fontSize: 13, color: v.muted, marginTop: 3 }}
-              >
-                👥 {entry.servings} personne{entry.servings > 1 ? "s" : ""}{" "}
-                · 🛒 {entry.ingredients.length} ingrédients détectés ·{" "}
-                🍽️ {entry.recipes.length} recette
-                {entry.recipes.length > 1 ? "s" : ""}
-              </div>
+              {confirmDeleteId === entry.id ? (
+                <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                  <span style={{ fontSize: 12, color: "#e74c3c", fontWeight: 600 }}>Supprimer ?</span>
+                  <button
+                    onClick={() => { onDeleteScan(entry.id); setConfirmDeleteId(null); }}
+                    style={{ padding: "5px 12px", borderRadius: 8, border: "none", background: "#e74c3c", color: "#fff", fontSize: 12, fontWeight: 700, cursor: "pointer" }}
+                  >Oui</button>
+                  <button
+                    onClick={() => setConfirmDeleteId(null)}
+                    style={{ padding: "5px 10px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", background: "none", color: v.muted, fontSize: 12, cursor: "pointer" }}
+                  >Non</button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setConfirmDeleteId(entry.id)}
+                  title="Supprimer ce scan"
+                  style={{ flexShrink: 0, width: 30, height: 30, borderRadius: "50%", border: "1px solid rgba(231,76,60,0.3)", background: "rgba(231,76,60,0.08)", color: "#e74c3c", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}
+                >🗑️</button>
+              )}
             </div>
-            {confirmDeleteId === entry.id ? (
-              <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
-                <span style={{ fontSize: 12, color: "#e74c3c", fontWeight: 600 }}>Supprimer ?</span>
-                <button
-                  onClick={() => { onDeleteScan(entry.id); setConfirmDeleteId(null); }}
-                  style={{ padding: "5px 12px", borderRadius: 8, border: "none", background: "#e74c3c", color: "#fff", fontSize: 12, fontWeight: 700, cursor: "pointer" }}
-                >Oui</button>
-                <button
-                  onClick={() => setConfirmDeleteId(null)}
-                  style={{ padding: "5px 10px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", background: "none", color: v.muted, fontSize: 12, cursor: "pointer" }}
-                >Non</button>
-              </div>
-            ) : (
-              <button
-                onClick={() => setConfirmDeleteId(entry.id)}
-                title="Supprimer ce scan"
-                style={{ flexShrink: 0, width: 34, height: 34, borderRadius: "50%", border: "1px solid rgba(231,76,60,0.3)", background: "rgba(231,76,60,0.08)", color: "#e74c3c", cursor: "pointer", fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center" }}
-              >🗑️</button>
-            )}
+            <div style={{ fontSize: 13, color: v.muted, marginTop: 3 }}>
+              👥 {entry.servings} personne{entry.servings > 1 ? "s" : ""}{" "}
+              · 🛒 {entry.ingredients.length} ingrédients détectés ·{" "}
+              🍽️ {entry.recipes.length} recette
+              {entry.recipes.length > 1 ? "s" : ""}
+            </div>
           </div>
 
           {/* Ingredients accordion */}
