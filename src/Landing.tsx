@@ -143,7 +143,7 @@ function Phone({ style }: { style?: React.CSSProperties }) {
 
 // ── Auth modal ────────────────────────────────────────────────────────────────
 function AuthModal({ onClose, onSuccess }: { onClose: () => void; onSuccess?: () => void }) {
-  const [mode, setMode] = useState<"signup"|"login">("signup");
+  const [mode, setMode] = useState<"signup"|"login">("login");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [loading, setLoading] = useState(false);
