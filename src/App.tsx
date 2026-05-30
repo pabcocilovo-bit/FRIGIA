@@ -4742,52 +4742,28 @@ return (
                 Votre Chef IA personnel. 4 jours gratuits, puis 7,99€/mois.
               </p>
             </div>
-            {[
-              {
-                title: "Produit",
-                links: [
-                  { label: "Fonctionnalités", action: null },
-                  { label: "Tarifs", action: null },
-                  { label: "Roadmap", action: null },
-                  { label: "Changelog", action: null },
-                ],
-              },
-              {
-                title: "Ressources",
-                links: [
-                  { label: "Blog recettes", action: null },
-                  { label: "Guide nutrition", action: null },
-                  { label: "Centre d'aide", action: null },
-                ],
-              },
-              {
-                title: "Légal",
-                links: [
-                  { label: "Mentions légales", action: () => setShowLegal("mentions") },
-                  { label: "CGU", action: () => setShowLegal("cgu") },
-                  { label: "Politique de confidentialité", action: () => setShowLegal("privacy") },
-                  { label: "Cookies", action: () => setShowLegal("cookies") },
-                  { label: "RGPD", action: () => setShowLegal("rgpd") },
-                ],
-              },
-            ].map((col) => (
-              <div key={col.title} style={{ flex: 1, minWidth: 140 }}>
-                <div style={{ fontWeight: 700, fontSize: 13, color: v.text, marginBottom: 16, textTransform: "uppercase", letterSpacing: 1 }}>
-                  {col.title}
-                </div>
-                {col.links.map((l) => (
-                  <div key={l.label} style={{ marginBottom: 10 }}>
-                    <a
-                      href="#"
-                      onClick={(e) => { e.preventDefault(); l.action?.(); }}
-                      style={{ color: v.muted, fontSize: 14, textDecoration: "none" }}
-                    >
-                      {l.label}
-                    </a>
-                  </div>
-                ))}
+            <div style={{ flex: 1, minWidth: 140 }}>
+              <div style={{ fontWeight: 700, fontSize: 13, color: v.text, marginBottom: 16, textTransform: "uppercase", letterSpacing: 1 }}>
+                Légal
               </div>
-            ))}
+              {[
+                { label: "Mentions légales", page: "mentions" as LegalPage },
+                { label: "CGU", page: "cgu" as LegalPage },
+                { label: "Politique de confidentialité", page: "privacy" as LegalPage },
+                { label: "Cookies", page: "cookies" as LegalPage },
+                { label: "RGPD", page: "rgpd" as LegalPage },
+              ].map((l) => (
+                <div key={l.label} style={{ marginBottom: 10 }}>
+                  <a
+                    href="#"
+                    onClick={(e) => { e.preventDefault(); setShowLegal(l.page); }}
+                    style={{ color: v.muted, fontSize: 14, textDecoration: "none" }}
+                  >
+                    {l.label}
+                  </a>
+                </div>
+              ))}
+            </div>
           </div>
           <div
             style={{
