@@ -1971,20 +1971,16 @@ function HistoryTab({
                   />
                 </div>
                 <div style={{ padding: "10px 12px" }}>
-                  <div
-                    style={{
-                      fontWeight: 700,
-                      fontSize: 12,
-                      color: v.text,
-                      marginBottom: 4,
-                      lineHeight: 1.3,
-                    }}
-                  >
+                  <div style={{ fontWeight: 700, fontSize: 12, color: v.text, marginBottom: 4, lineHeight: 1.3 }}>
                     {recipe.emoji} {recipe.title}
                   </div>
-                  <div style={{ fontSize: 11, color: v.muted }}>
+                  <div style={{ fontSize: 11, color: v.muted, marginBottom: 8 }}>
                     {recipe.time} · {recipe.cal} kcal
                   </div>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); onRecipeClick(recipe, entry.servings); }}
+                    style={{ width: "100%", padding: "6px", borderRadius: 8, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontSize: 11, fontWeight: 700, cursor: "pointer" }}
+                  >Voir →</button>
                 </div>
               </div>
             ))}
@@ -3017,34 +3013,22 @@ function RecipeCard({
       </div>
       <div style={{ display: "flex", borderTop: `1px solid ${v.border}` }}>
         <button
-          onClick={() => setLiked(!liked)}
-          style={{
-            flex: 1,
-            padding: "12px",
-            background: "none",
-            border: "none",
-            color: liked ? "#FF6B35" : v.muted,
-            cursor: "pointer",
-            fontSize: 14,
-          }}
+          onClick={(e) => { e.stopPropagation(); onClick?.(); }}
+          style={{ flex: 2, padding: "12px", background: "none", border: "none", color: "#FF6B35", cursor: "pointer", fontSize: 14, fontWeight: 700 }}
         >
-          {liked ? "♥" : "♡"} Sauvegarder
+          Voir la recette →
+        </button>
+        <button
+          onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
+          style={{ padding: "12px 14px", background: "none", border: "none", borderLeft: `1px solid ${v.border}`, color: liked ? "#FF6B35" : v.muted, cursor: "pointer", fontSize: 16 }}
+        >
+          {liked ? "♥" : "♡"}
         </button>
         <button
           onClick={handleShare}
-          style={{
-            flex: 1,
-            padding: "12px",
-            background: "none",
-            border: "none",
-            borderLeft: `1px solid ${v.border}`,
-            color: shared ? "#2ECC71" : v.muted,
-            cursor: "pointer",
-            fontSize: 14,
-            transition: "color 0.2s",
-          }}
+          style={{ padding: "12px 14px", background: "none", border: "none", borderLeft: `1px solid ${v.border}`, color: shared ? "#2ECC71" : v.muted, cursor: "pointer", fontSize: 14, transition: "color 0.2s" }}
         >
-          {shared ? "✓ Copié !" : "↗ Partager"}
+          {shared ? "✓" : "↗"}
         </button>
       </div>
     </div>
@@ -3603,15 +3587,21 @@ if (isMobile) {
                       <div style={{ padding: "12px 14px 8px" }}>
                         <div style={{ fontWeight: 700, fontSize: 14, color: v.text, marginBottom: 4 }}>{r.title}</div>
                         <div style={{ fontSize: 12, color: v.muted, marginBottom: 10 }}>{r.time} · {r.cal} kcal · {r.diff}</div>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            const text = `${r.emoji} ${r.title} — ${r.time} · ${r.cal} kcal\n\nDécouvert avec Frigia 🍽️`;
-                            if (navigator.share) { navigator.share({ title: r.title, text }).catch(() => {}); }
-                            else { navigator.clipboard.writeText(text).catch(() => {}); }
-                          }}
-                          style={{ width: "100%", padding: "8px", borderRadius: 10, border: `1px solid ${v.border}`, background: "none", color: v.muted, cursor: "pointer", fontSize: 13 }}
-                        >↗ Partager</button>
+                        <div style={{ display: "flex", gap: 8 }}>
+                          <button
+                            onClick={(e) => { e.stopPropagation(); setSelectedRecipe({ recipe: r, servings }); }}
+                            style={{ flex: 1, padding: "8px", borderRadius: 10, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 700 }}
+                          >Voir →</button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const text = `${r.emoji} ${r.title} — ${r.time} · ${r.cal} kcal\n\nDécouvert avec Frigia 🍽️`;
+                              if (navigator.share) { navigator.share({ title: r.title, text }).catch(() => {}); }
+                              else { navigator.clipboard.writeText(text).catch(() => {}); }
+                            }}
+                            style={{ padding: "8px 12px", borderRadius: 10, border: `1px solid ${v.border}`, background: "none", color: v.muted, cursor: "pointer", fontSize: 13 }}
+                          >↗</button>
+                        </div>
                       </div>
                     </div>
                   ))}
