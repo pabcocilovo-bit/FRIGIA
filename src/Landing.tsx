@@ -142,12 +142,13 @@ function Phone({ style }: { style?: React.CSSProperties }) {
 }
 
 // ── Auth modal ────────────────────────────────────────────────────────────────
-function AuthModal({ onClose }: { onClose: () => void }) {
+function AuthModal({ onClose, onSuccess }: { onClose: () => void; onSuccess?: () => void }) {
   const [mode, setMode] = useState<"signup"|"login">("signup");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
+  const [justSignedUp, setJustSignedUp] = useState(false);
 
   const submit = async () => {
     if (!email || !pw) { setMsg("Remplissez tous les champs."); return; }
@@ -156,12 +157,13 @@ function AuthModal({ onClose }: { onClose: () => void }) {
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({ email, password: pw });
         if (error) throw error;
+        setJustSignedUp(true);
         setMsg("✓ Compte créé ! Connectez-vous maintenant.");
         setMode("login");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password: pw });
         if (error) throw error;
-        onClose();
+        justSignedUp && onSuccess ? onSuccess() : onClose();
       }
     } catch (e: any) {
       setMsg(e.message || "Une erreur est survenue.");
@@ -1023,7 +1025,7 @@ function InstallHint({ onClose }: { onClose: () => void }) {
 export default function Landing() {
   const [authOpen, setAuthOpen] = useState(false);
   const [onboardingOpen, setOnboardingOpen] = useState(false);
-  const open = useCallback(() => setOnboardingOpen(true), []);
+  const open = useCallback(() => setAuthOpen(true), []);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showInstallHint, setShowInstallHint] = useState(false);
 
@@ -1048,7 +1050,7 @@ export default function Landing() {
   return (
     <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden" }}>
       <style>{CSS}</style>
-      {onboardingOpen && <Onboarding onComplete={() => { setOnboardingOpen(false); setAuthOpen(true); }} />}
+      {onboardingOpen && <Onboarding onComplete={() => setOnboardingOpen(false)} />}
       {showInstallHint && <InstallHint onClose={() => setShowInstallHint(false)} />}
       <Nav onOpen={open} />
       <Hero onOpen={open} onInstall={isInstallable ? handleInstall : undefined} />
@@ -1059,7 +1061,7 @@ export default function Landing() {
       <Pricing onOpen={open} />
       <FAQ />
       <Footer />
-      {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
+      {authOpen && <AuthModal onClose={() => setAuthOpen(false)} onSuccess={() => { setAuthOpen(false); setOnboardingOpen(true); }} />}
     </div>
   );
 }
