@@ -2823,7 +2823,7 @@ function FridgeAIScanner({
     {showMealTypeModal && (
       <MealTypeModal
         theme={theme}
-        onConfirm={(type) => { setMealType(type); setShowMealTypeModal(false); inputRef.current?.click(); }}
+        onConfirm={(type) => { setMealType(type); setShowMealTypeModal(false); setTimeout(() => inputRef.current?.click(), 150); }}
         onClose={() => setShowMealTypeModal(false)}
       />
     )}
