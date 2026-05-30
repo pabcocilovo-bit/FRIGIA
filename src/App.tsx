@@ -3772,14 +3772,26 @@ if (isMobile) {
               const t = timeMap[prefs.time];
               const diets = (prefs.diet as string[]).map((d: string) => dietMap[d]).filter(Boolean);
               const equipList = (prefs.equipment as string[]).map((e: string) => equip[e]).filter(Boolean);
+              const items = [
+                g && { icon: g.icon, label: g.label, sub: "Objectif" },
+                diets.length > 0 && { icon: diets[0].icon, label: diets.map(d => d.label).join(", "), sub: "Alimentation" },
+                t && { icon: t.icon, label: t.label, sub: "Temps de cuisine" },
+                equipList.length > 0 && { icon: equipList[0].icon, label: equipList.map(e => e.label).join(", "), sub: "Équipement" },
+              ].filter(Boolean) as { icon: string; label: string; sub: string }[];
               return (
-                <div style={{ ...glassCard(theme), padding: "18px", marginBottom: 16 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: v.muted, letterSpacing: 1, marginBottom: 14, textTransform: "uppercase" }}>Ton profil culinaire</div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                    {g && <div style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ fontSize: 20 }}>{g.icon}</span><div><div style={{ fontSize: 12, color: v.muted }}>Objectif</div><div style={{ fontSize: 14, fontWeight: 700, color: v.text }}>{g.label}</div></div></div>}
-                    {diets.length > 0 && <div style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ fontSize: 20 }}>{diets[0].icon}</span><div><div style={{ fontSize: 12, color: v.muted }}>Alimentation</div><div style={{ fontSize: 14, fontWeight: 700, color: v.text }}>{diets.map(d => d.label).join(", ")}</div></div></div>}
-                    {t && <div style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ fontSize: 20 }}>{t.icon}</span><div><div style={{ fontSize: 12, color: v.muted }}>Temps de cuisine</div><div style={{ fontSize: 14, fontWeight: 700, color: v.text }}>{t.label}</div></div></div>}
-                    {equipList.length > 0 && <div style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ fontSize: 20 }}>{equipList[0].icon}</span><div><div style={{ fontSize: 12, color: v.muted }}>Équipement</div><div style={{ fontSize: 14, fontWeight: 700, color: v.text }}>{equipList.map(e => e.label).join(", ")}</div></div></div>}
+                <div style={{ marginBottom: 16, borderRadius: 22, overflow: "hidden", background: "linear-gradient(135deg,rgba(255,107,53,0.12),rgba(46,204,113,0.08))", border: "1px solid rgba(255,107,53,0.2)" }}>
+                  <div style={{ padding: "16px 18px 12px", display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                    <span style={{ fontSize: 18 }}>👨‍🍳</span>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: v.text, letterSpacing: 0.3 }}>Ton profil culinaire</span>
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: "rgba(255,255,255,0.04)" }}>
+                    {items.map((item, i) => (
+                      <div key={i} style={{ padding: "14px 16px", background: theme === "dark" ? "rgba(10,10,15,0.6)" : "rgba(255,255,255,0.6)" }}>
+                        <div style={{ fontSize: 22, marginBottom: 6 }}>{item.icon}</div>
+                        <div style={{ fontSize: 11, color: v.muted, marginBottom: 3 }}>{item.sub}</div>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: v.text, lineHeight: 1.3 }}>{item.label}</div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               );
