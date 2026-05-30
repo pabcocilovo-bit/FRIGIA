@@ -1581,25 +1581,16 @@ function RecipeDetailModal({
           />
           <button
             onClick={onClose}
-            style={{
-              position: "absolute",
-              top: 16,
-              right: 16,
-              width: 36,
-              height: 36,
-              borderRadius: "50%",
-              background: "rgba(0,0,0,0.55)",
-              border: "none",
-              color: "#fff",
-              cursor: "pointer",
-              fontSize: 16,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+            style={{ position: "absolute", top: 16, right: 16, width: 36, height: 36, borderRadius: "50%", background: "rgba(0,0,0,0.55)", border: "none", color: "#fff", cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center" }}
+          >✕</button>
+          <button
+            onClick={() => {
+              const text = `${recipe.emoji} ${recipe.title} — ${recipe.time} · ${recipe.cal} kcal\n\nDécouvert avec Frigia 🍽️`;
+              if (navigator.share) { navigator.share({ title: recipe.title, text }).catch(() => {}); }
+              else { navigator.clipboard.writeText(text).catch(() => {}); }
             }}
-          >
-            ✕
-          </button>
+            style={{ position: "absolute", top: 16, left: 16, width: 36, height: 36, borderRadius: "50%", background: "rgba(0,0,0,0.55)", border: "none", color: "#fff", cursor: "pointer", fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center" }}
+          >↗</button>
           <div style={{ position: "absolute", bottom: 20, left: 24 }}>
             <div style={{ fontSize: 30, marginBottom: 8 }}>{recipe.emoji}</div>
             <h2 style={{ fontSize: 22, fontWeight: 900, color: "#fff", margin: 0, lineHeight: 1.3 }}>
@@ -2463,6 +2454,18 @@ function ShowcaseRecipeCard({
   onToggleFavorite?: () => void;
 }) {
   const v = getThemeVars(theme);
+  const [shared, setShared] = useState(false);
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const text = `${recipe.emoji} ${recipe.title} — ${recipe.time} · ${recipe.cal} kcal\n\nDécouvert avec Frigia 🍽️`;
+    if (navigator.share) {
+      try { await navigator.share({ title: recipe.title, text }); } catch {}
+    } else {
+      await navigator.clipboard.writeText(text);
+      setShared(true);
+      setTimeout(() => setShared(false), 2000);
+    }
+  };
   const tagline: Record<string, string> = {
     "Smash Burger Maison": "Croûte caramélisée, cheddar fondant, sauce secrète maison",
     "Wraps Healthy Poulet": "Léger, frais et rassasiant — prêt en 15 minutes",
@@ -2542,13 +2545,15 @@ function ShowcaseRecipeCard({
           ))}
         </div>
 
-        {/* CTA */}
-        <button
-          style={{ width: "100%", padding: "11px", borderRadius: 12, border: "none", cursor: "pointer", background: gradient, color: "#fff", fontWeight: 800, fontSize: 14, letterSpacing: 0.3 }}
-          onClick={onClick}
-        >
-          Voir la recette →
-        </button>
+        {/* CTA row */}
+        <div style={{ display: "flex", gap: 8 }}>
+          <button style={{ flex: 1, padding: "11px", borderRadius: 12, border: "none", cursor: "pointer", background: gradient, color: "#fff", fontWeight: 800, fontSize: 14 }} onClick={onClick}>
+            Voir →
+          </button>
+          <button onClick={handleShare} style={{ padding: "11px 16px", borderRadius: 12, border: `1px solid ${v.border}`, background: "none", color: shared ? "#2ECC71" : v.muted, cursor: "pointer", fontSize: 14, transition: "color 0.2s" }}>
+            {shared ? "✓" : "↗"}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -3595,9 +3600,18 @@ if (isMobile) {
                           style={{ position: "absolute", top: 8, right: 8, width: 30, height: 30, borderRadius: "50%", background: "rgba(255,107,53,0.9)", border: "none", cursor: "pointer", fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center" }}
                         >❤️</button>
                       </div>
-                      <div style={{ padding: "12px 14px" }}>
+                      <div style={{ padding: "12px 14px 8px" }}>
                         <div style={{ fontWeight: 700, fontSize: 14, color: v.text, marginBottom: 4 }}>{r.title}</div>
-                        <div style={{ fontSize: 12, color: v.muted }}>{r.time} · {r.cal} kcal · {r.diff}</div>
+                        <div style={{ fontSize: 12, color: v.muted, marginBottom: 10 }}>{r.time} · {r.cal} kcal · {r.diff}</div>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const text = `${r.emoji} ${r.title} — ${r.time} · ${r.cal} kcal\n\nDécouvert avec Frigia 🍽️`;
+                            if (navigator.share) { navigator.share({ title: r.title, text }).catch(() => {}); }
+                            else { navigator.clipboard.writeText(text).catch(() => {}); }
+                          }}
+                          style={{ width: "100%", padding: "8px", borderRadius: 10, border: `1px solid ${v.border}`, background: "none", color: v.muted, cursor: "pointer", fontSize: 13 }}
+                        >↗ Partager</button>
                       </div>
                     </div>
                   ))}
