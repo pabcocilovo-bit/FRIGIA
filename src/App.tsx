@@ -1120,8 +1120,8 @@ function SettingsModal({
 function OnboardingScreen({ onContinue }: { onContinue: () => void }) {
   const [checked, setChecked] = useState(false);
   return (
-    <div style={{ position:"fixed", inset:0, zIndex:2000, background:"#0A0A0F", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"24px 20px", overflowY:"auto" }}>
-      <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}`}</style>
+    <div style={{ position:"fixed", inset:0, zIndex:2000, background:"#0A0A0F", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"24px 20px", overflowY:"auto", overflowX:"hidden" }}>
+      <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}} body{overflow-x:hidden!important;}`}</style>
 
       {/* Logo */}
       <div style={{ animation:"fadeUp 0.4s ease both", textAlign:"center", marginBottom:32 }}>
@@ -1276,6 +1276,7 @@ function QuestionnaireScreen({ onComplete }: { onComplete: () => void }) {
 
   return (
     <div style={{ position:"fixed",inset:0,zIndex:500,background:Q_C.bg,display:"flex",flexDirection:"column",overflow:"hidden" }}>
+      <style>{`body{overflow-x:hidden!important;}`}</style>
       <div style={{ position:"absolute",width:400,height:400,borderRadius:"50%",background:"radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%)",top:"-10%",right:"-10%",pointerEvents:"none" }} />
       <div style={{ position:"absolute",width:360,height:360,borderRadius:"50%",background:"radial-gradient(circle,rgba(46,204,113,.09) 0%,transparent 70%)",bottom:"5%",left:"-8%",pointerEvents:"none" }} />
 
