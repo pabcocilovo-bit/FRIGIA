@@ -3785,11 +3785,15 @@ if (isMobile) {
               }));
               const top = Object.entries(counts).sort((a, b) => b[1].count - a[1].count)[0];
               if (!top) return null;
-              const [name, { count, icon }] = top;
+              const [name, { count }] = top;
               return (
                 <div style={{ ...glassCard(theme), padding: 0, overflow: "hidden", marginBottom: 16 }}>
                   <div style={{ position: "relative", height: 130 }}>
-                    <RecipeImage title={name} imageSearch={name} />
+                    <img
+                      src={`https://image.pollinations.ai/prompt/${encodeURIComponent(`${name}, fresh ingredient, food photography, studio lighting, white background, high quality`)}&width=600&height=260&nologo=true&seed=${name.length}`}
+                      alt={name}
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                    />
                     <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.75) 100%)" }} />
                     <div style={{ position: "absolute", bottom: 12, left: 14, right: 14 }}>
                       <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", fontWeight: 600, marginBottom: 2 }}>Ingrédient le plus scanné</div>
