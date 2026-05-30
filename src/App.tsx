@@ -2727,10 +2727,12 @@ function FridgeAIScanner({
       try {
         const { base64: imageBase64, type: mediaType } = await compressImage(file);
         const { data: { session: scanSession } } = await supabase.auth.getSession();
+        const userId = scanSession?.user?.id;
+        const prefs = userId ? JSON.parse(localStorage.getItem(`frigia_prefs_${userId}`) || "null") : null;
         const response = await fetch("/api/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${scanSession?.access_token}` },
-          body: JSON.stringify({ imageBase64, mediaType }),
+          body: JSON.stringify({ imageBase64, mediaType, prefs }),
         });
         const data = await response.json();
         if (response.status === 401 || response.status === 403) {

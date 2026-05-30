@@ -24,7 +24,7 @@ export default async function handler(req: any, res: any) {
     meta.subscription_status === "trialing";
   if (!hasAccess) return res.status(403).json({ error: "No active subscription" });
 
-  const { imageBase64, mediaType } = req.body as { imageBase64: string; mediaType: string };
+  const { imageBase64, mediaType, prefs } = req.body as { imageBase64: string; mediaType: string; prefs?: { goal?: string; diet?: string[]; time?: string; equipment?: string[] } };
   if (!imageBase64) return res.status(400).json({ error: "Missing imageBase64" });
   if (imageBase64.length > 4 * 1024 * 1024) return res.status(400).json({ error: "Image trop lourde" });
 
@@ -33,6 +33,28 @@ export default async function handler(req: any, res: any) {
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return res.status(500).json({ error: "ANTHROPIC_API_KEY not configured" });
+
+  // Build personalization constraints from questionnaire prefs
+  const prefLines: string[] = [];
+  if (prefs) {
+    const dietMap: Record<string, string> = { veggie: "végétarien (sans viande ni poisson)", vegan: "vegan (sans aucun produit animal)", glutenfree: "sans gluten" };
+    const goalMap: Record<string, string> = { healthy: "recettes saines et équilibrées", nogaspi: "recettes zéro gaspillage utilisant un maximum d'ingrédients visibles", quick: "recettes rapides à préparer" };
+    const equipMap: Record<string, string> = { airfryer: "AirFryer", moulinex: "Moulinex", thermomix: "Thermomix" };
+    const timeMap: Record<string, string> = { "15min": "15 minutes maximum", "30min": "30 minutes maximum" };
+
+    const dietConstraints = (prefs.diet || []).filter(d => d !== "all").map(d => dietMap[d]).filter(Boolean);
+    if (dietConstraints.length > 0) prefLines.push(`ALIMENTATION (OBLIGATOIRE sur les 3 recettes) : ${dietConstraints.join(" et ")}.`);
+
+    const goal = prefs.goal ? goalMap[prefs.goal] : null;
+    if (goal) prefLines.push(`OBJECTIF : Privilégier des ${goal}.`);
+
+    const timeConstraint = prefs.time ? timeMap[prefs.time] : null;
+    if (timeConstraint) prefLines.push(`DURÉE : Au moins 2 recettes sur 3 doivent être réalisables en ${timeConstraint}. La 3ème peut être plus longue.`);
+
+    const equipList = (prefs.equipment || []).map(e => equipMap[e]).filter(Boolean);
+    if (equipList.length > 0) prefLines.push(`ÉQUIPEMENT : L'utilisateur possède ${equipList.join(", ")}. Exactement 1 recette sur 3 peut suggérer d'utiliser cet équipement (les autres doivent rester classiques).`);
+  }
+  const prefBlock = prefLines.length > 0 ? `\n\nPRÉFÉRENCES UTILISATEUR :\n${prefLines.join("\n")}` : "";
 
   const anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -50,7 +72,7 @@ export default async function handler(req: any, res: any) {
           content: [
             {
               type: "text",
-              text: 'Analyse cette photo de frigo. Retourne EXACTEMENT 3 recettes réalisables avec les ingrédients visibles. Étapes : format chef — courtes, précises, avec quantités + températures + durées, sans phrases longues. REGLE ABSOLUE imageSearch : EN ANGLAIS + TYPE DE PLAT SEULEMENT (2 mots max, ZERO ingrédient, ZERO sauce, ZERO adjectif). Exemples corrects: "scrambled eggs", "beef steak", "milkshake", "green salad", "pasta", "chicken soup", "fried rice", "omelette". JAMAIS: "eggs soy milk", "marinated steak citrus". JSON uniquement: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"12 min","calories":380,"difficulty":"Facile","imageSearch":"omelette","ingredients":[{"name":"Oeufs","qty":"3"},{"name":"Tomates","qty":"2"},{"name":"Fromage râpé","qty":"40g"},{"name":"Beurre","qty":"10g"}],"steps":["Battre 3 oeufs + sel + poivre à la fourchette 1 min, légère mousse","Couper 2 tomates en dés 1cm, égoutter papier absorbant","Poêle 24cm feu moyen (6/9), fondre 10g beurre sans brûler","Verser oeufs, spatule : ramener bords au centre + incliner poêle, 2-3 min","Garnir une moitié : tomates + 40g fromage, plier, couvrir 30s, servir"]}]}',
+              text: `Analyse cette photo de frigo. Retourne EXACTEMENT 3 recettes réalisables avec les ingrédients visibles. Étapes : format chef — courtes, précises, avec quantités + températures + durées, sans phrases longues. REGLE ABSOLUE imageSearch : EN ANGLAIS + TYPE DE PLAT SEULEMENT (2 mots max, ZERO ingrédient, ZERO sauce, ZERO adjectif). Exemples corrects: "scrambled eggs", "beef steak", "milkshake", "green salad", "pasta", "chicken soup", "fried rice", "omelette". JAMAIS: "eggs soy milk", "marinated steak citrus".${prefBlock} JSON uniquement: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"12 min","calories":380,"difficulty":"Facile","imageSearch":"omelette","ingredients":[{"name":"Oeufs","qty":"3"},{"name":"Tomates","qty":"2"},{"name":"Fromage râpé","qty":"40g"},{"name":"Beurre","qty":"10g"}],"steps":["Battre 3 oeufs + sel + poivre à la fourchette 1 min, légère mousse","Couper 2 tomates en dés 1cm, égoutter papier absorbant","Poêle 24cm feu moyen (6/9), fondre 10g beurre sans brûler","Verser oeufs, spatule : ramener bords au centre + incliner poêle, 2-3 min","Garnir une moitié : tomates + 40g fromage, plier, couvrir 30s, servir"]}]}`,
             },
             {
               type: "image",
