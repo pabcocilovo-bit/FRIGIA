@@ -75,6 +75,24 @@ export default async function handler(req: any, res: any) {
       if (userId) await updateUser(userId, "canceled");
       break;
     }
+    case "invoice.payment_failed": {
+      const invoice = event.data.object as Stripe.Invoice;
+      const customerId = typeof invoice.customer === "string" ? invoice.customer : invoice.customer?.id;
+      if (customerId) {
+        const userId = await getUserIdByCustomer(customerId);
+        if (userId) await updateUser(userId, "past_due");
+      }
+      break;
+    }
+    case "invoice.payment_succeeded": {
+      const invoice = event.data.object as Stripe.Invoice;
+      const customerId = typeof invoice.customer === "string" ? invoice.customer : invoice.customer?.id;
+      if (customerId) {
+        const userId = await getUserIdByCustomer(customerId);
+        if (userId) await updateUser(userId, "active");
+      }
+      break;
+    }
   }
 
   res.json({ received: true });

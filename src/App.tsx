@@ -3342,35 +3342,38 @@ function CheckoutSuccessModal({ onClose }: { onClose: () => void }) {
 }
 
 // ─── Paywall Modal ────────────────────────────────────────────────────────────
-function PaywallModal({ onSubscribe, onLogout, loading, isCanceled }: { onSubscribe: () => void; onLogout: () => void; loading: boolean; isCanceled?: boolean }) {
+function PaywallModal({ onSubscribe, onManageBilling, onLogout, loading, isCanceled, isPaymentFailed }: { onSubscribe: () => void; onManageBilling: () => void; onLogout: () => void; loading: boolean; isCanceled?: boolean; isPaymentFailed?: boolean }) {
   const grad = "linear-gradient(135deg,#FF6B35,#2ECC71)";
+  const title = isPaymentFailed ? "Paiement échoué" : isCanceled ? "Réactiver votre abonnement" : "Commencer votre essai gratuit";
+  const description = isPaymentFailed ? (
+    <>Le prélèvement de <strong style={{ color:"#F0EEF8" }}>7,99€</strong> a échoué.<br />Mettez à jour votre carte pour retrouver l'accès.</>
+  ) : isCanceled ? (
+    <>Votre abonnement a été résilié.<br /><strong style={{ color:"#F0EEF8" }}>7,99€/mois</strong>, annulable à tout moment.</>
+  ) : (
+    <><strong style={{ color:"#F0EEF8" }}>4 jours gratuits</strong>, puis 7,99€/mois.<br />Votre carte ne sera pas débitée avant la fin de l'essai. Annulable à tout moment.</>
+  );
+  const btnLabel = loading ? "Redirection..." : isPaymentFailed ? "Mettre à jour ma carte →" : isCanceled ? "Se réabonner — 7,99€/mois →" : "Démarrer 4 jours gratuits →";
   return (
     <div style={{ position:"fixed", inset:0, zIndex:9000, background:"#07070E", display:"flex", alignItems:"center", justifyContent:"center", padding:24, flexDirection:"column" }}>
       <div style={{ width:"100%", maxWidth:420, textAlign:"center" }}>
         <img src="/logo.png" alt="Frigia" style={{ width:72, height:72, borderRadius:18, objectFit:"contain", marginBottom:24 }} />
-        <h2 style={{ fontSize:26, fontWeight:900, color:"#F0EEF8", marginBottom:12, fontFamily:"Georgia,serif" }}>
-          {isCanceled ? "Réactiver votre abonnement" : "Commencer votre essai gratuit"}
-        </h2>
-        <p style={{ fontSize:15, color:"#6B7280", lineHeight:1.7, marginBottom:36 }}>
-          {isCanceled ? (
-            <>Votre abonnement a été résilié.<br /><strong style={{ color:"#F0EEF8" }}>7,99€/mois</strong>, annulable à tout moment.</>
-          ) : (
-            <><strong style={{ color:"#F0EEF8" }}>4 jours gratuits</strong>, puis 7,99€/mois.<br />Votre carte ne sera pas débitée avant la fin de l'essai. Annulable à tout moment.</>
-          )}
-        </p>
-        <ul style={{ listStyle:"none", textAlign:"left", marginBottom:36, display:"flex", flexDirection:"column", gap:10 }}>
-          {["Scans IA illimités","Recettes personnalisées","Historique & favoris sauvegardés","Accès sur tous vos appareils"].map((f,i) => (
-            <li key={i} style={{ display:"flex", gap:12, alignItems:"center", fontSize:14, color:"#F0EEF8" }}>
-              <span style={{ color:"#2ECC71", fontWeight:900 }}>✓</span>{f}
-            </li>
-          ))}
-        </ul>
+        <h2 style={{ fontSize:26, fontWeight:900, color:"#F0EEF8", marginBottom:12, fontFamily:"Georgia,serif" }}>{title}</h2>
+        <p style={{ fontSize:15, color:"#6B7280", lineHeight:1.7, marginBottom:36 }}>{description}</p>
+        {!isPaymentFailed && (
+          <ul style={{ listStyle:"none", textAlign:"left", marginBottom:36, display:"flex", flexDirection:"column", gap:10 }}>
+            {["Scans IA illimités","Recettes personnalisées","Historique & favoris sauvegardés","Accès sur tous vos appareils"].map((f,i) => (
+              <li key={i} style={{ display:"flex", gap:12, alignItems:"center", fontSize:14, color:"#F0EEF8" }}>
+                <span style={{ color:"#2ECC71", fontWeight:900 }}>✓</span>{f}
+              </li>
+            ))}
+          </ul>
+        )}
         <button
-          onClick={onSubscribe}
+          onClick={isPaymentFailed ? onManageBilling : onSubscribe}
           disabled={loading}
-          style={{ width:"100%", padding:"16px", borderRadius:100, border:"none", background:grad, color:"#fff", fontWeight:800, fontSize:16, cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1, marginBottom:14, boxShadow:"0 8px 32px rgba(255,107,53,0.35)" }}
+          style={{ width:"100%", padding:"16px", borderRadius:100, border:"none", background: isPaymentFailed ? "#e74c3c" : grad, color:"#fff", fontWeight:800, fontSize:16, cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1, marginBottom:14, boxShadow:"0 8px 32px rgba(255,107,53,0.35)" }}
         >
-          {loading ? "Redirection..." : isCanceled ? "Se réabonner — 7,99€/mois →" : "Démarrer 4 jours gratuits →"}
+          {btnLabel}
         </button>
         <button onClick={onLogout} style={{ background:"none", border:"none", color:"#6B7280", fontSize:13, cursor:"pointer" }}>
           Se déconnecter
@@ -3420,6 +3423,21 @@ export default function Frigia() {
     const pending = localStorage.getItem("frigia_checkout_pending");
     if (pending && Date.now() - parseInt(pending) < 3600000) return true;
     return false;
+  };
+
+  const openCustomerPortal = async () => {
+    if (!user) return;
+    setCheckoutLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch("/api/customer-portal", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${session?.access_token}` },
+      });
+      const json = await res.json();
+      if (json.url) window.location.href = json.url;
+      else setCheckoutLoading(false);
+    } catch { setCheckoutLoading(false); }
   };
 
   const startCheckout = async () => {
@@ -3607,9 +3625,11 @@ if (showOnboarding) {
 if (!hasAccess(user)) {
   return <PaywallModal
     onSubscribe={startCheckout}
+    onManageBilling={openCustomerPortal}
     loading={checkoutLoading}
     onLogout={async () => { await supabase.auth.signOut(); }}
     isCanceled={user?.user_metadata?.subscription_status === "canceled"}
+    isPaymentFailed={user?.user_metadata?.subscription_status === "past_due"}
   />;
 }
 
