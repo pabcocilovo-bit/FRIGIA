@@ -142,32 +142,40 @@ function Phone({ style }: { style?: React.CSSProperties }) {
 }
 
 // ── Auth modal ────────────────────────────────────────────────────────────────
-function AuthModal({ onClose, onSuccess }: { onClose: () => void; onSuccess?: () => void }) {
+function AuthModal({ onClose }: { onClose: () => void }) {
   const [mode, setMode] = useState<"signup"|"login">("login");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
-  const [justSignedUp, setJustSignedUp] = useState(false);
+  const [awaitingConfirm, setAwaitingConfirm] = useState(false);
 
   const submit = async () => {
     if (!email || !pw) { setMsg("Remplissez tous les champs."); return; }
     setLoading(true); setMsg("");
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({ email, password: pw });
+        const { error } = await supabase.auth.signUp({
+          email, password: pw,
+          options: { emailRedirectTo: window.location.origin },
+        });
         if (error) throw error;
-        setJustSignedUp(true);
-        setMsg("✓ Compte créé ! Connectez-vous maintenant.");
-        setMode("login");
+        setAwaitingConfirm(true);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password: pw });
         if (error) throw error;
-        justSignedUp && onSuccess ? onSuccess() : onClose();
+        onClose();
       }
     } catch (e: any) {
       setMsg(e.message || "Une erreur est survenue.");
     } finally { setLoading(false); }
+  };
+
+  const resendConfirmation = async () => {
+    setLoading(true);
+    await supabase.auth.resend({ type: "signup", email, options: { emailRedirectTo: window.location.origin } });
+    setLoading(false);
+    setMsg("Email renvoyé !");
   };
 
   const signInWithGoogle = async () => {
@@ -201,6 +209,27 @@ function AuthModal({ onClose, onSuccess }: { onClose: () => void; onSuccess?: ()
         boxShadow:"0 40px 80px rgba(0,0,0,.65),0 0 0 1px rgba(255,107,53,.15)",
       }}>
         <button onClick={onClose} style={{ position:"absolute",top:16,right:18,background:"none",border:"none",color:C.muted,fontSize:22,lineHeight:1 }}>✕</button>
+
+        {awaitingConfirm && (
+          <div style={{ textAlign:"center", padding:"8px 0" }}>
+            <div style={{ fontSize:48, marginBottom:16 }}>📧</div>
+            <h2 style={{ fontSize:20, fontWeight:900, color:C.text, marginBottom:10 }}>Confirmez votre adresse</h2>
+            <p style={{ fontSize:14, color:C.muted, lineHeight:1.7, marginBottom:24 }}>
+              Un lien de confirmation a été envoyé à<br />
+              <strong style={{ color:C.text }}>{email}</strong><br />
+              Cliquez dessus pour activer votre compte.
+            </p>
+            <p style={{ fontSize:12, color:C.muted, marginBottom:16 }}>Pensez à vérifier vos spams.</p>
+            <button
+              onClick={resendConfirmation}
+              disabled={loading}
+              style={{ background:"none", border:`1px solid ${C.border}`, color:C.muted, borderRadius:10, padding:"9px 20px", fontSize:13, cursor:"pointer" }}
+            >{loading ? "…" : "Renvoyer l'email"}</button>
+            {msg && <div style={{ marginTop:12, fontSize:13, color:C.green }}>{msg}</div>}
+          </div>
+        )}
+
+        {!awaitingConfirm && (<>
 
         <div style={{ textAlign:"center",marginBottom:32 }}>
           <div style={{ marginBottom:10,display:"flex",justifyContent:"center" }}><img src="/logo.png" alt="Frigia" style={{ width:64,height:64,borderRadius:16,objectFit:"contain" }} /></div>
@@ -273,6 +302,7 @@ function AuthModal({ onClose, onSuccess }: { onClose: () => void; onSuccess?: ()
             ✓ Sans engagement · ✓ Résiliable à tout moment
           </p>
         </div>
+        </>)}
       </div>
     </div>
   );
