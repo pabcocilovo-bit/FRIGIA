@@ -1181,6 +1181,153 @@ function OnboardingScreen({ onContinue }: { onContinue: () => void }) {
   );
 }
 
+// ─── QuestionnaireScreen ─────────────────────────────────────────────────────
+const Q_GRAD = "linear-gradient(135deg,#FF6B35,#2ECC71)";
+const Q_C = { bg:"#0A0A0F", text:"#FAFAFA", muted:"#6B7280", orange:"#FF6B35" };
+
+function QuestionnaireScreen({ onComplete }: { onComplete: () => void }) {
+  const [step, setStep] = useState(0);
+  const [equipment, setEquipment] = useState<string[]>([]);
+  const [goal, setGoal] = useState("");
+  const [diet, setDiet] = useState<string[]>([]);
+  const [time, setTime] = useState("");
+
+  const steps = [
+    {
+      id:"equipment", optional:true, multi:true,
+      title:"Tu as un équipement\nparticulier ?",
+      sub:"On adaptera les recettes à ce que tu as",
+      options:[
+        { id:"airfryer",  icon:"🔥", label:"AirFryer"  },
+        { id:"moulinex",  icon:"🥣", label:"Moulinex"  },
+        { id:"thermomix", icon:"⚙️", label:"Thermomix" },
+        { id:"autre",     icon:"✏️", label:"Autre"      },
+      ],
+    },
+    {
+      id:"goal", optional:false, multi:false,
+      title:"Ton objectif\nprincipal ?",
+      sub:"On se concentrera sur ce qui compte pour toi",
+      options:[
+        { id:"healthy", icon:"🥗", label:"Manger sain"     },
+        { id:"nogaspi", icon:"♻️", label:"Zéro gaspillage" },
+        { id:"quick",   icon:"⚡", label:"Gagner du temps" },
+      ],
+    },
+    {
+      id:"diet", optional:false, multi:true,
+      title:"Tu manges\ncomment ?",
+      sub:"On te proposera uniquement des recettes adaptées",
+      options:[
+        { id:"all",        icon:"🍖", label:"Tout"        },
+        { id:"veggie",     icon:"🥦", label:"Végétarien"  },
+        { id:"vegan",      icon:"🌱", label:"Vegan"       },
+        { id:"glutenfree", icon:"🌾", label:"Sans gluten" },
+      ],
+    },
+    {
+      id:"time", optional:false, multi:false,
+      title:"Combien de temps\npour cuisiner ?",
+      sub:"On calibre la complexité des recettes",
+      options:[
+        { id:"15min", icon:"⚡",  label:"Moins de 15 min" },
+        { id:"30min", icon:"🕐",  label:"30 minutes"      },
+        { id:"any",   icon:"👨‍🍳", label:"Peu importe"    },
+      ],
+    },
+  ];
+
+  const cur = steps[step];
+
+  const isSelected = (id: string) => {
+    if (cur.id === "equipment") return equipment.includes(id);
+    if (cur.id === "goal") return goal === id;
+    if (cur.id === "diet") return diet.includes(id);
+    if (cur.id === "time") return time === id;
+    return false;
+  };
+
+  const toggle = (id: string) => {
+    if (cur.id === "equipment") {
+      setEquipment(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
+    } else if (cur.id === "goal") {
+      setGoal(id);
+    } else if (cur.id === "diet") {
+      if (id === "all") { setDiet(p => p.includes("all") ? [] : ["all"]); return; }
+      setDiet(p => { const w = p.filter(x => x !== "all"); return w.includes(id) ? w.filter(x => x !== id) : [...w, id]; });
+    } else if (cur.id === "time") {
+      setTime(id);
+    }
+  };
+
+  const canContinue = () => {
+    if (cur.optional) return true;
+    if (cur.id === "goal") return !!goal;
+    if (cur.id === "diet") return diet.length > 0;
+    if (cur.id === "time") return !!time;
+    return true;
+  };
+
+  const goNext = () => {
+    if (!canContinue()) return;
+    if (step < steps.length - 1) setStep(s => s + 1);
+    else onComplete();
+  };
+
+  return (
+    <div style={{ position:"fixed",inset:0,zIndex:500,background:Q_C.bg,display:"flex",flexDirection:"column",overflow:"hidden" }}>
+      <div style={{ position:"absolute",width:400,height:400,borderRadius:"50%",background:"radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%)",top:"-10%",right:"-10%",pointerEvents:"none" }} />
+      <div style={{ position:"absolute",width:360,height:360,borderRadius:"50%",background:"radial-gradient(circle,rgba(46,204,113,.09) 0%,transparent 70%)",bottom:"5%",left:"-8%",pointerEvents:"none" }} />
+
+      <div style={{ padding:"calc(52px + env(safe-area-inset-top)) 28px 0",position:"relative",zIndex:1 }}>
+        <div style={{ display:"flex",gap:6,marginBottom:36 }}>
+          {steps.map((_, i) => (
+            <div key={i} style={{ flex:1,height:3,borderRadius:100,overflow:"hidden",background:"rgba(255,255,255,0.08)" }}>
+              <div style={{ height:"100%",background:Q_GRAD,borderRadius:100,width:i<=step?"100%":"0%",transition:"width 0.45s ease" }} />
+            </div>
+          ))}
+        </div>
+        <div style={{ fontSize:12,color:Q_C.muted,marginBottom:10,fontWeight:600,letterSpacing:1 }}>
+          {step+1} / {steps.length}
+          {cur.optional && <span style={{ marginLeft:10,color:"rgba(255,255,255,0.2)",fontSize:11 }}>· Facultatif</span>}
+        </div>
+        <h2 style={{ fontSize:"clamp(28px,7vw,40px)",fontWeight:900,color:Q_C.text,lineHeight:1.12,letterSpacing:-1.5,whiteSpace:"pre-line",marginBottom:8 }}>
+          {cur.title}
+        </h2>
+        <p style={{ fontSize:14,color:Q_C.muted,lineHeight:1.6 }}>{cur.sub}</p>
+      </div>
+
+      <div style={{ flex:1,padding:"28px 28px 0",display:"flex",flexDirection:"column",gap:11,overflowY:"auto",position:"relative",zIndex:1 }}>
+        {cur.options.map(opt => {
+          const sel = isSelected(opt.id);
+          return (
+            <button key={opt.id} onClick={() => toggle(opt.id)} style={{ display:"flex",alignItems:"center",gap:16,padding:"17px 20px",borderRadius:20,background:sel?"rgba(255,107,53,0.1)":"rgba(255,255,255,0.04)",border:`1.5px solid ${sel?"rgba(255,107,53,0.55)":"rgba(255,255,255,0.07)"}`,color:Q_C.text,textAlign:"left",width:"100%",transition:"all 0.2s",boxShadow:sel?"0 4px 20px rgba(255,107,53,0.12)":"none" }}>
+              <div style={{ width:44,height:44,borderRadius:14,background:sel?"rgba(255,107,53,0.18)":"rgba(255,255,255,0.06)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0 }}>
+                {opt.icon}
+              </div>
+              <span style={{ fontWeight:700,fontSize:16,flex:1 }}>{opt.label}</span>
+              <div style={{ width:22,height:22,borderRadius:"50%",border:`2px solid ${sel?Q_C.orange:"rgba(255,255,255,0.15)"}`,background:sel?Q_C.orange:"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all 0.2s" }}>
+                {sel && <span style={{ color:"#fff",fontSize:12,fontWeight:900 }}>✓</span>}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      <div style={{ padding:"20px 28px calc(28px + env(safe-area-inset-bottom))",position:"relative",zIndex:1 }}>
+        <button onClick={goNext} style={{ width:"100%",padding:"17px",borderRadius:100,border:"none",background:canContinue()?Q_GRAD:"rgba(255,255,255,0.07)",color:canContinue()?"#fff":"rgba(255,255,255,0.3)",fontWeight:800,fontSize:17,transition:"all 0.25s",boxShadow:canContinue()?"0 10px 32px rgba(255,107,53,0.28)":"none" }}>
+          {step === steps.length-1 ? "Continuer →" : "Continuer →"}
+        </button>
+        {step > 0 && (
+          <button onClick={() => setStep(s => s-1)} style={{ width:"100%",marginTop:12,padding:"10px",background:"none",border:"none",color:Q_C.muted,fontSize:14,fontWeight:500 }}>
+            ← Retour
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── ServingsModal ────────────────────────────────────────────────────────────
 function ServingsModal({
   theme,
@@ -3099,6 +3246,7 @@ export default function Frigia() {
   const [selectedRecipe, setSelectedRecipe] = useState<{ recipe: GeneratedRecipe; servings: number } | null>(null);
   const [windowWidth, setWindowWidth] = useState(() => window.innerWidth);
   const [mobileTab, setMobileTab] = useState<"scan" | "recipes" | "profile">("scan");
+  const [showQuestionnaire, setShowQuestionnaire] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [showCheckoutSuccess, setShowCheckoutSuccess] = useState(() => {
@@ -3177,7 +3325,7 @@ useEffect(() => {
       loadUserData(u);
       const pending = localStorage.getItem("frigia_checkout_pending");
       if (!localStorage.getItem(`frigia_onboarded_${u.id}`) && !pending) {
-        setShowOnboarding(true);
+        setShowQuestionnaire(true);
       } else if (pending) {
         localStorage.setItem(`frigia_onboarded_${u.id}`, "1");
       }
@@ -3191,7 +3339,7 @@ useEffect(() => {
       loadUserData(u);
       const pending = localStorage.getItem("frigia_checkout_pending");
       if (!localStorage.getItem(`frigia_onboarded_${u.id}`) && !pending) {
-        setShowOnboarding(true);
+        setShowQuestionnaire(true);
       } else if (pending) {
         localStorage.setItem(`frigia_onboarded_${u.id}`, "1");
       }
@@ -3311,6 +3459,10 @@ if (!hasAccess(user)) {
     onLogout={async () => { await supabase.auth.signOut(); }}
     isCanceled={user?.user_metadata?.subscription_status === "canceled"}
   />;
+}
+
+if (showQuestionnaire) {
+  return <QuestionnaireScreen onComplete={() => { setShowQuestionnaire(false); setShowOnboarding(true); }} />;
 }
 
 if (showOnboarding) {
