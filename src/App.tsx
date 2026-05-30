@@ -1818,7 +1818,6 @@ function RecipeDetailModal({
 function HistoryTab({
   theme,
   history,
-  onDeleteRecipe,
   onDeleteScan,
   onRecipeClick,
   favorites,
@@ -1826,7 +1825,6 @@ function HistoryTab({
 }: {
   theme: Theme;
   history: HistoryEntry[];
-  onDeleteRecipe: (entryId: string, recipeTitle: string) => void;
   onDeleteScan: (entryId: string) => void;
   onRecipeClick: (recipe: GeneratedRecipe, servings: number) => void;
   favorites: GeneratedRecipe[];
@@ -3599,7 +3597,7 @@ if (isMobile) {
 
             {/* Historique */}
             {recipesSubTab === "history" && (
-              <HistoryTab theme={theme} history={history} onDeleteRecipe={deleteRecipe} onDeleteScan={deleteScan} onRecipeClick={(r, s) => setSelectedRecipe({ recipe: r, servings: s })} favorites={favorites} onToggleFavorite={toggleFavorite} />
+              <HistoryTab theme={theme} history={history} onDeleteScan={deleteScan} onRecipeClick={(r, s) => setSelectedRecipe({ recipe: r, servings: s })} favorites={favorites} onToggleFavorite={toggleFavorite} />
             )}
 
             {/* Favoris */}
