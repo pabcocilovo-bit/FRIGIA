@@ -3793,7 +3793,7 @@ if (isMobile) {
                     <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.75) 100%)" }} />
                     <div style={{ position: "absolute", bottom: 12, left: 14, right: 14 }}>
                       <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", fontWeight: 600, marginBottom: 2 }}>Ingrédient le plus scanné</div>
-                      <div style={{ fontSize: 17, fontWeight: 900, color: "#fff" }}>{icon} {name}</div>
+                      <div style={{ fontSize: 17, fontWeight: 900, color: "#fff" }}>{name}</div>
                     </div>
                     <div style={{ position: "absolute", top: 10, right: 10, background: "linear-gradient(135deg,#FF6B35,#2ECC71)", borderRadius: 100, padding: "3px 10px", fontSize: 11, fontWeight: 700, color: "#fff" }}>{count}×</div>
                   </div>
