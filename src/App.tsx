@@ -1296,8 +1296,8 @@ function SettingsModal({
               <div style={{ ...glassCard(theme), padding: 24, marginTop: 16 }}>
                 <div style={{ fontWeight: 700, color: v.text, marginBottom: 8 }}>✉️ Nous contacter</div>
                 <p style={{ fontSize: 13, color: v.muted, marginBottom: 12 }}>Un problème ? Une question ? Notre équipe vous répond rapidement.</p>
-                <a href="mailto:contact.frigia@gmail.com" style={{ display: "inline-block", padding: "10px 20px", borderRadius: 100, background: v.inputBg, border: `1px solid ${v.border}`, color: v.text, fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
-                  contact.frigia@gmail.com
+                <a href="mailto:frigia.contact@gmail.com" style={{ display: "inline-block", padding: "10px 20px", borderRadius: 100, background: v.inputBg, border: `1px solid ${v.border}`, color: v.text, fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
+                  frigia.contact@gmail.com
                 </a>
               </div>
             </div>
