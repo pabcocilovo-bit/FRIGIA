@@ -1834,6 +1834,7 @@ function HistoryTab({
 }) {
   const v = getThemeVars(theme);
   const [openIngredients, setOpenIngredients] = useState<Record<string, boolean>>({});
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const toggleIngredients = (id: string) => setOpenIngredients(prev => ({ ...prev, [id]: !prev[id] }));
 
   if (history.length === 0) {
@@ -1897,13 +1898,25 @@ function HistoryTab({
                 {entry.recipes.length > 1 ? "s" : ""}
               </div>
             </div>
-            <button
-              onClick={() => onDeleteScan(entry.id)}
-              title="Supprimer ce scan"
-              style={{ flexShrink: 0, width: 34, height: 34, borderRadius: "50%", border: "1px solid rgba(231,76,60,0.3)", background: "rgba(231,76,60,0.08)", color: "#e74c3c", cursor: "pointer", fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center" }}
-            >
-              🗑️
-            </button>
+            {confirmDeleteId === entry.id ? (
+              <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                <span style={{ fontSize: 12, color: "#e74c3c", fontWeight: 600 }}>Supprimer ?</span>
+                <button
+                  onClick={() => { onDeleteScan(entry.id); setConfirmDeleteId(null); }}
+                  style={{ padding: "5px 12px", borderRadius: 8, border: "none", background: "#e74c3c", color: "#fff", fontSize: 12, fontWeight: 700, cursor: "pointer" }}
+                >Oui</button>
+                <button
+                  onClick={() => setConfirmDeleteId(null)}
+                  style={{ padding: "5px 10px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", background: "none", color: v.muted, fontSize: 12, cursor: "pointer" }}
+                >Non</button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setConfirmDeleteId(entry.id)}
+                title="Supprimer ce scan"
+                style={{ flexShrink: 0, width: 34, height: 34, borderRadius: "50%", border: "1px solid rgba(231,76,60,0.3)", background: "rgba(231,76,60,0.08)", color: "#e74c3c", cursor: "pointer", fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center" }}
+              >🗑️</button>
+            )}
           </div>
 
           {/* Ingredients accordion */}
@@ -1965,34 +1978,6 @@ function HistoryTab({
                   style={{ position: "absolute", top: 8, left: 8, zIndex: 10, width: 26, height: 26, borderRadius: "50%", background: favorites.some(f => f.title === recipe.title) ? "rgba(255,107,53,0.9)" : "rgba(0,0,0,0.65)", border: "none", cursor: "pointer", fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center" }}
                   title="Favori"
                 >{favorites.some(f => f.title === recipe.title) ? "❤️" : "🤍"}</button>
-                {/* Delete button */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDeleteRecipe(entry.id, recipe.title);
-                  }}
-                  style={{
-                    position: "absolute",
-                    top: 8,
-                    right: 8,
-                    zIndex: 10,
-                    width: 26,
-                    height: 26,
-                    borderRadius: "50%",
-                    background: "rgba(0,0,0,0.65)",
-                    border: "none",
-                    color: "#fff",
-                    cursor: "pointer",
-                    fontSize: 11,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontWeight: 700,
-                  }}
-                  title="Supprimer"
-                >
-                  ✕
-                </button>
                 <div
                   style={{
                     height: 110,
