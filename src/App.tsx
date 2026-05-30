@@ -1924,7 +1924,7 @@ function HistoryTab({
                 onClick={() => toggleIngredients(entry.id)}
                 style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(46,204,113,0.08)", border: "1px solid rgba(46,204,113,0.2)", borderRadius: 100, padding: "5px 14px", cursor: "pointer", fontSize: 12, fontWeight: 700, color: "#2ECC71" }}
               >
-                🥦 Aliments détectés ({entry.ingredients.length})
+                Aliments détectés ({entry.ingredients.length})
                 <span style={{ fontSize: 10, transition: "transform 0.2s", display: "inline-block", transform: openIngredients[entry.id] ? "rotate(180deg)" : "rotate(0deg)" }}>▼</span>
               </button>
               {openIngredients[entry.id] && (
@@ -3462,25 +3462,6 @@ async function signOut() {
     const t = setTimeout(() => setScanSuccess(false), 2500);
     return () => clearTimeout(t);
   }, [scanSuccess]);
-
-  const deleteRecipe = (entryId: string, recipeTitle: string) => {
-    setHistory((prev) => {
-      const next = prev
-        .map((entry) =>
-          entry.id === entryId
-            ? { ...entry, recipes: entry.recipes.filter((r) => r.title !== recipeTitle) }
-            : entry
-        )
-        .filter((entry) => entry.recipes.length > 0);
-      if (user) {
-        setCachedHistory(user.id, next);
-        const updated = next.find(e => e.id === entryId);
-        if (updated) dbUpdateHistoryRecipes(entryId, updated.recipes);
-        else dbDeleteHistoryEntry(entryId);
-      }
-      return next;
-    });
-  };
 
   const deleteScan = (entryId: string) => {
     setHistory((prev) => {
