@@ -3752,7 +3752,6 @@ if (isMobile) {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {([
-                { icon: "⚙️", label: "Paramètres", sub: "Profil, abonnement, sécurité", onClick: () => setShowSettings(true) },
                 { icon: theme === "dark" ? "☀️" : "🌙", label: theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre", sub: "Changer l'apparence", onClick: () => setTheme(theme === "dark" ? "light" : "dark") },
               ] as { icon: string; label: string; sub: string; onClick: () => void }[]).map((item) => (
                 <button key={item.label} onClick={item.onClick} style={{ ...gc, padding: "16px 18px", display: "flex", alignItems: "center", gap: 14, border: "none", cursor: "pointer", textAlign: "left", width: "100%", borderRadius: 16 }}>
