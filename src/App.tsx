@@ -3780,14 +3780,12 @@ if (isMobile) {
               ].filter(Boolean) as { icon: string; label: string; sub: string }[];
               return (
                 <div style={{ marginBottom: 16, borderRadius: 22, overflow: "hidden", background: "linear-gradient(135deg,rgba(255,107,53,0.12),rgba(46,204,113,0.08))", border: "1px solid rgba(255,107,53,0.2)" }}>
-                  <div style={{ padding: "16px 18px 12px", display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                    <span style={{ fontSize: 18 }}>👨‍🍳</span>
+                  <div style={{ padding: "16px 18px 12px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
                     <span style={{ fontSize: 13, fontWeight: 800, color: v.text, letterSpacing: 0.3 }}>Ton profil culinaire</span>
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: "rgba(255,255,255,0.04)" }}>
                     {items.map((item, i) => (
                       <div key={i} style={{ padding: "14px 16px", background: theme === "dark" ? "rgba(10,10,15,0.6)" : "rgba(255,255,255,0.6)" }}>
-                        <div style={{ fontSize: 22, marginBottom: 6 }}>{item.icon}</div>
                         <div style={{ fontSize: 11, color: v.muted, marginBottom: 3 }}>{item.sub}</div>
                         <div style={{ fontSize: 13, fontWeight: 700, color: v.text, lineHeight: 1.3 }}>{item.label}</div>
                       </div>
