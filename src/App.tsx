@@ -3452,15 +3452,6 @@ if (!user) {
   return <><Analytics /><Suspense fallback={<div style={{background:"#07070E",minHeight:"100vh"}}/>}><Landing /></Suspense></>;
 }
 
-if (!hasAccess(user)) {
-  return <PaywallModal
-    onSubscribe={startCheckout}
-    loading={checkoutLoading}
-    onLogout={async () => { await supabase.auth.signOut(); }}
-    isCanceled={user?.user_metadata?.subscription_status === "canceled"}
-  />;
-}
-
 if (showQuestionnaire) {
   return <QuestionnaireScreen onComplete={() => { setShowQuestionnaire(false); setShowOnboarding(true); }} />;
 }
@@ -3474,6 +3465,15 @@ if (showOnboarding) {
       }}
     />
   );
+}
+
+if (!hasAccess(user)) {
+  return <PaywallModal
+    onSubscribe={startCheckout}
+    loading={checkoutLoading}
+    onLogout={async () => { await supabase.auth.signOut(); }}
+    isCanceled={user?.user_metadata?.subscription_status === "canceled"}
+  />;
 }
 
 // ─── MOBILE LAYOUT ───────────────────────────────────────────────────────────
