@@ -3736,7 +3736,7 @@ if (isMobile) {
 
         {/* PROFIL TAB */}
         {mobileTab === "profile" && (
-          <div style={{ padding: "28px 16px" }}>
+          <div style={{ padding: "28px 16px", display: "flex", flexDirection: "column", minHeight: "calc(100dvh - 120px)" }}>
             <div style={{ textAlign: "center", marginBottom: 28 }}>
               <div style={{ width: 84, height: 84, borderRadius: "50%", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 38, margin: "0 auto 14px", overflow: "hidden", flexShrink: 0 }}>
                 {avatarSrc ? <img src={avatarSrc} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : "👤"}
@@ -3750,12 +3750,9 @@ if (isMobile) {
                 Essai gratuit en cours
               </div>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <button onClick={signOut} style={{ padding: "16px 18px", borderRadius: 16, border: "1px solid rgba(255,80,80,0.25)", background: "rgba(255,80,80,0.06)", display: "flex", alignItems: "center", gap: 14, cursor: "pointer", width: "100%", textAlign: "left" }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, fontSize: 15, color: "#FF5050" }}>Déconnexion</div>
-                  <div style={{ fontSize: 12, color: v.muted, marginTop: 2 }}>Se déconnecter de Frigia</div>
-                </div>
+            <div style={{ marginTop: "auto", textAlign: "center", paddingTop: 24 }}>
+              <button onClick={signOut} style={{ background: "none", border: "none", color: "rgba(255,80,80,0.6)", fontSize: 13, cursor: "pointer", padding: "8px 16px" }}>
+                Se déconnecter
               </button>
             </div>
           </div>
