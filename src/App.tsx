@@ -1413,7 +1413,7 @@ function OnboardingScreen({ onContinue, loading }: { onContinue: () => void; loa
 const Q_GRAD = "linear-gradient(135deg,#FF6B35,#2ECC71)";
 const Q_C = { bg:"#0A0A0F", text:"#FAFAFA", muted:"#6B7280", orange:"#FF6B35" };
 
-function QuestionnaireScreen({ onComplete }: { onComplete: () => void }) {
+function QuestionnaireScreen({ onComplete }: { onComplete: (prefs: { goal: string; diet: string[]; time: string; equipment: string[] }) => void }) {
   const [step, setStep] = useState(0);
   const [equipment, setEquipment] = useState<string[]>([]);
   const [goal, setGoal] = useState("");
@@ -1499,7 +1499,7 @@ function QuestionnaireScreen({ onComplete }: { onComplete: () => void }) {
   const goNext = () => {
     if (!canContinue()) return;
     if (step < steps.length - 1) setStep(s => s + 1);
-    else onComplete();
+    else onComplete({ goal, diet, time, equipment });
   };
 
   return (
@@ -3583,7 +3583,7 @@ if (!user) {
 }
 
 if (showQuestionnaire) {
-  return <QuestionnaireScreen onComplete={() => { setShowQuestionnaire(false); setShowOnboarding(true); }} />;
+  return <QuestionnaireScreen onComplete={(prefs) => { localStorage.setItem(`frigia_prefs_${user.id}`, JSON.stringify(prefs)); setShowQuestionnaire(false); setShowOnboarding(true); }} />;
 }
 
 if (showOnboarding) {
@@ -3750,6 +3750,57 @@ if (isMobile) {
                 Essai gratuit en cours
               </div>
             </div>
+
+            {/* Bloc préférences questionnaire */}
+            {(() => {
+              const prefs = user ? JSON.parse(localStorage.getItem(`frigia_prefs_${user.id}`) || "null") : null;
+              if (!prefs) return null;
+              const goalMap: Record<string, { icon: string; label: string }> = { healthy: { icon: "🥗", label: "Manger sain" }, nogaspi: { icon: "♻️", label: "Zéro gaspillage" }, quick: { icon: "⚡", label: "Gagner du temps" } };
+              const dietMap: Record<string, { icon: string; label: string }> = { all: { icon: "🍖", label: "Tout" }, veggie: { icon: "🥦", label: "Végétarien" }, vegan: { icon: "🌱", label: "Vegan" }, glutenfree: { icon: "🌾", label: "Sans gluten" } };
+              const timeMap: Record<string, { icon: string; label: string }> = { "15min": { icon: "⚡", label: "< 15 min" }, "30min": { icon: "🕐", label: "30 min" }, any: { icon: "👨‍🍳", label: "Peu importe" } };
+              const equip: Record<string, { icon: string; label: string }> = { airfryer: { icon: "🔥", label: "AirFryer" }, moulinex: { icon: "🥣", label: "Moulinex" }, thermomix: { icon: "⚙️", label: "Thermomix" }, autre: { icon: "✏️", label: "Autre" } };
+              const g = goalMap[prefs.goal];
+              const t = timeMap[prefs.time];
+              const diets = (prefs.diet as string[]).map((d: string) => dietMap[d]).filter(Boolean);
+              const equipList = (prefs.equipment as string[]).map((e: string) => equip[e]).filter(Boolean);
+              return (
+                <div style={{ ...glassCard(theme), padding: "18px", marginBottom: 16 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: v.muted, letterSpacing: 1, marginBottom: 14, textTransform: "uppercase" }}>Ton profil culinaire</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                    {g && <div style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ fontSize: 20 }}>{g.icon}</span><div><div style={{ fontSize: 12, color: v.muted }}>Objectif</div><div style={{ fontSize: 14, fontWeight: 700, color: v.text }}>{g.label}</div></div></div>}
+                    {diets.length > 0 && <div style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ fontSize: 20 }}>{diets[0].icon}</span><div><div style={{ fontSize: 12, color: v.muted }}>Alimentation</div><div style={{ fontSize: 14, fontWeight: 700, color: v.text }}>{diets.map(d => d.label).join(", ")}</div></div></div>}
+                    {t && <div style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ fontSize: 20 }}>{t.icon}</span><div><div style={{ fontSize: 12, color: v.muted }}>Temps de cuisine</div><div style={{ fontSize: 14, fontWeight: 700, color: v.text }}>{t.label}</div></div></div>}
+                    {equipList.length > 0 && <div style={{ display: "flex", alignItems: "center", gap: 10 }}><span style={{ fontSize: 20 }}>{equipList[0].icon}</span><div><div style={{ fontSize: 12, color: v.muted }}>Équipement</div><div style={{ fontSize: 14, fontWeight: 700, color: v.text }}>{equipList.map(e => e.label).join(", ")}</div></div></div>}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Ingrédient le plus scanné */}
+            {(() => {
+              const counts: Record<string, { count: number; icon: string }> = {};
+              history.forEach(e => e.ingredients.forEach(ing => {
+                if (!counts[ing.name]) counts[ing.name] = { count: 0, icon: ing.icon };
+                counts[ing.name].count++;
+              }));
+              const top = Object.entries(counts).sort((a, b) => b[1].count - a[1].count)[0];
+              if (!top) return null;
+              const [name, { count, icon }] = top;
+              return (
+                <div style={{ ...glassCard(theme), padding: 0, overflow: "hidden", marginBottom: 16 }}>
+                  <div style={{ position: "relative", height: 130 }}>
+                    <RecipeImage title={name} imageSearch={name} />
+                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.75) 100%)" }} />
+                    <div style={{ position: "absolute", bottom: 12, left: 14, right: 14 }}>
+                      <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", fontWeight: 600, marginBottom: 2 }}>Ingrédient le plus scanné</div>
+                      <div style={{ fontSize: 17, fontWeight: 900, color: "#fff" }}>{icon} {name}</div>
+                    </div>
+                    <div style={{ position: "absolute", top: 10, right: 10, background: "linear-gradient(135deg,#FF6B35,#2ECC71)", borderRadius: 100, padding: "3px 10px", fontSize: 11, fontWeight: 700, color: "#fff" }}>{count}×</div>
+                  </div>
+                </div>
+              );
+            })()}
+
             <div style={{ marginTop: "auto", textAlign: "center", paddingTop: 24 }}>
               <button onClick={signOut} style={{ background: "none", border: "none", color: "rgba(255,80,80,0.6)", fontSize: 13, cursor: "pointer", padding: "8px 16px" }}>
                 Se déconnecter
