@@ -1885,7 +1885,6 @@ function HistoryTab({
               <div
                 style={{ fontWeight: 800, fontSize: 15, color: v.text }}
               >
-                📅{" "}
                 {entry.date.toLocaleDateString("fr-FR", {
                   day: "numeric",
                   month: "long",
@@ -2021,7 +2020,7 @@ function HistoryTab({
                 </div>
                 <div style={{ padding: "10px 12px" }}>
                   <div style={{ fontWeight: 700, fontSize: 12, color: v.text, marginBottom: 4, lineHeight: 1.3 }}>
-                    {recipe.emoji} {recipe.title}
+                    {recipe.title}
                   </div>
                   <div style={{ fontSize: 11, color: v.muted, marginBottom: 8 }}>
                     {recipe.time} · {recipe.cal} kcal
