@@ -3764,7 +3764,6 @@ if (isMobile) {
                 </button>
               ))}
               <button onClick={signOut} style={{ padding: "16px 18px", borderRadius: 16, border: "1px solid rgba(255,80,80,0.25)", background: "rgba(255,80,80,0.06)", display: "flex", alignItems: "center", gap: 14, cursor: "pointer", width: "100%", textAlign: "left" }}>
-                <div style={{ width: 46, height: 46, borderRadius: 13, background: "rgba(255,80,80,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>🚪</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 700, fontSize: 15, color: "#FF5050" }}>Déconnexion</div>
                   <div style={{ fontSize: 12, color: v.muted, marginTop: 2 }}>Se déconnecter de Frigia</div>
