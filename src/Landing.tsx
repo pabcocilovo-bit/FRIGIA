@@ -143,7 +143,7 @@ function Phone({ style }: { style?: React.CSSProperties }) {
 
 // ── Auth modal ────────────────────────────────────────────────────────────────
 function AuthModal({ onClose }: { onClose: () => void }) {
-  const [mode, setMode] = useState<"signup"|"login">("login");
+  const [mode, setMode] = useState<"signup"|"login">("signup");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [loading, setLoading] = useState(false);
@@ -218,7 +218,7 @@ function AuthModal({ onClose }: { onClose: () => void }) {
             <p style={{ fontSize:14, color:C.muted, lineHeight:1.6, marginBottom:24 }}>
               Votre compte sera créé avec cette adresse :
             </p>
-            <div style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", borderRadius:14, padding:"14px 20px", marginBottom:8, fontSize:14, fontWeight:700, color:C.text, overflowWrap:"anywhere" }}>
+            <div style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", borderRadius:14, padding:"14px 20px", marginBottom:8, fontSize:13, fontWeight:700, color:C.text, textAlign:"center", overflowWrap:"break-word", wordBreak:"break-word" }}>
               {email}
             </div>
             <p style={{ fontSize:12, color:C.muted, marginBottom:28 }}>
@@ -251,7 +251,7 @@ function AuthModal({ onClose }: { onClose: () => void }) {
 
         {/* Toggle */}
         <div style={{ display:"flex",gap:3,background:"rgba(255,255,255,.05)",borderRadius:12,padding:4,marginBottom:26 }}>
-          {(["login","signup"] as const).map(m => (
+          {(["signup","login"] as const).map(m => (
             <button key={m} onClick={() => setMode(m)} style={{
               flex:1,padding:"9px",borderRadius:10,border:"none",
               background: mode===m ? "rgba(255,255,255,.1)" : "transparent",
@@ -443,7 +443,7 @@ function Hero({ onOpen, onInstall }: { onOpen: () => void; onInstall?: () => voi
 
 // ── Marquee ───────────────────────────────────────────────────────────────────
 function Marquee() {
-  const items = ["📸 Scan IA ultra-précis","🤖 Chef IA 24h/24","🥗 Recettes sur-mesure","⏰ Alertes péremption","💚 Zéro gaspillage","📊 Suivi nutritionnel","✨ 120 000+ recettes","⭐ 4,9/5 App Store","🔒 Données sécurisées","🌱 Anti-gaspi certifié"];
+  const items = ["📸 Scan IA ultra-précis","🥗 Recettes sur-mesure","💚 Zéro gaspillage","📊 Suivi nutritionnel","✨ 120 000+ recettes","⭐ 4,9/5 App Store","🔒 Données sécurisées","🌱 Anti-gaspi certifié"];
   const all = [...items,...items];
   return (
     <div style={{ borderTop:"1px solid rgba(255,255,255,.06)",borderBottom:"1px solid rgba(255,255,255,.06)",background:"rgba(255,255,255,.018)",overflow:"hidden",padding:"17px 0",userSelect:"none" }}>
@@ -571,7 +571,7 @@ function Pricing({ onOpen }: { onOpen: () => void }) {
           </div>
           <div style={{ fontSize:13,color:"#2ECC71",fontWeight:700,marginBottom:36 }}>✓ Résiliable à tout moment</div>
           <ul style={{ listStyle:"none",textAlign:"left",marginBottom:36,display:"flex",flexDirection:"column",gap:13 }}>
-            {["Scans IA illimités","Recettes personnalisées illimitées","Chat Chef IA 24h/24","Suivi nutritionnel avancé","Alertes péremption intelligentes","Toutes futures fonctionnalités incluses"].map((f,i)=>(
+            {["Scans IA illimités","Recettes personnalisées illimitées","Suivi nutritionnel avancé","Toutes futures fonctionnalités incluses"].map((f,i)=>(
               <li key={i} style={{ display:"flex",gap:12,alignItems:"flex-start",fontSize:15,color:C.text }}>
                 <span style={{ color:"#2ECC71",fontWeight:900 }}>✓</span>{f}
               </li>
@@ -655,7 +655,7 @@ function Footer() {
       <LegalModal title="Mentions légales" onClose={() => setModal(null)}>
         <span style={s.heading}>Éditeur</span>
         Frigia — Application web éditée par un particulier.<br />
-        Contact : <a href="mailto:contact.frigia@gmail.com" style={{ color:C.orange }}>contact.frigia@gmail.com</a>
+        Contact : <a href="mailto:frigia.contact@gmail.com" style={{ color:C.orange }}>frigia.contact@gmail.com</a>
         <span style={s.heading}>Hébergement</span>
         Vercel Inc., 340 Pine Street Suite 900, San Francisco, CA 94104, USA.
         <span style={s.heading}>Propriété intellectuelle</span>
@@ -675,7 +675,7 @@ function Footer() {
         <span style={s.heading}>5. Responsabilité</span>
         Les recettes générées par l'IA sont fournies à titre indicatif. Frigia ne peut être tenu responsable d'une utilisation inappropriée des suggestions.
         <span style={s.heading}>6. Contact</span>
-        <a href="mailto:contact.frigia@gmail.com" style={{ color:C.orange }}>contact.frigia@gmail.com</a>
+        <a href="mailto:frigia.contact@gmail.com" style={{ color:C.orange }}>frigia.contact@gmail.com</a>
       </LegalModal>
     )}
     {modal === "confidentialite" && (
@@ -689,7 +689,7 @@ function Footer() {
         <span style={s.heading}>Durée de conservation</span>
         Vos données sont conservées tant que votre compte est actif. Elles sont supprimées intégralement à la suppression du compte.
         <span style={s.heading}>Vos droits (RGPD)</span>
-        Vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits : <a href="mailto:contact.frigia@gmail.com" style={{ color:C.orange }}>contact.frigia@gmail.com</a>
+        Vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits : <a href="mailto:frigia.contact@gmail.com" style={{ color:C.orange }}>frigia.contact@gmail.com</a>
         <span style={s.heading}>Cookies</span>
         Frigia n'utilise pas de cookies de suivi ou publicitaires.
       </LegalModal>
@@ -706,7 +706,7 @@ function Footer() {
               Votre Chef IA personnel.<br />4 jours gratuits, puis 7,99€/mois.
             </p>
             <p style={{ color:C.muted,fontSize:13,marginTop:12 }}>
-              <a href="mailto:contact.frigia@gmail.com" style={{ color:C.muted }} onMouseEnter={e=>(e.currentTarget.style.color=C.text)} onMouseLeave={e=>(e.currentTarget.style.color=C.muted)}>contact.frigia@gmail.com</a>
+              <a href="mailto:frigia.contact@gmail.com" style={{ color:C.muted }} onMouseEnter={e=>(e.currentTarget.style.color=C.text)} onMouseLeave={e=>(e.currentTarget.style.color=C.muted)}>frigia.contact@gmail.com</a>
             </p>
           </div>
           <div style={{ flex:1,minWidth:140 }}>

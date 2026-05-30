@@ -4484,9 +4484,7 @@ return (
               {[
                 "Scans IA illimités de votre frigo",
                 "Recettes personnalisées illimitées",
-                "Chat Chef IA disponible 24h/24",
                 "Suivi nutritionnel avancé",
-                "Alertes de péremption intelligentes",
                 "Toutes les futures fonctionnalités incluses",
               ].map((f, i) => (
                 <li
