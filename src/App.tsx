@@ -3790,9 +3790,10 @@ if (isMobile) {
                 <div style={{ ...glassCard(theme), padding: 0, overflow: "hidden", marginBottom: 16 }}>
                   <div style={{ position: "relative", height: 130 }}>
                     <img
-                      src={`https://image.pollinations.ai/prompt/${encodeURIComponent(`${name}, fresh ingredient, food photography, studio lighting, white background, high quality`)}&width=600&height=260&nologo=true&seed=${name.length}`}
+                      src={`https://www.themealdb.com/images/ingredients/${encodeURIComponent(name)}-Medium.png`}
                       alt={name}
-                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", background: "#fff", padding: 12 }}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = `https://image.pollinations.ai/prompt/${encodeURIComponent(`${name}, fresh food ingredient, studio photography, white background`)}&width=600&height=260&nologo=true&model=flux`; (e.currentTarget as HTMLImageElement).style.objectFit = "cover"; (e.currentTarget as HTMLImageElement).style.padding = "0"; }}
                     />
                     <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.75) 100%)" }} />
                     <div style={{ position: "absolute", bottom: 12, left: 14, right: 14 }}>
