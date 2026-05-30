@@ -3751,18 +3751,6 @@ if (isMobile) {
               </div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {([
-                { icon: theme === "dark" ? "☀️" : "🌙", label: theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre", sub: "Changer l'apparence", onClick: () => setTheme(theme === "dark" ? "light" : "dark") },
-              ] as { icon: string; label: string; sub: string; onClick: () => void }[]).map((item) => (
-                <button key={item.label} onClick={item.onClick} style={{ ...gc, padding: "16px 18px", display: "flex", alignItems: "center", gap: 14, border: "none", cursor: "pointer", textAlign: "left", width: "100%", borderRadius: 16 }}>
-                  <div style={{ width: 46, height: 46, borderRadius: 13, background: "rgba(255,107,53,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>{item.icon}</div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, fontSize: 15, color: v.text }}>{item.label}</div>
-                    <div style={{ fontSize: 12, color: v.muted, marginTop: 2 }}>{item.sub}</div>
-                  </div>
-                  <span style={{ color: v.muted, fontSize: 20 }}>›</span>
-                </button>
-              ))}
               <button onClick={signOut} style={{ padding: "16px 18px", borderRadius: 16, border: "1px solid rgba(255,80,80,0.25)", background: "rgba(255,80,80,0.06)", display: "flex", alignItems: "center", gap: 14, cursor: "pointer", width: "100%", textAlign: "left" }}>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 700, fontSize: 15, color: "#FF5050" }}>Déconnexion</div>
