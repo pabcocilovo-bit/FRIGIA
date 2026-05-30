@@ -214,7 +214,7 @@ function AuthModal({ onClose, onSuccess }: { onClose: () => void; onSuccess?: ()
 
         {/* Toggle */}
         <div style={{ display:"flex",gap:3,background:"rgba(255,255,255,.05)",borderRadius:12,padding:4,marginBottom:26 }}>
-          {(["signup","login"] as const).map(m => (
+          {(["login","signup"] as const).map(m => (
             <button key={m} onClick={() => setMode(m)} style={{
               flex:1,padding:"9px",borderRadius:10,border:"none",
               background: mode===m ? "rgba(255,255,255,.1)" : "transparent",
