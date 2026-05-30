@@ -2593,14 +2593,10 @@ function ShowcaseRecipeCard({
   recipe,
   theme,
   onClick,
-  isFavorite,
-  onToggleFavorite,
 }: {
   recipe: GeneratedRecipe;
   theme: Theme;
   onClick: () => void;
-  isFavorite?: boolean;
-  onToggleFavorite?: () => void;
 }) {
   const v = getThemeVars(theme);
   const [shared, setShared] = useState(false);
@@ -2655,13 +2651,6 @@ function ShowcaseRecipeCard({
         <div style={{ position: "absolute", top: 14, left: 14, width: 42, height: 42, borderRadius: 13, background: gradient, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, boxShadow: "0 4px 12px rgba(0,0,0,0.25)" }}>
           {recipe.emoji}
         </div>
-        {/* Favorite button */}
-        {onToggleFavorite && (
-          <button
-            onClick={(e) => { e.stopPropagation(); onToggleFavorite(); }}
-            style={{ position: "absolute", top: 14, right: 14, width: 36, height: 36, borderRadius: "50%", background: isFavorite ? "rgba(255,107,53,0.9)" : "rgba(0,0,0,0.5)", backdropFilter: "blur(8px)", border: "none", cursor: "pointer", fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.2s" }}
-          >{isFavorite ? "❤️" : "🤍"}</button>
-        )}
         {/* Difficulty badge */}
         <div style={{ position: "absolute", top: 14, left: 64, padding: "4px 10px", borderRadius: 100, background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)", fontSize: 11, fontWeight: 700, color: "#fff" }}>
           {recipe.diff}
@@ -3708,7 +3697,7 @@ if (isMobile) {
             {recipesSubTab === "popular" && (
               <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                 {SHOWCASE_RECIPES.map((r) => (
-                  <ShowcaseRecipeCard key={r.title} recipe={r} theme={theme} onClick={() => setSelectedRecipe({ recipe: r, servings })} isFavorite={isFavorite(r)} onToggleFavorite={() => toggleFavorite(r)} />
+                  <ShowcaseRecipeCard key={r.title} recipe={r} theme={theme} onClick={() => setSelectedRecipe({ recipe: r, servings })} />
                 ))}
               </div>
             )}
