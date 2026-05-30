@@ -83,6 +83,28 @@ type HistoryEntry = {
   recipes: GeneratedRecipe[];
   servings: number;
 };
+// ─── Share helper ────────────────────────────────────────────────────────────
+function buildShareText(r: GeneratedRecipe): string {
+  const lines: string[] = [];
+  lines.push(`${r.emoji} ${r.title}`);
+  lines.push(`⏱ ${r.time}  🔥 ${r.cal} kcal  📊 ${r.diff}`);
+  if (r.recipeIngredients && r.recipeIngredients.length > 0) {
+    lines.push("");
+    lines.push("🛒 Ingrédients :");
+    r.recipeIngredients.forEach(ing => lines.push(`• ${ing.name}${ing.qty ? ` — ${ing.qty}` : ""}`));
+  }
+  if (r.steps && r.steps.length > 0) {
+    lines.push("");
+    lines.push("👨‍🍳 Étapes :");
+    r.steps.forEach((step, i) => lines.push(`${i + 1}. ${step}`));
+  }
+  lines.push("");
+  lines.push("———");
+  lines.push("Recette générée avec Frigia 🍽️");
+  lines.push("Votre chef IA personnel — frigia.app");
+  return lines.join("\n");
+}
+
 // ─── Animations ──────────────────────────────────────────────────────────────
 function GlobalStyles({ theme }: { theme: Theme }) {
   const v = getThemeVars(theme);
@@ -1585,7 +1607,7 @@ function RecipeDetailModal({
           >✕</button>
           <button
             onClick={() => {
-              const text = `${recipe.emoji} ${recipe.title} — ${recipe.time} · ${recipe.cal} kcal\n\nDécouvert avec Frigia 🍽️`;
+              const text = buildShareText(recipe);
               if (navigator.share) { navigator.share({ title: recipe.title, text }).catch(() => {}); }
               else { navigator.clipboard.writeText(text).catch(() => {}); }
             }}
@@ -2453,7 +2475,7 @@ function ShowcaseRecipeCard({
   const [shared, setShared] = useState(false);
   const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    const text = `${recipe.emoji} ${recipe.title} — ${recipe.time} · ${recipe.cal} kcal\n\nDécouvert avec Frigia 🍽️`;
+    const text = buildShareText(recipe);
     if (navigator.share) {
       try { await navigator.share({ title: recipe.title, text }); } catch {}
     } else {
@@ -2918,6 +2940,8 @@ function RecipeCard({
   cal,
   diff,
   imageSearch,
+  steps,
+  recipeIngredients,
   delay = 0,
   onClick,
 }: GeneratedRecipe & { theme: Theme; delay?: number; onClick?: () => void }) {
@@ -2927,7 +2951,7 @@ function RecipeCard({
 
   const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    const text = `${emoji} ${title} — ${time} · ${cal} kcal\n\nDécouvert avec Frigia 🍽️`;
+    const text = buildShareText({ emoji, title, time, cal, diff, imageSearch, steps, recipeIngredients } as GeneratedRecipe);
     if (navigator.share) {
       try { await navigator.share({ title, text }); } catch {}
     } else {
@@ -3595,7 +3619,7 @@ if (isMobile) {
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              const text = `${r.emoji} ${r.title} — ${r.time} · ${r.cal} kcal\n\nDécouvert avec Frigia 🍽️`;
+                              const text = buildShareText(r);
                               if (navigator.share) { navigator.share({ title: r.title, text }).catch(() => {}); }
                               else { navigator.clipboard.writeText(text).catch(() => {}); }
                             }}
