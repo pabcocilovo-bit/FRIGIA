@@ -2025,10 +2025,21 @@ function HistoryTab({
                   <div style={{ fontSize: 11, color: v.muted, marginBottom: 8 }}>
                     {recipe.time} · {recipe.cal} kcal
                   </div>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); onRecipeClick(recipe, entry.servings); }}
-                    style={{ width: "100%", padding: "6px", borderRadius: 8, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontSize: 11, fontWeight: 700, cursor: "pointer" }}
-                  >Voir →</button>
+                  <div style={{ display: "flex", gap: 6 }}>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); onRecipeClick(recipe, entry.servings); }}
+                      style={{ flex: 1, padding: "6px", borderRadius: 8, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontSize: 11, fontWeight: 700, cursor: "pointer" }}
+                    >Voir →</button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const text = buildShareText(recipe);
+                        if (navigator.share) { navigator.share({ title: recipe.title, text }).catch(() => {}); }
+                        else { navigator.clipboard.writeText(text).catch(() => {}); }
+                      }}
+                      style={{ padding: "6px 10px", borderRadius: 8, border: `1px solid rgba(255,255,255,0.1)`, background: "none", color: "rgba(255,255,255,0.4)", fontSize: 11, cursor: "pointer" }}
+                    >↗</button>
+                  </div>
                 </div>
               </div>
             ))}
