@@ -3778,14 +3778,13 @@ if (isMobile) {
 
             {/* Ingrédient le plus scanné */}
             {(() => {
-              const counts: Record<string, { count: number; icon: string }> = {};
+              const counts: Record<string, number> = {};
               history.forEach(e => e.ingredients.forEach(ing => {
-                if (!counts[ing.name]) counts[ing.name] = { count: 0, icon: ing.icon };
-                counts[ing.name].count++;
+                counts[ing.name] = (counts[ing.name] || 0) + 1;
               }));
-              const top = Object.entries(counts).sort((a, b) => b[1].count - a[1].count)[0];
+              const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
               if (!top) return null;
-              const [name, { count }] = top;
+              const [name, count] = top;
               return (
                 <div style={{ ...glassCard(theme), padding: 0, overflow: "hidden", marginBottom: 16 }}>
                   <div style={{ position: "relative", height: 130 }}>
