@@ -1632,14 +1632,6 @@ function RecipeDetailModal({
             onClick={onClose}
             style={{ position: "absolute", top: 16, right: 16, width: 36, height: 36, borderRadius: "50%", background: "rgba(0,0,0,0.55)", border: "none", color: "#fff", cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center" }}
           >✕</button>
-          <button
-            onClick={() => {
-              const text = buildShareText(recipe);
-              if (navigator.share) { navigator.share({ title: recipe.title, text }).catch(() => {}); }
-              else { navigator.clipboard.writeText(text).catch(() => {}); }
-            }}
-            style={{ position: "absolute", top: 16, left: 16, width: 36, height: 36, borderRadius: "50%", background: "rgba(0,0,0,0.55)", border: "none", color: "#fff", cursor: "pointer", fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center" }}
-          >↗</button>
           <div style={{ position: "absolute", bottom: 20, left: 24 }}>
             <div style={{ fontSize: 30, marginBottom: 8 }}>{recipe.emoji}</div>
             <h2 style={{ fontSize: 22, fontWeight: 900, color: "#fff", margin: 0, lineHeight: 1.3 }}>
