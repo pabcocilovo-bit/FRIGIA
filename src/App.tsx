@@ -2647,12 +2647,8 @@ function ShowcaseRecipeCard({
         />
         {/* Gradient overlay */}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top,rgba(0,0,0,0.65) 0%,transparent 55%)" }} />
-        {/* Emoji badge */}
-        <div style={{ position: "absolute", top: 14, left: 14, width: 42, height: 42, borderRadius: 13, background: gradient, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, boxShadow: "0 4px 12px rgba(0,0,0,0.25)" }}>
-          {recipe.emoji}
-        </div>
         {/* Difficulty badge */}
-        <div style={{ position: "absolute", top: 14, left: 64, padding: "4px 10px", borderRadius: 100, background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)", fontSize: 11, fontWeight: 700, color: "#fff" }}>
+        <div style={{ position: "absolute", top: 14, left: 14, padding: "4px 10px", borderRadius: 100, background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)", fontSize: 11, fontWeight: 700, color: "#fff" }}>
           {recipe.diff}
         </div>
         {/* Title overlay */}
