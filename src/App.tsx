@@ -2922,6 +2922,19 @@ function RecipeCard({
 }: GeneratedRecipe & { theme: Theme; delay?: number; onClick?: () => void }) {
   const v = getThemeVars(theme);
   const [liked, setLiked] = useState(false);
+  const [shared, setShared] = useState(false);
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const text = `${emoji} ${title} — ${time} · ${cal} kcal\n\nDécouvert avec Frigia 🍽️`;
+    if (navigator.share) {
+      try { await navigator.share({ title, text }); } catch {}
+    } else {
+      await navigator.clipboard.writeText(text);
+      setShared(true);
+      setTimeout(() => setShared(false), 2000);
+    }
+  };
   return (
     <div
       onClick={onClick}
@@ -3013,18 +3026,20 @@ function RecipeCard({
           {liked ? "♥" : "♡"} Sauvegarder
         </button>
         <button
+          onClick={handleShare}
           style={{
             flex: 1,
             padding: "12px",
             background: "none",
             border: "none",
             borderLeft: `1px solid ${v.border}`,
-            color: v.muted,
+            color: shared ? "#2ECC71" : v.muted,
             cursor: "pointer",
             fontSize: 14,
+            transition: "color 0.2s",
           }}
         >
-          ↗ Partager
+          {shared ? "✓ Copié !" : "↗ Partager"}
         </button>
       </div>
     </div>
