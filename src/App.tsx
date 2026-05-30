@@ -2729,10 +2729,13 @@ function FridgeAIScanner({
         const { data: { session: scanSession } } = await supabase.auth.getSession();
         const userId = scanSession?.user?.id;
         const prefs = userId ? JSON.parse(localStorage.getItem(`frigia_prefs_${userId}`) || "null") : null;
+        const recentTitles = userId
+          ? getCachedHistory(userId).flatMap(e => e.recipes.map(r => r.title)).slice(0, 15)
+          : [];
         const response = await fetch("/api/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${scanSession?.access_token}` },
-          body: JSON.stringify({ imageBase64, mediaType, prefs }),
+          body: JSON.stringify({ imageBase64, mediaType, prefs, recentTitles }),
         });
         const data = await response.json();
         if (response.status === 401 || response.status === 403) {
