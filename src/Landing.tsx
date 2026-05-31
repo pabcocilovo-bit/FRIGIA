@@ -734,6 +734,64 @@ function Footer() {
   );
 }
 
+// ── In-app browser detection & banner ────────────────────────────────────────
+function detectInAppBrowser(): { isInApp: boolean; isIos: boolean; isAndroid: boolean } {
+  const ua = navigator.userAgent;
+  const isIos = /iphone|ipad|ipod/i.test(ua);
+  const isAndroid = /android/i.test(ua);
+  const isInApp = /GSA\/|FBAN\/|FBAV\/|Instagram|Twitter\/|LinkedInApp|BytedanceWebview|musical_ly|Snapchat|Pinterest\/|Line\//i.test(ua);
+  return { isInApp, isIos, isAndroid };
+}
+
+function InAppBrowserBanner() {
+  const { isInApp, isIos, isAndroid } = detectInAppBrowser();
+  const [dismissed, setDismissed] = useState(false);
+
+  if (!isInApp || dismissed || (!isIos && !isAndroid)) return null;
+
+  const openInChrome = () => {
+    window.location.href = `intent://${window.location.host}${window.location.pathname}#Intent;scheme=https;package=com.android.chrome;end`;
+  };
+
+  return (
+    <div style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 9999,
+      background: "linear-gradient(135deg,#FF6B35,#FF9A3C)",
+      paddingTop: "calc(12px + env(safe-area-inset-top))",
+      paddingBottom: "12px",
+      paddingLeft: "16px",
+      paddingRight: "16px",
+      display: "flex", alignItems: "center", gap: 12,
+      boxShadow: "0 4px 24px rgba(255,107,53,0.4)",
+    }}>
+      <span style={{ fontSize: 22, flexShrink: 0 }}>{isIos ? "🧭" : "🌐"}</span>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 2 }}>
+          Installe l'app Frigia gratuitement
+        </div>
+        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.88)", lineHeight: 1.5 }}>
+          {isIos
+            ? "Ouvre dans Safari → Partager → Sur l'écran d'accueil"
+            : "Ouvre dans Chrome → ⋮ → Ajouter à l'écran d'accueil"}
+        </div>
+      </div>
+      {isAndroid && (
+        <button onClick={openInChrome} style={{
+          padding: "8px 14px", borderRadius: 100, border: "none",
+          background: "rgba(255,255,255,0.25)", color: "#fff",
+          fontSize: 12, fontWeight: 700, cursor: "pointer", flexShrink: 0,
+        }}>
+          Ouvrir →
+        </button>
+      )}
+      <button onClick={() => setDismissed(true)} style={{
+        background: "none", border: "none", color: "rgba(255,255,255,0.75)",
+        fontSize: 20, cursor: "pointer", lineHeight: 1, flexShrink: 0, padding: "4px",
+      }}>✕</button>
+    </div>
+  );
+}
+
 // ── Browser detection ─────────────────────────────────────────────────────────
 function detectBrowser(): "ios-safari" | "ios-chrome" | "chrome-android" | "chrome-desktop" | "samsung" | "firefox-android" | "edge-mobile" | "unknown" {
   const ua = navigator.userAgent;
@@ -897,6 +955,7 @@ export default function Landing() {
   return (
     <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden" }}>
       <style>{CSS}</style>
+      <InAppBrowserBanner />
       {showInstallHint && <InstallHint onClose={() => setShowInstallHint(false)} />}
       <Nav onOpen={open} />
       <Hero onOpen={open} onInstall={isInstallable ? handleInstall : undefined} />
