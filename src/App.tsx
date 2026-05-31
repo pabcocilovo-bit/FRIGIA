@@ -448,7 +448,8 @@ type SettingsTab =
   | "subscription"
   | "appearance"
   | "notifications"
-  | "security";
+  | "security"
+  | "support";
 
 type LegalPage = "mentions" | "cgu" | "privacy" | "cookies" | "rgpd";
 
@@ -723,6 +724,7 @@ function SettingsModal({
     { id: "profile", icon: "👤", label: "Profil" },
     { id: "subscription", icon: "💳", label: "Abonnement" },
     { id: "appearance", icon: "🎨", label: "Apparence" },
+    { id: "support", icon: "💬", label: "Support" },
     { id: "security", icon: "🔒", label: "Sécurité" },
   ];
 
@@ -1313,6 +1315,24 @@ function SettingsModal({
           )}
 
           {/* ── MODALE CONFIRMATION SUPPRESSION ── */}
+          {tab === "support" && (
+            <div style={{ animation: "fadeUp 0.3s ease both" }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, color: v.text, marginBottom: 8 }}>Support & FAQ</h2>
+              <p style={{ color: v.muted, fontSize: 14, marginBottom: 24 }}>Retrouvez les réponses aux questions fréquentes.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 24 }}>
+                {SUPPORT_FAQS.map((faq, i) => (
+                  <SupportFAQItem key={i} theme={theme} q={faq.q} a={faq.a} />
+                ))}
+              </div>
+              <div style={{ ...glassCard(theme), padding: 24, textAlign: "center" }}>
+                <div style={{ fontSize: 14, color: v.muted, marginBottom: 14 }}>Vous n'avez pas trouvé votre réponse ?</div>
+                <a href="mailto:frigia.contact@gmail.com" style={{ display: "inline-block", padding: "11px 24px", borderRadius: 100, background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>
+                  Contacter le support
+                </a>
+              </div>
+            </div>
+          )}
+
           {showDeleteConfirm && (
             <div style={{ position: "fixed", inset: 0, zIndex: 4000, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
               <div style={{ width: "100%", maxWidth: 420, background: theme === "light" ? "#F4F4F0" : "#0E0E1A", border: "1px solid rgba(255,80,80,0.3)", borderRadius: 24, padding: 32 }}>
@@ -2685,6 +2705,21 @@ function ShowcaseRecipeCard({
   );
 }
 
+// ─── SupportFAQItem (used in Settings) ───────────────────────────────────────
+function SupportFAQItem({ theme, q, a }: { theme: Theme; q: string; a: string }) {
+  const v = getThemeVars(theme);
+  const [open, setOpen] = useState(false);
+  return (
+    <div onClick={() => setOpen(!open)} style={{ borderRadius: 14, border: `1px solid ${open ? "rgba(255,107,53,0.3)" : v.border}`, overflow: "hidden", cursor: "pointer", background: open ? "rgba(255,107,53,0.05)" : "transparent" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 16px" }}>
+        <span style={{ fontWeight: 600, fontSize: 14, color: v.text, flex: 1, paddingRight: 12 }}>{q}</span>
+        <span style={{ color: "#FF6B35", fontSize: 18, transform: open ? "rotate(45deg)" : "none", transition: "transform 0.2s", flexShrink: 0 }}>+</span>
+      </div>
+      {open && <div style={{ padding: "0 16px 14px", fontSize: 13, color: v.muted, lineHeight: 1.6 }}>{a}</div>}
+    </div>
+  );
+}
+
 // ─── SupportModal ─────────────────────────────────────────────────────────────
 const SUPPORT_FAQS = [
   { q: "Comment fonctionne l'essai gratuit ?", a: "Vous avez accès à toutes les fonctionnalités pendant 4 jours. Au 5ème jour, le prélèvement de 7,99€/mois démarre automatiquement." },
@@ -2695,39 +2730,6 @@ const SUPPORT_FAQS = [
   { q: "Comment changer mon email ou mot de passe ?", a: "Depuis Paramètres → Profil → Sécurité, vous pouvez modifier vos informations de connexion." },
   { q: "Mon paiement a échoué, que faire ?", a: "Mettez à jour votre carte depuis Paramètres → Abonnement → Gérer la facturation. L'accès sera rétabli dès que le paiement est accepté." },
 ];
-
-function SupportModal({ theme, onClose }: { theme: Theme; onClose: () => void }) {
-  const v = getThemeVars(theme);
-  const [openIdx, setOpenIdx] = useState<number | null>(null);
-  return (
-    <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 2000, background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)", display: "flex", alignItems: "flex-end", padding: 0 }}>
-      <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxHeight: "90dvh", borderRadius: "24px 24px 0 0", background: theme === "dark" ? "rgba(12,12,18,0.98)" : "rgba(248,248,244,0.98)", display: "flex", flexDirection: "column", animation: "modalIn 0.3s ease both" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 20px 16px", borderBottom: `1px solid ${v.border}`, flexShrink: 0 }}>
-          <span style={{ fontWeight: 800, fontSize: 17, color: v.text }}>Support & FAQ</span>
-          <button onClick={onClose} style={{ background: "none", border: "none", color: v.muted, fontSize: 22, cursor: "pointer", lineHeight: 1 }}>×</button>
-        </div>
-        <div style={{ overflowY: "auto", padding: "16px 16px 8px" }}>
-          {SUPPORT_FAQS.map((faq, i) => (
-            <div key={i} onClick={() => setOpenIdx(openIdx === i ? null : i)} style={{ borderRadius: 14, border: `1px solid ${openIdx === i ? "rgba(255,107,53,0.3)" : v.border}`, marginBottom: 8, overflow: "hidden", cursor: "pointer", background: openIdx === i ? "rgba(255,107,53,0.05)" : "transparent" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 16px" }}>
-                <span style={{ fontWeight: 600, fontSize: 14, color: v.text, flex: 1, paddingRight: 12 }}>{faq.q}</span>
-                <span style={{ color: "#FF6B35", fontSize: 18, transform: openIdx === i ? "rotate(45deg)" : "none", transition: "transform 0.2s", flexShrink: 0 }}>+</span>
-              </div>
-              {openIdx === i && <div style={{ padding: "0 16px 14px", fontSize: 13, color: v.muted, lineHeight: 1.6 }}>{faq.a}</div>}
-            </div>
-          ))}
-          <div style={{ margin: "16px 0 8px", padding: 16, borderRadius: 14, background: "rgba(255,107,53,0.06)", border: "1px solid rgba(255,107,53,0.15)", textAlign: "center" }}>
-            <div style={{ fontSize: 13, color: v.muted, marginBottom: 10 }}>Vous n'avez pas trouvé votre réponse ?</div>
-            <a href="mailto:frigia.contact@gmail.com" style={{ display: "inline-block", padding: "10px 20px", borderRadius: 100, background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontSize: 13, fontWeight: 700, textDecoration: "none" }}>
-              Contacter le support
-            </a>
-          </div>
-          <div style={{ height: "env(safe-area-inset-bottom, 16px)" }} />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ─── MealTypeModal ────────────────────────────────────────────────────────────
 function MealTypeModal({ theme, onConfirm, onClose }: { theme: Theme; onConfirm: (type: string) => void; onClose: () => void }) {
@@ -3472,7 +3474,6 @@ export default function Frigia() {
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
   const [theme, setTheme] = useState<Theme>("dark");
   const [showSettings, setShowSettings] = useState(false);
-  const [showSupport, setShowSupport] = useState(false);
   const [showLegal, setShowLegal] = useState<LegalPage | null>(null);
   const [aiRecipes, setAiRecipes] = useState<GeneratedRecipe[]>([]);
   const [, setDetectedIngredients] = useState<DetectedIngredient[]>([]);
@@ -3931,15 +3932,10 @@ if (isMobile) {
               );
             })()}
 
-            <div style={{ marginTop: "auto", paddingTop: 24 }}>
-              <button onClick={() => setShowSupport(true)} style={{ width: "100%", padding: "14px 16px", borderRadius: 14, border: `1px solid ${v.border}`, background: "none", color: v.text, fontSize: 14, fontWeight: 600, cursor: "pointer", marginBottom: 10, textAlign: "left" }}>
-                Support & FAQ →
+            <div style={{ marginTop: "auto", textAlign: "center", paddingTop: 24 }}>
+              <button onClick={signOut} style={{ background: "none", border: "none", color: "rgba(255,80,80,0.6)", fontSize: 13, cursor: "pointer", padding: "8px 16px" }}>
+                Se déconnecter
               </button>
-              <div style={{ textAlign: "center" }}>
-                <button onClick={signOut} style={{ background: "none", border: "none", color: "rgba(255,80,80,0.6)", fontSize: 13, cursor: "pointer", padding: "8px 16px" }}>
-                  Se déconnecter
-                </button>
-              </div>
             </div>
           </div>
         )}
@@ -3991,7 +3987,6 @@ return (
           onAvatarChange={setAvatarSrc}
         />
       )}
-      {showSupport && <SupportModal theme={theme} onClose={() => setShowSupport(false)} />}
       {showLegal && <LegalModal page={showLegal} theme={theme} onClose={() => setShowLegal(null)} />}
       {showServingsModal && (
         <ServingsModal
