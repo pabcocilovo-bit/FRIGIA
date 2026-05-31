@@ -1431,6 +1431,113 @@ function OnboardingScreen({ onContinue, loading }: { onContinue: () => void; loa
   );
 }
 
+// ─── InstallRecoScreen ────────────────────────────────────────────────────────
+function detectBrowserType(): "ios-safari" | "ios-chrome" | "chrome-android" | "other" {
+  const ua = navigator.userAgent;
+  const isIos = /iphone|ipad|ipod/i.test(ua);
+  if (isIos && /crios/i.test(ua)) return "ios-chrome";
+  if (isIos) return "ios-safari";
+  if (/android/i.test(ua) && /chrome/i.test(ua)) return "chrome-android";
+  return "other";
+}
+
+function InstallRecoScreen({ onContinue }: { onContinue: () => void }) {
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  useEffect(() => {
+    const h = (e: Event) => { e.preventDefault(); setInstallPrompt(e); };
+    window.addEventListener("beforeinstallprompt", h as any);
+    return () => window.removeEventListener("beforeinstallprompt", h as any);
+  }, []);
+
+  const browser = detectBrowserType();
+  const stepsMap = {
+    "ios-safari": [
+      { num: 1, text: "Appuyez sur le bouton", strong: "Partager", sub: "l'icône □↑ en bas de Safari" },
+      { num: 2, text: "Faites défiler et appuyez sur", strong: "Sur l'écran d'accueil", sub: "" },
+      { num: 3, text: "Appuyez sur", strong: "Ajouter", sub: "en haut à droite — c'est tout !" },
+    ],
+    "ios-chrome": [
+      { num: 1, text: "Appuyez sur", strong: "le bouton Partager", sub: "icône □↑ en haut à droite" },
+      { num: 2, text: "Appuyez sur", strong: "Sur l'écran d'accueil", sub: "dans la liste" },
+      { num: 3, text: "Appuyez sur", strong: "Ajouter", sub: "c'est tout !" },
+    ],
+    "chrome-android": [
+      { num: 1, text: "Appuyez sur", strong: "⋮", sub: "les 3 points en haut à droite" },
+      { num: 2, text: "Appuyez sur", strong: "Ajouter à l'écran d'accueil", sub: "" },
+      { num: 3, text: "Confirmez en appuyant sur", strong: "Ajouter", sub: "c'est tout !" },
+    ],
+    "other": [
+      { num: 1, text: "Ouvrez le", strong: "menu de votre navigateur", sub: "bouton ⋮ ou ···" },
+      { num: 2, text: "Cherchez", strong: "Ajouter à l'écran d'accueil", sub: "ou \"Installer l'application\"" },
+      { num: 3, text: "Confirmez en appuyant sur", strong: "Ajouter", sub: "c'est tout !" },
+    ],
+  };
+  const steps = stepsMap[browser];
+  const showArrow = browser === "ios-safari" || browser === "ios-chrome";
+  const arrowPos = browser === "ios-safari" ? "bottom" : "top";
+
+  const handleInstall = async () => {
+    if (installPrompt) { installPrompt.prompt(); await installPrompt.userChoice; }
+  };
+
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 500, background: "#0A0A0F", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <style>{`html,body{margin:0;background:#0A0A0F;overflow:hidden!important;}`}</style>
+      <div style={{ position: "absolute", width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%)", top: "-10%", right: "-10%", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", width: 360, height: 360, borderRadius: "50%", background: "radial-gradient(circle,rgba(46,204,113,.09) 0%,transparent 70%)", bottom: "5%", left: "-8%", pointerEvents: "none" }} />
+
+      {showArrow && arrowPos === "bottom" && (
+        <div style={{ position: "absolute", bottom: 12, right: 24, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, zIndex: 10, pointerEvents: "none" }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: "#FF6B35", letterSpacing: 0.5 }}>Appuyez ici</span>
+          <span style={{ fontSize: 36, color: "#FF6B35", lineHeight: 1, animation: "pulse 1.5s ease infinite" }}>↓</span>
+        </div>
+      )}
+      {showArrow && arrowPos === "top" && (
+        <div style={{ position: "absolute", top: 12, right: 24, display: "flex", flexDirection: "column-reverse", alignItems: "center", gap: 4, zIndex: 10, pointerEvents: "none" }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: "#FF6B35", letterSpacing: 0.5 }}>Appuyez ici</span>
+          <span style={{ fontSize: 36, color: "#FF6B35", lineHeight: 1, animation: "pulse 1.5s ease infinite" }}>↑</span>
+        </div>
+      )}
+
+      <div style={{ flex: 1, overflowY: "auto", padding: "calc(52px + env(safe-area-inset-top)) 28px 24px", display: "flex", flexDirection: "column", gap: 28, position: "relative", zIndex: 1 }}>
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#FF6B35", letterSpacing: 2, textTransform: "uppercase", marginBottom: 16 }}>Recommandé</div>
+          <h2 style={{ fontSize: "clamp(26px,7vw,38px)", fontWeight: 900, color: "#FAFAFA", lineHeight: 1.12, letterSpacing: -1.2, marginBottom: 12 }}>
+            Pour une meilleure<br />expérience, installez l'app
+          </h2>
+          <p style={{ fontSize: 14, color: "#6B7280", lineHeight: 1.6 }}>
+            L'app installée démarre plus vite, fonctionne mieux et s'intègre à votre téléphone comme une vraie application.
+          </p>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {steps.map((step) => (
+            <div key={step.num} style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "16px", borderRadius: 16, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
+              <div style={{ width: 32, height: 32, borderRadius: "50%", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 14, color: "#fff", flexShrink: 0 }}>{step.num}</div>
+              <div>
+                <div style={{ fontSize: 14, color: "#FAFAFA" }}>{step.text} <strong style={{ color: "#FF6B35" }}>{step.strong}</strong></div>
+                {step.sub && <div style={{ fontSize: 12, color: "#6B7280", marginTop: 3 }}>{step.sub}</div>}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {installPrompt && (
+          <button onClick={handleInstall} style={{ width: "100%", padding: "17px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontWeight: 800, fontSize: 17, cursor: "pointer", boxShadow: "0 10px 32px rgba(255,107,53,0.28)" }}>
+            Télécharger l'app
+          </button>
+        )}
+      </div>
+
+      <div style={{ padding: "12px 28px calc(24px + env(safe-area-inset-bottom))", position: "relative", zIndex: 1, textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <button onClick={onContinue} style={{ background: "none", border: "none", color: "#6B7280", fontSize: 14, cursor: "pointer", textDecoration: "underline" }}>
+          Continuer dans le navigateur
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── QuestionnaireScreen ─────────────────────────────────────────────────────
 const Q_GRAD = "linear-gradient(135deg,#FF6B35,#2ECC71)";
 const Q_C = { bg:"#0A0A0F", text:"#FAFAFA", muted:"#6B7280", orange:"#FF6B35" };
@@ -3483,6 +3590,7 @@ export default function Frigia() {
   const [windowWidth, setWindowWidth] = useState(() => window.innerWidth);
   const [mobileTab, setMobileTab] = useState<"scan" | "recipes" | "profile">("scan");
   const [showQuestionnaire, setShowQuestionnaire] = useState(false);
+  const [showInstallReco, setShowInstallReco] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [showCheckoutSuccess, setShowCheckoutSuccess] = useState(() => {
@@ -3686,7 +3794,16 @@ if (!user) {
 }
 
 if (showQuestionnaire) {
-  return <QuestionnaireScreen onComplete={(prefs) => { localStorage.setItem(`frigia_prefs_${user.id}`, JSON.stringify(prefs)); setShowQuestionnaire(false); setShowOnboarding(true); }} />;
+  return <QuestionnaireScreen onComplete={(prefs) => {
+    localStorage.setItem(`frigia_prefs_${user.id}`, JSON.stringify(prefs));
+    setShowQuestionnaire(false);
+    const isPwa = window.matchMedia("(display-mode: standalone)").matches || (navigator as any).standalone === true;
+    if (!isPwa) { setShowInstallReco(true); } else { setShowOnboarding(true); }
+  }} />;
+}
+
+if (showInstallReco) {
+  return <InstallRecoScreen onContinue={() => { setShowInstallReco(false); setShowOnboarding(true); }} />;
 }
 
 if (showOnboarding) {
