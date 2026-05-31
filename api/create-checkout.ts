@@ -33,12 +33,16 @@ export default async function handler(req: any, res: any) {
   const existingCustomerId = user.app_metadata?.stripe_customer_id || user.user_metadata?.stripe_customer_id;
 
   try {
+    const isReturningCustomer = !!existingCustomerId;
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       ...(existingCustomerId ? { customer: existingCustomerId } : { customer_email: user.email }),
       metadata: { supabase_user_id: user.id },
       line_items: [{ price: priceId, quantity: 1 }],
-      subscription_data: { trial_period_days: 4, metadata: { supabase_user_id: user.id } },
+      subscription_data: {
+        ...(isReturningCustomer ? {} : { trial_period_days: 4 }),
+        metadata: { supabase_user_id: user.id },
+      },
       success_url: `${successOrigin}/?checkout=success`,
       cancel_url: `${successOrigin}/?checkout=cancel`,
     });
