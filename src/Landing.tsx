@@ -422,11 +422,11 @@ function Hero({ onOpen, onInstall }: { onOpen: () => void; onInstall?: () => voi
         {/* Phone */}
         <div style={{ position:"relative",animation:"fadeIn .9s ease .14s both",flexShrink:0 }}>
           <Phone />
-          <div style={{ position:"absolute",top:78,right:-96,background:"rgba(16,16,26,.94)",backdropFilter:"blur(18px)",border:"1px solid rgba(255,255,255,.1)",borderRadius:14,padding:"10px 14px",display:"flex",alignItems:"center",gap:10,whiteSpace:"nowrap",animation:"floatY 3.3s ease-in-out infinite" }}>
+          <div style={{ position:"absolute",top:78,right:-16,background:"rgba(16,16,26,.94)",backdropFilter:"blur(18px)",border:"1px solid rgba(255,255,255,.1)",borderRadius:14,padding:"10px 14px",display:"flex",alignItems:"center",gap:10,whiteSpace:"nowrap",animation:"floatY 3.3s ease-in-out infinite" }}>
             <span style={{ fontSize:20 }}>🥦</span>
             <div><div style={{ fontWeight:700,color:C.text,fontSize:11 }}>Brocoli détecté</div><div style={{ color:"#2ECC71",fontSize:10 }}>96% confiance</div></div>
           </div>
-          <div style={{ position:"absolute",bottom:108,left:-96,background:"rgba(16,16,26,.94)",backdropFilter:"blur(18px)",border:"1px solid rgba(255,255,255,.1)",borderRadius:14,padding:"10px 14px",display:"flex",alignItems:"center",gap:10,whiteSpace:"nowrap",animation:"floatY 3.9s ease-in-out .5s infinite" }}>
+          <div style={{ position:"absolute",bottom:108,left:-16,background:"rgba(16,16,26,.94)",backdropFilter:"blur(18px)",border:"1px solid rgba(255,255,255,.1)",borderRadius:14,padding:"10px 14px",display:"flex",alignItems:"center",gap:10,whiteSpace:"nowrap",animation:"floatY 3.9s ease-in-out .5s infinite" }}>
             <span style={{ fontSize:20 }}>🍳</span>
             <div><div style={{ fontWeight:700,color:C.text,fontSize:11 }}>Recette générée</div><div style={{ color:"#FF6B35",fontSize:10 }}>8 min · 320 kcal</div></div>
           </div>
