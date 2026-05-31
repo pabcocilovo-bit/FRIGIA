@@ -739,8 +739,16 @@ function detectInAppBrowser(): { isInApp: boolean; isIos: boolean; isAndroid: bo
   const ua = navigator.userAgent;
   const isIos = /iphone|ipad|ipod/i.test(ua);
   const isAndroid = /android/i.test(ua);
-  const isInApp = /GSA\/|FBAN\/|FBAV\/|Instagram|Twitter\/|LinkedInApp|BytedanceWebview|musical_ly|Snapchat|Pinterest\/|Line\//i.test(ua);
+  const isInApp = /GSA\//i.test(ua); // Google Search App uniquement
   return { isInApp, isIos, isAndroid };
+}
+
+function openInNativeBrowser(isIos: boolean) {
+  if (isIos) {
+    window.location.href = "x-safari-https://frigia.fr";
+  } else {
+    window.location.href = "intent://frigia.fr/#Intent;scheme=https;package=com.android.chrome;end";
+  }
 }
 
 function InAppBrowserBanner() {
@@ -748,10 +756,6 @@ function InAppBrowserBanner() {
   const [dismissed, setDismissed] = useState(false);
 
   if (!isInApp || dismissed || (!isIos && !isAndroid)) return null;
-
-  const openInChrome = () => {
-    window.location.href = `intent://${window.location.host}${window.location.pathname}#Intent;scheme=https;package=com.android.chrome;end`;
-  };
 
   return (
     <div style={{
@@ -766,32 +770,10 @@ function InAppBrowserBanner() {
     }}>
       <span style={{ fontSize: 22, flexShrink: 0 }}>{isIos ? "🧭" : "🌐"}</span>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 2 }}>
-          Installe l'app Frigia gratuitement
+        <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>
+          Pour une meilleure expérience, installe l'application Frigia gratuitement.
         </div>
-        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.88)", lineHeight: 1.5 }}>
-          {isIos
-            ? "Ouvre dans Safari → Partager → Sur l'écran d'accueil"
-            : "Ouvre dans Chrome → ⋮ → Ajouter à l'écran d'accueil"}
-        </div>
-        <a
-          href={isAndroid
-            ? "intent://frigia.fr/#Intent;scheme=https;package=com.android.chrome;end"
-            : "x-safari-https://frigia.fr"}
-          style={{ fontSize: 11, color: "#fff", fontWeight: 700, textDecoration: "underline", marginTop: 4, display: "inline-block" }}
-        >
-          Ouvrir frigia.fr dans {isIos ? "Safari" : "Chrome"} →
-        </a>
       </div>
-      {isAndroid && (
-        <button onClick={openInChrome} style={{
-          padding: "8px 14px", borderRadius: 100, border: "none",
-          background: "rgba(255,255,255,0.25)", color: "#fff",
-          fontSize: 12, fontWeight: 700, cursor: "pointer", flexShrink: 0,
-        }}>
-          Ouvrir →
-        </button>
-      )}
       <button onClick={() => setDismissed(true)} style={{
         background: "none", border: "none", color: "rgba(255,255,255,0.75)",
         fontSize: 20, cursor: "pointer", lineHeight: 1, flexShrink: 0, padding: "4px",
@@ -936,7 +918,11 @@ function InstallHint({ onClose }: { onClose: () => void }) {
 // ── Landing ───────────────────────────────────────────────────────────────────
 export default function Landing() {
   const [authOpen, setAuthOpen] = useState(false);
-  const open = useCallback(() => setAuthOpen(true), []);
+  const { isInApp, isIos, isAndroid } = detectInAppBrowser();
+  const open = useCallback(() => {
+    if (isInApp && (isIos || isAndroid)) { openInNativeBrowser(isIos); return; }
+    setAuthOpen(true);
+  }, [isInApp, isIos, isAndroid]);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showInstallHint, setShowInstallHint] = useState(false);
 
@@ -947,6 +933,7 @@ export default function Landing() {
   }, []);
 
   const handleInstall = async () => {
+    if (isInApp && (isIos || isAndroid)) { openInNativeBrowser(isIos); return; }
     if (installPrompt) {
       installPrompt.prompt();
       await installPrompt.userChoice;
