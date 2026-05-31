@@ -1044,7 +1044,7 @@ function SettingsModal({
             const trialEndMs = created.getTime() + 4 * 24 * 60 * 60 * 1000;
             const msLeft = Math.max(0, trialEndMs - now);
             const daysUsed = Math.min(4, (now - created.getTime()) / (1000 * 60 * 60 * 24));
-            const trialDaysLeft = Math.floor(msLeft / (1000 * 60 * 60 * 24));
+            const trialDaysLeft = Math.ceil(msLeft / (1000 * 60 * 60 * 24));
             const trialPct = Math.max(0, Math.min(100, (msLeft / (4 * 24 * 60 * 60 * 1000)) * 100));
             const isTrialing = status === "trialing" || (!status && daysUsed <= 4);
             const isActive = status === "active";
