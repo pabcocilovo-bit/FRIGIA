@@ -3730,13 +3730,21 @@ async function signOut() {
 }
 
   const toggleFavorite = (recipe: GeneratedRecipe) => {
+    const MAX_FAVORITES = 100;
     setFavorites(prev => {
       const isFav = prev.some(f => f.title === recipe.title);
-      const next = isFav ? prev.filter(f => f.title !== recipe.title) : [recipe, ...prev];
+      if (isFav) {
+        const next = prev.filter(f => f.title !== recipe.title);
+        if (user) { setCachedFavorites(user.id, next); dbDeleteFavorite(user.id, recipe.title); }
+        return next;
+      }
+      const full = [recipe, ...prev];
+      const evicted = full.slice(MAX_FAVORITES);
+      const next = full.slice(0, MAX_FAVORITES);
       if (user) {
         setCachedFavorites(user.id, next);
-        if (isFav) dbDeleteFavorite(user.id, recipe.title);
-        else dbInsertFavorite(user.id, recipe);
+        dbInsertFavorite(user.id, recipe);
+        evicted.forEach(e => dbDeleteFavorite(user.id, e.title));
       }
       return next;
     });
@@ -3744,11 +3752,15 @@ async function signOut() {
   const isFavorite = (recipe: GeneratedRecipe) => favorites.some(f => f.title === recipe.title);
 
   const finishScan = (newEntry: HistoryEntry) => {
-    const next = [newEntry, ...history];
+    const MAX_HISTORY = 50;
+    const full = [newEntry, ...history];
+    const evicted = full.slice(MAX_HISTORY);
+    const next = full.slice(0, MAX_HISTORY);
     setHistory(next);
     if (user) {
       setCachedHistory(user.id, next);
       dbInsertHistoryEntry(user.id, newEntry);
+      evicted.forEach(e => dbDeleteHistoryEntry(e.id));
     }
     setPendingData(null);
     setShowServingsModal(false);
