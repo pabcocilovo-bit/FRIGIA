@@ -288,12 +288,14 @@ function RecipeImage({
   useEffect(() => {
     if (isDirectUrl || mealImageCache[query]) return;
     let cancelled = false;
+    const timeout = setTimeout(() => { if (!cancelled) setErrored(true); }, 8000);
     fetchTheMealImage(query).then((url) => {
       if (cancelled) return;
+      clearTimeout(timeout);
       if (url) { mealImageCache[query] = url; setSrc(url); }
       else setErrored(true);
     });
-    return () => { cancelled = true; };
+    return () => { cancelled = true; clearTimeout(timeout); };
   }, [query, isDirectUrl]);
 
   return (
@@ -1922,9 +1924,9 @@ function RecipeDetailModal({
             theme === "light"
               ? "rgba(244,244,240,0.97)"
               : "rgba(14,14,20,0.97)",
-          overflow: "hidden",
-          maxHeight: "92vh",
+          overflowX: "hidden",
           overflowY: "auto",
+          maxHeight: "92vh",
         }}
       >
         {/* Hero */}
@@ -3702,7 +3704,7 @@ useEffect(() => {
   const isCheckoutReturn = new URLSearchParams(window.location.search).get("checkout") === "success";
 
   const initUser = async (u: any) => {
-    loadUserData(u);
+    void loadUserData(u);
     if (!localStorage.getItem(`frigia_onboarded_${u.id}`) && !isCheckoutReturn) {
       setShowQuestionnaire(true);
     } else if (isCheckoutReturn) {
@@ -4293,6 +4295,8 @@ return (
             >
               <button
                 type="button"
+                onClick={startCheckout}
+                disabled={checkoutLoading}
                 style={{
                   padding: "16px 32px",
                   background: "linear-gradient(135deg,#FF6B35,#2ECC71)",
@@ -4301,26 +4305,12 @@ return (
                   color: "#fff",
                   fontWeight: 800,
                   fontSize: 16,
-                  cursor: "pointer",
+                  cursor: checkoutLoading ? "not-allowed" : "pointer",
                   boxShadow: "0 8px 32px rgba(255,107,53,0.35)",
+                  opacity: checkoutLoading ? 0.7 : 1,
                 }}
               >
-                Démarrer 4 jours gratuits
-              </button>
-              <button
-                type="button"
-                style={{
-                  padding: "16px 32px",
-                  background: "rgba(255,255,255,0.06)",
-                  border: `1px solid ${v.border}`,
-                  borderRadius: 100,
-                  color: v.text,
-                  fontWeight: 700,
-                  fontSize: 16,
-                  cursor: "pointer",
-                }}
-              >
-                ▶ Voir une démo
+                {checkoutLoading ? "Redirection..." : "Démarrer 4 jours gratuits"}
               </button>
             </div>
 
@@ -4659,7 +4649,7 @@ return (
             </div>
           ) : aiRecipes.map((r, i) => (
             <RecipeCard
-              key={r.title}
+              key={`${r.title}-${i}`}
               theme={theme}
               {...r}
               delay={i * 0.05}

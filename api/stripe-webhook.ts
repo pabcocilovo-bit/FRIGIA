@@ -3,6 +3,9 @@ import { createClient } from "@supabase/supabase-js";
 
 export const config = { api: { bodyParser: false } };
 
+// Best-effort dedup within the same serverless instance
+const processedEvents = new Set<string>();
+
 async function getRawBody(req: any): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
@@ -66,6 +69,13 @@ export default async function handler(req: any, res: any) {
     }
     return null;
   };
+
+  if (processedEvents.has(event.id)) return res.json({ received: true });
+  processedEvents.add(event.id);
+  if (processedEvents.size > 500) {
+    const first = processedEvents.values().next().value;
+    if (first) processedEvents.delete(first);
+  }
 
   try {
     switch (event.type) {

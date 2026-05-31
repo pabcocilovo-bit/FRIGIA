@@ -948,7 +948,7 @@ export default function Landing() {
   const isInstallable = !isStandalone && ["ios-safari", "ios-chrome", "chrome-android", "chrome-desktop"].includes(browser);
 
   return (
-    <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden" }}>
+    <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden", paddingTop: isInApp ? 64 : 0 }}>
       <style>{CSS}</style>
       <InAppBrowserBanner />
       {showInstallHint && <InstallHint onClose={() => setShowInstallHint(false)} />}
