@@ -703,6 +703,8 @@ function SettingsModal({
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Erreur serveur");
+      // Clear all local data before signing out
+      Object.keys(localStorage).filter(k => k.startsWith("frigia_")).forEach(k => localStorage.removeItem(k));
       await supabase.auth.signOut();
       onClose();
     } catch (err: any) {
@@ -1366,6 +1368,7 @@ function SettingsModal({
 
 // ─── OnboardingScreen ────────────────────────────────────────────────────────
 function OnboardingScreen({ onContinue, loading }: { onContinue: () => void; loading?: boolean }) {
+  useEffect(() => { document.body.style.overflow = "hidden"; return () => { document.body.style.overflow = ""; }; }, []);
   const grad = "linear-gradient(135deg,#FF6B35,#2ECC71)";
   const features = [
     "Scans IA illimités",
@@ -1375,7 +1378,7 @@ function OnboardingScreen({ onContinue, loading }: { onContinue: () => void; loa
   ];
   return (
     <div style={{ position:"fixed", inset:0, zIndex:2000, background:"#07070E", display:"flex", flexDirection:"column", overflow:"hidden" }}>
-      <style>{`html,body{margin:0;background:#07070E;overflow:hidden!important;}`}</style>
+      <style>{`html,body{margin:0;background:#07070E;}`}</style>
 
       {/* Orbs */}
       <div style={{ position:"absolute", width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle,rgba(255,107,53,.18) 0%,transparent 70%)", top:"-15%", right:"-15%", pointerEvents:"none" }} />
@@ -1443,6 +1446,7 @@ function detectBrowserType(): "ios-safari" | "ios-chrome" | "chrome-android" | "
 }
 
 function InstallRecoScreen({ onContinue }: { onContinue: () => void }) {
+  useEffect(() => { document.body.style.overflow = "hidden"; return () => { document.body.style.overflow = ""; }; }, []);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   useEffect(() => {
     const h = (e: Event) => { e.preventDefault(); setInstallPrompt(e); };
@@ -1483,7 +1487,7 @@ function InstallRecoScreen({ onContinue }: { onContinue: () => void }) {
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 500, background: "#0A0A0F", display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <style>{`html,body{margin:0;background:#0A0A0F;overflow:hidden!important;}`}</style>
+      <style>{`html,body{margin:0;background:#0A0A0F;}`}</style>
       <div style={{ position: "absolute", width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%)", top: "-10%", right: "-10%", pointerEvents: "none" }} />
       <div style={{ position: "absolute", width: 360, height: 360, borderRadius: "50%", background: "radial-gradient(circle,rgba(46,204,113,.09) 0%,transparent 70%)", bottom: "5%", left: "-8%", pointerEvents: "none" }} />
 
@@ -3255,9 +3259,10 @@ function RecipeCard({
   recipeIngredients,
   delay = 0,
   onClick,
-}: GeneratedRecipe & { theme: Theme; delay?: number; onClick?: () => void }) {
+  isFavorite,
+  onToggleFavorite,
+}: GeneratedRecipe & { theme: Theme; delay?: number; onClick?: () => void; isFavorite?: boolean; onToggleFavorite?: () => void }) {
   const v = getThemeVars(theme);
-  const [liked, setLiked] = useState(false);
   const [shared, setShared] = useState(false);
 
   const handleShare = async (e: React.MouseEvent) => {
@@ -3337,6 +3342,10 @@ function RecipeCard({
             color: v.text,
             marginBottom: 8,
             lineHeight: 1.4,
+            overflow: "hidden",
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
           }}
         >
           {title}
@@ -3354,10 +3363,10 @@ function RecipeCard({
           Voir la recette →
         </button>
         <button
-          onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
-          style={{ padding: "12px 14px", background: "none", border: "none", borderLeft: `1px solid ${v.border}`, color: liked ? "#FF6B35" : v.muted, cursor: "pointer", fontSize: 16 }}
+          onClick={(e) => { e.stopPropagation(); onToggleFavorite?.(); }}
+          style={{ padding: "12px 14px", background: "none", border: "none", borderLeft: `1px solid ${v.border}`, color: isFavorite ? "#FF6B35" : v.muted, cursor: "pointer", fontSize: 16 }}
         >
-          {liked ? "♥" : "♡"}
+          {isFavorite ? "♥" : "♡"}
         </button>
         <button
           onClick={handleShare}
@@ -4014,7 +4023,7 @@ if (isMobile) {
                 const daysUsed = user ? Math.floor((Date.now() - new Date(user.created_at).getTime()) / (1000 * 60 * 60 * 24)) : 0;
                 const isActive = status === "active" || user?.app_metadata?.is_whitelisted || user?.user_metadata?.is_whitelisted;
                 const isTrialing = status === "trialing" || (!status && daysUsed <= 4);
-                const label = isActive ? "Abonné actif" : isTrialing ? "Essai gratuit en cours" : "Essai gratuit en cours";
+                const label = isActive ? "Abonné actif" : isTrialing ? "Essai gratuit en cours" : "Accès expiré";
                 return (
                   <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 14px", background: "rgba(46,204,113,0.1)", border: "1px solid rgba(46,204,113,0.25)", borderRadius: 100, fontSize: 12, color: "#2ECC71", fontWeight: 700 }}>
                     <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#2ECC71", display: "inline-block" }} />
@@ -4075,7 +4084,7 @@ if (isMobile) {
                       src={`https://www.themealdb.com/images/ingredients/${encodeURIComponent(name)}-Medium.png`}
                       alt={name}
                       style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", background: "#fff", padding: 12 }}
-                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = `https://image.pollinations.ai/prompt/${encodeURIComponent(`${name}, fresh food ingredient, studio photography, white background`)}&width=600&height=260&nologo=true&model=flux`; (e.currentTarget as HTMLImageElement).style.objectFit = "cover"; (e.currentTarget as HTMLImageElement).style.padding = "0"; }}
+                      onError={(e) => { const img = e.currentTarget as HTMLImageElement; if (img.dataset.fallback) return; img.dataset.fallback = "1"; img.src = `https://image.pollinations.ai/prompt/${encodeURIComponent(`${name}, fresh food ingredient, studio photography, white background`)}&width=600&height=260&nologo=true&model=flux`; img.style.objectFit = "cover"; img.style.padding = "0"; }}
                     />
                     <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.75) 100%)" }} />
                     <div style={{ position: "absolute", bottom: 12, left: 14, right: 14 }}>
@@ -4655,6 +4664,8 @@ return (
               {...r}
               delay={i * 0.05}
               onClick={() => setSelectedRecipe({ recipe: r, servings })}
+              isFavorite={isFavorite(r)}
+              onToggleFavorite={() => toggleFavorite(r)}
             />
           ))}
         </div>
