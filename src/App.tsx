@@ -1039,9 +1039,10 @@ function SettingsModal({
 
           {/* ── ABONNEMENT ── */}
           {tab === "subscription" && (() => {
-            const meta = user?.user_metadata || {};
-            const status = meta.subscription_status;
-            const isWhitelisted = meta.is_whitelisted;
+            const appMeta = user?.app_metadata || {};
+            const userMeta = user?.user_metadata || {};
+            const status = appMeta.subscription_status;
+            const isWhitelisted = appMeta.is_whitelisted || userMeta.is_whitelisted;
             const created = user ? new Date(user.created_at) : new Date();
             const trialEndMs = created.getTime() + 4 * 24 * 60 * 60 * 1000;
             const msLeft = Math.max(0, trialEndMs - now);
@@ -3593,24 +3594,17 @@ export default function Frigia() {
   const [showInstallReco, setShowInstallReco] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
-  const [showCheckoutSuccess, setShowCheckoutSuccess] = useState(() => {
-    const isSuccess = new URLSearchParams(window.location.search).get("checkout") === "success";
-    if (isSuccess) localStorage.setItem("frigia_checkout_pending", Date.now().toString());
-    return isSuccess;
-  });
+  const [showCheckoutSuccess, setShowCheckoutSuccess] = useState(() =>
+    new URLSearchParams(window.location.search).get("checkout") === "success"
+  );
 
   const hasAccess = (u: any) => {
     if (!u) return false;
-    const meta = u.user_metadata || {};
-    if (meta.is_whitelisted) return true;
-    if (meta.subscription_status === "active" || meta.subscription_status === "trialing") {
-      localStorage.removeItem("frigia_checkout_pending");
-      return true;
-    }
-    if (new URLSearchParams(window.location.search).get("checkout") === "success") return true;
-    const pending = localStorage.getItem("frigia_checkout_pending");
-    if (pending && Date.now() - parseInt(pending) < 3600000) return true;
-    return false;
+    const appMeta = u.app_metadata || {};
+    const userMeta = u.user_metadata || {};
+    if (appMeta.is_whitelisted || userMeta.is_whitelisted) return true;
+    const status = appMeta.subscription_status;
+    return status === "active" || status === "trialing";
   };
 
   const openCustomerPortal = async () => {
@@ -3677,32 +3671,37 @@ const loadUserData = async (u: any) => {
 };
 
 useEffect(() => {
-  supabase.auth.getSession().then(({ data }) => {
-    const u = data.session?.user ?? null;
-    setUser(u);
-    if (u) {
-      loadUserData(u);
-      const pending = localStorage.getItem("frigia_checkout_pending");
-      if (!localStorage.getItem(`frigia_onboarded_${u.id}`) && !pending) {
-        setShowQuestionnaire(true);
-      } else if (pending) {
-        localStorage.setItem(`frigia_onboarded_${u.id}`, "1");
-      }
+  const isCheckoutReturn = new URLSearchParams(window.location.search).get("checkout") === "success";
+
+  const initUser = async (u: any) => {
+    loadUserData(u);
+    if (!localStorage.getItem(`frigia_onboarded_${u.id}`) && !isCheckoutReturn) {
+      setShowQuestionnaire(true);
+    } else if (isCheckoutReturn) {
+      localStorage.setItem(`frigia_onboarded_${u.id}`, "1");
     }
-  });
+  };
+
+  if (isCheckoutReturn) {
+    supabase.auth.refreshSession().then(({ data }) => {
+      const u = data.session?.user ?? null;
+      setUser(u);
+      if (u) initUser(u);
+    });
+  } else {
+    supabase.auth.getSession().then(({ data }) => {
+      const u = data.session?.user ?? null;
+      setUser(u);
+      if (u) initUser(u);
+    });
+  }
 
   const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
     const u = session?.user ?? null;
     setUser(u);
     if (u) {
       setMobileTab("scan");
-      loadUserData(u);
-      const pending = localStorage.getItem("frigia_checkout_pending");
-      if (!localStorage.getItem(`frigia_onboarded_${u.id}`) && !pending) {
-        setShowQuestionnaire(true);
-      } else if (pending) {
-        localStorage.setItem(`frigia_onboarded_${u.id}`, "1");
-      }
+      initUser(u);
     } else {
       setHistory([]);
       setFavorites([]);

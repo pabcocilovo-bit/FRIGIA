@@ -36,9 +36,10 @@ export default async function handler(req: any, res: any) {
   });
 
   const updateUser = async (userId: string, status: string, customerId?: string) => {
-    const data: any = { subscription_status: status };
-    if (customerId) data.stripe_customer_id = customerId;
-    await admin.auth.admin.updateUserById(userId, { user_metadata: data });
+    await admin.auth.admin.updateUserById(userId, {
+      app_metadata: { subscription_status: status },
+      ...(customerId ? { user_metadata: { stripe_customer_id: customerId } } : {}),
+    });
   };
 
   const getUserIdByCustomer = async (customerId: string): Promise<string | null> => {
