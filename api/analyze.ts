@@ -1,7 +1,28 @@
 import { createClient } from "@supabase/supabase-js";
 
+const ALLOWED_ORIGINS = ["https://frigia.fr", "https://frigia-ten.vercel.app", "http://localhost:5173"];
+
+// Rate limiting: 20 requests per hour per user (in-memory, best-effort on serverless)
+const rateLimitMap = new Map<string, { count: number; reset: number }>();
+const RATE_LIMIT = 20;
+const RATE_WINDOW_MS = 3600 * 1000;
+
+function checkRateLimit(userId: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(userId);
+  if (!entry || now > entry.reset) {
+    rateLimitMap.set(userId, { count: 1, reset: now + RATE_WINDOW_MS });
+    return true;
+  }
+  if (entry.count >= RATE_LIMIT) return false;
+  entry.count++;
+  return true;
+}
+
 export default async function handler(req: any, res: any) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  const origin = req.headers.origin as string | undefined;
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin ?? "") ? origin! : ALLOWED_ORIGINS[0];
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
@@ -18,10 +39,15 @@ export default async function handler(req: any, res: any) {
   const { data: { user }, error } = await admin.auth.getUser(token);
   if (error || !user) return res.status(401).json({ error: "Invalid token" });
 
-  const meta = user.user_metadata || {};
-  const hasAccess = meta.is_whitelisted ||
-    meta.subscription_status === "active" ||
-    meta.subscription_status === "trialing";
+  if (!checkRateLimit(user.id)) {
+    return res.status(429).json({ error: "Limite atteinte. Réessayez dans une heure." });
+  }
+
+  const appMeta = user.app_metadata || {};
+  const userMeta = user.user_metadata || {};
+  const hasAccess = appMeta.is_whitelisted || userMeta.is_whitelisted ||
+    appMeta.subscription_status === "active" ||
+    appMeta.subscription_status === "trialing";
   if (!hasAccess) return res.status(403).json({ error: "No active subscription" });
 
   const { imageBase64, mediaType, prefs, recentTitles, mealType } = req.body as { imageBase64: string; mediaType: string; prefs?: { goal?: string; diet?: string[]; time?: string; equipment?: string[] }; recentTitles?: string[]; mealType?: string };
@@ -99,8 +125,8 @@ export default async function handler(req: any, res: any) {
   });
 
   if (!anthropicRes.ok) {
-    const detail = await anthropicRes.text();
-    return res.status(502).json({ error: "Anthropic API error", detail });
+    await anthropicRes.text();
+    return res.status(502).json({ error: "Service IA temporairement indisponible. Réessayez." });
   }
 
   const data = await anthropicRes.json() as { content?: { text?: string }[] };
@@ -122,12 +148,12 @@ export default async function handler(req: any, res: any) {
   let parsed: any = null;
   if (jsonStr) {
     try { parsed = JSON.parse(jsonStr); } catch (e) {
-      return res.status(500).json({ error: "Réponse IA invalide (JSON malformé)", detail: jsonStr.slice(0, 500) });
+      return res.status(500).json({ error: "Réponse IA invalide. Réessayez." });
     }
   }
 
   if (!parsed || (!parsed.ingredients?.length && !parsed.recipes?.length)) {
-    return res.status(500).json({ error: "Aucun aliment détecté dans la photo. Essayez avec une image plus nette ou mieux éclairée.", detail: text.slice(0, 300) });
+    return res.status(500).json({ error: "Aucun aliment détecté dans la photo. Essayez avec une image plus nette ou mieux éclairée." });
   }
 
   const baseRecipes = (parsed.recipes || []).slice(0, 3).map((recipe: any) => ({
