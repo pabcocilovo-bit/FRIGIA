@@ -27,9 +27,7 @@ export default async function handler(req: any, res: any) {
   if (!stripeKey || !priceId) return res.status(500).json({ error: "Stripe not configured" });
 
   const stripe = new Stripe(stripeKey);
-  const allowedOrigins = ["https://frigia-ten.vercel.app", "http://localhost:5173"];
-  const requestOrigin = req.headers.origin as string | undefined;
-  const origin = allowedOrigins.includes(requestOrigin ?? "") ? requestOrigin! : "https://frigia-ten.vercel.app";
+  const successOrigin = ALLOWED_ORIGINS.includes(origin ?? "") ? origin! : ALLOWED_ORIGINS[0];
 
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
@@ -37,8 +35,8 @@ export default async function handler(req: any, res: any) {
     metadata: { supabase_user_id: user.id },
     line_items: [{ price: priceId, quantity: 1 }],
     subscription_data: { trial_period_days: 4, metadata: { supabase_user_id: user.id } },
-    success_url: `${origin}/?checkout=success`,
-    cancel_url: `${origin}/?checkout=cancel`,
+    success_url: `${successOrigin}/?checkout=success`,
+    cancel_url: `${successOrigin}/?checkout=cancel`,
   });
 
   res.json({ url: session.url });

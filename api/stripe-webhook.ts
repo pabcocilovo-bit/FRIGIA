@@ -48,8 +48,10 @@ export default async function handler(req: any, res: any) {
   };
 
   const getUserIdFromInvoice = async (invoice: Stripe.Invoice): Promise<string | null> => {
-    if (invoice.subscription) {
-      const sub = await stripe.subscriptions.retrieve(invoice.subscription as string);
+    const inv = invoice as any;
+    const subscriptionId = typeof inv.subscription === "string" ? inv.subscription : inv.subscription?.id;
+    if (subscriptionId) {
+      const sub = await stripe.subscriptions.retrieve(subscriptionId);
       if (sub.metadata?.supabase_user_id) return sub.metadata.supabase_user_id;
     }
     return null;
