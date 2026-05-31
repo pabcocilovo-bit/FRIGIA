@@ -3632,10 +3632,15 @@ export default function Frigia() {
         headers: { Authorization: `Bearer ${session?.access_token}` },
       });
       const json = await res.json();
-      if (json.url) window.location.href = json.url;
-      else setCheckoutLoading(false);
+      if (json.url) {
+        window.location.href = json.url;
+      } else {
+        setCheckoutLoading(false);
+        alert(json.error || "Impossible d'ouvrir le paiement. Réessayez.");
+      }
     } catch {
       setCheckoutLoading(false);
+      alert("Erreur de connexion. Vérifiez votre réseau et réessayez.");
     }
   };
 
