@@ -1041,7 +1041,7 @@ function SettingsModal({
           {tab === "subscription" && (() => {
             const appMeta = user?.app_metadata || {};
             const userMeta = user?.user_metadata || {};
-            const status = appMeta.subscription_status;
+            const status = appMeta.subscription_status || userMeta.subscription_status;
             const isWhitelisted = appMeta.is_whitelisted || userMeta.is_whitelisted;
             const created = user ? new Date(user.created_at) : new Date();
             const TRIAL_MS = 4 * 24 * 60 * 60 * 1000;
@@ -3848,8 +3848,8 @@ if (!hasAccess(user)) {
     onManageBilling={openCustomerPortal}
     loading={checkoutLoading}
     onLogout={async () => { await supabase.auth.signOut(); }}
-    isCanceled={user?.app_metadata?.subscription_status === "canceled"}
-    isPaymentFailed={user?.app_metadata?.subscription_status === "past_due"}
+    isCanceled={(user?.app_metadata?.subscription_status || user?.user_metadata?.subscription_status) === "canceled"}
+    isPaymentFailed={(user?.app_metadata?.subscription_status || user?.user_metadata?.subscription_status) === "past_due"}
   />;
 }
 
@@ -3989,9 +3989,9 @@ if (isMobile) {
               </div>
               <div style={{ fontSize: 13, color: v.muted, marginBottom: 8 }}>{user?.email}</div>
               {(() => {
-                const status = user?.user_metadata?.subscription_status;
+                const status = user?.app_metadata?.subscription_status || user?.user_metadata?.subscription_status;
                 const daysUsed = user ? Math.floor((Date.now() - new Date(user.created_at).getTime()) / (1000 * 60 * 60 * 24)) : 0;
-                const isActive = status === "active" || user?.user_metadata?.is_whitelisted;
+                const isActive = status === "active" || user?.app_metadata?.is_whitelisted || user?.user_metadata?.is_whitelisted;
                 const isTrialing = status === "trialing" || (!status && daysUsed <= 4);
                 const label = isActive ? "Abonné actif" : isTrialing ? "Essai gratuit en cours" : "Essai gratuit en cours";
                 return (
