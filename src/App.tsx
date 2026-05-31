@@ -3824,8 +3824,8 @@ if (!hasAccess(user)) {
     onManageBilling={openCustomerPortal}
     loading={checkoutLoading}
     onLogout={async () => { await supabase.auth.signOut(); }}
-    isCanceled={user?.user_metadata?.subscription_status === "canceled"}
-    isPaymentFailed={user?.user_metadata?.subscription_status === "past_due"}
+    isCanceled={user?.app_metadata?.subscription_status === "canceled"}
+    isPaymentFailed={user?.app_metadata?.subscription_status === "past_due"}
   />;
 }
 
