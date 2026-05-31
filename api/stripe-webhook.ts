@@ -42,15 +42,15 @@ export default async function handler(req: any, res: any) {
     });
   };
 
-  const getUserIdByCustomer = async (customerId: string): Promise<string | null> => {
-    let page = 1;
-    while (true) {
-      const { data } = await admin.auth.admin.listUsers({ perPage: 1000, page });
-      if (!data?.users?.length) break;
-      const found = data.users.find(u => u.user_metadata?.stripe_customer_id === customerId);
-      if (found) return found.id;
-      if (data.users.length < 1000) break;
-      page++;
+  const getUserIdFromSubscription = async (sub: Stripe.Subscription): Promise<string | null> => {
+    if (sub.metadata?.supabase_user_id) return sub.metadata.supabase_user_id;
+    return null;
+  };
+
+  const getUserIdFromInvoice = async (invoice: Stripe.Invoice): Promise<string | null> => {
+    if (invoice.subscription) {
+      const sub = await stripe.subscriptions.retrieve(invoice.subscription as string);
+      if (sub.metadata?.supabase_user_id) return sub.metadata.supabase_user_id;
     }
     return null;
   };
@@ -66,32 +66,26 @@ export default async function handler(req: any, res: any) {
     }
     case "customer.subscription.updated": {
       const sub = event.data.object as Stripe.Subscription;
-      const userId = await getUserIdByCustomer(sub.customer as string);
+      const userId = await getUserIdFromSubscription(sub);
       if (userId) await updateUser(userId, sub.status);
       break;
     }
     case "customer.subscription.deleted": {
       const sub = event.data.object as Stripe.Subscription;
-      const userId = await getUserIdByCustomer(sub.customer as string);
+      const userId = await getUserIdFromSubscription(sub);
       if (userId) await updateUser(userId, "canceled");
       break;
     }
     case "invoice.payment_failed": {
       const invoice = event.data.object as Stripe.Invoice;
-      const customerId = typeof invoice.customer === "string" ? invoice.customer : invoice.customer?.id;
-      if (customerId) {
-        const userId = await getUserIdByCustomer(customerId);
-        if (userId) await updateUser(userId, "past_due");
-      }
+      const userId = await getUserIdFromInvoice(invoice);
+      if (userId) await updateUser(userId, "past_due");
       break;
     }
     case "invoice.payment_succeeded": {
       const invoice = event.data.object as Stripe.Invoice;
-      const customerId = typeof invoice.customer === "string" ? invoice.customer : invoice.customer?.id;
-      if (customerId) {
-        const userId = await getUserIdByCustomer(customerId);
-        if (userId) await updateUser(userId, "active");
-      }
+      const userId = await getUserIdFromInvoice(invoice);
+      if (userId) await updateUser(userId, "active");
       break;
     }
   }

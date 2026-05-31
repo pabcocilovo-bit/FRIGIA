@@ -3654,16 +3654,23 @@ const loadUserData = async (u: any) => {
     loadFavoritesFromSupabase(u.id),
   ]);
   // One-time migration: if Supabase is empty but localStorage has data, migrate it
+  const isValidHistoryEntry = (e: any) =>
+    e && typeof e.id === "string" && Array.isArray(e.ingredients) && Array.isArray(e.recipes);
+  const isValidRecipe = (r: any) =>
+    r && typeof r.title === "string" && typeof r.time === "string";
+
   if (hist.length === 0 && cachedHist.length > 0) {
-    await Promise.all(cachedHist.map((entry: HistoryEntry) => dbInsertHistoryEntry(u.id, entry)));
-    setCachedHistory(u.id, cachedHist);
+    const safe = cachedHist.filter(isValidHistoryEntry).slice(0, 50);
+    await Promise.all(safe.map((entry: HistoryEntry) => dbInsertHistoryEntry(u.id, entry)));
+    setCachedHistory(u.id, safe);
   } else {
     setHistory(hist);
     setCachedHistory(u.id, hist);
   }
   if (favs.length === 0 && cachedFavs.length > 0) {
-    await Promise.all(cachedFavs.map((recipe: GeneratedRecipe) => dbInsertFavorite(u.id, recipe)));
-    setCachedFavorites(u.id, cachedFavs);
+    const safe = cachedFavs.filter(isValidRecipe).slice(0, 100);
+    await Promise.all(safe.map((recipe: GeneratedRecipe) => dbInsertFavorite(u.id, recipe)));
+    setCachedFavorites(u.id, safe);
   } else {
     setFavorites(favs);
     setCachedFavorites(u.id, favs);
