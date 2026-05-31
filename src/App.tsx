@@ -3603,7 +3603,7 @@ export default function Frigia() {
     const appMeta = u.app_metadata || {};
     const userMeta = u.user_metadata || {};
     if (appMeta.is_whitelisted || userMeta.is_whitelisted) return true;
-    const status = appMeta.subscription_status;
+    const status = appMeta.subscription_status || userMeta.subscription_status;
     return status === "active" || status === "trialing";
   };
 

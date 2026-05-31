@@ -45,9 +45,9 @@ export default async function handler(req: any, res: any) {
 
   const appMeta = user.app_metadata || {};
   const userMeta = user.user_metadata || {};
+  const status = appMeta.subscription_status || userMeta.subscription_status;
   const hasAccess = appMeta.is_whitelisted || userMeta.is_whitelisted ||
-    appMeta.subscription_status === "active" ||
-    appMeta.subscription_status === "trialing";
+    status === "active" || status === "trialing";
   if (!hasAccess) return res.status(403).json({ error: "No active subscription" });
 
   const { imageBase64, mediaType, prefs, recentTitles, mealType } = req.body as { imageBase64: string; mediaType: string; prefs?: { goal?: string; diet?: string[]; time?: string; equipment?: string[] }; recentTitles?: string[]; mealType?: string };
