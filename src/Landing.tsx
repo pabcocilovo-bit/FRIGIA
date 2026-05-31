@@ -774,6 +774,16 @@ function InAppBrowserBanner() {
             ? "Ouvre dans Safari → Partager → Sur l'écran d'accueil"
             : "Ouvre dans Chrome → ⋮ → Ajouter à l'écran d'accueil"}
         </div>
+        <a
+          href={isAndroid
+            ? `intent://${window.location.host}${window.location.pathname}#Intent;scheme=https;package=com.android.chrome;end`
+            : "https://frigia.fr"}
+          target="_blank"
+          rel="noreferrer"
+          style={{ fontSize: 11, color: "#fff", fontWeight: 700, textDecoration: "underline", marginTop: 4, display: "inline-block" }}
+        >
+          Ouvrir frigia.fr dans {isIos ? "Safari" : "Chrome"} →
+        </a>
       </div>
       {isAndroid && (
         <button onClick={openInChrome} style={{
