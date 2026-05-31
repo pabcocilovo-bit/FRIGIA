@@ -776,10 +776,8 @@ function InAppBrowserBanner() {
         </div>
         <a
           href={isAndroid
-            ? `intent://${window.location.host}${window.location.pathname}#Intent;scheme=https;package=com.android.chrome;end`
-            : "https://frigia.fr"}
-          target="_blank"
-          rel="noreferrer"
+            ? "intent://frigia.fr/#Intent;scheme=https;package=com.android.chrome;end"
+            : "x-safari-https://frigia.fr"}
           style={{ fontSize: 11, color: "#fff", fontWeight: 700, textDecoration: "underline", marginTop: 4, display: "inline-block" }}
         >
           Ouvrir frigia.fr dans {isIos ? "Safari" : "Chrome"} →
