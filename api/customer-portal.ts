@@ -23,15 +23,18 @@ export default async function handler(req: any, res: any) {
   const { data: { user }, error } = await admin.auth.getUser(token);
   if (error || !user) return res.status(401).json({ error: "Invalid token" });
 
-  const customerId = user.user_metadata?.stripe_customer_id;
+  // Read from app_metadata first (admin-only), fallback to user_metadata for backward compat
+  const customerId = user.app_metadata?.stripe_customer_id || user.user_metadata?.stripe_customer_id;
   if (!customerId) return res.status(400).json({ error: "No Stripe customer found" });
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
-  const portalSession = await stripe.billingPortal.sessions.create({
-    customer: customerId,
-    return_url: ALLOWED_ORIGINS.includes(origin ?? "") ? origin! : ALLOWED_ORIGINS[0],
-  });
-
-  res.json({ url: portalSession.url });
+  try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: customerId,
+      return_url: ALLOWED_ORIGINS.includes(origin ?? "") ? origin! : ALLOWED_ORIGINS[0],
+    });
+    res.json({ url: portalSession.url });
+  } catch (err: any) {
+    return res.status(500).json({ error: "Impossible d'ouvrir le portail de facturation. Réessayez." });
+  }
 }

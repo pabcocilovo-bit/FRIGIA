@@ -35,15 +35,25 @@ export default async function handler(req: any, res: any) {
     auth: { autoRefreshToken: false, persistSession: false },
   });
 
+  // Writes to app_metadata (admin-only, not user-writable)
   const updateUser = async (userId: string, status: string, customerId?: string) => {
-    await admin.auth.admin.updateUserById(userId, {
-      app_metadata: { subscription_status: status },
-      ...(customerId ? { user_metadata: { stripe_customer_id: customerId } } : {}),
-    });
+    const appData: any = { subscription_status: status };
+    if (customerId) appData.stripe_customer_id = customerId;
+    const { error } = await admin.auth.admin.updateUserById(userId, { app_metadata: appData });
+    if (error) throw new Error(`Supabase updateUser failed: ${error.message}`);
   };
 
   const getUserIdFromSubscription = async (sub: Stripe.Subscription): Promise<string | null> => {
     if (sub.metadata?.supabase_user_id) return sub.metadata.supabase_user_id;
+    // Fallback: look up by customer email via Stripe
+    try {
+      const customer = await stripe.customers.retrieve(sub.customer as string) as Stripe.Customer;
+      if (customer.email) {
+        const { data } = await admin.auth.admin.listUsers({ perPage: 1000 });
+        const found = data?.users?.find(u => u.email === customer.email);
+        if (found) return found.id;
+      }
+    } catch {}
     return null;
   };
 
@@ -52,45 +62,69 @@ export default async function handler(req: any, res: any) {
     const subscriptionId = typeof inv.subscription === "string" ? inv.subscription : inv.subscription?.id;
     if (subscriptionId) {
       const sub = await stripe.subscriptions.retrieve(subscriptionId);
-      if (sub.metadata?.supabase_user_id) return sub.metadata.supabase_user_id;
+      return getUserIdFromSubscription(sub);
     }
     return null;
   };
 
-  switch (event.type) {
-    case "checkout.session.completed": {
-      const session = event.data.object as Stripe.Checkout.Session;
-      const userId = session.client_reference_id || session.metadata?.supabase_user_id;
-      if (userId) {
-        await updateUser(userId, "trialing", session.customer as string);
+  try {
+    switch (event.type) {
+      case "checkout.session.completed": {
+        const session = event.data.object as Stripe.Checkout.Session;
+        const userId = session.client_reference_id || session.metadata?.supabase_user_id;
+        if (userId) {
+          // Read actual subscription status instead of hardcoding "trialing"
+          let status = "trialing";
+          if (session.subscription) {
+            const sub = await stripe.subscriptions.retrieve(session.subscription as string);
+            status = sub.status;
+          }
+          await updateUser(userId, status, session.customer as string);
+        }
+        break;
       }
-      break;
+      case "customer.subscription.updated": {
+        const sub = event.data.object as Stripe.Subscription;
+        const userId = await getUserIdFromSubscription(sub);
+        if (userId) await updateUser(userId, sub.status);
+        break;
+      }
+      case "customer.subscription.deleted": {
+        const sub = event.data.object as Stripe.Subscription;
+        const userId = await getUserIdFromSubscription(sub);
+        if (userId) await updateUser(userId, "canceled");
+        break;
+      }
+      case "customer.subscription.paused": {
+        const sub = event.data.object as Stripe.Subscription;
+        const userId = await getUserIdFromSubscription(sub);
+        if (userId) await updateUser(userId, "paused");
+        break;
+      }
+      case "customer.subscription.resumed": {
+        const sub = event.data.object as Stripe.Subscription;
+        const userId = await getUserIdFromSubscription(sub);
+        if (userId) await updateUser(userId, "active");
+        break;
+      }
+      case "invoice.payment_failed": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const userId = await getUserIdFromInvoice(invoice);
+        if (userId) await updateUser(userId, "past_due");
+        break;
+      }
+      case "invoice.payment_succeeded": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const userId = await getUserIdFromInvoice(invoice);
+        if (userId) await updateUser(userId, "active");
+        break;
+      }
     }
-    case "customer.subscription.updated": {
-      const sub = event.data.object as Stripe.Subscription;
-      const userId = await getUserIdFromSubscription(sub);
-      if (userId) await updateUser(userId, sub.status);
-      break;
-    }
-    case "customer.subscription.deleted": {
-      const sub = event.data.object as Stripe.Subscription;
-      const userId = await getUserIdFromSubscription(sub);
-      if (userId) await updateUser(userId, "canceled");
-      break;
-    }
-    case "invoice.payment_failed": {
-      const invoice = event.data.object as Stripe.Invoice;
-      const userId = await getUserIdFromInvoice(invoice);
-      if (userId) await updateUser(userId, "past_due");
-      break;
-    }
-    case "invoice.payment_succeeded": {
-      const invoice = event.data.object as Stripe.Invoice;
-      const userId = await getUserIdFromInvoice(invoice);
-      if (userId) await updateUser(userId, "active");
-      break;
-    }
-  }
 
-  res.json({ received: true });
+    res.json({ received: true });
+  } catch (err: any) {
+    // Return 500 so Stripe retries the webhook
+    console.error("Webhook handler error:", err.message);
+    return res.status(500).json({ error: "Handler failed, will retry" });
+  }
 }

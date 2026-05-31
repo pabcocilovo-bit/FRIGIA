@@ -29,15 +29,22 @@ export default async function handler(req: any, res: any) {
   const stripe = new Stripe(stripeKey);
   const successOrigin = ALLOWED_ORIGINS.includes(origin ?? "") ? origin! : ALLOWED_ORIGINS[0];
 
-  const session = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    customer_email: user.email,
-    metadata: { supabase_user_id: user.id },
-    line_items: [{ price: priceId, quantity: 1 }],
-    subscription_data: { trial_period_days: 4, metadata: { supabase_user_id: user.id } },
-    success_url: `${successOrigin}/?checkout=success`,
-    cancel_url: `${successOrigin}/?checkout=cancel`,
-  });
+  // Reuse existing Stripe customer to avoid duplicates
+  const existingCustomerId = user.app_metadata?.stripe_customer_id || user.user_metadata?.stripe_customer_id;
 
-  res.json({ url: session.url });
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      ...(existingCustomerId ? { customer: existingCustomerId } : { customer_email: user.email }),
+      metadata: { supabase_user_id: user.id },
+      line_items: [{ price: priceId, quantity: 1 }],
+      subscription_data: { trial_period_days: 4, metadata: { supabase_user_id: user.id } },
+      success_url: `${successOrigin}/?checkout=success`,
+      cancel_url: `${successOrigin}/?checkout=cancel`,
+    });
+
+    res.json({ url: session.url });
+  } catch (err: any) {
+    return res.status(500).json({ error: "Impossible de créer la session de paiement. Réessayez." });
+  }
 }

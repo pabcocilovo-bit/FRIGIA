@@ -3604,7 +3604,8 @@ export default function Frigia() {
     const userMeta = u.user_metadata || {};
     if (appMeta.is_whitelisted || userMeta.is_whitelisted) return true;
     const status = appMeta.subscription_status || userMeta.subscription_status;
-    return status === "active" || status === "trialing";
+    // "incomplete" and "past_due" keep access during Stripe's retry window
+    return ["active", "trialing", "incomplete", "past_due"].includes(status);
   };
 
   const openCustomerPortal = async () => {
@@ -3618,8 +3619,14 @@ export default function Frigia() {
       });
       const json = await res.json();
       if (json.url) window.location.href = json.url;
-      else setCheckoutLoading(false);
-    } catch { setCheckoutLoading(false); }
+      else {
+        setCheckoutLoading(false);
+        alert(json.error || "Impossible d'ouvrir le portail. Réessayez.");
+      }
+    } catch {
+      setCheckoutLoading(false);
+      alert("Erreur de connexion. Vérifiez votre réseau et réessayez.");
+    }
   };
 
   const startCheckout = async () => {
@@ -3695,11 +3702,25 @@ useEffect(() => {
   };
 
   if (isCheckoutReturn) {
-    supabase.auth.refreshSession().then(({ data }) => {
+    // Poll until webhook has written subscription status (up to 5 attempts × 2s)
+    let attempts = 0;
+    const poll = async () => {
+      const { data } = await supabase.auth.refreshSession();
       const u = data.session?.user ?? null;
-      setUser(u);
-      if (u) initUser(u);
-    });
+      const appMeta = u?.app_metadata || {};
+      const userMeta = u?.user_metadata || {};
+      const status = appMeta.subscription_status || userMeta.subscription_status;
+      const ready = appMeta.is_whitelisted || userMeta.is_whitelisted ||
+        ["active", "trialing", "incomplete", "past_due"].includes(status);
+      if (ready || attempts >= 5) {
+        setUser(u);
+        if (u) initUser(u);
+      } else {
+        attempts++;
+        setTimeout(poll, 2000);
+      }
+    };
+    poll();
   } else {
     supabase.auth.getSession().then(({ data }) => {
       const u = data.session?.user ?? null;
