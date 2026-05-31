@@ -1044,7 +1044,7 @@ function SettingsModal({
             const status = appMeta.subscription_status;
             const isWhitelisted = appMeta.is_whitelisted || userMeta.is_whitelisted;
             const created = user ? new Date(user.created_at) : new Date();
-            const TRIAL_MS = 10 * 60 * 1000; // TEST: 10 min — remettre 4 * 24 * 60 * 60 * 1000 après
+            const TRIAL_MS = 4 * 24 * 60 * 60 * 1000;
             const trialEndMs = created.getTime() + TRIAL_MS;
             const msLeft = Math.max(0, trialEndMs - now);
             const trialDaysLeft = Math.ceil(msLeft / (1000 * 60 * 60 * 24));
