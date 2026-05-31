@@ -1324,12 +1324,6 @@ function SettingsModal({
                   <SupportFAQItem key={i} theme={theme} q={faq.q} a={faq.a} />
                 ))}
               </div>
-              <div style={{ ...glassCard(theme), padding: 24, textAlign: "center" }}>
-                <div style={{ fontSize: 14, color: v.muted, marginBottom: 14 }}>Vous n'avez pas trouvé votre réponse ?</div>
-                <a href="mailto:frigia.contact@gmail.com" style={{ display: "inline-block", padding: "11px 24px", borderRadius: 100, background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>
-                  Contacter le support
-                </a>
-              </div>
             </div>
           )}
 
