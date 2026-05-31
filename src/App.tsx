@@ -1045,7 +1045,6 @@ function SettingsModal({
             const msLeft = Math.max(0, trialEndMs - now);
             const daysUsed = Math.min(4, (now - created.getTime()) / (1000 * 60 * 60 * 24));
             const trialDaysLeft = Math.floor(msLeft / (1000 * 60 * 60 * 24));
-            const hoursLeft = Math.floor((msLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const trialPct = Math.max(0, Math.min(100, (msLeft / (4 * 24 * 60 * 60 * 1000)) * 100));
             const isTrialing = status === "trialing" || (!status && daysUsed <= 4);
             const isActive = status === "active";
@@ -1079,7 +1078,7 @@ function SettingsModal({
                           <div style={{ color: v.muted, fontSize: 14, marginTop: 6 }}>Puis <strong style={{ color: v.text }}>7,99€/mois</strong></div>
                         </div>
                         <div style={{ textAlign: "center" }}>
-                          <div style={{ fontSize: 36, fontWeight: 900, color: "#2ECC71" }}>{trialDaysLeft}j{hoursLeft > 0 ? ` ${hoursLeft}h` : ""}</div>
+                          <div style={{ fontSize: 36, fontWeight: 900, color: "#2ECC71" }}>{trialDaysLeft}j</div>
                           <div style={{ fontSize: 12, color: v.muted }}>restants</div>
                         </div>
                       </div>
