@@ -370,7 +370,7 @@ function Hero({ onOpen, onInstall }: { onOpen: () => void; onInstall?: () => voi
   }, []);
 
   return (
-    <section style={{ minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",padding:"120px 48px 80px",position:"relative",overflow:"hidden" }}>
+    <section style={{ minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",padding:"80px 48px 60px",position:"relative",overflow:"hidden" }}>
       {/* Orbs */}
       <div ref={orb1} style={{ position:"absolute",width:680,height:680,borderRadius:"50%",background:"radial-gradient(circle,rgba(255,107,53,.14) 0%,transparent 70%)",top:"-18%",left:"-14%",pointerEvents:"none",transition:"transform .45s ease",animation:"orbFloat1 11s ease-in-out infinite" }} />
       <div ref={orb2} style={{ position:"absolute",width:580,height:580,borderRadius:"50%",background:"radial-gradient(circle,rgba(46,204,113,.11) 0%,transparent 70%)",bottom:"-12%",right:"-10%",pointerEvents:"none",transition:"transform .45s ease",animation:"orbFloat2 13s ease-in-out infinite" }} />
@@ -386,16 +386,16 @@ function Hero({ onOpen, onInstall }: { onOpen: () => void; onInstall?: () => voi
             4 jours gratuits · Puis 7,99€/mois
           </div>
 
-          <h1 style={{ fontSize:"clamp(38px,5.2vw,68px)",fontWeight:900,lineHeight:1.06,letterSpacing:-2,marginBottom:24,fontFamily:"Georgia,serif",color:C.text,animation:"fadeIn .8s ease .08s both" }}>
+          <h1 style={{ fontSize:"clamp(38px,5.2vw,68px)",fontWeight:900,lineHeight:1.06,letterSpacing:-2,marginBottom:16,fontFamily:"Georgia,serif",color:C.text,animation:"fadeIn .8s ease .08s both" }}>
             Prenez votre frigo<br />en photo.{" "}
             <span style={gradText}>L'IA cuisine<br />pour vous.</span>
           </h1>
 
-          <p style={{ fontSize:18,color:C.muted,lineHeight:1.78,marginBottom:42,animation:"fadeIn .8s ease .18s both" }}>
+          <p style={{ fontSize:18,color:C.muted,lineHeight:1.78,marginBottom:28,animation:"fadeIn .8s ease .18s both" }}>
             Des recettes générées instantanément<br />à partir des aliments que vous avez déjà.
           </p>
 
-          <div style={{ display:"flex",flexDirection:"column",gap:12,marginBottom:52,animation:"fadeIn .8s ease .28s both" }}>
+          <div style={{ display:"flex",flexDirection:"column",gap:12,marginBottom:36,animation:"fadeIn .8s ease .28s both" }}>
             {onInstall ? (
               <>
                 <button onClick={onInstall} style={{ padding:"16px 34px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:800,fontSize:16,boxShadow:"0 10px 38px rgba(255,107,53,.38)",display:"flex",alignItems:"center",justifyContent:"center",gap:8 }}>
