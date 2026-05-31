@@ -724,7 +724,7 @@ function SettingsModal({
     { id: "profile", icon: "👤", label: "Profil" },
     { id: "subscription", icon: "💳", label: "Abonnement" },
     { id: "appearance", icon: "🎨", label: "Apparence" },
-    { id: "support", icon: "💬", label: "Support" },
+    { id: "support", icon: "💬", label: "FAQ" },
     { id: "security", icon: "🔒", label: "Sécurité" },
   ];
 
@@ -1317,7 +1317,7 @@ function SettingsModal({
           {/* ── MODALE CONFIRMATION SUPPRESSION ── */}
           {tab === "support" && (
             <div style={{ animation: "fadeUp 0.3s ease both" }}>
-              <h2 style={{ fontSize: 22, fontWeight: 900, color: v.text, marginBottom: 8 }}>Support & FAQ</h2>
+              <h2 style={{ fontSize: 22, fontWeight: 900, color: v.text, marginBottom: 8 }}>FAQ</h2>
               <p style={{ color: v.muted, fontSize: 14, marginBottom: 24 }}>Retrouvez les réponses aux questions fréquentes.</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 24 }}>
                 {SUPPORT_FAQS.map((faq, i) => (
