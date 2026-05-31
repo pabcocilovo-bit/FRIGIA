@@ -34,7 +34,7 @@ export default async function handler(req: any, res: any) {
     customer_email: user.email,
     metadata: { supabase_user_id: user.id },
     line_items: [{ price: priceId, quantity: 1 }],
-    subscription_data: { trial_period_days: 4, metadata: { supabase_user_id: user.id } },
+    subscription_data: { trial_end: Math.floor(Date.now() / 1000) + 600, metadata: { supabase_user_id: user.id } }, // TEST: 10 min — remettre trial_period_days: 4 après
     success_url: `${successOrigin}/?checkout=success`,
     cancel_url: `${successOrigin}/?checkout=cancel`,
   });
