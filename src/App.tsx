@@ -642,6 +642,11 @@ function SettingsModal({
 }) {
   const v = getThemeVars(theme);
   const [tab, setTab] = useState<SettingsTab>("profile");
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 60_000);
+    return () => clearInterval(t);
+  }, []);
 
   const avatarInputRef = useRef<HTMLInputElement | null>(null);
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
@@ -1036,8 +1041,12 @@ function SettingsModal({
             const status = meta.subscription_status;
             const isWhitelisted = meta.is_whitelisted;
             const created = user ? new Date(user.created_at) : new Date();
-            const daysUsed = Math.floor((Date.now() - created.getTime()) / (1000 * 60 * 60 * 24));
-            const trialDaysLeft = Math.max(0, 4 - daysUsed);
+            const trialEndMs = created.getTime() + 4 * 24 * 60 * 60 * 1000;
+            const msLeft = Math.max(0, trialEndMs - now);
+            const daysUsed = Math.min(4, (now - created.getTime()) / (1000 * 60 * 60 * 24));
+            const trialDaysLeft = Math.floor(msLeft / (1000 * 60 * 60 * 24));
+            const hoursLeft = Math.floor((msLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const trialPct = Math.max(0, Math.min(100, (msLeft / (4 * 24 * 60 * 60 * 1000)) * 100));
             const isTrialing = status === "trialing" || (!status && daysUsed <= 4);
             const isActive = status === "active";
             const hasBilling = isActive || isTrialing;
@@ -1070,12 +1079,16 @@ function SettingsModal({
                           <div style={{ color: v.muted, fontSize: 14, marginTop: 6 }}>Puis <strong style={{ color: v.text }}>7,99€/mois</strong></div>
                         </div>
                         <div style={{ textAlign: "center" }}>
-                          <div style={{ fontSize: 36, fontWeight: 900, color: "#2ECC71" }}>{trialDaysLeft}j</div>
+                          <div style={{ fontSize: 36, fontWeight: 900, color: "#2ECC71" }}>{trialDaysLeft}j{hoursLeft > 0 ? ` ${hoursLeft}h` : ""}</div>
                           <div style={{ fontSize: 12, color: v.muted }}>restants</div>
                         </div>
                       </div>
                       <div style={{ marginTop: 16, height: 8, borderRadius: 100, background: "rgba(255,255,255,0.1)", overflow: "hidden" }}>
-                        <div style={{ height: "100%", width: `${(daysUsed / 4) * 100}%`, background: "linear-gradient(90deg,#FF6B35,#2ECC71)", borderRadius: 100 }} />
+                        <div style={{ height: "100%", width: `${trialPct}%`, background: "linear-gradient(90deg,#2ECC71,#FF6B35)", borderRadius: 100, transition: "width 1s ease" }} />
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 11, color: v.muted }}>
+                        <span>Aujourd'hui</span>
+                        <span>J+4</span>
                       </div>
                     </>
                   ) : (
