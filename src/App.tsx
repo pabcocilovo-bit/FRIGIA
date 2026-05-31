@@ -2781,10 +2781,11 @@ function FridgeAIScanner({
   const [showMealTypeModal, setShowMealTypeModal] = useState(false);
   const [mealType, setMealType] = useState<string>("mix");
 
-  const handleScanClick = () => setShowMealTypeModal(true);
+  const handleScanClick = () => { if (!analyzing) setShowMealTypeModal(true); };
 
   const handleImage = (file?: File) => {
     if (!file) return;
+    setShowMealTypeModal(false);
     const url = URL.createObjectURL(file);
     setImage(url);
     setIngredients([]);
