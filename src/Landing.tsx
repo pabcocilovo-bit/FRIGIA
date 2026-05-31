@@ -395,13 +395,19 @@ function Hero({ onOpen, onInstall }: { onOpen: () => void; onInstall?: () => voi
             Des recettes générées instantanément<br />à partir des aliments que vous avez déjà.
           </p>
 
-          <div style={{ display:"flex",gap:14,flexWrap:"wrap",marginBottom:52,animation:"fadeIn .8s ease .28s both" }}>
-            <button onClick={onOpen} style={{ padding:"16px 34px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:800,fontSize:16,boxShadow:"0 10px 38px rgba(255,107,53,.38)" }}>
-              Démarrer gratuitement
-            </button>
-            {onInstall && (
-              <button onClick={onInstall} style={{ padding:"16px 28px",background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:100,color:C.text,fontWeight:700,fontSize:15,display:"flex",alignItems:"center",gap:8 }}>
-                📲 Télécharger l'app
+          <div style={{ display:"flex",flexDirection:"column",gap:12,marginBottom:52,animation:"fadeIn .8s ease .28s both" }}>
+            {onInstall ? (
+              <>
+                <button onClick={onInstall} style={{ padding:"16px 34px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:800,fontSize:16,boxShadow:"0 10px 38px rgba(255,107,53,.38)",display:"flex",alignItems:"center",justifyContent:"center",gap:8 }}>
+                  Télécharger l'app
+                </button>
+                <button onClick={onOpen} style={{ background:"none",border:"none",color:C.muted,fontSize:13,cursor:"pointer",textDecoration:"underline",padding:"4px 0" }}>
+                  Essayer dans le navigateur
+                </button>
+              </>
+            ) : (
+              <button onClick={onOpen} style={{ padding:"16px 34px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:800,fontSize:16,boxShadow:"0 10px 38px rgba(255,107,53,.38)" }}>
+                Démarrer gratuitement
               </button>
             )}
           </div>
