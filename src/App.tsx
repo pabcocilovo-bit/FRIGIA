@@ -101,7 +101,7 @@ function buildShareText(r: GeneratedRecipe): string {
   lines.push("");
   lines.push("———");
   lines.push("Recette générée avec Frigia 🍽️");
-  lines.push("Votre chef IA personnel — frigia.app");
+  lines.push("Votre chef IA personnel — frigia.fr");
   return lines.join("\n");
 }
 
