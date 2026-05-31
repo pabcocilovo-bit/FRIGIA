@@ -1085,10 +1085,6 @@ function SettingsModal({
                       <div style={{ marginTop: 16, height: 8, borderRadius: 100, background: "rgba(255,255,255,0.1)", overflow: "hidden" }}>
                         <div style={{ height: "100%", width: `${trialPct}%`, background: "linear-gradient(90deg,#2ECC71,#FF6B35)", borderRadius: 100, transition: "width 1s ease" }} />
                       </div>
-                      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 11, color: v.muted }}>
-                        <span>Aujourd'hui</span>
-                        <span>J+4</span>
-                      </div>
                     </>
                   ) : (
                     <>
