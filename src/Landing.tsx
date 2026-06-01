@@ -764,51 +764,88 @@ function SocialInAppScreen({ isIos }: { isIos: boolean }) {
   const isFacebook = /FBAN|FBAV|FB_IAB/i.test(ua);
   const isTikTok = /BytedanceWebview|musical_ly|TikTok/i.test(ua);
   const isSnapchat = /Snapchat/i.test(ua);
+  const [copied, setCopied] = useState(false);
 
-  let appName = "ce navigateur intégré";
-  if (isInstagram) appName = "Instagram";
-  else if (isFacebook) appName = "Facebook";
-  else if (isTikTok) appName = "TikTok";
-  else if (isSnapchat) appName = "Snapchat";
+  let appName = "ce navigateur";
+  let menuPos = "en haut à droite";
+  if (isInstagram) { appName = "Instagram"; menuPos = "en bas à droite"; }
+  else if (isFacebook) { appName = "Facebook"; menuPos = "en haut à droite"; }
+  else if (isTikTok) { appName = "TikTok"; menuPos = "en haut à droite"; }
+  else if (isSnapchat) { appName = "Snapchat"; menuPos = "en haut à droite"; }
 
   const browserName = isIos ? "Safari" : "Chrome";
-  const browserIcon = isIos ? "🧭" : "🌐";
 
-  const manualInstructions = isInstagram
-    ? `Appuie sur ··· en bas à droite → "${isIos ? "Ouvrir dans Safari" : "Ouvrir dans Chrome"}"`
-    : `Appuie sur le menu ··· de ton navigateur → "${isIos ? "Ouvrir dans Safari" : "Ouvrir dans Chrome"}"`;
+  const steps = isIos ? [
+    { n: 1, text: "Appuie sur", strong: `··· ${menuPos}`, sub: "dans le navigateur d'" + appName },
+    { n: 2, text: "Sélectionne", strong: `"Ouvrir dans Safari"`, sub: "dans le menu qui apparaît" },
+    { n: 3, text: "Frigia s'ouvre dans", strong: "Safari", sub: "tu peux te connecter normalement" },
+  ] : [
+    { n: 1, text: "Appuie sur", strong: `⋮ ${menuPos}`, sub: "dans le navigateur d'" + appName },
+    { n: 2, text: "Sélectionne", strong: `"Ouvrir dans Chrome"`, sub: "ou \"Ouvrir dans le navigateur\"" },
+    { n: 3, text: "Frigia s'ouvre dans", strong: "Chrome", sub: "tu peux te connecter normalement" },
+  ];
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText("https://frigia.fr");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } catch {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    }
+  };
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "#07070E", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "32px 28px", textAlign: "center" }}>
+    <div style={{ position: "fixed", inset: 0, background: "#07070E", display: "flex", flexDirection: "column", overflowY: "auto" }}>
       <style>{`body{margin:0;background:#07070E;}`}</style>
-      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 52 }}>
-        <img src="/logo.png" alt="Frigia" style={{ width: 44, height: 44, borderRadius: 12, objectFit: "contain" }} />
-        <span style={{ fontWeight: 900, fontSize: 24, color: C.text, fontFamily: "Georgia, serif" }}>Frigia</span>
-      </div>
-      <div style={{ fontSize: 60, marginBottom: 24 }}>{browserIcon}</div>
-      <h1 style={{ fontSize: 26, fontWeight: 900, color: C.text, lineHeight: 1.2, marginBottom: 14 }}>
-        Ouvre dans {browserName}<br />pour continuer
-      </h1>
-      <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.7, marginBottom: 40, maxWidth: 320 }}>
-        Le navigateur d'{appName} ne permet pas l'inscription ni le paiement. Ouvre Frigia dans {browserName} pour tout débloquer.
-      </p>
-      <button
-        onClick={() => openInNativeBrowser(isIos)}
-        style={{
-          width: "100%", maxWidth: 340, padding: "18px",
-          background: grad, border: "none", borderRadius: 100,
-          color: "#fff", fontWeight: 800, fontSize: 17, cursor: "pointer",
-          marginBottom: 32, boxShadow: "0 10px 38px rgba(255,107,53,.35)",
-        }}
-      >
-        Ouvrir dans {browserName} →
-      </button>
-      <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 16, padding: "16px 20px", maxWidth: 340, width: "100%" }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: C.muted, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 8 }}>
-          Ou manuellement
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 28px 32px", textAlign: "center" }}>
+
+        {/* Logo */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 40 }}>
+          <img src="/logo.png" alt="Frigia" style={{ width: 40, height: 40, borderRadius: 10, objectFit: "contain" }} />
+          <span style={{ fontWeight: 900, fontSize: 22, color: C.text, fontFamily: "Georgia, serif" }}>Frigia</span>
         </div>
-        <div style={{ fontSize: 14, color: C.text, lineHeight: 1.65 }}>
-          {manualInstructions}
+
+        {/* Title */}
+        <h1 style={{ fontSize: 24, fontWeight: 900, color: C.text, lineHeight: 1.25, marginBottom: 12 }}>
+          Ouvre dans {browserName}<br />pour continuer
+        </h1>
+        <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.65, marginBottom: 32, maxWidth: 300 }}>
+          Le navigateur d'{appName} bloque l'inscription et le paiement. Suis les étapes ci-dessous.
+        </p>
+
+        {/* Steps */}
+        <div style={{ width: "100%", maxWidth: 360, display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
+          {steps.map((s) => (
+            <div key={s.n} style={{ display: "flex", alignItems: "flex-start", gap: 14, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14, padding: "14px 16px", textAlign: "left" }}>
+              <div style={{ width: 30, height: 30, borderRadius: "50%", background: grad, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 13, color: "#fff", flexShrink: 0 }}>{s.n}</div>
+              <div>
+                <div style={{ fontSize: 14, color: C.muted }}>{s.text} <strong style={{ color: C.text }}>{s.strong}</strong></div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", marginTop: 3 }}>{s.sub}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Copy link button */}
+        <button
+          onClick={copyLink}
+          style={{
+            width: "100%", maxWidth: 360, padding: "16px",
+            background: copied ? "rgba(46,204,113,0.15)" : "rgba(255,255,255,0.07)",
+            border: `1px solid ${copied ? "rgba(46,204,113,0.5)" : "rgba(255,255,255,0.15)"}`,
+            borderRadius: 100, color: copied ? "#2ECC71" : C.text,
+            fontWeight: 700, fontSize: 15, cursor: "pointer", transition: "all 0.25s",
+            marginBottom: 12,
+          }}
+        >
+          {copied ? "✓ Lien copié ! Colle-le dans Safari" : "📋 Copier le lien frigia.fr"}
+        </button>
+
+        {/* URL visible */}
+        <div style={{ fontSize: 13, color: "rgba(255,255,255,0.25)", letterSpacing: 0.5 }}>
+          frigia.fr
         </div>
       </div>
     </div>
