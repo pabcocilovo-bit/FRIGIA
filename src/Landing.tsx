@@ -156,13 +156,15 @@ function AuthModal({ onClose, captchaToken, onResetCaptcha }: { onClose: () => v
     if (!email || !pw) { setMsg("Remplissez tous les champs."); return; }
     setMsg("");
     if (mode === "signup") { setReviewing(true); return; }
+    if (!captchaToken) return;
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password: pw });
+      const { error } = await supabase.auth.signInWithPassword({ email, password: pw, options: { captchaToken } });
       if (error) throw error;
       onClose();
     } catch (e: any) {
       setMsg(e.message || "Une erreur est survenue.");
+      onResetCaptcha();
     } finally { setLoading(false); }
   };
 
@@ -299,10 +301,10 @@ function AuthModal({ onClose, captchaToken, onResetCaptcha }: { onClose: () => v
 
           {msg && <div style={{ fontSize:13,color:msg.startsWith("✓")?C.green:"#FF5050",textAlign:"center",lineHeight:1.5 }}>{msg}</div>}
 
-          <button onClick={submit} disabled={loading || (mode === "signup" && !captchaToken)} style={{
+          <button onClick={submit} disabled={loading || !captchaToken} style={{
             padding:"15px",borderRadius:14,border:"none",background:grad,
             color:"#fff",fontWeight:800,fontSize:15,marginTop:4,
-            opacity: (loading || (mode === "signup" && !captchaToken)) ? 0.5 : 1,
+            opacity: (loading || !captchaToken) ? 0.5 : 1,
             transition: "opacity 0.3s",
           }}>
             {loading ? "…" : mode==="signup" ? "Démarrer gratuitement →" : "Se connecter →"}
