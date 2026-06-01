@@ -355,7 +355,7 @@ function Nav({ onOpen }: { onOpen: () => void }) {
 }
 
 // ── Hero ──────────────────────────────────────────────────────────────────────
-function Hero({ onOpen, onInstall, installLabel }: { onOpen: () => void; onInstall?: () => void; installLabel?: string }) {
+function Hero({ onOpen, onInstall, installLabel, compact }: { onOpen: () => void; onInstall?: () => void; installLabel?: string; compact?: boolean }) {
   const orb1 = useRef<HTMLDivElement>(null);
   const orb2 = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -377,7 +377,7 @@ function Hero({ onOpen, onInstall, installLabel }: { onOpen: () => void; onInsta
   const isRegularChrome = !isStandalone && !isIOS && !isChromeIOS && !isSafari && /chrome/i.test(ua);
 
   return (
-    <section style={{ minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",padding:isRegularChrome?"80px 48px 60px":"120px 48px 80px",position:"relative",overflow:"hidden" }}>
+    <section style={{ minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",padding:compact?"20px 28px 40px":isRegularChrome?"80px 48px 60px":"120px 48px 80px",position:"relative",overflow:"hidden" }}>
       {/* Orbs */}
       <div ref={orb1} style={{ position:"absolute",width:680,height:680,borderRadius:"50%",background:"radial-gradient(circle,rgba(255,107,53,.14) 0%,transparent 70%)",top:"-18%",left:"-14%",pointerEvents:"none",transition:"transform .45s ease",animation:"orbFloat1 11s ease-in-out infinite" }} />
       <div ref={orb2} style={{ position:"absolute",width:580,height:580,borderRadius:"50%",background:"radial-gradient(circle,rgba(46,204,113,.11) 0%,transparent 70%)",bottom:"-12%",right:"-10%",pointerEvents:"none",transition:"transform .45s ease",animation:"orbFloat2 13s ease-in-out infinite" }} />
@@ -388,17 +388,17 @@ function Hero({ onOpen, onInstall, installLabel }: { onOpen: () => void; onInsta
       <div className="land-hero" style={{ maxWidth:1200,width:"100%",display:"flex",gap:80,alignItems:"center",flexWrap:"wrap",position:"relative",zIndex:1 }}>
         {/* Copy */}
         <div style={{ flex:1,minWidth:300,maxWidth:600 }}>
-          <div style={{ display:"inline-flex",alignItems:"center",gap:8,padding:"6px 16px",background:"rgba(46,204,113,.1)",border:"1px solid rgba(46,204,113,.22)",borderRadius:100,fontSize:13,color:"#2ECC71",fontWeight:700,marginBottom:28,animation:"fadeIn .7s ease both" }}>
+          <div style={{ display:"inline-flex",alignItems:"center",gap:8,padding:"6px 16px",background:"rgba(46,204,113,.1)",border:"1px solid rgba(46,204,113,.22)",borderRadius:100,fontSize:13,color:"#2ECC71",fontWeight:700,marginBottom:compact?10:28,animation:"fadeIn .7s ease both" }}>
             <span style={{ width:6,height:6,borderRadius:"50%",background:"#2ECC71",animation:"pulse 2s ease infinite" }} />
             4 jours gratuits · Puis 7,99€/mois
           </div>
 
-          <h1 style={{ fontSize:"clamp(38px,5.2vw,68px)",fontWeight:900,lineHeight:1.06,letterSpacing:-2,marginBottom:isRegularChrome?16:24,fontFamily:"Georgia,serif",color:C.text,animation:"fadeIn .8s ease .08s both" }}>
+          <h1 style={{ fontSize:compact?"clamp(28px,5.2vw,68px)":"clamp(38px,5.2vw,68px)",fontWeight:900,lineHeight:1.06,letterSpacing:-2,marginBottom:compact?10:isRegularChrome?16:24,fontFamily:"Georgia,serif",color:C.text,animation:"fadeIn .8s ease .08s both" }}>
             Prenez votre frigo<br />en photo.{" "}
             <span style={gradText}>L'IA cuisine<br />pour vous.</span>
           </h1>
 
-          <p style={{ fontSize:18,color:C.muted,lineHeight:1.78,marginBottom:isRegularChrome?28:42,animation:"fadeIn .8s ease .18s both" }}>
+          <p style={{ fontSize:compact?14:18,color:C.muted,lineHeight:1.78,marginBottom:compact?14:isRegularChrome?28:42,animation:"fadeIn .8s ease .18s both" }}>
             Des recettes générées instantanément<br />à partir des aliments que vous avez déjà.
           </p>
 
@@ -1071,7 +1071,7 @@ export default function Landing() {
       {showInstallHint && <InstallHint onClose={() => setShowInstallHint(false)} />}
       <GoogleInAppBanner />
       <Nav onOpen={open} />
-      <Hero onOpen={open} onInstall={heroInstall} installLabel={heroInstallLabel} />
+      <Hero onOpen={open} onInstall={heroInstall} installLabel={heroInstallLabel} compact={isGoogleInApp} />
       <Marquee />
       <HowItWorks />
       <Stats />
