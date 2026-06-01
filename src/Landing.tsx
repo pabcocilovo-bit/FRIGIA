@@ -758,43 +758,59 @@ function openInNativeBrowser(isIos: boolean) {
   }
 }
 
-function InAppBrowserBanner() {
-  const { isInApp, isIos, isAndroid } = detectInAppBrowser();
-  const [dismissed, setDismissed] = useState(false);
+function SocialInAppScreen({ isIos }: { isIos: boolean }) {
+  const ua = navigator.userAgent;
+  const isInstagram = /Instagram/i.test(ua);
+  const isFacebook = /FBAN|FBAV|FB_IAB/i.test(ua);
+  const isTikTok = /BytedanceWebview|musical_ly|TikTok/i.test(ua);
+  const isSnapchat = /Snapchat/i.test(ua);
 
-  if (!isInApp || dismissed || (!isIos && !isAndroid)) return null;
+  let appName = "ce navigateur intégré";
+  if (isInstagram) appName = "Instagram";
+  else if (isFacebook) appName = "Facebook";
+  else if (isTikTok) appName = "TikTok";
+  else if (isSnapchat) appName = "Snapchat";
+
+  const browserName = isIos ? "Safari" : "Chrome";
+  const browserIcon = isIos ? "🧭" : "🌐";
+
+  const manualInstructions = isInstagram
+    ? `Appuie sur ··· en bas à droite → "${isIos ? "Ouvrir dans Safari" : "Ouvrir dans Chrome"}"`
+    : `Appuie sur le menu ··· de ton navigateur → "${isIos ? "Ouvrir dans Safari" : "Ouvrir dans Chrome"}"`;
 
   return (
-    <div style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 9999,
-      background: "linear-gradient(135deg,#FF6B35,#FF9A3C)",
-      paddingTop: "calc(12px + env(safe-area-inset-top))",
-      paddingBottom: "12px",
-      paddingLeft: "16px",
-      paddingRight: "16px",
-      display: "flex", alignItems: "center", gap: 12,
-      boxShadow: "0 4px 24px rgba(255,107,53,0.4)",
-    }}>
-      <span style={{ fontSize: 22, flexShrink: 0 }}>{isIos ? "🧭" : "🌐"}</span>
-      <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>
-          Ouvre Frigia dans {isIos ? "Safari" : "Chrome"} pour une meilleure expérience.
-        </div>
+    <div style={{ position: "fixed", inset: 0, background: "#07070E", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "32px 28px", textAlign: "center" }}>
+      <style>{`body{margin:0;background:#07070E;}`}</style>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 52 }}>
+        <img src="/logo.png" alt="Frigia" style={{ width: 44, height: 44, borderRadius: 12, objectFit: "contain" }} />
+        <span style={{ fontWeight: 900, fontSize: 24, color: C.text, fontFamily: "Georgia, serif" }}>Frigia</span>
       </div>
+      <div style={{ fontSize: 60, marginBottom: 24 }}>{browserIcon}</div>
+      <h1 style={{ fontSize: 26, fontWeight: 900, color: C.text, lineHeight: 1.2, marginBottom: 14 }}>
+        Ouvre dans {browserName}<br />pour continuer
+      </h1>
+      <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.7, marginBottom: 40, maxWidth: 320 }}>
+        Le navigateur d'{appName} ne permet pas l'inscription ni le paiement. Ouvre Frigia dans {browserName} pour tout débloquer.
+      </p>
       <button
         onClick={() => openInNativeBrowser(isIos)}
         style={{
-          background: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.5)",
-          color: "#fff", fontSize: 12, fontWeight: 800, cursor: "pointer",
-          borderRadius: 100, padding: "6px 14px", flexShrink: 0, whiteSpace: "nowrap",
+          width: "100%", maxWidth: 340, padding: "18px",
+          background: grad, border: "none", borderRadius: 100,
+          color: "#fff", fontWeight: 800, fontSize: 17, cursor: "pointer",
+          marginBottom: 32, boxShadow: "0 10px 38px rgba(255,107,53,.35)",
         }}
       >
-        Ouvrir →
+        Ouvrir dans {browserName} →
       </button>
-      <button onClick={() => setDismissed(true)} style={{
-        background: "none", border: "none", color: "rgba(255,255,255,0.75)",
-        fontSize: 20, cursor: "pointer", lineHeight: 1, flexShrink: 0, padding: "4px",
-      }}>✕</button>
+      <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 16, padding: "16px 20px", maxWidth: 340, width: "100%" }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: C.muted, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 8 }}>
+          Ou manuellement
+        </div>
+        <div style={{ fontSize: 14, color: C.text, lineHeight: 1.65 }}>
+          {manualInstructions}
+        </div>
+      </div>
     </div>
   );
 }
@@ -936,10 +952,7 @@ function InstallHint({ onClose }: { onClose: () => void }) {
 export default function Landing() {
   const [authOpen, setAuthOpen] = useState(false);
   const { isInApp, isIos, isAndroid } = detectInAppBrowser();
-  const open = useCallback(() => {
-    if (isInApp && (isIos || isAndroid)) { openInNativeBrowser(isIos); return; }
-    setAuthOpen(true);
-  }, [isInApp, isIos, isAndroid]);
+  const open = useCallback(() => { setAuthOpen(true); }, []);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showInstallHint, setShowInstallHint] = useState(false);
 
@@ -949,8 +962,11 @@ export default function Landing() {
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 
+  if (isInApp && (isIos || isAndroid)) {
+    return <SocialInAppScreen isIos={isIos} />;
+  }
+
   const handleInstall = async () => {
-    if (isInApp && (isIos || isAndroid)) { openInNativeBrowser(isIos); return; }
     if (installPrompt) {
       installPrompt.prompt();
       await installPrompt.userChoice;
@@ -965,9 +981,8 @@ export default function Landing() {
   const isInstallable = !isStandalone && ["ios-safari", "ios-chrome", "chrome-android", "chrome-desktop"].includes(browser);
 
   return (
-    <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden", paddingTop: isInApp ? 64 : 0 }}>
+    <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden" }}>
       <style>{CSS}</style>
-      <InAppBrowserBanner />
       {showInstallHint && <InstallHint onClose={() => setShowInstallHint(false)} />}
       <Nav onOpen={open} />
       <Hero onOpen={open} onInstall={isInstallable ? handleInstall : undefined} />
