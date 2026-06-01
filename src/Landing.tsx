@@ -308,12 +308,6 @@ function AuthModal({ onClose, captchaToken, onResetCaptcha }: { onClose: () => v
             {loading ? "…" : mode==="signup" ? "Démarrer gratuitement →" : "Se connecter →"}
           </button>
 
-          {mode === "signup" && !captchaToken && !loading && (
-            <div style={{ display:"flex",alignItems:"center",justifyContent:"center",gap:8,fontSize:12,color:C.muted }}>
-              <div style={{ width:10,height:10,borderRadius:"50%",border:"2px solid rgba(255,255,255,0.2)",borderTopColor:C.orange,animation:"spin 0.8s linear infinite",flexShrink:0 }} />
-              Vérification anti-bot en cours…
-            </div>
-          )}
 
           <p style={{ fontSize:12,color:C.muted,textAlign:"center" }}>
             ✓ Sans engagement · ✓ Résiliable à tout moment
