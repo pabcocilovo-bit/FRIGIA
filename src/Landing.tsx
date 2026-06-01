@@ -144,31 +144,25 @@ function Phone({ style }: { style?: React.CSSProperties }) {
 }
 
 // ── Auth modal ────────────────────────────────────────────────────────────────
-function AuthModal({ onClose }: { onClose: () => void }) {
+function AuthModal({ onClose, captchaToken, onResetCaptcha }: { onClose: () => void; captchaToken: string | null; onResetCaptcha: () => void }) {
   const [mode, setMode] = useState<"signup"|"login">("signup");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
   const [reviewing, setReviewing] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const turnstileRef = useRef<any>(null);
-
-  const resetCaptcha = () => { turnstileRef.current?.reset(); setCaptchaToken(null); };
 
   const submit = async () => {
     if (!email || !pw) { setMsg("Remplissez tous les champs."); return; }
     setMsg("");
     if (mode === "signup") { setReviewing(true); return; }
-    if (!captchaToken) return;
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password: pw, options: { captchaToken } });
+      const { error } = await supabase.auth.signInWithPassword({ email, password: pw });
       if (error) throw error;
       onClose();
     } catch (e: any) {
       setMsg(e.message || "Une erreur est survenue.");
-      resetCaptcha();
     } finally { setLoading(false); }
   };
 
@@ -182,7 +176,7 @@ function AuthModal({ onClose }: { onClose: () => void }) {
     } catch (e: any) {
       setMsg(e.message || "Une erreur est survenue.");
       setReviewing(false);
-      resetCaptcha();
+      onResetCaptcha();
     } finally { setLoading(false); }
   };
 
@@ -305,16 +299,16 @@ function AuthModal({ onClose }: { onClose: () => void }) {
 
           {msg && <div style={{ fontSize:13,color:msg.startsWith("✓")?C.green:"#FF5050",textAlign:"center",lineHeight:1.5 }}>{msg}</div>}
 
-          <button onClick={submit} disabled={loading || !captchaToken} style={{
+          <button onClick={submit} disabled={loading || (mode === "signup" && !captchaToken)} style={{
             padding:"15px",borderRadius:14,border:"none",background:grad,
             color:"#fff",fontWeight:800,fontSize:15,marginTop:4,
-            opacity: (loading || !captchaToken) ? 0.5 : 1,
+            opacity: (loading || (mode === "signup" && !captchaToken)) ? 0.5 : 1,
             transition: "opacity 0.3s",
           }}>
             {loading ? "…" : mode==="signup" ? "Démarrer gratuitement →" : "Se connecter →"}
           </button>
 
-          {!captchaToken && !loading && (
+          {mode === "signup" && !captchaToken && !loading && (
             <div style={{ display:"flex",alignItems:"center",justifyContent:"center",gap:8,fontSize:12,color:C.muted }}>
               <div style={{ width:10,height:10,borderRadius:"50%",border:"2px solid rgba(255,255,255,0.2)",borderTopColor:C.orange,animation:"spin 0.8s linear infinite",flexShrink:0 }} />
               Vérification anti-bot en cours…
@@ -325,13 +319,6 @@ function AuthModal({ onClose }: { onClose: () => void }) {
             ✓ Sans engagement · ✓ Résiliable à tout moment
           </p>
 
-          <Turnstile
-            ref={turnstileRef}
-            siteKey="0x4AAAAAADcyx1Wtay8saMMq"
-            onSuccess={setCaptchaToken}
-            onExpire={resetCaptcha}
-            options={{ size: "invisible" }}
-          />
         </div>
         </>)}
       </div>
@@ -1055,6 +1042,9 @@ export default function Landing() {
   const open = useCallback(() => { setAuthOpen(true); }, []);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showInstallHint, setShowInstallHint] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const turnstileRef = useRef<any>(null);
+  const resetCaptcha = () => { turnstileRef.current?.reset(); setCaptchaToken(null); };
 
   useEffect(() => {
     const handler = (e: Event) => { e.preventDefault(); setInstallPrompt(e); };
@@ -1102,7 +1092,14 @@ export default function Landing() {
       <Pricing onOpen={open} />
       <FAQ />
       <Footer />
-      {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
+      {authOpen && <AuthModal onClose={() => setAuthOpen(false)} captchaToken={captchaToken} onResetCaptcha={resetCaptcha} />}
+      <Turnstile
+        ref={turnstileRef}
+        siteKey="0x4AAAAAADcyx1Wtay8saMMq"
+        onSuccess={setCaptchaToken}
+        onExpire={resetCaptcha}
+        options={{ size: "invisible" }}
+      />
     </div>
   );
 }
