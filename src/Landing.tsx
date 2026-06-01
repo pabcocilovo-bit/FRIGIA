@@ -159,9 +159,10 @@ function AuthModal({ onClose }: { onClose: () => void }) {
       setReviewing(true);
       return;
     }
+    if (!captchaToken) { setMsg("Vérification anti-bot en cours, réessayez."); return; }
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password: pw });
+      const { error } = await supabase.auth.signInWithPassword({ email, password: pw, options: { captchaToken } });
       if (error) throw error;
       onClose();
     } catch (e: any) {
@@ -313,14 +314,12 @@ function AuthModal({ onClose }: { onClose: () => void }) {
             ✓ Sans engagement · ✓ Résiliable à tout moment
           </p>
 
-          {mode === "signup" && (
-            <Turnstile
-              siteKey="0x4AAAAAADcyx1Wtay8saMMq"
-              onSuccess={setCaptchaToken}
-              onExpire={() => setCaptchaToken(null)}
-              options={{ size: "invisible" }}
-            />
-          )}
+          <Turnstile
+            siteKey="0x4AAAAAADcyx1Wtay8saMMq"
+            onSuccess={setCaptchaToken}
+            onExpire={() => setCaptchaToken(null)}
+            options={{ size: "invisible" }}
+          />
         </div>
         </>)}
       </div>
