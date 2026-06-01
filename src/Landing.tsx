@@ -760,22 +760,21 @@ function SocialInAppScreen({ isIos }: { isIos: boolean }) {
   const [copied, setCopied] = useState(false);
 
   let appName = "ce navigateur";
-  let menuPos = "en haut à droite";
-  if (isInstagram) { appName = "Instagram"; menuPos = "en bas à droite"; }
-  else if (isFacebook) { appName = "Facebook"; menuPos = "en haut à droite"; }
-  else if (isTikTok) { appName = "TikTok"; menuPos = "en haut à droite"; }
-  else if (isSnapchat) { appName = "Snapchat"; menuPos = "en haut à droite"; }
+  if (isInstagram) appName = "Instagram";
+  else if (isFacebook) appName = "Facebook";
+  else if (isTikTok) appName = "TikTok";
+  else if (isSnapchat) appName = "Snapchat";
 
   const browserName = isIos ? "Safari" : "Chrome";
 
-  const steps = isIos ? [
-    { n: 1, text: "Appuie sur", strong: `··· ${menuPos}`, sub: "dans le navigateur d'" + appName },
-    { n: 2, text: "Sélectionne", strong: `"Ouvrir dans Safari"`, sub: "dans le menu qui apparaît" },
-    { n: 3, text: "Frigia s'ouvre dans", strong: "Safari", sub: "tu peux te connecter normalement" },
-  ] : [
-    { n: 1, text: "Appuie sur", strong: `⋮ ${menuPos}`, sub: "dans le navigateur d'" + appName },
-    { n: 2, text: "Sélectionne", strong: `"Ouvrir dans Chrome"`, sub: "ou \"Ouvrir dans le navigateur\"" },
-    { n: 3, text: "Frigia s'ouvre dans", strong: "Chrome", sub: "tu peux te connecter normalement" },
+  const openLabel = isInstagram ? "Ouvrir dans le navigateur" : isIos ? "Ouvrir dans Safari" : "Ouvrir dans Chrome";
+  const menuIcon = isInstagram || isTikTok || isFacebook ? "···" : "⋮";
+  const menuPos = "en haut à droite";
+
+  const steps = [
+    { n: 1, text: "Appuie sur", strong: `${menuIcon} ${menuPos}`, sub: "dans le navigateur d'" + appName },
+    { n: 2, text: "Sélectionne", strong: `"${openLabel}"`, sub: "dans le menu qui apparaît" },
+    { n: 3, text: "Frigia s'ouvre dans", strong: "ton navigateur", sub: "tu peux te connecter normalement" },
   ];
 
   const copyLink = async () => {
