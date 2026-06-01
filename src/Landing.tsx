@@ -750,13 +750,6 @@ function detectInAppBrowser(): { isInApp: boolean; isIos: boolean; isAndroid: bo
   return { isInApp, isIos, isAndroid };
 }
 
-function openInNativeBrowser(isIos: boolean) {
-  if (isIos) {
-    window.location.href = "x-safari-https://frigia.fr";
-  } else {
-    window.location.href = "intent://frigia.fr/#Intent;scheme=https;package=com.android.chrome;end";
-  }
-}
 
 function SocialInAppScreen({ isIos }: { isIos: boolean }) {
   const ua = navigator.userAgent;
