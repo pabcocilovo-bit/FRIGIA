@@ -751,7 +751,7 @@ function detectInAppBrowser(): { isInApp: boolean; isIos: boolean; isAndroid: bo
 }
 
 
-function SocialInAppScreen({ isIos }: { isIos: boolean }) {
+function SocialInAppScreen() {
   const ua = navigator.userAgent;
   const isInstagram = /Instagram/i.test(ua);
   const isFacebook = /FBAN|FBAV|FB_IAB/i.test(ua);
@@ -765,9 +765,7 @@ function SocialInAppScreen({ isIos }: { isIos: boolean }) {
   else if (isTikTok) appName = "TikTok";
   else if (isSnapchat) appName = "Snapchat";
 
-  const browserName = isIos ? "Safari" : "Chrome";
-
-  const openLabel = isInstagram ? "Ouvrir dans le navigateur" : isIos ? "Ouvrir dans Safari" : "Ouvrir dans Chrome";
+  const openLabel = "Ouvrir dans le navigateur";
   const menuIcon = isInstagram || isTikTok || isFacebook ? "···" : "⋮";
   const menuPos = "en haut à droite";
 
@@ -801,7 +799,7 @@ function SocialInAppScreen({ isIos }: { isIos: boolean }) {
 
         {/* Title */}
         <h1 style={{ fontSize: 24, fontWeight: 900, color: C.text, lineHeight: 1.25, marginBottom: 12 }}>
-          Ouvre dans {browserName}<br />pour continuer
+          Ouvre dans ton navigateur<br />pour continuer
         </h1>
         <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.65, marginBottom: 32, maxWidth: 300 }}>
           Le navigateur d'{appName} bloque l'inscription et le paiement. Suis les étapes ci-dessous.
@@ -832,7 +830,7 @@ function SocialInAppScreen({ isIos }: { isIos: boolean }) {
             marginBottom: 12,
           }}
         >
-          {copied ? "✓ Lien copié ! Colle-le dans Safari" : "📋 Copier le lien frigia.fr"}
+          {copied ? "✓ Lien copié ! Colle-le dans ton navigateur" : "📋 Copier le lien frigia.fr"}
         </button>
 
         {/* URL visible */}
@@ -992,7 +990,7 @@ export default function Landing() {
   }, []);
 
   if (isInApp && (isIos || isAndroid)) {
-    return <SocialInAppScreen isIos={isIos} />;
+    return <SocialInAppScreen />;
   }
 
   const handleInstall = async () => {
