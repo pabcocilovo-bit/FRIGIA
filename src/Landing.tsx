@@ -31,6 +31,7 @@ const CSS = `
   @keyframes modalIn { from{opacity:0;transform:translateY(32px) scale(0.97)} to{opacity:1;transform:none} }
   @keyframes glow { 0%,100%{box-shadow:0 0 40px rgba(255,107,53,0.15)} 50%{box-shadow:0 0 80px rgba(255,107,53,0.3)} }
   @keyframes bounceUp { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  @keyframes spin { to{transform:rotate(360deg)} }
   @keyframes slideUp { from{opacity:0;transform:translateY(100%)} to{opacity:1;transform:translateY(0)} }
   *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
   html { scroll-behavior:smooth; }
@@ -307,11 +308,18 @@ function AuthModal({ onClose }: { onClose: () => void }) {
           <button onClick={submit} disabled={loading || !captchaToken} style={{
             padding:"15px",borderRadius:14,border:"none",background:grad,
             color:"#fff",fontWeight:800,fontSize:15,marginTop:4,
-            opacity: (loading || !captchaToken) ? 0.6 : 1,
+            opacity: (loading || !captchaToken) ? 0.5 : 1,
             transition: "opacity 0.3s",
           }}>
-            {loading ? "…" : !captchaToken ? "Chargement…" : mode==="signup" ? "Démarrer gratuitement →" : "Se connecter →"}
+            {loading ? "…" : mode==="signup" ? "Démarrer gratuitement →" : "Se connecter →"}
           </button>
+
+          {!captchaToken && !loading && (
+            <div style={{ display:"flex",alignItems:"center",justifyContent:"center",gap:8,fontSize:12,color:C.muted }}>
+              <div style={{ width:10,height:10,borderRadius:"50%",border:"2px solid rgba(255,255,255,0.2)",borderTopColor:C.orange,animation:"spin 0.8s linear infinite",flexShrink:0 }} />
+              Vérification anti-bot en cours…
+            </div>
+          )}
 
           <p style={{ fontSize:12,color:C.muted,textAlign:"center" }}>
             ✓ Sans engagement · ✓ Résiliable à tout moment
