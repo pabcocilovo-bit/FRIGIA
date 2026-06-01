@@ -742,12 +742,62 @@ function Footer() {
 }
 
 // ── In-app browser detection & banner ────────────────────────────────────────
-function detectInAppBrowser(): { isInApp: boolean; isIos: boolean; isAndroid: boolean } {
+function detectInAppBrowser(): { isGoogleApp: boolean; isSocialApp: boolean; isIos: boolean; isAndroid: boolean } {
   const ua = navigator.userAgent;
   const isIos = /iphone|ipad|ipod/i.test(ua);
   const isAndroid = /android/i.test(ua);
-  const isInApp = /GSA\/|Instagram|FBAN|FBAV|FB_IAB|Snapchat|BytedanceWebview|musical_ly|TikTok|Twitter\/|Pinterest\/|LinkedInApp/i.test(ua);
-  return { isInApp, isIos, isAndroid };
+  const isGoogleApp = /GSA\//i.test(ua);
+  const isSocialApp = /Instagram|FBAN|FBAV|FB_IAB|Snapchat|BytedanceWebview|musical_ly|TikTok|Twitter\/|Pinterest\/|LinkedInApp/i.test(ua);
+  return { isGoogleApp, isSocialApp, isIos, isAndroid };
+}
+
+function openInNativeBrowser(isIos: boolean) {
+  if (isIos) {
+    window.location.href = "x-safari-https://frigia.fr";
+  } else {
+    window.location.href = "intent://frigia.fr/#Intent;scheme=https;package=com.android.chrome;end";
+  }
+}
+
+function GoogleInAppBanner() {
+  const { isGoogleApp, isIos, isAndroid } = detectInAppBrowser();
+  const [dismissed, setDismissed] = useState(false);
+
+  if (!isGoogleApp || dismissed || (!isIos && !isAndroid)) return null;
+
+  return (
+    <div style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 9999,
+      background: "linear-gradient(135deg,#FF6B35,#FF9A3C)",
+      paddingTop: "calc(12px + env(safe-area-inset-top))",
+      paddingBottom: "12px",
+      paddingLeft: "16px",
+      paddingRight: "16px",
+      display: "flex", alignItems: "center", gap: 12,
+      boxShadow: "0 4px 24px rgba(255,107,53,0.4)",
+    }}>
+      <span style={{ fontSize: 22, flexShrink: 0 }}>{isIos ? "🧭" : "🌐"}</span>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>
+          Ouvre Frigia dans {isIos ? "Safari" : "Chrome"} pour une meilleure expérience.
+        </div>
+      </div>
+      <button
+        onClick={() => openInNativeBrowser(isIos)}
+        style={{
+          background: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.5)",
+          color: "#fff", fontSize: 12, fontWeight: 800, cursor: "pointer",
+          borderRadius: 100, padding: "6px 14px", flexShrink: 0, whiteSpace: "nowrap",
+        }}
+      >
+        Ouvrir →
+      </button>
+      <button onClick={() => setDismissed(true)} style={{
+        background: "none", border: "none", color: "rgba(255,255,255,0.75)",
+        fontSize: 20, cursor: "pointer", lineHeight: 1, flexShrink: 0, padding: "4px",
+      }}>✕</button>
+    </div>
+  );
 }
 
 
@@ -978,7 +1028,7 @@ function InstallHint({ onClose }: { onClose: () => void }) {
 // ── Landing ───────────────────────────────────────────────────────────────────
 export default function Landing() {
   const [authOpen, setAuthOpen] = useState(false);
-  const { isInApp, isIos, isAndroid } = detectInAppBrowser();
+  const { isGoogleApp, isSocialApp, isIos, isAndroid } = detectInAppBrowser();
   const open = useCallback(() => { setAuthOpen(true); }, []);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showInstallHint, setShowInstallHint] = useState(false);
@@ -989,7 +1039,7 @@ export default function Landing() {
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 
-  if (isInApp && (isIos || isAndroid)) {
+  if (isSocialApp && (isIos || isAndroid)) {
     return <SocialInAppScreen />;
   }
 
@@ -1008,9 +1058,10 @@ export default function Landing() {
   const isInstallable = !isStandalone && ["ios-safari", "ios-chrome", "chrome-android", "chrome-desktop"].includes(browser);
 
   return (
-    <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden" }}>
+    <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden", paddingTop: isGoogleApp && (isIos || isAndroid) ? 64 : 0 }}>
       <style>{CSS}</style>
       {showInstallHint && <InstallHint onClose={() => setShowInstallHint(false)} />}
+      <GoogleInAppBanner />
       <Nav onOpen={open} />
       <Hero onOpen={open} onInstall={isInstallable ? handleInstall : undefined} />
       <Marquee />
