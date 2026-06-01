@@ -355,7 +355,7 @@ function Nav({ onOpen }: { onOpen: () => void }) {
 }
 
 // ── Hero ──────────────────────────────────────────────────────────────────────
-function Hero({ onOpen, onInstall }: { onOpen: () => void; onInstall?: () => void }) {
+function Hero({ onOpen, onInstall, installLabel }: { onOpen: () => void; onInstall?: () => void; installLabel?: string }) {
   const orb1 = useRef<HTMLDivElement>(null);
   const orb2 = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -406,7 +406,7 @@ function Hero({ onOpen, onInstall }: { onOpen: () => void; onInstall?: () => voi
             {onInstall ? (
               <>
                 <button onClick={onInstall} style={{ padding:"16px 34px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:800,fontSize:16,boxShadow:"0 10px 38px rgba(255,107,53,.38)",display:"flex",alignItems:"center",justifyContent:"center",gap:8 }}>
-                  Télécharger l'app
+                  {installLabel ?? "Télécharger l'app"}
                 </button>
                 <button onClick={onOpen} style={{ background:"none",border:"none",color:C.muted,fontSize:13,cursor:"pointer",textDecoration:"underline",padding:"4px 0" }}>
                   Essayer dans le navigateur
@@ -1056,14 +1056,22 @@ export default function Landing() {
   const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone === true;
   const browser = detectBrowser();
   const isInstallable = !isStandalone && ["ios-safari", "ios-chrome", "chrome-android", "chrome-desktop"].includes(browser);
+  const isGoogleInApp = isGoogleApp && (isIos || isAndroid);
+
+  const heroInstall = isGoogleInApp
+    ? () => openInNativeBrowser(isIos)
+    : isInstallable ? handleInstall : undefined;
+  const heroInstallLabel = isGoogleInApp
+    ? (isIos ? "Ouvrir dans Safari" : "Ouvrir dans Chrome")
+    : undefined;
 
   return (
-    <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden", paddingTop: isGoogleApp && (isIos || isAndroid) ? 64 : 0 }}>
+    <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden", paddingTop: isGoogleInApp ? 64 : 0 }}>
       <style>{CSS}</style>
       {showInstallHint && <InstallHint onClose={() => setShowInstallHint(false)} />}
       <GoogleInAppBanner />
       <Nav onOpen={open} />
-      <Hero onOpen={open} onInstall={isInstallable ? handleInstall : undefined} />
+      <Hero onOpen={open} onInstall={heroInstall} installLabel={heroInstallLabel} />
       <Marquee />
       <HowItWorks />
       <Stats />
