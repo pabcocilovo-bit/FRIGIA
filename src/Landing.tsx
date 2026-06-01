@@ -151,15 +151,15 @@ function AuthModal({ onClose }: { onClose: () => void }) {
   const [msg, setMsg] = useState("");
   const [reviewing, setReviewing] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const turnstileRef = useRef<any>(null);
+
+  const resetCaptcha = () => { turnstileRef.current?.reset(); setCaptchaToken(null); };
 
   const submit = async () => {
     if (!email || !pw) { setMsg("Remplissez tous les champs."); return; }
     setMsg("");
-    if (mode === "signup") {
-      setReviewing(true);
-      return;
-    }
-    if (!captchaToken) { setMsg("Vérification anti-bot en cours, réessayez."); return; }
+    if (mode === "signup") { setReviewing(true); return; }
+    if (!captchaToken) return;
     setLoading(true);
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password: pw, options: { captchaToken } });
@@ -167,11 +167,12 @@ function AuthModal({ onClose }: { onClose: () => void }) {
       onClose();
     } catch (e: any) {
       setMsg(e.message || "Une erreur est survenue.");
+      resetCaptcha();
     } finally { setLoading(false); }
   };
 
   const confirmSignup = async () => {
-    if (!captchaToken) { setMsg("Vérification anti-bot en cours, réessayez."); return; }
+    if (!captchaToken) return;
     setLoading(true); setMsg("");
     try {
       const { error } = await supabase.auth.signUp({ email, password: pw, options: { captchaToken } });
@@ -180,6 +181,7 @@ function AuthModal({ onClose }: { onClose: () => void }) {
     } catch (e: any) {
       setMsg(e.message || "Une erreur est survenue.");
       setReviewing(false);
+      resetCaptcha();
     } finally { setLoading(false); }
   };
 
@@ -302,12 +304,13 @@ function AuthModal({ onClose }: { onClose: () => void }) {
 
           {msg && <div style={{ fontSize:13,color:msg.startsWith("✓")?C.green:"#FF5050",textAlign:"center",lineHeight:1.5 }}>{msg}</div>}
 
-          <button onClick={submit} disabled={loading} style={{
+          <button onClick={submit} disabled={loading || !captchaToken} style={{
             padding:"15px",borderRadius:14,border:"none",background:grad,
             color:"#fff",fontWeight:800,fontSize:15,marginTop:4,
-            opacity: loading ? 0.7 : 1,
+            opacity: (loading || !captchaToken) ? 0.6 : 1,
+            transition: "opacity 0.3s",
           }}>
-            {loading ? "…" : mode==="signup" ? "Démarrer gratuitement →" : "Se connecter →"}
+            {loading ? "…" : !captchaToken ? "Chargement…" : mode==="signup" ? "Démarrer gratuitement →" : "Se connecter →"}
           </button>
 
           <p style={{ fontSize:12,color:C.muted,textAlign:"center" }}>
@@ -315,9 +318,10 @@ function AuthModal({ onClose }: { onClose: () => void }) {
           </p>
 
           <Turnstile
+            ref={turnstileRef}
             siteKey="0x4AAAAAADcyx1Wtay8saMMq"
             onSuccess={setCaptchaToken}
-            onExpire={() => setCaptchaToken(null)}
+            onExpire={resetCaptcha}
             options={{ size: "invisible" }}
           />
         </div>
