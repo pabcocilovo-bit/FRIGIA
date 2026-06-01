@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Turnstile } from "@marsidev/react-turnstile";
 import { supabase } from "./supabase";
 
 // ── Tokens ────────────────────────────────────────────────────────────────────
@@ -149,6 +150,7 @@ function AuthModal({ onClose }: { onClose: () => void }) {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
   const [reviewing, setReviewing] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const submit = async () => {
     if (!email || !pw) { setMsg("Remplissez tous les champs."); return; }
@@ -168,9 +170,10 @@ function AuthModal({ onClose }: { onClose: () => void }) {
   };
 
   const confirmSignup = async () => {
+    if (!captchaToken) { setMsg("Vérification anti-bot en cours, réessayez."); return; }
     setLoading(true); setMsg("");
     try {
-      const { error } = await supabase.auth.signUp({ email, password: pw });
+      const { error } = await supabase.auth.signUp({ email, password: pw, options: { captchaToken } });
       if (error) throw error;
       onClose();
     } catch (e: any) {
@@ -309,6 +312,15 @@ function AuthModal({ onClose }: { onClose: () => void }) {
           <p style={{ fontSize:12,color:C.muted,textAlign:"center" }}>
             ✓ Sans engagement · ✓ Résiliable à tout moment
           </p>
+
+          {mode === "signup" && (
+            <Turnstile
+              siteKey="0x4AAAAAADcyx1Wtay8saMMq"
+              onSuccess={setCaptchaToken}
+              onExpire={() => setCaptchaToken(null)}
+              options={{ size: "invisible" }}
+            />
+          )}
         </div>
         </>)}
       </div>
