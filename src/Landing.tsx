@@ -369,8 +369,15 @@ function Hero({ onOpen, onInstall }: { onOpen: () => void; onInstall?: () => voi
     return () => window.removeEventListener("mousemove", h);
   }, []);
 
+  const ua = navigator.userAgent;
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone === true;
+  const isIOS = /iphone|ipad|ipod/i.test(ua);
+  const isChromeIOS = /crios/i.test(ua);
+  const isSafari = /safari/i.test(ua) && !/chrome/i.test(ua);
+  const isRegularChrome = !isStandalone && !isIOS && !isChromeIOS && !isSafari && /chrome/i.test(ua);
+
   return (
-    <section style={{ minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",padding:"80px 48px 60px",position:"relative",overflow:"hidden" }}>
+    <section style={{ minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",padding:isRegularChrome?"80px 48px 60px":"120px 48px 80px",position:"relative",overflow:"hidden" }}>
       {/* Orbs */}
       <div ref={orb1} style={{ position:"absolute",width:680,height:680,borderRadius:"50%",background:"radial-gradient(circle,rgba(255,107,53,.14) 0%,transparent 70%)",top:"-18%",left:"-14%",pointerEvents:"none",transition:"transform .45s ease",animation:"orbFloat1 11s ease-in-out infinite" }} />
       <div ref={orb2} style={{ position:"absolute",width:580,height:580,borderRadius:"50%",background:"radial-gradient(circle,rgba(46,204,113,.11) 0%,transparent 70%)",bottom:"-12%",right:"-10%",pointerEvents:"none",transition:"transform .45s ease",animation:"orbFloat2 13s ease-in-out infinite" }} />
@@ -386,16 +393,16 @@ function Hero({ onOpen, onInstall }: { onOpen: () => void; onInstall?: () => voi
             4 jours gratuits · Puis 7,99€/mois
           </div>
 
-          <h1 style={{ fontSize:"clamp(38px,5.2vw,68px)",fontWeight:900,lineHeight:1.06,letterSpacing:-2,marginBottom:16,fontFamily:"Georgia,serif",color:C.text,animation:"fadeIn .8s ease .08s both" }}>
+          <h1 style={{ fontSize:"clamp(38px,5.2vw,68px)",fontWeight:900,lineHeight:1.06,letterSpacing:-2,marginBottom:isRegularChrome?16:24,fontFamily:"Georgia,serif",color:C.text,animation:"fadeIn .8s ease .08s both" }}>
             Prenez votre frigo<br />en photo.{" "}
             <span style={gradText}>L'IA cuisine<br />pour vous.</span>
           </h1>
 
-          <p style={{ fontSize:18,color:C.muted,lineHeight:1.78,marginBottom:28,animation:"fadeIn .8s ease .18s both" }}>
+          <p style={{ fontSize:18,color:C.muted,lineHeight:1.78,marginBottom:isRegularChrome?28:42,animation:"fadeIn .8s ease .18s both" }}>
             Des recettes générées instantanément<br />à partir des aliments que vous avez déjà.
           </p>
 
-          <div style={{ display:"flex",flexDirection:"column",gap:12,marginBottom:36,animation:"fadeIn .8s ease .28s both" }}>
+          <div style={{ display:"flex",flexDirection:"column",gap:12,marginBottom:isRegularChrome?36:52,animation:"fadeIn .8s ease .28s both" }}>
             {onInstall ? (
               <>
                 <button onClick={onInstall} style={{ padding:"16px 34px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:800,fontSize:16,boxShadow:"0 10px 38px rgba(255,107,53,.38)",display:"flex",alignItems:"center",justifyContent:"center",gap:8 }}>
@@ -739,7 +746,7 @@ function detectInAppBrowser(): { isInApp: boolean; isIos: boolean; isAndroid: bo
   const ua = navigator.userAgent;
   const isIos = /iphone|ipad|ipod/i.test(ua);
   const isAndroid = /android/i.test(ua);
-  const isInApp = /GSA\//i.test(ua); // Google Search App uniquement
+  const isInApp = /GSA\/|Instagram|FBAN|FBAV|FB_IAB|Snapchat|BytedanceWebview|musical_ly|TikTok|Twitter\/|Pinterest\/|LinkedInApp/i.test(ua);
   return { isInApp, isIos, isAndroid };
 }
 
@@ -771,9 +778,19 @@ function InAppBrowserBanner() {
       <span style={{ fontSize: 22, flexShrink: 0 }}>{isIos ? "🧭" : "🌐"}</span>
       <div style={{ flex: 1 }}>
         <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>
-          Pour une meilleure expérience, installe l'application Frigia gratuitement.
+          Ouvre Frigia dans {isIos ? "Safari" : "Chrome"} pour une meilleure expérience.
         </div>
       </div>
+      <button
+        onClick={() => openInNativeBrowser(isIos)}
+        style={{
+          background: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.5)",
+          color: "#fff", fontSize: 12, fontWeight: 800, cursor: "pointer",
+          borderRadius: 100, padding: "6px 14px", flexShrink: 0, whiteSpace: "nowrap",
+        }}
+      >
+        Ouvrir →
+      </button>
       <button onClick={() => setDismissed(true)} style={{
         background: "none", border: "none", color: "rgba(255,255,255,0.75)",
         fontSize: 20, cursor: "pointer", lineHeight: 1, flexShrink: 0, padding: "4px",

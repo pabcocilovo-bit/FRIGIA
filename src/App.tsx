@@ -3615,8 +3615,7 @@ export default function Frigia() {
     const userMeta = u.user_metadata || {};
     if (appMeta.is_whitelisted || userMeta.is_whitelisted) return true;
     const status = appMeta.subscription_status || userMeta.subscription_status;
-    // "incomplete" and "past_due" keep access during Stripe's retry window
-    return ["active", "trialing", "incomplete", "past_due"].includes(status);
+    return ["active", "trialing", "incomplete"].includes(status);
   };
 
   const openCustomerPortal = async () => {
@@ -3705,6 +3704,10 @@ useEffect(() => {
 
   const initUser = async (u: any) => {
     void loadUserData(u);
+    if (hasAccess(u)) {
+      localStorage.setItem(`frigia_onboarded_${u.id}`, "1");
+      return;
+    }
     if (!localStorage.getItem(`frigia_onboarded_${u.id}`) && !isCheckoutReturn) {
       setShowQuestionnaire(true);
     } else if (isCheckoutReturn) {
@@ -3722,7 +3725,7 @@ useEffect(() => {
       const userMeta = u?.user_metadata || {};
       const status = appMeta.subscription_status || userMeta.subscription_status;
       const ready = appMeta.is_whitelisted || userMeta.is_whitelisted ||
-        ["active", "trialing", "incomplete", "past_due"].includes(status);
+        ["active", "trialing", "incomplete"].includes(status);
       if (ready || attempts >= 5) {
         setUser(u);
         if (u) initUser(u);
