@@ -3805,6 +3805,16 @@ useEffect(() => {
   return () => window.removeEventListener("resize", onResize);
 }, []);
 
+// Refresh session every 5 min so paywall shows quickly after webhook updates Supabase
+useEffect(() => {
+  const interval = setInterval(async () => {
+    const { data } = await supabase.auth.refreshSession();
+    const u = data.session?.user ?? null;
+    if (u) setUser(u);
+  }, 5 * 60 * 1000);
+  return () => clearInterval(interval);
+}, []);
+
 async function signOut() {
   await supabase.auth.signOut();
 }
