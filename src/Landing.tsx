@@ -1,6 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { supabase } from "./supabase";
+
+// ── Language ──────────────────────────────────────────────────────────────────
+type Lang = "fr" | "en";
+const LanguageContext = React.createContext<{ lang: Lang; setLang: (l: Lang) => void }>({ lang: "fr", setLang: () => {} });
+const useLang = () => useContext(LanguageContext);
+const u = (fr: string, en: string, lang: Lang) => lang === "fr" ? fr : en;
 
 // ── Tokens ────────────────────────────────────────────────────────────────────
 const C = {
@@ -145,6 +151,7 @@ function Phone({ style }: { style?: React.CSSProperties }) {
 
 // ── Auth modal ────────────────────────────────────────────────────────────────
 function AuthModal({ onClose, captchaToken, onResetCaptcha }: { onClose: () => void; captchaToken: string | null; onResetCaptcha: () => void }) {
+  const { lang } = useLang();
   const [mode, setMode] = useState<"signup"|"login">("signup");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
@@ -217,26 +224,26 @@ function AuthModal({ onClose, captchaToken, onResetCaptcha }: { onClose: () => v
         {reviewing && (
           <div style={{ textAlign:"center", padding:"8px 0" }}>
             <div style={{ fontSize:44, marginBottom:16 }}>👀</div>
-            <h2 style={{ fontSize:20, fontWeight:900, color:C.text, marginBottom:10 }}>Vérifiez vos informations</h2>
+            <h2 style={{ fontSize:20, fontWeight:900, color:C.text, marginBottom:10 }}>{u("Vérifiez vos informations","Check your details",lang)}</h2>
             <p style={{ fontSize:14, color:C.muted, lineHeight:1.6, marginBottom:24 }}>
-              Votre compte sera créé avec cette adresse :
+              {u("Votre compte sera créé avec cette adresse :","Your account will be created with:",lang)}
             </p>
             <div style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", borderRadius:14, padding:"14px 20px", marginBottom:8, fontSize:13, fontWeight:700, color:C.text, textAlign:"center", overflowWrap:"break-word", wordBreak:"break-word" }}>
               {email}
             </div>
             <p style={{ fontSize:12, color:C.muted, marginBottom:28 }}>
-              C'est à cette adresse que vous recevrez vos reçus et que vous pourrez récupérer votre compte.
+              {u("C'est à cette adresse que vous recevrez vos reçus et que vous pourrez récupérer votre compte.","You'll receive receipts and account recovery emails at this address.",lang)}
             </p>
             {msg && <div style={{ fontSize:13, color:"#FF5050", marginBottom:12 }}>{msg}</div>}
             <button
               onClick={confirmSignup}
               disabled={loading}
               style={{ width:"100%", padding:"15px", borderRadius:14, border:"none", background:grad, color:"#fff", fontWeight:800, fontSize:15, cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1, marginBottom:12 }}
-            >{loading ? "Création…" : "Confirmer et démarrer →"}</button>
+            >{loading ? u("Création…","Creating…",lang) : u("Confirmer et démarrer →","Confirm and start →",lang)}</button>
             <button
               onClick={() => { setReviewing(false); setMsg(""); }}
               style={{ background:"none", border:"none", color:C.muted, fontSize:13, cursor:"pointer" }}
-            >← Corriger l'email</button>
+            >{u("← Corriger l'email","← Edit email",lang)}</button>
           </div>
         )}
 
@@ -245,10 +252,10 @@ function AuthModal({ onClose, captchaToken, onResetCaptcha }: { onClose: () => v
         <div style={{ textAlign:"center",marginBottom:32 }}>
           <div style={{ marginBottom:10,display:"flex",justifyContent:"center" }}><img src="/logo.png" alt="Frigia" style={{ width:64,height:64,borderRadius:16,objectFit:"contain" }} /></div>
           <h2 style={{ fontSize:22,fontWeight:900,color:C.text,marginBottom:6 }}>
-            {mode === "signup" ? "Commencer gratuitement" : "Bon retour !"}
+            {mode === "signup" ? u("Commencer gratuitement","Start for free",lang) : u("Bon retour !","Welcome back!",lang)}
           </h2>
           <p style={{ fontSize:14,color:C.muted }}>
-            {mode === "signup" ? "4 jours gratuits · Aucune carte requise." : "Connectez-vous à Frigia."}
+            {mode === "signup" ? u("4 jours gratuits · Aucune carte requise.","4 days free · No card required.",lang) : u("Connectez-vous à Frigia.","Sign in to Frigia.",lang)}
           </p>
         </div>
 
@@ -261,7 +268,7 @@ function AuthModal({ onClose, captchaToken, onResetCaptcha }: { onClose: () => v
               color: mode===m ? C.text : C.muted,
               fontWeight: mode===m ? 700 : 400, fontSize:14,
             }}>
-              {m === "signup" ? "Créer un compte" : "Connexion"}
+              {m === "signup" ? u("Créer un compte","Create account",lang) : u("Connexion","Sign in",lang)}
             </button>
           ))}
         </div>
@@ -285,19 +292,19 @@ function AuthModal({ onClose, captchaToken, onResetCaptcha }: { onClose: () => v
             <path fill="#FBBC05" d="M11.06 28.3A14.56 14.56 0 0 1 9.5 24c0-1.49.26-2.93.72-4.28l-7.1-5.52A23.94 23.94 0 0 0 0 24c0 3.87.92 7.53 2.54 10.76l8.52-6.46z"/>
             <path fill="#34A853" d="M24 47c5.5 0 10.12-1.82 13.49-4.96l-7.18-5.58C28.52 37.82 26.37 38.5 24 38.5c-6.06 0-11.27-3.94-13.14-9.44l-8.52 6.46C5.8 43.18 14.27 47 24 47z"/>
           </svg>
-          Continuer avec Google
+          {u("Continuer avec Google","Continue with Google",lang)}
         </button>
 
         {/* Divider */}
         <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:20 }}>
           <div style={{ flex:1, height:1, background:"rgba(255,255,255,.08)" }} />
-          <span style={{ fontSize:12, color:C.muted, whiteSpace:"nowrap" }}>ou avec votre email</span>
+          <span style={{ fontSize:12, color:C.muted, whiteSpace:"nowrap" }}>{u("ou avec votre email","or with your email",lang)}</span>
           <div style={{ flex:1, height:1, background:"rgba(255,255,255,.08)" }} />
         </div>
 
         <div style={{ display:"flex",flexDirection:"column",gap:13 }}>
           <input placeholder="Email" type="email" value={email} onChange={e=>setEmail(e.target.value)} style={inp} />
-          <input placeholder="Mot de passe" type="password" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()} style={inp} />
+          <input placeholder={u("Mot de passe","Password",lang)} type="password" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()} style={inp} />
 
           {msg && <div style={{ fontSize:13,color:msg.startsWith("✓")?C.green:"#FF5050",textAlign:"center",lineHeight:1.5 }}>{msg}</div>}
 
@@ -307,12 +314,11 @@ function AuthModal({ onClose, captchaToken, onResetCaptcha }: { onClose: () => v
             opacity: (loading || !captchaToken) ? 0.5 : 1,
             transition: "opacity 0.3s",
           }}>
-            {loading ? "…" : mode==="signup" ? "Démarrer gratuitement →" : "Se connecter →"}
+            {loading ? "…" : mode==="signup" ? u("Démarrer gratuitement →","Start for free →",lang) : u("Se connecter →","Sign in →",lang)}
           </button>
 
-
           <p style={{ fontSize:12,color:C.muted,textAlign:"center" }}>
-            ✓ Sans engagement · ✓ Résiliable à tout moment
+            {u("✓ Sans engagement · ✓ Résiliable à tout moment","✓ No commitment · ✓ Cancel anytime",lang)}
           </p>
 
         </div>
@@ -323,13 +329,37 @@ function AuthModal({ onClose, captchaToken, onResetCaptcha }: { onClose: () => v
 }
 
 // ── Nav ───────────────────────────────────────────────────────────────────────
+function LangToggle() {
+  const { lang, setLang } = useLang();
+  return (
+    <div style={{ display:"flex",gap:2,background:"rgba(255,255,255,.07)",borderRadius:100,padding:3 }}>
+      {(["fr","en"] as Lang[]).map(l=>(
+        <button key={l} onClick={()=>setLang(l)} style={{
+          padding:"4px 10px",borderRadius:100,border:"none",
+          background: lang===l ? "rgba(255,255,255,.18)" : "transparent",
+          color: lang===l ? C.text : C.muted,
+          fontSize:11,fontWeight: lang===l ? 800 : 400,cursor:"pointer",
+          textTransform:"uppercase",letterSpacing:.5,transition:"all .2s",
+        }}>{l}</button>
+      ))}
+    </div>
+  );
+}
+
 function Nav({ onOpen }: { onOpen: () => void }) {
+  const { lang } = useLang();
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
+  const links = [
+    u("Fonctionnalités","Features",lang),
+    u("Comment ça marche","How it works",lang),
+    u("Tarifs","Pricing",lang),
+    "FAQ",
+  ];
   return (
     <nav style={{
       position:"fixed",top:0,left:0,right:0,zIndex:200,
@@ -348,13 +378,14 @@ function Nav({ onOpen }: { onOpen: () => void }) {
         <span style={{ fontWeight:900,fontSize:22,color:C.text,fontFamily:"Georgia,serif" }}>Frigia</span>
       </div>
       <div className="land-nav-links" style={{ display:"flex",gap:28,fontSize:14 }}>
-        {["Fonctionnalités","Comment ça marche","Tarifs","FAQ"].map(l=>(
+        {links.map(l=>(
           <a key={l} href="#" style={{ color:C.muted,transition:"color .2s" }} onMouseEnter={e=>(e.currentTarget.style.color=C.text)} onMouseLeave={e=>(e.currentTarget.style.color=C.muted)}>{l}</a>
         ))}
       </div>
-      <div className="land-nav-actions-full" style={{ display:"flex",gap:12 }}>
-        <button onClick={onOpen} style={{ padding:"10px 22px",background:"none",border:"1px solid rgba(255,255,255,.1)",borderRadius:100,color:C.text,fontSize:14,fontWeight:500 }}>Connexion</button>
-        <button onClick={onOpen} style={{ padding:"10px 22px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:700,fontSize:14 }}>Essayer →</button>
+      <div className="land-nav-actions-full" style={{ display:"flex",gap:12,alignItems:"center" }}>
+        <LangToggle />
+        <button onClick={onOpen} style={{ padding:"10px 22px",background:"none",border:"1px solid rgba(255,255,255,.1)",borderRadius:100,color:C.text,fontSize:14,fontWeight:500 }}>{u("Connexion","Login",lang)}</button>
+        <button onClick={onOpen} style={{ padding:"10px 22px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:700,fontSize:14 }}>{u("Essayer →","Try →",lang)}</button>
       </div>
     </nav>
   );
@@ -362,6 +393,7 @@ function Nav({ onOpen }: { onOpen: () => void }) {
 
 // ── Hero ──────────────────────────────────────────────────────────────────────
 function Hero({ onOpen, onInstall, installLabel, compact }: { onOpen: () => void; onInstall?: () => void; installLabel?: string; compact?: boolean }) {
+  const { lang } = useLang();
   const orb1 = useRef<HTMLDivElement>(null);
   const orb2 = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -396,31 +428,31 @@ function Hero({ onOpen, onInstall, installLabel, compact }: { onOpen: () => void
         <div style={{ flex:1,minWidth:300,maxWidth:600 }}>
           <div style={{ display:"inline-flex",alignItems:"center",gap:8,padding:"6px 16px",background:"rgba(46,204,113,.1)",border:"1px solid rgba(46,204,113,.22)",borderRadius:100,fontSize:13,color:"#2ECC71",fontWeight:700,marginBottom:28,animation:"fadeIn .7s ease both" }}>
             <span style={{ width:6,height:6,borderRadius:"50%",background:"#2ECC71",animation:"pulse 2s ease infinite" }} />
-            4 jours gratuits · Puis 7,99€/mois
+            {u("4 jours gratuits · Puis 7,99€/mois","4 days free · Then €7.99/month",lang)}
           </div>
 
           <h1 style={{ fontSize:"clamp(38px,5.2vw,68px)",fontWeight:900,lineHeight:1.06,letterSpacing:-2,marginBottom:isRegularChrome?16:24,fontFamily:"Georgia,serif",color:C.text,animation:"fadeIn .8s ease .08s both" }}>
-            Prenez votre frigo<br />en photo.{" "}
-            <span style={gradText}>L'IA cuisine<br />pour vous.</span>
+            {u("Prenez votre frigo","Take a photo of",lang)}<br />{u("en photo.","your fridge.",lang)}{" "}
+            <span style={gradText}>{u("L'IA cuisine","AI cooks",lang)}<br />{u("pour vous.","for you.",lang)}</span>
           </h1>
 
           <p style={{ fontSize:18,color:C.muted,lineHeight:1.78,marginBottom:isRegularChrome?28:42,animation:"fadeIn .8s ease .18s both" }}>
-            Des recettes générées instantanément<br />à partir des aliments que vous avez déjà.
+            {u("Des recettes générées instantanément","Recipes generated instantly",lang)}<br />{u("à partir des aliments que vous avez déjà.","from the ingredients you already have.",lang)}
           </p>
 
           <div style={{ display:"flex",flexDirection:"column",gap:12,marginBottom:isRegularChrome?36:52,animation:"fadeIn .8s ease .28s both" }}>
             {onInstall ? (
               <>
                 <button onClick={onInstall} style={{ padding:"16px 34px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:800,fontSize:16,boxShadow:"0 10px 38px rgba(255,107,53,.38)",display:"flex",alignItems:"center",justifyContent:"center",gap:8 }}>
-                  {installLabel ?? "Télécharger l'app"}
+                  {installLabel ?? u("Télécharger l'app","Download the app",lang)}
                 </button>
                 <button onClick={onOpen} style={{ background:"none",border:"none",color:C.muted,fontSize:13,cursor:"pointer",textDecoration:"underline",padding:"4px 0" }}>
-                  Essayer dans le navigateur
+                  {u("Essayer dans le navigateur","Try in browser",lang)}
                 </button>
               </>
             ) : (
               <button onClick={onOpen} style={{ padding:"16px 34px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:800,fontSize:16,boxShadow:"0 10px 38px rgba(255,107,53,.38)" }}>
-                Démarrer gratuitement
+                {u("Démarrer gratuitement","Start for free",lang)}
               </button>
             )}
           </div>
@@ -477,18 +509,19 @@ function Marquee() {
 
 // ── How it works ──────────────────────────────────────────────────────────────
 function HowItWorks() {
+  const { lang } = useLang();
   const steps = [
-    { n:"01",icon:"📸",title:"Photographiez votre frigo",desc:"Une photo claire depuis l'appli. Ça prend 2 secondes." },
-    { n:"02",icon:"🤖",title:"L'IA analyse tout",desc:"Frigia identifie chaque aliment avec 98% de précision." },
-    { n:"03",icon:"🍽️",title:"Recettes personnalisées",desc:"Recevez 5+ idées adaptées à vos ingrédients et goûts." },
-    { n:"04",icon:"✨",title:"Cuisinez & savourez",desc:"Suivez les étapes, réduisez le gaspillage, mangez mieux." },
+    { n:"01",icon:"📸",title:u("Photographiez votre frigo","Photograph your fridge",lang),desc:u("Une photo claire depuis l'appli. Ça prend 2 secondes.","A clear photo from the app. Takes 2 seconds.",lang) },
+    { n:"02",icon:"🤖",title:u("L'IA analyse tout","AI analyzes everything",lang),desc:u("Frigia identifie chaque aliment avec 98% de précision.","Frigia identifies every ingredient with 98% accuracy.",lang) },
+    { n:"03",icon:"🍽️",title:u("Recettes personnalisées","Personalized recipes",lang),desc:u("Recevez 5+ idées adaptées à vos ingrédients et goûts.","Get 5+ ideas adapted to your ingredients and tastes.",lang) },
+    { n:"04",icon:"✨",title:u("Cuisinez & savourez","Cook & enjoy",lang),desc:u("Suivez les étapes, réduisez le gaspillage, mangez mieux.","Follow the steps, reduce waste, eat better.",lang) },
   ];
   return (
     <section style={{ padding:"100px 48px",maxWidth:1100,margin:"0 auto" }}>
       <R style={{ textAlign:"center",marginBottom:72 }}>
-        <div style={{ fontSize:11,fontWeight:700,color:C.orange,letterSpacing:4,textTransform:"uppercase",marginBottom:16 }}>Comment ça marche</div>
+        <div style={{ fontSize:11,fontWeight:700,color:C.orange,letterSpacing:4,textTransform:"uppercase",marginBottom:16 }}>{u("Comment ça marche","How it works",lang)}</div>
         <h2 style={{ fontSize:"clamp(30px,4vw,52px)",fontWeight:900,letterSpacing:-1.5,color:C.text,lineHeight:1.1 }}>
-          4 étapes.{" "}<span style={gradText}>Zéro prise de tête.</span>
+          {u("4 étapes.","4 steps.",lang)}{" "}<span style={gradText}>{u("Zéro prise de tête.","Zero hassle.",lang)}</span>
         </h2>
       </R>
       <div style={{ display:"flex",gap:24,flexWrap:"wrap",justifyContent:"center",position:"relative" }}>
@@ -514,12 +547,13 @@ function HowItWorks() {
 
 // ── Stats ─────────────────────────────────────────────────────────────────────
 function Stats() {
+  const { lang } = useLang();
   return (
     <section style={{ background:"rgba(255,255,255,.016)",borderTop:"1px solid rgba(255,255,255,.06)",borderBottom:"1px solid rgba(255,255,255,.06)",padding:"72px 16px" }}>
       <div style={{ maxWidth:960,margin:"0 auto",display:"flex",justifyContent:"center" }}>
         <R delay={0} style={{ textAlign:"center",padding:"28px 16px",width:"100%",overflow:"visible" }}>
           <div style={{ fontSize:"clamp(40px,12vw,64px)",fontWeight:900,...gradText,marginBottom:8,lineHeight:1.4,paddingBottom:12,display:"inline-block" }}>2,3 kg</div>
-          <div style={{ fontSize:14,color:C.muted }}>Gaspillage évité par mois</div>
+          <div style={{ fontSize:14,color:C.muted }}>{u("Gaspillage évité par mois","Food waste avoided per month",lang)}</div>
         </R>
       </div>
     </section>
@@ -573,33 +607,40 @@ function TestimonialsMarquee() {
 
 // ── Pricing ───────────────────────────────────────────────────────────────────
 function Pricing({ onOpen }: { onOpen: () => void }) {
+  const { lang } = useLang();
+  const features = [
+    u("Scans IA illimités","Unlimited AI scans",lang),
+    u("Recettes personnalisées illimitées","Unlimited personalized recipes",lang),
+    u("Suivi nutritionnel avancé","Advanced nutrition tracking",lang),
+    u("Toutes futures fonctionnalités incluses","All future features included",lang),
+  ];
   return (
     <section style={{ padding:"80px 48px",background:"rgba(255,255,255,.015)",borderTop:"1px solid rgba(255,255,255,.06)" }}>
       <R style={{ textAlign:"center",marginBottom:64 }}>
-        <div style={{ fontSize:11,fontWeight:700,color:C.orange,letterSpacing:4,textTransform:"uppercase",marginBottom:16 }}>Tarifs</div>
-        <h2 style={{ fontSize:"clamp(28px,4vw,52px)",fontWeight:900,letterSpacing:-1,color:C.text }}>Simple et transparent</h2>
-        <p style={{ color:C.muted,fontSize:16,marginTop:12 }}>4 jours gratuits, puis un seul plan sans surprise.</p>
+        <div style={{ fontSize:11,fontWeight:700,color:C.orange,letterSpacing:4,textTransform:"uppercase",marginBottom:16 }}>{u("Tarifs","Pricing",lang)}</div>
+        <h2 style={{ fontSize:"clamp(28px,4vw,52px)",fontWeight:900,letterSpacing:-1,color:C.text }}>{u("Simple et transparent","Simple and transparent",lang)}</h2>
+        <p style={{ color:C.muted,fontSize:16,marginTop:12 }}>{u("4 jours gratuits, puis un seul plan sans surprise.","4 days free, then one simple plan.",lang)}</p>
       </R>
       <R delay={.1} style={{ maxWidth:460,margin:"0 auto",position:"relative" }}>
-        <div style={{ position:"absolute",top:-16,left:"50%",transform:"translateX(-50%)",background:grad,borderRadius:100,padding:"6px 24px",fontSize:13,fontWeight:800,color:"#fff",whiteSpace:"nowrap",zIndex:1 }}>🎉 4 jours gratuits inclus</div>
+        <div style={{ position:"absolute",top:-16,left:"50%",transform:"translateX(-50%)",background:grad,borderRadius:100,padding:"6px 24px",fontSize:13,fontWeight:800,color:"#fff",whiteSpace:"nowrap",zIndex:1 }}>🎉 {u("4 jours gratuits inclus","4 free days included",lang)}</div>
         <div style={{ background:"linear-gradient(135deg,rgba(255,107,53,.1),rgba(46,204,113,.1))",border:"1px solid rgba(255,107,53,.3)",borderRadius:28,padding:"52px 44px",textAlign:"center",animation:"glow 4s ease-in-out infinite" }}>
           <div style={{ fontSize:12,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:2,marginBottom:12 }}>Frigia Premium</div>
           <div style={{ display:"flex",alignItems:"baseline",justifyContent:"center",gap:6,marginBottom:6 }}>
             <span style={{ fontSize:62,fontWeight:900,color:C.text }}>7,99€</span>
-            <span style={{ color:C.muted,fontSize:16 }}>/mois</span>
+            <span style={{ color:C.muted,fontSize:16 }}>{u("/mois","/month",lang)}</span>
           </div>
-          <div style={{ fontSize:13,color:"#2ECC71",fontWeight:700,marginBottom:36 }}>✓ Résiliable à tout moment</div>
+          <div style={{ fontSize:13,color:"#2ECC71",fontWeight:700,marginBottom:36 }}>✓ {u("Résiliable à tout moment","Cancel anytime",lang)}</div>
           <ul style={{ listStyle:"none",textAlign:"left",marginBottom:36,display:"flex",flexDirection:"column",gap:13 }}>
-            {["Scans IA illimités","Recettes personnalisées illimitées","Suivi nutritionnel avancé","Toutes futures fonctionnalités incluses"].map((f,i)=>(
+            {features.map((f,i)=>(
               <li key={i} style={{ display:"flex",gap:12,alignItems:"flex-start",fontSize:15,color:C.text }}>
                 <span style={{ color:"#2ECC71",fontWeight:900 }}>✓</span>{f}
               </li>
             ))}
           </ul>
           <button onClick={onOpen} style={{ width:"100%",padding:"16px",borderRadius:100,fontWeight:800,fontSize:16,border:"none",background:grad,color:"#fff",boxShadow:"0 8px 32px rgba(255,107,53,.3)" }}>
-            Commencer gratuitement →
+            {u("Commencer gratuitement →","Start for free →",lang)}
           </button>
-          <p style={{ fontSize:12,color:C.muted,marginTop:14 }}>Aucune carte bancaire requise pendant l'essai</p>
+          <p style={{ fontSize:12,color:C.muted,marginTop:14 }}>{u("Aucune carte bancaire requise pendant l'essai","No credit card required during trial",lang)}</p>
         </div>
       </R>
     </section>
@@ -609,19 +650,20 @@ function Pricing({ onOpen }: { onOpen: () => void }) {
 // ── FAQ ───────────────────────────────────────────────────────────────────────
 function FAQ() {
   const [open, setOpen] = useState<number|null>(null);
+  const { lang } = useLang();
   const faqs = [
-    { q:"Comment fonctionne l'essai gratuit ?",a:"4 jours d'accès complet, sans carte bancaire. Au 5ème jour, le prélèvement de 7,99€/mois démarre si vous continuez." },
-    { q:"Comment résilier ?",a:"Depuis Paramètres → Abonnement, en un clic. L'accès reste actif jusqu'à la fin de la période payée. Aucune pénalité." },
-    { q:"Comment fonctionne la détection IA ?",a:"Frigia utilise un modèle de vision IA pour analyser vos photos et identifier les ingrédients avec 98% de précision, puis génère des recettes adaptées." },
-    { q:"Mes données sont-elles sécurisées ?",a:"Vos photos sont analysées puis supprimées automatiquement. Nous ne stockons aucune image sur nos serveurs." },
-    { q:"Puis-je personnaliser les recettes ?",a:"Oui — régimes, allergies, préférences, budget. Le Chef IA s'adapte à vous au fil du temps." },
+    { q:u("Comment fonctionne l'essai gratuit ?","How does the free trial work?",lang), a:u("4 jours d'accès complet, sans carte bancaire. Au 5ème jour, le prélèvement de 7,99€/mois démarre si vous continuez.","4 days of full access, no credit card required. On day 5, the €7.99/month charge starts if you continue.",lang) },
+    { q:u("Comment résilier ?","How do I cancel?",lang), a:u("Depuis Paramètres → Abonnement, en un clic. L'accès reste actif jusqu'à la fin de la période payée. Aucune pénalité.","From Settings → Subscription, in one click. Access stays active until the end of the paid period. No penalty.",lang) },
+    { q:u("Comment fonctionne la détection IA ?","How does AI detection work?",lang), a:u("Frigia utilise un modèle de vision IA pour analyser vos photos et identifier les ingrédients avec 98% de précision, puis génère des recettes adaptées.","Frigia uses an AI vision model to analyze your photos and identify ingredients with 98% accuracy, then generates adapted recipes.",lang) },
+    { q:u("Mes données sont-elles sécurisées ?","Is my data secure?",lang), a:u("Vos photos sont analysées puis supprimées automatiquement. Nous ne stockons aucune image sur nos serveurs.","Your photos are analyzed then automatically deleted. We store no images on our servers.",lang) },
+    { q:u("Puis-je personnaliser les recettes ?","Can I customize the recipes?",lang), a:u("Oui — régimes, allergies, préférences, budget. Le Chef IA s'adapte à vous au fil du temps.","Yes — diets, allergies, preferences, budget. The AI Chef adapts to you over time.",lang) },
   ];
   return (
     <section style={{ padding:"100px 48px",borderTop:"1px solid rgba(255,255,255,.06)" }}>
       <div style={{ maxWidth:720,margin:"0 auto" }}>
         <R style={{ textAlign:"center",marginBottom:56 }}>
           <div style={{ fontSize:11,fontWeight:700,color:C.orange,letterSpacing:4,textTransform:"uppercase",marginBottom:16 }}>FAQ</div>
-          <h2 style={{ fontSize:"clamp(28px,4vw,48px)",fontWeight:900,letterSpacing:-1,color:C.text }}>Questions fréquentes</h2>
+          <h2 style={{ fontSize:"clamp(28px,4vw,48px)",fontWeight:900,letterSpacing:-1,color:C.text }}>{u("Questions fréquentes","Frequently asked questions",lang)}</h2>
         </R>
         {faqs.map((f,i)=>(
           <R key={i} delay={i*.06}>
@@ -808,6 +850,7 @@ function GoogleInAppBanner() {
 
 
 function SocialInAppScreen() {
+  const { lang } = useLang();
   const ua = navigator.userAgent;
   const isInstagram = /Instagram/i.test(ua);
   const isFacebook = /FBAN|FBAV|FB_IAB/i.test(ua);
@@ -815,20 +858,20 @@ function SocialInAppScreen() {
   const isSnapchat = /Snapchat/i.test(ua);
   const [copied, setCopied] = useState(false);
 
-  let appName = "ce navigateur";
+  let appName = u("ce navigateur","this browser",lang);
   if (isInstagram) appName = "Instagram";
   else if (isFacebook) appName = "Facebook";
   else if (isTikTok) appName = "TikTok";
   else if (isSnapchat) appName = "Snapchat";
 
-  const openLabel = "Ouvrir dans le navigateur";
+  const openLabel = u("Ouvrir dans le navigateur","Open in browser",lang);
   const menuIcon = isInstagram || isTikTok || isFacebook ? "···" : "⋮";
-  const menuPos = "en haut à droite";
+  const menuPos = u("en haut à droite","top right",lang);
 
   const steps = [
-    { n: 1, text: "Appuie sur", strong: `${menuIcon} ${menuPos}`, sub: "dans le navigateur d'" + appName },
-    { n: 2, text: "Sélectionne", strong: `"${openLabel}"`, sub: "dans le menu qui apparaît" },
-    { n: 3, text: "Frigia s'ouvre dans", strong: "ton navigateur", sub: "tu peux te connecter normalement" },
+    { n: 1, text: u("Appuie sur","Tap",lang), strong: `${menuIcon} ${menuPos}`, sub: (lang === "fr" ? "dans le navigateur d'" : "in") + " " + appName },
+    { n: 2, text: u("Sélectionne","Select",lang), strong: `"${openLabel}"`, sub: u("dans le menu qui apparaît","from the menu that appears",lang) },
+    { n: 3, text: u("Frigia s'ouvre dans","Frigia opens in",lang), strong: u("ton navigateur","your browser",lang), sub: u("tu peux te connecter normalement","you can sign in normally",lang) },
   ];
 
   const copyLink = async () => {
@@ -855,10 +898,10 @@ function SocialInAppScreen() {
 
         {/* Title */}
         <h1 style={{ fontSize: 24, fontWeight: 900, color: C.text, lineHeight: 1.25, marginBottom: 12 }}>
-          Ouvre dans ton navigateur<br />pour continuer
+          {u("Ouvre dans ton navigateur","Open in your browser",lang)}<br />{u("pour continuer","to continue",lang)}
         </h1>
         <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.65, marginBottom: 32, maxWidth: 300 }}>
-          Le navigateur d'{appName} bloque l'inscription et le paiement. Suis les étapes ci-dessous.
+          {u("Le navigateur d'","The browser of",lang)} {appName} {u("bloque l'inscription et le paiement. Suis les étapes ci-dessous.","blocks sign-up and payment. Follow the steps below.",lang)}
         </p>
 
         {/* Steps */}
@@ -886,7 +929,7 @@ function SocialInAppScreen() {
             marginBottom: 12,
           }}
         >
-          {copied ? "✓ Lien copié ! Colle-le dans ton navigateur" : "📋 Copier le lien frigia.fr"}
+          {copied ? u("✓ Lien copié ! Colle-le dans ton navigateur","✓ Link copied! Paste in your browser",lang) : u("📋 Copier le lien frigia.fr","📋 Copy link frigia.fr",lang)}
         </button>
 
         {/* URL visible */}
@@ -1033,6 +1076,8 @@ function InstallHint({ onClose }: { onClose: () => void }) {
 
 // ── Landing ───────────────────────────────────────────────────────────────────
 export default function Landing() {
+  const [lang, setLang] = useState<Lang>(() => (localStorage.getItem("frigia_lang") as Lang) || "fr");
+  const setLangPersist = (l: Lang) => { setLang(l); localStorage.setItem("frigia_lang", l); };
   const [authOpen, setAuthOpen] = useState(false);
   const { isGoogleApp, isSocialApp, isIos, isAndroid } = detectInAppBrowser();
   const open = useCallback(() => { setAuthOpen(true); }, []);
@@ -1075,27 +1120,29 @@ export default function Landing() {
     : undefined;
 
   return (
-    <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden", paddingTop: isGoogleInApp ? 64 : 0 }}>
-      <style>{CSS}</style>
-      {showInstallHint && <InstallHint onClose={() => setShowInstallHint(false)} />}
-      <GoogleInAppBanner />
-      <Nav onOpen={open} />
-      <Hero onOpen={open} onInstall={heroInstall} installLabel={heroInstallLabel} compact={isGoogleInApp} />
-      <Marquee />
-      <HowItWorks />
-      <Stats />
-      <TestimonialsMarquee />
-      <Pricing onOpen={open} />
-      <FAQ />
-      <Footer />
-      {authOpen && <AuthModal onClose={() => setAuthOpen(false)} captchaToken={captchaToken} onResetCaptcha={resetCaptcha} />}
-      <Turnstile
-        ref={turnstileRef}
-        siteKey="0x4AAAAAADcyx1Wtay8saMMq"
-        onSuccess={setCaptchaToken}
-        onExpire={resetCaptcha}
-        options={{ size: "invisible" }}
-      />
-    </div>
+    <LanguageContext.Provider value={{ lang, setLang: setLangPersist }}>
+      <div style={{ background:C.bg,minHeight:"100vh",color:C.text,overflowX:"hidden", paddingTop: isGoogleInApp ? 64 : 0 }}>
+        <style>{CSS}</style>
+        {showInstallHint && <InstallHint onClose={() => setShowInstallHint(false)} />}
+        <GoogleInAppBanner />
+        <Nav onOpen={open} />
+        <Hero onOpen={open} onInstall={heroInstall} installLabel={heroInstallLabel} compact={isGoogleInApp} />
+        <Marquee />
+        <HowItWorks />
+        <Stats />
+        <TestimonialsMarquee />
+        <Pricing onOpen={open} />
+        <FAQ />
+        <Footer />
+        {authOpen && <AuthModal onClose={() => setAuthOpen(false)} captchaToken={captchaToken} onResetCaptcha={resetCaptcha} />}
+        <Turnstile
+          ref={turnstileRef}
+          siteKey="0x4AAAAAADcyx1Wtay8saMMq"
+          onSuccess={setCaptchaToken}
+          onExpire={resetCaptcha}
+          options={{ size: "invisible" }}
+        />
+      </div>
+    </LanguageContext.Provider>
   );
 }
