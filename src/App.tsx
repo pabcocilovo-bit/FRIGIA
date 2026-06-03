@@ -2940,8 +2940,12 @@ function FridgeAIScanner({
           body: JSON.stringify({ imageBase64, mediaType, prefs, recentTitles, mealType }),
         });
         const data = await response.json();
-        if (response.status === 401 || response.status === 403) {
+        if (response.status === 401) {
           await supabase.auth.signOut();
+          return;
+        }
+        if (response.status === 403) {
+          await supabase.auth.refreshSession();
           return;
         }
         if (!response.ok) throw new Error("unclear_photo");
@@ -3541,6 +3545,58 @@ function CheckoutSuccessModal({ onClose }: { onClose: () => void }) {
 }
 
 // ─── Paywall Modal ────────────────────────────────────────────────────────────
+function CanceledScreen(_: { user: any }) {
+  const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(false);
+
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      if (token) {
+        await fetch("/api/delete-account", { method: "POST", headers: { Authorization: `Bearer ${token}` } });
+      }
+      Object.keys(localStorage).filter(k => k.startsWith("frigia_")).forEach(k => localStorage.removeItem(k));
+      setDone(true);
+      setTimeout(async () => { await supabase.auth.signOut(); }, 3000);
+    } catch {
+      setLoading(false);
+    }
+  };
+
+  if (done) {
+    return (
+      <div style={{ position: "fixed", inset: 0, zIndex: 9000, background: "#07070E", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, flexDirection: "column", textAlign: "center" }}>
+        <div style={{ fontSize: 64, marginBottom: 24 }}>👋</div>
+        <h2 style={{ fontSize: 26, fontWeight: 900, color: "#F0EEF8", marginBottom: 12, fontFamily: "Georgia,serif" }}>Merci d'avoir utilisé Frigia</h2>
+        <p style={{ fontSize: 15, color: "#6B7280", lineHeight: 1.7 }}>Ton compte a été supprimé.<br />Redirection en cours…</p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 9000, background: "#07070E", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, flexDirection: "column", textAlign: "center" }}>
+      <img src="/logo.png" alt="Frigia" style={{ width: 72, height: 72, borderRadius: 18, objectFit: "contain", marginBottom: 24 }} />
+      <h2 style={{ fontSize: 26, fontWeight: 900, color: "#F0EEF8", marginBottom: 12, fontFamily: "Georgia,serif" }}>Abonnement résilié</h2>
+      <p style={{ fontSize: 15, color: "#6B7280", lineHeight: 1.7, marginBottom: 36, maxWidth: 340 }}>
+        Ton abonnement a été résilié. Merci d'avoir utilisé Frigia.<br /><br />
+        Ton compte va être supprimé automatiquement.
+      </p>
+      <button
+        onClick={handleDelete}
+        disabled={loading}
+        style={{ width: "100%", maxWidth: 340, padding: "16px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontWeight: 800, fontSize: 16, cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1, marginBottom: 14 }}
+      >
+        {loading ? "Suppression…" : "Confirmer et supprimer mon compte"}
+      </button>
+      <button onClick={() => supabase.auth.signOut()} style={{ background: "none", border: "none", color: "#6B7280", fontSize: 13, cursor: "pointer" }}>
+        Se déconnecter sans supprimer
+      </button>
+    </div>
+  );
+}
+
 function PaywallModal({ onSubscribe, onManageBilling, onLogout, loading, isCanceled, isPaymentFailed }: { onSubscribe: () => void; onManageBilling: () => void; onLogout: () => void; loading: boolean; isCanceled?: boolean; isPaymentFailed?: boolean }) {
   const grad = "linear-gradient(135deg,#FF6B35,#2ECC71)";
   const title = isPaymentFailed ? "Paiement échoué" : isCanceled ? "Réactiver votre abonnement" : "Commencer votre essai gratuit";
@@ -3877,14 +3933,20 @@ if (showOnboarding) {
   );
 }
 
+const subscriptionStatus = user?.app_metadata?.subscription_status || user?.user_metadata?.subscription_status;
+
+if (subscriptionStatus === "canceled") {
+  return <CanceledScreen user={user} />;
+}
+
 if (!hasAccess(user)) {
   return <PaywallModal
     onSubscribe={startCheckout}
     onManageBilling={openCustomerPortal}
     loading={checkoutLoading}
     onLogout={async () => { await supabase.auth.signOut(); }}
-    isCanceled={(user?.app_metadata?.subscription_status || user?.user_metadata?.subscription_status) === "canceled"}
-    isPaymentFailed={(user?.app_metadata?.subscription_status || user?.user_metadata?.subscription_status) === "past_due"}
+    isCanceled={false}
+    isPaymentFailed={subscriptionStatus === "past_due"}
   />;
 }
 

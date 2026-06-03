@@ -56,7 +56,10 @@ export default async function handler(req: any, res: any) {
   const isTrialing = status === "trialing" && !trialExpired;
 
   const hasAccess = isWhitelisted || status === "active" || isTrialing;
-  if (!hasAccess) return res.status(403).json({ error: "No active subscription" });
+  if (!hasAccess) {
+    const code = status === "past_due" ? "past_due" : status === "canceled" ? "canceled" : "no_subscription";
+    return res.status(403).json({ error: "No active subscription", code });
+  }
 
   const { imageBase64, mediaType, prefs, recentTitles, mealType } = req.body as { imageBase64: string; mediaType: string; prefs?: { goal?: string; diet?: string[]; time?: string; equipment?: string[] }; recentTitles?: string[]; mealType?: string };
   if (!imageBase64) return res.status(400).json({ error: "Missing imageBase64" });
