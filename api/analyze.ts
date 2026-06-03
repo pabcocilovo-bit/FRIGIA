@@ -46,8 +46,16 @@ export default async function handler(req: any, res: any) {
   const appMeta = user.app_metadata || {};
   const userMeta = user.user_metadata || {};
   const status = appMeta.subscription_status || userMeta.subscription_status;
-  const hasAccess = appMeta.is_whitelisted || userMeta.is_whitelisted ||
-    status === "active" || status === "trialing";
+  const isWhitelisted = appMeta.is_whitelisted || userMeta.is_whitelisted;
+
+  // Trial is valid only if status is "trialing" AND 4-day window hasn't expired
+  const TRIAL_MS = 4 * 24 * 60 * 60 * 1000;
+  const trialExpired = user.created_at
+    ? Date.now() > new Date(user.created_at).getTime() + TRIAL_MS
+    : true;
+  const isTrialing = status === "trialing" && !trialExpired;
+
+  const hasAccess = isWhitelisted || status === "active" || isTrialing;
   if (!hasAccess) return res.status(403).json({ error: "No active subscription" });
 
   const { imageBase64, mediaType, prefs, recentTitles, mealType } = req.body as { imageBase64: string; mediaType: string; prefs?: { goal?: string; diet?: string[]; time?: string; equipment?: string[] }; recentTitles?: string[]; mealType?: string };
