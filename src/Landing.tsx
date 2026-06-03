@@ -382,10 +382,12 @@ function Nav({ onOpen }: { onOpen: () => void }) {
           <a key={l} href="#" style={{ color:C.muted,transition:"color .2s" }} onMouseEnter={e=>(e.currentTarget.style.color=C.text)} onMouseLeave={e=>(e.currentTarget.style.color=C.muted)}>{l}</a>
         ))}
       </div>
-      <div className="land-nav-actions-full" style={{ display:"flex",gap:12,alignItems:"center" }}>
+      <div style={{ display:"flex",gap:10,alignItems:"center" }}>
         <LangToggle />
-        <button onClick={onOpen} style={{ padding:"10px 22px",background:"none",border:"1px solid rgba(255,255,255,.1)",borderRadius:100,color:C.text,fontSize:14,fontWeight:500 }}>{u("Connexion","Login",lang)}</button>
-        <button onClick={onOpen} style={{ padding:"10px 22px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:700,fontSize:14 }}>{u("Essayer →","Try →",lang)}</button>
+        <div className="land-nav-actions-full" style={{ display:"flex",gap:12,alignItems:"center" }}>
+          <button onClick={onOpen} style={{ padding:"10px 22px",background:"none",border:"1px solid rgba(255,255,255,.1)",borderRadius:100,color:C.text,fontSize:14,fontWeight:500 }}>{u("Connexion","Login",lang)}</button>
+          <button onClick={onOpen} style={{ padding:"10px 22px",background:grad,border:"none",borderRadius:100,color:"#fff",fontWeight:700,fontSize:14 }}>{u("Essayer →","Try →",lang)}</button>
+        </div>
       </div>
     </nav>
   );
