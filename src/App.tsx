@@ -3546,52 +3546,36 @@ function CheckoutSuccessModal({ onClose }: { onClose: () => void }) {
 
 // ─── Paywall Modal ────────────────────────────────────────────────────────────
 function CanceledScreen(_: { user: any }) {
-  const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
-  const handleDelete = async () => {
-    setLoading(true);
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      const token = session?.access_token;
-      if (token) {
-        await fetch("/api/delete-account", { method: "POST", headers: { Authorization: `Bearer ${token}` } });
-      }
-      Object.keys(localStorage).filter(k => k.startsWith("frigia_")).forEach(k => localStorage.removeItem(k));
+  useEffect(() => {
+    const run = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        const token = session?.access_token;
+        if (token) {
+          await fetch("/api/delete-account", { method: "POST", headers: { Authorization: `Bearer ${token}` } });
+        }
+        Object.keys(localStorage).filter(k => k.startsWith("frigia_")).forEach(k => localStorage.removeItem(k));
+      } catch {}
       setDone(true);
-      setTimeout(async () => { await supabase.auth.signOut(); }, 3000);
-    } catch {
-      setLoading(false);
-    }
-  };
-
-  if (done) {
-    return (
-      <div style={{ position: "fixed", inset: 0, zIndex: 9000, background: "#07070E", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, flexDirection: "column", textAlign: "center" }}>
-        <div style={{ fontSize: 64, marginBottom: 24 }}>👋</div>
-        <h2 style={{ fontSize: 26, fontWeight: 900, color: "#F0EEF8", marginBottom: 12, fontFamily: "Georgia,serif" }}>Merci d'avoir utilisé Frigia</h2>
-        <p style={{ fontSize: 15, color: "#6B7280", lineHeight: 1.7 }}>Ton compte a été supprimé.<br />Redirection en cours…</p>
-      </div>
-    );
-  }
+    };
+    run();
+  }, []);
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 9000, background: "#07070E", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, flexDirection: "column", textAlign: "center" }}>
-      <img src="/logo.png" alt="Frigia" style={{ width: 72, height: 72, borderRadius: 18, objectFit: "contain", marginBottom: 24 }} />
-      <h2 style={{ fontSize: 26, fontWeight: 900, color: "#F0EEF8", marginBottom: 12, fontFamily: "Georgia,serif" }}>Abonnement résilié</h2>
-      <p style={{ fontSize: 15, color: "#6B7280", lineHeight: 1.7, marginBottom: 36, maxWidth: 340 }}>
-        Ton abonnement a été résilié. Merci d'avoir utilisé Frigia.<br /><br />
-        Ton compte va être supprimé automatiquement.
+      <div style={{ fontSize: 64, marginBottom: 24 }}>👋</div>
+      <h2 style={{ fontSize: 26, fontWeight: 900, color: "#F0EEF8", marginBottom: 12, fontFamily: "Georgia,serif" }}>Merci d'avoir utilisé Frigia</h2>
+      <p style={{ fontSize: 15, color: "#6B7280", lineHeight: 1.7, marginBottom: 40, maxWidth: 320 }}>
+        Ton abonnement a été résilié et ton compte supprimé.<br />On espère te revoir bientôt !
       </p>
       <button
-        onClick={handleDelete}
-        disabled={loading}
-        style={{ width: "100%", maxWidth: 340, padding: "16px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontWeight: 800, fontSize: 16, cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1, marginBottom: 14 }}
+        onClick={async () => { await supabase.auth.signOut(); }}
+        disabled={!done}
+        style={{ width: "100%", maxWidth: 340, padding: "16px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontWeight: 800, fontSize: 16, cursor: done ? "pointer" : "not-allowed", opacity: done ? 1 : 0.5 }}
       >
-        {loading ? "Suppression…" : "Confirmer et supprimer mon compte"}
-      </button>
-      <button onClick={() => supabase.auth.signOut()} style={{ background: "none", border: "none", color: "#6B7280", fontSize: 13, cursor: "pointer" }}>
-        Se déconnecter sans supprimer
+        {done ? "Retour à l'accueil →" : "Suppression en cours…"}
       </button>
     </div>
   );
