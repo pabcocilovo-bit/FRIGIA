@@ -43,7 +43,10 @@ export default async function handler(req: any, res: any) {
     const appData: any = { subscription_status: status };
     if (customerId) appData.stripe_customer_id = customerId;
     const { error } = await admin.auth.admin.updateUserById(userId, { app_metadata: appData });
-    if (error) throw new Error(`Supabase updateUser failed: ${error.message}`);
+    // Ignore "user not found" errors — account may have been deleted already
+    if (error && !error.message.includes("not found") && !error.message.includes("User not found")) {
+      throw new Error(`Supabase updateUser failed: ${error.message}`);
+    }
   };
 
   const getUserIdFromSubscription = async (sub: Stripe.Subscription): Promise<string | null> => {
