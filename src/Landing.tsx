@@ -966,71 +966,75 @@ function detectBrowser(): "ios-safari" | "ios-chrome" | "chrome-android" | "chro
 // ── Install hint modal ────────────────────────────────────────────────────────
 function InstallHint({ onClose }: { onClose: () => void }) {
   const browser = detectBrowser();
+  const { lang } = useLang();
+  const tap = u("Appuyez sur","Tap",lang);
+  const confirm = u("Confirmez en appuyant sur","Confirm by tapping",lang);
+  const click = u("Cliquez sur","Click",lang);
 
   const configs = {
     "ios-safari": {
       steps: [
-        { label: "Appuyez sur", strong: "···", sub: "Les 3 petits points en bas à droite de Safari", color: C.orange },
-        { label: "Appuyez sur", strong: "Partager", sub: "Dans le menu qui apparaît", color: "#2ECC71" },
-        { label: "Appuyez sur", strong: "En voir plus", sub: "Pour voir toutes les options", color: "#FFB800" },
-        { label: "Appuyez sur", strong: "Sur l'écran d'accueil", sub: "Dans la liste qui s'affiche", color: "#2ECC71" },
-        { label: "Appuyez sur", strong: "Ajouter", sub: "En haut à droite — c'est tout !", color: C.orange },
+        { label: tap, strong: "···", sub: u("Les 3 petits points en bas à droite de Safari","The 3 dots at the bottom right of Safari",lang), color: C.orange },
+        { label: tap, strong: u("Partager","Share",lang), sub: u("Dans le menu qui apparaît","In the menu that appears",lang), color: "#2ECC71" },
+        { label: tap, strong: u("En voir plus","More options",lang), sub: u("Pour voir toutes les options","To see all options",lang), color: "#FFB800" },
+        { label: tap, strong: u("Sur l'écran d'accueil","Add to Home Screen",lang), sub: u("Dans la liste qui s'affiche","In the list shown",lang), color: "#2ECC71" },
+        { label: tap, strong: u("Ajouter","Add",lang), sub: u("En haut à droite — c'est tout !","Top right — that's it!",lang), color: C.orange },
       ],
       arrow: "bottom-right" as const,
     },
     "ios-chrome": {
       steps: [
-        { label: "Appuyez sur", strong: "le bouton Partager", sub: "L'icône □↑ en haut à droite de Chrome", color: C.orange },
-        { label: "Appuyez sur", strong: "En voir plus", sub: "Pour voir toutes les options", color: "#FFB800" },
-        { label: "Appuyez sur", strong: "Sur l'écran d'accueil", sub: "Dans la liste qui s'affiche", color: "#2ECC71" },
-        { label: "Appuyez sur", strong: "Ajouter", sub: "En haut à droite — c'est tout !", color: C.orange },
+        { label: tap, strong: u("le bouton Partager","the Share button",lang), sub: u("L'icône □↑ en haut à droite de Chrome","The □↑ icon at the top right of Chrome",lang), color: C.orange },
+        { label: tap, strong: u("En voir plus","More options",lang), sub: u("Pour voir toutes les options","To see all options",lang), color: "#FFB800" },
+        { label: tap, strong: u("Sur l'écran d'accueil","Add to Home Screen",lang), sub: u("Dans la liste qui s'affiche","In the list shown",lang), color: "#2ECC71" },
+        { label: tap, strong: u("Ajouter","Add",lang), sub: u("En haut à droite — c'est tout !","Top right — that's it!",lang), color: C.orange },
       ],
       arrow: "top-right" as const,
     },
     "chrome-android": {
       steps: [
-        { label: "Appuyez sur", strong: "⋮", sub: "Les 3 points en haut à droite de Chrome", color: C.orange },
-        { label: "Appuyez sur", strong: "Ajouter à l'écran d'accueil", sub: "Ou \"Installer l'application\"", color: "#2ECC71" },
-        { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
+        { label: tap, strong: "⋮", sub: u("Les 3 points en haut à droite de Chrome","The 3 dots at the top right of Chrome",lang), color: C.orange },
+        { label: tap, strong: u("Ajouter à l'écran d'accueil","Add to Home Screen",lang), sub: u("Ou \"Installer l'application\"","Or \"Install app\"",lang), color: "#2ECC71" },
+        { label: confirm, strong: u("Ajouter","Add",lang), sub: u("C'est tout !","That's it!",lang), color: "#FFB800" },
       ],
       arrow: false as const,
     },
     "samsung": {
       steps: [
-        { label: "Appuyez sur", strong: "⋮", sub: "Les 3 points en bas à droite de Samsung Internet", color: C.orange },
-        { label: "Appuyez sur", strong: "Ajouter page à", sub: "Puis \"Écran d'accueil\"", color: "#2ECC71" },
-        { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
+        { label: tap, strong: "⋮", sub: u("Les 3 points en bas à droite de Samsung Internet","The 3 dots at the bottom right of Samsung Internet",lang), color: C.orange },
+        { label: tap, strong: u("Ajouter page à","Add page to",lang), sub: u("Puis \"Écran d'accueil\"","Then \"Home screen\"",lang), color: "#2ECC71" },
+        { label: confirm, strong: u("Ajouter","Add",lang), sub: u("C'est tout !","That's it!",lang), color: "#FFB800" },
       ],
       arrow: false as const,
     },
     "firefox-android": {
       steps: [
-        { label: "Appuyez sur", strong: "⋮", sub: "Le menu en bas à droite de Firefox", color: C.orange },
-        { label: "Appuyez sur", strong: "Installer", sub: "Ou \"Ajouter à l'écran d'accueil\"", color: "#2ECC71" },
-        { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
+        { label: tap, strong: "⋮", sub: u("Le menu en bas à droite de Firefox","The menu at the bottom right of Firefox",lang), color: C.orange },
+        { label: tap, strong: u("Installer","Install",lang), sub: u("Ou \"Ajouter à l'écran d'accueil\"","Or \"Add to Home Screen\"",lang), color: "#2ECC71" },
+        { label: confirm, strong: u("Ajouter","Add",lang), sub: u("C'est tout !","That's it!",lang), color: "#FFB800" },
       ],
       arrow: false as const,
     },
     "edge-mobile": {
       steps: [
-        { label: "Appuyez sur", strong: "···", sub: "Le menu en bas de Edge", color: C.orange },
-        { label: "Appuyez sur", strong: "Ajouter à l'écran d'accueil", sub: "Dans la liste des options", color: "#2ECC71" },
-        { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
+        { label: tap, strong: "···", sub: u("Le menu en bas de Edge","The menu at the bottom of Edge",lang), color: C.orange },
+        { label: tap, strong: u("Ajouter à l'écran d'accueil","Add to Home Screen",lang), sub: u("Dans la liste des options","In the options list",lang), color: "#2ECC71" },
+        { label: confirm, strong: u("Ajouter","Add",lang), sub: u("C'est tout !","That's it!",lang), color: "#FFB800" },
       ],
       arrow: false as const,
     },
     "chrome-desktop": {
       steps: [
-        { label: "Cliquez sur l'icône", strong: "⊕", sub: "Dans la barre d'adresse à droite", color: C.orange },
-        { label: "Cliquez sur", strong: "Installer Frigia", sub: "Dans la fenêtre qui apparaît — c'est tout !", color: "#2ECC71" },
+        { label: click, strong: "⊕", sub: u("Dans la barre d'adresse à droite","In the address bar on the right",lang), color: C.orange },
+        { label: click, strong: u("Installer Frigia","Install Frigia",lang), sub: u("Dans la fenêtre qui apparaît — c'est tout !","In the window that appears — that's it!",lang), color: "#2ECC71" },
       ],
       arrow: false as const,
     },
     "unknown": {
       steps: [
-        { label: "Ouvrez le", strong: "menu de votre navigateur", sub: "Bouton ⋮ ou ··· selon le navigateur", color: C.orange },
-        { label: "Cherchez", strong: "Ajouter à l'écran d'accueil", sub: "Ou \"Installer l'application\"", color: "#2ECC71" },
-        { label: "Confirmez en appuyant sur", strong: "Ajouter", sub: "C'est tout !", color: "#FFB800" },
+        { label: u("Ouvrez le","Open the",lang), strong: u("menu de votre navigateur","browser menu",lang), sub: u("Bouton ⋮ ou ··· selon le navigateur","Button ⋮ or ··· depending on browser",lang), color: C.orange },
+        { label: u("Cherchez","Look for",lang), strong: u("Ajouter à l'écran d'accueil","Add to Home Screen",lang), sub: u("Ou \"Installer l'application\"","Or \"Install app\"",lang), color: "#2ECC71" },
+        { label: confirm, strong: u("Ajouter","Add",lang), sub: u("C'est tout !","That's it!",lang), color: "#FFB800" },
       ],
       arrow: false as const,
     },
@@ -1058,7 +1062,7 @@ function InstallHint({ onClose }: { onClose: () => void }) {
         <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:22 }}>
           <div style={{ display:"flex",alignItems:"center",gap:10 }}>
             <img src="/logo.png" alt="Frigia" style={{ width:34,height:34,borderRadius:10,objectFit:"contain" }} />
-            <span style={{ fontWeight:800,fontSize:17,color:C.text }}>Installer Frigia</span>
+            <span style={{ fontWeight:800,fontSize:17,color:C.text }}>{u("Installer Frigia","Install Frigia",lang)}</span>
           </div>
           <button onClick={onClose} style={{ background:"rgba(255,255,255,0.08)",border:"none",borderRadius:"50%",width:30,height:30,color:C.muted,fontSize:16,display:"flex",alignItems:"center",justifyContent:"center" }}>✕</button>
         </div>
