@@ -430,7 +430,7 @@ function Hero({ onOpen, onInstall, installLabel, compact }: { onOpen: () => void
         <div style={{ flex:1,minWidth:300,maxWidth:600 }}>
           <div style={{ display:"inline-flex",alignItems:"center",gap:8,padding:"6px 16px",background:"rgba(46,204,113,.1)",border:"1px solid rgba(46,204,113,.22)",borderRadius:100,fontSize:13,color:"#2ECC71",fontWeight:700,marginBottom:28,animation:"fadeIn .7s ease both" }}>
             <span style={{ width:6,height:6,borderRadius:"50%",background:"#2ECC71",animation:"pulse 2s ease infinite" }} />
-            {u("4 jours gratuits · Puis 7,99€/mois","4 days free · Then €7.99/month",lang)}
+            {u("4 jours gratuits · Puis 4,99€/mois","4 days free · Then €4.99/month",lang)}
           </div>
 
           <h1 style={{ fontSize:"clamp(38px,5.2vw,68px)",fontWeight:900,lineHeight:1.06,letterSpacing:-2,marginBottom:isRegularChrome?16:24,fontFamily:"Georgia,serif",color:C.text,animation:"fadeIn .8s ease .08s both" }}>
@@ -628,7 +628,7 @@ function Pricing({ onOpen }: { onOpen: () => void }) {
         <div style={{ background:"linear-gradient(135deg,rgba(255,107,53,.1),rgba(46,204,113,.1))",border:"1px solid rgba(255,107,53,.3)",borderRadius:28,padding:"52px 44px",textAlign:"center",animation:"glow 4s ease-in-out infinite" }}>
           <div style={{ fontSize:12,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:2,marginBottom:12 }}>Frigia Premium</div>
           <div style={{ display:"flex",alignItems:"baseline",justifyContent:"center",gap:6,marginBottom:6 }}>
-            <span style={{ fontSize:62,fontWeight:900,color:C.text }}>7,99€</span>
+            <span style={{ fontSize:62,fontWeight:900,color:C.text }}>4,99€</span>
             <span style={{ color:C.muted,fontSize:16 }}>{u("/mois","/month",lang)}</span>
           </div>
           <div style={{ fontSize:13,color:"#2ECC71",fontWeight:700,marginBottom:36 }}>✓ {u("Résiliable à tout moment","Cancel anytime",lang)}</div>
@@ -654,7 +654,7 @@ function FAQ() {
   const [open, setOpen] = useState<number|null>(null);
   const { lang } = useLang();
   const faqs = [
-    { q:u("Comment fonctionne l'essai gratuit ?","How does the free trial work?",lang), a:u("4 jours d'accès complet, sans carte bancaire. Au 5ème jour, le prélèvement de 7,99€/mois démarre si vous continuez.","4 days of full access, no credit card required. On day 5, the €7.99/month charge starts if you continue.",lang) },
+    { q:u("Comment fonctionne l'essai gratuit ?","How does the free trial work?",lang), a:u("4 jours d'accès complet, sans carte bancaire. Au 5ème jour, le prélèvement de 4,99€/mois démarre si vous continuez.","4 days of full access, no credit card required. On day 5, the €4.99/month charge starts if you continue.",lang) },
     { q:u("Comment résilier ?","How do I cancel?",lang), a:u("Depuis Paramètres → Abonnement, en un clic. L'accès reste actif jusqu'à la fin de la période payée. Aucune pénalité.","From Settings → Subscription, in one click. Access stays active until the end of the paid period. No penalty.",lang) },
     { q:u("Comment fonctionne la détection IA ?","How does AI detection work?",lang), a:u("Frigia utilise un modèle de vision IA pour analyser vos photos et identifier les ingrédients avec 98% de précision, puis génère des recettes adaptées.","Frigia uses an AI vision model to analyze your photos and identify ingredients with 98% accuracy, then generates adapted recipes.",lang) },
     { q:u("Mes données sont-elles sécurisées ?","Is my data secure?",lang), a:u("Vos photos sont analysées puis supprimées automatiquement. Nous ne stockons aucune image sur nos serveurs.","Your photos are analyzed then automatically deleted. We store no images on our servers.",lang) },
@@ -730,7 +730,7 @@ function Footer() {
         <span style={s.heading}>1. Objet</span>
         Les présentes CGU régissent l'utilisation de l'application Frigia, service d'analyse de réfrigérateur par intelligence artificielle.
         <span style={s.heading}>2. Accès au service</span>
-        L'accès à Frigia nécessite la création d'un compte et la souscription à un abonnement. Un essai gratuit de 4 jours est proposé, avec saisie des informations bancaires obligatoire. À l'issue de l'essai, l'abonnement est de 7,99€/mois.
+        L'accès à Frigia nécessite la création d'un compte et la souscription à un abonnement. Un essai gratuit de 4 jours est proposé, avec saisie des informations bancaires obligatoire. À l'issue de l'essai, l'abonnement est de 4,99€/mois.
         <span style={s.heading}>3. Résiliation</span>
         L'abonnement peut être résilié à tout moment depuis les paramètres de l'application, sans frais. La résiliation prend effet à la fin de la période en cours.
         <span style={s.heading}>4. Droit de rétractation</span>
@@ -766,7 +766,7 @@ function Footer() {
               <span style={{ fontWeight:900,fontSize:22,color:C.text,fontFamily:"Georgia,serif" }}>Frigia</span>
             </div>
             <p style={{ color:C.muted,fontSize:14,lineHeight:1.75,maxWidth:260 }}>
-              Votre Chef IA personnel.<br />4 jours gratuits, puis 7,99€/mois.
+              Votre Chef IA personnel.<br />4 jours gratuits, puis 4,99€/mois.
             </p>
             <p style={{ color:C.muted,fontSize:13,marginTop:12 }}>
               <a href="mailto:frigia.contact@gmail.com" style={{ color:C.muted }} onMouseEnter={e=>(e.currentTarget.style.color=C.text)} onMouseLeave={e=>(e.currentTarget.style.color=C.muted)}>frigia.contact@gmail.com</a>

@@ -483,7 +483,7 @@ const LEGAL_CONTENT: Record<LegalPage, { title: string; body: React.ReactNode }>
         <p>Les présentes CGU régissent l'utilisation de l'application Frigia, service de génération de recettes par intelligence artificielle.</p>
 
         <h3>2. Accès au service</h3>
-        <p>L'accès à Frigia nécessite la création d'un compte. Une période d'essai gratuite de 4 jours est proposée, suivie d'un abonnement à 7,99 €/mois.</p>
+        <p>L'accès à Frigia nécessite la création d'un compte. Une période d'essai gratuite de 4 jours est proposée, suivie d'un abonnement à 4,99 €/mois.</p>
 
         <h3>3. Utilisation</h3>
         <p>L'utilisateur s'engage à utiliser Frigia conformément aux lois en vigueur et à ne pas tenter de contourner les mesures de sécurité de l'application.</p>
@@ -1073,7 +1073,7 @@ function SettingsModal({
                   ) : isActive ? (
                     <>
                       <div style={{ fontSize: 12, fontWeight: 700, color: "#2ECC71", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>Abonnement actif</div>
-                      <div style={{ fontSize: 24, fontWeight: 900, color: v.text }}>Frigia Premium — 7,99€/mois</div>
+                      <div style={{ fontSize: 24, fontWeight: 900, color: v.text }}>Frigia Premium — 4,99€/mois</div>
                       <div style={{ color: v.muted, fontSize: 14, marginTop: 6 }}>Renouvellement automatique chaque mois.</div>
                     </>
                   ) : isTrialing ? (
@@ -1082,7 +1082,7 @@ function SettingsModal({
                       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16 }}>
                         <div>
                           <div style={{ fontSize: 24, fontWeight: 900, color: v.text }}>4 jours gratuits</div>
-                          <div style={{ color: v.muted, fontSize: 14, marginTop: 6 }}>Puis <strong style={{ color: v.text }}>7,99€/mois</strong></div>
+                          <div style={{ color: v.muted, fontSize: 14, marginTop: 6 }}>Puis <strong style={{ color: v.text }}>4,99€/mois</strong></div>
                         </div>
                         <div style={{ textAlign: "center" }}>
                           <div style={{ fontSize: 36, fontWeight: 900, color: "#2ECC71" }}>{trialDaysLeft}j</div>
@@ -1098,7 +1098,7 @@ function SettingsModal({
                       <div style={{ fontSize: 12, fontWeight: 700, color: "#FF5050", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>Aucun abonnement</div>
                       <div style={{ fontSize: 18, fontWeight: 700, color: v.text, marginBottom: 16 }}>Accédez à Frigia Premium</div>
                       <button onClick={() => { onClose(); }} style={{ padding: "12px 24px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontWeight: 700, cursor: "pointer", fontSize: 14 }}>
-                        S'abonner pour 7,99€/mois
+                        S'abonner pour 4,99€/mois
                       </button>
                     </>
                   )}
@@ -1404,7 +1404,7 @@ function OnboardingScreen({ onContinue, loading }: { onContinue: () => void; loa
 
           {/* Price */}
           <div style={{ display:"flex", alignItems:"baseline", justifyContent:"center", gap:6, marginBottom:6 }}>
-            <span style={{ fontSize:64, fontWeight:900, color:"#FAFAFA", lineHeight:1 }}>7,99€</span>
+            <span style={{ fontSize:64, fontWeight:900, color:"#FAFAFA", lineHeight:1 }}>4,99€</span>
             <span style={{ color:"#6B7280", fontSize:16 }}>/mois</span>
           </div>
 
@@ -2830,7 +2830,7 @@ function SupportFAQItem({ theme, q, a }: { theme: Theme; q: string; a: string })
 
 // ─── SupportModal ─────────────────────────────────────────────────────────────
 const SUPPORT_FAQS = [
-  { q: "Comment fonctionne l'essai gratuit ?", a: "Vous avez accès à toutes les fonctionnalités pendant 4 jours. Au 5ème jour, le prélèvement de 7,99€/mois démarre automatiquement." },
+  { q: "Comment fonctionne l'essai gratuit ?", a: "Vous avez accès à toutes les fonctionnalités pendant 4 jours. Au 5ème jour, le prélèvement de 4,99€/mois démarre automatiquement." },
   { q: "Comment résilier ?", a: "Depuis Paramètres → Abonnement → Gérer la facturation. L'accès reste actif jusqu'à la fin de la période payée. Aucune pénalité." },
   { q: "Comment fonctionne la détection IA ?", a: "Frigia analyse votre photo pour identifier les ingrédients visibles et génère 3 recettes adaptées à ce que vous avez chez vous." },
   { q: "Mes photos sont-elles conservées ?", a: "Non. Vos photos sont analysées puis supprimées immédiatement. Aucune image n'est stockée sur nos serveurs." },
@@ -3585,13 +3585,13 @@ function PaywallModal({ onSubscribe, onManageBilling, onLogout, loading, isCance
   const grad = "linear-gradient(135deg,#FF6B35,#2ECC71)";
   const title = isPaymentFailed ? "Paiement échoué" : isCanceled ? "Réactiver votre abonnement" : "Commencer votre essai gratuit";
   const description = isPaymentFailed ? (
-    <>Le prélèvement de <strong style={{ color:"#F0EEF8" }}>7,99€</strong> a échoué.<br />Mettez à jour votre carte pour retrouver l'accès.</>
+    <>Le prélèvement de <strong style={{ color:"#F0EEF8" }}>4,99€</strong> a échoué.<br />Mettez à jour votre carte pour retrouver l'accès.</>
   ) : isCanceled ? (
-    <>Votre abonnement a été résilié.<br /><strong style={{ color:"#F0EEF8" }}>7,99€/mois</strong>, annulable à tout moment.</>
+    <>Votre abonnement a été résilié.<br /><strong style={{ color:"#F0EEF8" }}>4,99€/mois</strong>, annulable à tout moment.</>
   ) : (
-    <><strong style={{ color:"#F0EEF8" }}>4 jours gratuits</strong>, puis 7,99€/mois.<br />Votre carte ne sera pas débitée avant la fin de l'essai. Annulable à tout moment.</>
+    <><strong style={{ color:"#F0EEF8" }}>4 jours gratuits</strong>, puis 4,99€/mois.<br />Votre carte ne sera pas débitée avant la fin de l'essai. Annulable à tout moment.</>
   );
-  const btnLabel = loading ? "Redirection..." : isPaymentFailed ? "Mettre à jour ma carte →" : isCanceled ? "Se réabonner — 7,99€/mois →" : "Démarrer 4 jours gratuits →";
+  const btnLabel = loading ? "Redirection..." : isPaymentFailed ? "Mettre à jour ma carte →" : isCanceled ? "Se réabonner — 4,99€/mois →" : "Démarrer 4 jours gratuits →";
   return (
     <div style={{ position:"fixed", inset:0, zIndex:9000, background:"#07070E", display:"flex", alignItems:"center", justifyContent:"center", padding:24, flexDirection:"column" }}>
       <div style={{ width:"100%", maxWidth:420, textAlign:"center" }}>
@@ -4314,7 +4314,7 @@ return (
                   background: "#2ECC71",
                 }}
               />
-              4 jours gratuits · Puis 7,99€/mois
+              4 jours gratuits · Puis 4,99€/mois
             </div>
 
             <h1
@@ -4806,7 +4806,7 @@ return (
               }}
             >
               <span style={{ fontSize: 56, fontWeight: 900, color: v.text }}>
-                7,99€
+                4,99€
               </span>
               <span style={{ color: v.muted, fontSize: 15 }}>/mois</span>
             </div>
@@ -4919,7 +4919,7 @@ return (
           {[
             {
               q: "Comment fonctionne l'essai gratuit ?",
-              a: "Vous avez accès à toutes les fonctionnalités pendant 4 jours, sans aucune carte bancaire requise. Au 5ème jour, le prélèvement automatique de 7,99€/mois démarre si vous choisissez de continuer.",
+              a: "Vous avez accès à toutes les fonctionnalités pendant 4 jours, sans aucune carte bancaire requise. Au 5ème jour, le prélèvement automatique de 4,99€/mois démarre si vous choisissez de continuer.",
             },
             {
               q: "Comment résilier mon abonnement ?",
@@ -4964,7 +4964,7 @@ return (
           <span style={gradientText}>recettes extraordinaires</span>
         </h2>
         <p style={{ color: v.muted, fontSize: 18, marginBottom: 40 }}>
-          4 jours gratuits · Puis 7,99€/mois · Résiliable à tout moment.
+          4 jours gratuits · Puis 4,99€/mois · Résiliable à tout moment.
         </p>
         <div
           style={{
@@ -5057,7 +5057,7 @@ return (
                   maxWidth: 280,
                 }}
               >
-                Votre Chef IA personnel. 4 jours gratuits, puis 7,99€/mois.
+                Votre Chef IA personnel. 4 jours gratuits, puis 4,99€/mois.
               </p>
             </div>
             <div style={{ flex: 1, minWidth: 140 }}>
