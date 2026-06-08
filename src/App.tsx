@@ -2894,6 +2894,7 @@ function FridgeAIScanner({
   const [error, setError] = useState("");
   const [showMealTypeModal, setShowMealTypeModal] = useState(false);
   const [mealType, setMealType] = useState<string>("mix");
+  const mealTypeRef = useRef<string>("mix");
 
   const handleScanClick = () => { if (!analyzing) setShowMealTypeModal(true); };
 
@@ -2937,7 +2938,7 @@ function FridgeAIScanner({
         const response = await fetch("/api/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${scanSession?.access_token}` },
-          body: JSON.stringify({ imageBase64, mediaType, prefs, recentTitles, mealType }),
+          body: JSON.stringify({ imageBase64, mediaType, prefs, recentTitles, mealType: mealTypeRef.current }),
         });
         const data = await response.json();
         if (response.status === 401) {
@@ -2990,7 +2991,7 @@ function FridgeAIScanner({
     {showMealTypeModal && (
       <MealTypeModal
         theme={theme}
-        onConfirm={(type) => { setMealType(type); setShowMealTypeModal(false); setTimeout(() => inputRef.current?.click(), 150); }}
+        onConfirm={(type) => { mealTypeRef.current = type; setMealType(type); setShowMealTypeModal(false); setTimeout(() => inputRef.current?.click(), 150); }}
         onClose={() => setShowMealTypeModal(false)}
       />
     )}
