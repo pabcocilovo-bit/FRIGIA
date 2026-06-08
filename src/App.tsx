@@ -2893,7 +2893,6 @@ function FridgeAIScanner({
   const [recipes, setRecipes] = useState<GeneratedRecipe[]>([]);
   const [error, setError] = useState("");
   const [showMealTypeModal, setShowMealTypeModal] = useState(false);
-  const [mealType, setMealType] = useState<string>("mix");
   const mealTypeRef = useRef<string>("mix");
 
   const handleScanClick = () => { if (!analyzing) setShowMealTypeModal(true); };
@@ -2991,7 +2990,7 @@ function FridgeAIScanner({
     {showMealTypeModal && (
       <MealTypeModal
         theme={theme}
-        onConfirm={(type) => { mealTypeRef.current = type; setMealType(type); setShowMealTypeModal(false); setTimeout(() => inputRef.current?.click(), 150); }}
+        onConfirm={(type) => { mealTypeRef.current = type; setShowMealTypeModal(false); setTimeout(() => inputRef.current?.click(), 150); }}
         onClose={() => setShowMealTypeModal(false)}
       />
     )}
