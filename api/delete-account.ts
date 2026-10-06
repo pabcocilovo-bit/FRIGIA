@@ -1,7 +1,19 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type User } from "@supabase/supabase-js";
 import Stripe from "stripe";
 
 const ALLOWED_ORIGINS = ["https://frigia.fr", "https://frigia-ten.vercel.app", "http://localhost:5173"];
+
+// The webhook stores the customer id in app_metadata. Older accounts may not have it,
+// so also include every Stripe customer created with the account email.
+async function findCustomerIds(stripe: Stripe, user: User): Promise<string[]> {
+  const ids = new Set<string>();
+  if (user.app_metadata?.stripe_customer_id) ids.add(user.app_metadata.stripe_customer_id);
+  if (user.email) {
+    const { data } = await stripe.customers.list({ email: user.email, limit: 10 });
+    data.forEach(c => ids.add(c.id));
+  }
+  return [...ids];
+}
 
 export default async function handler(req: any, res: any) {
   const origin = req.headers.origin as string | undefined;
@@ -35,13 +47,14 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const customerId = user.user_metadata?.stripe_customer_id;
-    if (customerId && process.env.STRIPE_SECRET_KEY) {
-      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-      const subscriptions = await stripe.subscriptions.list({ customer: customerId, status: "all", limit: 10 });
+    // Cancel billing first: if this fails, the account is kept so the user can retry
+    if (!process.env.STRIPE_SECRET_KEY) throw new Error("Stripe not configured");
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    for (const customerId of await findCustomerIds(stripe, user)) {
+      const subscriptions = await stripe.subscriptions.list({ customer: customerId, status: "all", limit: 100 });
       await Promise.all(
         subscriptions.data
-          .filter(s => s.status === "active" || s.status === "trialing")
+          .filter(s => s.status !== "canceled" && s.status !== "incomplete_expired")
           .map(s => stripe.subscriptions.cancel(s.id))
       );
     }

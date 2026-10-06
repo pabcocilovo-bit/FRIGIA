@@ -1,13 +1,27 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 const ALLOWED_ORIGINS = ["https://frigia.fr", "https://frigia-ten.vercel.app", "http://localhost:5173"];
 
-// Rate limiting: 20 requests per hour per user (in-memory, best-effort on serverless)
-const rateLimitMap = new Map<string, { count: number; reset: number }>();
+// Rate limiting: 20 requests per hour per user
 const RATE_LIMIT = 20;
 const RATE_WINDOW_MS = 3600 * 1000;
 
-function checkRateLimit(userId: string): boolean {
+// Shared counter in Supabase (see supabase/migrations), so it holds across serverless instances
+async function checkRateLimit(admin: SupabaseClient, userId: string): Promise<boolean> {
+  const { data, error } = await admin.rpc("check_scan_rate_limit", {
+    p_user_id: userId,
+    p_limit: RATE_LIMIT,
+    p_window_seconds: RATE_WINDOW_MS / 1000,
+  });
+  if (!error) return data === true;
+  // Migration not applied yet: fall back to the per-instance counter instead of blocking scans
+  console.error("check_scan_rate_limit failed:", error.message);
+  return checkMemoryRateLimit(userId);
+}
+
+const rateLimitMap = new Map<string, { count: number; reset: number }>();
+
+function checkMemoryRateLimit(userId: string): boolean {
   const now = Date.now();
   const entry = rateLimitMap.get(userId);
   if (!entry || now > entry.reset) {
@@ -39,14 +53,10 @@ export default async function handler(req: any, res: any) {
   const { data: { user }, error } = await admin.auth.getUser(token);
   if (error || !user) return res.status(401).json({ error: "Invalid token" });
 
-  if (!checkRateLimit(user.id)) {
-    return res.status(429).json({ error: "Limite atteinte. Réessayez dans une heure." });
-  }
-
+  // Only app_metadata is trusted: user_metadata can be edited by the user from the browser
   const appMeta = user.app_metadata || {};
-  const userMeta = user.user_metadata || {};
-  const status = appMeta.subscription_status || userMeta.subscription_status;
-  const isWhitelisted = appMeta.is_whitelisted || userMeta.is_whitelisted;
+  const status = appMeta.subscription_status;
+  const isWhitelisted = !!appMeta.is_whitelisted;
 
   // Trial is valid only if status is "trialing" AND 4-day window hasn't expired
   const TRIAL_MS = 4 * 24 * 60 * 60 * 1000;
@@ -59,6 +69,10 @@ export default async function handler(req: any, res: any) {
   if (!hasAccess) {
     const code = status === "past_due" ? "past_due" : status === "canceled" ? "canceled" : "no_subscription";
     return res.status(403).json({ error: "No active subscription", code });
+  }
+
+  if (!(await checkRateLimit(admin, user.id))) {
+    return res.status(429).json({ error: "Limite atteinte. Réessayez dans une heure." });
   }
 
   const { imageBase64, mediaType, prefs, recentTitles, mealType } = req.body as { imageBase64: string; mediaType: string; prefs?: { goal?: string; diet?: string[]; time?: string; equipment?: string[] }; recentTitles?: string[]; mealType?: string };
