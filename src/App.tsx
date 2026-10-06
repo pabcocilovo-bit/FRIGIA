@@ -3748,7 +3748,10 @@ useEffect(() => {
       localStorage.setItem(`frigia_onboarded_${u.id}`, "1");
       return;
     }
-    if (!localStorage.getItem(`frigia_onboarded_${u.id}`) && !isCheckoutReturn) {
+    // Supabase re-sends SIGNED_IN each time the tab comes back to the foreground:
+    // once the questionnaire is answered, don't send the user back to it
+    const answered = !!localStorage.getItem(`frigia_prefs_${u.id}`);
+    if (!localStorage.getItem(`frigia_onboarded_${u.id}`) && !answered && !isCheckoutReturn) {
       setShowQuestionnaire(true);
     } else if (isCheckoutReturn) {
       localStorage.setItem(`frigia_onboarded_${u.id}`, "1");
