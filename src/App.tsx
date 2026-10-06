@@ -1044,9 +1044,8 @@ function SettingsModal({
           {/* ── ABONNEMENT ── */}
           {tab === "subscription" && (() => {
             const appMeta = user?.app_metadata || {};
-            const userMeta = user?.user_metadata || {};
-            const status = appMeta.subscription_status || userMeta.subscription_status;
-            const isWhitelisted = appMeta.is_whitelisted || userMeta.is_whitelisted;
+            const status = appMeta.subscription_status;
+            const isWhitelisted = appMeta.is_whitelisted;
             const created = user ? new Date(user.created_at) : new Date();
             const TRIAL_MS = 4 * 24 * 60 * 60 * 1000;
             const trialEndMs = created.getTime() + TRIAL_MS;
@@ -3652,9 +3651,8 @@ export default function Frigia() {
   const hasAccess = (u: any) => {
     if (!u) return false;
     const appMeta = u.app_metadata || {};
-    const userMeta = u.user_metadata || {};
-    if (appMeta.is_whitelisted || userMeta.is_whitelisted) return true;
-    const status = appMeta.subscription_status || userMeta.subscription_status;
+    if (appMeta.is_whitelisted) return true;
+    const status = appMeta.subscription_status;
     return ["active", "trialing", "incomplete"].includes(status);
   };
 
@@ -3765,9 +3763,8 @@ useEffect(() => {
       const { data } = await supabase.auth.refreshSession();
       const u = data.session?.user ?? null;
       const appMeta = u?.app_metadata || {};
-      const userMeta = u?.user_metadata || {};
-      const status = appMeta.subscription_status || userMeta.subscription_status;
-      const ready = appMeta.is_whitelisted || userMeta.is_whitelisted ||
+      const status = appMeta.subscription_status;
+      const ready = appMeta.is_whitelisted ||
         ["active", "trialing", "incomplete"].includes(status);
       if (ready || attempts >= 5) {
         setUser(u);
@@ -3930,7 +3927,7 @@ if (showOnboarding) {
   );
 }
 
-const subscriptionStatus = user?.app_metadata?.subscription_status || user?.user_metadata?.subscription_status;
+const subscriptionStatus = user?.app_metadata?.subscription_status;
 
 if (subscriptionStatus === "canceled") {
   return <CanceledScreen user={user} />;
@@ -4083,9 +4080,9 @@ if (isMobile) {
               </div>
               <div style={{ fontSize: 13, color: v.muted, marginBottom: 8 }}>{user?.email}</div>
               {(() => {
-                const status = user?.app_metadata?.subscription_status || user?.user_metadata?.subscription_status;
+                const status = user?.app_metadata?.subscription_status;
                 const daysUsed = user ? Math.floor((Date.now() - new Date(user.created_at).getTime()) / (1000 * 60 * 60 * 24)) : 0;
-                const isActive = status === "active" || user?.app_metadata?.is_whitelisted || user?.user_metadata?.is_whitelisted;
+                const isActive = status === "active" || user?.app_metadata?.is_whitelisted;
                 const isTrialing = status === "trialing" || (!status && daysUsed <= 4);
                 const label = isActive ? "Abonné actif" : isTrialing ? "Essai gratuit en cours" : "Accès expiré";
                 return (

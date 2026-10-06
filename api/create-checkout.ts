@@ -1,7 +1,16 @@
 import Stripe from "stripe";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type User } from "@supabase/supabase-js";
 
 const ALLOWED_ORIGINS = ["https://frigia.fr", "https://frigia-ten.vercel.app", "http://localhost:5173"];
+
+// Only app_metadata is trusted (written by the Stripe webhook, not editable by the user).
+// Older accounts may not have it yet, so fall back to the Stripe customer with the account email.
+async function findCustomerId(stripe: Stripe, user: User): Promise<string | null> {
+  if (user.app_metadata?.stripe_customer_id) return user.app_metadata.stripe_customer_id;
+  if (!user.email) return null;
+  const { data } = await stripe.customers.list({ email: user.email, limit: 1 });
+  return data[0]?.id ?? null;
+}
 
 export default async function handler(req: any, res: any) {
   const origin = req.headers.origin as string | undefined;
@@ -29,10 +38,9 @@ export default async function handler(req: any, res: any) {
   const stripe = new Stripe(stripeKey);
   const successOrigin = ALLOWED_ORIGINS.includes(origin ?? "") ? origin! : ALLOWED_ORIGINS[0];
 
-  // Reuse existing Stripe customer to avoid duplicates
-  const existingCustomerId = user.app_metadata?.stripe_customer_id || user.user_metadata?.stripe_customer_id;
-
   try {
+    // Reuse existing Stripe customer to avoid duplicates
+    const existingCustomerId = await findCustomerId(stripe, user);
     const isReturningCustomer = !!existingCustomerId;
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
