@@ -8,6 +8,7 @@ Cette branche contient les maquettes du nouveau design (octobre 2026). Le code d
 |---|---|
 | `prototype-v3.html` | La maquette cliquable. Ouvre-la dans un navigateur : le menu de gauche liste tous les écrans, « Voir l'app en Gratuit / Plus » change la formule, la colonne de droite explique chaque écran. |
 | `tokens.css` | Couleurs et polices. À reprendre telles quelles. |
+| `fondations.html` | La carte des fondations V3 : logo, couleurs, typographie, formes, composants et règles. Ouvre-la dans un navigateur (elle lit `logo/` et `img/`). |
 | `ecrans-a-faire.md` | La liste de tous les écrans, avec ce qui est fait et ce qui reste à dessiner. |
 | `pages-legales.md` | Les textes légaux mis à jour (prix, codes, résiliation, famille, IA). Il manque encore : statut, SIRET, médiateur. |
 | `logo/` | Logo final, favicons et icônes PWA (voir `logo/A-LIRE.md`). |
