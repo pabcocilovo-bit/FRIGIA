@@ -1,0 +1,23 @@
+/* Frigia, nouveau design (prototype V3, octobre 2026).
+   Couleurs et polices à reprendre telles quelles dans l'app. */
+:root{
+  --page:#EFE3D0;       /* fond derrière l'app (ordinateur) */
+  --bg:#F5EFE3;         /* fond des écrans (crème) */
+  --card:#FBF7EF;       /* cartes, feuilles */
+  --surface:#ECE4D4;    /* blocs secondaires, boutons ronds */
+  --line:#E0D6C3;       /* séparateurs, contours */
+  --text:#1F2A22;       /* texte principal */
+  --muted:#66705F;      /* texte secondaire */
+  --sage:#527659;       /* vert principal (boutons, actif) */
+  --sage-deep:#34503B;  /* vert foncé (titres, bandeaux) */
+  --sage-soft:#DCE5D5;  /* fond vert clair (pastilles, infos) */
+  --on:#F7F1E6;         /* texte sur vert */
+  --hi:#E0A44A;         /* doré : badges, Plus, accents rares */
+  --hi-soft:#F6E5C6;    /* fond doré clair */
+  --danger:#9A3B26;     /* terre cuite : se déconnecter, supprimer */
+  --danger-soft:#F3E1D9;
+  --sans:"Hanken Grotesk",ui-sans-serif,system-ui,-apple-system,sans-serif;  /* texte, 300 à 700 */
+  --serif:"Instrument Serif",Georgia,serif;  /* titres ; le mot clé en italique sauge */
+}
+/* Google Fonts :
+   https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap */
