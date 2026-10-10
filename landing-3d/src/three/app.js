@@ -1,7 +1,7 @@
 // Assemble la scène : plateau + modèle + écran du téléphone + timeline.
 // Ce fichier est chargé en arrière-plan, après le premier affichage de la page.
 import * as THREE from 'three'
-import { CAMERA, TELEPHONE } from '../config.js'
+import { CAMERA, TELEPHONE, FRIGO } from '../config.js'
 import { creerPlateau } from './stage.js'
 import { chargerModele } from './model.js'
 import { creerEcranPhoto } from './phone-screen.js'
@@ -10,6 +10,7 @@ import { creerTimeline } from '../scroll/timeline.js'
 // L'état de l'animation : la timeline GSAP fait varier ces valeurs (0 → 1),
 // et la scène 3D se met à jour à partir d'elles à chaque image.
 export const etat = {
+  porte: 0, // ouverture de la porte du frigo (0 = fermée, 1 = ouverte)
   entree: 0, // entrée du téléphone dans le cadre
   avance: 0, // légère avancée de la caméra pendant la scène 1
   pointage: 0, // les coins du viseur se resserrent
@@ -33,9 +34,23 @@ export async function demarrer({ canvas, dom }) {
   pivotTel.add(parties.phone_body, parties.phone_screen)
   const ecran = creerEcranPhoto(plateau, parties.phone_screen, pivotTel)
 
-  // ── La porte : les balconnets la suivent quand elle s'ouvre ──
+  // ── La porte : elle tourne autour de sa charnière (bord gauche, côté caisse) ──
+  // La charnière est déduite de la boîte englobante : marche aussi avec le futur GLB.
+  const bbPorte = new THREE.Box3().setFromObject(parties.fridge_door)
+  const charniere = new THREE.Group()
+  charniere.position.set(bbPorte.min.x, 0, bbPorte.min.z)
+  scene.add(charniere)
+  charniere.attach(parties.fridge_door)
+  // Les balconnets suivent la porte quand elle s'ouvre
   parties.fridge_door.attach(parties.door_rack_01)
   parties.fridge_door.attach(parties.door_rack_02)
+  const angleOuvert = THREE.MathUtils.degToRad(FRIGO.porte.ouverture)
+
+  // ── La lumière du frigo : s'allume avec l'ouverture de la porte ──
+  const L = FRIGO.lumiere
+  const lumiereFrigo = new THREE.PointLight(L.couleur, 0, L.portee, 2)
+  lumiereFrigo.position.set(0, FRIGO.hauteur - 0.18, FRIGO.profondeur * 0.1)
+  scene.add(lumiereFrigo)
 
   // ── Mise à jour de la scène à partir de l'état ──
   const pos = new THREE.Vector3(...TELEPHONE.position)
@@ -64,6 +79,10 @@ export async function demarrer({ canvas, dom }) {
       THREE.MathUtils.lerp(rotDepart.z, rotFin.z, e),
     )
 
+    // Porte : vers l'extérieur (rotation négative autour de la charnière)
+    charniere.rotation.y = -angleOuvert * etat.porte
+    lumiereFrigo.intensity = L.intensite * Math.min(1, etat.porte * 2.5)
+
     // Caméra : par-dessus l'épaule, légère avancée
     camera.position.lerpVectors(camA.p, camB.p, etat.avance)
     cible.lerpVectors(camA.c, camB.c, etat.avance)
@@ -81,7 +100,7 @@ export async function demarrer({ canvas, dom }) {
   plateau.observer(dom.scene.parentElement)
 
   // Outil de réglage, seulement en développement
-  if (import.meta.env.DEV) window.__frigia = { etat, plateau, parties, pivotTel, THREE }
+  if (import.meta.env.DEV) window.__frigia = { etat, plateau, parties, pivotTel, charniere, THREE }
 
   // Première image dessinée : on fait apparaître la scène en fondu
   requestAnimationFrame(() => canvas.classList.add('pret'))

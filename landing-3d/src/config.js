@@ -34,13 +34,14 @@ export const SCROLL = {
 // Durées des scènes (en unités de timeline)
 export const SCENES = {
   s1: {
-    duree: 1.4,
-    entreeTelephone: [0, 0.55], // début, fin de l'entrée du téléphone
-    miseAuPoint: [0.6, 0.85], // les coins du viseur se resserrent
-    flash: 0.95, // instant du flash (la photo est prise)
+    duree: 1.6,
+    ouverturePorte: [0, 0.5], // la porte du frigo s'ouvre (et sa lumière s'allume)
+    entreeTelephone: [0.2, 0.75], // début, fin de l'entrée du téléphone
+    miseAuPoint: [0.8, 1.05], // les coins du viseur se resserrent
+    flash: 1.15, // instant du flash (la photo est prise, frigo ouvert)
     flashMontee: 0.03, // le flash s'allume
     flashDescente: 0.2, // puis s'éteint
-    sortieTexte: [0.9, 1.25], // le titre s'efface
+    sortieTexte: [1.1, 1.45], // le titre s'efface
   },
 }
 
@@ -91,7 +92,8 @@ export const FRIGO = {
   hauteur: 1.8,
   profondeur: 0.66,
   paroi: 0.03,
-  porte: { epaisseur: 0.06, ouvertureMax: 112 }, // degrés
+  porte: { epaisseur: 0.06, ouverture: 105 }, // degrés : angle de la porte ouverte
+  lumiere: { couleur: '#FFF3DC', intensite: 1.6, portee: 1.6 }, // lumière intérieure du frigo
   // Hauteurs (m) des éléments intérieurs
   etages: {
     shelf_01: 1.42,

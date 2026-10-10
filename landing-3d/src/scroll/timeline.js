@@ -32,11 +32,14 @@ export function creerTimeline({ etat, dom, marquerSale }) {
   return tl
 }
 
-// ── SCÈNE 1 : le téléphone, le viseur, le flash ──
+// ── SCÈNE 1 : la porte s'ouvre, le téléphone, le viseur, le flash ──
 function scene1(tl, etat, dom) {
   const s = SCENES.s1
   tl.addLabel('s1-phone', 0)
   const a = (t) => `s1-phone+=${t}` // position dans la scène 1
+
+  // La porte du frigo s'ouvre (la lumière intérieure s'allume avec elle)
+  tl.to(etat, { porte: 1, duration: s.ouverturePorte[1] - s.ouverturePorte[0], ease: 'power2.inOut' }, a(s.ouverturePorte[0]))
 
   // Le téléphone entre dans le cadre, la caméra avance un peu
   tl.to(etat, { entree: 1, duration: s.entreeTelephone[1] - s.entreeTelephone[0], ease: 'power2.out' }, a(s.entreeTelephone[0]))
