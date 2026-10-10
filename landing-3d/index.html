@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Frigia · Une photo du frigo, trois idées pour ce soir</title>
+    <meta name="description" content="Prends ton frigo en photo : Frigia repère tes ingrédients et te propose trois recettes pour ce soir, pour toute la famille. Gratuit, 15 scans offerts, sans carte bancaire." />
+    <meta name="theme-color" content="#F5EFE3" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" />
+  </head>
+  <body>
+    <!-- Menu -->
+    <header class="nav">
+      <div class="container nav-in">
+        <a href="#" class="logo" aria-label="Frigia, accueil"><img src="./logo.svg" alt="Frigia" width="86" height="30" /></a>
+        <nav class="liens" aria-label="Menu">
+          <a href="#comment">Comment ça marche</a>
+          <a href="#prix">Prix</a>
+          <a href="#questions">Questions</a>
+        </nav>
+        <a class="btn btn-plein btn-petit" href="/">Commencer</a>
+      </div>
+    </header>
+
+    <main>
+      <!-- L'expérience 3D, épinglée pendant le scroll. Tout le texte reste en HTML. -->
+      <section id="experience" class="scene">
+        <canvas id="scene3d" aria-hidden="true"></canvas>
+        <div class="flash" aria-hidden="true"></div>
+
+        <!-- SCÈNE 1 : le titre -->
+        <div class="hero">
+          <div class="container">
+            <div class="hero-texte">
+              <span class="surtitre">Pour les soirs de semaine</span>
+              <h1>Une photo du frigo, <em>trois idées</em> pour ce soir.</h1>
+              <p class="chapo">Fini le « on mange quoi ce soir ? ». Tu prends ton frigo en photo, Frigia te propose trois recettes avec ce que tu as déjà, pour toute la famille.</p>
+              <div class="actions">
+                <a class="btn btn-plein" href="/">Commencer gratuitement</a>
+                <a class="lien-scroll" href="#comment">Voir comment ça marche <span aria-hidden="true">↓</span></a>
+              </div>
+              <ul class="rassure">
+                <li>15 scans offerts</li>
+                <li>Sans carte bancaire</li>
+                <li>Rien à télécharger</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCÈNE 4 : un texte par étage du frigo (apparaîtront dans les prochaines scènes) -->
+        <div class="etages" id="comment" aria-label="Comment ça marche">
+          <article class="etage" data-partie="shelf_01">
+            <span class="num">1</span>
+            <h2>Une photo <em>suffit.</em></h2>
+            <p>Frigia repère tes ingrédients et leurs quantités.</p>
+          </article>
+          <article class="etage" data-partie="shelf_02">
+            <span class="num">2</span>
+            <h2>Trois idées <em>pour ce soir.</em></h2>
+            <p>Avec ce que tu as déjà, prêtes en 15 à 35 minutes.</p>
+          </article>
+          <article class="etage" data-partie="shelf_03">
+            <span class="num">3</span>
+            <h2>Toute la famille <em>à table.</em></h2>
+            <p>Un profil par personne, allergies et « n'aime pas » compris.</p>
+          </article>
+          <article class="etage" data-partie="drawer_01">
+            <span class="num">4</span>
+            <h2>Rien <em>ne se perd.</em></h2>
+            <p>Les recettes utilisent d'abord ce qui se périme.</p>
+          </article>
+          <article class="etage" data-partie="door_rack_01">
+            <span class="num">5</span>
+            <h2>La liste <em>de courses.</em></h2>
+            <p>Seulement ce qui manque, à envoyer par SMS ou WhatsApp.</p>
+          </article>
+          <article class="etage" data-partie="door_rack_02">
+            <span class="num">6</span>
+            <h2>Ta <em>semaine.</em></h2>
+            <p>Les repas planifiés, les restes prévus.</p>
+          </article>
+        </div>
+
+        <!-- SCÈNE 5 : l'appel à l'action -->
+        <div class="fin">
+          <h2>Ce soir, commence par <em>ouvrir le frigo.</em></h2>
+          <a class="btn btn-plein" href="/">Commencer gratuitement</a>
+          <p class="petit">15 scans offerts, sans carte bancaire.</p>
+        </div>
+      </section>
+
+      <!-- Après l'expérience : prix et questions (repris de la V5 à la fin) -->
+      <section id="prix" class="apres">
+        <div class="container">
+          <span class="surtitre">Prix</span>
+          <h2>Commence gratuitement, <em>passe à Plus</em> quand tu veux.</h2>
+          <p class="chapo">Gratuit : 15 scans pour essayer, sans carte bancaire. Plus : 29,99 € par an au prix fondateur (au lieu de 39,99 €), ou 6,99 € par mois.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="pied" id="questions">
+      <div class="container pied-in">
+        <img src="./logo.svg" alt="Frigia" width="86" height="30" />
+        <span>frigia.fr · Mentions légales · CGU · Contact</span>
+      </div>
+    </footer>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
