@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import "./landing/landing.css";
 import { AuthSheet, type AuthMode } from "./landing/AuthSheet";
 import { LegalSheet, type LegalKey } from "./landing/legal";
 import { GoogleInAppBar, InstallSheet, SocialInAppScreen } from "./landing/InApp";
 import { InstallSection } from "./landing/InstallSection";
+import { FAQ } from "./landing/faq";
 import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./landing/browser";
 
 // Landing V5 (refonte d'octobre 2026). Les textes décrivent les offres de la refonte :
@@ -173,6 +174,10 @@ export default function Landing({ onStart, onLogin }: Props) {
   const turnstile = useRef<TurnstileInstance>(null);
   const resetCaptcha = () => { turnstile.current?.reset(); setCaptchaToken(null); };
 
+  // index.html contient une copie pré-rendue de la landing (scripts/prerender.mjs), lisible sans JavaScript
+  // par Google et les assistants IA. On la retire dès que la vraie landing est montée, avant l'affichage.
+  useLayoutEffect(() => { document.getElementById("prerender")?.remove(); }, []);
+
   // Fond crème jusque sous la barre d'état et au rebond du défilement, rendu à l'appli en sortant
   useEffect(() => {
     const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
@@ -327,16 +332,13 @@ export default function Landing({ onStart, onLogin }: Props) {
           <div className="container grid">
             <div className="sh"><span className="k">Questions</span><h2>Ce qu'on <em>nous demande.</em></h2></div>
             <div>
-              <details><summary>Faut-il une carte bancaire pour essayer ?</summary><p>Non. La formule Gratuit se crée avec ton email ou ton compte Google, sans carte. Tu as 15 scans pour essayer.</p></details>
-              <details><summary>Et quand j'ai utilisé mes 15 scans ?</summary><p>Tu peux passer à Plus pour des scans illimités. Tes recettes et tes favoris restent là.</p></details>
-              <details>
-                <summary>Faut-il télécharger une appli ?</summary>
-                <p>Non. Frigia s'ouvre dans ton navigateur et s'ajoute à l'écran d'accueil de ton téléphone, comme une appli.</p>
-                {canInstall && <a className="link" href="#installer">Voir comment l'ajouter</a>}
-              </details>
-              <details><summary>Ça marche avec des enfants et des allergies ?</summary><p>Oui. Avec Plus, chaque membre du foyer a son profil : âge, allergies et ce qu'il n'aime pas. Les recettes en tiennent compte.</p></details>
-              <details><summary>Je peux arrêter Plus quand je veux ?</summary><p>Oui, c'est sans engagement. Tu résilies depuis tes réglages, en quelques gestes.</p></details>
-              <details><summary>J'ai un code créateur, je le mets où ?</summary><p>À l'inscription, avant de choisir Google ou l'email. Tu peux aussi le saisir en passant à Plus.</p></details>
+              {FAQ.map(f => (
+                <details key={f.id}>
+                  <summary>{f.q}</summary>
+                  <p>{f.a}</p>
+                  {f.id === "appli" && canInstall && <a className="link" href="#installer">Voir comment l'ajouter</a>}
+                </details>
+              ))}
             </div>
           </div>
         </section>

@@ -3624,6 +3624,8 @@ function PaywallModal({ onSubscribe, onManageBilling, onLogout, loading, isCance
 // ─── Main App ─────────────────────────────────────────────────────────────────
 export default function Frigia() {
   const [user, setUser] = useState<any>(null);
+  // Connecté : la copie pré-rendue de la landing (index.html) n'a plus lieu d'être
+  useEffect(() => { if (user) document.getElementById("prerender")?.remove(); }, [user]);
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
   const [theme, setTheme] = useState<Theme>("dark");
   const [showSettings, setShowSettings] = useState(false);
@@ -3898,7 +3900,7 @@ async function signOut() {
   };
 
 if (!user) {
-  return <><Analytics /><Suspense fallback={<div style={{background:"#07070E",minHeight:"100vh"}}/>}><Landing /></Suspense></>;
+  return <><Analytics /><Suspense fallback={null}><Landing /></Suspense></>;
 }
 
 if (showQuestionnaire) {

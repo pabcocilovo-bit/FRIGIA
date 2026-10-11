@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { isAndroid } from "./browser";
 
 // Section « Frigia sur ton écran d'accueil », dans l'esprit des tutos en 3 cartes (Pangram).
 // Le bouton ouvre l'installation de Chrome quand elle existe, sinon le pas-à-pas adapté au navigateur (InstallSheet).
@@ -74,7 +75,7 @@ const STEPS: Record<OS, { bg: string; mock: ReactNode; t: string; p: string }[]>
 };
 
 export function InstallSection({ onInstall }: { onInstall: () => void }) {
-  const [os, setOs] = useState<OS>(() => (/android/i.test(navigator.userAgent) ? "android" : "ios"));
+  const [os, setOs] = useState<OS>(() => (isAndroid() ? "android" : "ios"));
   return (
     <section className="install" id="installer">
       <div className="container">

@@ -2,8 +2,13 @@
 
 export type InApp = { isGoogleApp: boolean; isSocialApp: boolean; isIos: boolean; isAndroid: boolean };
 
+// Vide pendant le pré-rendu (Node), où il n'y a pas de navigateur
+const userAgent = () => (typeof navigator === "undefined" ? "" : navigator.userAgent);
+
+export const isAndroid = () => /android/i.test(userAgent());
+
 export function detectInAppBrowser(): InApp {
-  const ua = navigator.userAgent;
+  const ua = userAgent();
   return {
     isIos: /iphone|ipad|ipod/i.test(ua),
     isAndroid: /android/i.test(ua),
@@ -21,7 +26,7 @@ export function openInNativeBrowser(isIos: boolean) {
 export type Browser = "ios-safari" | "ios-chrome" | "chrome-android" | "chrome-desktop" | "samsung" | "firefox-android" | "edge-mobile" | "unknown";
 
 export function detectBrowser(): Browser {
-  const ua = navigator.userAgent;
+  const ua = userAgent();
   const isIos = /iphone|ipad|ipod/i.test(ua);
   const isAndroid = /android/i.test(ua);
   const isEdge = /edg\//i.test(ua);
@@ -37,6 +42,7 @@ export function detectBrowser(): Browser {
 }
 
 export function isStandalone() {
+  if (typeof window === "undefined") return false;
   return window.matchMedia("(display-mode: standalone)").matches || (navigator as Navigator & { standalone?: boolean }).standalone === true;
 }
 
