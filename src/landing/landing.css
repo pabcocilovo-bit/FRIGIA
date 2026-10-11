@@ -89,8 +89,8 @@
 /* comment ça marche : 3 cartes, le haut d'un vrai écran de l'appli */
 .lp .trio{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
 .lp .tcard{background:var(--paper);border:1px solid var(--line);border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
-.lp .tvis{background:#EFE2CF;height:340px;padding:32px 36px 0;overflow:hidden;display:flex;justify-content:center}
-.lp .tvis img{width:100%;max-width:300px;height:auto;align-self:flex-start;display:block}
+.lp .tvis{background:#EFE2CF;height:520px;padding:28px 24px 0;overflow:hidden;display:flex;justify-content:center}
+.lp .tvis img{width:100%;max-width:290px;height:auto;align-self:flex-start;display:block}
 .lp .ttxt{padding:24px 28px 28px;display:grid;gap:10px}
 .lp .ttxt .num{font:400 1.2rem/1 var(--serif);font-style:italic;color:var(--sage-ink)}
 .lp .ttxt h3{font-size:1.7rem}
@@ -274,7 +274,8 @@
   .lp .trio{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:84%;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(-1 * var(--gap));padding:0 var(--gap) 8px;scroll-padding-inline:var(--gap);scrollbar-width:none}
   .lp .trio::-webkit-scrollbar{display:none}
   .lp .tcard{scroll-snap-align:start}
-  .lp .tvis{height:260px;padding:24px 28px 0}
+  .lp .tvis{height:440px;padding:22px 20px 0}
+  .lp .tvis img{max-width:250px}
   .lp .ttxt{padding:20px}
   .lp .ttxt h3{font-size:1.45rem}
   .lp .controls{gap:28px}
