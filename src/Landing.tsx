@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import "./landing/landing.css";
 import { AuthSheet, type AuthMode } from "./landing/AuthSheet";
@@ -17,99 +17,71 @@ type Props = { onStart?: (plan: Plan) => void; onLogin?: () => void };
 const IMG = "/landing";
 const CREAM = "#F5EFE3";
 
-// ── Les 4 temps ──────────────────────────────────────────────────────────────
-const STEPS = [
-  { n: "Un.", t: "Tu prends ton frigo en photo.", p: "Tu dis si c'est pour ce midi, ce soir ou la semaine. Une photo de ta galerie marche aussi, pas besoin de ranger avant." },
-  { n: "Deux.", t: "Frigia liste ce qu'il voit.", p: "Les ingrédients s'affichent avec leurs quantités. Tu ajoutes un fond de placard ou retires ce qui ne va pas." },
-  { n: "Trois.", t: "Tu dis qui mange.", p: "Chaque membre du foyer avec ses allergies et ce qu'il n'aime pas, plus un invité si besoin. Les quantités suivent." },
-  { n: "Quatre.", t: "Tu choisis parmi trois recettes.", p: "Temps, étapes claires et ce qui est déjà dans ton frigo. Un appui, et le mode cuisine te guide pas à pas." },
+// ── Hero : la photo du frigo devient trois idées ─────────────────────────────
+// Positions des ingrédients sur public/landing/frigo.jpg, en % de la photo
+const PINS: { name: string; x: number; y: number; up?: boolean }[] = [
+  { name: "Poivrons", x: 22, y: 37 },
+  { name: "Brocoli", x: 50, y: 36 },
+  { name: "Carottes", x: 20, y: 48 },
+  { name: "Tomates", x: 44, y: 51 },
+  { name: "Courgettes", x: 64, y: 61, up: true },
+  { name: "Œufs", x: 21, y: 63 },
+];
+const HERO_IDEAS = [
+  ["pasta-legumes", "Penne aux légumes rôtis", "25 min · 6/8 dans ton frigo"],
+  ["gratin-courgettes", "Gratin de courgettes", "35 min · 5/6 dans ton frigo"],
+  ["omelette-tomates", "Omelette aux tomates", "15 min · 4/4 dans ton frigo"],
 ];
 
-function Board({ active }: { active: number }) {
-  const layer = (i: number) => (i === active ? "layer on" : "layer");
+function HeroArt() {
   return (
-    <div className="board" aria-hidden="true">
-      <div className={layer(0)}>
-        <div className="panel">
-          <span className="k">Scan du frigo</span>
-          <div className="scan"><img src={`${IMG}/frigia-symbole-inverse.svg`} alt="" width={120} height={120} /><i></i><i></i><i></i><i></i></div>
-          <div className="seg"><span>Ce midi</span><span className="sel">Ce soir</span><span>La semaine</span></div>
-        </div>
-      </div>
-      <div className={layer(1)}>
-        <div className="panel">
-          <span className="k">8 ingrédients · scan de 18 h 42</span>
-          <h3>Ce qu'il y a <em>dans ton frigo</em></h3>
-          {[["Tomates cerises", "250 g"], ["Courgettes", "2"], ["Poivrons", "3"], ["Œufs", "6"], ["Penne", "500 g"]].map(([n, q]) => (
-            <div className="row" key={n}><span>{n}</span><span>{q}</span></div>
-          ))}
-          <div className="row add"><span>+ Ajouter un ingrédient</span><span></span></div>
-        </div>
-      </div>
-      <div className={layer(2)}>
-        <div className="panel">
-          <span className="k">Qui mange ce soir ?</span>
-          <div className="who">
-            <div><i>C</i>Camille</div><div><i>T</i>Thomas</div><div><i>L</i>Léo<small>9 ans</small></div><div className="off"><i>J</i>Jade<small>5 ans</small></div>
+    <div className="art">
+      <div className="art-bg" aria-hidden="true" />
+      <figure className="shot">
+        <img src={`${IMG}/frigo.jpg`} alt="Un frigo ouvert : poivrons, brocoli, carottes, tomates cerises, œufs et courgettes" width={640} height={969} fetchPriority="high" />
+        <span className="corners" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span className="sweep" aria-hidden="true" />
+        {PINS.map((p, i) => (
+          <span key={p.name} className={p.up ? "pin up" : "pin"} style={{ left: `${p.x}%`, top: `${p.y}%`, "--d": `${1.3 + i * 0.22}s` } as CSSProperties} aria-hidden="true">
+            <b>{p.name}</b>
+          </span>
+        ))}
+        <span className="count">8 ingrédients repérés</span>
+      </figure>
+      <div className="ideas" aria-label="Exemple : trois idées proposées avec ce frigo">
+        <span className="k">Pour 4 · ce soir</span>
+        <h3>Trois idées <em>avec ton frigo</em></h3>
+        {HERO_IDEAS.map(([img, name, meta], i) => (
+          <div className="rec" key={img} style={{ "--d": `${3 + i * 0.15}s` } as CSSProperties}>
+            <img src={`${IMG}/${img}.jpg`} alt="" width={56} height={56} />
+            <div><b>{name}</b><small>{meta}</small></div>
           </div>
-          <div className="guest"><span>Des invités ?</span><b>+1</b></div>
-          <div className="row"><span>Allergies</span><span>Arachide · Léo</span></div>
-          <div className="row"><span>Équipement</span><span>Four · Airfryer</span></div>
-        </div>
-      </div>
-      <div className={layer(3)}>
-        <div className="panel">
-          <span className="k">Pour 4 personnes</span>
-          <h3>Trois idées <em>pour ce soir</em></h3>
-          {[["pasta-legumes", "Penne aux légumes rôtis", "25 min · 6/8 dans ton frigo"], ["gratin-courgettes", "Gratin de courgettes", "35 min · 5/6 dans ton frigo"], ["omelette-tomates", "Omelette aux tomates", "15 min · 4/4 dans ton frigo"]].map(([img, name, meta]) => (
-            <div className="rec" key={img}><img src={`${IMG}/${img}.jpg`} alt="" width={56} height={56} loading="lazy" /><div><b>{name}</b><small>{meta}</small></div></div>
-          ))}
-          <div className="go"><span>Lancer la cuisson · 25 min</span><i>→</i></div>
-        </div>
+        ))}
       </div>
     </div>
   );
 }
 
+// ── Comment ça marche : 3 cartes avec les vrais écrans de l'appli ────────────
+const STEPS = [
+  { n: "Un.", img: "app-scan", alt: "L'écran de scan : le frigo dans le viseur, avec le choix ce midi, ce soir ou la semaine", t: "Tu prends ton frigo en photo.", p: "Pour ce midi, ce soir ou la semaine. Une photo de ta galerie marche aussi, pas besoin de ranger avant." },
+  { n: "Deux.", img: "app-ingr", alt: "L'écran « C'est bien ça ? » avec la liste des ingrédients trouvés et leurs quantités", t: "Tu vérifies, tu dis qui mange.", p: "Frigia liste ce qu'il a vu, avec les quantités. Tu corriges d'un geste et tu choisis qui est à table, allergies comprises." },
+  { n: "Trois.", img: "app-results", alt: "L'écran « Trois idées pour ce soir » avec des penne aux légumes rôtis", t: "Tu choisis parmi trois recettes.", p: "Avec ce que tu as déjà, en commençant par ce qui se périme. Le mode cuisine te guide pas à pas." },
+];
+
 function HowItWorks() {
-  const [active, setActive] = useState(0);
-  const sticky = useRef<HTMLDivElement>(null);
-  const steps = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width:900px)");
-    let frame = 0;
-    const pick = () => {
-      frame = 0;
-      // Ordinateur : l'étape dont le titre a passé le milieu de l'écran.
-      // Mobile : le visuel occupe le haut, on prend l'étape qui atteint le milieu de l'espace libre en dessous.
-      const boardBottom = sticky.current?.getBoundingClientRect().bottom ?? 0;
-      const line = mq.matches ? boardBottom + (window.innerHeight - boardBottom) * 0.5 : window.innerHeight * 0.55;
-      let i = 0;
-      steps.current.forEach((s, k) => { const h = s?.querySelector("h3"); if (h && h.getBoundingClientRect().top < line) i = k; });
-      setActive(i);
-    };
-    const onScroll = () => { if (!frame) frame = requestAnimationFrame(pick); };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    onScroll();
-    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); cancelAnimationFrame(frame); };
-  }, []);
-
   return (
     <section className="how rule" id="comment">
       <div className="container">
-        <div className="sh"><span className="k">Comment ça marche</span><h2>Du frigo à l'assiette, <em>en quatre temps.</em></h2><p className="lede">Pas de liste de quinze ingrédients ni de recette à chercher. Tu montres ce que tu as, Frigia s'occupe du reste.</p></div>
-        <div className="grid">
-          <div className="sticky" ref={sticky}><Board active={active} /></div>
-          <div className="steps">
-            {STEPS.map((s, i) => (
-              <div className="step" key={s.n} ref={el => { steps.current[i] = el; }}>
-                <span className="num">{s.n}</span><h3>{s.t}</h3><p>{s.p}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <div className="sh"><span className="k">Comment ça marche</span><h2>Du frigo à l'assiette, <em>en trois temps.</em></h2><p className="lede">Pas de liste de quinze ingrédients ni de recette à chercher. Tu montres ce que tu as, Frigia s'occupe du reste.</p></div>
+        <ol className="trio">
+          {STEPS.map(s => (
+            <li className="tcard" key={s.n}>
+              <div className="tvis"><img src={`${IMG}/${s.img}.jpg`} alt={s.alt} width={600} height={760} loading="lazy" /></div>
+              <div className="ttxt"><span className="num">{s.n}</span><h3>{s.t}</h3><p>{s.p}</p></div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
@@ -245,14 +217,7 @@ export default function Landing({ onStart, onLogin }: Props) {
               <div className="ctas"><button className="btn btn-fill" onClick={() => start()}>Commencer gratuitement</button><a className="link" href="#comment">Voir comment ça marche</a></div>
               <div className="reassure"><span className="chip plain">Sans carte bancaire</span><span className="chip plain">15 scans offerts</span><span className="chip plain">Rien à télécharger</span></div>
             </div>
-            <div className="scene">
-              <div className="found">
-                <span className="k">8 ingrédients repérés</span>
-                <div className="chips">{["Tomates", "Courgettes", "Poivrons", "Œufs", "Penne"].map(c => <span className="chip" key={c}>{c}</span>)}</div>
-                <div className="rec"><img src={`${IMG}/pasta-legumes.jpg`} alt="" width={56} height={56} /><div><b>Penne aux légumes rôtis</b><small>25 min · pour 4 · 6/8 dans ton frigo</small></div><i aria-hidden="true">→</i></div>
-              </div>
-              <img className="ill" src={`${IMG}/illustration.svg`} alt="Une maman prend son frigo en photo avec son téléphone, son fils tient une carotte" width={390} height={330} />
-            </div>
+            <HeroArt />
           </div>
         </section>
 

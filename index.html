@@ -4,25 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
-    <title>Frigia — Votre Chef IA Personnel | Recettes depuis votre frigo</title>
-    <meta name="description" content="Prenez votre frigo en photo. Frigia génère des recettes personnalisées en quelques secondes grâce à l'IA. 4 jours gratuits, puis 4,99€/mois." />
-    <meta name="keywords" content="Frigia, recettes IA, frigo, chef IA, recettes personnalisées, anti-gaspi" />
-    <link rel="canonical" href="https://frigia.fr/" />
+    <title>Frigia · Une photo du frigo, trois idées pour ce soir</title>
+    <meta name="description" content="Prends ton frigo en photo : Frigia repère tes ingrédients et te propose trois recettes pour ce soir, pour toute la famille. 15 scans offerts, sans carte bancaire." />
+        <link rel="canonical" href="https://frigia.fr/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://frigia.fr/" />
-    <meta property="og:title" content="Frigia — Votre Chef IA Personnel" />
-    <meta property="og:description" content="Prenez votre frigo en photo. L'IA génère des recettes personnalisées en secondes. 4 jours gratuits." />
-    <meta property="og:image" content="https://frigia.fr/apple-touch-icon.png" />
+    <meta property="og:title" content="Frigia · Une photo du frigo, trois idées pour ce soir" />
+    <meta property="og:description" content="Frigia repère ce qu'il y a dans ton frigo et te propose trois recettes avec ce que tu as déjà. 15 scans offerts, sans carte bancaire." />
+    <meta property="og:image" content="https://frigia.fr/og-frigia.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:site_name" content="Frigia" />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Frigia — Votre Chef IA Personnel" />
-    <meta name="twitter:description" content="Prenez votre frigo en photo. L'IA génère des recettes personnalisées en secondes." />
-    <meta name="twitter:image" content="https://frigia.fr/apple-touch-icon.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Frigia · Une photo du frigo, trois idées pour ce soir" />
+    <meta name="twitter:description" content="Frigia repère ce qu'il y a dans ton frigo et te propose trois recettes avec ce que tu as déjà." />
+    <meta name="twitter:image" content="https://frigia.fr/og-frigia.png" />
 
     <!-- JSON-LD structured data -->
     <script type="application/ld+json">
@@ -31,15 +32,14 @@
       "@type": "WebApplication",
       "name": "Frigia",
       "url": "https://frigia.fr",
-      "description": "Application IA qui génère des recettes personnalisées à partir des ingrédients de votre frigo.",
+      "description": "Une photo du frigo, trois idées de recettes pour ce soir, pour toute la famille.",
       "applicationCategory": "FoodApplication",
       "operatingSystem": "iOS, Android, Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "4.99",
-        "priceCurrency": "EUR",
-        "trialPeriodDays": 4
-      },
+      "offers": [
+        { "@type": "Offer", "name": "Gratuit", "price": "0", "priceCurrency": "EUR" },
+        { "@type": "Offer", "name": "Frigia Plus mensuel", "price": "6.99", "priceCurrency": "EUR" },
+        { "@type": "Offer", "name": "Frigia Plus annuel", "price": "39.99", "priceCurrency": "EUR" }
+      ],
       "inLanguage": "fr-FR",
       "author": {
         "@type": "Person",
@@ -61,7 +61,13 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Polices de la refonte -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" />
   </head>
   <body>
     <div id="root"></div>
