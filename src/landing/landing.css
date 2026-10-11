@@ -187,6 +187,58 @@
 .lp .compare tfoot .btn{width:100%;height:44px;padding:0 4px;font-size:13px;letter-spacing:-.01em}
 .lp .compare .fine{font-size:13px;color:var(--muted);margin-top:14px;padding-inline:4px}
 
+/* ajouter à l'écran d'accueil : fond vert foncé, 3 cartes photo + maquette */
+.lp .install{background:var(--sage-deep);color:var(--on)}
+.lp .install .sh .k{color:var(--hi-ink)}
+.lp .install .lede{color:var(--on)}
+.lp .ihead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px 48px;margin-bottom:40px}
+.lp .ihead .sh{margin-bottom:0}
+.lp .icta{display:grid;gap:10px;justify-items:end;text-align:right}
+.lp .icta small{font-size:14px;opacity:.85}
+.lp .os-switch{display:inline-flex;gap:4px;padding:4px;border-radius:1000px;background:rgba(247,241,230,.12);margin-bottom:24px}
+.lp .os-switch button{height:38px;padding:0 18px;border-radius:1000px;font:500 14px/1 var(--sans);color:var(--on)}
+.lp .os-switch button[aria-pressed="true"]{background:var(--on);color:var(--sage-deep)}
+.lp .itrio{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+.lp .icard{border-radius:24px;overflow:hidden;background:#24382A;display:flex;flex-direction:column}
+.lp .ivis{position:relative;height:300px;overflow:hidden;display:grid;place-items:center;padding:24px}
+.lp .ibg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.15);filter:blur(3px) saturate(1.05) brightness(.82)}
+.lp .itxt{padding:24px 28px 28px;display:grid;gap:10px}
+.lp .itxt .num{font:400 1.2rem/1 var(--serif);font-style:italic;color:var(--hi-ink)}
+.lp .itxt h3{font-size:1.7rem}
+.lp .itxt p{opacity:.9}
+/* maquettes */
+.lp .mock{position:relative;z-index:1;width:100%;max-width:280px;background:var(--paper);color:var(--text);border-radius:20px;box-shadow:0 24px 40px -18px rgba(0,0,0,.6);font-size:13px;overflow:visible}
+.lp .mock .page{padding:18px 16px 14px;display:grid;gap:8px}
+.lp .mock .page img{height:20px;width:auto;margin-bottom:4px}
+.lp .mock .page i{display:block;height:8px;border-radius:8px;background:var(--surface)}
+.lp .mock .page i.short{width:60%}
+.lp .mock .bar{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--surface)}
+.lp .mock .bar.top{border-radius:20px 20px 0 0}
+.lp .mock .bar.bottom{border-radius:0 0 20px 20px}
+.lp .mock .url{flex:1;background:var(--paper);border-radius:1000px;padding:8px 12px;font-size:12px;color:var(--muted);text-align:center}
+.lp .mock .dots{position:relative;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:var(--text)}
+.lp .mock .dots.on{background:var(--sage);color:var(--on)}
+.lp .mock .pop{position:absolute;right:10px;bottom:62px;width:72%;background:var(--paper);border-radius:14px;box-shadow:0 12px 30px -8px rgba(0,0,0,.45);display:grid;padding:4px}
+.lp .mock .pop span,.lp .mock.sheet>span{position:relative;display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:10px}
+.lp .mock .hl{background:var(--sage-soft);color:var(--sage-deep);font-weight:600}
+.lp .mock .hl b{font-weight:600}
+.lp .mock.sheet{padding:10px;display:grid;gap:2px}
+.lp .mock.sheet .who{display:flex;gap:10px;align-items:center;padding:6px 8px 10px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.lp .mock.sheet .who img{border-radius:9px}
+.lp .mock.sheet .who b{display:block;font-size:13px}
+.lp .mock.sheet .who small{color:var(--muted);font-size:11px}
+.lp .mock.sheet .apps{display:flex;gap:10px;padding:4px 8px 10px}
+.lp .mock.sheet .apps i{width:34px;height:34px;border-radius:50%;background:var(--surface)}
+.lp .mock.home{background:rgba(31,42,34,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:grid;grid-template-columns:repeat(4,1fr);gap:14px 10px;padding:20px 16px}
+.lp .mock.home .app{display:grid;justify-items:center;gap:5px}
+.lp .mock.home .app i{width:44px;height:44px;border-radius:12px;background:rgba(247,241,230,.35)}
+.lp .mock.home .app small{display:block;width:30px;height:5px;border-radius:5px;background:rgba(247,241,230,.35)}
+.lp .mock.home .frigia img{width:44px;height:44px;border-radius:12px;box-shadow:0 0 0 3px var(--hi-ink);animation:lpPop .5s cubic-bezier(.3,1.5,.6,1) .3s both}
+.lp .mock.home .frigia small{width:auto;height:auto;background:none;color:var(--on);font-size:11px;font-weight:600}
+/* le doigt qui touche */
+.lp .tap{position:absolute;left:62%;top:50%;width:26px;height:26px;margin-top:-13px;border-radius:50%;background:rgba(224,164,74,.55);box-shadow:0 0 0 0 rgba(224,164,74,.6);animation:lpTap 1.6s ease-out infinite;pointer-events:none}
+.lp .dots .tap{left:50%;margin-left:-13px}
+
 /* faq + pied */
 .lp .faq .grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
 .lp .faq .sh{margin-bottom:0;align-self:start;align-content:start}
@@ -245,7 +297,7 @@
 .lp-legal .tabs button{height:34px;padding:0 14px;border-radius:1000px;font-size:13px;font-weight:500;background:var(--paper);border:1px solid var(--line)}
 .lp-legal .tabs button[aria-pressed="true"]{background:var(--sage);color:var(--on);border-color:var(--sage)}
 .lp-install{position:fixed;inset:0;z-index:1000;background:rgba(31,42,34,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.lp-install .lp-sheet{position:absolute;left:12px;right:12px;bottom:calc(var(--card-bottom,24px) + env(safe-area-inset-bottom,0px));margin:0 auto;max-width:480px}
+.lp-install .lp-sheet{position:absolute;left:12px;right:12px;width:auto;bottom:calc(var(--card-bottom,24px) + env(safe-area-inset-bottom,0px));margin:0 auto;max-width:480px}
 .lp-install .arrow{position:absolute;right:24px;font-size:40px;line-height:1;color:var(--hi);animation:lpBounce 1s ease-in-out infinite;pointer-events:none}
 .lp-install ol{list-style:none;margin:0;padding:0;display:grid;gap:14px}
 .lp-install li{display:flex;gap:14px;align-items:flex-start}
@@ -272,6 +324,7 @@
 @keyframes lpPop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
 @keyframes lpUpX{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translateX(-50%)}}
 @keyframes lpSweep{0%{top:6%;opacity:0}12%{opacity:1}88%{opacity:1}100%{top:92%;opacity:0}}
+@keyframes lpTap{0%{box-shadow:0 0 0 0 rgba(224,164,74,.6)}70%{box-shadow:0 0 0 14px rgba(224,164,74,0)}100%{box-shadow:0 0 0 0 rgba(224,164,74,0)}}
 @keyframes lpBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
 @media (max-width:900px){
@@ -301,6 +354,14 @@
   .lp .tvis img{max-width:250px}
   .lp .ttxt{padding:20px}
   .lp .ttxt h3{font-size:1.45rem}
+  .lp .ihead{flex-direction:column;align-items:flex-start;margin-bottom:28px}
+  .lp .icta{justify-items:start;text-align:left}
+  .lp .itrio{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:84%;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(-1 * var(--gap));padding:0 var(--gap) 8px;scroll-padding-inline:var(--gap);scrollbar-width:none}
+  .lp .itrio::-webkit-scrollbar{display:none}
+  .lp .icard{scroll-snap-align:start}
+  .lp .ivis{height:270px}
+  .lp .itxt{padding:20px}
+  .lp .itxt h3{font-size:1.45rem}
   .lp .controls{gap:28px}
   .lp .cards,.lp .feats{grid-template-columns:1fr}
   .lp .card{flex-direction:row}
@@ -321,6 +382,6 @@
 }
 @media (prefers-reduced-motion:reduce){
   .lp .btn{transition:none}
-  .lp-veil,.lp-sheet,.lp-install .arrow,.lp .pin,.lp .count,.lp .ideas,.lp .ideas .rec{animation:none}
+  .lp-veil,.lp-sheet,.lp-install .arrow,.lp .tap,.lp .mock.home .frigia img,.lp .pin,.lp .count,.lp .ideas,.lp .ideas .rec{animation:none}
   .lp .sweep{display:none}
 }

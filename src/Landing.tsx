@@ -4,6 +4,7 @@ import "./landing/landing.css";
 import { AuthSheet, type AuthMode } from "./landing/AuthSheet";
 import { LegalSheet, type LegalKey } from "./landing/legal";
 import { GoogleInAppBar, InstallSheet, SocialInAppScreen } from "./landing/InApp";
+import { InstallSection } from "./landing/InstallSection";
 import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./landing/browser";
 
 // Landing V5 (refonte d'octobre 2026). Les textes décrivent les offres de la refonte :
@@ -320,6 +321,8 @@ export default function Landing({ onStart, onLogin }: Props) {
           </div>
         </section>
 
+        {canInstall && <InstallSection onInstall={install} />}
+
         <section className="faq rule" id="faq">
           <div className="container grid">
             <div className="sh"><span className="k">Questions</span><h2>Ce qu'on <em>nous demande.</em></h2></div>
@@ -329,7 +332,7 @@ export default function Landing({ onStart, onLogin }: Props) {
               <details>
                 <summary>Faut-il télécharger une appli ?</summary>
                 <p>Non. Frigia s'ouvre dans ton navigateur et s'ajoute à l'écran d'accueil de ton téléphone, comme une appli.</p>
-                {canInstall && <button className="link" onClick={install}>L'ajouter à mon écran d'accueil</button>}
+                {canInstall && <a className="link" href="#installer">Voir comment l'ajouter</a>}
               </details>
               <details><summary>Ça marche avec des enfants et des allergies ?</summary><p>Oui. Avec Plus, chaque membre du foyer a son profil : âge, allergies et ce qu'il n'aime pas. Les recettes en tiennent compte.</p></details>
               <details><summary>Je peux arrêter Plus quand je veux ?</summary><p>Oui, c'est sans engagement. Tu résilies depuis tes réglages, en quelques gestes.</p></details>
