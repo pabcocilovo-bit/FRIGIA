@@ -164,6 +164,29 @@
 .lp .plan .fine{font-size:13px}
 .lp .plan.pro .badge{background:var(--hi);color:#2A1D17}
 
+.lp .plan .yes{font-weight:600}
+/* tableau Gratuit / Plus côte à côte, affiché seulement sur mobile */
+.lp .compare{display:none}
+.lp .compare table{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:8px}
+.lp .compare col,.lp .compare td,.lp .compare th{padding:0}
+.lp .compare thead th{text-align:center;vertical-align:bottom;padding:14px 4px 12px;display:table-cell}
+.lp .compare thead th .k{display:block;margin-bottom:6px}
+.lp .compare thead th b{display:block;font:400 1.9rem/1 var(--serif);font-variant-numeric:tabular-nums}
+.lp .compare thead th small{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.lp .compare thead .badge{height:20px;font-size:10.5px;letter-spacing:.01em;text-transform:none;padding:0 7px;margin-bottom:8px;white-space:nowrap}
+.lp .compare tbody th{text-align:left;font-weight:400;font-size:14px;line-height:1.3;padding:12px 6px 12px 10px;border-top:1px solid var(--line)}
+.lp .compare tbody td{text-align:center;font-size:13px;padding:12px 4px;border-top:1px solid var(--line);color:var(--muted)}
+.lp .compare .plus{background:var(--sage-deep);color:var(--on)}
+.lp .compare thead .plus{border-radius:18px 18px 0 0}
+.lp .compare thead .plus .k{color:var(--hi-ink)}
+.lp .compare thead .plus small,.lp .compare tbody td.plus{color:var(--on)}
+.lp .compare tbody td.plus{font-weight:600;border-top-color:rgba(247,241,230,.18)}
+.lp .compare .yes{font-size:15px}
+.lp .compare tfoot td{padding:14px 4px 6px;vertical-align:top}
+.lp .compare tfoot .plus{border-radius:0 0 18px 18px;padding:14px 6px}
+.lp .compare tfoot .btn{width:100%;height:44px;padding:0 4px;font-size:13px;letter-spacing:-.01em}
+.lp .compare .fine{font-size:13px;color:var(--muted);margin-top:14px;padding-inline:4px}
+
 /* faq + pied */
 .lp .faq .grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
 .lp .faq .sh{margin-bottom:0;align-self:start;align-content:start}
@@ -285,6 +308,12 @@
   .lp .card .body{padding:14px}
   .lp .card h3{font-size:1.25rem;min-height:0}
   .lp .plan,.lp .report{padding:24px}
+  .lp .plans{display:none}
+  .lp .compare{display:block}
+  .lp .compare table{table-layout:auto}
+  .lp .compare thead td,.lp .compare tbody th{width:38%}
+  .lp .compare thead th{width:29%}
+  .lp .compare thead th.plus{width:33%}
   .lp footer{padding-top:72px}
   .lp-veil{align-items:flex-end;padding:0}
   .lp-sheet{border-radius:28px 28px 0 0;max-height:92svh;padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}

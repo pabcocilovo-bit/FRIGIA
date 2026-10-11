@@ -143,6 +143,23 @@ function Tonight({ onStart }: { onStart: () => void }) {
   );
 }
 
+// ── Prix : les mêmes lignes que l'écran « Passe à Plus » de l'appli ─────────
+// true = inclus (coche), false = non inclus (tiret)
+const PLAN_ROWS: [string, string | boolean, string | boolean][] = [
+  ["Scans du frigo", "15 en tout", "Illimités"],
+  ["Mode famille", false, true],
+  ["Planning de la semaine", false, true],
+  ["Liste de courses", false, true],
+  ["Économies du mois", "Aperçu", "Complet"],
+  ["Historique", "7 jours", "Tout"],
+];
+
+function Cell({ v }: { v: string | boolean }) {
+  if (v === true) return <span className="yes" aria-label="Inclus">✓</span>;
+  if (v === false) return <span className="no" aria-label="Non inclus">–</span>;
+  return <span>{v}</span>;
+}
+
 // ── Page ─────────────────────────────────────────────────────────────────────
 export default function Landing({ onStart, onLogin }: Props) {
   const { isGoogleApp, isSocialApp, isIos, isAndroid } = detectInAppBrowser();
@@ -263,30 +280,42 @@ export default function Landing({ onStart, onLogin }: Props) {
                 <div className="top"><span className="k">Gratuit</span></div>
                 <div className="amount">0 €</div>
                 <div className="sub"><span>Sans carte bancaire</span><span>Pour toujours</span></div>
-                <ul>
-                  <li><span>Scans du frigo</span><span>15 en tout</span></li>
-                  <li><span>Recettes par scan</span><span>3</span></li>
-                  <li><span>Mode famille, semaine, liste de courses</span><span aria-label="Non inclus">–</span></li>
-                  <li><span>Autres idées sur un même scan</span><span aria-label="Non inclus">–</span></li>
-                  <li><span>Économies du mois</span><span>Aperçu</span></li>
-                  <li><span>Historique</span><span>7 jours</span></li>
-                </ul>
+                <ul>{PLAN_ROWS.map(([label, free]) => <li key={label}><span>{label}</span><Cell v={free} /></li>)}</ul>
                 <div className="foot"><button className="btn btn-line" onClick={() => start("free")}>Commencer gratuitement</button></div>
               </div>
               <div className="plan pro">
                 <div className="top"><span className="k">Frigia Plus</span><span className="badge">Prix fondateur</span></div>
                 <div className="amount">29,99 €<small>par an</small></div>
                 <div className="sub"><span><s>39,99 €</s> pour les 500 premiers abonnés</span><span>Ou 6,99 € par mois</span></div>
-                <ul>
-                  <li><span>Scans du frigo</span><span>Illimités</span></li>
-                  <li><span>Recettes par scan</span><span>3</span></li>
-                  <li><span>Mode famille, semaine, liste de courses</span><span>Inclus</span></li>
-                  <li><span>Autres idées sur un même scan</span><span>Inclus</span></li>
-                  <li><span>Économies du mois</span><span>Complet</span></li>
-                  <li><span>Historique</span><span>Tout</span></li>
-                </ul>
+                <ul>{PLAN_ROWS.map(([label, , plus]) => <li key={label}><span>{label}</span><Cell v={plus} /></li>)}</ul>
                 <div className="foot"><button className="btn btn-cream" onClick={() => start("plus")}>Passer à Plus</button><span className="fine">Sans engagement. Paiement sécurisé par Stripe.</span></div>
               </div>
+            </div>
+
+            {/* Mobile : Gratuit et Plus côte à côte, comme l'écran « Passe à Plus » de l'appli */}
+            <div className="compare">
+              <table>
+                <thead>
+                  <tr>
+                    <td></td>
+                    <th scope="col"><span className="k">Gratuit</span><b>0 €</b><small>pour toujours</small></th>
+                    <th scope="col" className="plus"><span className="badge">Prix fondateur</span><span className="k">Plus</span><b>29,99 €</b><small>par an</small></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {PLAN_ROWS.map(([label, free, plus]) => (
+                    <tr key={label}><th scope="row">{label}</th><td><Cell v={free} /></td><td className="plus"><Cell v={plus} /></td></tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td></td>
+                    <td><button className="btn btn-line" onClick={() => start("free")}>Commencer</button></td>
+                    <td className="plus"><button className="btn btn-cream" onClick={() => start("plus")}>Passer à Plus</button></td>
+                  </tr>
+                </tfoot>
+              </table>
+              <p className="fine">Plus : 29,99 € par an pour les 500 premiers abonnés au lieu de <s>39,99 €</s>, ou 6,99 € par mois. Sans engagement, paiement sécurisé par Stripe.</p>
             </div>
           </div>
         </section>
