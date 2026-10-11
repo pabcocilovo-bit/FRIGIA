@@ -6,6 +6,7 @@ import { LegalSheet, type LegalKey } from "./landing/legal";
 import { GoogleInAppBar, InstallSheet, SocialInAppScreen } from "./landing/InApp";
 import { InstallSection } from "./landing/InstallSection";
 import { FAQ } from "./landing/faq";
+import { LEGAL } from "./legal/pages";
 import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./landing/browser";
 
 // Landing V5 (refonte d'octobre 2026). Les textes décrivent les offres de la refonte :
@@ -223,6 +224,12 @@ export default function Landing({ onStart, onLogin }: Props) {
           <a className="home" href="#top" aria-label="Frigia, accueil"><img src={`${IMG}/frigia-logo.svg`} alt="Frigia" width={84} height={30} /></a>
           <nav className="links" aria-label="Navigation"><a href="#comment">Comment ça marche</a><a href="#plus">Frigia Plus</a><a href="#prix">Prix</a><a href="#faq">Questions</a></nav>
           <div className="right">
+            {canInstall && (
+              <button className="btn btn-soft get-app" onClick={install} aria-label="Télécharger l'app">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                <span>Télécharger l'app</span>
+              </button>
+            )}
             <button className="login-short" onClick={login}>Connexion</button>
             <button className="btn btn-line" onClick={login}>J'ai déjà un compte</button>
             <button className="btn btn-fill" onClick={() => start()}>Commencer</button>
@@ -350,10 +357,7 @@ export default function Landing({ onStart, onLogin }: Props) {
           <div className="base">
             <img src={`${IMG}/frigia-logo-inverse.svg`} alt="Frigia" width={78} height={28} />
             <nav className="legal" aria-label="Informations légales">
-              <button onClick={() => setLegal("mentions")}>Mentions légales</button>
-              <button onClick={() => setLegal("cgu")}>Conditions</button>
-              <button onClick={() => setLegal("confidentialite")}>Confidentialité</button>
-              <button onClick={() => setLegal("cookies")}>Cookies</button>
+              {LEGAL.map(p => <a key={p.key} href={`/${p.slug}`}>{p.tab}</a>)}
               <a href="mailto:frigia.contact@gmail.com">Contact</a>
             </nav>
           </div>

@@ -3624,8 +3624,13 @@ function PaywallModal({ onSubscribe, onManageBilling, onLogout, loading, isCance
 // ─── Main App ─────────────────────────────────────────────────────────────────
 export default function Frigia() {
   const [user, setUser] = useState<any>(null);
-  // Connecté : la copie pré-rendue de la landing (index.html) n'a plus lieu d'être
-  useEffect(() => { if (user) document.getElementById("prerender")?.remove(); }, [user]);
+  // Connecté : la copie pré-rendue de la landing (index.html) n'a plus lieu d'être, et l'appli garde
+  // son zoom bloqué comme avant (le site public, lui, laisse zoomer pour l'accessibilité)
+  useEffect(() => {
+    if (!user) return;
+    document.getElementById("prerender")?.remove();
+    document.querySelector('meta[name="viewport"]')?.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover");
+  }, [user]);
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
   const [theme, setTheme] = useState<Theme>("dark");
   const [showSettings, setShowSettings] = useState(false);

@@ -27,4 +27,7 @@ Site : https://frigia.fr — en français, pour la France.
 ## Contact
 
 - Email : frigia.contact@gmail.com
-- Éditeur et mentions légales : en pied de page de https://frigia.fr
+- Mentions légales : https://frigia.fr/mentions-legales
+- Conditions d'utilisation et de vente : https://frigia.fr/cgu
+- Politique de confidentialité : https://frigia.fr/confidentialite
+- Cookies et stockage : https://frigia.fr/cookies

@@ -56,6 +56,9 @@
 .lp .nav .links a:hover{text-decoration:underline;text-underline-offset:6px}
 .lp .nav .right{margin-left:auto;display:flex;align-items:center;gap:10px}
 .lp .nav .btn{height:42px;padding:0 18px;font-size:14px}
+.lp .btn-soft{background:var(--sage-soft);color:var(--sage-deep);border-color:var(--sage-soft)}
+.lp .btn-soft:hover{border-color:var(--sage)}
+.lp .nav .get-app{gap:6px;padding:0 16px 0 12px}
 .lp .nav .login-short{display:none;font:500 14px/1 var(--sans);padding:12px 6px;text-decoration:underline;text-underline-offset:5px}
 
 /* hero : le texte à gauche, la photo du frigo qui devient trois idées à droite */
@@ -239,6 +242,13 @@
 .lp .tap{position:absolute;left:62%;top:50%;width:26px;height:26px;margin-top:-13px;border-radius:50%;background:rgba(224,164,74,.55);box-shadow:0 0 0 0 rgba(224,164,74,.6);animation:lpTap 1.6s ease-out infinite;pointer-events:none}
 .lp .dots .tap{left:50%;margin-left:-13px}
 
+/* pages légales autonomes (/cgu, /confidentialite…) */
+.lp .legal-page{max-width:760px;padding-block:48px 96px}
+.lp .legal-page h1{font-size:clamp(2.3rem,5vw,3.2rem);line-height:1.05;margin:8px 0 10px}
+.lp-legal .tabs a{display:inline-flex;align-items:center;height:34px;padding:0 14px;border-radius:1000px;font-size:13px;font-weight:500;background:var(--paper);border:1px solid var(--line);text-decoration:none;color:var(--text)}
+.lp-legal .tabs a[aria-current="page"]{background:var(--sage);color:var(--on);border-color:var(--sage)}
+.lp-legal .tabs a:hover{border-color:var(--sage)}
+
 /* faq + pied */
 .lp .faq .grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
 .lp .faq .sh{margin-bottom:0;align-self:start;align-content:start}
@@ -332,6 +342,11 @@
   .lp .nav .container{gap:16px}
   .lp .nav .links,.lp .nav .btn-line{display:none}
   .lp .nav .login-short{display:inline-block}
+  /* mobile : le bouton Télécharger devient une simple icône ronde */
+  .lp .nav .right{gap:6px}
+  .lp .nav .get-app{width:42px;padding:0}
+  .lp .nav .get-app span{display:none}
+  .lp .legal-page{padding-block:32px 72px}
   .lp .hero{padding-block:32px var(--sec)}
   .lp .hero .container,.lp .controls,.lp .save .grid,.lp .plans,.lp .faq .grid,.lp footer .big{grid-template-columns:1fr}
   .lp .hero .container{gap:40px}
