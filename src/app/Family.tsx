@@ -7,11 +7,15 @@ import { AppTabBar } from "./AppTabBar";
 import { Avatar } from "./Home";
 import { firstName, initial, memberSince, tasteRows } from "./format";
 import { comingSoon } from "./toast";
+import { subscriptionText, useOpenPaywall, useSubscription } from "./plus/subscription";
 
-export function Family({ user, isPlus, avatar, profile, onEditTastes, onManageSubscription }: {
-  user: User; isPlus: boolean; avatar: string | null; profile: Profile | null; onEditTastes: () => void; onManageSubscription: () => void;
+export function Family({ user, isPlus, avatar, profile, onEditTastes }: {
+  user: User; isPlus: boolean; avatar: string | null; profile: Profile | null; onEditTastes: () => void;
 }) {
   const navigate = useNavigate();
+  const openPaywall = useOpenPaywall();
+  // L'abonnement Stripe (prix, prochaine date) ; null pour un compte Plus sans abonnement (accès offert)
+  const { sub } = useSubscription(user.id, isPlus);
   const tastes = profile && tasteRows(profile);
   const name = firstName(user);
 
@@ -50,7 +54,7 @@ export function Family({ user, isPlus, avatar, profile, onEditTastes, onManageSu
             <span className="avs"><span className="ini">C</span><span className="ini">T</span><span className="ini k">L</span><span className="ini k">J</span></span>
             <b>Ajoute ta famille</b>
             <p>L'âge, les allergies et ce que chacun n'aime pas. Les portions se calculent toutes seules.</p>
-            <Pill onClick={() => comingSoon(5)}>Découvrir Plus</Pill>
+            <Pill onClick={() => openPaywall("famille")}>Découvrir Plus</Pill>
           </div>
         )}
 
@@ -79,14 +83,14 @@ export function Family({ user, isPlus, avatar, profile, onEditTastes, onManageSu
         {isPlus ? (
           <div className="subcard">
             <span className="pi"><Icon name="sparkle" /></span>
-            <div><b>Frigia Plus</b></div>
-            <button type="button" className="pill" style={{ boxShadow: "inset 0 0 0 1px var(--line)" }} onClick={onManageSubscription}>Gérer</button>
+            <div><b>Frigia Plus</b>{sub && <span>{subscriptionText(sub)}</span>}</div>
+            {sub !== null && <button type="button" className="pill" style={{ boxShadow: "inset 0 0 0 1px var(--line)" }} onClick={() => navigate("/resilier")}>Gérer</button>}
           </div>
         ) : (
           <div className="subcard free-sub">
             <span className="pi"><Icon name="sparkle" /></span>
             <div><b>Formule Gratuit</b><span>15 scans offerts, sans carte bancaire</span></div>
-            <Pill onClick={() => comingSoon(5)}>Plus</Pill>
+            <Pill onClick={() => openPaywall("def")}>Plus</Pill>
           </div>
         )}
 

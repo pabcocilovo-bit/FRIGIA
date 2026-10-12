@@ -2,7 +2,6 @@
 import { supabase } from "../supabase";
 import type { Prefs, User } from "./types";
 import { postApi } from "./api";
-import { hasAccess } from "./billing";
 
 const key = (name: string, userId: string) => `frigia_${name}_${userId}`;
 
@@ -12,10 +11,6 @@ export function getPrefs(userId: string): Prefs | null {
 export function setPrefs(userId: string, prefs: Prefs) {
   localStorage.setItem(key("prefs", userId), JSON.stringify(prefs));
 }
-export const hasAnsweredQuestionnaire = (userId: string) => !!localStorage.getItem(key("prefs", userId));
-
-export const isOnboarded = (userId: string) => !!localStorage.getItem(key("onboarded", userId));
-export const markOnboarded = (userId: string) => localStorage.setItem(key("onboarded", userId), "1");
 
 export const getAvatar = (userId: string) => localStorage.getItem(key("avatar", userId));
 export const setAvatar = (userId: string, dataUrl: string) => localStorage.setItem(key("avatar", userId), dataUrl);
@@ -59,18 +54,3 @@ export async function deleteAccount() {
 }
 
 export const signOut = () => supabase.auth.signOut();
-
-/**
- * À la connexion : faut-il montrer le questionnaire ?
- * Un compte abonné, ou qui revient du paiement, est marqué comme déjà accueilli.
- */
-export function needsQuestionnaire(u: User, isCheckoutReturn: boolean): boolean {
-  if (hasAccess(u)) {
-    markOnboarded(u.id);
-    return false;
-  }
-  // Supabase renvoie SIGNED_IN à chaque retour sur l'onglet : une fois le questionnaire rempli, on n'y renvoie plus
-  if (!isOnboarded(u.id) && !hasAnsweredQuestionnaire(u.id) && !isCheckoutReturn) return true;
-  if (isCheckoutReturn) markOnboarded(u.id);
-  return false;
-}

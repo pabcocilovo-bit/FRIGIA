@@ -1,10 +1,12 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-
-const ALLOWED_ORIGINS = ["https://frigia.fr", "https://frigia-ten.vercel.app", "http://localhost:5173"];
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
 
 // Rate limiting: 20 requests per hour per user
 const RATE_LIMIT = 20;
 const RATE_WINDOW_MS = 3600 * 1000;
+
+// Formule Gratuit : 15 scans au total, plus les bonus des codes (colonne bonus_scans)
+const FREE_SCANS = 15;
 
 // Shared counter in Supabase (see supabase/migrations), so it holds across serverless instances
 async function checkRateLimit(admin: SupabaseClient, userId: string): Promise<boolean> {
@@ -33,57 +35,50 @@ function checkMemoryRateLimit(userId: string): boolean {
   return true;
 }
 
-export default async function handler(req: any, res: any) {
-  const origin = req.headers.origin as string | undefined;
-  const allowedOrigin = ALLOWED_ORIGINS.includes(origin ?? "") ? origin! : ALLOWED_ORIGINS[0];
-  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+type Body = {
+  imageBase64: string; mediaType: string; recentTitles?: string[]; mealType?: string;
+  prefs?: { goal?: string; goals?: string[]; diet?: string[]; allergies?: string[]; time?: string; equipment?: string[] };
+};
+type RawRecipe = { title?: string; time?: string; calories?: number; difficulty?: string; imageSearch?: string; ingredients?: unknown; steps?: unknown };
 
-  if (req.method === "OPTIONS") return res.status(200).end();
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
-
-  const authHeader = req.headers.authorization as string | undefined;
-  if (!authHeader?.startsWith("Bearer ")) return res.status(401).json({ error: "Missing token" });
-  const token = authHeader.replace("Bearer ", "");
-
-  const admin = createClient(process.env.VITE_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
-    auth: { autoRefreshToken: false, persistSession: false },
-  });
-  const { data: { user }, error } = await admin.auth.getUser(token);
-  if (error || !user) return res.status(401).json({ error: "Invalid token" });
-
-  // Only app_metadata is trusted: user_metadata can be edited by the user from the browser
-  const appMeta = user.app_metadata || {};
-  const status = appMeta.subscription_status;
-  const isWhitelisted = !!appMeta.is_whitelisted;
-
-  // Trial is valid only if status is "trialing" AND 4-day window hasn't expired
-  const TRIAL_MS = 4 * 24 * 60 * 60 * 1000;
-  const trialExpired = user.created_at
-    ? Date.now() > new Date(user.created_at).getTime() + TRIAL_MS
-    : true;
-  const isTrialing = status === "trialing" && !trialExpired;
-
-  const hasAccess = isWhitelisted || status === "active" || isTrialing;
-  if (!hasAccess) {
-    const code = status === "past_due" ? "past_due" : status === "canceled" ? "canceled" : "no_subscription";
-    return res.status(403).json({ error: "No active subscription", code });
-  }
+export default async function handler(req: Req, res: Res) {
+  if (preflight(req, res)) return;
+  const admin = adminClient();
+  const user = await authUser(req, admin);
+  if (!user) return res.status(401).json({ error: "Invalid token" });
 
   if (!(await checkRateLimit(admin, user.id))) {
     return res.status(429).json({ error: "Limite atteinte. Réessayez dans une heure." });
   }
 
-  const { imageBase64, mediaType, prefs, recentTitles, mealType } = req.body as { imageBase64: string; mediaType: string; prefs?: { goal?: string; goals?: string[]; diet?: string[]; allergies?: string[]; time?: string; equipment?: string[] }; recentTitles?: string[]; mealType?: string };
-  if (!imageBase64) return res.status(400).json({ error: "Missing imageBase64" });
-  if (imageBase64.length > 4 * 1024 * 1024) return res.status(400).json({ error: "Image trop lourde" });
+  // Gratuit : un scan est compté avant l'analyse (le 16e est refusé), et rendu si l'analyse échoue
+  const plus = isPlus(user);
+  let scansLeft: number | null = null;
+  if (!plus) {
+    const { data, error } = await admin.rpc("use_free_scan", { p_user_id: user.id, p_limit: FREE_SCANS });
+    if (error) {
+      console.error("use_free_scan failed:", error.message);
+      return res.status(503).json({ error: "Service temporairement indisponible. Réessayez." });
+    }
+    if (typeof data !== "number" || data < 0) {
+      return res.status(403).json({ error: "Tes scans gratuits sont utilisés.", code: "quota" });
+    }
+    scansLeft = data;
+  }
+  const fail = async (status: number, error: string) => {
+    if (!plus) await admin.rpc("refund_free_scan", { p_user_id: user.id });
+    return res.status(status).json({ error });
+  };
+
+  const { imageBase64, mediaType, prefs, recentTitles, mealType } = (req.body ?? {}) as Body;
+  if (!imageBase64) return fail(400, "Missing imageBase64");
+  if (imageBase64.length > 4 * 1024 * 1024) return fail(400, "Image trop lourde");
 
   const SUPPORTED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
   const safeMediaType = SUPPORTED_TYPES.includes(mediaType) ? mediaType : "image/jpeg";
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: "ANTHROPIC_API_KEY not configured" });
+  if (!apiKey) return fail(500, "ANTHROPIC_API_KEY not configured");
 
   // Build personalization constraints from the account's tastes (profiles table).
   // Old clients still send the first questionnaire's keys (goal, healthy, veggie, 15min…): both are understood.
@@ -160,15 +155,15 @@ export default async function handler(req: any, res: any) {
         },
       ],
     }),
-  });
+  }).catch(() => null);
 
-  if (!anthropicRes.ok) {
-    await anthropicRes.text();
-    return res.status(502).json({ error: "Service IA temporairement indisponible. Réessayez." });
+  if (!anthropicRes?.ok) {
+    await anthropicRes?.text();
+    return fail(502, "Service IA temporairement indisponible. Réessayez.");
   }
 
   const data = await anthropicRes.json() as { content?: { text?: string }[] };
-  const text = (data.content || []).map((i: any) => i.text || "").join("");
+  const text = (data.content || []).map(i => i.text || "").join("");
 
   // Extract the first balanced JSON object (avoids greedy regex cutting across braces)
   function extractFirstJSON(str: string): string | null {
@@ -183,23 +178,23 @@ export default async function handler(req: any, res: any) {
   }
 
   const jsonStr = extractFirstJSON(text);
-  let parsed: any = null;
+  let parsed: { ingredients?: unknown[]; recipes?: RawRecipe[] } | null = null;
   if (jsonStr) {
-    try { parsed = JSON.parse(jsonStr); } catch (e) {
-      return res.status(500).json({ error: "Réponse IA invalide. Réessayez." });
+    try { parsed = JSON.parse(jsonStr); } catch {
+      return fail(500, "Réponse IA invalide. Réessayez.");
     }
   }
 
   if (!parsed || (!parsed.ingredients?.length && !parsed.recipes?.length)) {
-    return res.status(500).json({ error: "Aucun aliment détecté dans la photo. Essayez avec une image plus nette ou mieux éclairée." });
+    return fail(500, "Aucun aliment détecté dans la photo. Essayez avec une image plus nette ou mieux éclairée.");
   }
 
-  const baseRecipes = (parsed.recipes || []).slice(0, 3).map((recipe: any) => ({
+  const baseRecipes = (parsed.recipes || []).slice(0, 3).map(recipe => ({
     title: recipe.title || "Recette",
     time: recipe.time || "15 min",
     calories: recipe.calories || 350,
     difficulty: recipe.difficulty || "Facile",
-    imageSearch: recipe.imageSearch || recipe.title,
+    imageSearch: recipe.imageSearch || recipe.title || "",
     ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
     steps: Array.isArray(recipe.steps) ? recipe.steps : [],
   }));
@@ -214,14 +209,14 @@ export default async function handler(req: any, res: any) {
           `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=10&orientation=landscape`,
           { headers: { Authorization: pexelsKey } }
         );
-        const d = await r.json() as any;
+        const d = await r.json() as { photos?: { src: { large: string } }[] };
         const photos = d.photos || [];
         const photo = photos[1] || photos[0];
         if (photo) return { ...recipe, imageUrl: photo.src.large };
-      } catch {}
+      } catch { /* sans photo, la recette reste */ }
       return recipe;
     })
   );
 
-  res.json({ ingredients: parsed.ingredients || [], recipes });
+  res.json({ ingredients: parsed.ingredients || [], recipes, scansLeft });
 }

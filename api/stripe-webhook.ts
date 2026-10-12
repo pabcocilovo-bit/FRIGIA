@@ -1,12 +1,13 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
+import { errorMessage, type Req, type Res } from "./_shared.js";
 
 export const config = { api: { bodyParser: false } };
 
 // Best-effort dedup within the same serverless instance
 const processedEvents = new Set<string>();
 
-async function getRawBody(req: any): Promise<Buffer> {
+async function getRawBody(req: Req): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
     req.on("data", (c: Buffer) => chunks.push(c));
@@ -15,7 +16,7 @@ async function getRawBody(req: any): Promise<Buffer> {
   });
 }
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: Req, res: Res) {
   if (req.method !== "POST") return res.status(405).end();
 
   const stripeKey = process.env.STRIPE_SECRET_KEY!;
@@ -30,8 +31,8 @@ export default async function handler(req: any, res: any) {
   let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
-  } catch (err: any) {
-    return res.status(400).json({ error: `Webhook error: ${err.message}` });
+  } catch (err) {
+    return res.status(400).json({ error: `Webhook error: ${errorMessage(err)}` });
   }
 
   const admin = createClient(supabaseUrl, serviceKey, {
@@ -40,7 +41,7 @@ export default async function handler(req: any, res: any) {
 
   // Writes to app_metadata (admin-only, not user-writable)
   const updateUser = async (userId: string, status: string, customerId?: string) => {
-    const appData: any = { subscription_status: status };
+    const appData: Record<string, string> = { subscription_status: status };
     if (customerId) appData.stripe_customer_id = customerId;
     const { error } = await admin.auth.admin.updateUserById(userId, { app_metadata: appData });
     // Ignore "user not found" errors — account may have been deleted already
@@ -59,13 +60,15 @@ export default async function handler(req: any, res: any) {
         const found = data?.users?.find(u => u.email === customer.email);
         if (found) return found.id;
       }
-    } catch {}
+    } catch { /* client introuvable : on ne peut pas relier le compte */ }
     return null;
   };
 
   const getUserIdFromInvoice = async (invoice: Stripe.Invoice): Promise<string | null> => {
-    const inv = invoice as any;
-    const subscriptionId = typeof inv.subscription === "string" ? inv.subscription : inv.subscription?.id;
+    // Ancienne API : invoice.subscription ; depuis 2025 : invoice.parent.subscription_details.subscription
+    const inv = invoice as Stripe.Invoice & { subscription?: string | Stripe.Subscription | null };
+    const ref = inv.subscription ?? invoice.parent?.subscription_details?.subscription;
+    const subscriptionId = typeof ref === "string" ? ref : ref?.id;
     if (subscriptionId) {
       const sub = await stripe.subscriptions.retrieve(subscriptionId);
       return getUserIdFromSubscription(sub);
@@ -135,9 +138,9 @@ export default async function handler(req: any, res: any) {
     }
 
     res.json({ received: true });
-  } catch (err: any) {
+  } catch (err) {
     // Return 500 so Stripe retries the webhook
-    console.error("Webhook handler error:", err.message);
+    console.error("Webhook handler error:", errorMessage(err));
     return res.status(500).json({ error: "Handler failed, will retry" });
   }
 }

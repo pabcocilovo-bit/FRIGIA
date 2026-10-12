@@ -33,9 +33,9 @@ type RawRecipe = {
 };
 
 export type ScanResult =
-  | { status: "ok"; ingredients: DetectedIngredient[]; recipes: GeneratedRecipe[] }
+  | { status: "ok"; ingredients: DetectedIngredient[]; recipes: GeneratedRecipe[]; scansLeft: number | null }
   | { status: "signed-out" }        // 401 : la session n'est plus valable, on a déconnecté
-  | { status: "session-refreshed" }; // 403 : accès refusé, on a rafraîchi la session (le mur de paiement suit)
+  | { status: "quota" };            // 403 : les 15 scans gratuits sont utilisés
 
 /**
  * Envoie la photo à l'IA avec les goûts du compte et les dernières recettes proposées.
@@ -52,14 +52,15 @@ export async function analyzeFridge(file: File, mealType: string): Promise<ScanR
     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}` },
     body: JSON.stringify({ imageBase64, mediaType, prefs, recentTitles, mealType }),
   });
-  const data = await response.json();
+  const data = await response.json().catch(() => ({}));
   if (response.status === 401) {
     await supabase.auth.signOut();
     return { status: "signed-out" };
   }
-  if (response.status === 403) {
-    await supabase.auth.refreshSession();
-    return { status: "session-refreshed" };
+  if (response.status === 403 && data.code === "quota") {
+    // Peut-être un abonnement tout juste pris : la session suit
+    void supabase.auth.refreshSession();
+    return { status: "quota" };
   }
   if (!response.ok) throw new Error("unclear_photo");
   const ingredients: DetectedIngredient[] = ((data.ingredients || []) as RawIngredient[]).map((i) => ({
@@ -82,5 +83,5 @@ export async function analyzeFridge(file: File, mealType: string): Promise<ScanR
         }))
       : undefined,
   }));
-  return { status: "ok", ingredients, recipes };
+  return { status: "ok", ingredients, recipes, scansLeft: typeof data.scansLeft === "number" ? data.scansLeft : null };
 }

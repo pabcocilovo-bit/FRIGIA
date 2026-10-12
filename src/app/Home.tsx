@@ -1,13 +1,15 @@
 // 1 · Accueil (prototype V3).
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { Band, Icon, LockPill, Pill, RoundButton } from "../ui/components";
+import { Band, BandFoot, Icon, LockPill, Pill, QuotaBar, RoundButton } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry, User } from "../lib/types";
+import { quotaText, quotaTotal, scansLeft, type ScanQuota } from "../lib/billing";
 import { AppTabBar } from "./AppTabBar";
 import { bandLabel, daysAgo, initial, plural, scanWhen } from "./format";
 import { useOpenScan } from "./offline";
 import { useRecipePhoto } from "./photo";
 import { comingSoon } from "./toast";
+import { useOpenPaywall } from "./plus/subscription";
 
 const CATS = ["Ce soir", "Rapide", "Les enfants adorent", "Anti-gaspi", "Batch cooking"];
 
@@ -45,12 +47,13 @@ function FavCard({ recipe, onClick }: { recipe: GeneratedRecipe; onClick: () => 
   );
 }
 
-export function Home({ user, isPlus, avatar, history, favorites, onOpenRecipe }: {
-  user: User; isPlus: boolean; avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
+export function Home({ user, isPlus, quota, avatar, history, favorites, onOpenRecipe }: {
+  user: User; isPlus: boolean; quota: ScanQuota | null; avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
   onOpenRecipe: (r: GeneratedRecipe) => void;
 }) {
   const navigate = useNavigate();
   const openScan = useOpenScan();
+  const openPaywall = useOpenPaywall();
   const [cat, setCat] = useState(CATS[0]);
 
   return (
@@ -70,11 +73,12 @@ export function Home({ user, isPlus, avatar, history, favorites, onOpenRecipe }:
         <Band label={bandLabel(user)} title={<>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>}>
           <p>Prends ton frigo en photo. Trois idées pour toute la famille, avec ce que tu as.</p>
           <Pill tone="cream" icon="cam" onClick={openScan}>Scanner mon frigo</Pill>
+          {!isPlus && <BandFoot><QuotaBar left={scansLeft(quota)} total={quotaTotal(quota)} />{quotaText(quota)}</BandFoot>}
         </Band>
       </div>
       <div className="hbody">
         <div className="sec"><h3>Ta semaine</h3>{!isPlus && <LockPill />}</div>
-        <button type="button" className="week" onClick={() => navigate("/planning")}>
+        <button type="button" className="week" onClick={() => (isPlus ? navigate("/planning") : openPaywall("planning", "/planning"))}>
           <span className="pl3">
             <img className="plate" src="/landing/pasta-legumes.jpg" alt="" />
             <img className="plate" src="/landing/soupe-detox.jpg" alt="" />
@@ -88,7 +92,7 @@ export function Home({ user, isPlus, avatar, history, favorites, onOpenRecipe }:
           <div className="sec"><h3>Tes derniers scans</h3><button type="button" className="link" onClick={() => navigate("/scans")}>Tout voir</button></div>
           <div className="hist">
             {history.slice(0, 3).map(e => (
-              <ScanRow key={e.id} entry={e} locked={!isPlus && daysAgo(e.date) > 7} onClick={() => (!isPlus && daysAgo(e.date) > 7 ? comingSoon(5) : navigate("/scans"))} />
+              <ScanRow key={e.id} entry={e} locked={!isPlus && daysAgo(e.date) > 7} onClick={() => (!isPlus && daysAgo(e.date) > 7 ? openPaywall("historique") : navigate("/scans"))} />
             ))}
           </div>
         </>}

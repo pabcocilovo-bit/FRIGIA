@@ -2,11 +2,10 @@ import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
 import type { DetectedIngredient, GeneratedRecipe, HistoryEntry, User } from "./lib/types";
 import { buildShareText, fetchTheMealImage, ingredientIcon, mealImageCache, recipeIcon } from "./lib/recipes";
 import { analyzeFridge } from "./lib/scan";
-import { createCheckoutUrl, customerPortalUrl, hasAccess, subscriptionStatus } from "./lib/billing";
-import { accessToken, postApi } from "./lib/api";
+import { customerPortalUrl, fetchScanQuota, quotaText, getCachedQuota, isPlus as hasPlus, quotaTotal, scansLeft, setCachedQuota, type ScanQuota } from "./lib/billing";
 import {
   changePassword, clearLocalData, deleteAccount as deleteAccountRequest, displayName, getAvatar, getPrefs,
-  isOAuthUser as isOAuthAccount, isOnboarded, markOnboarded, setAvatar, signOut, updateProfile,
+  isOAuthUser as isOAuthAccount, setAvatar, signOut, updateProfile,
 } from "./lib/account";
 import { useLibrary } from "./hooks/useLibrary";
 import { useSession } from "./hooks/useSession";
@@ -27,6 +26,8 @@ import { Camera, EmailSignup, Forgot, Login, QDiet, QGoal, QTime, Ready, Signup,
 import { takeOAuthIntent } from "./app/onboarding/oauth";
 import { resetAnswers } from "./app/onboarding/answers";
 import { firstName } from "./app/format";
+import { Cancel, HelloSheet, Paywall, PayReturn, PlusWelcome } from "./app/plus/Plus";
+import { useOpenScan } from "./app/offline";
 
 // Écrans de l'inscription et de la connexion (étape 4). Connecté, seuls les questions, la caméra
 // et le mot de passe oublié (le code connecte avant le nouveau mot de passe) restent ouverts.
@@ -417,8 +418,10 @@ function SettingsModal({
 
   const openPortal = async () => {
     setPortalLoading(true);
-    const json = await customerPortalUrl();
-    if (json.url) window.location.href = json.url;
+    try {
+      const json = await customerPortalUrl();
+      if (json.url) window.location.href = json.url;
+    } catch (e) { showToast((e as Error).message); }
     setPortalLoading(false);
   };
 
@@ -993,75 +996,6 @@ function SettingsModal({
               </div>
             </div>
           )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── OnboardingScreen ────────────────────────────────────────────────────────
-function OnboardingScreen({ onContinue, loading }: { onContinue: () => void; loading?: boolean }) {
-  useEffect(() => { document.body.style.overflow = "hidden"; return () => { document.body.style.overflow = ""; }; }, []);
-  const grad = "linear-gradient(135deg,#FF6B35,#2ECC71)";
-  const features = [
-    "Scans IA illimités",
-    "Recettes personnalisées illimitées",
-    "Suivi nutritionnel avancé",
-    "Toutes futures fonctionnalités incluses",
-  ];
-  return (
-    <div style={{ position:"fixed", inset:0, zIndex:2000, background:"#07070E", display:"flex", flexDirection:"column", overflow:"hidden" }}>
-      <style>{`html,body{margin:0;background:#07070E;}`}</style>
-
-      {/* Orbs */}
-      <div style={{ position:"absolute", width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle,rgba(255,107,53,.18) 0%,transparent 70%)", top:"-15%", right:"-15%", pointerEvents:"none" }} />
-      <div style={{ position:"absolute", width:400, height:400, borderRadius:"50%", background:"radial-gradient(circle,rgba(46,204,113,.13) 0%,transparent 70%)", bottom:"-10%", left:"-10%", pointerEvents:"none" }} />
-
-      {/* Header */}
-      <div style={{ padding:"calc(18px + env(safe-area-inset-top)) 24px 16px", display:"flex", alignItems:"center", gap:10, position:"relative", zIndex:1 }}>
-        <img src="/logo.png" alt="Frigia" style={{ width:38, height:38, borderRadius:10, objectFit:"contain" }} />
-        <span style={{ fontWeight:900, fontSize:20, color:"#FAFAFA", fontFamily:"Georgia,serif" }}>Frigia</span>
-      </div>
-
-      {/* Card */}
-      <div style={{ flex:1, display:"flex", flexDirection:"column", justifyContent:"center", padding:"0 20px calc(24px + env(safe-area-inset-bottom))", position:"relative", zIndex:1 }}>
-        <div style={{ background:"linear-gradient(135deg,rgba(255,107,53,.1),rgba(46,204,113,.08))", border:"1px solid rgba(255,107,53,.35)", borderRadius:28, padding:"32px 24px 24px", position:"relative" }}>
-
-          {/* Badge */}
-          <div style={{ position:"absolute", top:-18, left:"50%", transform:"translateX(-50%)", background:grad, borderRadius:100, padding:"7px 22px", fontSize:14, fontWeight:800, color:"#fff", whiteSpace:"nowrap", boxShadow:"0 6px 20px rgba(255,107,53,.35)" }}>🎉 4 jours gratuits inclus</div>
-
-          {/* Title */}
-          <div style={{ fontSize:11, fontWeight:700, color:"#FF6B35", letterSpacing:3, textTransform:"uppercase", textAlign:"center", marginBottom:10 }}>Frigia Premium</div>
-
-          {/* Price */}
-          <div style={{ display:"flex", alignItems:"baseline", justifyContent:"center", gap:6, marginBottom:6 }}>
-            <span style={{ fontSize:64, fontWeight:900, color:"#FAFAFA", lineHeight:1 }}>4,99€</span>
-            <span style={{ color:"#6B7280", fontSize:16 }}>/mois</span>
-          </div>
-
-          {/* Tagline */}
-          <div style={{ textAlign:"center", color:"#2ECC71", fontSize:14, fontWeight:600, marginBottom:24 }}>✓ Résiliable à tout moment</div>
-
-          {/* Features */}
-          <div style={{ display:"flex", flexDirection:"column", gap:14, marginBottom:28 }}>
-            {features.map(f => (
-              <div key={f} style={{ display:"flex", alignItems:"center", gap:14 }}>
-                <span style={{ color:"#2ECC71", fontWeight:900, fontSize:16, flexShrink:0 }}>✓</span>
-                <span style={{ fontSize:15, color:"#FAFAFA" }}>{f}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* CTA */}
-          <button onClick={onContinue} disabled={loading} style={{ width:"100%", padding:"17px", borderRadius:100, border:"none", background:grad, color:"#fff", fontWeight:800, fontSize:16, cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1, boxShadow:"0 8px 28px rgba(255,107,53,.35)", marginBottom:14 }}>
-            {loading ? "Redirection..." : "Commencer 4j gratuit →"}
-          </button>
-
-          {/* Disclaimers */}
-          <div style={{ textAlign:"center", fontSize:12, color:"#6B7280", lineHeight:1.7 }}>
-            Aucune carte bancaire requise pendant l'essai<br />
-            Résiliation en 1 clic
-          </div>
         </div>
       </div>
     </div>
@@ -1764,10 +1698,16 @@ function FridgeAIScanner({
   theme,
   onRecipesGenerated,
   onRecipeClick,
+  onScansLeft,
+  onOutOfScans,
 }: {
   theme: Theme;
   onRecipesGenerated: (r: GeneratedRecipe[], i: DetectedIngredient[]) => void;
   onRecipeClick?: (r: GeneratedRecipe) => void;
+  /** Formule Gratuit : scans gratuits qui restent après celui-ci */
+  onScansLeft?: (left: number) => void;
+  /** Formule Gratuit : les 15 scans sont utilisés, le serveur a refusé celui-ci */
+  onOutOfScans?: () => void;
 }) {
   const v = getThemeVars(theme);
   const gc = glassCard(theme);
@@ -1795,7 +1735,9 @@ function FridgeAIScanner({
     reader.onloadend = async () => {
       try {
         const result = await analyzeFridge(file, mealTypeRef.current);
+        if (result.status === "quota") { setAnalyzing(false); onOutOfScans?.(); return; }
         if (result.status !== "ok") return;
+        if (result.scansLeft != null) onScansLeft?.(result.scansLeft);
         setIngredients(result.ingredients);
         setRecipes(result.recipes);
         setAnalyzing(false);
@@ -2075,111 +2017,6 @@ function FridgeAIScanner({
   );
 }
 
-// ─── Checkout Success Modal ───────────────────────────────────────────────────
-function CheckoutSuccessModal({ onClose }: { onClose: () => void }) {
-  const grad = "linear-gradient(135deg,#FF6B35,#2ECC71)";
-  return (
-    <div style={{ position:"fixed", inset:0, zIndex:9000, background:"rgba(0,0,0,0.85)", backdropFilter:"blur(12px)", display:"flex", alignItems:"center", justifyContent:"center", padding:24 }}>
-      <div style={{ width:"100%", maxWidth:400, textAlign:"center" }}>
-        <div style={{ width:80, height:80, borderRadius:"50%", background:grad, display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 24px", fontSize:36 }}>✓</div>
-        <h2 style={{ fontSize:28, fontWeight:900, color:"#F0EEF8", marginBottom:12, fontFamily:"Georgia,serif" }}>
-          Bienvenue dans Frigia Premium !
-        </h2>
-        <p style={{ fontSize:15, color:"#6B7280", lineHeight:1.7, marginBottom:32 }}>
-          Votre essai de 4 jours commence maintenant.<br />Aucun débit avant la fin de la période.
-        </p>
-        <ul style={{ listStyle:"none", textAlign:"left", marginBottom:36, display:"flex", flexDirection:"column", gap:10 }}>
-          {["Scans IA illimités","Recettes personnalisées","Historique & favoris sur tous vos appareils","Annulable à tout moment"].map((f,i) => (
-            <li key={i} style={{ display:"flex", gap:12, alignItems:"center", fontSize:14, color:"#F0EEF8" }}>
-              <span style={{ color:"#2ECC71", fontWeight:900 }}>✓</span>{f}
-            </li>
-          ))}
-        </ul>
-        <button
-          onClick={onClose}
-          style={{ width:"100%", padding:"16px", borderRadius:100, border:"none", background:grad, color:"#fff", fontWeight:800, fontSize:16, cursor:"pointer", boxShadow:"0 8px 32px rgba(255,107,53,0.35)" }}
-        >
-          Commencer à scanner 📸
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ─── Paywall Modal ────────────────────────────────────────────────────────────
-function CanceledScreen() {
-  const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    const run = async () => {
-      try {
-        if (await accessToken()) await postApi("/api/delete-account");
-        clearLocalData();
-      } catch { /* on affiche quand même l'écran de fin */ }
-      setDone(true);
-    };
-    run();
-  }, []);
-
-  return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 9000, background: "#07070E", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, flexDirection: "column", textAlign: "center" }}>
-      <div style={{ fontSize: 64, marginBottom: 24 }}>👋</div>
-      <h2 style={{ fontSize: 26, fontWeight: 900, color: "#F0EEF8", marginBottom: 12, fontFamily: "Georgia,serif" }}>Merci d'avoir utilisé Frigia</h2>
-      <p style={{ fontSize: 15, color: "#6B7280", lineHeight: 1.7, marginBottom: 40, maxWidth: 320 }}>
-        Ton abonnement a été résilié et ton compte supprimé.<br />On espère te revoir bientôt !
-      </p>
-      <button
-        onClick={async () => { await signOut(); }}
-        disabled={!done}
-        style={{ width: "100%", maxWidth: 340, padding: "16px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontWeight: 800, fontSize: 16, cursor: done ? "pointer" : "not-allowed", opacity: done ? 1 : 0.5 }}
-      >
-        {done ? "Retour à l'accueil →" : "Suppression en cours…"}
-      </button>
-    </div>
-  );
-}
-
-function PaywallModal({ onSubscribe, onManageBilling, onLogout, loading, isCanceled, isPaymentFailed }: { onSubscribe: () => void; onManageBilling: () => void; onLogout: () => void; loading: boolean; isCanceled?: boolean; isPaymentFailed?: boolean }) {
-  const grad = "linear-gradient(135deg,#FF6B35,#2ECC71)";
-  const title = isPaymentFailed ? "Paiement échoué" : isCanceled ? "Réactiver votre abonnement" : "Commencer votre essai gratuit";
-  const description = isPaymentFailed ? (
-    <>Le prélèvement de <strong style={{ color:"#F0EEF8" }}>4,99€</strong> a échoué.<br />Mettez à jour votre carte pour retrouver l'accès.</>
-  ) : isCanceled ? (
-    <>Votre abonnement a été résilié.<br /><strong style={{ color:"#F0EEF8" }}>4,99€/mois</strong>, annulable à tout moment.</>
-  ) : (
-    <><strong style={{ color:"#F0EEF8" }}>4 jours gratuits</strong>, puis 4,99€/mois.<br />Votre carte ne sera pas débitée avant la fin de l'essai. Annulable à tout moment.</>
-  );
-  const btnLabel = loading ? "Redirection..." : isPaymentFailed ? "Mettre à jour ma carte →" : isCanceled ? "Se réabonner — 4,99€/mois →" : "Démarrer 4 jours gratuits →";
-  return (
-    <div style={{ position:"fixed", inset:0, zIndex:9000, background:"#07070E", display:"flex", alignItems:"center", justifyContent:"center", padding:24, flexDirection:"column" }}>
-      <div style={{ width:"100%", maxWidth:420, textAlign:"center" }}>
-        <img src="/logo.png" alt="Frigia" style={{ width:72, height:72, borderRadius:18, objectFit:"contain", marginBottom:24 }} />
-        <h2 style={{ fontSize:26, fontWeight:900, color:"#F0EEF8", marginBottom:12, fontFamily:"Georgia,serif" }}>{title}</h2>
-        <p style={{ fontSize:15, color:"#6B7280", lineHeight:1.7, marginBottom:36 }}>{description}</p>
-        {!isPaymentFailed && (
-          <ul style={{ listStyle:"none", textAlign:"left", marginBottom:36, display:"flex", flexDirection:"column", gap:10 }}>
-            {["Scans IA illimités","Recettes personnalisées","Historique & favoris sauvegardés","Accès sur tous vos appareils"].map((f,i) => (
-              <li key={i} style={{ display:"flex", gap:12, alignItems:"center", fontSize:14, color:"#F0EEF8" }}>
-                <span style={{ color:"#2ECC71", fontWeight:900 }}>✓</span>{f}
-              </li>
-            ))}
-          </ul>
-        )}
-        <button
-          onClick={isPaymentFailed ? onManageBilling : onSubscribe}
-          disabled={loading}
-          style={{ width:"100%", padding:"16px", borderRadius:100, border:"none", background: isPaymentFailed ? "#e74c3c" : grad, color:"#fff", fontWeight:800, fontSize:16, cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1, marginBottom:14, boxShadow:"0 8px 32px rgba(255,107,53,0.35)" }}
-        >
-          {btnLabel}
-        </button>
-        <button onClick={onLogout} style={{ background:"none", border:"none", color:"#6B7280", fontSize:13, cursor:"pointer" }}>
-          Se déconnecter
-        </button>
-      </div>
-    </div>
-  );
-}
-
 // ─── Main App ─────────────────────────────────────────────────────────────────
 /** Ancienne liste des favoris (onglet Recettes), gardée telle quelle jusqu'à l'étape 7. */
 function LegacyFavorites({ theme, favorites, onOpen, onToggleFavorite }: {
@@ -2237,20 +2074,18 @@ export default function Frigia() {
   const navigate = useNavigate();
   const location = useLocation();
   const back = useBack();
+  const openScan = useOpenScan();
   const [servings, setServings] = useState(2);
   const [showServingsModal, setShowServingsModal] = useState(false);
   const [pendingData, setPendingData] = useState<{ recipes: GeneratedRecipe[]; ingredients: DetectedIngredient[] } | null>(null);
-  const [showOnboarding, setShowOnboarding] = useState(false);
   // Goûts du compte (table profiles). missing : pas encore de goûts, on pose les 3 questions.
   const [profile, setProfile] = useState<Profile | null>(null);
   const [profileMissing, setProfileMissing] = useState(false);
   const profileFor = useRef<string | null>(null);
   // Compte tout neuf : on passe par l'accès à la caméra avant l'accueil
   const [goCamera, setGoCamera] = useState(false);
-  const [checkoutLoading, setCheckoutLoading] = useState(false);
-  const [showCheckoutSuccess, setShowCheckoutSuccess] = useState(() =>
-    new URLSearchParams(window.location.search).get("checkout") === "success"
-  );
+  // Scans gratuits utilisés (formule Gratuit), comptés par le serveur
+  const [quota, setQuota] = useState<ScanQuota | null>(null);
 
   const [userId, setUserId] = useState<string | undefined>();
   const library = useLibrary(userId);
@@ -2275,11 +2110,14 @@ export default function Frigia() {
   };
 
   const { user, ready: sessionReady } = useSession({
-    onSignedIn: (u, _source, isCheckoutReturn) => {
+    onSignedIn: (u) => {
+      if (profileFor.current !== u.id) {
+        setQuota(getCachedQuota(u.id));
+        void fetchScanQuota(u.id).then(q => { if (q && profileFor.current === u.id) setQuota(q); });
+      }
       setUserId(u.id);
       void library.load(u.id);
       setAvatarSrc(getAvatar(u.id));
-      if (hasAccess(u) || isCheckoutReturn) markOnboarded(u.id);
       // Réponses aux questions en attente : c'est un compte tout neuf (même rendu que la connexion, pas de passage par l'accueil)
       if (profileFor.current !== u.id && hasPendingProfile()) setGoCamera(true);
       void loadProfile(u);
@@ -2293,6 +2131,7 @@ export default function Frigia() {
       setGoCamera(false);
       setProfile(null);
       setProfileMissing(false);
+      setQuota(null);
       // Supabase annonce aussi « personne de connecté » à l'ouverture : on ne sort pas des écrans d'inscription
       if (!OB_PATHS.includes(window.location.pathname)) navigate("/", { replace: true });
       library.clear();
@@ -2312,32 +2151,14 @@ export default function Frigia() {
     document.querySelector('meta[name="viewport"]')?.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover");
   }, [user]);
 
-  /** Ouvre une page Stripe (paiement ou portail), avec le message d'erreur de l'ancienne appli. */
-  const goToStripe = async (getUrl: () => Promise<{ url?: string; error?: string }>, fallback: string) => {
-    if (!user) return;
-    setCheckoutLoading(true);
-    try {
-      const json = await getUrl();
-      if (json.url) window.location.href = json.url;
-      else {
-        setCheckoutLoading(false);
-        alert(json.error || fallback);
-      }
-    } catch {
-      setCheckoutLoading(false);
-      alert("Erreur de connexion. Vérifiez votre réseau et réessayez.");
-    }
-  };
-  const openCustomerPortal = () => goToStripe(customerPortalUrl, "Impossible d'ouvrir le portail. Réessayez.");
-  const startCheckout = () => goToStripe(createCheckoutUrl, "Impossible d'ouvrir le paiement. Réessayez.");
-
   /** Fin du scan : le scan rejoint l'historique, qu'on ouvre (comme l'ancien onglet Recettes). */
   const finishScan = (newEntry: HistoryEntry) => {
     library.addScan(newEntry);
     setPendingData(null);
     setShowServingsModal(false);
     navigate("/scans", { replace: true });
-    showToast("Scan terminé !");
+    // En Gratuit, on rappelle les scans qui restent (comme le prototype à l'arrivée des recettes)
+    showToast(user && !hasPlus(user) ? quotaText(quota) : "Scan terminé !");
   };
 
   const confirmServings = (n: number) => {
@@ -2384,7 +2205,7 @@ if (!user || obPath) {
     ["/connexion", <Login />],
     ["/mot-de-passe", <Forgot />],
     ["/camera", user
-      ? <Camera onDone={() => { setGoCamera(false); navigate("/", { replace: true }); if (!hasAccess(user) && !isOnboarded(user.id)) setShowOnboarding(true); }} />
+      ? <Camera onDone={() => { setGoCamera(false); navigate("/", { replace: true, state: { hello: true } }); }} />
       : <Navigate to="/" replace />],
   ];
   return (
@@ -2404,62 +2225,50 @@ if (!user || obPath) {
   );
 }
 
-const status = subscriptionStatus(user);
-
-if (status === "canceled") {
-  return <CanceledScreen />;
-}
+// Formule Gratuit ou Frigia Plus (plus d'essai de 4 jours ni de mur de paiement à l'entrée)
+const isPlus = hasPlus(user);
 
 // Compte sans goûts (connexion Google sans passer par les questions…) : les 3 questions d'abord
-if (profileMissing && !hasAccess(user)) {
+if (profileMissing && !isPlus) {
   return <Navigate to="/questions/1" replace />;
-}
-
-if (showOnboarding) {
-  return (
-    <OnboardingScreen
-      loading={checkoutLoading}
-      onContinue={() => {
-        markOnboarded(user.id);
-        setShowOnboarding(false);
-        startCheckout();
-      }}
-    />
-  );
-}
-
-if (!hasAccess(user)) {
-  return <PaywallModal
-    onSubscribe={startCheckout}
-    onManageBilling={openCustomerPortal}
-    loading={checkoutLoading}
-    onLogout={async () => { await signOut(); }}
-    isCanceled={false}
-    isPaymentFailed={status === "past_due"}
-  />;
 }
 
 // ─── NOUVELLE APPLI (prototype V3) ───────────────────────────────────────────
 // Les écrans pas encore refaits (scan, tes scans, tes favoris, réglages, fiche recette) restent les anciens,
 // en clair, le temps des étapes 6 à 8.
-const isPlus = hasAccess(user);
-const recipeState = location.state as { recipe?: GeneratedRecipe; servings?: number } | null;
+const noScansLeft = !isPlus && scansLeft(quota) <= 0;
+const name = profile?.first_name || firstName(user);
+/** Le serveur a compté le scan : on suit les scans gratuits qui restent. */
+const onScansLeft = (left: number) => {
+  const q = { used: Math.max(0, quotaTotal(quota) - left), bonus: quota?.bonus ?? 0 };
+  setQuota(q);
+  setCachedQuota(user.id, q);
+};
+const recipeState = location.state as { recipe?: GeneratedRecipe; servings?: number; hello?: boolean } | null;
 const openRecipe = (recipe: GeneratedRecipe, s = servings) => navigate(location.pathname, { state: { recipe, servings: s } });
 
 return (
-  <AppFrame splash>
+  // Retour de la page Stripe : « On attend ta banque » tout de suite, sans l'écran d'ouverture
+  <AppFrame splash={location.pathname !== "/plus/paiement"}>
     <Routes>
-      <Route path="/" element={<Home user={user} isPlus={isPlus} avatar={avatarSrc} history={history} favorites={favorites} onOpenRecipe={r => openRecipe(r)} />} />
+      <Route path="/" element={<Home user={user} isPlus={isPlus} quota={quota} avatar={avatarSrc} history={history} favorites={favorites} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/planning" element={<Planning isPlus={isPlus} lastScan={history[0]?.date} />} />
       <Route path="/courses" element={<Courses isPlus={isPlus} />} />
-      <Route path="/famille" element={<Family user={user} isPlus={isPlus} avatar={avatarSrc} profile={profile} onManageSubscription={openCustomerPortal}
+      <Route path="/famille" element={<Family user={user} isPlus={isPlus} avatar={avatarSrc} profile={profile}
         onEditTastes={() => { resetAnswers(profile ?? EMPTY_PROFILE); navigate("/questions/1", { state: { edit: true } }); }} />} />
-      <Route path="/scan" element={
+      <Route path="/plus" element={isPlus ? <Navigate to="/" replace /> : <Paywall />} />
+      <Route path="/plus/paiement" element={<PayReturn />} />
+      <Route path="/plus/bienvenue" element={<PlusWelcome user={user} name={name} />} />
+      <Route path="/resilier" element={<Cancel user={user} />} />
+      {/* Les 15 scans gratuits sont utilisés : « Passe à Plus » à la place du scan */}
+      <Route path="/scan" element={noScansLeft ? <Navigate to="/plus" replace state={{ why: "quota" }} /> :
         <LegacyPage title={<>Scanner mon <em>frigo</em></>}>
           <GlobalStyles theme={theme} />
           <FridgeAIScanner
             theme={theme}
             onRecipesGenerated={(recipes, ingredients) => { setPendingData({ recipes, ingredients }); setShowServingsModal(true); }}
+            onScansLeft={onScansLeft}
+            onOutOfScans={() => { onScansLeft(0); navigate("/plus", { replace: true, state: { why: "quota" } }); }}
             onRecipeClick={(r) => openRecipe(r)}
           />
         </LegacyPage>
@@ -2487,7 +2296,9 @@ return (
       <RecipeDetailModal theme={theme} recipe={recipeState.recipe} servings={recipeState.servings ?? servings} onClose={back} />
     </>}
     {showServingsModal && <><GlobalStyles theme={theme} keyframesOnly /><ServingsModal theme={theme} onConfirm={confirmServings} onSkip={skipServings} /></>}
-    {showCheckoutSuccess && <CheckoutSuccessModal onClose={() => { setShowCheckoutSuccess(false); navigate("/", { replace: true }); }} />}
+    {recipeState?.hello && location.pathname === "/" && !isPlus && (
+      <HelloSheet name={name} onScan={openScan} onClose={() => navigate("/", { replace: true })} />
+    )}
   </AppFrame>
 );
 }

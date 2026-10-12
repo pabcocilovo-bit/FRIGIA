@@ -78,7 +78,7 @@ export default function Showcase() {
         <Band label="Mardi · 18 h 42 · Bonsoir Camille" title={<>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>}>
           <p>Prends ton frigo en photo. Trois idées pour toute la famille, avec ce que tu as.</p>
           <Pill tone="cream" icon="cam">Scanner mon frigo</Pill>
-          <BandFoot><QuotaBar used={13} total={15} />2 scans gratuits restants sur 15</BandFoot>
+          <BandFoot><QuotaBar left={2} total={15} />2 scans gratuits restants sur 15</BandFoot>
         </Band>
         <span className="muted" style={{ fontSize: 13 }}>Bandeau de l'accueil en Plus, quand un plat est prévu</span>
         <Band label="Mardi · 18 h 42 · Bonsoir Camille" title={<>Ce soir, c'est <em>prévu</em></>}>

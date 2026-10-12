@@ -76,9 +76,9 @@ export function BandFoot({ children }: { children: ReactNode }) {
   return <div className="band-foot">{children}</div>;
 }
 
-/** Jauge des scans gratuits utilisés. */
-export function QuotaBar({ used, total }: { used: number; total: number }) {
-  return <span className="quota-bar" role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={used}><b style={{ width: `${Math.min(100, (used / total) * 100)}%` }} /></span>;
+/** Jauge des scans gratuits qui restent. */
+export function QuotaBar({ left, total }: { left: number; total: number }) {
+  return <span className="quota-bar" role="progressbar" aria-label="Scans gratuits restants" aria-valuemin={0} aria-valuemax={total} aria-valuenow={left}><b style={{ width: `${Math.min(100, (left / total) * 100)}%` }} /></span>;
 }
 
 /** Pastilles des initiales, qui se chevauchent (qui mange ce soir). */

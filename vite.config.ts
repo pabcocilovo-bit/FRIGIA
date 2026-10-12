@@ -87,15 +87,16 @@ export default defineConfig(({ mode }) => {
                 return
               }
 
-              const data = await anthropicRes.json() as any
-              const text = (data.content || []).map((i: any) => i.text || '').join('')
+              const data = await anthropicRes.json() as { content?: { text?: string }[] }
+              const text = (data.content || []).map(i => i.text || '').join('')
               const match = text.match(/\{[\s\S]*\}/)
-              let parsed: any = { ingredients: [], recipes: [] }
-              try { if (match) parsed = JSON.parse(match[0]) } catch {}
+              type DevRecipe = { title?: string; imageSearch?: string }
+              let parsed: { ingredients?: unknown[]; recipes?: DevRecipe[] } = { ingredients: [], recipes: [] }
+              try { if (match) parsed = JSON.parse(match[0]) } catch { /* réponse illisible : rien de trouvé */ }
 
               const pexelsKey = env.PEXELS_API_KEY
               const recipesWithImages = await Promise.all(
-                (parsed.recipes || []).slice(0, 3).map(async (recipe: any) => {
+                (parsed.recipes || []).slice(0, 3).map(async (recipe) => {
                   if (!pexelsKey) return recipe
                   try {
                     const query = `${recipe.imageSearch || recipe.title} food photography`
@@ -103,19 +104,19 @@ export default defineConfig(({ mode }) => {
                       `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=10&orientation=landscape`,
                       { headers: { Authorization: pexelsKey } }
                     )
-                    const pexData = await pexRes.json() as any
+                    const pexData = await pexRes.json() as { photos?: { src: { large: string } }[] }
                     const photos = pexData.photos || []
                     const photo = photos[1] || photos[0]
                     if (photo) return { ...recipe, imageUrl: photo.src.large }
-                  } catch {}
+                  } catch { /* sans photo */ }
                   return recipe
                 })
               )
 
               res.end(JSON.stringify({ ingredients: parsed.ingredients || [], recipes: recipesWithImages }))
-            } catch (err: any) {
+            } catch (err) {
               res.statusCode = 500
-              res.end(JSON.stringify({ error: String(err?.message ?? err) }))
+              res.end(JSON.stringify({ error: err instanceof Error ? err.message : String(err) }))
             }
           })
         },

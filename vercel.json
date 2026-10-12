@@ -8,7 +8,7 @@
   },
   "rewrites": [
     {
-      "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera)",
+      "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera|plus|resilier)",
       "destination": "/"
     },
     {
@@ -17,6 +17,10 @@
     },
     {
       "source": "/compte/:etape",
+      "destination": "/"
+    },
+    {
+      "source": "/plus/:etape",
       "destination": "/"
     }
   ]

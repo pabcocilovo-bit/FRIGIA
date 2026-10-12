@@ -5,11 +5,13 @@ import { sinceScan, weekDays, weekRange } from "./format";
 import { AppTabBar } from "./AppTabBar";
 import { useOpenScan } from "./offline";
 import { comingSoon } from "./toast";
+import { useOpenPaywall, type Why } from "./plus/subscription";
 
 /** Bandeau doré « Fonction Plus » en formule Gratuit. */
-function LockBar() {
+function LockBar({ why }: { why: Why }) {
+  const openPaywall = useOpenPaywall();
   return (
-    <button type="button" className="lockbar" onClick={() => comingSoon(5)}>
+    <button type="button" className="lockbar" onClick={() => openPaywall(why)}>
       <span><b>Fonction Plus.</b> Tu vois un aperçu.</span>
       <LockPill>Débloquer</LockPill>
     </button>
@@ -54,7 +56,7 @@ export function Planning({ isPlus, lastScan }: { isPlus: boolean; lastScan?: Dat
           <h2>Ta semaine, <em>sans gâchis</em></h2></div>
       </div>
       <div className="rbody">
-        {!isPlus && <LockBar />}
+        {!isPlus && <LockBar why="planning" />}
         <p className="pl-sum">0 repas prévus</p>
         <div className="days">
           {weekDays().map((d, i) => (
