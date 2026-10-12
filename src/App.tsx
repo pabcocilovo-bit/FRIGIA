@@ -12,6 +12,14 @@ import { useLibrary } from "./hooks/useLibrary";
 import { useSession } from "./hooks/useSession";
 import { isStandalone, type InstallPromptEvent } from "./landing/browser";
 import { Analytics } from "@vercel/analytics/react";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router";
+import { AppFrame } from "./app/AppFrame";
+import { Home } from "./app/Home";
+import { Courses, Planning } from "./app/Lists";
+import { Family } from "./app/Family";
+import { LegacyPage } from "./app/LegacyPage";
+import { useBack } from "./app/nav";
+import { showToast } from "./app/toast";
 const Landing = lazy(() => import("./Landing"));
 const COLORS = {
   orangeStart: "#FF6B35",
@@ -58,13 +66,6 @@ function getThemeVars(theme: Theme) {
 }
   
 
-const gradientText: React.CSSProperties = {
-  background: "linear-gradient(135deg, #FF6B35 0%, #FF9A3C 40%, #2ECC71 100%)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  backgroundClip: "text",
-};
-
 function glassCard(theme: Theme): React.CSSProperties {
   const v = getThemeVars(theme);
   return {
@@ -77,10 +78,9 @@ function glassCard(theme: Theme): React.CSSProperties {
 
 
 // ─── Animations ──────────────────────────────────────────────────────────────
-function GlobalStyles({ theme }: { theme: Theme }) {
+function GlobalStyles({ theme, keyframesOnly }: { theme: Theme; keyframesOnly?: boolean }) {
   const v = getThemeVars(theme);
-  return (
-    <style>{`
+  const keyframes = `
       @keyframes scanDown { 0%{top:10%;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{top:90%;opacity:0} }
       @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
       @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
@@ -90,7 +90,11 @@ function GlobalStyles({ theme }: { theme: Theme }) {
       @keyframes orb2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-35px,-25px) scale(1.1)} }
       @keyframes modalIn { from{opacity:0;transform:translateY(40px) scale(0.97)} to{opacity:1;transform:translateY(0) scale(1)} }
       @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-      @keyframes imgFadeIn { from{opacity:0;transform:scale(1.04)} to{opacity:1;transform:scale(1)} }
+      @keyframes imgFadeIn { from{opacity:0;transform:scale(1.04)} to{opacity:1;transform:scale(1)} }`;
+  // Sur les nouveaux écrans (fenêtre par-dessus), seules les animations servent : le reste changerait la barre d'onglets
+  if (keyframesOnly) return <style>{keyframes}</style>;
+  return (
+    <style>{keyframes + `
       body { margin:0; background:${v.bg}; transition: background 0.3s; }
       * { box-sizing:border-box; user-select:none; -webkit-user-select:none; }
       input, textarea, [contenteditable] { user-select:text; -webkit-user-select:text; }
@@ -341,197 +345,19 @@ function CropModal({ imageSrc, onConfirm, onCancel }: {
 type SettingsTab =
   | "profile"
   | "subscription"
-  | "appearance"
   | "notifications"
   | "security"
   | "support";
 
-type LegalPage = "mentions" | "cgu" | "privacy" | "cookies" | "rgpd";
-
-const LEGAL_CONTENT: Record<LegalPage, { title: string; body: React.ReactNode }> = {
-  mentions: {
-    title: "Mentions légales",
-    body: (
-      <div>
-        <h3>Éditeur</h3>
-        <p>Frigia est édité par Pablo Cocilovo, particulier.</p>
-        <p>Contact : <a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a></p>
-
-        <h3>Hébergement</h3>
-        <p>L'application est hébergée par <strong>Vercel Inc.</strong>, 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis — <a href="https://vercel.com" target="_blank" rel="noreferrer">vercel.com</a></p>
-
-        <h3>Propriété intellectuelle</h3>
-        <p>L'ensemble du contenu de Frigia (textes, images, logo, code) est la propriété exclusive de l'éditeur. Toute reproduction sans autorisation écrite est interdite.</p>
-
-        <h3>Responsabilité</h3>
-        <p>Les recettes générées par intelligence artificielle sont fournies à titre indicatif. L'éditeur ne saurait être tenu responsable d'allergies, d'intolérances ou de problèmes de santé liés à leur consommation. Consultez un professionnel de santé en cas de doute.</p>
-      </div>
-    ),
-  },
-  cgu: {
-    title: "Conditions Générales d'Utilisation",
-    body: (
-      <div>
-        <h3>1. Objet</h3>
-        <p>Les présentes CGU régissent l'utilisation de l'application Frigia, service de génération de recettes par intelligence artificielle.</p>
-
-        <h3>2. Accès au service</h3>
-        <p>L'accès à Frigia nécessite la création d'un compte. Une période d'essai gratuite de 4 jours est proposée, suivie d'un abonnement à 4,99 €/mois.</p>
-
-        <h3>3. Utilisation</h3>
-        <p>L'utilisateur s'engage à utiliser Frigia conformément aux lois en vigueur et à ne pas tenter de contourner les mesures de sécurité de l'application.</p>
-
-        <h3>4. Contenu généré</h3>
-        <p>Les recettes sont générées par IA et peuvent contenir des erreurs. L'éditeur ne garantit pas leur exactitude nutritionnelle. L'utilisateur est seul responsable de l'usage qu'il en fait.</p>
-
-        <h3>5. Résiliation</h3>
-        <p>L'utilisateur peut résilier son abonnement à tout moment depuis les paramètres de son compte. Aucun remboursement ne sera effectué pour la période en cours.</p>
-
-        <h3>6. Modification des CGU</h3>
-        <p>L'éditeur se réserve le droit de modifier les présentes CGU à tout moment. Les modifications prennent effet à compter de leur publication dans l'application.</p>
-
-        <h3>Contact</h3>
-        <p><a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a></p>
-      </div>
-    ),
-  },
-  privacy: {
-    title: "Politique de confidentialité",
-    body: (
-      <div>
-        <h3>Responsable du traitement</h3>
-        <p>Pablo Cocilovo — <a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a></p>
-
-        <h3>Données collectées</h3>
-        <ul>
-          <li><strong>Compte :</strong> adresse e-mail, mot de passe (chiffré), photo de profil (optionnelle)</li>
-          <li><strong>Utilisation :</strong> photos de frigo scannées, ingrédients détectés, recettes générées, favoris</li>
-          <li><strong>Technique :</strong> logs de connexion, type d'appareil, langue</li>
-        </ul>
-
-        <h3>Finalités</h3>
-        <p>Les données sont utilisées pour fournir le service, améliorer les suggestions de recettes et assurer la sécurité des comptes. Elles ne sont jamais vendues à des tiers.</p>
-
-        <h3>Conservation</h3>
-        <p>Les données sont conservées pendant la durée de l'abonnement actif + 12 mois. Elles sont ensuite supprimées définitivement.</p>
-
-        <h3>Vos droits (RGPD)</h3>
-        <p>Vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Pour exercer ces droits, contactez : <a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a></p>
-
-        <h3>Sous-traitants</h3>
-        <ul>
-          <li><strong>Supabase</strong> — base de données et authentification</li>
-          <li><strong>Vercel</strong> — hébergement</li>
-          <li><strong>Anthropic / Google</strong> — génération de recettes par IA</li>
-        </ul>
-      </div>
-    ),
-  },
-  cookies: {
-    title: "Politique de cookies",
-    body: (
-      <div>
-        <h3>Qu'est-ce qu'un cookie ?</h3>
-        <p>Un cookie est un petit fichier stocké sur votre appareil lors de la visite d'un site ou d'une application web.</p>
-
-        <h3>Cookies utilisés par Frigia</h3>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-          <thead>
-            <tr>
-              <th style={{ textAlign: "left", paddingBottom: 8, borderBottom: "1px solid rgba(255,255,255,0.1)" }}>Nom</th>
-              <th style={{ textAlign: "left", paddingBottom: 8, borderBottom: "1px solid rgba(255,255,255,0.1)" }}>Type</th>
-              <th style={{ textAlign: "left", paddingBottom: 8, borderBottom: "1px solid rgba(255,255,255,0.1)" }}>Finalité</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td style={{ padding: "6px 0" }}>sb-auth-token</td><td>Essentiel</td><td>Session d'authentification Supabase</td></tr>
-            <tr><td style={{ padding: "6px 0" }}>frigia_theme</td><td>Fonctionnel</td><td>Mémorisation du thème choisi</td></tr>
-            <tr><td style={{ padding: "6px 0" }}>frigia_avatar</td><td>Fonctionnel</td><td>Cache de la photo de profil</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Cookies tiers</h3>
-        <p>Vercel peut déposer des cookies techniques nécessaires au bon fonctionnement de l'hébergement. Aucun cookie publicitaire ou de tracking n'est utilisé.</p>
-
-        <h3>Gestion</h3>
-        <p>Vous pouvez bloquer ou supprimer les cookies depuis les paramètres de votre navigateur. Le blocage des cookies essentiels peut empêcher la connexion à votre compte.</p>
-      </div>
-    ),
-  },
-  rgpd: {
-    title: "Conformité RGPD",
-    body: (
-      <div>
-        <h3>Base légale des traitements</h3>
-        <ul>
-          <li><strong>Exécution du contrat</strong> — fourniture du service de recettes</li>
-          <li><strong>Intérêt légitime</strong> — sécurité et amélioration du service</li>
-          <li><strong>Consentement</strong> — communications optionnelles</li>
-        </ul>
-
-        <h3>Vos droits</h3>
-        <ul>
-          <li><strong>Accès :</strong> obtenir une copie de vos données</li>
-          <li><strong>Rectification :</strong> corriger des données inexactes</li>
-          <li><strong>Suppression :</strong> demander l'effacement de votre compte</li>
-          <li><strong>Portabilité :</strong> recevoir vos données dans un format lisible</li>
-          <li><strong>Opposition :</strong> vous opposer à certains traitements</li>
-        </ul>
-
-        <h3>Exercer vos droits</h3>
-        <p>Envoyez votre demande à <a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a>. Réponse sous 30 jours.</p>
-
-        <h3>Réclamation</h3>
-        <p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la <strong>CNIL</strong> (Commission Nationale de l'Informatique et des Libertés) — <a href="https://www.cnil.fr" target="_blank" rel="noreferrer">cnil.fr</a></p>
-
-        <h3>Transferts hors UE</h3>
-        <p>Certains sous-traitants (Vercel, Anthropic) sont basés aux États-Unis. Ces transferts sont encadrés par les clauses contractuelles types de la Commission européenne.</p>
-      </div>
-    ),
-  },
-};
-
-function LegalModal({ page, theme, onClose }: { page: LegalPage; theme: Theme; onClose: () => void }) {
-  const v = getThemeVars(theme);
-  const content = LEGAL_CONTENT[page];
-  return (
-    <div
-      onClick={onClose}
-      style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{ ...glassCard(theme), width: "100%", maxWidth: 680, maxHeight: "80vh", display: "flex", flexDirection: "column", borderRadius: 20, overflow: "hidden" }}
-      >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 24px", borderBottom: `1px solid ${v.border}` }}>
-          <span style={{ fontWeight: 800, fontSize: 18, color: v.text }}>{content.title}</span>
-          <button onClick={onClose} style={{ background: "none", border: "none", color: v.muted, fontSize: 22, cursor: "pointer", lineHeight: 1 }}>×</button>
-        </div>
-        <div
-          style={{ padding: "24px", overflowY: "auto", color: v.muted, fontSize: 14, lineHeight: 1.8 }}
-          className="legal-content"
-        >
-          {content.body}
-        </div>
-        <div style={{ padding: "12px 24px", borderTop: `1px solid ${v.border}`, fontSize: 12, color: v.muted, textAlign: "center" }}>
-          Contact : <a href="mailto:frigia.contact@gmail.com" style={{ color: "#FF6B35" }}>frigia.contact@gmail.com</a> — © 2026 Frigia
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function SettingsModal({
   theme,
   onClose,
-  onThemeChange,
   user,
   avatarSrc,
   onAvatarChange,
 }: {
   theme: Theme;
   onClose: () => void;
-  onThemeChange: (t: Theme) => void;
   user: User | null;
   avatarSrc: string | null;
   onAvatarChange: (dataUrl: string) => void;
@@ -607,7 +433,6 @@ function SettingsModal({
   const tabs: { id: SettingsTab; icon: string; label: string }[] = [
     { id: "profile", icon: "👤", label: "Profil" },
     { id: "subscription", icon: "💳", label: "Abonnement" },
-    { id: "appearance", icon: "🎨", label: "Apparence" },
     { id: "support", icon: "💬", label: "FAQ" },
     { id: "security", icon: "🔒", label: "Sécurité" },
   ];
@@ -983,78 +808,6 @@ function SettingsModal({
               </div>
             );
           })()}
-
-          {/* ── APPARENCE ── */}
-          {tab === "appearance" && (
-            <div style={{ animation: "fadeUp 0.3s ease both" }}>
-              <h2
-                style={{
-                  fontSize: 22,
-                  fontWeight: 900,
-                  color: v.text,
-                  marginBottom: 8,
-                }}
-              >
-                Apparence
-              </h2>
-              <p style={{ color: v.muted, fontSize: 14, marginBottom: 32 }}>
-                Personnalisez l'interface selon vos préférences.
-              </p>
-
-              <div style={{ marginBottom: 32 }}>
-                <div style={{ ...labelStyle, marginBottom: 16 }}>Thème</div>
-                <div style={{ display: "flex", gap: 16 }}>
-                  {(["dark", "light"] as Theme[]).map((t) => (
-                    <button
-                      key={t}
-                      onClick={() => onThemeChange(t)}
-                      style={{
-                        flex: 1,
-                        padding: 24,
-                        borderRadius: 20,
-                        cursor: "pointer",
-                        border:
-                          theme === t
-                            ? "2px solid #FF6B35"
-                            : `2px solid ${v.border}`,
-                        background: t === "dark" ? "#0A0A0F" : "#F4F4F0",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: 12,
-                        transition: "all 0.2s",
-                      }}
-                    >
-                      <div style={{ fontSize: 36 }}>
-                        {t === "dark" ? "🌙" : "☀️"}
-                      </div>
-                      <div
-                        style={{
-                          fontWeight: 700,
-                          color: t === "dark" ? "#FAFAFA" : "#0A0A0F",
-                          fontSize: 15,
-                        }}
-                      >
-                        {t === "dark" ? "Mode sombre" : "Mode clair"}
-                      </div>
-                      {theme === t && (
-                        <div
-                          style={{
-                            fontSize: 12,
-                            color: "#FF6B35",
-                            fontWeight: 700,
-                          }}
-                        >
-                          ✓ Actif
-                        </div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-          )}
 
           {/* ── SÉCURITÉ ── */}
           {tab === "security" && (
@@ -2183,497 +1936,7 @@ function HistoryTab({
   );
 }
 
-// ─── Nav ─────────────────────────────────────────────────────────────────────
-function Nav({
-  theme,
-}: {
-  theme: Theme;
-}) {
-  const v = getThemeVars(theme);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", h);
-    return () => window.removeEventListener("scroll", h);
-  }, []);
-
-  return (
-    <nav
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        padding: "16px 40px",
-        background: scrolled ? v.navBg : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? `1px solid ${v.border}` : "none",
-        transition: "all 0.3s",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <img src="/logo.png" alt="Frigia" style={{ width: 36, height: 36, borderRadius: 10, objectFit: "cover" }} />
-        <span
-          style={{
-            fontWeight: 800,
-            fontSize: 22,
-            color: v.text,
-            fontFamily: "Georgia, serif",
-          }}
-        >
-          Frigia
-        </span>
-      </div>
-
-      <div
-        className="nav-actions"
-        style={{ display: "flex", gap: 12, alignItems: "center" }}
-      >
-      </div>
-    </nav>
-  );
-}
-
-// ─── IPhone Mockup ────────────────────────────────────────────────────────────
-function IPhoneMockup() {
-  const [step, setStep] = useState(0);
-  useEffect(() => {
-    const interval = setInterval(() => setStep((s) => (s + 1) % 3), 2500);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div
-      style={{
-        width: 280,
-        height: 570,
-        borderRadius: 44,
-        background: "#0D0D14",
-        border: "2px solid rgba(255,255,255,0.12)",
-        boxShadow:
-          "0 40px 80px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1)",
-        position: "relative",
-        overflow: "hidden",
-        animation: "float 4s ease-in-out infinite",
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          top: 8,
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: 92,
-          height: 24,
-          background: "#000",
-          borderRadius: "0 0 18px 18px",
-          zIndex: 5,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          inset: 6,
-          borderRadius: 38,
-          overflow: "hidden",
-          background: "#080810",
-        }}
-      >
-        <img
-          src="/images/frigo.jpg"
-          alt="frigo"
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            opacity: 0.75,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "linear-gradient(160deg,rgba(0,20,0,0.4) 0%,rgba(0,10,0,0.25) 100%)",
-          }}
-        />
-        {step === 0 && (
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "rgba(0,0,0,0.4)",
-            }}
-          >
-            <ScanLine />
-            <Brackets color="#2ECC71" size={24} />
-            <div
-              style={{
-                position: "absolute",
-                bottom: 60,
-                left: 0,
-                right: 0,
-                textAlign: "center",
-                fontSize: 11,
-                color: "#2ECC71",
-                fontWeight: 700,
-                letterSpacing: 2,
-                textTransform: "uppercase",
-                animation: "pulse 1s infinite",
-              }}
-            >
-              Analyse en cours…
-            </div>
-          </div>
-        )}
-        {step === 1 && (
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "rgba(0,0,0,0.72)",
-              padding: 20,
-              display: "flex",
-              flexDirection: "column",
-              gap: 10,
-              justifyContent: "center",
-            }}
-          >
-            <div
-              style={{
-                fontSize: 11,
-                color: "#2ECC71",
-                fontWeight: 700,
-                letterSpacing: 2,
-                marginBottom: 8,
-              }}
-            >
-              INGRÉDIENTS DÉTECTÉS
-            </div>
-            {[
-              ["🥛", "Lait"],
-              ["🍅", "Tomates"],
-              ["🥚", "Œufs"],
-              ["🧀", "Fromage"],
-            ].map(([ic, nm], i) => (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: "rgba(46,204,113,0.15)",
-                  border: "1px solid rgba(46,204,113,0.3)",
-                  borderRadius: 10,
-                  padding: "8px 10px",
-                  fontSize: 12,
-                  color: "#fff",
-                  animation: `slideIn 0.3s ease ${i * 0.1}s both`,
-                }}
-              >
-                <span>{ic}</span>
-                <span>{nm}</span>
-                <span
-                  style={{ marginLeft: "auto", color: "#2ECC71", fontSize: 10 }}
-                >
-                  97%
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
-        {step === 2 && (
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "#080810",
-              padding: 18,
-              overflow: "hidden",
-            }}
-          >
-            <div
-              style={{
-                fontSize: 11,
-                color: COLORS.orangeStart,
-                fontWeight: 700,
-                letterSpacing: 2,
-                marginTop: 38,
-                marginBottom: 18,
-              }}
-            >
-              RECETTES SUGGÉRÉES
-            </div>
-            {[
-              {
-                img: "/images/omelette-tomates.jpg",
-                t: "Omelette aux tomates",
-                kcal: "320 kcal",
-                time: "8 min",
-              },
-              {
-                img: "/images/salade-caprese.jpg",
-                t: "Salade fraîche",
-                kcal: "180 kcal",
-                time: "5 min",
-              },
-              {
-                img: "/images/pasta-legumes.jpg",
-                t: "Pasta express",
-                kcal: "520 kcal",
-                time: "20 min",
-              },
-            ].map((r, i) => (
-              <div
-                key={i}
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  backdropFilter: "blur(20px)",
-                  border: "1px solid rgba(255,255,255,0.07)",
-                  borderRadius: 16,
-                  padding: "8px",
-                  marginBottom: 10,
-                  display: "flex",
-                  gap: 10,
-                  alignItems: "center",
-                  animation: `fadeUp 0.4s ease ${i * 0.15}s both`,
-                }}
-              >
-                <img
-                  src={r.img}
-                  alt={r.t}
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 10,
-                    objectFit: "cover",
-                    flexShrink: 0,
-                  }}
-                />
-                <div>
-                  <div style={{ fontSize: 11, color: "#fff", fontWeight: 700 }}>
-                    {r.t}
-                  </div>
-                  <div style={{ fontSize: 10, color: COLORS.muted }}>
-                    {r.time} · {r.kcal}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
 // ─── Showcase Recipes ────────────────────────────────────────────────────────
-
-const SHOWCASE_RECIPES: GeneratedRecipe[] = [
-  {
-    emoji: "🍔",
-    title: "Smash Burger Maison",
-    time: "20 min",
-    cal: 680,
-    diff: "Facile",
-    imageSearch: "https://www.themealdb.com/images/media/meals/44bzep1761848278.jpg",
-    steps: [
-      "Diviser la viande hachée en deux boules de 150g sans trop la travailler. Placer au frigo 10 min.",
-      "Couper les brioches en deux et les griller à sec dans la poêle 1 min côté mie jusqu'à dorure.",
-      "Chauffer une poêle en fonte à feu très fort 3 minutes. Aucune matière grasse — la chaleur est clé.",
-      "Déposer une boule de viande, écraser immédiatement avec une spatule large pendant 10 secondes pour obtenir une galette fine de 12 cm.",
-      "Saler et poivrer. Cuire 2 min sans toucher pour créer une belle croûte caramélisée sur les bords.",
-      "Retourner la galette, déposer le cheddar, couvrir 30 secondes pour faire fondre.",
-      "Mélanger mayo + ketchup + moutarde + paprika fumé + cornichon haché. Tartiner généreusement les deux faces.",
-      "Monter : brioche base → laitue → tomate → oignon rouge → galette → brioche chapeau. Servir immédiatement.",
-    ],
-    recipeIngredients: [
-      { name: "Steak haché 15% MG", qty: "300g" },
-      { name: "Pain brioche burger", qty: "2" },
-      { name: "Cheddar tranches", qty: "2" },
-      { name: "Laitue", qty: "3 feuilles" },
-      { name: "Tomate", qty: "1 grosse" },
-      { name: "Oignon rouge", qty: "½" },
-      { name: "Cornichons", qty: "4" },
-      { name: "Mayonnaise", qty: "2 cs" },
-      { name: "Ketchup", qty: "1 cs" },
-      { name: "Moutarde", qty: "1 cc" },
-      { name: "Paprika fumé", qty: "1 cc" },
-    ],
-  },
-  {
-    emoji: "🌯",
-    title: "Wraps Healthy Poulet",
-    time: "15 min",
-    cal: 390,
-    diff: "Très facile",
-    imageSearch: "https://www.themealdb.com/images/media/meals/swo87v1763595282.jpg",
-    steps: [
-      "Couper le blanc de poulet en lanières fines. Mélanger avec cumin, paprika, sel, poivre et un filet d'huile d'olive.",
-      "Chauffer une poêle antiadhésive à feu vif. Cuire les lanières 3-4 min en remuant — légère coloration dorée.",
-      "Écraser l'avocat à la fourchette avec le jus de citron, sel et une pincée d'ail en poudre.",
-      "Réchauffer les tortillas 30 sec au micro-ondes ou 10 sec de chaque côté à sec dans la poêle.",
-      "Étaler le guacamole sur toute la surface, laisser 2 cm de bord pour rouler facilement.",
-      "Disposer les lanières de poulet, la salade ciselée, les tomates cerises coupées et le maïs.",
-      "Rouler en serrant fermement, couper en biais à mi-longueur. Servir avec une sauce yaourt-menthe fraîche.",
-    ],
-    recipeIngredients: [
-      { name: "Blancs de poulet", qty: "300g" },
-      { name: "Tortillas complètes larges", qty: "2" },
-      { name: "Avocat mûr", qty: "1" },
-      { name: "Salade mélangée", qty: "50g" },
-      { name: "Tomates cerises", qty: "8" },
-      { name: "Maïs égoutté", qty: "50g" },
-      { name: "Citron", qty: "½" },
-      { name: "Cumin moulu", qty: "1 cc" },
-      { name: "Paprika doux", qty: "1 cc" },
-      { name: "Yaourt grec", qty: "2 cs" },
-      { name: "Menthe fraîche", qty: "quelques feuilles" },
-    ],
-  },
-  {
-    emoji: "🍛",
-    title: "Riz Poulet Curry Coco",
-    time: "30 min",
-    cal: 520,
-    diff: "Facile",
-    imageSearch: "https://www.themealdb.com/images/media/meals/vwrpps1503068729.jpg",
-    steps: [
-      "Rincer le riz basmati 3 fois à l'eau froide jusqu'à ce que l'eau soit claire. Égoutter.",
-      "Cuire le riz dans 400 ml d'eau bouillante salée avec une feuille de laurier, à couvert feu doux 12 min. Éteindre et laisser gonfler 5 min.",
-      "Couper le poulet en cubes de 3 cm. Émincer finement l'oignon et l'ail. Couper le poivron en lanières.",
-      "Faire revenir l'oignon dans l'huile de coco 3 min à feu moyen jusqu'à translucidité dorée.",
-      "Ajouter l'ail, la poudre de curry et le gingembre râpé. Mélanger 1 min pour libérer tous les arômes.",
-      "Ajouter le poulet, faire dorer 4-5 min sur toutes les faces à feu vif.",
-      "Verser le lait de coco et les tomates concassées, ajouter le poivron. Porter à ébullition puis mijoter à couvert 12 min à feu doux.",
-      "Ajuster le sel. Servir sur le riz, parsemer de coriandre fraîche ciselée et d'un filet de citron vert.",
-    ],
-    recipeIngredients: [
-      { name: "Riz basmati", qty: "200g" },
-      { name: "Blanc de poulet", qty: "400g" },
-      { name: "Lait de coco", qty: "400 ml" },
-      { name: "Tomates concassées", qty: "200g" },
-      { name: "Poudre de curry", qty: "2 cs" },
-      { name: "Oignon", qty: "1" },
-      { name: "Ail", qty: "3 gousses" },
-      { name: "Gingembre frais", qty: "2 cm" },
-      { name: "Poivron rouge", qty: "1" },
-      { name: "Huile de coco", qty: "1 cs" },
-      { name: "Coriandre fraîche", qty: "1 bouquet" },
-      { name: "Citron vert", qty: "½" },
-    ],
-  },
-];
-
-function ShowcaseRecipeCard({
-  recipe,
-  theme,
-  onClick,
-}: {
-  recipe: GeneratedRecipe;
-  theme: Theme;
-  onClick: () => void;
-}) {
-  const v = getThemeVars(theme);
-  const [shared, setShared] = useState(false);
-  const handleShare = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const text = buildShareText(recipe);
-    if (navigator.share) {
-      try { await navigator.share({ title: recipe.title, text }); } catch { /* partage annulé */ }
-    } else {
-      await navigator.clipboard.writeText(text);
-      setShared(true);
-      setTimeout(() => setShared(false), 2000);
-    }
-  };
-  const tagline: Record<string, string> = {
-    "Smash Burger Maison": "Croûte caramélisée, cheddar fondant, sauce secrète maison",
-    "Wraps Healthy Poulet": "Léger, frais et rassasiant — prêt en 15 minutes",
-    "Riz Poulet Curry Coco": "Onctueux, parfumé et réconfortant comme au resto",
-  };
-  const gradients: Record<string, string> = {
-    "Smash Burger Maison": "linear-gradient(135deg,#FF6B35,#c0392b)",
-    "Wraps Healthy Poulet": "linear-gradient(135deg,#2ECC71,#16a085)",
-    "Riz Poulet Curry Coco": "linear-gradient(135deg,#f39c12,#e74c3c)",
-  };
-  const gradient = gradients[recipe.title] || "linear-gradient(135deg,#FF6B35,#2ECC71)";
-
-  return (
-    <div
-      onClick={onClick}
-      style={{
-        borderRadius: 20,
-        overflow: "hidden",
-        cursor: "pointer",
-        boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
-        background: v.bgCard,
-        border: `1px solid ${v.border}`,
-        transition: "transform 0.18s ease, box-shadow 0.18s ease",
-      }}
-      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLDivElement).style.boxShadow = "0 14px 40px rgba(0,0,0,0.25)"; }}
-      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 32px rgba(0,0,0,0.18)"; }}
-    >
-      {/* Image header */}
-      <div style={{ height: 190, position: "relative", overflow: "hidden" }}>
-        <img
-          src={recipe.imageSearch}
-          alt={recipe.title}
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-        />
-        {/* Gradient overlay */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top,rgba(0,0,0,0.65) 0%,transparent 55%)" }} />
-        {/* Difficulty badge */}
-        <div style={{ position: "absolute", top: 14, left: 14, padding: "4px 10px", borderRadius: 100, background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)", fontSize: 11, fontWeight: 700, color: "#fff" }}>
-          {recipe.diff}
-        </div>
-        {/* Title overlay */}
-        <div style={{ position: "absolute", bottom: 14, left: 16, right: 16 }}>
-          <div style={{ fontSize: 19, fontWeight: 900, color: "#fff", lineHeight: 1.2, fontFamily: "Georgia, serif", textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}>
-            {recipe.title}
-          </div>
-        </div>
-      </div>
-
-      {/* Body */}
-      <div style={{ padding: "14px 16px 18px" }}>
-        <p style={{ fontSize: 13, color: v.muted, margin: "0 0 14px", lineHeight: 1.5 }}>
-          {tagline[recipe.title]}
-        </p>
-
-        {/* Stats row */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-          {[
-            { icon: "⏱️", label: recipe.time },
-            { icon: "🔥", label: `${recipe.cal} kcal` },
-            { icon: "📋", label: `${recipe.steps?.length ?? 0} étapes` },
-          ].map(({ icon, label }) => (
-            <div key={label} style={{ flex: 1, background: v.inputBg, borderRadius: 10, padding: "7px 6px", textAlign: "center" }}>
-              <div style={{ fontSize: 15 }}>{icon}</div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: v.text, marginTop: 2 }}>{label}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA row */}
-        <div style={{ display: "flex", gap: 8 }}>
-          <button style={{ flex: 1, padding: "11px", borderRadius: 12, border: "none", cursor: "pointer", background: gradient, color: "#fff", fontWeight: 800, fontSize: 14 }} onClick={onClick}>
-            Voir →
-          </button>
-          <button onClick={handleShare} style={{ padding: "11px 16px", borderRadius: 12, border: `1px solid ${v.border}`, background: "none", color: shared ? "#2ECC71" : v.muted, cursor: "pointer", fontSize: 14, transition: "color 0.2s" }}>
-            {shared ? "✓" : "↗"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ─── SupportFAQItem (used in Settings) ───────────────────────────────────────
 function SupportFAQItem({ theme, q, a }: { theme: Theme; q: string; a: string }) {
@@ -3052,194 +2315,6 @@ function FridgeAIScanner({
   );
 }
 
-// ─── RecipeCard ───────────────────────────────────────────────────────────────
-function RecipeCard({
-  theme,
-  emoji,
-  title,
-  time,
-  cal,
-  diff,
-  imageSearch,
-  steps,
-  recipeIngredients,
-  delay = 0,
-  onClick,
-  isFavorite,
-  onToggleFavorite,
-}: GeneratedRecipe & { theme: Theme; delay?: number; onClick?: () => void; isFavorite?: boolean; onToggleFavorite?: () => void }) {
-  const v = getThemeVars(theme);
-  const [shared, setShared] = useState(false);
-
-  const handleShare = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const text = buildShareText({ emoji, title, time, cal, diff, imageSearch, steps, recipeIngredients } as GeneratedRecipe);
-    if (navigator.share) {
-      try { await navigator.share({ title, text }); } catch { /* partage annulé */ }
-    } else {
-      await navigator.clipboard.writeText(text);
-      setShared(true);
-      setTimeout(() => setShared(false), 2000);
-    }
-  };
-  return (
-    <div
-      onClick={onClick}
-      style={{
-        ...glassCard(theme),
-        padding: 0,
-        overflow: "hidden",
-        cursor: "pointer",
-        transition: "transform 0.3s,box-shadow 0.3s",
-        animation: `fadeUp 0.6s ease ${delay}s both`,
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-6px)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "translateY(0)";
-      }}
-    >
-      <div style={{ height: 180, position: "relative", overflow: "hidden" }}>
-        <RecipeImage title={title} imageSearch={imageSearch} />
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(to bottom, transparent 35%, rgba(0,0,0,0.55) 100%)",
-            pointerEvents: "none",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: 10,
-            right: 10,
-            background: "rgba(0,0,0,0.6)",
-            backdropFilter: "blur(8px)",
-            borderRadius: 100,
-            padding: "4px 10px",
-            fontSize: 11,
-            color: "#fff",
-            fontWeight: 700,
-            letterSpacing: 0.5,
-          }}
-        >
-          {diff}
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            bottom: 10,
-            left: 14,
-            fontSize: 26,
-            filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.7))",
-          }}
-        >
-          {emoji}
-        </div>
-      </div>
-      <div style={{ padding: "16px 18px" }}>
-        <div
-          style={{
-            fontWeight: 700,
-            fontSize: 15,
-            color: v.text,
-            marginBottom: 8,
-            lineHeight: 1.4,
-            overflow: "hidden",
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-          }}
-        >
-          {title}
-        </div>
-        <div style={{ display: "flex", gap: 12, fontSize: 12, color: v.muted }}>
-          <span>⏱ {time}</span>
-          <span>🔥 {cal} kcal</span>
-        </div>
-      </div>
-      <div style={{ display: "flex", borderTop: `1px solid ${v.border}` }}>
-        <button
-          onClick={(e) => { e.stopPropagation(); onClick?.(); }}
-          style={{ flex: 2, padding: "12px", background: "none", border: "none", color: "#FF6B35", cursor: "pointer", fontSize: 14, fontWeight: 700 }}
-        >
-          Voir la recette →
-        </button>
-        <button
-          onClick={(e) => { e.stopPropagation(); onToggleFavorite?.(); }}
-          style={{ padding: "12px 14px", background: "none", border: "none", borderLeft: `1px solid ${v.border}`, color: isFavorite ? "#FF6B35" : v.muted, cursor: "pointer", fontSize: 16 }}
-        >
-          {isFavorite ? "♥" : "♡"}
-        </button>
-        <button
-          onClick={handleShare}
-          style={{ padding: "12px 14px", background: "none", border: "none", borderLeft: `1px solid ${v.border}`, color: shared ? "#2ECC71" : v.muted, cursor: "pointer", fontSize: 14, transition: "color 0.2s" }}
-        >
-          {shared ? "✓" : "↗"}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ─── FAQ ─────────────────────────────────────────────────────────────────────
-function FAQItem({ theme, q, a }: { theme: Theme; q: string; a: string }) {
-  const v = getThemeVars(theme);
-  const [open, setOpen] = useState(false);
-  return (
-    <div
-      style={{
-        ...glassCard(theme),
-        padding: 0,
-        overflow: "hidden",
-        cursor: "pointer",
-        marginBottom: 12,
-        borderColor: open ? "rgba(255,107,53,0.3)" : v.border,
-      }}
-      onClick={() => setOpen(!open)}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "20px 24px",
-        }}
-      >
-        <span style={{ fontWeight: 600, fontSize: 15, color: v.text }}>
-          {q}
-        </span>
-        <span
-          style={{
-            color: COLORS.orangeStart,
-            fontSize: 22,
-            transform: open ? "rotate(45deg)" : "rotate(0)",
-            transition: "transform 0.3s",
-          }}
-        >
-          +
-        </span>
-      </div>
-      {open && (
-        <div
-          style={{
-            padding: "0 24px 20px",
-            fontSize: 14,
-            color: v.muted,
-            lineHeight: 1.7,
-          }}
-        >
-          {a}
-        </div>
-      )}
-    </div>
-  );
-}
-
-
 // ─── Checkout Success Modal ───────────────────────────────────────────────────
 function CheckoutSuccessModal({ onClose }: { onClose: () => void }) {
   const grad = "linear-gradient(135deg,#FF6B35,#2ECC71)";
@@ -3346,21 +2421,65 @@ function PaywallModal({ onSubscribe, onManageBilling, onLogout, loading, isCance
 }
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
+/** Ancienne liste des favoris (onglet Recettes), gardée telle quelle jusqu'à l'étape 7. */
+function LegacyFavorites({ theme, favorites, onOpen, onToggleFavorite }: {
+  theme: Theme; favorites: GeneratedRecipe[]; onOpen: (r: GeneratedRecipe) => void; onToggleFavorite: (r: GeneratedRecipe) => void;
+}) {
+  const v = getThemeVars(theme);
+  if (favorites.length === 0) return (
+    <div style={{ textAlign: "center", padding: "60px 20px" }}>
+      <div style={{ fontSize: 56, marginBottom: 16 }}>🤍</div>
+      <div style={{ fontSize: 18, fontWeight: 800, color: v.text, marginBottom: 8 }}>Aucun favori pour l'instant</div>
+      <div style={{ fontSize: 13, color: v.muted }}>Appuyez sur ❤️ sur une recette pour la sauvegarder ici.</div>
+    </div>
+  );
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      {favorites.map((r) => (
+        <div key={r.title} style={{ ...glassCard(theme), padding: 0, overflow: "hidden", borderRadius: 16, cursor: "pointer" }} onClick={() => onOpen(r)}>
+          <div style={{ position: "relative", height: 130 }}>
+            <RecipeImage title={r.title} imageSearch={r.imageSearch} />
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.6) 100%)" }} />
+            <button
+              onClick={(e) => { e.stopPropagation(); onToggleFavorite(r); }}
+              style={{ position: "absolute", top: 8, right: 8, width: 30, height: 30, borderRadius: "50%", background: "rgba(255,107,53,0.9)", border: "none", cursor: "pointer", fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center" }}
+            >❤️</button>
+          </div>
+          <div style={{ padding: "12px 14px 8px" }}>
+            <div style={{ fontWeight: 700, fontSize: 14, color: v.text, marginBottom: 4 }}>{r.title}</div>
+            <div style={{ fontSize: 12, color: v.muted, marginBottom: 10 }}>{r.time} · {r.cal} kcal · {r.diff}</div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <button
+                onClick={(e) => { e.stopPropagation(); onOpen(r); }}
+                style={{ flex: 1, padding: "8px", borderRadius: 10, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 700 }}
+              >Voir →</button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const text = buildShareText(r);
+                  if (navigator.share) { navigator.share({ title: r.title, text }).catch(() => {}); }
+                  else { navigator.clipboard.writeText(text).catch(() => {}); }
+                }}
+                style={{ padding: "8px 12px", borderRadius: 10, border: `1px solid ${v.border}`, background: "none", color: v.muted, cursor: "pointer", fontSize: 13 }}
+              >↗</button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function Frigia() {
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
-  const [theme, setTheme] = useState<Theme>("dark");
-  const [showSettings, setShowSettings] = useState(false);
-  const [showLegal, setShowLegal] = useState<LegalPage | null>(null);
-  const [aiRecipes, setAiRecipes] = useState<GeneratedRecipe[]>([]);
-  const [, setDetectedIngredients] = useState<DetectedIngredient[]>([]);
-  const [scanSuccess, setScanSuccess] = useState(false);
-  const [recipesSubTab, setRecipesSubTab] = useState<"history" | "popular" | "favorites">("history");
+  // Le thème sombre part avec l'ancien écran : les anciens écrans encore utilisés s'affichent en clair
+  const theme: Theme = "light";
+  const navigate = useNavigate();
+  const location = useLocation();
+  const back = useBack();
   const [servings, setServings] = useState(2);
   const [showServingsModal, setShowServingsModal] = useState(false);
   const [pendingData, setPendingData] = useState<{ recipes: GeneratedRecipe[]; ingredients: DetectedIngredient[] } | null>(null);
-  const [selectedRecipe, setSelectedRecipe] = useState<{ recipe: GeneratedRecipe; servings: number } | null>(null);
-  const [windowWidth, setWindowWidth] = useState(() => window.innerWidth);
-  const [mobileTab, setMobileTab] = useState<"scan" | "recipes" | "profile">("scan");
   const [showQuestionnaire, setShowQuestionnaire] = useState(false);
   const [showInstallReco, setShowInstallReco] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -3370,20 +2489,19 @@ export default function Frigia() {
   );
 
   const [userId, setUserId] = useState<string | undefined>();
-  const [mountedAt] = useState(() => Date.now());
   const library = useLibrary(userId);
   const { history, favorites, toggleFavorite, isFavorite, deleteScan } = library;
 
   const user = useSession({
-    onSignedIn: (u, source, isCheckoutReturn) => {
+    onSignedIn: (u, _source, isCheckoutReturn) => {
       setUserId(u.id);
-      if (source === "event") setMobileTab("scan");
       void library.load(u.id);
       setAvatarSrc(getAvatar(u.id));
       if (needsQuestionnaire(u, isCheckoutReturn)) setShowQuestionnaire(true);
     },
     onSignedOut: () => {
       setUserId(undefined);
+      navigate("/", { replace: true });
       library.clear();
       setAvatarSrc(null);
     },
@@ -3416,30 +2534,18 @@ export default function Frigia() {
   const openCustomerPortal = () => goToStripe(customerPortalUrl, "Impossible d'ouvrir le portail. Réessayez.");
   const startCheckout = () => goToStripe(createCheckoutUrl, "Impossible d'ouvrir le paiement. Réessayez.");
 
-  const v = getThemeVars(theme);
-  const gc = glassCard(theme);
-  const isMobile = windowWidth < 768;
-
-useEffect(() => {
-  const onResize = () => setWindowWidth(window.innerWidth);
-  window.addEventListener("resize", onResize);
-  return () => window.removeEventListener("resize", onResize);
-}, []);
-
+  /** Fin du scan : le scan rejoint l'historique, qu'on ouvre (comme l'ancien onglet Recettes). */
   const finishScan = (newEntry: HistoryEntry) => {
     library.addScan(newEntry);
     setPendingData(null);
     setShowServingsModal(false);
-    setMobileTab("recipes");
-    setRecipesSubTab("history");
-    setScanSuccess(true);
+    navigate("/scans", { replace: true });
+    showToast("Scan terminé !");
   };
 
   const confirmServings = (n: number) => {
     setServings(n);
     if (pendingData) {
-      setAiRecipes(pendingData.recipes);
-      setDetectedIngredients(pendingData.ingredients);
       finishScan({ id: Date.now().toString(), date: new Date(), ingredients: pendingData.ingredients, recipes: pendingData.recipes, servings: n });
     } else {
       setShowServingsModal(false);
@@ -3448,19 +2554,11 @@ useEffect(() => {
 
   const skipServings = () => {
     if (pendingData) {
-      setAiRecipes(pendingData.recipes);
-      setDetectedIngredients(pendingData.ingredients);
       finishScan({ id: Date.now().toString(), date: new Date(), ingredients: pendingData.ingredients, recipes: pendingData.recipes, servings });
     } else {
       setShowServingsModal(false);
     }
   };
-
-  useEffect(() => {
-    if (!scanSuccess) return;
-    const t = setTimeout(() => setScanSuccess(false), 2500);
-    return () => clearTimeout(t);
-  }, [scanSuccess]);
 
 if (!user) {
   return <><Analytics /><Suspense fallback={null}><Landing /></Suspense></>;
@@ -3508,1179 +2606,54 @@ if (!hasAccess(user)) {
   />;
 }
 
-// ─── MOBILE LAYOUT ───────────────────────────────────────────────────────────
-if (isMobile) {
-  const mobileTabs = [
-    { id: "scan" as const,    icon: "📷", label: "Scanner"  },
-    { id: "recipes" as const, icon: "🍽️", label: "Recettes" },
-    { id: "profile" as const, icon: "👤", label: "Profil"   },
-  ];
-
-  return (
-    <div style={{ background: v.bg, minHeight: "100vh", fontFamily: "Helvetica Neue, Arial, sans-serif", color: v.text, overflowX: "hidden" }}>
-      <GlobalStyles theme={theme} />
-      {showServingsModal && <ServingsModal theme={theme} onConfirm={confirmServings} onSkip={skipServings} />}
-      {selectedRecipe && <RecipeDetailModal theme={theme} recipe={selectedRecipe.recipe} servings={selectedRecipe.servings} onClose={() => setSelectedRecipe(null)} />}
-      {showSettings && <SettingsModal theme={theme} onClose={() => setShowSettings(false)} onThemeChange={setTheme} user={user} avatarSrc={avatarSrc} onAvatarChange={setAvatarSrc} />}
-      {showCheckoutSuccess && <CheckoutSuccessModal onClose={() => { setShowCheckoutSuccess(false); window.history.replaceState({}, "", "/"); }} />}
-
-      {/* ── HEADER ── */}
-      <header style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: "calc(56px + env(safe-area-inset-top))", display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "env(safe-area-inset-top)", paddingLeft: 20, paddingRight: 20, background: v.navBg, backdropFilter: "blur(20px)", borderBottom: `1px solid ${v.border}` }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <img src="/logo.png" alt="Frigia" style={{ width: 34, height: 34, borderRadius: 9, objectFit: "cover" }} />
-          <span style={{ fontWeight: 800, fontSize: 19, color: v.text, fontFamily: "Georgia, serif" }}>Frigia</span>
-        </div>
-        <button onClick={() => setShowSettings(true)} style={{ background: "none", border: "none", color: v.muted, fontSize: 22, cursor: "pointer", padding: "6px 8px" }}>⚙️</button>
-      </header>
-
-      {/* ── CONTENT ── */}
-      <main style={{ paddingTop: "calc(56px + env(safe-area-inset-top))", paddingBottom: "calc(74px + env(safe-area-inset-bottom))", minHeight: "100vh" }}>
-
-        {/* SCANNER TAB */}
-        {mobileTab === "scan" && (
-          <div style={{ padding: "20px 16px" }}>
-            <div style={{ textAlign: "center", marginBottom: 20 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: "#2ECC71", letterSpacing: 3, textTransform: "uppercase", marginBottom: 6 }}>Scan IA</div>
-              <h1 style={{ fontSize: 22, fontWeight: 900, color: v.text, margin: 0, fontFamily: "Georgia, serif", lineHeight: 1.2 }}>Votre frigo intelligent</h1>
-            </div>
-            <FridgeAIScanner
-              theme={theme}
-              onRecipesGenerated={(recipes, ingredients) => { setPendingData({ recipes, ingredients }); setShowServingsModal(true); }}
-              onRecipeClick={(r) => setSelectedRecipe({ recipe: r, servings })}
-            />
-          </div>
-        )}
-
-        {/* RECETTES TAB */}
-        {mobileTab === "recipes" && (
-          <div style={{ padding: "20px 16px" }}>
-            <div style={{ textAlign: "center", marginBottom: 16 }}>
-              <h1 style={{ fontSize: 22, fontWeight: 900, color: v.text, margin: 0, fontFamily: "Georgia, serif" }}>Recettes</h1>
-            </div>
-
-            {/* Sub-tab switcher */}
-            <div style={{ display: "flex", borderRadius: 14, overflow: "hidden", border: `1px solid ${v.border}`, marginBottom: 20 }}>
-              {([
-                { id: "history" as const, label: `📋 Historique${history.length > 0 ? ` (${history.length})` : ""}` },
-                { id: "favorites" as const, label: `❤️ Favoris${favorites.length > 0 ? ` (${favorites.length})` : ""}` },
-                { id: "popular" as const, label: "⭐ Populaires" },
-              ]).map((tab) => (
-                <button key={tab.id} onClick={() => setRecipesSubTab(tab.id)} style={{ flex: 1, padding: "10px 4px", border: "none", cursor: "pointer", background: recipesSubTab === tab.id ? "linear-gradient(135deg,#FF6B35,#2ECC71)" : v.inputBg, color: recipesSubTab === tab.id ? "#fff" : v.muted, fontWeight: recipesSubTab === tab.id ? 700 : 400, fontSize: 12, transition: "all 0.2s" }}>
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Recettes populaires */}
-            {recipesSubTab === "popular" && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-                {SHOWCASE_RECIPES.map((r) => (
-                  <ShowcaseRecipeCard key={r.title} recipe={r} theme={theme} onClick={() => setSelectedRecipe({ recipe: r, servings })} />
-                ))}
-              </div>
-            )}
-
-            {/* Historique */}
-            {recipesSubTab === "history" && (
-              <HistoryTab theme={theme} history={history} onDeleteScan={deleteScan} onRecipeClick={(r, s) => setSelectedRecipe({ recipe: r, servings: s })} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />
-            )}
-
-            {/* Favoris */}
-            {recipesSubTab === "favorites" && (
-              favorites.length === 0 ? (
-                <div style={{ textAlign: "center", padding: "60px 20px" }}>
-                  <div style={{ fontSize: 56, marginBottom: 16 }}>🤍</div>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: v.text, marginBottom: 8 }}>Aucun favori pour l'instant</div>
-                  <div style={{ fontSize: 13, color: v.muted }}>Appuyez sur ❤️ sur une recette pour la sauvegarder ici.</div>
-                </div>
-              ) : (
-                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                  {favorites.map((r) => (
-                    <div key={r.title} style={{ ...glassCard(theme), padding: 0, overflow: "hidden", borderRadius: 16, cursor: "pointer" }} onClick={() => setSelectedRecipe({ recipe: r, servings })}>
-                      <div style={{ position: "relative", height: 130 }}>
-                        <RecipeImage title={r.title} imageSearch={r.imageSearch} />
-                        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.6) 100%)" }} />
-                        <button
-                          onClick={(e) => { e.stopPropagation(); toggleFavorite(r); }}
-                          style={{ position: "absolute", top: 8, right: 8, width: 30, height: 30, borderRadius: "50%", background: "rgba(255,107,53,0.9)", border: "none", cursor: "pointer", fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center" }}
-                        >❤️</button>
-                      </div>
-                      <div style={{ padding: "12px 14px 8px" }}>
-                        <div style={{ fontWeight: 700, fontSize: 14, color: v.text, marginBottom: 4 }}>{r.title}</div>
-                        <div style={{ fontSize: 12, color: v.muted, marginBottom: 10 }}>{r.time} · {r.cal} kcal · {r.diff}</div>
-                        <div style={{ display: "flex", gap: 8 }}>
-                          <button
-                            onClick={(e) => { e.stopPropagation(); setSelectedRecipe({ recipe: r, servings }); }}
-                            style={{ flex: 1, padding: "8px", borderRadius: 10, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 700 }}
-                          >Voir →</button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              const text = buildShareText(r);
-                              if (navigator.share) { navigator.share({ title: r.title, text }).catch(() => {}); }
-                              else { navigator.clipboard.writeText(text).catch(() => {}); }
-                            }}
-                            style={{ padding: "8px 12px", borderRadius: 10, border: `1px solid ${v.border}`, background: "none", color: v.muted, cursor: "pointer", fontSize: 13 }}
-                          >↗</button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )
-            )}
-          </div>
-        )}
-
-        {/* PROFIL TAB */}
-        {mobileTab === "profile" && (
-          <div style={{ padding: "28px 16px", display: "flex", flexDirection: "column", minHeight: "calc(100dvh - 120px)" }}>
-            <div style={{ textAlign: "center", marginBottom: 28 }}>
-              <div style={{ width: 84, height: 84, borderRadius: "50%", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 38, margin: "0 auto 14px", overflow: "hidden", flexShrink: 0 }}>
-                {avatarSrc ? <img src={avatarSrc} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : "👤"}
-              </div>
-              <div style={{ fontWeight: 800, fontSize: 20, color: v.text, marginBottom: 4 }}>
-                {user?.user_metadata?.full_name || user?.user_metadata?.name || "Mon compte"}
-              </div>
-              <div style={{ fontSize: 13, color: v.muted, marginBottom: 8 }}>{user?.email}</div>
-              {(() => {
-                const status = user?.app_metadata?.subscription_status;
-                const daysUsed = user ? Math.floor((mountedAt - new Date(user.created_at).getTime()) / (1000 * 60 * 60 * 24)) : 0;
-                const isActive = status === "active" || user?.app_metadata?.is_whitelisted;
-                const isTrialing = status === "trialing" || (!status && daysUsed <= 4);
-                const label = isActive ? "Abonné actif" : isTrialing ? "Essai gratuit en cours" : "Accès expiré";
-                return (
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 14px", background: "rgba(46,204,113,0.1)", border: "1px solid rgba(46,204,113,0.25)", borderRadius: 100, fontSize: 12, color: "#2ECC71", fontWeight: 700 }}>
-                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#2ECC71", display: "inline-block" }} />
-                    {label}
-                  </div>
-                );
-              })()}
-            </div>
-
-            {/* Bloc préférences questionnaire */}
-            {(() => {
-              const prefs = user ? getPrefs(user.id) : null;
-              if (!prefs) return null;
-              const goalMap: Record<string, { icon: string; label: string }> = { healthy: { icon: "🥗", label: "Manger sain" }, nogaspi: { icon: "♻️", label: "Zéro gaspillage" }, quick: { icon: "⚡", label: "Gagner du temps" } };
-              const dietMap: Record<string, { icon: string; label: string }> = { all: { icon: "🍖", label: "Tout" }, veggie: { icon: "🥦", label: "Végétarien" }, vegan: { icon: "🌱", label: "Vegan" }, glutenfree: { icon: "🌾", label: "Sans gluten" } };
-              const timeMap: Record<string, { icon: string; label: string }> = { "15min": { icon: "⚡", label: "< 15 min" }, "30min": { icon: "🕐", label: "30 min" }, any: { icon: "👨‍🍳", label: "Peu importe" } };
-              const equip: Record<string, { icon: string; label: string }> = { airfryer: { icon: "🔥", label: "AirFryer" }, moulinex: { icon: "🥣", label: "Moulinex" }, thermomix: { icon: "⚙️", label: "Thermomix" }, autre: { icon: "✏️", label: "Autre" } };
-              const g = goalMap[prefs.goal];
-              const t = timeMap[prefs.time];
-              const diets = (prefs.diet as string[]).map((d: string) => dietMap[d]).filter(Boolean);
-              const equipList = (prefs.equipment as string[]).map((e: string) => equip[e]).filter(Boolean);
-              const items = [
-                g && { icon: g.icon, label: g.label, sub: "Objectif" },
-                diets.length > 0 && { icon: diets[0].icon, label: diets.map(d => d.label).join(", "), sub: "Alimentation" },
-                t && { icon: t.icon, label: t.label, sub: "Temps de cuisine" },
-                equipList.length > 0 && { icon: equipList[0].icon, label: equipList.map(e => e.label).join(", "), sub: "Équipement" },
-              ].filter(Boolean) as { icon: string; label: string; sub: string }[];
-              return (
-                <div style={{ marginBottom: 16, borderRadius: 22, overflow: "hidden", background: "linear-gradient(135deg,rgba(255,107,53,0.12),rgba(46,204,113,0.08))", border: "1px solid rgba(255,107,53,0.2)" }}>
-                  <div style={{ padding: "16px 18px 12px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                    <span style={{ fontSize: 13, fontWeight: 800, color: v.text, letterSpacing: 0.3 }}>Ton profil culinaire</span>
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: "rgba(255,255,255,0.04)" }}>
-                    {items.map((item, i) => (
-                      <div key={i} style={{ padding: "14px 16px", background: theme === "dark" ? "rgba(10,10,15,0.6)" : "rgba(255,255,255,0.6)" }}>
-                        <div style={{ fontSize: 11, color: v.muted, marginBottom: 3 }}>{item.sub}</div>
-                        <div style={{ fontSize: 13, fontWeight: 700, color: v.text, lineHeight: 1.3 }}>{item.label}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })()}
-
-            {/* Ingrédient le plus scanné */}
-            {(() => {
-              const counts: Record<string, number> = {};
-              history.forEach(e => e.ingredients.forEach(ing => {
-                counts[ing.name] = (counts[ing.name] || 0) + 1;
-              }));
-              const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
-              if (!top) return null;
-              const [name, count] = top;
-              return (
-                <div style={{ ...glassCard(theme), padding: 0, overflow: "hidden", marginBottom: 16 }}>
-                  <div style={{ position: "relative", height: 130 }}>
-                    <img
-                      src={`https://www.themealdb.com/images/ingredients/${encodeURIComponent(name)}-Medium.png`}
-                      alt={name}
-                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", background: "#fff", padding: 12 }}
-                      onError={(e) => { const img = e.currentTarget as HTMLImageElement; if (img.dataset.fallback) return; img.dataset.fallback = "1"; img.src = `https://image.pollinations.ai/prompt/${encodeURIComponent(`${name}, fresh food ingredient, studio photography, white background`)}&width=600&height=260&nologo=true&model=flux`; img.style.objectFit = "cover"; img.style.padding = "0"; }}
-                    />
-                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.75) 100%)" }} />
-                    <div style={{ position: "absolute", bottom: 12, left: 14, right: 14 }}>
-                      <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", fontWeight: 600, marginBottom: 2 }}>Ingrédient le plus scanné</div>
-                      <div style={{ fontSize: 17, fontWeight: 900, color: "#fff" }}>{name}</div>
-                    </div>
-                    <div style={{ position: "absolute", top: 10, right: 10, background: "linear-gradient(135deg,#FF6B35,#2ECC71)", borderRadius: 100, padding: "3px 10px", fontSize: 11, fontWeight: 700, color: "#fff" }}>{count}×</div>
-                  </div>
-                </div>
-              );
-            })()}
-
-            <div style={{ marginTop: "auto", textAlign: "center", paddingTop: 24 }}>
-              <button onClick={signOut} style={{ background: "none", border: "none", color: "rgba(255,80,80,0.6)", fontSize: 13, cursor: "pointer", padding: "8px 16px" }}>
-                Se déconnecter
-              </button>
-            </div>
-          </div>
-        )}
-      </main>
-
-      {/* ── SCAN SUCCESS TOAST ── */}
-      {scanSuccess && (
-        <div style={{ position: "fixed", top: 20, left: "50%", transform: "translateX(-50%)", zIndex: 999, background: "linear-gradient(135deg,#2ECC71,#27ae60)", color: "#fff", padding: "12px 24px", borderRadius: 100, fontWeight: 700, fontSize: 15, boxShadow: "0 4px 20px rgba(46,204,113,0.4)", display: "flex", alignItems: "center", gap: 8, animation: "fadeUp 0.3s ease" }}>
-          ✅ Scan terminé !
-        </div>
-      )}
-
-      {/* ── BOTTOM NAV ── */}
-      <nav style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 100, background: v.navBg, backdropFilter: "blur(20px)", borderTop: `1px solid ${v.border}`, display: "flex", paddingBottom: "env(safe-area-inset-bottom)" }}>
-        {mobileTabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setMobileTab(tab.id)}
-            style={{ flex: 1, padding: "10px 0 14px", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 3, borderTop: `2px solid ${mobileTab === tab.id ? "#FF6B35" : "transparent"}`, transition: "all 0.2s" }}
-          >
-            <span style={{ fontSize: 22 }}>{tab.icon}</span>
-            <span style={{ fontSize: 10, fontWeight: mobileTab === tab.id ? 700 : 400, color: mobileTab === tab.id ? "#FF6B35" : v.muted, transition: "color 0.2s" }}>{tab.label}</span>
-          </button>
-        ))}
-      </nav>
-    </div>
-  );
-}
+// ─── NOUVELLE APPLI (prototype V3) ───────────────────────────────────────────
+// Les écrans pas encore refaits (scan, tes scans, tes favoris, réglages, fiche recette) restent les anciens,
+// en clair, le temps des étapes 6 à 8.
+const isPlus = hasAccess(user);
+const recipeState = location.state as { recipe?: GeneratedRecipe; servings?: number } | null;
+const openRecipe = (recipe: GeneratedRecipe, s = servings) => navigate(location.pathname, { state: { recipe, servings: s } });
 
 return (
-    <div
-      style={{
-        background: v.bg,
-        minHeight: "100vh",
-        fontFamily: "Helvetica Neue, Arial, sans-serif",
-        color: v.text,
-        transition: "background 0.3s, color 0.3s",
-      }}
-    >
-      <GlobalStyles theme={theme} />
-      <Nav theme={theme} />
-      {showSettings && (
-        <SettingsModal
-          theme={theme}
-          onClose={() => setShowSettings(false)}
-          onThemeChange={setTheme}
-          user={user}
-          avatarSrc={avatarSrc}
-          onAvatarChange={setAvatarSrc}
-        />
-      )}
-      {showLegal && <LegalModal page={showLegal} theme={theme} onClose={() => setShowLegal(null)} />}
-      {showServingsModal && (
-        <ServingsModal
-          theme={theme}
-          onConfirm={confirmServings}
-          onSkip={skipServings}
-        />
-      )}
-      {selectedRecipe && (
-        <RecipeDetailModal
-          theme={theme}
-          recipe={selectedRecipe.recipe}
-          servings={selectedRecipe.servings}
-          onClose={() => setSelectedRecipe(null)}
-        />
-      )}
-
-      {/* ── HERO ── */}
-      <section
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "120px 40px 80px",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            width: 600,
-            height: 600,
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle,rgba(255,107,53,0.12) 0%,transparent 70%)",
-            top: "5%",
-            left: "-10%",
-            animation: "orb1 8s ease-in-out infinite",
-            pointerEvents: "none",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            width: 500,
-            height: 500,
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle,rgba(46,204,113,0.1) 0%,transparent 70%)",
-            bottom: "5%",
-            right: "-5%",
-            animation: "orb2 10s ease-in-out infinite",
-            pointerEvents: "none",
-          }}
-        />
-
-        <div
-          style={{
-            maxWidth: 1200,
-            width: "100%",
-            display: "flex",
-            gap: 80,
-            alignItems: "center",
-            flexWrap: "wrap",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          <div
-            style={{
-              flex: 1,
-              minWidth: 300,
-              maxWidth: 580,
-              animation: "fadeUp 0.8s ease both",
-            }}
-          >
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                padding: "6px 16px",
-                background: "rgba(46,204,113,0.1)",
-                border: "1px solid rgba(46,204,113,0.25)",
-                borderRadius: 100,
-                fontSize: 13,
-                color: "#2ECC71",
-                marginBottom: 28,
-                fontWeight: 700,
-              }}
-            >
-              <span
-                style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  background: "#2ECC71",
-                }}
-              />
-              4 jours gratuits · Puis 4,99€/mois
-            </div>
-
-            <h1
-              style={{
-                fontSize: "clamp(38px,5vw,64px)",
-                fontWeight: 900,
-                lineHeight: 1.08,
-                letterSpacing: -2,
-                marginBottom: 24,
-                fontFamily: "Georgia, serif",
-                color: v.text,
-              }}
-            >
-              Prenez votre frigo en photo.{" "}
-              <span style={gradientText}>L'IA cuisine pour vous.</span>
-            </h1>
-
-            <p
-              style={{
-                fontSize: 18,
-                color: v.muted,
-                lineHeight: 1.7,
-                marginBottom: 40,
-              }}
-            >
-              Des recettes intelligentes générées instantanément à partir des
-              aliments que vous avez déjà chez vous.
-            </p>
-
-            <div
-              style={{
-                display: "flex",
-                gap: 16,
-                flexWrap: "wrap",
-                marginBottom: 48,
-              }}
-            >
-              <button
-                type="button"
-                onClick={startCheckout}
-                disabled={checkoutLoading}
-                style={{
-                  padding: "16px 32px",
-                  background: "linear-gradient(135deg,#FF6B35,#2ECC71)",
-                  border: "none",
-                  borderRadius: 100,
-                  color: "#fff",
-                  fontWeight: 800,
-                  fontSize: 16,
-                  cursor: checkoutLoading ? "not-allowed" : "pointer",
-                  boxShadow: "0 8px 32px rgba(255,107,53,0.35)",
-                  opacity: checkoutLoading ? 0.7 : 1,
-                }}
-              >
-                {checkoutLoading ? "Redirection..." : "Démarrer 4 jours gratuits"}
-              </button>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              <div style={{ display: "flex" }}>
-                {["👩", "👨", "🧑", "👩‍🍳", "👨‍🍳"].map((e, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: "50%",
-                      background: `hsl(${i * 40},70%,45%)`,
-                      border: "2px solid transparent",
-                      marginLeft: i === 0 ? 0 : -8,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: 16,
-                    }}
-                  >
-                    {e}
-                  </div>
-                ))}
-              </div>
-              <div style={{ fontSize: 14, color: v.muted }}>
-                <span style={{ color: v.text, fontWeight: 700 }}>4 800+</span>{" "}
-                chefs amateurs
-                <div style={{ color: "#FFB800" }}>★★★★★</div>
-              </div>
-            </div>
-          </div>
-
-          <div
-            style={{
-              position: "relative",
-              animation: "fadeUp 0.8s ease 0.2s both",
-            }}
-          >
-            <IPhoneMockup />
-            <div
-              style={{
-                position: "absolute",
-                top: 80,
-                right: -80,
-                ...gc,
-                padding: "12px 16px",
-                borderRadius: 16,
-                fontSize: 13,
-                animation: "float 3s ease-in-out infinite",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                whiteSpace: "nowrap",
-              }}
-            >
-              <span style={{ fontSize: 20 }}>🥦</span>
-              <div>
-                <div style={{ fontWeight: 700, color: v.text, fontSize: 12 }}>
-                  Brocoli détecté
-                </div>
-                <div style={{ color: "#2ECC71", fontSize: 11 }}>
-                  96% confiance
-                </div>
-              </div>
-            </div>
-            <div
-              style={{
-                position: "absolute",
-                bottom: 100,
-                left: -90,
-                ...gc,
-                padding: "12px 16px",
-                borderRadius: 16,
-                fontSize: 13,
-                animation: "float 3.5s ease-in-out infinite",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                whiteSpace: "nowrap",
-              }}
-            >
-              <span style={{ fontSize: 20 }}>🍳</span>
-              <div>
-                <div style={{ fontWeight: 700, color: v.text, fontSize: 12 }}>
-                  Recette générée
-                </div>
-                <div style={{ color: COLORS.orangeStart, fontSize: 11 }}>
-                  8 min
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── STATS ── */}
-      <section style={{ padding: "40px 40px 80px" }}>
-        <div
-          style={{
-            maxWidth: 900,
-            margin: "0 auto",
-            display: "flex",
-            flexWrap: "wrap",
-            ...gc,
-            overflow: "hidden",
-          }}
-        >
-          {[
-            ["4 800+", "Utilisateurs actifs"],
-            ["98%", "Précision IA"],
-            ["120 000+", "Recettes générées"],
-            ["2,3 kg", "Gaspillage évité/mois"],
-          ].map(([n, l], i) => (
-            <div
-              key={i}
-              style={{
-                flex: 1,
-                minWidth: 180,
-                padding: "32px 24px",
-                textAlign: "center",
-                borderRight: i < 3 ? `1px solid ${v.border}` : "none",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 36,
-                  fontWeight: 900,
-                  ...gradientText,
-                  marginBottom: 4,
-                }}
-              >
-                {n}
-              </div>
-              <div style={{ fontSize: 13, color: v.muted }}>{l}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ── */}
-      <section
-        style={{ padding: "80px 40px", maxWidth: 1100, margin: "0 auto" }}
-      >
-        <div style={{ textAlign: "center", marginBottom: 64 }}>
-          <div
-            style={{
-              fontSize: 12,
-              fontWeight: 700,
-              color: COLORS.orangeStart,
-              letterSpacing: 4,
-              textTransform: "uppercase",
-              marginBottom: 16,
-            }}
-          >
-            Comment ça marche
-          </div>
-          <h2
-            style={{
-              fontSize: "clamp(28px,4vw,48px)",
-              fontWeight: 900,
-              letterSpacing: -1,
-              color: v.text,
-            }}
-          >
-            4 étapes. Zéro prise de tête.
-          </h2>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            gap: 24,
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          {[
-            {
-              step: "01",
-              icon: "📸",
-              title: "Photographiez votre frigo",
-              desc: "Prenez une photo claire de vos aliments.",
-            },
-            {
-              step: "02",
-              icon: "🤖",
-              title: "L'IA analyse vos aliments",
-              desc: "Frigia détecte les ingrédients disponibles.",
-            },
-            {
-              step: "03",
-              icon: "🍽️",
-              title: "Recettes personnalisées",
-              desc: "Recevez des idées adaptées à vos goûts.",
-            },
-            {
-              step: "04",
-              icon: "✨",
-              title: "Cuisinez & savourez",
-              desc: "Suivez les étapes et réduisez le gaspillage.",
-            },
-          ].map((s, i) => (
-            <div
-              key={i}
-              style={{
-                ...gc,
-                padding: "36px 28px",
-                flex: 1,
-                minWidth: 220,
-                maxWidth: 260,
-                animation: `fadeUp 0.6s ease ${i * 0.1}s both`,
-                position: "relative",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: v.muted,
-                  marginBottom: 14,
-                }}
-              >
-                {s.step}
-              </div>
-              <div style={{ fontSize: 40, marginBottom: 16 }}>{s.icon}</div>
-              <h3
-                style={{
-                  fontSize: 17,
-                  fontWeight: 800,
-                  marginBottom: 12,
-                  lineHeight: 1.3,
-                  color: v.text,
-                }}
-              >
-                {s.title}
-              </h3>
-              <p style={{ fontSize: 14, color: v.muted, lineHeight: 1.7 }}>
-                {s.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── SCANNER ── */}
-      <section
-        style={{
-          padding: "80px 40px",
-          background: v.sectionBg,
-          borderTop: `1px solid ${v.border}`,
-          borderBottom: `1px solid ${v.border}`,
-        }}
-      >
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <div
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: "#2ECC71",
-                letterSpacing: 4,
-                textTransform: "uppercase",
-                marginBottom: 16,
-              }}
-            >
-              Scan IA
-            </div>
-            <h2
-              style={{
-                fontSize: "clamp(28px,4vw,48px)",
-                fontWeight: 900,
-                letterSpacing: -1,
-                color: v.text,
-              }}
-            >
-              Votre frigo devient intelligent
-            </h2>
-            <p style={{ color: v.muted, fontSize: 16, marginTop: 16 }}>
-              Prenez une photo de votre frigo. L'IA détecte les aliments et
-              génère des recettes instantanément.
-            </p>
-          </div>
+  <AppFrame>
+    <Routes>
+      <Route path="/" element={<Home user={user} isPlus={isPlus} avatar={avatarSrc} history={history} favorites={favorites} onOpenRecipe={r => openRecipe(r)} />} />
+      <Route path="/planning" element={<Planning isPlus={isPlus} />} />
+      <Route path="/courses" element={<Courses isPlus={isPlus} />} />
+      <Route path="/famille" element={<Family user={user} isPlus={isPlus} avatar={avatarSrc} prefs={getPrefs(user.id)} onManageSubscription={openCustomerPortal} />} />
+      <Route path="/scan" element={
+        <LegacyPage title={<>Scanner mon <em>frigo</em></>}>
+          <GlobalStyles theme={theme} />
           <FridgeAIScanner
             theme={theme}
-            onRecipesGenerated={(recipes, ingredients) => {
-              setPendingData({ recipes, ingredients });
-              setShowServingsModal(true);
-            }}
-            onRecipeClick={(r) =>
-              setSelectedRecipe({ recipe: r, servings })
-            }
+            onRecipesGenerated={(recipes, ingredients) => { setPendingData({ recipes, ingredients }); setShowServingsModal(true); }}
+            onRecipeClick={(r) => openRecipe(r)}
           />
-        </div>
-      </section>
-
-      {/* ── RECIPES ── */}
-      <section
-        style={{ padding: "80px 40px", maxWidth: 1100, margin: "0 auto" }}
-      >
-        <div style={{ textAlign: "center", marginBottom: 48 }}>
-          <div
-            style={{
-              fontSize: 12,
-              fontWeight: 700,
-              color: COLORS.orangeStart,
-              letterSpacing: 4,
-              textTransform: "uppercase",
-              marginBottom: 16,
-            }}
-          >
-            Recettes
-          </div>
-          <h2
-            style={{
-              fontSize: "clamp(28px,4vw,48px)",
-              fontWeight: 900,
-              letterSpacing: -1,
-              color: v.text,
-            }}
-          >
-            Suggestions générées par IA
-          </h2>
-        </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill,minmax(240px,1fr))",
-            gap: 20,
-          }}
-        >
-          {aiRecipes.length === 0 ? (
-            <div style={{ gridColumn: "1/-1", textAlign: "center", padding: "60px 20px", color: v.muted }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}>🍽️</div>
-              <div style={{ fontSize: 16, fontWeight: 600 }}>Pas de recette générée pour le moment</div>
-              <div style={{ fontSize: 13, marginTop: 8, opacity: 0.7 }}>Scannez votre frigo pour obtenir des suggestions</div>
-            </div>
-          ) : aiRecipes.map((r, i) => (
-            <RecipeCard
-              key={`${r.title}-${i}`}
-              theme={theme}
-              {...r}
-              delay={i * 0.05}
-              onClick={() => setSelectedRecipe({ recipe: r, servings })}
-              isFavorite={isFavorite(r)}
-              onToggleFavorite={() => toggleFavorite(r)}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* ── PRICING ── */}
-      <section
-        style={{ padding: "80px 40px", maxWidth: 860, margin: "0 auto" }}
-      >
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <div
-            style={{
-              fontSize: 12,
-              fontWeight: 700,
-              color: COLORS.orangeStart,
-              letterSpacing: 4,
-              textTransform: "uppercase",
-              marginBottom: 16,
-            }}
-          >
-            Tarifs
-          </div>
-          <h2
-            style={{
-              fontSize: "clamp(28px,4vw,48px)",
-              fontWeight: 900,
-              letterSpacing: -1,
-              color: v.text,
-            }}
-          >
-            Simple et transparent
-          </h2>
-          <p style={{ color: v.muted, fontSize: 16, marginTop: 12 }}>
-            4 jours gratuits, puis un seul plan sans surprise.
-          </p>
-        </div>
-
-        {/* Single pricing card */}
-        <div style={{ maxWidth: 480, margin: "0 auto", position: "relative" }}>
-          <div
-            style={{
-              position: "absolute",
-              top: -16,
-              left: "50%",
-              transform: "translateX(-50%)",
-              background: "linear-gradient(90deg,#FF6B35,#2ECC71)",
-              borderRadius: 100,
-              padding: "6px 24px",
-              fontSize: 13,
-              fontWeight: 800,
-              color: "#fff",
-              whiteSpace: "nowrap",
-              zIndex: 1,
-            }}
-          >
-            🎉 4 jours gratuits inclus
-          </div>
-          <div
-            style={{
-              ...gc,
-              padding: "48px 40px",
-              background:
-                theme === "light"
-                  ? "rgba(255,255,255,0.9)"
-                  : "linear-gradient(135deg,rgba(255,107,53,0.1),rgba(46,204,113,0.1))",
-              border: "1px solid rgba(255,107,53,0.35)",
-              textAlign: "center",
-            }}
-          >
-            <div
-              style={{
-                fontSize: 13,
-                fontWeight: 700,
-                color: v.muted,
-                textTransform: "uppercase",
-                letterSpacing: 2,
-                marginBottom: 12,
-              }}
-            >
-              Frigia Premium
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "baseline",
-                justifyContent: "center",
-                gap: 6,
-                marginBottom: 6,
-              }}
-            >
-              <span style={{ fontSize: 56, fontWeight: 900, color: v.text }}>
-                4,99€
-              </span>
-              <span style={{ color: v.muted, fontSize: 15 }}>/mois</span>
-            </div>
-            <div style={{ fontSize: 14, color: v.muted, marginBottom: 8 }}>
-              Prélèvement automatique — sans engagement
-            </div>
-            <div
-              style={{
-                fontSize: 13,
-                color: "#2ECC71",
-                fontWeight: 700,
-                marginBottom: 32,
-              }}
-            >
-              ✓ Résiliable à tout moment depuis les paramètres
-            </div>
-
-            <div
-              style={{ height: 1, background: v.border, margin: "0 0 28px" }}
-            />
-
-            <ul
-              style={{
-                listStyle: "none",
-                padding: 0,
-                margin: "0 0 36px",
-                textAlign: "left",
-                display: "flex",
-                flexDirection: "column",
-                gap: 14,
-              }}
-            >
-              {[
-                "Scans IA illimités de votre frigo",
-                "Recettes personnalisées illimitées",
-                "Suivi nutritionnel avancé",
-                "Toutes les futures fonctionnalités incluses",
-              ].map((f, i) => (
-                <li
-                  key={i}
-                  style={{
-                    display: "flex",
-                    gap: 12,
-                    alignItems: "flex-start",
-                    fontSize: 15,
-                    color: v.text,
-                  }}
-                >
-                  <span style={{ color: "#2ECC71", fontWeight: 900 }}>✓</span>
-                  {f}
-                </li>
-              ))}
-            </ul>
-
-            <button
-              style={{
-                width: "100%",
-                padding: "16px",
-                borderRadius: 100,
-                fontWeight: 800,
-                fontSize: 16,
-                cursor: "pointer",
-                border: "none",
-                background: "linear-gradient(135deg,#FF6B35,#2ECC71)",
-                color: "#fff",
-              }}
-            >
-              Commencer 4 jours gratuits →
-            </button>
-            <p style={{ fontSize: 12, color: v.muted, marginTop: 14 }}>
-              Aucune carte bancaire requise pendant l'essai
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <section
-        style={{
-          padding: "80px 40px",
-          background: v.sectionBg,
-          borderTop: `1px solid ${v.border}`,
-        }}
-      >
-        <div style={{ maxWidth: 720, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <div
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: COLORS.orangeStart,
-                letterSpacing: 4,
-                textTransform: "uppercase",
-                marginBottom: 16,
-              }}
-            >
-              FAQ
-            </div>
-            <h2
-              style={{
-                fontSize: "clamp(28px,4vw,44px)",
-                fontWeight: 900,
-                letterSpacing: -1,
-                color: v.text,
-              }}
-            >
-              Questions fréquentes
-            </h2>
-          </div>
-          {[
-            {
-              q: "Comment fonctionne l'essai gratuit ?",
-              a: "Vous avez accès à toutes les fonctionnalités pendant 4 jours, sans aucune carte bancaire requise. Au 5ème jour, le prélèvement automatique de 4,99€/mois démarre si vous choisissez de continuer.",
-            },
-            {
-              q: "Comment résilier mon abonnement ?",
-              a: "Vous pouvez résilier à tout moment depuis votre espace Paramètres → Abonnement. L'accès reste actif jusqu'à la fin de la période payée. Aucune pénalité, aucune complication.",
-            },
-            {
-              q: "Comment fonctionne la détection IA ?",
-              a: "Frigia analyse votre photo pour identifier les ingrédients visibles et proposer des recettes adaptées à ce que vous avez chez vous.",
-            },
-            {
-              q: "Mes données sont-elles sécurisées ?",
-              a: "Oui. Vos photos sont analysées puis supprimées automatiquement. Nous ne conservons aucune image de votre frigo sur nos serveurs.",
-            },
-            {
-              q: "Puis-je modifier mes informations personnelles ?",
-              a: "Oui, depuis Paramètres → Profil, vous pouvez modifier votre nom, email, téléphone et photo de profil à tout moment.",
-            },
-          ].map((f) => (
-            <FAQItem key={f.q} theme={theme} {...f} />
-          ))}
-        </div>
-      </section>
-
-      {/* ── CTA ── */}
-      <section
-        style={{
-          padding: "100px 40px",
-          textAlign: "center",
-          position: "relative",
-        }}
-      >
-        <h2
-          style={{
-            fontSize: "clamp(32px,5vw,60px)",
-            fontWeight: 900,
-            letterSpacing: -2,
-            marginBottom: 20,
-            color: v.text,
-          }}
-        >
-          Votre frigo cache des{" "}
-          <span style={gradientText}>recettes extraordinaires</span>
-        </h2>
-        <p style={{ color: v.muted, fontSize: 18, marginBottom: 40 }}>
-          4 jours gratuits · Puis 4,99€/mois · Résiliable à tout moment.
-        </p>
-        <div
-          style={{
-            display: "flex",
-            gap: 16,
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          <button
-            type="button"
-            style={{
-              padding: "18px 40px",
-              background: "linear-gradient(135deg,#FF6B35,#2ECC71)",
-              border: "none",
-              borderRadius: 100,
-              color: "#fff",
-              fontWeight: 800,
-              fontSize: 17,
-              cursor: "pointer",
-              boxShadow: "0 12px 40px rgba(255,107,53,0.4)",
-            }}
-          >
-            Démarrer gratuitement
-          </button>
-          <button
-            type="button"
-            style={{
-              padding: "18px 40px",
-              background: "rgba(255,255,255,0.06)",
-              border: `1px solid ${v.border}`,
-              borderRadius: 100,
-              color: v.text,
-              fontWeight: 700,
-              fontSize: 17,
-              cursor: "pointer",
-            }}
-          >
-            Télécharger l'app
-          </button>
-        </div>
-        <p style={{ color: v.muted, fontSize: 13, marginTop: 20 }}>
-          ✓ 4 jours gratuits · ✓ Sans engagement · ✓ Résiliable en un clic
-        </p>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer
-        style={{
-          borderTop: `1px solid ${v.border}`,
-          padding: "60px 40px 30px",
-          background: "rgba(0,0,0,0.3)",
-        }}
-      >
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div
-            style={{
-              display: "flex",
-              gap: 48,
-              flexWrap: "wrap",
-              marginBottom: 48,
-            }}
-          >
-            <div style={{ flex: 2, minWidth: 220 }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  marginBottom: 16,
-                }}
-              >
-                <img src="/logo.png" alt="Frigia" style={{ width: 36, height: 36, borderRadius: 10, objectFit: "cover" }} />
-                <span
-                  style={{
-                    fontWeight: 800,
-                    fontSize: 22,
-                    color: v.text,
-                    fontFamily: "Georgia, serif",
-                  }}
-                >
-                  Frigia
-                </span>
-              </div>
-              <p
-                style={{
-                  color: v.muted,
-                  fontSize: 14,
-                  lineHeight: 1.7,
-                  maxWidth: 280,
-                }}
-              >
-                Votre Chef IA personnel. 4 jours gratuits, puis 4,99€/mois.
-              </p>
-            </div>
-            <div style={{ flex: 1, minWidth: 140 }}>
-              <div style={{ fontWeight: 700, fontSize: 13, color: v.text, marginBottom: 16, textTransform: "uppercase", letterSpacing: 1 }}>
-                Légal
-              </div>
-              {[
-                { label: "Mentions légales", page: "mentions" as LegalPage },
-                { label: "CGU", page: "cgu" as LegalPage },
-                { label: "Politique de confidentialité", page: "privacy" as LegalPage },
-                { label: "Cookies", page: "cookies" as LegalPage },
-                { label: "RGPD", page: "rgpd" as LegalPage },
-              ].map((l) => (
-                <div key={l.label} style={{ marginBottom: 10 }}>
-                  <a
-                    href="#"
-                    onClick={(e) => { e.preventDefault(); setShowLegal(l.page); }}
-                    style={{ color: v.muted, fontSize: 14, textDecoration: "none" }}
-                  >
-                    {l.label}
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div
-            style={{
-              borderTop: `1px solid ${v.border}`,
-              paddingTop: 24,
-              display: "flex",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: 16,
-            }}
-          >
-            <span style={{ color: v.muted, fontSize: 13 }}>
-              © 2026 Frigia. Tous droits réservés.
-            </span>
-            <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-              <button
-                onClick={() => setShowSettings(true)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: v.muted,
-                  cursor: "pointer",
-                  fontSize: 13,
-                }}
-              >
-                ⚙️ Paramètres
-              </button>
-              <span style={{ color: v.muted, fontSize: 13 }}>Français</span>
-              <span style={{ color: v.muted, fontSize: 13 }}>
-                RGPD compliant
-              </span>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
+        </LegacyPage>
+      } />
+      <Route path="/scans" element={
+        <LegacyPage title={<>Tes <em>scans</em></>}>
+          <GlobalStyles theme={theme} />
+          <HistoryTab theme={theme} history={history} onDeleteScan={deleteScan} onRecipeClick={(r, s) => openRecipe(r, s)} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />
+        </LegacyPage>
+      } />
+      <Route path="/favoris" element={
+        <LegacyPage title={<>Tes <em>favoris</em></>}>
+          <GlobalStyles theme={theme} />
+          <LegacyFavorites theme={theme} favorites={favorites} onOpen={r => openRecipe(r)} onToggleFavorite={toggleFavorite} />
+        </LegacyPage>
+      } />
+      <Route path="/reglages" element={<>
+        <GlobalStyles theme={theme} />
+        <SettingsModal theme={theme} onClose={back} user={user} avatarSrc={avatarSrc} onAvatarChange={setAvatarSrc} />
+      </>} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+    {recipeState?.recipe && <>
+      <GlobalStyles theme={theme} keyframesOnly />
+      <RecipeDetailModal theme={theme} recipe={recipeState.recipe} servings={recipeState.servings ?? servings} onClose={back} />
+    </>}
+    {showServingsModal && <><GlobalStyles theme={theme} keyframesOnly /><ServingsModal theme={theme} onConfirm={confirmServings} onSkip={skipServings} /></>}
+    {showCheckoutSuccess && <CheckoutSuccessModal onClose={() => { setShowCheckoutSuccess(false); navigate("/", { replace: true }); }} />}
+  </AppFrame>
+);
 }

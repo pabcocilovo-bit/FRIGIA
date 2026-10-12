@@ -5,5 +5,11 @@
     "api/analyze.ts": {
       "maxDuration": 60
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/(planning|courses|famille|scan|scans|favoris|reglages)",
+      "destination": "/index.html"
+    }
+  ]
 }
