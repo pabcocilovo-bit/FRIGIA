@@ -2196,7 +2196,7 @@ if (!user || obPath) {
   const screens: [string, React.ReactNode][] = [
     ["/bienvenue", <Welcome />],
     ["/questions/1", <QGoal />],
-    ["/questions/2", <QDiet />],
+    ["/questions/2", <QDiet onSave={user ? saveTastes : undefined} />],
     ["/questions/3", <QTime onSave={user ? saveTastes : undefined} />],
     ["/pret", <Ready />],
     ["/compte", <Signup />],
@@ -2255,7 +2255,7 @@ return (
       <Route path="/planning" element={<Planning isPlus={isPlus} lastScan={history[0]?.date} />} />
       <Route path="/courses" element={<Courses isPlus={isPlus} />} />
       <Route path="/famille" element={<Family user={user} isPlus={isPlus} avatar={avatarSrc} profile={profile}
-        onEditTastes={() => { resetAnswers(profile ?? EMPTY_PROFILE); navigate("/questions/1", { state: { edit: true } }); }} />} />
+        onEditTastes={q => { resetAnswers(profile ?? EMPTY_PROFILE); navigate(`/questions/${q ?? 1}`, { state: { edit: true, only: !!q } }); }} />} />
       <Route path="/plus" element={isPlus ? <Navigate to="/" replace /> : <Paywall />} />
       <Route path="/plus/paiement" element={<PayReturn />} />
       <Route path="/plus/bienvenue" element={<PlusWelcome user={user} name={name} />} />

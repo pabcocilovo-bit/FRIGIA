@@ -36,7 +36,11 @@ export async function fetchProfile(userId: string): Promise<Profile | null | und
 /** Enregistre le profil sur le compte (et dans le téléphone). Renvoie false si la base n'a pas pu l'enregistrer. */
 export async function saveProfile(userId: string, p: Profile): Promise<boolean> {
   setCachedProfile(userId, p);
-  const { error } = await supabase.from("profiles").upsert({ id: userId, ...p, updated_at: new Date().toISOString() });
+  // Seulement le prénom et les goûts : les compteurs de scans ne s'écrivent que côté serveur
+  const { first_name, goals, diet, allergies, weeknight_time, equipment } = p;
+  const { error } = await supabase.from("profiles").upsert({
+    id: userId, first_name, goals, diet, allergies, weeknight_time, equipment, updated_at: new Date().toISOString(),
+  });
   return !error;
 }
 

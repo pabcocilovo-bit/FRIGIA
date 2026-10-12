@@ -10,7 +10,9 @@ import { comingSoon } from "./toast";
 import { subscriptionText, useOpenPaywall, useSubscription } from "./plus/subscription";
 
 export function Family({ user, isPlus, avatar, profile, onEditTastes }: {
-  user: User; isPlus: boolean; avatar: string | null; profile: Profile | null; onEditTastes: () => void;
+  user: User; isPlus: boolean; avatar: string | null; profile: Profile | null;
+  /** Sans question : les 3 questions (« Modifier ») ; 2 ou 3 : cette question seule (une ligne de « Tes goûts ») */
+  onEditTastes: (question?: 2 | 3) => void;
 }) {
   const navigate = useNavigate();
   const openPaywall = useOpenPaywall();
@@ -58,14 +60,14 @@ export function Family({ user, isPlus, avatar, profile, onEditTastes }: {
           </div>
         )}
 
-        <div className="sec"><h3>Tes goûts</h3><button type="button" className="link" onClick={onEditTastes}>Modifier</button></div>
+        <div className="sec"><h3>Tes goûts</h3><button type="button" className="link" onClick={() => onEditTastes()}>Modifier</button></div>
         <p className="pintro">Enregistrés sur ton compte : tu les retrouves sur tous tes appareils.</p>
         {tastes && (
           <div className="plist">
-            {([["salad", "Régime", tastes.diet], ["pan", "Ustensiles", tastes.equipment], ["clock", "Temps en semaine", tastes.time]] as const)
+            {([["salad", "Régime", tastes.diet, 2], ["pan", "Ustensiles", tastes.equipment, 3], ["clock", "Temps en semaine", tastes.time, 3]] as const)
               .filter(([, , value]) => value)
-              .map(([icon, title, value]) => (
-                <button key={title} type="button" className="prow" onClick={onEditTastes}>
+              .map(([icon, title, value, question]) => (
+                <button key={title} type="button" className="prow" onClick={() => onEditTastes(question)}>
                   <span className="pi"><Icon name={icon} /></span><span className="tx"><b>{title}</b><span>{value}</span></span><Icon name="next" />
                 </button>
               ))}

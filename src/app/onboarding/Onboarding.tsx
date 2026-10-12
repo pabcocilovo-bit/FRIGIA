@@ -24,16 +24,17 @@ function Screen({ cls, label, children }: { cls: string; label: string; children
   return <section className={cx("fa ob-screen", cls)} aria-label={label}>{children}</section>;
 }
 
-/** En-tête des questions : retour, barre de progression, petit titre, grand titre, phrase. */
-function ObHead({ from, to, label, title, sub }: { from: number; to: number; label?: string; title?: ReactNode; sub?: ReactNode }) {
+/** En-tête des questions : retour, barre de progression, petit titre, grand titre, phrase.
+ *  single : une seule question modifiée depuis Famille, sans progression ni « Question 2 sur 3 ». */
+function ObHead({ from, to, label, title, sub, single }: { from: number; to: number; label?: string; title?: ReactNode; sub?: ReactNode; single?: boolean }) {
   const back = useBack();
   return (
     <div className="ob-head">
       <div className="ob-row">
         <RoundButton icon="back" label="Retour" tone="glass" onClick={back} />
-        <div className="ob-prog"><i style={{ "--from": `${from}%`, "--p": `${to}%` } as CSSProperties} /></div>
+        {!single && <div className="ob-prog"><i style={{ "--from": `${from}%`, "--p": `${to}%` } as CSSProperties} /></div>}
       </div>
-      {label && <span className="label">{label}</span>}
+      {label && !single && <span className="label">{label}</span>}
       {title && <h2>{title}</h2>}
       {sub && <p>{sub}</p>}
     </div>
@@ -120,6 +121,9 @@ export function Welcome() {
   );
 }
 
+/** Une seule question ouverte depuis une ligne de « Tes goûts » (Famille) : on enregistre tout de suite. */
+const isSingle = (state: unknown) => !!(state as { only?: boolean } | null)?.only;
+
 // ─── B · Objectif ────────────────────────────────────────────────────────────
 
 const GOALS: { v: string; icon: IconName; t: string; s: string }[] = [
@@ -188,10 +192,12 @@ const ALLERGIES: [string, string][] = [
 ];
 const VEG = ["vege", "vegan", "pesce"];
 
-export function QDiet() {
+export function QDiet({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const single = !!onSave && isSingle(state);
   const [a, patch] = useAnswers();
+  const [saving, setSaving] = useState(false);
   const diet = a.diet.length ? a.diet : ["tout"];
 
   // « De tout » exclut le reste ; végétarien, vegan et pescétarien s'excluent entre eux
@@ -208,7 +214,7 @@ export function QDiet() {
 
   return (
     <Screen cls="ob" label="Régime alimentaire">
-      <ObHead from={15} to={30} label="Question 2 sur 3" title={<>Quel est ton <em>régime alimentaire</em>&nbsp;?</>} sub="On te propose seulement des recettes qui te vont." />
+      <ObHead from={15} to={30} single={single} label="Question 2 sur 3" title={<>Quel est ton <em>régime alimentaire</em>&nbsp;?</>} sub="On te propose seulement des recettes qui te vont." />
       <div className="scroll"><div className="ob-body">
         <div className="ob-tiles">
           {DIET_TILES.map(t => {
@@ -227,7 +233,9 @@ export function QDiet() {
         </div>
         <p className="ob-note"><Icon name="users" /><span>Ce sont tes goûts à toi. Avec <b>Frigia Plus</b>, tu pourras régler ceux de chaque membre de la famille.</span></p>
       </div></div>
-      <GoBar title="Continuer" sub={sub} onClick={() => navigate("/questions/3", { state })} />
+      {single && onSave
+        ? <GoBar title="Enregistrer" sub={sub} loading={saving} onClick={async () => { setSaving(true); await onSave(a); navigate("/famille", { replace: true }); }} />
+        : <GoBar title="Continuer" sub={sub} onClick={() => navigate("/questions/3", { state })} />}
     </Screen>
   );
 }
@@ -253,6 +261,7 @@ export function QTime({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
   const navigate = useNavigate();
   const { state } = useLocation();
   const edit = !!(state as { edit?: boolean } | null)?.edit;
+  const single = !!onSave && isSingle(state);
   const [a, patch] = useAnswers();
   const [tip, setTip] = useState("");
   const [saving, setSaving] = useState(false);
@@ -268,7 +277,7 @@ export function QTime({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
 
   return (
     <Screen cls="ob" label="Temps et équipement">
-      <ObHead from={30} to={45} label="Question 3 sur 3" title={<>Le soir, tu as <em>combien de temps</em> pour&nbsp;cuisiner&nbsp;?</>} sub="Les recettes qui rentrent dans ton temps passent en premier." />
+      <ObHead from={30} to={45} single={single} label="Question 3 sur 3" title={<>Le soir, tu as <em>combien de temps</em> pour&nbsp;cuisiner&nbsp;?</>} sub="Les recettes qui rentrent dans ton temps passent en premier." />
       <div className="scroll"><div className="ob-body">
         <div className="ob-opts">
           {TIMES.map(t => <Option key={t.v} on={time === t.v} icon={t.icon} title={t.t} sub={t.s} onClick={() => { patch({ weeknight_time: t.v }); setTip(TIME_TIP[t.v]); }} />)}
@@ -281,7 +290,7 @@ export function QTime({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
         <p className="ob-note"><Icon name="pot" /><span>Facultatif. Une plaque de cuisson suffit pour la plupart des recettes.</span></p>
       </div></div>
       <GoBar
-        title={edit ? "Enregistrer" : "Voir mon Frigia"} sub={time ? "3 questions sur 3" : "Choisis ton temps du soir"}
+        title={edit ? "Enregistrer" : "Voir mon Frigia"} sub={!time ? "Choisis ton temps du soir" : single ? TIMES.find(t => t.v === time)?.t ?? "" : "3 questions sur 3"}
         disabled={!time} loading={saving} onClick={next}
       />
     </Screen>
