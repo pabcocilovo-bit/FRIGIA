@@ -2,7 +2,7 @@
 import { useCallback, useState } from "react";
 import type { GeneratedRecipe, HistoryEntry } from "../lib/types";
 import {
-  MAX_FAVORITES, MAX_HISTORY, dbDeleteFavorite, dbDeleteHistoryEntry, dbInsertFavorite, dbInsertHistoryEntry,
+  MAX_FAVORITES, MAX_HISTORY, dbDeleteFavorite, dbDeleteHistoryEntry, dbInsertFavorite, dbInsertHistoryEntry, dbUpdateHistoryRecipes,
   loadLibrary, setCachedFavorites, setCachedHistory,
 } from "../lib/library";
 
@@ -56,6 +56,15 @@ export function useLibrary(userId: string | undefined) {
     }
   };
 
+  /** Remplace les recettes d'un scan (« D'autres idées »). */
+  const updateScanRecipes = (entryId: string, recipes: GeneratedRecipe[]) => {
+    setHistory(prev => {
+      const next = prev.map(e => (e.id === entryId ? { ...e, recipes } : e));
+      if (userId) { setCachedHistory(userId, next); dbUpdateHistoryRecipes(entryId, recipes); }
+      return next;
+    });
+  };
+
   const deleteScan = (entryId: string) => {
     setHistory((prev) => {
       const next = prev.filter((entry) => entry.id !== entryId);
@@ -67,5 +76,5 @@ export function useLibrary(userId: string | undefined) {
     });
   };
 
-  return { history, favorites, load, clear, toggleFavorite, isFavorite, addScan, deleteScan };
+  return { history, favorites, load, clear, toggleFavorite, isFavorite, addScan, updateScanRecipes, deleteScan };
 }

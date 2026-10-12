@@ -5,7 +5,7 @@ import type { GeneratedRecipe, HistoryEntry } from "./types";
 export const MAX_HISTORY = 50;
 export const MAX_FAVORITES = 100;
 
-type HistoryRow = { id: string; scan_date: string; ingredients: HistoryEntry["ingredients"] | null; recipes: GeneratedRecipe[] | null; servings: number | null };
+type HistoryRow = { id: string; scan_date: string; ingredients: HistoryEntry["ingredients"] | null; recipes: GeneratedRecipe[] | null; servings: number | null; meal?: string | null };
 type StoredHistoryEntry = Omit<HistoryEntry, "date"> & { date: string };
 
 // ─── Copie sur le téléphone ──────────────────────────────────────────────────
@@ -44,6 +44,7 @@ export async function loadHistoryFromSupabase(userId: string): Promise<HistoryEn
     ingredients: row.ingredients || [],
     recipes: row.recipes || [],
     servings: row.servings || 2,
+    meal: row.meal === "m" || row.meal === "s" || row.meal === "w" ? row.meal : undefined,
   }));
 }
 
@@ -58,14 +59,22 @@ export async function loadFavoritesFromSupabase(userId: string): Promise<Generat
 }
 
 export async function dbInsertHistoryEntry(userId: string, entry: HistoryEntry) {
-  await supabase.from("user_history").insert({
+  const row = {
     id: entry.id,
     user_id: userId,
     scan_date: entry.date.toISOString(),
     ingredients: entry.ingredients,
     recipes: entry.recipes,
     servings: entry.servings,
-  });
+  };
+  const { error } = await supabase.from("user_history").insert({ ...row, meal: entry.meal ?? null });
+  // Colonne meal pas encore ajoutée (migration 20261014000000_scan_meal.sql) : le scan est gardé sans le repas
+  if (error) await supabase.from("user_history").insert(row);
+}
+
+/** « D'autres idées » : les recettes du scan changent. */
+export async function dbUpdateHistoryRecipes(entryId: string, recipes: GeneratedRecipe[]) {
+  await supabase.from("user_history").update({ recipes }).eq("id", entryId);
 }
 
 export async function dbDeleteHistoryEntry(entryId: string) {

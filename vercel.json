@@ -4,11 +4,17 @@
   "functions": {
     "api/analyze.ts": {
       "maxDuration": 60
+    },
+    "api/ingredients.ts": {
+      "maxDuration": 60
+    },
+    "api/recipes.ts": {
+      "maxDuration": 60
     }
   },
   "rewrites": [
     {
-      "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera|plus|resilier)",
+      "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera|plus|resilier|recette)",
       "destination": "/"
     },
     {
@@ -21,6 +27,18 @@
     },
     {
       "source": "/plus/:etape",
+      "destination": "/"
+    },
+    {
+      "source": "/scan/:etape",
+      "destination": "/"
+    },
+    {
+      "source": "/recettes/:id",
+      "destination": "/"
+    },
+    {
+      "source": "/recettes/:id/:n",
       "destination": "/"
     }
   ]

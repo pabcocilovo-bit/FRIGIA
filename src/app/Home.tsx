@@ -92,7 +92,7 @@ export function Home({ user, isPlus, quota, avatar, history, favorites, onOpenRe
           <div className="sec"><h3>Tes derniers scans</h3><button type="button" className="link" onClick={() => navigate("/scans")}>Tout voir</button></div>
           <div className="hist">
             {history.slice(0, 3).map(e => (
-              <ScanRow key={e.id} entry={e} locked={!isPlus && daysAgo(e.date) > 7} onClick={() => (!isPlus && daysAgo(e.date) > 7 ? openPaywall("historique") : navigate("/scans"))} />
+              <ScanRow key={e.id} entry={e} locked={!isPlus && daysAgo(e.date) > 7} onClick={() => (!isPlus && daysAgo(e.date) > 7 ? openPaywall("historique") : navigate(`/recettes/${e.id}`))} />
             ))}
           </div>
         </>}

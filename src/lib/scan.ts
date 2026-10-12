@@ -1,13 +1,13 @@
-// Scan du frigo : compression de la photo et appel à /api/analyze.
+// Scan du frigo en deux temps : la photo devient des ingrédients (/api/ingredients), puis des recettes (/api/recipes).
 import { supabase } from "../supabase";
-import type { DetectedIngredient, GeneratedRecipe } from "./types";
+import type { DetectedIngredient, GeneratedRecipe, Meal } from "./types";
 import { apiPrefs, getCachedProfile } from "./profile";
 import { recentRecipeTitles } from "./library";
 import { ingredientIcon, recipeIcon } from "./recipes";
 
 /** Réduit la photo à 1200 px de côté au plus, en JPEG. */
-export function compressImage(f: File): Promise<{ base64: string; type: string }> {
-  return new Promise((resolve) => {
+export function compressImage(f: Blob): Promise<{ base64: string; type: string }> {
+  return new Promise((resolve, reject) => {
     const img = new Image();
     const objectUrl = URL.createObjectURL(f);
     img.onload = () => {
@@ -21,67 +21,128 @@ export function compressImage(f: File): Promise<{ base64: string; type: string }
       const dataUrl = canvas.toDataURL("image/jpeg", 0.82);
       resolve({ base64: dataUrl.split(",")[1], type: "image/jpeg" });
     };
+    // Format que le navigateur ne sait pas lire : la photo est illisible
+    img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error("unreadable")); };
     img.src = objectUrl;
   });
 }
 
-type RawIngredient = { name?: unknown; confidence?: unknown };
-type RawRecipeIngredient = { name?: unknown; qty?: unknown };
-type RawRecipe = {
-  title?: unknown; time?: unknown; calories?: unknown; difficulty?: unknown;
-  imageUrl?: unknown; imageSearch?: unknown; steps?: unknown; ingredients?: unknown;
-};
+export type ScanSource = "frigo" | "placard" | "ticket";
+export type Envie = "rapide" | "healthy" | "proteine" | "gourmand";
+/** Ingrédient de « C'est bien ça ? » : trouvé sur la photo (avec sa place), ou ajouté à la main. */
+export type ScanIngredient = { name: string; qty: string; x?: number; y?: number };
+type Problem = "floue" | "sombre" | "vide";
 
-export type ScanResult =
-  | { status: "ok"; ingredients: DetectedIngredient[]; recipes: GeneratedRecipe[]; scansLeft: number | null }
+type Failure =
   | { status: "signed-out" }        // 401 : la session n'est plus valable, on a déconnecté
-  | { status: "quota" };            // 403 : les 15 scans gratuits sont utilisés
+  | { status: "quota" }             // 403 : les 15 scans gratuits sont utilisés
+  | { status: "error"; rate?: boolean }; // le service ne répond pas (ou trop de scans cette heure-ci)
 
-/**
- * Envoie la photo à l'IA avec les goûts du compte et les dernières recettes proposées.
- * Lève une erreur « unclear_photo » si l'analyse échoue.
- */
-export async function analyzeFridge(file: File, mealType: string): Promise<ScanResult> {
-  const { base64: imageBase64, type: mediaType } = await compressImage(file);
+export type IngredientsResult =
+  | { status: "ok"; ingredients: ScanIngredient[]; token: string | null; scansLeft: number | null }
+  | { status: "unclear"; problem: Problem }   // photo illisible : le scan n'est pas décompté
+  | Failure;
+
+export type RecipesResult =
+  | { status: "ok"; recipes: GeneratedRecipe[]; scansLeft: number | null }
+  | { status: "plus" }              // « D'autres idées » en formule Gratuit
+  | Failure;
+
+async function post(path: string, body: unknown): Promise<{ response: Response | null; data: Record<string, unknown> }> {
   const { data: { session } } = await supabase.auth.getSession();
-  const userId = session?.user?.id;
-  const prefs = userId ? apiPrefs(getCachedProfile(userId)) : null;
-  const recentTitles = userId ? recentRecipeTitles(userId) : [];
-  const response = await fetch("/api/analyze", {
+  const response = await fetch(path, {
     method: "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}` },
-    body: JSON.stringify({ imageBase64, mediaType, prefs, recentTitles, mealType }),
-  });
-  const data = await response.json().catch(() => ({}));
-  if (response.status === 401) {
+    body: JSON.stringify(body),
+  }).catch(() => null);
+  const data = response ? await response.json().catch(() => ({})) : {};
+  return { response, data };
+}
+
+async function failure(response: Response | null, data: Record<string, unknown>): Promise<Failure> {
+  if (response?.status === 401) {
     await supabase.auth.signOut();
     return { status: "signed-out" };
   }
-  if (response.status === 403 && data.code === "quota") {
+  if (response?.status === 403 && data.code === "quota") {
     // Peut-être un abonnement tout juste pris : la session suit
     void supabase.auth.refreshSession();
     return { status: "quota" };
   }
-  if (!response.ok) throw new Error("unclear_photo");
-  const ingredients: DetectedIngredient[] = ((data.ingredients || []) as RawIngredient[]).map((i) => ({
-    name: String(i.name || "Aliment"),
-    icon: ingredientIcon(String(i.name || "")),
-    conf: Number(i.confidence) || 90,
-  }));
-  const recipes: GeneratedRecipe[] = ((data.recipes || []) as RawRecipe[]).map((r) => ({
-    emoji: recipeIcon(String(r.title || "")),
-    title: String(r.title || "Recette"),
-    time: String(r.time || "15 min"),
-    cal: Number(r.calories) || 350,
-    diff: String(r.difficulty || "Facile"),
-    imageSearch: String(r.imageUrl || r.imageSearch || r.title || ""),
-    steps: Array.isArray(r.steps) ? r.steps.map(String) : undefined,
-    recipeIngredients: Array.isArray(r.ingredients)
-      ? (r.ingredients as RawRecipeIngredient[]).map((i) => ({
-          name: String(i.name || ""),
-          qty: String(i.qty || "1"),
-        }))
-      : undefined,
-  }));
-  return { status: "ok", ingredients, recipes, scansLeft: typeof data.scansLeft === "number" ? data.scansLeft : null };
+  return { status: "error", rate: response?.status === 429 };
 }
+
+/** Scan, 1re partie : la photo devient une liste d'ingrédients. En Gratuit, c'est là que le scan est compté. */
+export async function detectIngredients(file: Blob, source: ScanSource): Promise<IngredientsResult> {
+  const image = await compressImage(file).catch(() => null);
+  if (!image) return { status: "unclear", problem: "floue" };
+  const { base64: imageBase64, type: mediaType } = image;
+  const { response, data } = await post("/api/ingredients", { imageBase64, mediaType, source });
+  if (response?.status === 422 && data.code === "unclear") {
+    const p = data.problem;
+    return { status: "unclear", problem: p === "sombre" || p === "vide" ? p : "floue" };
+  }
+  if (!response?.ok) return failure(response, data);
+  const ingredients = (Array.isArray(data.ingredients) ? data.ingredients : []) as ScanIngredient[];
+  return {
+    status: "ok",
+    ingredients: ingredients.map(i => ({ name: String(i.name), qty: String(i.qty ?? ""), x: i.x ?? undefined, y: i.y ?? undefined })),
+    token: typeof data.token === "string" ? data.token : null,
+    scansLeft: typeof data.scansLeft === "number" ? data.scansLeft : null,
+  };
+}
+
+type RawItem = { name: string; plural: string; qty: number | null; unit: string; have: boolean };
+type RawRecipe = {
+  title: string; intro: string; minutes: number; calories: number; difficulty: string; imageSearch: string; imageUrl?: string;
+  veg: boolean; oven: boolean; cold: boolean; missing: string; serves: number; items: RawItem[];
+  steps: { text: string; timer: { label: string; min: number } | null }[];
+};
+
+/** Quantité écrite pour les anciens écrans (Tes scans, partage) : « 200 g », « 2 », « un peu ». */
+const qtyLabel = (i: RawItem) => (i.qty == null ? "un peu" : `${String(i.qty).replace(".", ",")}${i.unit ? " " + i.unit : ""}`);
+
+function toRecipe(r: RawRecipe): GeneratedRecipe {
+  return {
+    emoji: recipeIcon(r.title),
+    title: r.title,
+    time: `${r.minutes} min`,
+    cal: r.calories,
+    diff: r.difficulty,
+    imageSearch: r.imageUrl || r.imageSearch || r.title,
+    steps: r.steps.map(s => s.text),
+    recipeIngredients: r.items.map(i => ({ name: i.qty != null && i.qty > 1 && !i.unit ? i.plural : i.name, qty: qtyLabel(i) })),
+    intro: r.intro,
+    minutes: r.minutes,
+    veg: r.veg,
+    oven: r.oven,
+    cold: r.cold,
+    missing: r.missing,
+    serves: r.serves,
+    items: r.items,
+    timers: r.steps.map(s => s.timer),
+  };
+}
+
+/** Scan, 2e partie : la liste vérifiée devient 3 recettes (ou 2 « autres idées » avec more). */
+export async function makeRecipes(o: {
+  ingredients: ScanIngredient[]; pantry: boolean; envie: Envie; meal: Meal; servings: number;
+  token: string | null; avoid?: string[]; more?: boolean;
+}): Promise<RecipesResult> {
+  const { data: { session } } = await supabase.auth.getSession();
+  const userId = session?.user?.id;
+  const { response, data } = await post("/api/recipes", {
+    ingredients: o.ingredients.map(i => ({ name: i.name, qty: i.qty })),
+    pantry: o.pantry, envie: o.envie, meal: o.meal, servings: o.servings, token: o.token, avoid: o.avoid, more: o.more,
+    prefs: userId ? apiPrefs(getCachedProfile(userId)) : null,
+    recentTitles: userId ? recentRecipeTitles(userId) : [],
+  });
+  if (response?.status === 403 && data.code === "plus") return { status: "plus" };
+  if (!response?.ok) return failure(response, data);
+  const recipes = (Array.isArray(data.recipes) ? data.recipes : []) as RawRecipe[];
+  return { status: "ok", recipes: recipes.map(toRecipe), scansLeft: typeof data.scansLeft === "number" ? data.scansLeft : null };
+}
+
+/** Ingrédients du scan gardés dans l'historique. */
+export const toDetected = (list: ScanIngredient[]): DetectedIngredient[] =>
+  list.map(i => ({ name: i.name, icon: ingredientIcon(i.name), conf: 90, qty: i.qty }));

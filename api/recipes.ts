@@ -1,0 +1,130 @@
+// Scan, 2e partie : la liste d'ingrédients (vérifiée par le compte) devient 3 recettes, ou 2 « autres idées ».
+// Avec le jeton d'une photo déjà comptée, rien n'est recompté. Sans jeton (ingrédients tapés à la main),
+// la formule Gratuit compte un scan. « D'autres idées » (2 recettes de plus) est réservé à Frigia Plus.
+import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
+import { askClaude, checkRateLimit, checkScanToken, dishPhoto, prefLines, refundFreeScan, takeFreeScan, type Prefs } from "./_ai.js";
+
+type Body = {
+  ingredients?: { name?: unknown; qty?: unknown }[];
+  pantry?: boolean; envie?: string; meal?: string; servings?: number;
+  prefs?: Prefs; recentTitles?: string[]; avoid?: string[]; more?: boolean; token?: string;
+};
+type RawItem = { name?: unknown; plural?: unknown; qty?: unknown; unit?: unknown; have?: unknown };
+type RawStep = { text?: unknown; timer?: { label?: unknown; min?: unknown } | null } | string;
+type RawRecipe = {
+  title?: unknown; intro?: unknown; minutes?: unknown; calories?: unknown; difficulty?: unknown; imageSearch?: unknown;
+  veg?: unknown; oven?: unknown; cold?: unknown; missing?: unknown; ingredients?: RawItem[]; steps?: RawStep[];
+};
+
+const ENVIES: Record<string, string> = {
+  rapide: "rapides : prêtes en 25 minutes au plus",
+  healthy: "légères et équilibrées",
+  proteine: "riches en protéines (viande, poisson, œufs, légumineuses)",
+  gourmand: "généreuses et réconfortantes",
+};
+const MEALS: Record<string, string> = {
+  m: "le déjeuner de ce midi. Au moins une recette doit pouvoir se manger froide (à emporter)",
+  s: "le dîner de ce soir",
+  w: "plusieurs repas de la semaine. Des recettes qui se gardent bien. Classe-les dans l'ordre où les cuisiner : d'abord celle qui utilise les produits qui s'abîment le plus vite",
+};
+const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
+const num = (v: unknown) => (typeof v === "number" && Number.isFinite(v) && v > 0 ? v : null);
+
+export default async function handler(req: Req, res: Res) {
+  if (preflight(req, res)) return;
+  const admin = adminClient();
+  const user = await authUser(req, admin);
+  if (!user) return res.status(401).json({ error: "Invalid token" });
+
+  const body = (req.body ?? {}) as Body;
+  const plus = isPlus(user);
+  if (body.more && !plus) return res.status(403).json({ error: "« D'autres idées » est dans Frigia Plus.", code: "plus" });
+
+  const list = (Array.isArray(body.ingredients) ? body.ingredients : [])
+    .map(i => ({ name: str(i?.name, 60), qty: str(i?.qty, 30) }))
+    .filter(i => i.name)
+    .slice(0, 40);
+  if (list.length === 0) return res.status(400).json({ error: "Aucun ingrédient" });
+
+  if (!(await checkRateLimit(admin, user.id))) {
+    return res.status(429).json({ error: "Limite atteinte. Réessaie dans une heure.", code: "rate" });
+  }
+
+  // Ingrédients tapés à la main (pas de photo comptée) : en Gratuit, c'est un scan
+  const counted = !plus && !checkScanToken(body.token, user.id);
+  let scansLeft: number | null = null;
+  if (counted) {
+    scansLeft = await takeFreeScan(admin, user.id);
+    if (scansLeft === null) return res.status(503).json({ error: "Service temporairement indisponible." });
+    if (scansLeft < 0) return res.status(403).json({ error: "Tes scans gratuits sont utilisés.", code: "quota" });
+  }
+  const fail = async (status: number, error: string) => {
+    if (counted) await refundFreeScan(admin, user.id);
+    return res.status(status).json({ error });
+  };
+
+  const count = body.more ? 2 : 3;
+  const servings = Math.min(16, Math.max(0.5, Number(body.servings) || 2));
+  const lines = prefLines(body.prefs);
+  const avoid = [...(body.avoid ?? []), ...(body.recentTitles ?? [])].filter(t => typeof t === "string").slice(0, 20);
+  const prompt = [
+    `Ingrédients disponibles : ${list.map(i => (i.qty ? `${i.name} (${i.qty})` : i.name)).join(", ")}.`,
+    body.pantry
+      ? "Le placard a aussi : pâtes, riz, huile, ail, épices, sel, poivre, farine, sucre. Ils comptent comme disponibles."
+      : "Seuls sel, poivre et eau sont disponibles en plus de la liste.",
+    `Propose EXACTEMENT ${count} recettes pour ${MEALS[body.meal ?? ""] ?? MEALS.s}.`,
+    ENVIES[body.envie ?? ""] ? `Envie : des recettes ${ENVIES[body.envie!]}.` : "",
+    `Quantités pour ${String(servings).replace(".", ",")} portion${servings > 1 ? "s" : ""} (un enfant compte pour une demi-portion).`,
+    "Utilise surtout ce qui est disponible. Une recette peut demander 1 ou 2 ingrédients à acheter, pas plus.",
+    lines.length ? `PRÉFÉRENCES (à respecter) :\n${lines.join("\n")}` : "",
+    avoid.length ? `NE PROPOSE PAS ces recettes déjà vues : ${avoid.join(", ")}.` : "",
+    `Pour chaque recette :
+- "title" : nom court et appétissant, en français.
+- "intro" : 1 ou 2 phrases simples qui donnent envie, au tutoiement.
+- "minutes" : durée totale. "calories" : kcal par portion. "difficulty" : "Facile", "Moyen" ou "Difficile".
+- "imageSearch" : le type de plat EN ANGLAIS, 2 mots au plus, sans ingrédient ni adjectif ("pasta", "omelette", "green salad", "chicken soup").
+- "veg" : true si sans viande ni poisson. "oven" : true si elle passe au four. "cold" : true si elle se mange froide.
+- "ingredients" : chaque ingrédient avec "name" (minuscules, singulier), "plural" (minuscules, pluriel), "qty" (nombre, ou null pour « un peu »), "unit" ("g", "ml", "cl", "c. à s.", "c. à c.", "gousse", "feuilles", "tranches", ou "" pour un nombre de pièces), "have" (true si disponible).
+- "missing" : les ingrédients à acheter avec leur article, en minuscules ("le parmesan et le basilic"), ou "" s'il ne manque rien.
+- "steps" : 3 à 7 étapes au tutoiement, phrases courtes, avec quantités, températures et durées. Une étape qui attend (four, cuisson, repos) a un "timer" : {"label":"Four","min":20}, sinon null.`,
+    `JSON uniquement : {"recipes":[{"title":"Penne aux légumes rôtis","intro":"Les légumes rôtissent pendant que les pâtes cuisent.","minutes":25,"calories":540,"difficulty":"Facile","imageSearch":"pasta","veg":true,"oven":true,"cold":false,"ingredients":[{"name":"penne","plural":"penne","qty":200,"unit":"g","have":true},{"name":"courgette","plural":"courgettes","qty":1,"unit":"","have":true},{"name":"parmesan","plural":"parmesan","qty":30,"unit":"g","have":false}],"missing":"le parmesan","steps":[{"text":"Préchauffe le four à 220 °C. Coupe la courgette en gros morceaux.","timer":null},{"text":"Enfourne les légumes avec un filet d'huile.","timer":{"label":"Four","min":20}}]}]}`,
+  ].filter(Boolean).join("\n");
+
+  const answer = await askClaude<{ recipes?: RawRecipe[] }>([{ type: "text", text: prompt }], 4000);
+  if (!answer.ok) return fail(502, "Service IA temporairement indisponible.");
+  const raw = (answer.json?.recipes ?? []).filter(r => str(r?.title, 80)).slice(0, count);
+  if (raw.length === 0) return fail(500, "Réponse IA invalide.");
+
+  const recipes = await Promise.all(raw.map(async r => {
+    const imageSearch = str(r.imageSearch, 40) || str(r.title, 80);
+    const items = (Array.isArray(r.ingredients) ? r.ingredients : []).filter(i => str(i?.name, 60)).map(i => ({
+      name: str(i.name, 60),
+      plural: str(i.plural, 60) || str(i.name, 60),
+      qty: num(i.qty),
+      unit: str(i.unit, 20),
+      have: i.have !== false,
+    }));
+    const steps = (Array.isArray(r.steps) ? r.steps : []).map(s => (typeof s === "string" ? { text: s, timer: null } : s))
+      .filter(s => str(s?.text, 400))
+      .map(s => {
+        const min = num(s.timer?.min);
+        return { text: str(s.text, 400), timer: min ? { label: str(s.timer?.label, 30) || "Minuteur", min: Math.round(min) } : null };
+      });
+    return {
+      title: str(r.title, 80),
+      intro: str(r.intro, 300),
+      minutes: Math.round(num(r.minutes) ?? 20),
+      calories: Math.round(num(r.calories) ?? 400),
+      difficulty: ["Facile", "Moyen", "Difficile"].includes(str(r.difficulty, 20)) ? str(r.difficulty, 20) : "Facile",
+      imageSearch,
+      imageUrl: await dishPhoto(imageSearch),
+      veg: r.veg === true, oven: r.oven === true, cold: r.cold === true,
+      missing: str(r.missing, 120),
+      serves: servings,
+      items,
+      steps,
+    };
+  }));
+
+  res.json({ recipes, scansLeft });
+}

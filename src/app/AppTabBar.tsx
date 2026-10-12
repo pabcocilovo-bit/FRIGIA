@@ -6,7 +6,7 @@ import { TAB_PATHS } from "./nav";
 import { useOpenScan } from "./offline";
 import { useOpenPaywall } from "./plus/subscription";
 
-export function AppTabBar({ active, isPlus }: { active: TabId; isPlus: boolean }) {
+export function AppTabBar({ active, isPlus }: { active?: TabId; isPlus: boolean }) {
   const navigate = useNavigate();
   const openScan = useOpenScan();
   const openPaywall = useOpenPaywall();

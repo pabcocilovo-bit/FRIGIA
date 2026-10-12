@@ -1,7 +1,6 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
-import type { DetectedIngredient, GeneratedRecipe, HistoryEntry, User } from "./lib/types";
-import { buildShareText, fetchTheMealImage, ingredientIcon, mealImageCache, recipeIcon } from "./lib/recipes";
-import { analyzeFridge } from "./lib/scan";
+import type { GeneratedRecipe, HistoryEntry, User } from "./lib/types";
+import { buildShareText, fetchTheMealImage, mealImageCache, recipeIcon } from "./lib/recipes";
 import { customerPortalUrl, fetchScanQuota, quotaText, getCachedQuota, isPlus as hasPlus, quotaTotal, scansLeft, setCachedQuota, type ScanQuota } from "./lib/billing";
 import {
   changePassword, clearLocalData, deleteAccount as deleteAccountRequest, displayName, getAvatar, getPrefs,
@@ -28,6 +27,15 @@ import { resetAnswers } from "./app/onboarding/answers";
 import { firstName } from "./app/format";
 import { Cancel, HelloSheet, Paywall, PayReturn, PlusWelcome } from "./app/plus/Plus";
 import { useOpenScan } from "./app/offline";
+import { ScanCamera } from "./app/scan/ScanCamera";
+import { Crop } from "./app/scan/Crop";
+import { ScanFail } from "./app/scan/ScanFail";
+import { AddIngredient } from "./app/scan/AddIngredient";
+import { Ingredients } from "./app/scan/Ingredients";
+import { Prep } from "./app/scan/Prep";
+import { Results } from "./app/scan/Results";
+import { Recipe, type RecipeState } from "./app/scan/Recipe";
+import { guideState } from "./app/scan/guideSteps";
 
 // Écrans de l'inscription et de la connexion (étape 4). Connecté, seuls les questions, la caméra
 // et le mot de passe oublié (le code connecte avant le nouveau mot de passe) restent ouverts.
@@ -38,16 +46,6 @@ const OB_SIGNED_IN = ["/questions/1", "/questions/2", "/questions/3", "/mot-de-p
 const metaFirstName = (u: User): string | null =>
   u.user_metadata?.given_name || (displayName(u).trim().split(/\s+/)[0] || null);
 const Landing = lazy(() => import("./Landing"));
-const COLORS = {
-  orangeStart: "#FF6B35",
-  orangeEnd: "#FF9A3C",
-  greenStart: "#2ECC71",
-  greenEnd: "#1ABC9C",
-  dark: "#0A0A0F",
-  darkCard: "#12121A",
-  white: "#FAFAFA",
-  muted: "#6B7280",
-};
 
 // ─── Theme ───────────────────────────────────────────────────────────────────
 type Theme = "dark" | "light";
@@ -135,54 +133,6 @@ function GlobalStyles({ theme, keyframesOnly }: { theme: Theme; keyframesOnly?: 
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
-function ScanLine() {
-  return (
-    <div
-      style={{
-        position: "absolute",
-        inset: 0,
-        overflow: "hidden",
-        borderRadius: "inherit",
-        pointerEvents: "none",
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          height: "2px",
-          background: "linear-gradient(90deg,transparent,#2ECC71,transparent)",
-          boxShadow: "0 0 20px #2ECC71,0 0 40px #2ECC71",
-          animation: "scanDown 2.5s ease-in-out infinite",
-        }}
-      />
-    </div>
-  );
-}
-
-function Brackets({ color = "#2ECC71", size = 16 }) {
-  const s: React.CSSProperties = {
-    position: "absolute",
-    width: size,
-    height: size,
-    borderColor: color,
-    borderStyle: "solid",
-  };
-  return (
-    <>
-      <span style={{ ...s, top: 8, left: 8, borderWidth: "2px 0 0 2px" }} />
-      <span style={{ ...s, top: 8, right: 8, borderWidth: "2px 2px 0 0" }} />
-      <span style={{ ...s, bottom: 8, left: 8, borderWidth: "0 0 2px 2px" }} />
-      <span style={{ ...s, bottom: 8, right: 8, borderWidth: "0 2px 2px 0" }} />
-    </>
-  );
-}
-
-
-
-
-
 
 function RecipeImage({
   title,
@@ -1002,439 +952,6 @@ function SettingsModal({
   );
 }
 
-// ─── ServingsModal ────────────────────────────────────────────────────────────
-function ServingsModal({
-  theme,
-  onConfirm,
-  onSkip,
-}: {
-  theme: Theme;
-  onConfirm: (n: number) => void;
-  onSkip: () => void;
-}) {
-  const v = getThemeVars(theme);
-  const [servings, setServings] = useState(2);
-  return (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 2000,
-        background: "rgba(0,0,0,0.75)",
-        backdropFilter: "blur(8px)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 20,
-      }}
-    >
-      <div
-        style={{
-          ...glassCard(theme),
-          padding: 40,
-          maxWidth: 420,
-          width: "100%",
-          animation: "modalIn 0.35s ease both",
-          background:
-            theme === "light"
-              ? "rgba(244,244,240,0.97)"
-              : "rgba(14,14,20,0.97)",
-          textAlign: "center",
-        }}
-      >
-        <div style={{ fontSize: 52, marginBottom: 16 }}>👨‍👩‍👧‍👦</div>
-        <h3
-          style={{
-            fontSize: 22,
-            fontWeight: 900,
-            color: v.text,
-            marginBottom: 8,
-          }}
-        >
-          Pour combien de personnes ?
-        </h3>
-        <p style={{ color: v.muted, fontSize: 14, marginBottom: 32 }}>
-          Les quantités des recettes seront ajustées automatiquement.
-        </p>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 24,
-            marginBottom: 28,
-          }}
-        >
-          <button
-            onClick={() => setServings(Math.max(1, servings - 1))}
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: "50%",
-              border: `1px solid ${v.border}`,
-              background: v.inputBg,
-              color: v.text,
-              fontSize: 24,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            −
-          </button>
-          <div
-            style={{
-              fontSize: 52,
-              fontWeight: 900,
-              color: v.text,
-              minWidth: 64,
-              textAlign: "center",
-              lineHeight: 1,
-            }}
-          >
-            {servings}
-          </div>
-          <button
-            onClick={() => setServings(Math.min(10, servings + 1))}
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: "50%",
-              border: `1px solid ${v.border}`,
-              background: v.inputBg,
-              color: v.text,
-              fontSize: 24,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            +
-          </button>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            gap: 8,
-            justifyContent: "center",
-            marginBottom: 28,
-            flexWrap: "wrap",
-          }}
-        >
-          {[1, 2, 3, 4, 6].map((n) => (
-            <button
-              key={n}
-              onClick={() => setServings(n)}
-              style={{
-                padding: "8px 18px",
-                borderRadius: 100,
-                border:
-                  servings === n
-                    ? "2px solid #FF6B35"
-                    : `1px solid ${v.border}`,
-                background:
-                  servings === n ? "rgba(255,107,53,0.15)" : v.inputBg,
-                color: servings === n ? "#FF6B35" : v.muted,
-                cursor: "pointer",
-                fontWeight: servings === n ? 700 : 400,
-                fontSize: 14,
-              }}
-            >
-              {n} pers.
-            </button>
-          ))}
-        </div>
-        <button
-          onClick={() => onConfirm(servings)}
-          style={{
-            width: "100%",
-            padding: "14px",
-            borderRadius: 100,
-            background: "linear-gradient(135deg,#FF6B35,#2ECC71)",
-            border: "none",
-            color: "#fff",
-            fontWeight: 800,
-            fontSize: 16,
-            cursor: "pointer",
-            marginBottom: 12,
-          }}
-        >
-          Voir les recettes pour {servings} personne{servings > 1 ? "s" : ""}
-        </button>
-        <button
-          onClick={onSkip}
-          style={{
-            background: "none",
-            border: "none",
-            color: v.muted,
-            cursor: "pointer",
-            fontSize: 13,
-          }}
-        >
-          Ignorer
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ─── RecipeDetailModal ────────────────────────────────────────────────────────
-function RecipeDetailModal({
-  theme,
-  recipe,
-  servings,
-  onClose,
-}: {
-  theme: Theme;
-  recipe: GeneratedRecipe;
-  servings: number;
-  onClose: () => void;
-}) {
-  const v = getThemeVars(theme);
-  const baseServings = 2;
-  const ratio = servings / baseServings;
-
-  const steps = recipe.steps?.length
-    ? recipe.steps
-    : [
-        "Préparez et lavez tous vos ingrédients avant de commencer.",
-        "Faites chauffer une poêle à feu moyen avec un filet d'huile ou de beurre.",
-        "Ajoutez les ingrédients principaux et cuisez en remuant régulièrement.",
-        "Assaisonnez selon votre goût, dressez et servez chaud.",
-      ];
-
-  const ingredients = recipe.recipeIngredients || [];
-
-  return (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 2000,
-        background: "rgba(0,0,0,0.8)",
-        backdropFilter: "blur(10px)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 20,
-        overflowY: "auto",
-      }}
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-    >
-      <div
-        style={{
-          ...glassCard(theme),
-          width: "100%",
-          maxWidth: 660,
-          animation: "modalIn 0.35s ease both",
-          background:
-            theme === "light"
-              ? "rgba(244,244,240,0.97)"
-              : "rgba(14,14,20,0.97)",
-          overflowX: "hidden",
-          overflowY: "auto",
-          maxHeight: "92vh",
-        }}
-      >
-        {/* Hero */}
-        <div style={{ height: 240, position: "relative", overflow: "hidden", flexShrink: 0 }}>
-          <RecipeImage title={recipe.title} imageSearch={recipe.imageSearch} />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.75) 100%)",
-            }}
-          />
-          <button
-            onClick={onClose}
-            style={{ position: "absolute", top: 16, right: 16, width: 36, height: 36, borderRadius: "50%", background: "rgba(0,0,0,0.55)", border: "none", color: "#fff", cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center" }}
-          >✕</button>
-          <div style={{ position: "absolute", bottom: 20, left: 24 }}>
-            <div style={{ fontSize: 30, marginBottom: 8 }}>{recipe.emoji}</div>
-            <h2 style={{ fontSize: 22, fontWeight: 900, color: "#fff", margin: 0, lineHeight: 1.3 }}>
-              {recipe.title}
-            </h2>
-          </div>
-        </div>
-
-        <div style={{ padding: 28 }}>
-          {/* Meta chips */}
-          <div
-            style={{
-              display: "flex",
-              gap: 10,
-              marginBottom: 28,
-              flexWrap: "wrap",
-            }}
-          >
-            {[
-              { icon: "⏱", label: recipe.time },
-              { icon: "🔥", label: `${recipe.cal} kcal` },
-              { icon: "📊", label: recipe.diff },
-              { icon: "👥", label: `${servings} pers.` },
-            ].map((m, i) => (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "8px 16px",
-                  borderRadius: 100,
-                  background: v.inputBg,
-                  border: `1px solid ${v.border}`,
-                }}
-              >
-                <span>{m.icon}</span>
-                <span style={{ fontSize: 13, fontWeight: 600, color: v.text }}>
-                  {m.label}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Ingredients */}
-          {ingredients.length > 0 && (
-            <div style={{ marginBottom: 28 }}>
-              <h3
-                style={{
-                  fontSize: 16,
-                  fontWeight: 800,
-                  color: v.text,
-                  marginBottom: 14,
-                }}
-              >
-                Ingrédients{" "}
-                <span
-                  style={{
-                    color: v.muted,
-                    fontWeight: 400,
-                    fontSize: 13,
-                  }}
-                >
-                  pour {servings} personne{servings > 1 ? "s" : ""}
-                </span>
-              </h3>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: 10,
-                }}
-              >
-                {ingredients.map((ing, i) => {
-                  const numMatch = ing.qty.match(/^([\d.]+)/);
-                  const unit = ing.qty.replace(/^[\d.]+\s*/, "");
-                  const adjustedQty = numMatch
-                    ? `${
-                        Math.round(
-                          parseFloat(numMatch[1]) * ratio * 10
-                        ) / 10
-                      }${unit ? " " + unit : ""}`
-                    : ing.qty;
-                  return (
-                    <div
-                      key={i}
-                      style={{
-                        display: "flex",
-                        gap: 10,
-                        alignItems: "center",
-                        padding: "10px 14px",
-                        borderRadius: 12,
-                        background: v.inputBg,
-                        border: `1px solid ${v.border}`,
-                      }}
-                    >
-                      <span style={{ fontSize: 22 }}>
-                        {ingredientIcon(ing.name)}
-                      </span>
-                      <div>
-                        <div
-                          style={{
-                            fontSize: 13,
-                            fontWeight: 600,
-                            color: v.text,
-                          }}
-                        >
-                          {ing.name}
-                        </div>
-                        <div style={{ fontSize: 12, color: v.muted }}>
-                          {adjustedQty}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Steps */}
-          <div>
-            <h3
-              style={{
-                fontSize: 16,
-                fontWeight: 800,
-                color: v.text,
-                marginBottom: 16,
-              }}
-            >
-              Étapes de préparation
-            </h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {steps.map((step, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    gap: 16,
-                    alignItems: "flex-start",
-                    animation: `fadeUp 0.4s ease ${i * 0.08}s both`,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 34,
-                      height: 34,
-                      borderRadius: "50%",
-                      background:
-                        "linear-gradient(135deg,#FF6B35,#2ECC71)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                      fontSize: 14,
-                      fontWeight: 900,
-                      color: "#fff",
-                    }}
-                  >
-                    {i + 1}
-                  </div>
-                  <div
-                    style={{
-                      flex: 1,
-                      paddingTop: 6,
-                      fontSize: 14,
-                      color: v.text,
-                      lineHeight: 1.65,
-                    }}
-                  >
-                    {step}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ─── HistoryTab ───────────────────────────────────────────────────────────────
 function HistoryTab({
   theme,
@@ -1658,365 +1175,6 @@ const SUPPORT_FAQS = [
   { q: "Mon paiement a échoué, que faire ?", a: "Mettez à jour votre carte depuis Paramètres → Abonnement → Gérer la facturation. L'accès sera rétabli dès que le paiement est accepté." },
 ];
 
-// ─── MealTypeModal ────────────────────────────────────────────────────────────
-function MealTypeModal({ theme, onConfirm, onClose }: { theme: Theme; onConfirm: (type: string) => void; onClose: () => void }) {
-  const v = getThemeVars(theme);
-  const [selected, setSelected] = useState("mix");
-  const options = [
-    { id: "protein", label: "Protéiné", sub: "3 recettes riches en protéines" },
-    { id: "healthy", label: "Healthy", sub: "3 recettes légères et équilibrées" },
-    { id: "gourmand", label: "Gourmand", sub: "3 recettes généreuses et savoureuses" },
-    { id: "mix", label: "Une de chaque", sub: "1 protéinée, 1 healthy, 1 gourmande" },
-  ];
-  return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 2000, background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-      <div style={{ ...glassCard(theme), padding: 32, maxWidth: 400, width: "100%", animation: "modalIn 0.35s ease both", background: theme === "light" ? "rgba(244,244,240,0.97)" : "rgba(14,14,20,0.97)" }}>
-        <h3 style={{ fontSize: 20, fontWeight: 900, color: v.text, marginBottom: 6, textAlign: "center" }}>Quel type de plat ?</h3>
-        <p style={{ fontSize: 13, color: v.muted, textAlign: "center", marginBottom: 24 }}>L'IA adaptera les 3 recettes à ton choix.</p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
-          {options.map(opt => (
-            <button key={opt.id} onClick={() => setSelected(opt.id)} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", borderRadius: 16, border: selected === opt.id ? "2px solid #FF6B35" : `1px solid ${v.border}`, background: selected === opt.id ? "rgba(255,107,53,0.1)" : v.inputBg, cursor: "pointer", textAlign: "left" }}>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 14, color: v.text }}>{opt.label}</div>
-                <div style={{ fontSize: 12, color: v.muted, marginTop: 2 }}>{opt.sub}</div>
-              </div>
-              {selected === opt.id && <span style={{ marginLeft: "auto", color: "#FF6B35", fontWeight: 900, fontSize: 16 }}>✓</span>}
-            </button>
-          ))}
-        </div>
-        <button onClick={() => onConfirm(selected)} style={{ width: "100%", padding: "14px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontWeight: 800, fontSize: 16, cursor: "pointer", marginBottom: 10 }}>
-          Choisir une photo →
-        </button>
-        <button onClick={onClose} style={{ width: "100%", padding: "10px", background: "none", border: "none", color: v.muted, fontSize: 13, cursor: "pointer" }}>Annuler</button>
-      </div>
-    </div>
-  );
-}
-
-// ─── FridgeAIScanner ──────────────────────────────────────────────────────────
-function FridgeAIScanner({
-  theme,
-  onRecipesGenerated,
-  onRecipeClick,
-  onScansLeft,
-  onOutOfScans,
-}: {
-  theme: Theme;
-  onRecipesGenerated: (r: GeneratedRecipe[], i: DetectedIngredient[]) => void;
-  onRecipeClick?: (r: GeneratedRecipe) => void;
-  /** Formule Gratuit : scans gratuits qui restent après celui-ci */
-  onScansLeft?: (left: number) => void;
-  /** Formule Gratuit : les 15 scans sont utilisés, le serveur a refusé celui-ci */
-  onOutOfScans?: () => void;
-}) {
-  const v = getThemeVars(theme);
-  const gc = glassCard(theme);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const [image, setImage] = useState<string | null>(null);
-  const [analyzing, setAnalyzing] = useState(false);
-  const [ingredients, setIngredients] = useState<DetectedIngredient[]>([]);
-  const [recipes, setRecipes] = useState<GeneratedRecipe[]>([]);
-  const [error, setError] = useState("");
-  const [showMealTypeModal, setShowMealTypeModal] = useState(false);
-  const mealTypeRef = useRef<string>("mix");
-
-  const handleScanClick = () => { if (!analyzing) setShowMealTypeModal(true); };
-
-  const handleImage = (file?: File) => {
-    if (!file) return;
-    setShowMealTypeModal(false);
-    const url = URL.createObjectURL(file);
-    setImage(url);
-    setIngredients([]);
-    setRecipes([]);
-    setError("");
-    setAnalyzing(true);
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      try {
-        const result = await analyzeFridge(file, mealTypeRef.current);
-        if (result.status === "quota") { setAnalyzing(false); onOutOfScans?.(); return; }
-        if (result.status !== "ok") return;
-        if (result.scansLeft != null) onScansLeft?.(result.scansLeft);
-        setIngredients(result.ingredients);
-        setRecipes(result.recipes);
-        setAnalyzing(false);
-        onRecipesGenerated(result.recipes, result.ingredients);
-      } catch {
-        setError("unclear_photo");
-        setAnalyzing(false);
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
-  return (
-    <>
-    {showMealTypeModal && (
-      <MealTypeModal
-        theme={theme}
-        onConfirm={(type) => { mealTypeRef.current = type; setShowMealTypeModal(false); setTimeout(() => inputRef.current?.click(), 150); }}
-        onClose={() => setShowMealTypeModal(false)}
-      />
-    )}
-    <div
-      style={{
-        display: "flex",
-        gap: 40,
-        flexWrap: "wrap",
-        alignItems: "flex-start",
-      }}
-    >
-      <div style={{ flex: 1, minWidth: 300 }}>
-        <div
-          onClick={handleScanClick}
-          style={{
-            ...gc,
-            padding: 24,
-            position: "relative",
-            minHeight: 340,
-            cursor: "pointer",
-            overflow: "hidden",
-            background:
-              "linear-gradient(135deg,rgba(46,204,113,0.06),rgba(10,10,15,0.85))",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/*"
-
-            style={{ display: "none" }}
-            onChange={(e) => handleImage(e.target.files?.[0])}
-          />
-          {!image && (
-            <img
-              src="/images/frigo.jpg"
-              alt="frigo"
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                opacity: 0.3,
-              }}
-            />
-          )}
-          {image && (
-            <img
-              src={image}
-              alt=""
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                opacity: analyzing ? 0.45 : 0.65,
-              }}
-            />
-          )}
-          {(analyzing || !image) && (
-            <>
-              <ScanLine />
-              <Brackets color="#2ECC71" size={22} />
-            </>
-          )}
-          <div style={{ textAlign: "center", zIndex: 2 }}>
-            <div style={{ fontSize: 56, marginBottom: 16 }}>
-              {image ? "🤖" : "📷"}
-            </div>
-            <div
-              style={{
-                fontSize: 13,
-                color: "#2ECC71",
-                fontWeight: 800,
-                letterSpacing: 2,
-                animation: analyzing ? "pulse 1s infinite" : "none",
-              }}
-            >
-              {analyzing
-                ? "SCAN EN COURS..."
-                : image
-                ? "ANALYSE TERMINÉE"
-                : "CLIQUER POUR SCANNER MON FRIGO"}
-            </div>
-            <div style={{ fontSize: 12, color: COLORS.muted, marginTop: 8 }}>
-              {analyzing ? "Détection des aliments et génération des recettes…" : "Photo du frigo → aliments détectés → recettes personnalisées"}
-            </div>
-            {!analyzing && (
-              <button
-                type="button"
-                onClick={(e) => { e.stopPropagation(); handleScanClick(); }}
-                style={{
-                  marginTop: 22,
-                  padding: "12px 22px",
-                  borderRadius: 100,
-                  border: "none",
-                  background: "linear-gradient(135deg,#FF6B35,#2ECC71)",
-                  color: "#fff",
-                  fontWeight: 800,
-                  cursor: "pointer",
-                }}
-              >
-                {image ? "Scanner une autre photo" : "Scanner mon frigo"}
-              </button>
-            )}
-          </div>
-        </div>
-        {error && (
-          <div style={{ marginTop: 16, borderRadius: 16, overflow: "hidden", border: "1px solid rgba(255,107,53,0.3)", background: "rgba(255,107,53,0.06)" }}>
-            <div style={{ padding: "14px 16px", borderBottom: "1px solid rgba(255,107,53,0.2)", display: "flex", alignItems: "center", gap: 10 }}>
-              <span style={{ fontSize: 22 }}>📸</span>
-              <div>
-                <div style={{ fontWeight: 800, fontSize: 14, color: COLORS.orangeStart }}>Photo difficile à analyser</div>
-                <div style={{ fontSize: 12, color: v.muted, marginTop: 2 }}>Les aliments ne sont pas assez visibles. Suivez ces conseils :</div>
-              </div>
-            </div>
-            <div style={{ padding: "12px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
-              {[
-                { icon: "💡", tip: "Ouvrez bien le frigo et allumez la lumière intérieure" },
-                { icon: "📏", tip: "Reculez pour cadrer toutes les étagères" },
-                { icon: "☀️", tip: "Photographiez dans une pièce bien éclairée, sans flash" },
-                { icon: "🔲", tip: "Visez le contenu, pas la porte ni les bords" },
-              ].map(({ icon, tip }) => (
-                <div key={tip} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13, color: v.text }}>
-                  <span style={{ flexShrink: 0 }}>{icon}</span>
-                  <span>{tip}</span>
-                </div>
-              ))}
-            </div>
-            <div style={{ padding: "10px 16px", borderTop: "1px solid rgba(255,107,53,0.2)" }}>
-              <button
-                onClick={() => { setError(""); setImage(null); inputRef.current?.click(); }}
-                style={{ width: "100%", padding: "10px", borderRadius: 10, border: "none", background: "linear-gradient(135deg,#FF6B35,#FF9A3C)", color: "#fff", fontWeight: 800, fontSize: 13, cursor: "pointer" }}
-              >
-                Réessayer avec une meilleure photo
-              </button>
-            </div>
-          </div>
-        )}
-        {ingredients.length > 0 && (
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 10,
-              marginTop: 20,
-            }}
-          >
-            {ingredients.map((i) => (
-              <div
-                key={i.name}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "8px 14px",
-                  background: "rgba(46,204,113,0.1)",
-                  border: "1px solid rgba(46,204,113,0.25)",
-                  borderRadius: 100,
-                  fontSize: 13,
-                  color: v.text,
-                  animation: "slideIn 0.4s ease both",
-                }}
-              >
-                <span style={{ fontSize: 16 }}>{i.icon}</span>
-                <span style={{ fontWeight: 600 }}>{i.name}</span>
-                <span style={{ fontSize: 11, color: "#2ECC71", marginLeft: 4 }}>
-                  {i.conf}%
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-      <div style={{ flex: 1, minWidth: 300 }}>
-        <div style={{ ...gc, padding: 24 }}>
-          <div
-            style={{
-              fontSize: 12,
-              fontWeight: 800,
-              color: COLORS.orangeStart,
-              letterSpacing: 3,
-              textTransform: "uppercase",
-              marginBottom: 18,
-            }}
-          >
-            Recettes créées par l'IA
-          </div>
-          {recipes.length === 0 ? (
-            <p style={{ color: v.muted, fontSize: 14, lineHeight: 1.7 }}>
-              Ajoutez une photo de votre frigo. L'IA détectera les aliments et
-              générera des recettes adaptées.
-            </p>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {recipes.map((r, i) => (
-                <div
-                  key={r.title}
-                  style={{
-                    ...gc,
-                    padding: 12,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 14,
-                    animation: `fadeUp 0.4s ease ${i * 0.12}s both`,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 72,
-                      height: 72,
-                      borderRadius: 14,
-                      overflow: "hidden",
-                      flexShrink: 0,
-                      position: "relative",
-                    }}
-                  >
-                    <RecipeImage title={r.title} imageSearch={r.imageSearch} />
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div
-                      style={{ fontWeight: 800, fontSize: 15, color: v.text }}
-                    >
-                      {r.title}
-                    </div>
-                    <div style={{ fontSize: 12, color: v.muted, marginTop: 4 }}>
-                      {r.time} · {r.cal} kcal · {r.diff}
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => onRecipeClick?.(r)}
-                    style={{
-                      padding: "8px 14px",
-                      borderRadius: 100,
-                      border: `1px solid ${v.border}`,
-                      background: `rgba(255,255,255,0.06)`,
-                      color: v.text,
-                      cursor: "pointer",
-                      fontSize: 12,
-                      fontWeight: 600,
-                    }}
-                  >
-                    Voir →
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-    </>
-  );
-}
-
 // ─── Main App ─────────────────────────────────────────────────────────────────
 /** Ancienne liste des favoris (onglet Recettes), gardée telle quelle jusqu'à l'étape 7. */
 function LegacyFavorites({ theme, favorites, onOpen, onToggleFavorite }: {
@@ -2075,9 +1233,6 @@ export default function Frigia() {
   const location = useLocation();
   const back = useBack();
   const openScan = useOpenScan();
-  const [servings, setServings] = useState(2);
-  const [showServingsModal, setShowServingsModal] = useState(false);
-  const [pendingData, setPendingData] = useState<{ recipes: GeneratedRecipe[]; ingredients: DetectedIngredient[] } | null>(null);
   // Goûts du compte (table profiles). missing : pas encore de goûts, on pose les 3 questions.
   const [profile, setProfile] = useState<Profile | null>(null);
   const [profileMissing, setProfileMissing] = useState(false);
@@ -2089,7 +1244,7 @@ export default function Frigia() {
 
   const [userId, setUserId] = useState<string | undefined>();
   const library = useLibrary(userId);
-  const { history, favorites, toggleFavorite, isFavorite, deleteScan } = library;
+  const { history, favorites, toggleFavorite, isFavorite, deleteScan, updateScanRecipes } = library;
 
   /** Charge les goûts du compte, une fois par connexion. Juste après l'inscription, les réponses aux questions deviennent le profil. */
   const loadProfile = async (u: User) => {
@@ -2151,33 +1306,6 @@ export default function Frigia() {
     document.querySelector('meta[name="viewport"]')?.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover");
   }, [user]);
 
-  /** Fin du scan : le scan rejoint l'historique, qu'on ouvre (comme l'ancien onglet Recettes). */
-  const finishScan = (newEntry: HistoryEntry) => {
-    library.addScan(newEntry);
-    setPendingData(null);
-    setShowServingsModal(false);
-    navigate("/scans", { replace: true });
-    // En Gratuit, on rappelle les scans qui restent (comme le prototype à l'arrivée des recettes)
-    showToast(user && !hasPlus(user) ? quotaText(quota) : "Scan terminé !");
-  };
-
-  const confirmServings = (n: number) => {
-    setServings(n);
-    if (pendingData) {
-      finishScan({ id: Date.now().toString(), date: new Date(), ingredients: pendingData.ingredients, recipes: pendingData.recipes, servings: n });
-    } else {
-      setShowServingsModal(false);
-    }
-  };
-
-  const skipServings = () => {
-    if (pendingData) {
-      finishScan({ id: Date.now().toString(), date: new Date(), ingredients: pendingData.ingredients, recipes: pendingData.recipes, servings });
-    } else {
-      setShowServingsModal(false);
-    }
-  };
-
 /** Enregistre les goûts (questions remplies une fois connecté, ou « Modifier » depuis Famille). */
 const saveTastes = async (p: Profile) => {
   if (!user) return;
@@ -2234,8 +1362,8 @@ if (profileMissing && !isPlus) {
 }
 
 // ─── NOUVELLE APPLI (prototype V3) ───────────────────────────────────────────
-// Les écrans pas encore refaits (scan, tes scans, tes favoris, réglages, fiche recette) restent les anciens,
-// en clair, le temps des étapes 6 à 8.
+// Les écrans pas encore refaits (tes scans, tes favoris, réglages) restent les anciens, en clair,
+// le temps des étapes 7 et 8.
 const noScansLeft = !isPlus && scansLeft(quota) <= 0;
 const name = profile?.first_name || firstName(user);
 /** Le serveur a compté le scan : on suit les scans gratuits qui restent. */
@@ -2244,8 +1372,16 @@ const onScansLeft = (left: number) => {
   setQuota(q);
   setCachedQuota(user.id, q);
 };
-const recipeState = location.state as { recipe?: GeneratedRecipe; servings?: number; hello?: boolean } | null;
-const openRecipe = (recipe: GeneratedRecipe, s = servings) => navigate(location.pathname, { state: { recipe, servings: s } });
+/** Formule Gratuit : le scan est compté, on rappelle ceux qui restent (comme le prototype en arrivant sur la liste). */
+const onCounted = (left: number) => {
+  onScansLeft(left);
+  showToast(quotaText({ used: Math.max(0, quotaTotal(quota) - left), bonus: quota?.bonus ?? 0 }));
+};
+const onOutOfScans = () => { onScansLeft(0); navigate("/plus", { replace: true, state: { why: "quota" } }); };
+const recipeState = location.state as { hello?: boolean } | null;
+const openRecipe = (recipe: GeneratedRecipe, servings?: number) => navigate("/recette", { state: { recipe, servings } satisfies RecipeState });
+// Premier scan guidé : juste après l'inscription, tant qu'aucun scan n'est fait et que les bulles n'ont pas été passées
+const guide = guideState(user.id);
 
 return (
   // Retour de la page Stripe : « On attend ta banque » tout de suite, sans l'écran d'ouverture
@@ -2262,17 +1398,15 @@ return (
       <Route path="/resilier" element={<Cancel user={user} />} />
       {/* Les 15 scans gratuits sont utilisés : « Passe à Plus » à la place du scan */}
       <Route path="/scan" element={noScansLeft ? <Navigate to="/plus" replace state={{ why: "quota" }} /> :
-        <LegacyPage title={<>Scanner mon <em>frigo</em></>}>
-          <GlobalStyles theme={theme} />
-          <FridgeAIScanner
-            theme={theme}
-            onRecipesGenerated={(recipes, ingredients) => { setPendingData({ recipes, ingredients }); setShowServingsModal(true); }}
-            onScansLeft={onScansLeft}
-            onOutOfScans={() => { onScansLeft(0); navigate("/plus", { replace: true, state: { why: "quota" } }); }}
-            onRecipeClick={(r) => openRecipe(r)}
-          />
-        </LegacyPage>
-      } />
+        <ScanCamera userId={user.id} guide={guide === "" && history.length === 0} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
+      <Route path="/scan/recadrer" element={<Crop />} />
+      <Route path="/scan/rate" element={<ScanFail />} />
+      <Route path="/scan/ajouter" element={<AddIngredient />} />
+      <Route path="/scan/ingredients" element={<Ingredients isPlus={isPlus} name={name} avatar={avatarSrc} profile={profile} guide={guide === "ingr"} userId={user.id} />} />
+      <Route path="/scan/preparation" element={<Prep isPlus={isPlus} onReady={library.addScan} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
+      <Route path="/recettes/:id" element={<Results history={history} isPlus={isPlus} onNewIdeas={updateScanRecipes} />} />
+      <Route path="/recettes/:id/:n" element={<Recipe history={history} isPlus={isPlus} name={name} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
+      <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} name={name} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
       <Route path="/scans" element={
         <LegacyPage title={<>Tes <em>scans</em></>}>
           <GlobalStyles theme={theme} />
@@ -2291,11 +1425,6 @@ return (
       </>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
-    {recipeState?.recipe && <>
-      <GlobalStyles theme={theme} keyframesOnly />
-      <RecipeDetailModal theme={theme} recipe={recipeState.recipe} servings={recipeState.servings ?? servings} onClose={back} />
-    </>}
-    {showServingsModal && <><GlobalStyles theme={theme} keyframesOnly /><ServingsModal theme={theme} onConfirm={confirmServings} onSkip={skipServings} /></>}
     {recipeState?.hello && location.pathname === "/" && !isPlus && (
       <HelloSheet name={name} onScan={openScan} onClose={() => navigate("/", { replace: true })} />
     )}
