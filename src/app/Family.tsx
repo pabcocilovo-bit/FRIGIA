@@ -1,17 +1,18 @@
 // 10 · Famille (prototype V3) : le compte, le foyer, les goûts, le parrainage et l'abonnement.
 import { useNavigate } from "react-router";
 import { Icon, Pill, RoundButton } from "../ui/components";
-import type { Prefs, User } from "../lib/types";
+import type { User } from "../lib/types";
+import type { Profile } from "../lib/profile";
 import { AppTabBar } from "./AppTabBar";
 import { Avatar } from "./Home";
 import { firstName, initial, memberSince, tasteRows } from "./format";
 import { comingSoon } from "./toast";
 
-export function Family({ user, isPlus, avatar, prefs, onManageSubscription }: {
-  user: User; isPlus: boolean; avatar: string | null; prefs: Prefs | null; onManageSubscription: () => void;
+export function Family({ user, isPlus, avatar, profile, onEditTastes, onManageSubscription }: {
+  user: User; isPlus: boolean; avatar: string | null; profile: Profile | null; onEditTastes: () => void; onManageSubscription: () => void;
 }) {
   const navigate = useNavigate();
-  const tastes = prefs && tasteRows(prefs);
+  const tastes = profile && tasteRows(profile);
   const name = firstName(user);
 
   return (
@@ -53,14 +54,14 @@ export function Family({ user, isPlus, avatar, prefs, onManageSubscription }: {
           </div>
         )}
 
-        <div className="sec"><h3>Tes goûts</h3><button type="button" className="link" onClick={() => comingSoon(4)}>Modifier</button></div>
+        <div className="sec"><h3>Tes goûts</h3><button type="button" className="link" onClick={onEditTastes}>Modifier</button></div>
         <p className="pintro">Enregistrés sur ton compte : tu les retrouves sur tous tes appareils.</p>
         {tastes && (
           <div className="plist">
             {([["salad", "Régime", tastes.diet], ["pan", "Ustensiles", tastes.equipment], ["clock", "Temps en semaine", tastes.time]] as const)
               .filter(([, , value]) => value)
               .map(([icon, title, value]) => (
-                <button key={title} type="button" className="prow" onClick={() => comingSoon(4)}>
+                <button key={title} type="button" className="prow" onClick={onEditTastes}>
                   <span className="pi"><Icon name={icon} /></span><span className="tx"><b>{title}</b><span>{value}</span></span><Icon name="next" />
                 </button>
               ))}

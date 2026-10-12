@@ -1,16 +1,16 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
-import type { DetectedIngredient, GeneratedRecipe, HistoryEntry, Prefs, User } from "./lib/types";
+import type { DetectedIngredient, GeneratedRecipe, HistoryEntry, User } from "./lib/types";
 import { buildShareText, fetchTheMealImage, ingredientIcon, mealImageCache, recipeIcon } from "./lib/recipes";
 import { analyzeFridge } from "./lib/scan";
 import { createCheckoutUrl, customerPortalUrl, hasAccess, subscriptionStatus } from "./lib/billing";
 import { accessToken, postApi } from "./lib/api";
 import {
   changePassword, clearLocalData, deleteAccount as deleteAccountRequest, displayName, getAvatar, getPrefs,
-  isOAuthUser as isOAuthAccount, markOnboarded, needsQuestionnaire, setAvatar, setPrefs, signOut, updateProfile,
+  isOAuthUser as isOAuthAccount, isOnboarded, markOnboarded, setAvatar, signOut, updateProfile,
 } from "./lib/account";
 import { useLibrary } from "./hooks/useLibrary";
 import { useSession } from "./hooks/useSession";
-import { isStandalone, type InstallPromptEvent } from "./landing/browser";
+import { isStandalone } from "./landing/browser";
 import { Analytics } from "@vercel/analytics/react";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router";
 import { AppFrame } from "./app/AppFrame";
@@ -20,6 +20,22 @@ import { Family } from "./app/Family";
 import { LegacyPage } from "./app/LegacyPage";
 import { useBack } from "./app/nav";
 import { showToast } from "./app/toast";
+import {
+  EMPTY_PROFILE, clearPendingProfile, fetchProfile, hasPendingProfile, fromOldPrefs, getCachedProfile, saveProfile, takePendingProfile, type Profile,
+} from "./lib/profile";
+import { Camera, EmailSignup, Forgot, Login, QDiet, QGoal, QTime, Ready, Signup, VerifyEmail, Welcome } from "./app/onboarding/Onboarding";
+import { takeOAuthIntent } from "./app/onboarding/oauth";
+import { resetAnswers } from "./app/onboarding/answers";
+import { firstName } from "./app/format";
+
+// Écrans de l'inscription et de la connexion (étape 4). Connecté, seuls les questions, la caméra
+// et le mot de passe oublié (le code connecte avant le nouveau mot de passe) restent ouverts.
+const OB_PATHS = ["/bienvenue", "/questions/1", "/questions/2", "/questions/3", "/pret", "/compte", "/compte/email", "/compte/code", "/connexion", "/mot-de-passe", "/camera"];
+const OB_SIGNED_IN = ["/questions/1", "/questions/2", "/questions/3", "/mot-de-passe", "/camera"];
+
+/** Prénom donné à Google (ou à l'inscription), pour le profil. */
+const metaFirstName = (u: User): string | null =>
+  u.user_metadata?.given_name || (displayName(u).trim().split(/\s+/)[0] || null);
 const Landing = lazy(() => import("./Landing"));
 const COLORS = {
   orangeStart: "#FF6B35",
@@ -1047,262 +1063,6 @@ function OnboardingScreen({ onContinue, loading }: { onContinue: () => void; loa
             Résiliation en 1 clic
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── InstallRecoScreen ────────────────────────────────────────────────────────
-function detectBrowserType(): "ios-safari" | "ios-chrome" | "chrome-android" | "other" {
-  const ua = navigator.userAgent;
-  const isIos = /iphone|ipad|ipod/i.test(ua);
-  if (isIos && /crios/i.test(ua)) return "ios-chrome";
-  if (isIos) return "ios-safari";
-  if (/android/i.test(ua) && /chrome/i.test(ua)) return "chrome-android";
-  return "other";
-}
-
-function InstallRecoScreen({ onContinue }: { onContinue: () => void }) {
-  useEffect(() => { document.body.style.overflow = "hidden"; return () => { document.body.style.overflow = ""; }; }, []);
-  const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
-  useEffect(() => {
-    const h = (e: Event) => { e.preventDefault(); setInstallPrompt(e as InstallPromptEvent); };
-    window.addEventListener("beforeinstallprompt", h);
-    return () => window.removeEventListener("beforeinstallprompt", h);
-  }, []);
-
-  const browser = detectBrowserType();
-  const stepsMap = {
-    "ios-safari": [
-      { num: 1, text: "Appuyez sur le bouton", strong: "Partager", sub: "l'icône □↑ en bas de Safari" },
-      { num: 2, text: "Faites défiler et appuyez sur", strong: "Sur l'écran d'accueil", sub: "" },
-      { num: 3, text: "Appuyez sur", strong: "Ajouter", sub: "en haut à droite — c'est tout !" },
-    ],
-    "ios-chrome": [
-      { num: 1, text: "Appuyez sur", strong: "le bouton Partager", sub: "icône □↑ en haut à droite" },
-      { num: 2, text: "Appuyez sur", strong: "Sur l'écran d'accueil", sub: "dans la liste" },
-      { num: 3, text: "Appuyez sur", strong: "Ajouter", sub: "c'est tout !" },
-    ],
-    "chrome-android": [
-      { num: 1, text: "Appuyez sur", strong: "⋮", sub: "les 3 points en haut à droite" },
-      { num: 2, text: "Appuyez sur", strong: "Ajouter à l'écran d'accueil", sub: "" },
-      { num: 3, text: "Confirmez en appuyant sur", strong: "Ajouter", sub: "c'est tout !" },
-    ],
-    "other": [
-      { num: 1, text: "Ouvrez le", strong: "menu de votre navigateur", sub: "bouton ⋮ ou ···" },
-      { num: 2, text: "Cherchez", strong: "Ajouter à l'écran d'accueil", sub: "ou \"Installer l'application\"" },
-      { num: 3, text: "Confirmez en appuyant sur", strong: "Ajouter", sub: "c'est tout !" },
-    ],
-  };
-  const steps = stepsMap[browser];
-  const showArrow = browser === "ios-safari" || browser === "ios-chrome";
-  const arrowPos = browser === "ios-safari" ? "bottom" : "top";
-
-  const handleInstall = async () => {
-    if (installPrompt) { installPrompt.prompt(); await installPrompt.userChoice; }
-  };
-
-  return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 500, background: "#0A0A0F", display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <style>{`html,body{margin:0;background:#0A0A0F;}`}</style>
-      <div style={{ position: "absolute", width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%)", top: "-10%", right: "-10%", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", width: 360, height: 360, borderRadius: "50%", background: "radial-gradient(circle,rgba(46,204,113,.09) 0%,transparent 70%)", bottom: "5%", left: "-8%", pointerEvents: "none" }} />
-
-      {showArrow && arrowPos === "bottom" && (
-        <div style={{ position: "absolute", bottom: 12, right: 24, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, zIndex: 10, pointerEvents: "none" }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: "#FF6B35", letterSpacing: 0.5 }}>Appuyez ici</span>
-          <span style={{ fontSize: 36, color: "#FF6B35", lineHeight: 1, animation: "pulse 1.5s ease infinite" }}>↓</span>
-        </div>
-      )}
-      {showArrow && arrowPos === "top" && (
-        <div style={{ position: "absolute", top: 12, right: 24, display: "flex", flexDirection: "column-reverse", alignItems: "center", gap: 4, zIndex: 10, pointerEvents: "none" }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: "#FF6B35", letterSpacing: 0.5 }}>Appuyez ici</span>
-          <span style={{ fontSize: 36, color: "#FF6B35", lineHeight: 1, animation: "pulse 1.5s ease infinite" }}>↑</span>
-        </div>
-      )}
-
-      <div style={{ flex: 1, overflowY: "auto", padding: "calc(52px + env(safe-area-inset-top)) 28px 24px", display: "flex", flexDirection: "column", gap: 28, position: "relative", zIndex: 1 }}>
-        <div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "#FF6B35", letterSpacing: 2, textTransform: "uppercase", marginBottom: 16 }}>Recommandé</div>
-          <h2 style={{ fontSize: "clamp(26px,7vw,38px)", fontWeight: 900, color: "#FAFAFA", lineHeight: 1.12, letterSpacing: -1.2, marginBottom: 12 }}>
-            Pour une meilleure<br />expérience, installez l'app
-          </h2>
-          <p style={{ fontSize: 14, color: "#6B7280", lineHeight: 1.6 }}>
-            L'app installée démarre plus vite, fonctionne mieux et s'intègre à votre téléphone comme une vraie application.
-          </p>
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {steps.map((step) => (
-            <div key={step.num} style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "16px", borderRadius: 16, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-              <div style={{ width: 32, height: 32, borderRadius: "50%", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 14, color: "#fff", flexShrink: 0 }}>{step.num}</div>
-              <div>
-                <div style={{ fontSize: 14, color: "#FAFAFA" }}>{step.text} <strong style={{ color: "#FF6B35" }}>{step.strong}</strong></div>
-                {step.sub && <div style={{ fontSize: 12, color: "#6B7280", marginTop: 3 }}>{step.sub}</div>}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {installPrompt && (
-          <button onClick={handleInstall} style={{ width: "100%", padding: "17px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontWeight: 800, fontSize: 17, cursor: "pointer", boxShadow: "0 10px 32px rgba(255,107,53,0.28)" }}>
-            Télécharger l'app
-          </button>
-        )}
-      </div>
-
-      <div style={{ padding: "12px 28px calc(24px + env(safe-area-inset-bottom))", position: "relative", zIndex: 1, textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <button onClick={onContinue} style={{ background: "none", border: "none", color: "#6B7280", fontSize: 14, cursor: "pointer", textDecoration: "underline" }}>
-          Continuer dans le navigateur
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ─── QuestionnaireScreen ─────────────────────────────────────────────────────
-const Q_GRAD = "linear-gradient(135deg,#FF6B35,#2ECC71)";
-const Q_C = { bg:"#0A0A0F", text:"#FAFAFA", muted:"#6B7280", orange:"#FF6B35" };
-
-function QuestionnaireScreen({ onComplete }: { onComplete: (prefs: Prefs) => void }) {
-  const [step, setStep] = useState(0);
-  const [equipment, setEquipment] = useState<string[]>([]);
-  const [goal, setGoal] = useState("");
-  const [diet, setDiet] = useState<string[]>([]);
-  const [time, setTime] = useState("");
-
-  const steps = [
-    {
-      id:"equipment", optional:true, multi:true,
-      title:"Tu as un équipement\nparticulier ?",
-      sub:"On adaptera les recettes à ce que tu as",
-      options:[
-        { id:"airfryer",  icon:"🔥", label:"AirFryer"  },
-        { id:"moulinex",  icon:"🥣", label:"Moulinex"  },
-        { id:"thermomix", icon:"⚙️", label:"Thermomix" },
-        { id:"autre",     icon:"✏️", label:"Autre"      },
-      ],
-    },
-    {
-      id:"goal", optional:false, multi:false,
-      title:"Ton objectif\nprincipal ?",
-      sub:"On se concentrera sur ce qui compte pour toi",
-      options:[
-        { id:"healthy", icon:"🥗", label:"Manger sain"     },
-        { id:"nogaspi", icon:"♻️", label:"Zéro gaspillage" },
-        { id:"quick",   icon:"⚡", label:"Gagner du temps" },
-      ],
-    },
-    {
-      id:"diet", optional:false, multi:true,
-      title:"Tu manges\ncomment ?",
-      sub:"On te proposera uniquement des recettes adaptées",
-      options:[
-        { id:"all",        icon:"🍖", label:"Tout"        },
-        { id:"veggie",     icon:"🥦", label:"Végétarien"  },
-        { id:"vegan",      icon:"🌱", label:"Vegan"       },
-        { id:"glutenfree", icon:"🌾", label:"Sans gluten" },
-      ],
-    },
-    {
-      id:"time", optional:false, multi:false,
-      title:"Combien de temps\npour cuisiner ?",
-      sub:"On calibre la complexité des recettes",
-      options:[
-        { id:"15min", icon:"⚡",  label:"Moins de 15 min" },
-        { id:"30min", icon:"🕐",  label:"30 minutes"      },
-        { id:"any",   icon:"👨‍🍳", label:"Peu importe"    },
-      ],
-    },
-  ];
-
-  const cur = steps[step];
-
-  const isSelected = (id: string) => {
-    if (cur.id === "equipment") return equipment.includes(id);
-    if (cur.id === "goal") return goal === id;
-    if (cur.id === "diet") return diet.includes(id);
-    if (cur.id === "time") return time === id;
-    return false;
-  };
-
-  const toggle = (id: string) => {
-    if (cur.id === "equipment") {
-      setEquipment(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
-    } else if (cur.id === "goal") {
-      setGoal(id);
-    } else if (cur.id === "diet") {
-      if (id === "all") { setDiet(p => p.includes("all") ? [] : ["all"]); return; }
-      setDiet(p => { const w = p.filter(x => x !== "all"); return w.includes(id) ? w.filter(x => x !== id) : [...w, id]; });
-    } else if (cur.id === "time") {
-      setTime(id);
-    }
-  };
-
-  const canContinue = () => {
-    if (cur.optional) return true;
-    if (cur.id === "goal") return !!goal;
-    if (cur.id === "diet") return diet.length > 0;
-    if (cur.id === "time") return !!time;
-    return true;
-  };
-
-  const goNext = () => {
-    if (!canContinue()) return;
-    if (step < steps.length - 1) setStep(s => s + 1);
-    else onComplete({ goal, diet, time, equipment });
-  };
-
-  return (
-    <div style={{ position:"fixed",inset:0,zIndex:500,background:Q_C.bg,display:"flex",flexDirection:"column",overflow:"hidden" }}>
-      <style>{`html,body{margin:0;background:#0A0A0F;overflow-x:hidden!important;}`}</style>
-      <div style={{ position:"absolute",width:400,height:400,borderRadius:"50%",background:"radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%)",top:"-10%",right:"-10%",pointerEvents:"none" }} />
-      <div style={{ position:"absolute",width:360,height:360,borderRadius:"50%",background:"radial-gradient(circle,rgba(46,204,113,.09) 0%,transparent 70%)",bottom:"5%",left:"-8%",pointerEvents:"none" }} />
-
-      <div style={{ padding:"calc(52px + env(safe-area-inset-top)) 28px 0",position:"relative",zIndex:1 }}>
-        <div style={{ display:"flex",gap:6,marginBottom:36 }}>
-          {steps.map((_, i) => (
-            <div key={i} style={{ flex:1,height:3,borderRadius:100,overflow:"hidden",background:"rgba(255,255,255,0.08)" }}>
-              <div style={{ height:"100%",background:Q_GRAD,borderRadius:100,width:i<=step?"100%":"0%",transition:"width 0.45s ease" }} />
-            </div>
-          ))}
-        </div>
-        <div style={{ fontSize:12,color:Q_C.muted,marginBottom:10,fontWeight:600,letterSpacing:1 }}>
-          {step+1} / {steps.length}
-          {cur.optional && <span style={{ marginLeft:10,color:"rgba(255,255,255,0.2)",fontSize:11 }}>· Facultatif</span>}
-        </div>
-        <h2 style={{ fontSize:"clamp(28px,7vw,40px)",fontWeight:900,color:Q_C.text,lineHeight:1.12,letterSpacing:-1.5,whiteSpace:"pre-line",marginBottom:8 }}>
-          {cur.title}
-        </h2>
-        <p style={{ fontSize:14,color:Q_C.muted,lineHeight:1.6 }}>{cur.sub}</p>
-      </div>
-
-      <div style={{ flex:1,padding:"28px 28px 0",display:"flex",flexDirection:"column",gap:11,overflowY:"auto",position:"relative",zIndex:1 }}>
-        {cur.options.map(opt => {
-          const sel = isSelected(opt.id);
-          return (
-            <button key={opt.id} onClick={() => toggle(opt.id)} style={{ display:"flex",alignItems:"center",gap:16,padding:"17px 20px",borderRadius:20,background:sel?"rgba(255,107,53,0.1)":"rgba(255,255,255,0.04)",border:`1.5px solid ${sel?"rgba(255,107,53,0.55)":"rgba(255,255,255,0.07)"}`,color:Q_C.text,textAlign:"left",width:"100%",transition:"all 0.2s",boxShadow:sel?"0 4px 20px rgba(255,107,53,0.12)":"none" }}>
-              <div style={{ width:44,height:44,borderRadius:14,background:sel?"rgba(255,107,53,0.18)":"rgba(255,255,255,0.06)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0 }}>
-                {opt.icon}
-              </div>
-              <span style={{ fontWeight:700,fontSize:16,flex:1 }}>{opt.label}</span>
-              <div style={{ width:22,height:22,borderRadius:"50%",border:`2px solid ${sel?Q_C.orange:"rgba(255,255,255,0.15)"}`,background:sel?Q_C.orange:"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all 0.2s" }}>
-                {sel && <span style={{ color:"#fff",fontSize:12,fontWeight:900 }}>✓</span>}
-              </div>
-            </button>
-          );
-        })}
-      </div>
-
-      <div style={{ padding:"20px 28px calc(28px + env(safe-area-inset-bottom))",position:"relative",zIndex:1 }}>
-        <button onClick={goNext} style={{ width:"100%",padding:"17px",borderRadius:100,border:"none",background:canContinue()?Q_GRAD:"rgba(255,255,255,0.07)",color:canContinue()?"#fff":"rgba(255,255,255,0.3)",fontWeight:800,fontSize:17,transition:"all 0.25s",boxShadow:canContinue()?"0 10px 32px rgba(255,107,53,0.28)":"none" }}>
-          {step === steps.length-1 ? "Commencer !" : "Continuer →"}
-        </button>
-        {step > 0 && (
-          <button onClick={() => setStep(s => s-1)} style={{ width:"100%",marginTop:12,padding:"10px",background:"none",border:"none",color:Q_C.muted,fontSize:14,fontWeight:500 }}>
-            ← Retour
-          </button>
-        )}
       </div>
     </div>
   );
@@ -2480,9 +2240,13 @@ export default function Frigia() {
   const [servings, setServings] = useState(2);
   const [showServingsModal, setShowServingsModal] = useState(false);
   const [pendingData, setPendingData] = useState<{ recipes: GeneratedRecipe[]; ingredients: DetectedIngredient[] } | null>(null);
-  const [showQuestionnaire, setShowQuestionnaire] = useState(false);
-  const [showInstallReco, setShowInstallReco] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  // Goûts du compte (table profiles). missing : pas encore de goûts, on pose les 3 questions.
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profileMissing, setProfileMissing] = useState(false);
+  const profileFor = useRef<string | null>(null);
+  // Compte tout neuf : on passe par l'accès à la caméra avant l'accueil
+  const [goCamera, setGoCamera] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [showCheckoutSuccess, setShowCheckoutSuccess] = useState(() =>
     new URLSearchParams(window.location.search).get("checkout") === "success"
@@ -2492,16 +2256,45 @@ export default function Frigia() {
   const library = useLibrary(userId);
   const { history, favorites, toggleFavorite, isFavorite, deleteScan } = library;
 
-  const user = useSession({
+  /** Charge les goûts du compte, une fois par connexion. Juste après l'inscription, les réponses aux questions deviennent le profil. */
+  const loadProfile = async (u: User) => {
+    if (profileFor.current === u.id) return;
+    profileFor.current = u.id;
+    const cached = getCachedProfile(u.id);
+    setProfile(cached);
+    setProfileMissing(false);
+    const pending = takePendingProfile();
+    const remote = await fetchProfile(u.id);
+    if (profileFor.current !== u.id) return;
+    if (remote) { setProfile(remote); return; }
+    if (remote === undefined && cached) return; // la base ne répond pas : la copie du téléphone suffit
+    const old = getPrefs(u.id);
+    const p = pending ? { ...pending, first_name: pending.first_name || metaFirstName(u) }
+      : cached ?? (old ? fromOldPrefs(old, metaFirstName(u)) : null);
+    if (p) { setProfile(p); void saveProfile(u.id, p); } else setProfileMissing(true);
+  };
+
+  const { user, ready: sessionReady } = useSession({
     onSignedIn: (u, _source, isCheckoutReturn) => {
       setUserId(u.id);
       void library.load(u.id);
       setAvatarSrc(getAvatar(u.id));
-      if (needsQuestionnaire(u, isCheckoutReturn)) setShowQuestionnaire(true);
+      if (hasAccess(u) || isCheckoutReturn) markOnboarded(u.id);
+      // Réponses aux questions en attente : c'est un compte tout neuf (même rendu que la connexion, pas de passage par l'accueil)
+      if (profileFor.current !== u.id && hasPendingProfile()) setGoCamera(true);
+      void loadProfile(u);
+      const oauth = takeOAuthIntent();
+      if (oauth === "signup") showToast("Compte Google relié : pas d'email à confirmer");
+      if (oauth === "login") { const n = firstName(u); showToast(n ? `Bon retour, ${n}` : "Bon retour"); }
     },
     onSignedOut: () => {
       setUserId(undefined);
-      navigate("/", { replace: true });
+      profileFor.current = null;
+      setGoCamera(false);
+      setProfile(null);
+      setProfileMissing(false);
+      // Supabase annonce aussi « personne de connecté » à l'ouverture : on ne sort pas des écrans d'inscription
+      if (!OB_PATHS.includes(window.location.pathname)) navigate("/", { replace: true });
       library.clear();
       setAvatarSrc(null);
     },
@@ -2509,6 +2302,10 @@ export default function Frigia() {
 
   // Connecté : la copie pré-rendue de la landing (index.html) n'a plus lieu d'être, et l'appli garde
   // son zoom bloqué comme avant (le site public, lui, laisse zoomer pour l'accessibilité)
+  const obPath = OB_PATHS.includes(location.pathname);
+  useEffect(() => {
+    if (obPath) document.getElementById("prerender")?.remove();
+  }, [obPath]);
   useEffect(() => {
     if (!user) return;
     document.getElementById("prerender")?.remove();
@@ -2560,20 +2357,62 @@ export default function Frigia() {
     }
   };
 
-if (!user) {
-  return <><Analytics /><Suspense fallback={null}><Landing /></Suspense></>;
+/** Enregistre les goûts (questions remplies une fois connecté, ou « Modifier » depuis Famille). */
+const saveTastes = async (p: Profile) => {
+  if (!user) return;
+  setProfile(p);
+  setProfileMissing(false);
+  await saveProfile(user.id, p);
+};
+
+if (user && goCamera && location.pathname !== "/camera") {
+  return <Navigate to="/camera" replace />;
 }
 
-if (showQuestionnaire) {
-  return <QuestionnaireScreen onComplete={(prefs) => {
-    setPrefs(user.id, prefs);
-    setShowQuestionnaire(false);
-    if (!isStandalone()) { setShowInstallReco(true); } else { setShowOnboarding(true); }
-  }} />;
+// Pas connecté, ou en plein parcours d'inscription : la landing (ou Bienvenue dans l'appli installée) et les écrans du compte
+if (!user || obPath) {
+  const open = (path: string) => !user || OB_SIGNED_IN.includes(path);
+  const screens: [string, React.ReactNode][] = [
+    ["/bienvenue", <Welcome />],
+    ["/questions/1", <QGoal />],
+    ["/questions/2", <QDiet />],
+    ["/questions/3", <QTime onSave={user ? saveTastes : undefined} />],
+    ["/pret", <Ready />],
+    ["/compte", <Signup />],
+    ["/compte/email", <EmailSignup />],
+    ["/compte/code", <VerifyEmail />],
+    ["/connexion", <Login />],
+    ["/mot-de-passe", <Forgot />],
+    ["/camera", user
+      ? <Camera onDone={() => { setGoCamera(false); navigate("/", { replace: true }); if (!hasAccess(user) && !isOnboarded(user.id)) setShowOnboarding(true); }} />
+      : <Navigate to="/" replace />],
+  ];
+  return (
+    <AppFrame splash={sessionReady ? !!user || isStandalone() : undefined} guest={!user}>
+      <Routes>
+        {screens.map(([path, el]) => <Route key={path} path={path} element={open(path) ? el : <Navigate to="/" replace />} />)}
+        <Route path="/" element={isStandalone()
+          ? <Navigate to="/bienvenue" replace />
+          : <><Analytics /><Suspense fallback={null}><Landing
+              onStart={() => { resetAnswers(); navigate("/questions/1"); }}
+              onLogin={() => { clearPendingProfile(); navigate("/connexion"); }}
+            /></Suspense></>} />
+        {/* Tant que la session n'est pas lue, une page de l'appli (/famille…) attend au lieu de renvoyer à l'accueil */}
+        <Route path="*" element={sessionReady ? <Navigate to="/" replace /> : null} />
+      </Routes>
+    </AppFrame>
+  );
 }
 
-if (showInstallReco) {
-  return <InstallRecoScreen onContinue={() => { setShowInstallReco(false); setShowOnboarding(true); }} />;
+const status = subscriptionStatus(user);
+
+if (status === "canceled") {
+  return <CanceledScreen />;
+}
+
+// Compte sans goûts (connexion Google sans passer par les questions…) : les 3 questions d'abord
+if (profileMissing && !hasAccess(user)) {
+  return <Navigate to="/questions/1" replace />;
 }
 
 if (showOnboarding) {
@@ -2587,12 +2426,6 @@ if (showOnboarding) {
       }}
     />
   );
-}
-
-const status = subscriptionStatus(user);
-
-if (status === "canceled") {
-  return <CanceledScreen />;
 }
 
 if (!hasAccess(user)) {
@@ -2614,12 +2447,13 @@ const recipeState = location.state as { recipe?: GeneratedRecipe; servings?: num
 const openRecipe = (recipe: GeneratedRecipe, s = servings) => navigate(location.pathname, { state: { recipe, servings: s } });
 
 return (
-  <AppFrame>
+  <AppFrame splash>
     <Routes>
       <Route path="/" element={<Home user={user} isPlus={isPlus} avatar={avatarSrc} history={history} favorites={favorites} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/planning" element={<Planning isPlus={isPlus} lastScan={history[0]?.date} />} />
       <Route path="/courses" element={<Courses isPlus={isPlus} />} />
-      <Route path="/famille" element={<Family user={user} isPlus={isPlus} avatar={avatarSrc} prefs={getPrefs(user.id)} onManageSubscription={openCustomerPortal} />} />
+      <Route path="/famille" element={<Family user={user} isPlus={isPlus} avatar={avatarSrc} profile={profile} onManageSubscription={openCustomerPortal}
+        onEditTastes={() => { resetAnswers(profile ?? EMPTY_PROFILE); navigate("/questions/1", { state: { edit: true } }); }} />} />
       <Route path="/scan" element={
         <LegacyPage title={<>Scanner mon <em>frigo</em></>}>
           <GlobalStyles theme={theme} />

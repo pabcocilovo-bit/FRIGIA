@@ -1,7 +1,7 @@
 // Scan du frigo : compression de la photo et appel à /api/analyze.
 import { supabase } from "../supabase";
 import type { DetectedIngredient, GeneratedRecipe } from "./types";
-import { getPrefs } from "./account";
+import { apiPrefs, getCachedProfile } from "./profile";
 import { recentRecipeTitles } from "./library";
 import { ingredientIcon, recipeIcon } from "./recipes";
 
@@ -45,7 +45,7 @@ export async function analyzeFridge(file: File, mealType: string): Promise<ScanR
   const { base64: imageBase64, type: mediaType } = await compressImage(file);
   const { data: { session } } = await supabase.auth.getSession();
   const userId = session?.user?.id;
-  const prefs = userId ? getPrefs(userId) : null;
+  const prefs = userId ? apiPrefs(getCachedProfile(userId)) : null;
   const recentTitles = userId ? recentRecipeTitles(userId) : [];
   const response = await fetch("/api/analyze", {
     method: "POST",

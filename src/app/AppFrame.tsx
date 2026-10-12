@@ -67,8 +67,19 @@ function Offline({ onClose }: { onClose: () => void }) {
   );
 }
 
-export function AppFrame({ children }: { children: ReactNode }) {
-  const [splash, setSplash] = useState(true);
+// L'écran d'ouverture se décide une seule fois par visite, dès qu'on sait si quelqu'un est connecté
+let splashDecided = false;
+
+/** splash : montrer l'écran d'ouverture (appli connectée ou installée, pas le site public) ; undefined tant que la session
+ *  n'est pas lue. Se connecter ou s'inscrire ensuite ne le remontre pas. guest : pas connecté. */
+export function AppFrame({ children, splash: wantSplash, guest }: { children: ReactNode; splash?: boolean; guest?: boolean }) {
+  const [splash, setSplash] = useState(false);
+  const [prevWant, setPrevWant] = useState<boolean | undefined>(undefined);
+  if (wantSplash !== prevWant) {
+    setPrevWant(wantSplash);
+    if (wantSplash && !splashDecided) setSplash(true);
+  }
+  useEffect(() => { if (wantSplash !== undefined) splashDecided = true; }, [wantSplash]);
   const endSplash = useCallback(() => setSplash(false), []);
   const [offline, closeOffline] = useOfflineScreen();
   const toast = useToastMessage();
@@ -80,7 +91,7 @@ export function AppFrame({ children }: { children: ReactNode }) {
   return (
     <>
       {children}
-      {offline && <Offline onClose={closeOffline} />}
+      {offline && !guest && <Offline onClose={closeOffline} />}
       {splash && <Splash onDone={endSplash} />}
       <div className="fa"><Toast message={toast} /></div>
     </>

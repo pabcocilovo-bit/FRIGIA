@@ -1,5 +1,6 @@
 // Dates et libellés de l'appli, en français.
-import type { Prefs, User } from "../lib/types";
+import type { User } from "../lib/types";
+import type { Profile } from "../lib/profile";
 import { displayName } from "../lib/account";
 
 const DAYS = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
@@ -42,17 +43,23 @@ export function scanWhen(date: Date, now = new Date()): string {
 
 export const plural = (n: number, word: string) => `${n} ${word}${n > 1 ? "s" : ""}`;
 
-// Mêmes libellés que le questionnaire actuel (il sera refait à l'étape 4)
-const DIETS: Record<string, string> = { all: "Tout", veggie: "Végétarien", vegan: "Vegan", glutenfree: "Sans gluten" };
-const EQUIPMENT: Record<string, string> = { airfryer: "AirFryer", moulinex: "Moulinex", thermomix: "Thermomix", autre: "Autre" };
-const TIMES: Record<string, string> = { "15min": "Moins de 15 min", "30min": "30 minutes", any: "Peu importe" };
+// Libellés des réponses aux questions de l'inscription (prototype V3, écrans B à D)
+export const DIET_NAMES: Record<string, string> = {
+  tout: "De tout", vege: "Végétarien", vegan: "Vegan", pesce: "Pescétarien", gluten: "Sans gluten", lactose: "Sans lactose",
+};
+const TIMES: Record<string, string> = { "15": "15 minutes maximum", "30": "30 minutes maximum", any: "Ça dépend des soirs" };
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-/** Les goûts du questionnaire, comme sur la page Famille : Régime, Ustensiles, Temps en semaine. */
-export function tasteRows(p: Prefs) {
+/** « Végétarien, sans gluten » */
+export const dietLabel = (diet: string[]) => diet.map((d, i) => i ? (DIET_NAMES[d] ?? d).toLowerCase() : DIET_NAMES[d] ?? d).join(", ");
+
+/** Les goûts du compte, comme sur la page Famille : Régime, Ustensiles, Temps en semaine. */
+export function tasteRows(p: Profile) {
+  const allergies = p.allergies.length ? ` · allergies : ${p.allergies.join(", ")}` : "";
   return {
-    diet: p.diet.map(d => DIETS[d]).filter(Boolean).join(", "),
-    equipment: p.equipment.map(e => EQUIPMENT[e]).filter(Boolean).join(", "),
-    time: TIMES[p.time] ?? "",
+    diet: dietLabel(p.diet.length ? p.diet : ["tout"]) + allergies,
+    equipment: cap(p.equipment.join(", ")),
+    time: (p.weeknight_time && TIMES[p.weeknight_time]) ?? "",
   };
 }
 

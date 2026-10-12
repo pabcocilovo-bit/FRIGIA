@@ -12,6 +12,8 @@ type Handlers = {
 
 export function useSession(handlers: Handlers) {
   const [user, setUser] = useState<User | null>(null);
+  // Vrai dès qu'on sait si quelqu'un est connecté (la session est lue au démarrage)
+  const [ready, setReady] = useState(false);
   const handlersRef = useRef(handlers);
   useEffect(() => { handlersRef.current = handlers; });
 
@@ -27,6 +29,7 @@ export function useSession(handlers: Handlers) {
         const u = data.session?.user ?? null;
         if (hasAccess(u) || attempts >= 5) {
           setUser(u);
+          setReady(true);
           if (u) signedIn(u, "start");
         } else {
           attempts++;
@@ -38,6 +41,7 @@ export function useSession(handlers: Handlers) {
       supabase.auth.getSession().then(({ data }) => {
         const u = data.session?.user ?? null;
         setUser(u);
+        setReady(true);
         if (u) signedIn(u, "start");
       });
     }
@@ -62,5 +66,5 @@ export function useSession(handlers: Handlers) {
     return () => clearInterval(interval);
   }, []);
 
-  return user;
+  return { user, ready };
 }

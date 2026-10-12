@@ -75,7 +75,7 @@ export default async function handler(req: any, res: any) {
     return res.status(429).json({ error: "Limite atteinte. Réessayez dans une heure." });
   }
 
-  const { imageBase64, mediaType, prefs, recentTitles, mealType } = req.body as { imageBase64: string; mediaType: string; prefs?: { goal?: string; diet?: string[]; time?: string; equipment?: string[] }; recentTitles?: string[]; mealType?: string };
+  const { imageBase64, mediaType, prefs, recentTitles, mealType } = req.body as { imageBase64: string; mediaType: string; prefs?: { goal?: string; goals?: string[]; diet?: string[]; allergies?: string[]; time?: string; equipment?: string[] }; recentTitles?: string[]; mealType?: string };
   if (!imageBase64) return res.status(400).json({ error: "Missing imageBase64" });
   if (imageBase64.length > 4 * 1024 * 1024) return res.status(400).json({ error: "Image trop lourde" });
 
@@ -85,24 +85,37 @@ export default async function handler(req: any, res: any) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return res.status(500).json({ error: "ANTHROPIC_API_KEY not configured" });
 
-  // Build personalization constraints from questionnaire prefs
+  // Build personalization constraints from the account's tastes (profiles table).
+  // Old clients still send the first questionnaire's keys (goal, healthy, veggie, 15min…): both are understood.
   const prefLines: string[] = [];
   if (prefs) {
-    const dietMap: Record<string, string> = { veggie: "végétarien (sans viande ni poisson)", vegan: "vegan (sans aucun produit animal)", glutenfree: "sans gluten" };
-    const goalMap: Record<string, string> = { healthy: "recettes saines et équilibrées", nogaspi: "recettes zéro gaspillage utilisant un maximum d'ingrédients visibles", quick: "recettes rapides à préparer" };
+    const dietMap: Record<string, string> = {
+      vege: "végétarien (sans viande ni poisson)", veggie: "végétarien (sans viande ni poisson)",
+      vegan: "vegan (sans aucun produit animal)", pesce: "pescétarien (poisson autorisé, sans viande)",
+      gluten: "sans gluten", glutenfree: "sans gluten", lactose: "sans lactose",
+    };
+    const goalMap: Record<string, string> = {
+      sain: "recettes saines et équilibrées", healthy: "recettes saines et équilibrées",
+      gaspi: "recettes zéro gaspillage utilisant un maximum d'ingrédients visibles", nogaspi: "recettes zéro gaspillage utilisant un maximum d'ingrédients visibles",
+      temps: "recettes rapides à préparer", quick: "recettes rapides à préparer",
+      budget: "recettes économiques, avec ce qu'il y a déjà", idees: "recettes variées qui sortent de la routine",
+    };
     const equipMap: Record<string, string> = { airfryer: "AirFryer", moulinex: "Moulinex", thermomix: "Thermomix" };
-    const timeMap: Record<string, string> = { "15min": "15 minutes maximum", "30min": "30 minutes maximum" };
+    const timeMap: Record<string, string> = { "15": "15 minutes maximum", "30": "30 minutes maximum", "15min": "15 minutes maximum", "30min": "30 minutes maximum" };
 
-    const dietConstraints = (prefs.diet || []).filter(d => d !== "all").map(d => dietMap[d]).filter(Boolean);
+    const dietConstraints = (prefs.diet || []).map(d => dietMap[d]).filter(Boolean);
     if (dietConstraints.length > 0) prefLines.push(`ALIMENTATION (OBLIGATOIRE sur les 3 recettes) : ${dietConstraints.join(" et ")}.`);
 
-    const goal = prefs.goal ? goalMap[prefs.goal] : null;
-    if (goal) prefLines.push(`OBJECTIF : Privilégier des ${goal}.`);
+    const allergies = (prefs.allergies || []).filter(a => typeof a === "string" && a.length < 40);
+    if (allergies.length > 0) prefLines.push(`ALLERGIES (OBLIGATOIRE) : aucune recette ne doit contenir ${allergies.join(", ")}.`);
+
+    const goals = [...(prefs.goals || []), ...(prefs.goal ? [prefs.goal] : [])].map(g => goalMap[g]).filter(Boolean);
+    if (goals.length > 0) prefLines.push(`OBJECTIF : Privilégier des ${goals.slice(0, 2).join(" et des ")}.`);
 
     const timeConstraint = prefs.time ? timeMap[prefs.time] : null;
     if (timeConstraint) prefLines.push(`DURÉE : Au moins 2 recettes sur 3 doivent être réalisables en ${timeConstraint}. La 3ème peut être plus longue.`);
 
-    const equipList = (prefs.equipment || []).map(e => equipMap[e]).filter(Boolean);
+    const equipList = (prefs.equipment || []).map(e => equipMap[e.toLowerCase()] ?? e).filter(e => typeof e === "string" && e.length < 40);
     if (equipList.length > 0) prefLines.push(`ÉQUIPEMENT : L'utilisateur possède ${equipList.join(", ")}. Exactement 1 recette sur 3 peut suggérer d'utiliser cet équipement (les autres doivent rester classiques).`);
   }
   const prefBlock = prefLines.length > 0 ? `\n\nPRÉFÉRENCES UTILISATEUR :\n${prefLines.join("\n")}` : "";
