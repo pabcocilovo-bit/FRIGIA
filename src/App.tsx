@@ -1,5 +1,16 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
-import { supabase } from "./supabase";
+import type { DetectedIngredient, GeneratedRecipe, HistoryEntry, Prefs, User } from "./lib/types";
+import { buildShareText, fetchTheMealImage, ingredientIcon, mealImageCache, recipeIcon } from "./lib/recipes";
+import { analyzeFridge } from "./lib/scan";
+import { createCheckoutUrl, customerPortalUrl, hasAccess, subscriptionStatus } from "./lib/billing";
+import { accessToken, postApi } from "./lib/api";
+import {
+  changePassword, clearLocalData, deleteAccount as deleteAccountRequest, displayName, getAvatar, getPrefs,
+  isOAuthUser as isOAuthAccount, markOnboarded, needsQuestionnaire, setAvatar, setPrefs, signOut, updateProfile,
+} from "./lib/account";
+import { useLibrary } from "./hooks/useLibrary";
+import { useSession } from "./hooks/useSession";
+import { isStandalone, type InstallPromptEvent } from "./landing/browser";
 import { Analytics } from "@vercel/analytics/react";
 const Landing = lazy(() => import("./Landing"));
 const COLORS = {
@@ -64,46 +75,6 @@ function glassCard(theme: Theme): React.CSSProperties {
   };
 }
 
-type RecipeIngredient = { name: string; qty: string };
-type DetectedIngredient = { name: string; icon: string; conf: number };
-type GeneratedRecipe = {
-  emoji: string;
-  title: string;
-  time: string;
-  cal: number;
-  diff: string;
-  imageSearch?: string;
-  steps?: string[];
-  recipeIngredients?: RecipeIngredient[];
-};
-type HistoryEntry = {
-  id: string;
-  date: Date;
-  ingredients: DetectedIngredient[];
-  recipes: GeneratedRecipe[];
-  servings: number;
-};
-// ─── Share helper ────────────────────────────────────────────────────────────
-function buildShareText(r: GeneratedRecipe): string {
-  const lines: string[] = [];
-  lines.push(r.title);
-  lines.push(`⏱ ${r.time}  🔥 ${r.cal} kcal  📊 ${r.diff}`);
-  if (r.recipeIngredients && r.recipeIngredients.length > 0) {
-    lines.push("");
-    lines.push("🛒 Ingrédients :");
-    r.recipeIngredients.forEach(ing => lines.push(`${ingredientIcon(ing.name)} ${ing.name}${ing.qty ? ` — ${ing.qty}` : ""}`));
-  }
-  if (r.steps && r.steps.length > 0) {
-    lines.push("");
-    lines.push("👨‍🍳 Étapes :");
-    r.steps.forEach((step, i) => lines.push(`${i + 1}. ${step}`));
-  }
-  lines.push("");
-  lines.push("———");
-  lines.push("Recette générée avec Frigia 🍽️");
-  lines.push("Votre chef IA personnel — frigia.fr");
-  return lines.join("\n");
-}
 
 // ─── Animations ──────────────────────────────────────────────────────────────
 function GlobalStyles({ theme }: { theme: Theme }) {
@@ -188,87 +159,9 @@ function Brackets({ color = "#2ECC71", size = 16 }) {
 }
 
 
-function ingredientIcon(name: string) {
-  const l = name.toLowerCase();
-  if (l.includes("œuf") || l.includes("oeuf")) return "🥚";
-  if (l.includes("tomate")) return "🍅";
-  if (l.includes("fromage") || l.includes("emmental") || l.includes("mozza") || l.includes("parmesan") || l.includes("comté") || l.includes("gruyère")) return "🧀";
-  if (l.includes("lait") || l.includes("crème") || l.includes("creme")) return "🥛";
-  if (l.includes("brocoli")) return "🥦";
-  if (l.includes("citron")) return "🍋";
-  if (l.includes("orange")) return "🍊";
-  if (l.includes("salade") || l.includes("laitue") || l.includes("épinard") || l.includes("spinard")) return "🥬";
-  if (l.includes("poulet") || l.includes("dinde")) return "🍗";
-  if (l.includes("bœuf") || l.includes("boeuf") || l.includes("steak") || l.includes("viande") || l.includes("bifteck")) return "🥩";
-  if (l.includes("porc") || l.includes("bacon") || l.includes("jambon") || l.includes("lardons")) return "🥓";
-  if (l.includes("pâte") || l.includes("pasta") || l.includes("spaghetti") || l.includes("linguine") || l.includes("tagliatelle")) return "🍝";
-  if (l.includes("riz")) return "🍚";
-  if (l.includes("carotte")) return "🥕";
-  if (l.includes("avocat")) return "🥑";
-  if (l.includes("pain") || l.includes("baguette")) return "🍞";
-  if (l.includes("poisson") || l.includes("saumon") || l.includes("cabillaud") || l.includes("thon") || l.includes("dorade")) return "🐟";
-  if (l.includes("crevette") || l.includes("moule") || l.includes("homard")) return "🦐";
-  if (l.includes("ail")) return "🧄";
-  if (l.includes("oignon") || l.includes("échalote")) return "🧅";
-  if (l.includes("pomme de terre") || l.includes("patate")) return "🥔";
-  if (l.includes("champignon")) return "🍄";
-  if (l.includes("poivron")) return "🫑";
-  if (l.includes("concombre")) return "🥒";
-  if (l.includes("courgette")) return "🥒";
-  if (l.includes("aubergine")) return "🍆";
-  if (l.includes("maïs") || l.includes("mais")) return "🌽";
-  if (l.includes("pomme")) return "🍎";
-  if (l.includes("fraise")) return "🍓";
-  if (l.includes("banane")) return "🍌";
-  if (l.includes("beurre") || l.includes("margarine")) return "🧈";
-  if (l.includes("huile")) return "🫙";
-  if (l.includes("farine")) return "🌾";
-  if (l.includes("sucre") || l.includes("miel")) return "🍯";
-  if (l.includes("chocolat")) return "🍫";
-  if (l.includes("herbe") || l.includes("basilic") || l.includes("persil") || l.includes("thym") || l.includes("romarin") || l.includes("coriandre")) return "🌿";
-  if (l.includes("piment") || l.includes("paprika") || l.includes("curry") || l.includes("épice") || l.includes("cumin")) return "🌶️";
-  if (l.includes("sel") || l.includes("poivre")) return "🧂";
-  if (l.includes("bouillon") || l.includes("sauce")) return "🫕";
-  if (l.includes("tofu")) return "🫘";
-  if (l.includes("lentille") || l.includes("pois") || l.includes("haricot") || l.includes("fève")) return "🫘";
-  if (l.includes("noix") || l.includes("amande") || l.includes("noisette") || l.includes("pistache")) return "🥜";
-  return "🌱";
-}
-
-function recipeIcon(title: string) {
-  const l = title.toLowerCase();
-  if (l.includes("omelette") || l.includes("œuf") || l.includes("oeuf"))
-    return "🍳";
-  if (l.includes("salade") || l.includes("bowl")) return "🥗";
-  if (l.includes("pasta") || l.includes("pâte")) return "🍝";
-  if (l.includes("soupe")) return "🥣";
-  if (l.includes("poulet")) return "🍗";
-  if (l.includes("wrap")) return "🌯";
-  if (l.includes("gratin")) return "🧀";
-  if (l.includes("poêlée") || l.includes("poelee")) return "🥘";
-  return "🍽️";
-}
 
 
-// Module-level cache — survives re-renders, resets on page reload
-const mealImageCache: Record<string, string> = {};
 
-async function fetchTheMealImage(query: string): Promise<string | null> {
-  const trySearch = async (q: string) => {
-    try {
-      const r = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(q)}`);
-      const d = await r.json() as { meals?: { strMealThumb: string }[] };
-      if (d.meals?.[0]) return d.meals[0].strMealThumb;
-    } catch {}
-    return null;
-  };
-  const url = await trySearch(query);
-  if (url) return url;
-  // Fallback: try just the first keyword
-  const firstWord = query.split(" ")[0];
-  if (firstWord && firstWord !== query) return trySearch(firstWord);
-  return null;
-}
 
 function RecipeImage({
   title,
@@ -639,13 +532,13 @@ function SettingsModal({
   theme: Theme;
   onClose: () => void;
   onThemeChange: (t: Theme) => void;
-  user: any;
+  user: User | null;
   avatarSrc: string | null;
   onAvatarChange: (dataUrl: string) => void;
 }) {
   const v = getThemeVars(theme);
   const [tab, setTab] = useState<SettingsTab>("profile");
-  const [now, setNow] = useState(Date.now());
+  const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const t = setInterval(() => setNow(Date.now()), 60_000);
     return () => clearInterval(t);
@@ -654,11 +547,11 @@ function SettingsModal({
   const avatarInputRef = useRef<HTMLInputElement | null>(null);
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
 
-  const isOAuthUser = !user?.identities?.some((i: any) => i.provider === "email");
+  const isOAuthUser = isOAuthAccount(user);
 
   // Profile state — initialized from Supabase user data
   const [profile, setProfile] = useState({
-    name: user?.user_metadata?.full_name || user?.user_metadata?.name || "",
+    name: displayName(user),
     email: user?.email || "",
     phone: user?.user_metadata?.phone || "",
     bio: user?.user_metadata?.bio || "",
@@ -682,12 +575,7 @@ function SettingsModal({
 
   const openPortal = async () => {
     setPortalLoading(true);
-    const { data: { session } } = await supabase.auth.getSession();
-    const r = await fetch("/api/customer-portal", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${session?.access_token}` },
-    });
-    const json = await r.json();
+    const json = await customerPortalUrl();
     if (json.url) window.location.href = json.url;
     setPortalLoading(false);
   };
@@ -696,21 +584,13 @@ function SettingsModal({
     setDeleteLoading(true);
     setDeleteMsg("");
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      const token = session?.access_token;
-      if (!token) throw new Error("Non authentifié");
-      const res = await fetch("/api/delete-account", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "Erreur serveur");
-      // Clear all local data before signing out
-      Object.keys(localStorage).filter(k => k.startsWith("frigia_")).forEach(k => localStorage.removeItem(k));
-      await supabase.auth.signOut();
+      await deleteAccountRequest();
+      // On efface les données du téléphone avant de déconnecter
+      clearLocalData();
+      await signOut();
       onClose();
-    } catch (err: any) {
-      setDeleteMsg(err.message || "Une erreur est survenue.");
+    } catch (err) {
+      setDeleteMsg((err as Error).message || "Une erreur est survenue.");
       setDeleteLoading(false);
     }
   };
@@ -742,8 +622,7 @@ function SettingsModal({
   };
 
   const handleCropConfirm = (croppedDataUrl: string) => {
-    const key = user?.id ? `frigia_avatar_${user.id}` : null;
-    if (key) localStorage.setItem(key, croppedDataUrl);
+    if (user?.id) setAvatar(user.id, croppedDataUrl);
     onAvatarChange(croppedDataUrl);
     setCropImageSrc(null);
   };
@@ -751,23 +630,13 @@ function SettingsModal({
   const saveProfile = async () => {
     setProfileLoading(true);
     setProfileMsg("");
-    const updates: any = {
-      data: {
-        full_name: profile.name,
-        phone: profile.phone,
-        bio: profile.bio,
-      },
-    };
-    if (profile.email && profile.email !== user?.email) {
-      updates.email = profile.email;
-    }
-    const { error } = await supabase.auth.updateUser(updates);
+    const { error, emailChanged } = await updateProfile(user, profile);
     setProfileLoading(false);
     if (error) {
       setProfileMsg("Erreur : " + error.message);
       return;
     }
-    if (profile.email && profile.email !== user?.email) {
+    if (emailChanged) {
       setProfileMsg("✓ Sauvegardé ! Vérifiez votre email pour confirmer le changement d'adresse.");
     } else {
       setProfileSaved(true);
@@ -790,21 +659,15 @@ function SettingsModal({
     }
     setPwLoading(true);
     setPwMsg("");
-    if (!isOAuthUser && passwords.current) {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: user?.email || "",
-        password: passwords.current,
-      });
-      if (signInError) {
-        setPwMsg("Mot de passe actuel incorrect.");
-        setPwLoading(false);
-        return;
-      }
+    const result = await changePassword(user, passwords.current, passwords.next);
+    if (result === "wrong-current") {
+      setPwMsg("Mot de passe actuel incorrect.");
+      setPwLoading(false);
+      return;
     }
-    const { error } = await supabase.auth.updateUser({ password: passwords.next });
     setPwLoading(false);
-    if (error) {
-      setPwMsg("Erreur : " + error.message);
+    if (result !== "ok") {
+      setPwMsg("Erreur : " + result.error);
       return;
     }
     setPwMsg("✓ Mot de passe mis à jour avec succès !");
@@ -1448,11 +1311,11 @@ function detectBrowserType(): "ios-safari" | "ios-chrome" | "chrome-android" | "
 
 function InstallRecoScreen({ onContinue }: { onContinue: () => void }) {
   useEffect(() => { document.body.style.overflow = "hidden"; return () => { document.body.style.overflow = ""; }; }, []);
-  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
   useEffect(() => {
-    const h = (e: Event) => { e.preventDefault(); setInstallPrompt(e); };
-    window.addEventListener("beforeinstallprompt", h as any);
-    return () => window.removeEventListener("beforeinstallprompt", h as any);
+    const h = (e: Event) => { e.preventDefault(); setInstallPrompt(e as InstallPromptEvent); };
+    window.addEventListener("beforeinstallprompt", h);
+    return () => window.removeEventListener("beforeinstallprompt", h);
   }, []);
 
   const browser = detectBrowserType();
@@ -1548,7 +1411,7 @@ function InstallRecoScreen({ onContinue }: { onContinue: () => void }) {
 const Q_GRAD = "linear-gradient(135deg,#FF6B35,#2ECC71)";
 const Q_C = { bg:"#0A0A0F", text:"#FAFAFA", muted:"#6B7280", orange:"#FF6B35" };
 
-function QuestionnaireScreen({ onComplete }: { onComplete: (prefs: { goal: string; diet: string[]; time: string; equipment: string[] }) => void }) {
+function QuestionnaireScreen({ onComplete }: { onComplete: (prefs: Prefs) => void }) {
   const [step, setStep] = useState(0);
   const [equipment, setEquipment] = useState<string[]>([]);
   const [goal, setGoal] = useState("");
@@ -2723,7 +2586,7 @@ function ShowcaseRecipeCard({
     e.stopPropagation();
     const text = buildShareText(recipe);
     if (navigator.share) {
-      try { await navigator.share({ title: recipe.title, text }); } catch {}
+      try { await navigator.share({ title: recipe.title, text }); } catch { /* partage annulé */ }
     } else {
       await navigator.clipboard.writeText(text);
       setShared(true);
@@ -2905,77 +2768,15 @@ function FridgeAIScanner({
     setRecipes([]);
     setError("");
     setAnalyzing(true);
-    const compressImage = (f: File): Promise<{ base64: string; type: string }> =>
-      new Promise((resolve) => {
-        const img = new Image();
-        const objectUrl = URL.createObjectURL(f);
-        img.onload = () => {
-          URL.revokeObjectURL(objectUrl);
-          const MAX = 1200;
-          const scale = Math.min(1, MAX / Math.max(img.width, img.height));
-          const canvas = document.createElement("canvas");
-          canvas.width = Math.round(img.width * scale);
-          canvas.height = Math.round(img.height * scale);
-          canvas.getContext("2d")!.drawImage(img, 0, 0, canvas.width, canvas.height);
-          const dataUrl = canvas.toDataURL("image/jpeg", 0.82);
-          resolve({ base64: dataUrl.split(",")[1], type: "image/jpeg" });
-        };
-        img.src = objectUrl;
-      });
-
     const reader = new FileReader();
     reader.onloadend = async () => {
       try {
-        const { base64: imageBase64, type: mediaType } = await compressImage(file);
-        const { data: { session: scanSession } } = await supabase.auth.getSession();
-        const userId = scanSession?.user?.id;
-        const prefs = userId ? JSON.parse(localStorage.getItem(`frigia_prefs_${userId}`) || "null") : null;
-        const recentTitles = userId
-          ? getCachedHistory(userId).flatMap(e => e.recipes.map(r => r.title)).slice(0, 15)
-          : [];
-        const response = await fetch("/api/analyze", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${scanSession?.access_token}` },
-          body: JSON.stringify({ imageBase64, mediaType, prefs, recentTitles, mealType: mealTypeRef.current }),
-        });
-        const data = await response.json();
-        if (response.status === 401) {
-          await supabase.auth.signOut();
-          return;
-        }
-        if (response.status === 403) {
-          await supabase.auth.refreshSession();
-          return;
-        }
-        if (!response.ok) throw new Error("unclear_photo");
-        const detected: DetectedIngredient[] = (data.ingredients || []).map(
-          (i: any) => ({
-            name: String(i.name || "Aliment"),
-            icon: ingredientIcon(String(i.name || "")),
-            conf: Number(i.confidence) || 90,
-          })
-        );
-        const generated: GeneratedRecipe[] = (data.recipes || []).map(
-          (r: any) => ({
-            emoji: recipeIcon(String(r.title || "")),
-            title: String(r.title || "Recette"),
-            time: String(r.time || "15 min"),
-            cal: Number(r.calories) || 350,
-            diff: String(r.difficulty || "Facile"),
-            imageSearch: String(r.imageUrl || r.imageSearch || r.title || ""),
-            steps: Array.isArray(r.steps) ? r.steps.map(String) : undefined,
-            recipeIngredients: Array.isArray(r.ingredients)
-              ? r.ingredients.map((i: any) => ({
-                  name: String(i.name || ""),
-                  qty: String(i.qty || "1"),
-                }))
-              : undefined,
-          })
-        );
-        setIngredients(detected);
-        setRecipes(generated);
+        const result = await analyzeFridge(file, mealTypeRef.current);
+        if (result.status !== "ok") return;
+        setIngredients(result.ingredients);
+        setRecipes(result.recipes);
         setAnalyzing(false);
-        onRecipesGenerated(generated, detected);
+        onRecipesGenerated(result.recipes, result.ingredients);
       } catch {
         setError("unclear_photo");
         setAnalyzing(false);
@@ -3274,7 +3075,7 @@ function RecipeCard({
     e.stopPropagation();
     const text = buildShareText({ emoji, title, time, cal, diff, imageSearch, steps, recipeIngredients } as GeneratedRecipe);
     if (navigator.share) {
-      try { await navigator.share({ title, text }); } catch {}
+      try { await navigator.share({ title, text }); } catch { /* partage annulé */ }
     } else {
       await navigator.clipboard.writeText(text);
       setShared(true);
@@ -3438,79 +3239,6 @@ function FAQItem({ theme, q, a }: { theme: Theme; q: string; a: string }) {
   );
 }
 
-// ─── localStorage cache helpers ──────────────────────────────────────────────
-function getCachedHistory(userId: string): HistoryEntry[] {
-  try {
-    const raw = localStorage.getItem(`frigia_history_${userId}`);
-    if (!raw) return [];
-    return (JSON.parse(raw) as any[]).map((e) => ({ ...e, date: new Date(e.date) }));
-  } catch { return []; }
-}
-function setCachedHistory(userId: string, history: HistoryEntry[]) {
-  localStorage.setItem(`frigia_history_${userId}`, JSON.stringify(history));
-}
-function getCachedFavorites(userId: string): GeneratedRecipe[] {
-  try { return JSON.parse(localStorage.getItem(`frigia_favorites_${userId}`) || "[]"); } catch { return []; }
-}
-function setCachedFavorites(userId: string, favorites: GeneratedRecipe[]) {
-  localStorage.setItem(`frigia_favorites_${userId}`, JSON.stringify(favorites));
-}
-
-// ─── Supabase data helpers ────────────────────────────────────────────────────
-async function loadHistoryFromSupabase(userId: string): Promise<HistoryEntry[]> {
-  const { data, error } = await supabase
-    .from("user_history")
-    .select("*")
-    .eq("user_id", userId)
-    .order("scan_date", { ascending: false });
-  if (error || !data) return [];
-  return data.map((row: any) => ({
-    id: row.id,
-    date: new Date(row.scan_date),
-    ingredients: row.ingredients || [],
-    recipes: row.recipes || [],
-    servings: row.servings || 2,
-  }));
-}
-
-async function loadFavoritesFromSupabase(userId: string): Promise<GeneratedRecipe[]> {
-  const { data, error } = await supabase
-    .from("user_favorites")
-    .select("recipe")
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false });
-  if (error || !data) return [];
-  return data.map((row: any) => row.recipe);
-}
-
-async function dbInsertHistoryEntry(userId: string, entry: HistoryEntry) {
-  await supabase.from("user_history").insert({
-    id: entry.id,
-    user_id: userId,
-    scan_date: entry.date.toISOString(),
-    ingredients: entry.ingredients,
-    recipes: entry.recipes,
-    servings: entry.servings,
-  });
-}
-
-
-async function dbDeleteHistoryEntry(entryId: string) {
-  await supabase.from("user_history").delete().eq("id", entryId);
-}
-
-async function dbInsertFavorite(userId: string, recipe: GeneratedRecipe) {
-  await supabase.from("user_favorites").upsert(
-    { user_id: userId, recipe, recipe_title: recipe.title },
-    { onConflict: "user_id,recipe_title" }
-  );
-}
-
-async function dbDeleteFavorite(userId: string, recipeTitle: string) {
-  await supabase.from("user_favorites").delete()
-    .eq("user_id", userId)
-    .eq("recipe_title", recipeTitle);
-}
 
 // ─── Checkout Success Modal ───────────────────────────────────────────────────
 function CheckoutSuccessModal({ onClose }: { onClose: () => void }) {
@@ -3544,19 +3272,15 @@ function CheckoutSuccessModal({ onClose }: { onClose: () => void }) {
 }
 
 // ─── Paywall Modal ────────────────────────────────────────────────────────────
-function CanceledScreen(_: { user: any }) {
+function CanceledScreen() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
     const run = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        const token = session?.access_token;
-        if (token) {
-          await fetch("/api/delete-account", { method: "POST", headers: { Authorization: `Bearer ${token}` } });
-        }
-        Object.keys(localStorage).filter(k => k.startsWith("frigia_")).forEach(k => localStorage.removeItem(k));
-      } catch {}
+        if (await accessToken()) await postApi("/api/delete-account");
+        clearLocalData();
+      } catch { /* on affiche quand même l'écran de fin */ }
       setDone(true);
     };
     run();
@@ -3570,7 +3294,7 @@ function CanceledScreen(_: { user: any }) {
         Ton abonnement a été résilié et ton compte supprimé.<br />On espère te revoir bientôt !
       </p>
       <button
-        onClick={async () => { await supabase.auth.signOut(); }}
+        onClick={async () => { await signOut(); }}
         disabled={!done}
         style={{ width: "100%", maxWidth: 340, padding: "16px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontWeight: 800, fontSize: 16, cursor: done ? "pointer" : "not-allowed", opacity: done ? 1 : 0.5 }}
       >
@@ -3623,14 +3347,6 @@ function PaywallModal({ onSubscribe, onManageBilling, onLogout, loading, isCance
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
 export default function Frigia() {
-  const [user, setUser] = useState<any>(null);
-  // Connecté : la copie pré-rendue de la landing (index.html) n'a plus lieu d'être, et l'appli garde
-  // son zoom bloqué comme avant (le site public, lui, laisse zoomer pour l'accessibilité)
-  useEffect(() => {
-    if (!user) return;
-    document.getElementById("prerender")?.remove();
-    document.querySelector('meta[name="viewport"]')?.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover");
-  }, [user]);
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
   const [theme, setTheme] = useState<Theme>("dark");
   const [showSettings, setShowSettings] = useState(false);
@@ -3639,8 +3355,6 @@ export default function Frigia() {
   const [, setDetectedIngredients] = useState<DetectedIngredient[]>([]);
   const [scanSuccess, setScanSuccess] = useState(false);
   const [recipesSubTab, setRecipesSubTab] = useState<"history" | "popular" | "favorites">("history");
-  const [history, setHistory] = useState<HistoryEntry[]>([]);
-  const [favorites, setFavorites] = useState<GeneratedRecipe[]>([]);
   const [servings, setServings] = useState(2);
   const [showServingsModal, setShowServingsModal] = useState(false);
   const [pendingData, setPendingData] = useState<{ recipes: GeneratedRecipe[]; ingredients: DetectedIngredient[] } | null>(null);
@@ -3655,156 +3369,56 @@ export default function Frigia() {
     new URLSearchParams(window.location.search).get("checkout") === "success"
   );
 
-  const hasAccess = (u: any) => {
-    if (!u) return false;
-    const appMeta = u.app_metadata || {};
-    if (appMeta.is_whitelisted) return true;
-    const status = appMeta.subscription_status;
-    return ["active", "trialing", "incomplete"].includes(status);
-  };
+  const [userId, setUserId] = useState<string | undefined>();
+  const [mountedAt] = useState(() => Date.now());
+  const library = useLibrary(userId);
+  const { history, favorites, toggleFavorite, isFavorite, deleteScan } = library;
 
-  const openCustomerPortal = async () => {
+  const user = useSession({
+    onSignedIn: (u, source, isCheckoutReturn) => {
+      setUserId(u.id);
+      if (source === "event") setMobileTab("scan");
+      void library.load(u.id);
+      setAvatarSrc(getAvatar(u.id));
+      if (needsQuestionnaire(u, isCheckoutReturn)) setShowQuestionnaire(true);
+    },
+    onSignedOut: () => {
+      setUserId(undefined);
+      library.clear();
+      setAvatarSrc(null);
+    },
+  });
+
+  // Connecté : la copie pré-rendue de la landing (index.html) n'a plus lieu d'être, et l'appli garde
+  // son zoom bloqué comme avant (le site public, lui, laisse zoomer pour l'accessibilité)
+  useEffect(() => {
+    if (!user) return;
+    document.getElementById("prerender")?.remove();
+    document.querySelector('meta[name="viewport"]')?.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover");
+  }, [user]);
+
+  /** Ouvre une page Stripe (paiement ou portail), avec le message d'erreur de l'ancienne appli. */
+  const goToStripe = async (getUrl: () => Promise<{ url?: string; error?: string }>, fallback: string) => {
     if (!user) return;
     setCheckoutLoading(true);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch("/api/customer-portal", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${session?.access_token}` },
-      });
-      const json = await res.json();
+      const json = await getUrl();
       if (json.url) window.location.href = json.url;
       else {
         setCheckoutLoading(false);
-        alert(json.error || "Impossible d'ouvrir le portail. Réessayez.");
+        alert(json.error || fallback);
       }
     } catch {
       setCheckoutLoading(false);
       alert("Erreur de connexion. Vérifiez votre réseau et réessayez.");
     }
   };
-
-  const startCheckout = async () => {
-    if (!user) return;
-    setCheckoutLoading(true);
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch("/api/create-checkout", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${session?.access_token}` },
-      });
-      const json = await res.json();
-      if (json.url) {
-        window.location.href = json.url;
-      } else {
-        setCheckoutLoading(false);
-        alert(json.error || "Impossible d'ouvrir le paiement. Réessayez.");
-      }
-    } catch {
-      setCheckoutLoading(false);
-      alert("Erreur de connexion. Vérifiez votre réseau et réessayez.");
-    }
-  };
-
+  const openCustomerPortal = () => goToStripe(customerPortalUrl, "Impossible d'ouvrir le portail. Réessayez.");
+  const startCheckout = () => goToStripe(createCheckoutUrl, "Impossible d'ouvrir le paiement. Réessayez.");
 
   const v = getThemeVars(theme);
   const gc = glassCard(theme);
   const isMobile = windowWidth < 768;
-const loadUserData = async (u: any) => {
-  const cachedHist = getCachedHistory(u.id);
-  const cachedFavs = getCachedFavorites(u.id);
-  setHistory(cachedHist);
-  setFavorites(cachedFavs);
-  setAvatarSrc(localStorage.getItem(`frigia_avatar_${u.id}`));
-  const [hist, favs] = await Promise.all([
-    loadHistoryFromSupabase(u.id),
-    loadFavoritesFromSupabase(u.id),
-  ]);
-  // One-time migration: if Supabase is empty but localStorage has data, migrate it
-  const isValidHistoryEntry = (e: any) =>
-    e && typeof e.id === "string" && Array.isArray(e.ingredients) && Array.isArray(e.recipes);
-  const isValidRecipe = (r: any) =>
-    r && typeof r.title === "string" && typeof r.time === "string";
-
-  if (hist.length === 0 && cachedHist.length > 0) {
-    const safe = cachedHist.filter(isValidHistoryEntry).slice(0, 50);
-    await Promise.all(safe.map((entry: HistoryEntry) => dbInsertHistoryEntry(u.id, entry)));
-    setCachedHistory(u.id, safe);
-  } else {
-    setHistory(hist);
-    setCachedHistory(u.id, hist);
-  }
-  if (favs.length === 0 && cachedFavs.length > 0) {
-    const safe = cachedFavs.filter(isValidRecipe).slice(0, 100);
-    await Promise.all(safe.map((recipe: GeneratedRecipe) => dbInsertFavorite(u.id, recipe)));
-    setCachedFavorites(u.id, safe);
-  } else {
-    setFavorites(favs);
-    setCachedFavorites(u.id, favs);
-  }
-};
-
-useEffect(() => {
-  const isCheckoutReturn = new URLSearchParams(window.location.search).get("checkout") === "success";
-
-  const initUser = async (u: any) => {
-    void loadUserData(u);
-    if (hasAccess(u)) {
-      localStorage.setItem(`frigia_onboarded_${u.id}`, "1");
-      return;
-    }
-    // Supabase re-sends SIGNED_IN each time the tab comes back to the foreground:
-    // once the questionnaire is answered, don't send the user back to it
-    const answered = !!localStorage.getItem(`frigia_prefs_${u.id}`);
-    if (!localStorage.getItem(`frigia_onboarded_${u.id}`) && !answered && !isCheckoutReturn) {
-      setShowQuestionnaire(true);
-    } else if (isCheckoutReturn) {
-      localStorage.setItem(`frigia_onboarded_${u.id}`, "1");
-    }
-  };
-
-  if (isCheckoutReturn) {
-    // Poll until webhook has written subscription status (up to 5 attempts × 2s)
-    let attempts = 0;
-    const poll = async () => {
-      const { data } = await supabase.auth.refreshSession();
-      const u = data.session?.user ?? null;
-      const appMeta = u?.app_metadata || {};
-      const status = appMeta.subscription_status;
-      const ready = appMeta.is_whitelisted ||
-        ["active", "trialing", "incomplete"].includes(status);
-      if (ready || attempts >= 5) {
-        setUser(u);
-        if (u) initUser(u);
-      } else {
-        attempts++;
-        setTimeout(poll, 2000);
-      }
-    };
-    poll();
-  } else {
-    supabase.auth.getSession().then(({ data }) => {
-      const u = data.session?.user ?? null;
-      setUser(u);
-      if (u) initUser(u);
-    });
-  }
-
-  const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-    const u = session?.user ?? null;
-    setUser(u);
-    if (u) {
-      setMobileTab("scan");
-      initUser(u);
-    } else {
-      setHistory([]);
-      setFavorites([]);
-      setAvatarSrc(null);
-    }
-  });
-
-  return () => subscription.unsubscribe();
-}, []);
 
 useEffect(() => {
   const onResize = () => setWindowWidth(window.innerWidth);
@@ -3812,53 +3426,8 @@ useEffect(() => {
   return () => window.removeEventListener("resize", onResize);
 }, []);
 
-// Refresh session every 5 min so paywall shows quickly after webhook updates Supabase
-useEffect(() => {
-  const interval = setInterval(async () => {
-    const { data } = await supabase.auth.refreshSession();
-    const u = data.session?.user ?? null;
-    if (u) setUser(u);
-  }, 5 * 60 * 1000);
-  return () => clearInterval(interval);
-}, []);
-
-async function signOut() {
-  await supabase.auth.signOut();
-}
-
-  const toggleFavorite = (recipe: GeneratedRecipe) => {
-    const MAX_FAVORITES = 100;
-    setFavorites(prev => {
-      const isFav = prev.some(f => f.title === recipe.title);
-      if (isFav) {
-        const next = prev.filter(f => f.title !== recipe.title);
-        if (user) { setCachedFavorites(user.id, next); dbDeleteFavorite(user.id, recipe.title); }
-        return next;
-      }
-      const full = [recipe, ...prev];
-      const evicted = full.slice(MAX_FAVORITES);
-      const next = full.slice(0, MAX_FAVORITES);
-      if (user) {
-        setCachedFavorites(user.id, next);
-        dbInsertFavorite(user.id, recipe);
-        evicted.forEach(e => dbDeleteFavorite(user.id, e.title));
-      }
-      return next;
-    });
-  };
-  const isFavorite = (recipe: GeneratedRecipe) => favorites.some(f => f.title === recipe.title);
-
   const finishScan = (newEntry: HistoryEntry) => {
-    const MAX_HISTORY = 50;
-    const full = [newEntry, ...history];
-    const evicted = full.slice(MAX_HISTORY);
-    const next = full.slice(0, MAX_HISTORY);
-    setHistory(next);
-    if (user) {
-      setCachedHistory(user.id, next);
-      dbInsertHistoryEntry(user.id, newEntry);
-      evicted.forEach(e => dbDeleteHistoryEntry(e.id));
-    }
+    library.addScan(newEntry);
     setPendingData(null);
     setShowServingsModal(false);
     setMobileTab("recipes");
@@ -3893,27 +3462,15 @@ async function signOut() {
     return () => clearTimeout(t);
   }, [scanSuccess]);
 
-  const deleteScan = (entryId: string) => {
-    setHistory((prev) => {
-      const next = prev.filter((entry) => entry.id !== entryId);
-      if (user) {
-        setCachedHistory(user.id, next);
-        dbDeleteHistoryEntry(entryId);
-      }
-      return next;
-    });
-  };
-
 if (!user) {
   return <><Analytics /><Suspense fallback={null}><Landing /></Suspense></>;
 }
 
 if (showQuestionnaire) {
   return <QuestionnaireScreen onComplete={(prefs) => {
-    localStorage.setItem(`frigia_prefs_${user.id}`, JSON.stringify(prefs));
+    setPrefs(user.id, prefs);
     setShowQuestionnaire(false);
-    const isPwa = window.matchMedia("(display-mode: standalone)").matches || (navigator as any).standalone === true;
-    if (!isPwa) { setShowInstallReco(true); } else { setShowOnboarding(true); }
+    if (!isStandalone()) { setShowInstallReco(true); } else { setShowOnboarding(true); }
   }} />;
 }
 
@@ -3926,7 +3483,7 @@ if (showOnboarding) {
     <OnboardingScreen
       loading={checkoutLoading}
       onContinue={() => {
-        localStorage.setItem(`frigia_onboarded_${user.id}`, "1");
+        markOnboarded(user.id);
         setShowOnboarding(false);
         startCheckout();
       }}
@@ -3934,10 +3491,10 @@ if (showOnboarding) {
   );
 }
 
-const subscriptionStatus = user?.app_metadata?.subscription_status;
+const status = subscriptionStatus(user);
 
-if (subscriptionStatus === "canceled") {
-  return <CanceledScreen user={user} />;
+if (status === "canceled") {
+  return <CanceledScreen />;
 }
 
 if (!hasAccess(user)) {
@@ -3945,9 +3502,9 @@ if (!hasAccess(user)) {
     onSubscribe={startCheckout}
     onManageBilling={openCustomerPortal}
     loading={checkoutLoading}
-    onLogout={async () => { await supabase.auth.signOut(); }}
+    onLogout={async () => { await signOut(); }}
     isCanceled={false}
-    isPaymentFailed={subscriptionStatus === "past_due"}
+    isPaymentFailed={status === "past_due"}
   />;
 }
 
@@ -4088,7 +3645,7 @@ if (isMobile) {
               <div style={{ fontSize: 13, color: v.muted, marginBottom: 8 }}>{user?.email}</div>
               {(() => {
                 const status = user?.app_metadata?.subscription_status;
-                const daysUsed = user ? Math.floor((Date.now() - new Date(user.created_at).getTime()) / (1000 * 60 * 60 * 24)) : 0;
+                const daysUsed = user ? Math.floor((mountedAt - new Date(user.created_at).getTime()) / (1000 * 60 * 60 * 24)) : 0;
                 const isActive = status === "active" || user?.app_metadata?.is_whitelisted;
                 const isTrialing = status === "trialing" || (!status && daysUsed <= 4);
                 const label = isActive ? "Abonné actif" : isTrialing ? "Essai gratuit en cours" : "Accès expiré";
@@ -4103,7 +3660,7 @@ if (isMobile) {
 
             {/* Bloc préférences questionnaire */}
             {(() => {
-              const prefs = user ? JSON.parse(localStorage.getItem(`frigia_prefs_${user.id}`) || "null") : null;
+              const prefs = user ? getPrefs(user.id) : null;
               if (!prefs) return null;
               const goalMap: Record<string, { icon: string; label: string }> = { healthy: { icon: "🥗", label: "Manger sain" }, nogaspi: { icon: "♻️", label: "Zéro gaspillage" }, quick: { icon: "⚡", label: "Gagner du temps" } };
               const dietMap: Record<string, { icon: string; label: string }> = { all: { icon: "🍖", label: "Tout" }, veggie: { icon: "🥦", label: "Végétarien" }, vegan: { icon: "🌱", label: "Vegan" }, glutenfree: { icon: "🌾", label: "Sans gluten" } };
