@@ -215,7 +215,7 @@ export default function Landing({ onStart, onLogin }: Props) {
   };
 
   return (
-    <div className="lp" style={showGbar ? { paddingTop: 64 } : undefined}>
+    <div className="lp">
       {showGbar && <GoogleInAppBar isIos={isIos} onDismiss={() => setGbarClosed(true)} />}
 
       <div className="promo">Gratuit, sans carte bancaire · 15 scans offerts · <b>Prix fondateur</b> pour les 500 premiers abonnés Plus</div>

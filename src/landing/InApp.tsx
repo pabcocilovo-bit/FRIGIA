@@ -12,6 +12,9 @@ export function GoogleInAppBar({ isIos, onDismiss }: { isIos: boolean; onDismiss
   );
 }
 
+// « de Instagram » → « d'Instagram » devant une voyelle
+const de = (nom: string) => (/^[aeiouàâéèêîïôû]/i.test(nom) ? `d'${nom}` : `de ${nom}`);
+
 // ── Écran pour Instagram, TikTok, Facebook… : leur navigateur bloque l'inscription ──
 export function SocialInAppScreen() {
   const ua = navigator.userAgent;
@@ -31,7 +34,7 @@ export function SocialInAppScreen() {
     <main className="lp-inapp">
       <img className="logo" src="/landing/frigia-logo.svg" alt="Frigia" width={84} height={30} />
       <h1>Ouvre Frigia <em>dans ton navigateur</em></h1>
-      <p className="lede">Le navigateur de {app} bloque la création de compte. Ça prend dix secondes :</p>
+      <p className="lede">Le navigateur {de(app)} bloque la création de compte. Ça prend dix secondes :</p>
       <ol>
         <li><span className="n">1</span><span>Appuie sur <b>{menu}</b> en haut à droite<small>dans {app}</small></span></li>
         <li><span className="n">2</span><span>Choisis <b>« Ouvrir dans le navigateur »</b><small>dans le menu qui s'affiche</small></span></li>

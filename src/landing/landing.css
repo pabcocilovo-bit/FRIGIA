@@ -315,7 +315,7 @@
 .lp-install li small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
 
 /* navigateurs intégrés (Instagram, TikTok, Google) */
-.lp-gbar{position:fixed;top:0;left:0;right:0;z-index:900;background:var(--sage-deep);color:var(--on);padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;display:flex;align-items:center;gap:12px;font-size:14px}
+.lp-gbar{position:relative;background:var(--sage-deep);border-bottom:1px solid rgba(255,255,255,.14);color:var(--on);padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;display:flex;align-items:center;gap:12px;font-size:14px}
 .lp-gbar span{flex:1}
 .lp-gbar .btn{height:36px;padding:0 14px;font-size:13px}
 .lp-gbar .close{font-size:18px;opacity:.8;padding:4px 6px}
