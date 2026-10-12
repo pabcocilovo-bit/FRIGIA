@@ -2617,7 +2617,7 @@ return (
   <AppFrame>
     <Routes>
       <Route path="/" element={<Home user={user} isPlus={isPlus} avatar={avatarSrc} history={history} favorites={favorites} onOpenRecipe={r => openRecipe(r)} />} />
-      <Route path="/planning" element={<Planning isPlus={isPlus} />} />
+      <Route path="/planning" element={<Planning isPlus={isPlus} lastScan={history[0]?.date} />} />
       <Route path="/courses" element={<Courses isPlus={isPlus} />} />
       <Route path="/famille" element={<Family user={user} isPlus={isPlus} avatar={avatarSrc} prefs={getPrefs(user.id)} onManageSubscription={openCustomerPortal} />} />
       <Route path="/scan" element={

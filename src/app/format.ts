@@ -55,3 +55,30 @@ export function tasteRows(p: Prefs) {
     time: TIMES[p.time] ?? "",
   };
 }
+
+const SHORT_DAYS = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
+
+/** Les 7 jours de la semaine affichée, à partir d'aujourd'hui. */
+export function weekDays(now = new Date()) {
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+    return { key: d.toDateString(), short: SHORT_DAYS[d.getDay()], date: d };
+  });
+}
+
+/** « Mardi 6 → lundi 12 octobre » (le mois de début n'est écrit que s'il change). */
+export function weekRange(now = new Date()) {
+  const days = weekDays(now);
+  const a = days[0].date, b = days[6].date;
+  const start = `${DAYS[a.getDay()]} ${a.getDate()}${a.getMonth() !== b.getMonth() ? " " + MONTHS[a.getMonth()] : ""}`;
+  return `${start} → ${DAYS[b.getDay()].toLowerCase()} ${b.getDate()} ${MONTHS[b.getMonth()]}`;
+}
+
+/** « Depuis ton scan d'hier », « Depuis ton scan de jeudi »… d'après le dernier scan. */
+export function sinceScan(date: Date, now = new Date()): string {
+  const n = daysAgo(date, now);
+  if (n <= 0) return "Depuis ton scan d'aujourd'hui";
+  if (n === 1) return "Depuis ton scan d'hier";
+  if (n < 7) return `Depuis ton scan de ${DAYS[date.getDay()].toLowerCase()}`;
+  return `Depuis ton scan du ${date.getDate()} ${MONTHS[date.getMonth()]}`;
+}

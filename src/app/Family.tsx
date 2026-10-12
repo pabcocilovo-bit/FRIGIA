@@ -16,7 +16,7 @@ export function Family({ user, isPlus, avatar, prefs, onManageSubscription }: {
 
   return (
     <div className="fa fa-app" aria-label="Ta famille">
-      <div className="phead">
+      <div className="phead no-stats">
         <div className="row">
           <span className="label">Ta famille</span>
           <RoundButton icon="gear" label="Réglages" tone="glass" onClick={() => navigate("/reglages")} />
