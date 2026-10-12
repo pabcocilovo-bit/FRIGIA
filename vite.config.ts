@@ -24,6 +24,8 @@ export default defineConfig(({ mode }) => {
         manifest: false,
         workbox: {
           globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+          // Les pages légales et llms.txt sont de vraies pages : le service worker ne doit pas les remplacer par l'appli
+          navigateFallbackDenylist: [/^\/(cgu|confidentialite|mentions-legales|cookies)(\.html)?$/, /^\/llms\.txt$/],
           runtimeCaching: [{
             urlPattern: /^https:\/\/images\.pexels\.com\/.*/i,
             handler: 'CacheFirst',

@@ -67,8 +67,14 @@ Cette branche contient les maquettes du nouveau design (octobre 2026). Le code d
 | Centre de notifications | rien | À créer (table des notifications envoyées, lue / non lue) |
 | Parrainage | rien | À créer (lien et code par compte, +10 scans pour l'ami, 1 mois de Plus au parrain quand l'ami s'abonne, cumulable) |
 
+## La landing (fusionnée depuis `nouvelle-landing`)
+
+La landing V5 est déjà en React dans cette branche : `src/Landing.tsx` et le dossier `src/landing/` (connexion, installation, pages légales, FAQ), les images dans `public/landing/`, les icônes finales dans `public/`. Elle reprend les mêmes couleurs et le même logo que la maquette.
+
+Ce qu'il reste à brancher côté appli : `onStart` et `onLogin` de `Landing` doivent ouvrir le nouveau parcours d'inscription quand il existera. Sans eux, la landing ouvre sa propre feuille de connexion.
+
 ## Conseil pour avancer
 
 1. Mettre `tokens.css`, les polices et le logo en place, puis habiller les écrans « Habillage » un par un, sans toucher à la logique.
 2. Ensuite seulement, créer les fonctions nouvelles, en commençant par celles du lancement (voir `ecrans-a-faire.md`).
-3. Garder `main` intact : tout se fait sur cette branche, puis une pull request.
+3. Garder `main` intact : tout se fait sur cette branche, puis une pull request. Les nouveautés de `nouvelle-landing` se récupèrent en la fusionnant à nouveau ici.
