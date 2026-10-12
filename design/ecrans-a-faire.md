@@ -19,8 +19,9 @@ Rédigé le 6 octobre 2026. On repart de zéro : seul ce qui est dans nos maquet
 |---|---|
 | Faits dans le prototype V3 | 45 (33 écrans de l'app, 11 de l'inscription avec la connexion et le mot de passe oublié, l'écran de lancement) |
 | Restants : un morceau existe déjà | 0 |
-| Restants : à dessiner entièrement | 4 |
-| **Total restant** | **4**, dont **2 pour le lancement** |
+| Faits dans la landing | 3 (la landing, « Ouvre dans ton navigateur », installer l'app) |
+| Restants : à dessiner entièrement | 1 |
+| **Total restant** | **1** (grand écran, après le lancement). Plus rien pour le lancement |
 
 ---
 
@@ -60,14 +61,14 @@ Lien : https://claude.ai/artifact/4hANrtogxgXP4N4F2erg4v
 
 | # | Écran | Ce qu'il doit contenir | À chercher sur Mobbin | Priorité | Maquette |
 |---|---|---|---|---|---|
-| 1 | **Landing** (Web, mobile et ordinateur) | Promesse, comment ça marche en 3 étapes, tarifs Gratuit / Plus, FAQ. Sans faux avis ni faux chiffres | `food app landing page pricing FAQ` (Web) | Lancement | ❌ À dessiner |
+| 1 | **Landing** (Web, mobile et ordinateur) | Promesse, comment ça marche en 3 étapes, tarifs Gratuit / Plus, FAQ. Sans faux avis ni faux chiffres | `food app landing page pricing FAQ` (Web) | Lancement | ✅ Fait (landing V5 en React, branche nouvelle-landing, fusionnée dans nouveau-design-app le 12 oct.) |
 | 2 | Écran de lancement | Logo Frigia sur vert, petite scène en bas (façon Grab) | `splash screen logo` | Après | ✅ Fait (V3, 7 oct.) |
 | 3 | **Bienvenue** (2 ou 3 écrans) | « Une photo, trois idées, zéro gâchis » | `onboarding welcome carousel` | Lancement | ✅ Fait dans la V3 |
 | 4 | **Inscription** | Google ou email, « sans carte bancaire », captcha discret | `sign up with Google or email` | Lancement | ✅ Fait dans la V3 |
 | 5 | **Connexion** | Email + mot de passe, Google | `log in screen` | Lancement | ✅ Fait (V3, 7 oct.) : feuille par-dessus la photo de Bienvenue |
 | 6 | **Vérification de l'email** | Code ou lien, « renvoyer l'email » | `verify email code` | Lancement | ✅ Fait dans la V3 |
 | 7 | **Mot de passe oublié** | Demande, puis nouveau mot de passe | `forgot password` | Lancement | ✅ Fait (V3, 7 oct.) : un code par email, puis le nouveau mot de passe |
-| 8 | **Ouvre dans ton navigateur** | Quand on arrive depuis Instagram ou TikTok, où la connexion Google ne marche pas. Important avec les créateurs | `open in browser in-app browser` | Lancement | ❌ À dessiner |
+| 8 | **Ouvre dans ton navigateur** | Quand on arrive depuis Instagram ou TikTok, où la connexion Google ne marche pas. Important avec les créateurs | `open in browser in-app browser` | Lancement | ✅ Fait dans la landing : écran plein « Ouvre Frigia dans ton navigateur » (Instagram, TikTok, Facebook, Snapchat : 3 étapes et « Copier le lien »), bandeau « Ouvrir dans Safari / Chrome » dans l'appli Google |
 
 ## B. Premier lancement : le questionnaire (6)
 
@@ -135,7 +136,7 @@ Le paiement lui-même se fait sur la page Stripe : pas besoin de le dessiner.
 |---|---|---|---|---|---|
 | 35 | **États vides** | Pas encore de favori, de scan ou d'article dans la liste | `empty state` | Lancement | ✅ Fait (V3, 9 oct.) : un objet dessiné posé sur sa ligne de sol (boîte à recettes, frigo dans le viseur, sac de courses), titre serif, « Scanner mon frigo » ; bascule « Compte neuf » dans Famille |
 | 36 | Hors connexion | Pas de réseau, ce qui marche quand même | `offline no internet` | Après | ✅ Fait (V3, 8 oct.) : tuile du logo et pastille dorée comme le scan raté, « Réessayer », liste de courses, semaine et favoris restent ouverts |
-| 37 | Installer l'app | « Ajouter à l'écran d'accueil » (web app) | `add to home screen` (Web) | Après | ❌ À dessiner |
+| 37 | Installer l'app | « Ajouter à l'écran d'accueil » (web app) | `add to home screen` (Web) | Après | ✅ Fait dans la landing : section « Frigia sur ton écran » et feuille d'aide adaptée au navigateur (Safari, Chrome, Samsung, Firefox, Edge) |
 
 ## I. Version ordinateur (1 groupe)
 
