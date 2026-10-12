@@ -53,6 +53,15 @@ function GoBar({ title, sub, disabled, loading, plain, className, onClick }: {
   );
 }
 
+/** « Enregistrer » quand on modifie ses goûts depuis Famille : la pilule verte de la maquette (Mon compte), sans flèche. */
+function SaveBar({ disabled, loading, onClick }: { disabled?: boolean; loading?: boolean; onClick: () => void }) {
+  return (
+    <div className="ob-save">
+      <Pill block className={cx(loading && "loading")} disabled={disabled} onClick={onClick}>Enregistrer</Pill>
+    </div>
+  );
+}
+
 function ObField({ label, icon, hint, eye, ref, ...input }: InputHTMLAttributes<HTMLInputElement> & {
   label: string; icon: IconName; hint?: string; eye?: boolean; ref?: Ref<HTMLInputElement>;
 }) {
@@ -234,7 +243,7 @@ export function QDiet({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
         <p className="ob-note"><Icon name="users" /><span>Ce sont tes goûts à toi. Avec <b>Frigia Plus</b>, tu pourras régler ceux de chaque membre de la famille.</span></p>
       </div></div>
       {single && onSave
-        ? <GoBar title="Enregistrer" sub={sub} loading={saving} onClick={async () => { setSaving(true); await onSave(a); navigate("/famille", { replace: true }); }} />
+        ? <SaveBar loading={saving} onClick={async () => { setSaving(true); await onSave(a); navigate("/famille", { replace: true }); }} />
         : <GoBar title="Continuer" sub={sub} onClick={() => navigate("/questions/3", { state })} />}
     </Screen>
   );
@@ -289,10 +298,9 @@ export function QTime({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
         </div>
         <p className="ob-note"><Icon name="pot" /><span>Facultatif. Une plaque de cuisson suffit pour la plupart des recettes.</span></p>
       </div></div>
-      <GoBar
-        title={edit ? "Enregistrer" : "Voir mon Frigia"} sub={!time ? "Choisis ton temps du soir" : single ? TIMES.find(t => t.v === time)?.t ?? "" : "3 questions sur 3"}
-        disabled={!time} loading={saving} onClick={next}
-      />
+      {edit
+        ? <SaveBar disabled={!time} loading={saving} onClick={next} />
+        : <GoBar title="Voir mon Frigia" sub={time ? "3 questions sur 3" : "Choisis ton temps du soir"} disabled={!time} loading={saving} onClick={next} />}
     </Screen>
   );
 }
