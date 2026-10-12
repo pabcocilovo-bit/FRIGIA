@@ -64,6 +64,8 @@ Cette branche contient les maquettes du nouveau design (octobre 2026). Le code d
 | Infos légales | `LegalModal` + `pages-legales.md` | Habillage + textes |
 | Activer les notifications | rien | À créer (Web Push) |
 | Premier scan guidé | rien | À créer (bulles, une seule fois) |
+| Centre de notifications | rien | À créer (table des notifications envoyées, lue / non lue) |
+| Parrainage | rien | À créer (lien et code par compte, suivi des inscrits, mois offert quand l'ami s'abonne via Stripe) |
 
 ## Conseil pour avancer
 

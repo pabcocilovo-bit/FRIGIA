@@ -1760,6 +1760,105 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
 .gd-next .i{width:18px;height:18px}
 .gd.on + .toast{opacity:0;visibility:hidden}
 @media (prefers-reduced-motion:reduce){.gd-hole::after{animation:none}.gd-hole,.gd-tip,.gd-arr{transition:none}}
+/* 16 bis · Centre de notifications */
+#home .cbtn[aria-label="Notifications"]{position:relative}
+.ib-badge{position:absolute;top:3px;right:2px;min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:var(--hi);color:#2A1E08;font:700 10.5px/17px var(--sans);text-align:center;box-shadow:0 0 0 2px var(--sage-deep)}
+.ib-all{font:600 14px/1 var(--sans);color:var(--sage);align-self:center;padding:10px 4px}
+.ib-all:disabled{color:var(--muted);opacity:.55;cursor:default}
+.ib-tabs{margin-top:4px}
+.ib-body{padding:6px 18px 40px;display:flex;flex-direction:column;gap:6px}
+.ib-off{display:flex;align-items:center;gap:12px;background:var(--sage-soft);border-radius:18px;padding:14px;margin:4px 0 6px}
+.ib-off>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.ib-off b{font:600 14.5px/1.25 var(--sans);color:var(--sage-deep)}
+.ib-off span{font-size:12.5px;line-height:1.35;color:var(--sage-deep);opacity:.8}
+.ib-off .ib-ic{background:var(--card)}
+.ib-off .pill{padding:11px 15px;font-size:14px}
+#inbox.nf-ok .ib-off{display:none}
+.ib-grp{display:flex;flex-direction:column;gap:8px}
+.ib-grp[hidden]{display:none}
+.ib-day{margin:14px 4px 2px;font:600 11.5px/16px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ib-it{position:relative;border-radius:18px;overflow:hidden;transition:height .28s ease,opacity .28s ease,margin .28s ease}
+.ib-it.gone{opacity:0}
+.ib-del{position:absolute;inset:0;background:var(--danger-soft);color:var(--danger);display:flex;align-items:center;justify-content:flex-end;gap:8px;padding-right:20px;font:600 14px/1 var(--sans)}
+.ib-del svg{width:18px;height:18px}
+.ib-card{position:relative;display:flex;gap:12px;align-items:flex-start;background:var(--card);border-radius:18px;padding:14px 16px 14px 14px;box-shadow:0 1px 0 var(--line);touch-action:pan-y;cursor:pointer;transition:transform .25s cubic-bezier(.2,.8,.2,1),background .2s}
+.ib-card.drag{transition:none}
+.ib-it:not(.new) .ib-card{background:color-mix(in srgb,var(--card) 55%,var(--bg))}
+.ib-ic{width:42px;height:42px;border-radius:14px;background:var(--sage-soft);color:var(--sage-deep);display:grid;place-items:center;flex:none;overflow:hidden}
+.ib-ic svg{width:20px;height:20px}
+.ib-ic.gold{background:var(--hi-soft);color:#8A5A12}
+.ib-ic.photo img{width:100%;height:100%;object-fit:cover}
+.ib-ic.logo{background:none}
+.ib-tile{width:42px;height:42px;border-radius:14px;box-shadow:none}
+.ib-tile .sp-sym{width:30px;height:30px}
+.ib-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.ib-k{font:500 12px/16px var(--sans);color:var(--muted)}
+.ib-tx b{font:600 15px/1.3 var(--sans);color:var(--text)}
+.ib-tx p{margin:0;font-size:13.5px;line-height:1.4;color:var(--muted)}
+.ib-act{align-self:flex-start;margin-top:8px;padding:10px 14px;font-size:13.5px;background:var(--surface);color:var(--sage-deep)}
+.ib-it.new .ib-act{background:var(--sage);color:var(--on)}
+.ib-dot{position:absolute;top:18px;right:14px;width:8px;height:8px;border-radius:50%;background:var(--hi);opacity:0;transition:opacity .2s}
+.ib-it.new .ib-dot{opacity:1}
+.ib-it.new .ib-k{color:var(--sage-deep);font-weight:600}
+.ib-empty[hidden]{display:none!important}
+.ib-hint{margin:16px 0 0;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12.5px;color:var(--muted);opacity:.85}
+.ib-hint svg{width:14px;height:14px}
+.ib-hint[hidden]{display:none}
+
+/* 25 bis · Parrainage */
+.rf-hero{background:var(--sage-deep);color:var(--on);padding:var(--top) 20px 28px;border-radius:0 0 30px 30px;display:flex;flex-direction:column;gap:10px}
+.rf-hero h2{margin:0;font:400 36px/1.04 var(--serif);text-wrap:balance}
+.rf-hero h2 em{font-style:italic;color:var(--mint,#9FCCA4)}
+.rf-hero p{margin:0;font-size:15px;line-height:1.45;color:rgba(247,241,230,.82);max-width:32ch}
+.rf-kick{font:600 12px/16px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--hi)}
+.rf-art{position:relative;height:132px;display:flex;align-items:center;justify-content:center;gap:14px;margin:6px 0 4px}
+.rf-art::before{content:"";position:absolute;left:22%;right:22%;top:50%;border-top:2px dashed rgba(247,241,230,.28)}
+.rf-av{position:relative;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font:400 28px/1 var(--serif);background:var(--sage-soft);color:var(--sage-deep);box-shadow:0 0 0 4px var(--sage-deep),0 0 0 6px rgba(247,241,230,.25);background-size:cover;background-position:center}
+.rf-av.rf-fr{background:var(--hi-soft);color:#7A5212}
+.rf-gift{position:relative;width:84px;height:84px;animation:rfBob 3.2s ease-in-out infinite}
+@keyframes rfBob{50%{transform:translateY(-5px) rotate(-3deg)}}
+.rf-spk{position:absolute;fill:var(--hi)}
+.rf-spk.a{width:20px;height:20px;left:30%;top:4px}
+.rf-spk.b{width:13px;height:13px;right:29%;top:18px;fill:#9FCCA4}
+.rf-spk.c{width:11px;height:11px;right:33%;bottom:6px}
+.rf-body{padding:18px 18px 40px;display:flex;flex-direction:column;gap:12px}
+.rf-link{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:18px;padding:14px 14px 14px 16px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.rf-link>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.rf-link>div>span{font-size:12px;font-weight:600;color:var(--muted)}
+.rf-link>div>b{font:600 16.5px/1.3 var(--sans);color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rf-link small{font-size:12.5px;color:var(--muted)}
+.rf-link small b{color:var(--sage-deep);letter-spacing:.04em}
+.rf-copy{width:44px;height:44px;border-radius:14px;background:var(--sage-soft);color:var(--sage-deep);display:grid;place-items:center;flex:none;transition:background .2s,color .2s}
+.rf-copy svg{width:19px;height:19px}
+.rf-copy.ok{background:var(--sage);color:var(--on)}
+.rf-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:2px}
+.rf-apps button{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.rf-apps span{width:50px;height:50px;border-radius:50%;background:var(--card);color:var(--sage-deep);display:grid;place-items:center;box-shadow:0 1px 0 var(--line)}
+.rf-apps svg{width:21px;height:21px}
+.rf-body .st-sec{margin:14px 4px 0}
+.rf-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;background:var(--card);border-radius:18px;box-shadow:0 1px 0 var(--line)}
+.rf-steps li{display:flex;gap:12px;padding:13px 14px;align-items:flex-start}
+.rf-steps li+li{border-top:1px solid var(--line)}
+.rf-steps i{width:28px;height:28px;border-radius:50%;background:var(--sage);color:var(--on);display:grid;place-items:center;font:600 13px/1 var(--sans);font-style:normal;flex:none}
+.rf-steps li:last-child i{background:var(--hi);color:#2A1E08}
+.rf-steps div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rf-steps b{font:600 14.5px/1.3 var(--sans)}
+.rf-steps span{font-size:13px;line-height:1.4;color:var(--muted)}
+.rf-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rf-stats>div{background:var(--card);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:2px;box-shadow:0 1px 0 var(--line)}
+.rf-stats b{font:400 34px/1 var(--serif);color:var(--sage-deep);font-variant-numeric:tabular-nums}
+.rf-stats>div:first-child b{color:#B07A22}
+.rf-stats span{font-size:13px;color:var(--muted)}
+.rf-ini{width:36px;height:36px;border-radius:50%;background:var(--hi-soft);color:#7A5212;display:grid;place-items:center;font:400 19px/1 var(--serif);flex:none}
+.rf-ini.l{background:var(--sage-soft);color:var(--sage-deep)}
+.rf-badge{font:600 12px/1 var(--sans);padding:6px 9px;border-radius:999px;background:var(--surface);color:var(--muted);white-space:nowrap}
+.rf-badge.gold{background:var(--hi-soft);color:#7A5212}
+.rf-none{display:flex;gap:12px;align-items:center;background:var(--card);border-radius:18px;padding:16px;font-size:13.5px;line-height:1.4;color:var(--muted);box-shadow:0 1px 0 var(--line)}
+.rf-none svg{width:22px;height:22px;flex:none;color:var(--sage)}
+.rf-fine{margin:6px 4px 0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+.rf-fine a{color:var(--sage);font-weight:600}
+@media (prefers-reduced-motion:reduce){.rf-gift{animation:none}}
+
 .ob-wlogo{display:flex;align-items:center;gap:10px;filter:drop-shadow(0 2px 10px rgba(0,0,0,.45))}
 .ob-wlogo .sp-sym{width:40px;height:40px}
 .ob-wlogo .sp-word{height:27px;width:auto}
@@ -2045,21 +2144,23 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
       <li><button data-go="recipe"><span class="n">14</span><span><b>Fiche recette</b><small>Manquants dans la liste</small></span></button></li>
       <li><button data-go="cook"><span class="n">15</span><span><b>Mode cuisine</b><small>Économies et partage</small></span></button></li>
       <li><button data-go="notif"><span class="n">16</span><span><b>Activer les notifications</b><small class="newt">Nouveau · après le premier repas</small></span></button></li>
-      <li><button data-go="list"><span class="n">17</span><span><b>Liste de courses</b><small class="newt">Nouveau</small></span></button></li>
-      <li><button data-go-empty data-go="favs"><span class="n">18</span><span><b>États vides</b><small class="newt">Nouveau · un compte neuf</small></span></button></li>
-      <li><button data-go="planNew"><span class="n">19</span><span><b>Crée ta semaine</b><small class="newt">Nouveau · jour par jour</small></span></button></li>
-      <li><button data-go="plan"><span class="n">20</span><span><b>Planning</b><small class="newt">Nouveau</small></span></button></li>
-      <li><button data-go="paywall"><span class="n">21</span><span><b>Passe à Plus</b><small class="newt">Nouveau</small></span></button></li>
-      <li><button data-go="payfail"><span class="n">22</span><span><b>Paiement refusé</b><small class="newt">Nouveau · carte expirée</small></span></button></li>
-      <li><button data-go="plusok"><span class="n">23</span><span><b>Bienvenue dans Plus</b><small class="newt">Nouveau · après le paiement</small></span></button></li>
-      <li><button data-go="report"><span class="n">24</span><span><b>Bilan du mois</b><small class="newt">Nouveau · euros et kilos sauvés</small></span></button></li>
-      <li><button data-go="family"><span class="n">25</span><span><b>Famille</b><small class="newt">Nouveau · remplace le profil</small></span></button></li>
-      <li><button data-mb-new data-go="member"><span class="n">26</span><span><b>Ajouter un proche</b><small class="newt">Nouveau · et le +1 invité</small></span></button></li>
-      <li><button data-go="settings"><span class="n">27</span><span><b>Réglages</b><small class="newt">Nouveau · la roue dentée</small></span></button></li>
-      <li><button data-go="account"><span class="n">28</span><span><b>Mon compte</b><small class="newt">Nouveau · prénom, email, mot de passe</small></span></button></li>
-      <li><button data-go="help"><span class="n">29</span><span><b>Aide et FAQ</b><small class="newt">Nouveau · 15 questions</small></span></button></li>
-      <li><button data-go="legal"><span class="n">30</span><span><b>Infos légales</b><small class="newt">Nouveau · textes mis à jour</small></span></button></li>
-      <li><button data-go="cancel"><span class="n">31</span><span><b>Résilier</b><small class="newt">Nouveau · depuis « Gérer »</small></span></button></li>
+      <li><button data-go="inbox"><span class="n">17</span><span><b>Centre de notifications</b><small class="newt">Nouveau · la cloche de l'accueil</small></span></button></li>
+      <li><button data-go="list"><span class="n">18</span><span><b>Liste de courses</b><small class="newt">Nouveau</small></span></button></li>
+      <li><button data-go-empty data-go="favs"><span class="n">19</span><span><b>États vides</b><small class="newt">Nouveau · un compte neuf</small></span></button></li>
+      <li><button data-go="planNew"><span class="n">20</span><span><b>Crée ta semaine</b><small class="newt">Nouveau · jour par jour</small></span></button></li>
+      <li><button data-go="plan"><span class="n">21</span><span><b>Planning</b><small class="newt">Nouveau</small></span></button></li>
+      <li><button data-go="paywall"><span class="n">22</span><span><b>Passe à Plus</b><small class="newt">Nouveau</small></span></button></li>
+      <li><button data-go="payfail"><span class="n">23</span><span><b>Paiement refusé</b><small class="newt">Nouveau · carte expirée</small></span></button></li>
+      <li><button data-go="plusok"><span class="n">24</span><span><b>Bienvenue dans Plus</b><small class="newt">Nouveau · après le paiement</small></span></button></li>
+      <li><button data-go="report"><span class="n">25</span><span><b>Bilan du mois</b><small class="newt">Nouveau · euros et kilos sauvés</small></span></button></li>
+      <li><button data-go="family"><span class="n">26</span><span><b>Famille</b><small class="newt">Nouveau · remplace le profil</small></span></button></li>
+      <li><button data-mb-new data-go="member"><span class="n">27</span><span><b>Ajouter un proche</b><small class="newt">Nouveau · et le +1 invité</small></span></button></li>
+      <li><button data-go="refer"><span class="n">28</span><span><b>Parrainage</b><small class="newt">Nouveau · 1 mois offert pour vous deux</small></span></button></li>
+      <li><button data-go="settings"><span class="n">29</span><span><b>Réglages</b><small class="newt">Nouveau · la roue dentée</small></span></button></li>
+      <li><button data-go="account"><span class="n">30</span><span><b>Mon compte</b><small class="newt">Nouveau · prénom, email, mot de passe</small></span></button></li>
+      <li><button data-go="help"><span class="n">31</span><span><b>Aide et FAQ</b><small class="newt">Nouveau · 15 questions</small></span></button></li>
+      <li><button data-go="legal"><span class="n">32</span><span><b>Infos légales</b><small class="newt">Nouveau · textes mis à jour</small></span></button></li>
+      <li><button data-go="cancel"><span class="n">33</span><span><b>Résilier</b><small class="newt">Nouveau · depuis « Gérer »</small></span></button></li>
     </ol>
   </aside>
 
@@ -3444,6 +3545,149 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
         </div>
       </section>
 
+      <!-- 16 bis · CENTRE DE NOTIFICATIONS (idées Matter, Revolut, Spark, Reddit ; DA Frigia) -->
+      <section class="screen" id="inbox" aria-label="Tes notifications">
+        <div class="scroll" id="ibScroll">
+          <div class="fv-head st-head">
+            <div class="fv-row"><button class="cbtn cream fv-rb" data-go="home" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><button class="ib-all" id="ibAll">Tout marquer lu</button></div>
+            <h2>Tes <em>notifs</em></h2>
+            <span class="fv-count" id="ibCount">2 non lues</span>
+            <div class="hs-tabs ib-tabs" id="ibTabs" role="tablist"><button class="on" data-f="" role="tab">Tout</button><button data-f="meal" role="tab">Repas</button><button data-f="acc" role="tab">Ton compte</button></div>
+          </div>
+          <div class="ib-body" id="ibBody">
+            <div class="ib-off" id="ibOff">
+              <span class="ib-ic"><svg><use href="#i-bell"/></svg></span>
+              <div><b>Coupées sur ce téléphone</b><span>Elles arrivent ici, mais ton téléphone ne sonne pas.</span></div>
+              <button class="pill sage" id="ibOn">Activer</button>
+            </div>
+            <div class="ib-grp"><h3 class="ib-day">Aujourd'hui</h3>
+              <div class="ib-it new" data-k="meal">
+                <div class="ib-del" aria-hidden="true"><svg><use href="#i-trash"/></svg>Supprimer</div>
+                <div class="ib-card">
+                  <span class="ib-ic photo"><img data-img="p_pasta" alt=""></span>
+                  <div class="ib-tx"><span class="ib-k">L'idée du soir · 18 h 02</span><b>Penne aux légumes ce soir ?</b><p>Tu as tout dans le frigo. Prêtes en 20 minutes.</p><button class="pill ib-act" data-go="recipe">Voir la recette</button></div>
+                  <i class="ib-dot" aria-label="Non lue"></i>
+                </div>
+              </div>
+              <div class="ib-it new" data-k="acc">
+                <div class="ib-del" aria-hidden="true"><svg><use href="#i-trash"/></svg>Supprimer</div>
+                <div class="ib-card" data-to="refer">
+                  <span class="ib-ic gold"><svg><use href="#i-gift"/></svg></span>
+                  <div class="ib-tx"><span class="ib-k">Parrainage · 11 h 40</span><b>Léa s'est inscrite avec ton lien</b><p>Ton mois offert arrive dès qu'elle passe à Plus.</p></div>
+                  <i class="ib-dot" aria-label="Non lue"></i>
+                </div>
+              </div>
+            </div>
+            <div class="ib-grp"><h3 class="ib-day">Cette semaine</h3>
+              <div class="ib-it" data-k="meal">
+                <div class="ib-del" aria-hidden="true"><svg><use href="#i-trash"/></svg>Supprimer</div>
+                <div class="ib-card">
+                  <span class="ib-ic "><svg><use href="#i-cal"/></svg></span>
+                  <div class="ib-tx"><span class="ib-k">Ta semaine · dimanche</span><b>On prépare ta semaine ?</b><p>5 repas avec ton dernier scan. Ce qui se périme passe en premier.</p><button class="pill ib-act" data-lock="planning" data-go="planNew">Préparer ma semaine</button></div>
+                  <i class="ib-dot" aria-label="Non lue"></i>
+                </div>
+              </div>
+              <div class="ib-it free-only" data-k="acc">
+                <div class="ib-del" aria-hidden="true"><svg><use href="#i-trash"/></svg>Supprimer</div>
+                <div class="ib-card">
+                  <span class="ib-ic gold"><svg><use href="#i-sparkle"/></svg></span>
+                  <div class="ib-tx"><span class="ib-k">Tes scans · jeudi</span><b>Il te reste 3 scans gratuits</b><p>Pour continuer ensuite, il y a Frigia Plus.</p><button class="pill ib-act" data-go="paywall">Voir Plus</button></div>
+                  <i class="ib-dot" aria-label="Non lue"></i>
+                </div>
+              </div>
+              <div class="ib-it" data-k="meal">
+                <div class="ib-del" aria-hidden="true"><svg><use href="#i-trash"/></svg>Supprimer</div>
+                <div class="ib-card" data-to="list" data-lock="courses">
+                  <span class="ib-ic "><svg><use href="#i-cart"/></svg></span>
+                  <div class="ib-tx"><span class="ib-k">Courses · mercredi</span><b>Ta liste est prête : 6 articles</b><p>Pour le gratin et la soupe de jeudi.</p></div>
+                  <i class="ib-dot" aria-label="Non lue"></i>
+                </div>
+              </div>
+            </div>
+            <div class="ib-grp"><h3 class="ib-day">Plus tôt</h3>
+              <div class="ib-it" data-k="acc">
+                <div class="ib-del" aria-hidden="true"><svg><use href="#i-trash"/></svg>Supprimer</div>
+                <div class="ib-card" data-to="report" data-lock="bilan">
+                  <span class="ib-ic "><svg><use href="#i-leaf"/></svg></span>
+                  <div class="ib-tx"><span class="ib-k">Ton bilan · 1er octobre</span><b>Ton bilan de septembre est prêt</b><p>Ce que tu as cuisiné et sauvé ce mois-ci.</p></div>
+                  <i class="ib-dot" aria-label="Non lue"></i>
+                </div>
+              </div>
+              <div class="ib-it" data-k="acc">
+                <div class="ib-del" aria-hidden="true"><svg><use href="#i-trash"/></svg>Supprimer</div>
+                <div class="ib-card">
+                  <span class="ib-ic logo"><span class="fg-tile ib-tile" aria-hidden="true"><svg class="sp-sym" viewBox="12.35 12.35 75.30 75.30" aria-hidden="true"><path d="M16.6 32.400000000000006 V26.1 A9.5 9.5 0 0 1 26.1 16.6 H32.400000000000006 M67.60000000000001 16.6 H73.9 A9.5 9.5 0 0 1 83.4 26.1 V32.400000000000006 M83.4 67.60000000000001 V73.9 A9.5 9.5 0 0 1 73.9 83.4 H67.60000000000001 M32.400000000000006 83.4 H26.1 A9.5 9.5 0 0 1 16.6 73.9 V67.60000000000001" fill="none" stroke="#9FCCA4" stroke-width="6.5" stroke-linecap="round"/><path d="M34.7 41.45 V32.9 A5.5 5.5 0 0 1 40.2 27.4 H59.8 A5.5 5.5 0 0 1 65.3 32.9 V41.45 Z" fill="#F3F0E7"/><path d="M34.7 42.95 H65.3 V65.1 A7.5 7.5 0 0 1 57.8 72.6 H42.2 A7.5 7.5 0 0 1 34.7 65.1 Z" fill="#F3F0E7"/><rect x="57.6" y="31.9" width="3.0" height="7.600000000000001" rx="1.5" fill="#F3F0E7" stroke="#24493A" stroke-width="0.9"/><rect x="57.6" y="46.7" width="3.0" height="10.899999999999999" rx="1.5" fill="#F3F0E7" stroke="#24493A" stroke-width="0.9"/></svg></span></span>
+                  <div class="ib-tx"><span class="ib-k">Frigia · 28 septembre</span><b>Bienvenue, <span class="acN">Camille</span></b><p>Ton premier scan t'attend : ouvre ton frigo, on s'occupe du reste.</p></div>
+                  <i class="ib-dot" aria-label="Non lue"></i>
+                </div>
+              </div>
+            </div>
+            <div class="es ib-empty" id="ibEmpty" hidden>
+              <svg class="es-art" viewBox="0 0 200 130" aria-hidden="true" fill="none" stroke="#34503B" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M72 86c5-5 8-12 8-28a20 20 0 0 1 40 0c0 16 3 23 8 28z" fill="#FBF7EF"/>
+                <path d="M66 90h68"/><path d="M92 100a8 8 0 0 0 16 0"/><path d="M100 30v-6"/>
+                <path d="M88 52c1-5 4-8 8-9" stroke="#9FCCA4" stroke-width="3.5"/>
+                <path d="M152 40l2.4 5.6 5.6 2.4-5.6 2.4-2.4 5.6-2.4-5.6-5.6-2.4 5.6-2.4z" fill="#E0A44A" stroke="none"/>
+                <circle cx="46" cy="58" r="3.5" fill="#E0A44A" stroke="none"/>
+                <path d="M28 118h6M42 118h8M58 118h114" stroke-width="3"/>
+              </svg>
+              <h3>Rien de <em>nouveau</em></h3>
+              <p>On te prévient quand l'idée du soir est prête, ou quand un ami s'abonne avec ton lien.</p>
+            </div>
+            <p class="ib-hint" id="ibHint"><svg><use href="#i-back"/></svg>Glisse une notification vers la gauche pour la supprimer</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 25 bis · PARRAINAGE (idées Lugg, Airalo, Coinbase, Instacart ; DA Frigia) -->
+      <section class="screen" id="refer" aria-label="Parrainage">
+        <div class="scroll" id="rfScroll">
+          <div class="rf-hero">
+            <div class="fv-row"><button class="cbtn glass" data-go="family" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><button class="cbtn glass" data-legal="cgu" aria-label="Conditions du parrainage"><svg class="i"><use href="#i-help"/></svg></button></div>
+            <div class="rf-art" aria-hidden="true">
+              <span class="rf-av acP"><span class="acL">C</span></span>
+              <svg class="rf-gift" viewBox="0 0 80 80"><rect x="15" y="35" width="50" height="35" rx="7" fill="#E0A44A"/><rect x="11" y="25" width="58" height="14" rx="5" fill="#EDB860"/><rect x="35.5" y="25" width="9" height="45" fill="#F7F1E6"/><path d="M40 25c-5-10-17-12-17-5s11 5 17 5zM40 25c5-10 17-12 17-5s-11 5-17 5z" fill="none" stroke="#F7F1E6" stroke-width="4" stroke-linejoin="round"/></svg>
+              <span class="rf-av rf-fr">L</span>
+              <svg class="rf-spk a" viewBox="0 0 24 24"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>
+              <svg class="rf-spk b" viewBox="0 0 24 24"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>
+              <svg class="rf-spk c" viewBox="0 0 24 24"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>
+            </div>
+            <span class="rf-kick">Parrainage</span>
+            <h2>1 mois offert, <em>pour vous deux</em></h2>
+            <p>Quand un ami passe à Plus avec ton lien, vous gagnez chacun un mois de Plus.</p>
+          </div>
+          <div class="rf-body">
+            <div class="rf-link">
+              <div><span>Ton lien</span><b id="rfUrl">frigia.fr/i/cami-r7q4</b><small>Ou ton code : <b>CAMI-R7Q4</b></small></div>
+              <button class="rf-copy" id="rfCopy" aria-label="Copier le lien"><svg><use href="#i-copy"/></svg></button>
+            </div>
+            <button class="pill sage block" id="rfShare"><svg class="i"><use href="#i-share"/></svg>Partager mon lien</button>
+            <div class="rf-apps">
+              <button data-rf="WhatsApp"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" stroke-linecap="round"><path d="M4.6 19.4l1.1-3.5a8 8 0 1 1 2.8 2.6z"/><path d="M9.2 8.6c-.3 2.8 3 6.3 6.2 6.2l.9-1.5-1.9-1-.9.7c-1-.4-1.8-1.2-2.3-2.2l.7-.9-1-1.9z"/></svg></span>WhatsApp</button>
+              <button data-rf="Messages"><span><svg><use href="#i-msg"/></svg></span>Message</button>
+              <button data-rf="Email"><span><svg><use href="#i-mail"/></svg></span>Email</button>
+              <button data-rf=""><span><svg><use href="#i-share"/></svg></span>Autre</button>
+            </div>
+
+            <span class="st-sec">Comment ça marche</span>
+            <ol class="rf-steps">
+              <li><i>1</i><div><b>Tu partages ton lien</b><span>Par message, sur WhatsApp, à la sortie de l'école.</span></div></li>
+              <li><i>2</i><div><b>Ton ami crée son compte</b><span>Il a ses 15 scans gratuits, comme tout le monde.</span></div></li>
+              <li><i>3</i><div><b>Il passe à Plus</b><span>Vous gagnez chacun un mois de Plus.</span></div></li>
+            </ol>
+
+            <span class="st-sec">Tes invitations</span>
+            <div class="rf-stats es-off"><div><b>1</b><span>mois gagné</span></div><div><b>2</b><span>amis inscrits</span></div></div>
+            <div class="st-card rf-list es-off">
+              <div class="st-row"><span class="rf-ini">T</span><b>Thomas<small>Abonné à Plus depuis le 2 octobre</small></b><span class="rf-badge gold">+1 mois</span></div>
+              <div class="st-row"><span class="rf-ini l">L</span><b>Léa<small>Inscrite aujourd'hui, pas encore abonnée</small></b><span class="rf-badge">En attente</span></div>
+            </div>
+            <div class="rf-none es-on"><svg><use href="#i-users"/></svg><span>Personne pour l'instant. Tes amis apparaissent ici dès qu'ils s'inscrivent avec ton lien.</span></div>
+            <p class="rf-fine"><span class="free-only">Tu es en Gratuit : ton mois offert démarre Plus tout seul.</span><span class="plus-only">Ton mois offert repousse ta prochaine échéance.</span> Un seul code par compte. <a href="#" data-legal="cgu">Conditions</a></p>
+          </div>
+        </div>
+      </section>
+
       <!-- 21 · RÉSILIER (idée Glovo redessinée : feuille crème sur l'abonnement, économies du mois, pause, puis confirmation) -->
       <section class="screen" id="cancel" aria-label="Résilier Frigia Plus">
         <div class="cx-back" data-go="family" aria-hidden="true">
@@ -3703,7 +3947,8 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
     results:{t:"Des idées pour toute la famille",p:"Le badge « Les enfants adorent » repère les recettes qui plaisent aux petits. « D'autres idées » relance l'IA sur le même scan, sans le décompter. « Ajouter à ma semaine » (et le petit calendrier de chaque idée) demande quel soir, puis la recette rejoint « Crée ta semaine ».",f:"12 · 14 · 16",tip:"Touche « Ajouter à ma semaine », choisis mercredi, puis « Voir toute ma semaine »."},
     recipe:{t:"Les manquants partent dans la liste",p:"Les quantités sont calculées pour la famille. Un appui envoie le parmesan et le basilic dans la liste de courses.",f:"12 · 13",tip:"Essaie : ajoute les manquants, puis ouvre l'onglet Courses."},
     cook:{t:"« J'ai cuisiné ça » compte les économies",p:"À la dernière étape, Frigia montre ce que tu as sauvé ce soir, en euros et en kilos. Une jolie carte se partage en story.",f:"15 · 19",tip:"Va jusqu'au bout, puis « Partager en story »."},
-    notif:{t:"Demander au bon moment",p:"Pas pendant l'inscription : on le propose après le premier repas cuisiné, quand Frigia a déjà rendu service. La cloche de l'accueil et les réglages y mènent aussi. On montre la notification du soir en exemple, puis la vraie fenêtre du téléphone. Sur iPhone, une web app ne reçoit des notifications que si elle est sur l'écran d'accueil.",f:"Après",tip:"Touche « Activer (conseillé) », puis « Autoriser » : la cloche sonne et tu reviens où tu étais."},
+    notif:{t:"Demander au bon moment",p:"Pas pendant l'inscription : on le propose après le premier repas cuisiné, quand Frigia a déjà rendu service. Le bandeau « Coupées sur ce téléphone » du centre de notifications et les réglages y mènent aussi. On montre la notification du soir en exemple, puis la vraie fenêtre du téléphone. Sur iPhone, une web app ne reçoit des notifications que si elle est sur l'écran d'accueil.",f:"Après",tip:"Touche « Activer (conseillé) », puis « Autoriser » : la cloche sonne et tu reviens où tu étais."},
+    inbox:{t:"Tout ce que Frigia t'a dit",p:"La cloche de l'accueil ouvre ce centre, avec le nombre de non lues en doré. Les notifs sont rangées par Aujourd'hui, Cette semaine, Plus tôt, et triées par Repas ou Ton compte. Celles qui demandent quelque chose ont leur bouton : voir la recette, préparer la semaine. Si les notifications sont coupées sur le téléphone, un bandeau propose de les activer.",f:"Après",tip:"Glisse une notification vers la gauche pour la supprimer. Touche celle du parrainage pour ouvrir la page."},
     list:{t:"La liste de courses",p:"Rangée par rayon. Chaque article dit pour quelle recette il sert. Elle part sur WhatsApp ou par SMS. Le drive viendra plus tard. Compte neuf : le sac vide, et comment le remplir depuis une recette.",f:"13 · 24",tip:"Coche des articles, essaie le partage. Dans Famille, « Avec un compte : Neuf » montre l'état vide."},
     planNew:{t:"Créer son planning",p:"Un midi et un soir par jour, du jour même à la semaine suivante. Une case vide ouvre la liste des repas possibles : les idées du dernier scan, tes favoris, ce que tu as déjà, le plus rapide. Tu choisis. « Remplir » complète le reste tout seul, en commençant par ce qui se garde le moins. Un jour touché est sauté (resto, chez mamie). Pour le midi, les restes de la veille au soir sont proposés en premier (on double la dose), et un filtre montre ce qui se mange froid. Une case laissée vide ne compte pas. Le bandeau sous chaque carte dit ce qu'elle utilise ou ce qui manque.",f:"14",tip:"Touche mercredi, choisis un repas, saute samedi, puis « Remplir »."},
     plan:{t:"La semaine, sans gâchis",p:"Le planning montre ce qui a été choisi dans « Crée ta semaine » ou ajouté depuis une recette : les soirs, et les midis s'ils sont activés, avec les restes de la veille. Un jour vide se remplit d'un appui. Chaque repas a un petit bouton pour le remplacer : une feuille propose 3 plats, triés selon ton frigo, le temps ou les enfants, et les restes du lendemain suivent (idée Future Pro). Les manquants vont dans la liste.",f:"14",tip:"En Plus, touche le petit rond à droite de « Ce soir » et fais défiler les 3 idées."},
@@ -3711,6 +3956,7 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
     payfail:{t:"Quand la banque dit non",p:"Au retour de la page Stripe. On attend la banque quelques secondes (et on rappelle de valider la notification 3D Secure), puis on dit pourquoi, simplement : carte expirée, rien n'a été débité, les scans gratuits restent là. Un seul bouton : mettre à jour la carte. Même famille que le scan raté : carte aux couleurs du logo, pastille dorée.",f:"Stripe",tip:"Ouvre l'écran depuis le menu, attends le refus, puis touche « Mettre à jour ma carte » : ça passe et Plus s'ouvre."},
     plusok:{t:"Bienvenue dans Plus",p:"Juste après le paiement. On remercie, on rappelle la date de fin et ce qui est débloqué. Le bouton principal ouvre la famille : c'est là qu'on règle les goûts de chacun.",f:"9 · 12",tip:"« Plus tard » ramène là où Camille était avant l'écran Plus."},
     family:{t:"La famille remplace le profil",p:"Chaque membre avec son âge, ses allergies et ce qu'il n'aime pas. Les goûts sont enregistrés sur le compte. Parrainage et abonnement au même endroit.",f:"12 · 15 · 18 · 21",tip:"Sur téléphone, le bouton « Prototype » en bas bascule Gratuit / Plus. La roue dentée ouvre les réglages."},
+    refer:{t:"1 mois offert pour vous deux",p:"Ouvert par « Inviter » dans Famille, ou par la notif quand un ami s'inscrit. Ton lien et ton code à copier, une rangée pour partager, les trois étapes, puis tes invitations : qui s'est inscrit, qui est passé à Plus, combien de mois tu as gagnés. Le mois n'est gagné que quand l'ami s'abonne, pour éviter les faux comptes.",f:"Après",tip:"Touche le bouton copier, puis passe Famille en « Compte neuf » pour voir la page sans invitation."},
     report:{t:"Le bilan du mois",p:"Ouvert depuis l'accueil, les chiffres de Famille ou la fin de cuisson. Le total en grand, une comparaison à la même date le mois d'avant, trois mois en barres avec ta moyenne en pointillé et, pour le mois en cours, où tu en seras à ce rythme. Puis les kilos, les repas, le calcul en clair et les ingrédients qui ont le plus servi. Tout se partage. En plus : le compteur de la communauté, les kilos sauvés par tous les foyers Frigia, avec ta part. Il est aussi sur l'accueil (pour tout le monde) et en fin de cuisson, où ta part s'ajoute.",f:"Bilan",tip:"Touche septembre dans le graphique, puis « Partager mon bilan »."},
     member:{t:"Un proche en plus, ou juste ce soir",p:"« Ajouter » dans Ton foyer ouvre un formulaire court : prénom, adulte ou enfant (un enfant compte pour une demi-portion), allergies, ce qu'il n'aime pas. Toucher un membre le modifie. Pour des invités, pas besoin de profil : « +1 » sur la fiche recette, ou « Des invités ? » dans Qui mange ce soir. Les quantités suivent.",f:"Famille",tip:"Ajoute Léa, 3 ans, allergique aux œufs. Puis ouvre une recette en Plus et touche « +1 »."},
     settings:{t:"Les réglages, rangés",p:"Ouverts par la roue dentée de Famille. En haut, ta carte : elle ouvre « Mon compte ». Puis cinq rubriques avec un petit titre : ton compte, notifications, l'app, aide, légal. Chaque ligne a son icône, sa valeur en sauge quand il y en a une, et un chevron. Les notifications se règlent ici d'un geste. « Supprimer mon compte » est visible, comme l'exigent les stores : une feuille dit ce qu'on perd, puis on glisse jusqu'au bout pour confirmer (idée Luma). En Plus, elle propose plutôt une pause.",f:"Compte",tip:"Touche « Activer » en haut des notifications, change la langue, puis tout en bas « Supprimer mon compte » et glisse."},
@@ -3737,6 +3983,8 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
     if(id==='ob-verify')obVerifyReset();
     clearTimeout(splashT); prepT.forEach(clearTimeout); prepT=[];
     if(id==='prep')prepPlay();
+    if(id==='inbox'){if(cur!=='inbox')$('#ibScroll').scrollTop=0;ibSync();}
+    if(id==='refer'&&cur!=='refer')$('#rfScroll').scrollTop=0;
     if(gdSet)gdEnd();
     if(id==='scan'&&gdFirst){gdFirst=false;gdNextIngr=true;setTimeout(function(){if(cur==='scan')gdStart('scan');},520);}
     if(id==='ingr'&&gdNextIngr){gdNextIngr=false;setTimeout(function(){if(cur==='ingr')gdStart('ingr');},620);}
@@ -4383,7 +4631,7 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
   $('#nfLater').addEventListener('click',function(){nfAsked=true;go(nfBackTo);});
   $('#nfHelp').addEventListener('click',function(){hpBackTo='notif';go('help');setTimeout(function(){hpOpenQ('notifs',true)},60);});
   $('#doneHome').addEventListener('click',function(){if(!nfOn&&!nfAsked)nfOpen('home');else go('home');});
-  $('#home .cbtn[aria-label="Notifications"]').addEventListener('click',function(){if(!nfOn)nfOpen('home');else toast('Pas de nouvelle notification');});
+  $('#home .cbtn[aria-label="Notifications"]').addEventListener('click',function(){go('inbox');});
   $$('[data-nf-go]').forEach(function(b){b.addEventListener('click',function(){nfOpen('settings');});});
   $$('[data-hp-q]').forEach(function(b){b.addEventListener('click',function(){hpOpenQ(b.getAttribute('data-hp-q'),true);});});
 
@@ -4497,6 +4745,50 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
   $('#gdSkip').addEventListener('click',function(){gdEnd();gdNextIngr=false;});
   $$('[data-guide]').forEach(function(b){b.addEventListener('click',function(){gdFirst=true;});});
   window.addEventListener('resize',function(){if(gdSet)gdPlace();});
+
+  // ---- Centre de notifications : non lues en doré, glisser pour supprimer, bouton d'action dans la notif
+  var ibMoved=false;
+  function ibSync(){var vis=$$('#ibBody .ib-it').filter(function(i){return getComputedStyle(i).display!=='none'}),
+      n=vis.filter(function(i){return i.classList.contains('new')}).length;
+    $('#ibCount').textContent=n?(n+' non lue'+(n>1?'s':'')):'Tout est lu';
+    $('#ibAll').disabled=!n;
+    var b=$('#home .ib-badge');b.textContent=n;b.hidden=!n;
+    var f=$('#ibTabs .on').getAttribute('data-f');
+    $$('#ibBody .ib-grp').forEach(function(g){var any=$$('.ib-it',g).some(function(i){return getComputedStyle(i).display!=='none'&&(!f||i.getAttribute('data-k')===f)});g.hidden=!any;});
+    var none=!$$('#ibBody .ib-grp').some(function(g){return !g.hidden});
+    $('#ibEmpty').hidden=!none;$('#ibHint').hidden=none;
+    $('#inbox').classList.toggle('nf-ok',nfOn);}
+  function ibFilter(){var f=$('#ibTabs .on').getAttribute('data-f');$$('#ibBody .ib-it').forEach(function(i){i.style.display=(!f||i.getAttribute('data-k')===f)?'':'none';});}
+  $$('#ibTabs button').forEach(function(b){b.addEventListener('click',function(){$$('#ibTabs button').forEach(function(x){x.classList.toggle('on',x===b)});ibFilter();ibSync();});});
+  $('#ibAll').addEventListener('click',function(){$$('#ibBody .ib-it.new').forEach(function(i){i.classList.remove('new')});ibSync();toast('Tout est marqué comme lu');});
+  $('#ibOn').addEventListener('click',function(){nfOpen('inbox');});
+  function ibRemove(it){it.style.height=it.offsetHeight+'px';void it.offsetWidth;it.classList.add('gone');it.style.height='0px';it.style.marginBottom='-8px';
+    setTimeout(function(){it.remove();ibSync();},300);toast('Notification supprimée');}
+  $$('#ibBody .ib-card').forEach(function(c){var x0=0,y0=0,dx=0,on=false,lock=null,it=c.parentNode;
+    c.addEventListener('pointerdown',function(e){if(e.button)return;x0=e.clientX;y0=e.clientY;dx=0;on=true;lock=null;});
+    c.addEventListener('pointermove',function(e){if(!on)return;var mx=e.clientX-x0,my=e.clientY-y0;
+      if(lock===null&&(Math.abs(mx)>6||Math.abs(my)>6)){lock=Math.abs(mx)>Math.abs(my)?'x':'y';if(lock==='x'){c.classList.add('drag');try{c.setPointerCapture(e.pointerId)}catch(_){}}}
+      if(lock!=='x')return;var sc=(wkHost().getBoundingClientRect().width/wkHost().offsetWidth)||1;dx=Math.min(0,mx/sc);c.style.transform='translateX('+dx+'px)';});
+    function end(){if(!on)return;on=false;c.classList.remove('drag');
+      if(lock==='x'){ibMoved=true;setTimeout(function(){ibMoved=false},50);if(dx<-90){c.style.transform='translateX(-110%)';ibRemove(it);return;}}
+      c.style.transform='';}
+    c.addEventListener('pointerup',end);c.addEventListener('pointercancel',end);
+    c.addEventListener('click',function(e){if(ibMoved)return;it.classList.remove('new');ibSync();
+      if(e.target.closest('.ib-act'))return;
+      var to=c.getAttribute('data-to'),lk=c.getAttribute('data-lock');if(!to)return;
+      if(lk&&plan==='free'){openPaywall(lk,to);return;}go(to);});});
+  $('#inbox').addEventListener('click',function(e){if(ibMoved){e.stopPropagation();e.preventDefault();}},true);
+  $('#home .cbtn[aria-label="Notifications"]').insertAdjacentHTML('beforeend','<i class="ib-badge" aria-hidden="true">2</i>');
+
+  // ---- Parrainage : le lien, la rangée d'apps, le suivi des invitations
+  $('#rfCopy').addEventListener('click',function(){var b=this,u='https://'+$('#rfUrl').textContent;
+    try{navigator.clipboard.writeText(u).catch(function(){})}catch(_){}
+    b.classList.add('ok');$('use',b).setAttribute('href','#i-check');toast('Lien copié');
+    clearTimeout(b._t);b._t=setTimeout(function(){b.classList.remove('ok');$('use',b).setAttribute('href','#i-copy');},1800);});
+  $('#rfShare').addEventListener('click',function(){toast("Le menu de partage du téléphone s'ouvre, avec ton lien");});
+  $$('[data-rf]').forEach(function(b){b.addEventListener('click',function(){var a=b.getAttribute('data-rf');toast(a?'Message prêt dans '+a+', avec ton lien':"Le menu de partage du téléphone s'ouvre");});});
+
+  ibSync();
 
   // ---- Scan
   var DOTS=[['Poivrons',16,28.5,0,0],['Brocoli',51,29.6,.25,0],['Tomates cerises',44,38.6,.5,0],['Carottes',20,37.7,.75,0],['Œufs',21,47,1,1],['Champignons',39,48.3,1.2,0],['Courgettes',67,61.5,1.45,0],['Lait',90,51,1.7,1]];
@@ -4795,7 +5087,7 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
   $('#shareBtn').addEventListener('click',function(){$('#story').classList.add('on')});
   $('#storyX').addEventListener('click',function(){$('#story').classList.remove('on')});
   $$('[data-story]').forEach(function(b){b.addEventListener('click',function(){$('#story').classList.remove('on');toast('Carte prête pour '+b.getAttribute('data-story'));})});
-  $('#referBtn').addEventListener('click',function(){toast('Lien copié : frigia.fr/p/camille')});
+  $('#referBtn').addEventListener('click',function(){go('refer')});
 
   // ---- Première inscription (inspirée de Recime : les questions d'abord, le compte à la fin)
   var OBNOTES={

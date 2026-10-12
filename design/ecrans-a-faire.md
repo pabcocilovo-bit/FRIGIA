@@ -17,16 +17,16 @@ Rédigé le 6 octobre 2026. On repart de zéro : seul ce qui est dans nos maquet
 
 | | Écrans |
 |---|---|
-| Faits dans le prototype V3 | 43 (31 écrans de l'app, 11 de l'inscription avec la connexion et le mot de passe oublié, l'écran de lancement) |
-| Restants : un morceau existe déjà | 1 |
-| Restants : à dessiner entièrement | 5 |
-| **Total restant** | **6**, dont **2 pour le lancement** |
+| Faits dans le prototype V3 | 45 (33 écrans de l'app, 11 de l'inscription avec la connexion et le mot de passe oublié, l'écran de lancement) |
+| Restants : un morceau existe déjà | 0 |
+| Restants : à dessiner entièrement | 4 |
+| **Total restant** | **4**, dont **2 pour le lancement** |
 
 ---
 
-## Déjà faits dans le prototype V3 (31 écrans)
+## Déjà faits dans le prototype V3 (33 écrans)
 
-**L'app** : Accueil · Tes favoris (8 oct.) · Tes scans, l'historique (8 oct.) · Scan du frigo · Recadrer la photo (8 oct.) · Scan raté (7 oct.) · Pas de réseau (8 oct.) · Ingrédients trouvés · Ajouter un ingrédient (8 oct.) · Recettes en préparation (7 oct.) · Trois recettes · Fiche recette · Mode cuisine (avec la fin et la carte story) · Liste de courses · Crée ta semaine (8 oct.) · Planning de la semaine (revu le 8 oct. : suit « Crée ta semaine », midis, restes) · Passe à Plus (avec le code créateur) · Paiement refusé (9 oct.) · États vides (9 oct.) · Bienvenue dans Plus (7 oct.) · Famille · Réglages (9 oct.) · Infos légales (9 oct.) · Résilier (8 oct.).
+**L'app** : Accueil · Tes favoris (8 oct.) · Tes scans, l'historique (8 oct.) · Scan du frigo · Recadrer la photo (8 oct.) · Scan raté (7 oct.) · Pas de réseau (8 oct.) · Ingrédients trouvés · Ajouter un ingrédient (8 oct.) · Recettes en préparation (7 oct.) · Trois recettes · Fiche recette · Mode cuisine (avec la fin et la carte story) · Liste de courses · Crée ta semaine (8 oct.) · Planning de la semaine (revu le 8 oct. : suit « Crée ta semaine », midis, restes) · Passe à Plus (avec le code créateur) · Paiement refusé (9 oct.) · États vides (9 oct.) · Bienvenue dans Plus (7 oct.) · Famille · Réglages (9 oct.) · Infos légales (9 oct.) · Résilier (8 oct.) · Centre de notifications (12 oct.) · Parrainage (12 oct.).
 
 Revu le 8 oct. après les remarques de Hugo : le scan demande « Ce midi / Ce soir / La semaine », les résultats et « Qui mange » suivent ce choix, et la fiche recette a « Ajouter à ma semaine ».
 
@@ -45,6 +45,10 @@ Ajouté le 10 oct. (inspis Slopes, Opal, Ten Percent Happier) : « Mon compte »
 Ajouté le 10 oct. (inspis Future Pro + BitePal) : « Remplacer un repas ». Un petit bouton rond sur chaque repas du Planning (et « Changer de plat » sous le plat du soir de l'accueil) ouvre une feuille : le plat actuel, 3 pastilles (mon frigo, plus rapide, enfants), une carte à la fois qu'on fait défiler avec des points, « Remplacer par ce plat », « D'autres idées », « Garder ce plat ». Si les restes du plat étaient prévus le lendemain midi, ils suivent le nouveau plat.
 
 Ajouté le 10 oct. (inspis Setel, Uniqlo, Apple Store) : « Premier scan guidé ». Juste après l'inscription, le premier scan s'ouvre avec un projecteur sur un élément et une bulle crème avec une pointe : 1 « Pour quand ? » (ce midi, ce soir, la semaine), 2 « Tout le frigo dans le cadre », 3 « Touche le rond » (« C'est parti » prend la photo). Puis 2 bulles sur « C'est bien ça ? » : retirer avec la croix, « Ajouter un ingrédient ». « Passer » arrête tout, et ça ne revient plus.
+
+Ajouté le 12 oct. (inspis Matter, Revolut, Spark, Reddit) : « Centre de notifications ». La cloche de l'accueil l'ouvre, avec le nombre de non lues en doré. Rangé par Aujourd'hui, Cette semaine, Plus tôt ; onglets Tout, Repas, Ton compte ; « Tout marquer lu ». Les notifs qui demandent quelque chose ont leur bouton (voir la recette, préparer ma semaine). On glisse vers la gauche pour supprimer. Si les notifications sont coupées sur le téléphone, un bandeau propose de les activer. Vide : « Rien de nouveau ».
+
+Ajouté le 12 oct. (inspis Lugg, Airalo, Coinbase, Instacart) : « Parrainage ». « Inviter » dans Famille et la notif « Léa s'est inscrite » l'ouvrent. En haut sur fond sauge, ton avatar, un cadeau doré et celui de l'ami : « 1 mois offert, pour vous deux ». Ton lien et ton code à copier, « Partager mon lien », WhatsApp, Message, Email. Les 3 étapes (le mois est gagné quand l'ami passe à Plus, pas à l'inscription). Tes invitations : mois gagnés, amis inscrits, et qui est abonné ou en attente. Compte neuf : « Personne pour l'instant ».
 
 **La première inscription** (onglet « Inscription » du prototype) : Bienvenue · Ton objectif · Ce que tu manges · Temps et équipement · Ton Frigia est prêt · Crée ton compte · Email · Code par email · Accès à la caméra, puis un mot de bienvenue sur l'accueil. Les questions viennent d'abord, le compte à la fin, comme chez Recime.
 
@@ -122,8 +126,8 @@ Le paiement lui-même se fait sur la page Stripe : pas besoin de le dessiner.
 | 30 | **Supprimer le compte** | Avertissement, abonnement résilié avec, confirmation | `delete account confirmation` | Lancement | ✅ Fait (V3, 10 oct., inspi Luma) : feuille « ce qu'on perd », puis glisser pour supprimer |
 | 31 | **Aide et contact** | FAQ dépliable, contact | `help center FAQ` | Lancement | ✅ Fait (V3, 9 oct.) : 3 portes (écrire, signaler, avis) avec une feuille d'envoi, 3 cartes « bien démarrer », 14 questions en 4 rubriques, recherche |
 | 32 | Pages légales | Mentions, CGU, confidentialité. Texte simple, pas besoin d'inspi | | Lancement | ✅ Fait (V3, 9 oct.) : textes de l'app actuelle mis à jour (legal/pages-legales.md), 4 onglets avec « L'essentiel » ; reste à compléter éditeur, SIRET, médiateur |
-| 33 | Centre de notifications | La cloche de l'accueil | `notification inbox` | Après | ❌ À dessiner |
-| 34 | Parrainage | Ton lien, tes filleuls, tes mois gagnés | `invite friends referral` | Après | 🟡 Une carte « Inviter » dans Famille, pas la page |
+| 33 | Centre de notifications | La cloche de l'accueil | `notification inbox` | Après | ✅ Fait (V3, 12 oct., inspis Matter, Revolut, Spark) : par jour, onglets Repas / Ton compte, bouton d'action dans la notif, glisser pour supprimer |
+| 34 | Parrainage | Ton lien, tes filleuls, tes mois gagnés | `invite friends referral` | Après | ✅ Fait (V3, 12 oct., inspis Lugg, Airalo, Coinbase) : lien et code à copier, partage, 3 étapes, tes invitations |
 
 ## H. États de l'app (3)
 
