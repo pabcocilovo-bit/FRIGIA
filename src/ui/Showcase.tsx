@@ -1,7 +1,7 @@
 // Page de test des briques de base (étape 1 du plan). Ouvre l'appli avec ?briques pour la voir.
 import { useState, type ReactNode } from "react";
 import {
-  Badge, Band, Card, Chip, Chips, Dialog, EmptyState, Field, Icon, ListRow, ListSection, LockPill, Pill,
+  AvatarStack, Badge, Band, BandFoot, Card, DishCard, QuotaBar, Chip, Chips, Dialog, EmptyState, Field, Icon, ListRow, ListSection, LockPill, Pill,
   RoundButton, ScreenHeader, SearchField, Segmented, Sheet, TabBar, TextLink, Toast, Toggle, type TabId,
 } from "./components";
 import { ArtBag, ArtBell, ArtFridge, ArtRecipeBox } from "./art";
@@ -41,7 +41,7 @@ export default function Showcase() {
       />
 
       <Block title="Titres et textes">
-        <h2 className="stitle">Qu'est-ce qu'on mange <em>ce soir ?</em></h2>
+        <h2 className="stitle">Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></h2>
         <p>Texte courant en Hanken Grotesk, 15 px. <span className="muted">Texte secondaire plus doux.</span></p>
         <TextLink onClick={() => showToast("Lien touché")}>Un lien souligné</TextLink>
       </Block>
@@ -74,9 +74,17 @@ export default function Showcase() {
       </Block>
 
       <Block title="Cartes">
-        <Band label="Ce soir, c'est prévu" title={<>Pâtes aux <em>légumes</em></>}>
-          <p style={{ opacity: .85, fontSize: 14 }}>Pour 3 personnes, 25 minutes</p>
-          <div><Pill tone="cream">Commencer la cuisson</Pill></div>
+        <span className="muted" style={{ fontSize: 13 }}>Bandeau de l'accueil en Gratuit</span>
+        <Band label="Mardi · 18 h 42 · Bonsoir Camille" title={<>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>}>
+          <p>Prends ton frigo en photo. Trois idées pour toute la famille, avec ce que tu as.</p>
+          <Pill tone="cream" icon="cam">Scanner mon frigo</Pill>
+          <BandFoot><QuotaBar used={13} total={15} />2 scans gratuits restants sur 15</BandFoot>
+        </Band>
+        <span className="muted" style={{ fontSize: 13 }}>Bandeau de l'accueil en Plus, quand un plat est prévu</span>
+        <Band label="Mardi · 18 h 42 · Bonsoir Camille" title={<>Ce soir, c'est <em>prévu</em></>}>
+          <DishCard img="/landing/pasta-legumes.jpg" title="Penne aux légumes rôtis" meta="25 min · 3 portions" onClick={() => showToast("Recette ouverte")} />
+          <Pill tone="ghost" icon="cam">Scanner mon frigo</Pill>
+          <BandFoot><AvatarStack names={["Camille", "Thomas", "Léo", "Jade"]} />Pour 4 ce soir : Camille, Thomas, Léo et Jade</BandFoot>
         </Band>
         <Card>
           <div style={{ display: "flex", gap: 12, alignItems: "center" }}>

@@ -19,6 +19,7 @@
 .fa button:focus-visible,.fa a:focus-visible{outline:2px solid var(--hi);outline-offset:2px}
 .fa img{display:block;max-width:100%}
 .fa h1,.fa h2,.fa h3,.fa p{margin:0}
+.fa h1,.fa h2,.fa h3{color:inherit;font-weight:400;letter-spacing:normal} /* l'ancien index.css colore les titres en sombre */
 .fa .i{width:20px;height:20px;flex:none}
 
 /* Textes */
@@ -38,6 +39,7 @@
 .fa .pill.cream{background:var(--card);color:var(--sage-deep)}
 .fa .pill.line{background:var(--card);color:var(--sage-deep);box-shadow:inset 0 0 0 1px var(--line)}
 .fa .pill.danger{background:var(--danger);color:var(--on)}
+.fa .pill.ghost{background:transparent;color:var(--on);box-shadow:inset 0 0 0 1.5px rgba(247,241,230,.4)}
 .fa .pill.block{width:100%}
 .fa .cbtn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none}
 .fa .cbtn.big{width:46px;height:46px;box-shadow:0 8px 20px -12px rgba(31,42,34,.35)}
@@ -66,6 +68,23 @@
 .fa .band .label{color:rgba(247,241,230,.72)}
 .fa .band h2{font:400 31px/1.02 var(--serif)}
 .fa .band h2 em{font-style:italic}
+.fa .band>p{font-size:14px;opacity:.85}
+.fa .band .pill{align-self:flex-start;margin-top:4px}
+.fa .band-foot{display:flex;align-items:center;gap:10px;font-size:13px;padding-top:10px;margin-top:2px;border-top:1px solid rgba(247,241,230,.2)}
+.fa .quota-bar{display:block;width:56px;height:6px;border-radius:3px;background:rgba(247,241,230,.25);overflow:hidden;flex:none}
+.fa .quota-bar b{display:block;height:100%;border-radius:3px;background:var(--on);transition:width .4s}
+.fa .stack{display:flex;flex:none}
+.fa .stack i{width:24px;height:24px;border-radius:50%;background:var(--on);color:var(--sage-deep);font:700 11px/24px var(--sans);text-align:center;font-style:normal;box-shadow:0 0 0 2px var(--sage)}
+.fa .stack i+i{margin-left:-6px}
+/* Carte d'un plat (le plat prévu ce soir…) */
+.fa .dish{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 12px 12px 10px;margin:4px 0 2px;border-radius:22px;background:var(--card);color:var(--text);box-shadow:0 1px 0 var(--line),0 14px 26px -22px rgba(31,42,34,.6);transition:transform .12s}
+.fa .dish:active{transform:scale(.98)}
+.fa .dish .plate{width:62px;height:62px}
+.fa .dish-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.fa .dish-tx b{font:400 20px/1.1 var(--serif);color:var(--sage-deep)}
+.fa .dish-tx span{font-size:13px;color:var(--muted)}
+.fa .dish-go{width:42px;height:42px;border-radius:50%;background:var(--sage);color:var(--on);display:grid;place-items:center;flex:none}
+.fa .dish-go .i{width:21px;height:21px}
 .fa .plate{border-radius:50%;aspect-ratio:1;object-fit:cover;box-shadow:0 10px 18px -12px rgba(31,42,34,.55);flex:none}
 
 /* En-tête d'écran : retour, actions, grand titre serif */

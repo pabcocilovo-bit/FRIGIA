@@ -13,9 +13,9 @@ export function Icon({ name, className }: { name: IconName; className?: string }
 
 type BtnProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
-/** Bouton pilule. sage = action principale, line = secondaire, danger = supprimer. */
+/** Bouton pilule. sage = action principale, line = secondaire, cream / ghost = sur fond vert, danger = supprimer. */
 export function Pill({ tone = "sage", block, icon, className, children, ...rest }: BtnProps & {
-  tone?: "sage" | "cream" | "line" | "danger"; block?: boolean; icon?: IconName;
+  tone?: "sage" | "cream" | "line" | "ghost" | "danger"; block?: boolean; icon?: IconName;
 }) {
   return (
     <button type="button" className={cx("pill", tone, block && "block", className)} {...rest}>
@@ -68,6 +68,32 @@ export function Band({ label, title, children }: { label?: string; title?: React
       {title && <h2>{title}</h2>}
       {children}
     </div>
+  );
+}
+
+/** Pied de bandeau vert, sous un filet : jauge de scans ou personnes à table. */
+export function BandFoot({ children }: { children: ReactNode }) {
+  return <div className="band-foot">{children}</div>;
+}
+
+/** Jauge des scans gratuits utilisés. */
+export function QuotaBar({ used, total }: { used: number; total: number }) {
+  return <span className="quota-bar" role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={used}><b style={{ width: `${Math.min(100, (used / total) * 100)}%` }} /></span>;
+}
+
+/** Pastilles des initiales, qui se chevauchent (qui mange ce soir). */
+export function AvatarStack({ names }: { names: string[] }) {
+  return <span className="stack" aria-hidden="true">{names.map((n, i) => <i key={i}>{n.charAt(0).toUpperCase()}</i>)}</span>;
+}
+
+/** Carte d'un plat : photo ronde, nom en serif, infos, flèche. */
+export function DishCard({ img, title, meta, onClick }: { img: string; title: string; meta?: string; onClick?: () => void }) {
+  return (
+    <button type="button" className="dish" onClick={onClick}>
+      <img className="plate" src={img} alt="" />
+      <span className="dish-tx"><b>{title}</b>{meta && <span>{meta}</span>}</span>
+      <span className="dish-go" aria-hidden="true"><Icon name="arrow" /></span>
+    </button>
   );
 }
 
