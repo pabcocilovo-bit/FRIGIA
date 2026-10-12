@@ -1,11 +1,12 @@
 {
   "name": "Frigia",
   "short_name": "Frigia",
-  "description": "Scannez votre frigo, obtenez des recettes IA personnalisées",
+  "description": "Une photo de ton frigo, trois recettes pour ce soir avec ce que tu as déjà.",
+  "lang": "fr",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0A0A0F",
-  "theme_color": "#FF6B35",
+  "background_color": "#F5EFE3",
+  "theme_color": "#F5EFE3",
   "orientation": "portrait-primary",
   "icons": [
     {
