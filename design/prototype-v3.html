@@ -2155,7 +2155,7 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
       <li><button data-go="report"><span class="n">25</span><span><b>Bilan du mois</b><small class="newt">Nouveau · euros et kilos sauvés</small></span></button></li>
       <li><button data-go="family"><span class="n">26</span><span><b>Famille</b><small class="newt">Nouveau · remplace le profil</small></span></button></li>
       <li><button data-mb-new data-go="member"><span class="n">27</span><span><b>Ajouter un proche</b><small class="newt">Nouveau · et le +1 invité</small></span></button></li>
-      <li><button data-go="refer"><span class="n">28</span><span><b>Parrainage</b><small class="newt">Nouveau · 1 mois offert pour vous deux</small></span></button></li>
+      <li><button data-go="refer"><span class="n">28</span><span><b>Parrainage</b><small class="newt">Nouveau · 1 mois par ami abonné</small></span></button></li>
       <li><button data-go="settings"><span class="n">29</span><span><b>Réglages</b><small class="newt">Nouveau · la roue dentée</small></span></button></li>
       <li><button data-go="account"><span class="n">30</span><span><b>Mon compte</b><small class="newt">Nouveau · prénom, email, mot de passe</small></span></button></li>
       <li><button data-go="help"><span class="n">31</span><span><b>Aide et FAQ</b><small class="newt">Nouveau · 15 questions</small></span></button></li>
@@ -3055,7 +3055,7 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
             <div class="sec"><h3>Parrainage</h3></div>
             <div class="refer">
               <span class="pi"><svg class="i"><use href="#i-gift"/></svg></span>
-              <div><b>1 mois offert pour vous deux</b><span>Pour toi et l'ami qui s'abonne</span></div>
+              <div><b>1 mois offert par ami abonné</b><span>Et 10 scans en plus pour ton ami</span></div>
               <button class="pill" id="referBtn" style="box-shadow:inset 0 0 0 1px var(--line)">Inviter</button>
             </div>
 
@@ -3197,7 +3197,7 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
             <p>L'abonnement se renouvelle tout seul. Pour l'annuel, on t'envoie un email un mois avant le renouvellement, avec la date et le prix.</p>
             <h4>5. Codes ami et créateur</h4>
             <p>Tu peux entrer un code en créant ton compte ou en passant à Plus.</p>
-            <ul><li>Code créateur : ton premier mois de Plus est offert.</li><li>Code ami (parrainage) : un mois de Plus offert pour toi et pour l'ami qui t'a invité, quand tu t'abonnes.</li><li>Un seul code par compte. Les codes ne se cumulent pas, n'ont pas de valeur en argent et peuvent expirer : la date est alors indiquée.</li><li>En cas d'abus (faux comptes, codes revendus), on peut annuler l'avantage.</li></ul>
+            <ul><li>Code créateur : ton premier mois de Plus est offert.</li><li>Code ami (parrainage) : 10 scans gratuits en plus pour toi. L'ami qui t'a invité gagne un mois de Plus quand tu t'abonnes.</li><li>Un seul code par compte. Les codes ne se cumulent pas, n'ont pas de valeur en argent et peuvent expirer : la date est alors indiquée.</li><li>En cas d'abus (faux comptes, codes revendus), on peut annuler l'avantage.</li></ul>
             <p>Quand tu utilises le code d'un créateur, il touche une commission. On lui donne le nombre d'abonnés venus par son code, jamais ton nom ni ton email.</p>
             <h4>6. Si le paiement échoue</h4>
             <p>Si ta banque refuse le paiement, rien n'est débité et Plus ne s'active pas. Tu peux réessayer ou changer de carte.</p>
@@ -3653,8 +3653,8 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
               <svg class="rf-spk c" viewBox="0 0 24 24"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>
             </div>
             <span class="rf-kick">Parrainage</span>
-            <h2>1 mois offert, <em>pour vous deux</em></h2>
-            <p>Quand un ami passe à Plus avec ton lien, vous gagnez chacun un mois de Plus.</p>
+            <h2>Un mois de Plus <em>par ami abonné</em></h2>
+            <p>Ton ami a 10 scans gratuits en plus. Toi, tu gagnes un mois de Plus dès qu'il s'abonne. 12 amis, c'est un an offert.</p>
           </div>
           <div class="rf-body">
             <div class="rf-link">
@@ -3672,8 +3672,8 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
             <span class="st-sec">Comment ça marche</span>
             <ol class="rf-steps">
               <li><i>1</i><div><b>Tu partages ton lien</b><span>Par message, sur WhatsApp, à la sortie de l'école.</span></div></li>
-              <li><i>2</i><div><b>Ton ami crée son compte</b><span>Il a ses 15 scans gratuits, comme tout le monde.</span></div></li>
-              <li><i>3</i><div><b>Il passe à Plus</b><span>Vous gagnez chacun un mois de Plus.</span></div></li>
+              <li><i>2</i><div><b>Ton ami s'inscrit avec ton code</b><span>Il a 25 scans gratuits au lieu de 15.</span></div></li>
+              <li><i>3</i><div><b>Il passe à Plus</b><span>Tu gagnes un mois de Plus. Ça se cumule.</span></div></li>
             </ol>
 
             <span class="st-sec">Tes invitations</span>
@@ -3956,7 +3956,7 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
     payfail:{t:"Quand la banque dit non",p:"Au retour de la page Stripe. On attend la banque quelques secondes (et on rappelle de valider la notification 3D Secure), puis on dit pourquoi, simplement : carte expirée, rien n'a été débité, les scans gratuits restent là. Un seul bouton : mettre à jour la carte. Même famille que le scan raté : carte aux couleurs du logo, pastille dorée.",f:"Stripe",tip:"Ouvre l'écran depuis le menu, attends le refus, puis touche « Mettre à jour ma carte » : ça passe et Plus s'ouvre."},
     plusok:{t:"Bienvenue dans Plus",p:"Juste après le paiement. On remercie, on rappelle la date de fin et ce qui est débloqué. Le bouton principal ouvre la famille : c'est là qu'on règle les goûts de chacun.",f:"9 · 12",tip:"« Plus tard » ramène là où Camille était avant l'écran Plus."},
     family:{t:"La famille remplace le profil",p:"Chaque membre avec son âge, ses allergies et ce qu'il n'aime pas. Les goûts sont enregistrés sur le compte. Parrainage et abonnement au même endroit.",f:"12 · 15 · 18 · 21",tip:"Sur téléphone, le bouton « Prototype » en bas bascule Gratuit / Plus. La roue dentée ouvre les réglages."},
-    refer:{t:"1 mois offert pour vous deux",p:"Ouvert par « Inviter » dans Famille, ou par la notif quand un ami s'inscrit. Ton lien et ton code à copier, une rangée pour partager, les trois étapes, puis tes invitations : qui s'est inscrit, qui est passé à Plus, combien de mois tu as gagnés. Le mois n'est gagné que quand l'ami s'abonne, pour éviter les faux comptes.",f:"Après",tip:"Touche le bouton copier, puis passe Famille en « Compte neuf » pour voir la page sans invitation."},
+    refer:{t:"Un mois de Plus par ami abonné",p:"Ton ami entre ton code à l'inscription et a 10 scans gratuits en plus. Toi, tu gagnes un mois de Plus quand il s'abonne, cumulable. Ouvert par « Inviter » dans Famille, ou par la notif quand un ami s'inscrit. Ton lien et ton code à copier, une rangée pour partager, les trois étapes, puis tes invitations : qui s'est inscrit, qui est passé à Plus, combien de mois tu as gagnés. Le mois n'est gagné que quand l'ami s'abonne, pour éviter les faux comptes.",f:"Après",tip:"Touche le bouton copier, puis passe Famille en « Compte neuf » pour voir la page sans invitation."},
     report:{t:"Le bilan du mois",p:"Ouvert depuis l'accueil, les chiffres de Famille ou la fin de cuisson. Le total en grand, une comparaison à la même date le mois d'avant, trois mois en barres avec ta moyenne en pointillé et, pour le mois en cours, où tu en seras à ce rythme. Puis les kilos, les repas, le calcul en clair et les ingrédients qui ont le plus servi. Tout se partage. En plus : le compteur de la communauté, les kilos sauvés par tous les foyers Frigia, avec ta part. Il est aussi sur l'accueil (pour tout le monde) et en fin de cuisson, où ta part s'ajoute.",f:"Bilan",tip:"Touche septembre dans le graphique, puis « Partager mon bilan »."},
     member:{t:"Un proche en plus, ou juste ce soir",p:"« Ajouter » dans Ton foyer ouvre un formulaire court : prénom, adulte ou enfant (un enfant compte pour une demi-portion), allergies, ce qu'il n'aime pas. Toucher un membre le modifie. Pour des invités, pas besoin de profil : « +1 » sur la fiche recette, ou « Des invités ? » dans Qui mange ce soir. Les quantités suivent.",f:"Famille",tip:"Ajoute Léa, 3 ans, allergique aux œufs. Puis ouvre une recette en Plus et touche « +1 »."},
     settings:{t:"Les réglages, rangés",p:"Ouverts par la roue dentée de Famille. En haut, ta carte : elle ouvre « Mon compte ». Puis cinq rubriques avec un petit titre : ton compte, notifications, l'app, aide, légal. Chaque ligne a son icône, sa valeur en sauge quand il y en a une, et un chevron. Les notifications se règlent ici d'un geste. « Supprimer mon compte » est visible, comme l'exigent les stores : une feuille dit ce qu'on perd, puis on glisse jusqu'au bout pour confirmer (idée Luma). En Plus, elle propose plutôt une pause.",f:"Compte",tip:"Touche « Activer » en haut des notifications, change la langue, puis tout en bas « Supprimer mon compte » et glisse."},
@@ -4372,7 +4372,7 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
   $('#pfUpd').addEventListener('click',function(){pfPlay(true)});
 
   // ---- Code ami ou créateur (inscription et « Passe à Plus »). Démo : MARIE (créatrice), LEA7F3 (amie), ETE2026 (expiré). Pas de « tu voulais dire » : ça laisserait deviner les codes des autres.
-  var CODES={MARIE:'Code MARIE : ton premier mois de Plus est offert.',LEA7F3:'Code de Léa : un mois de Plus offert pour vous deux.'};
+  var CODES={MARIE:'Code MARIE : ton premier mois de Plus est offert.',LEA7F3:'Code de Léa : 10 scans gratuits en plus.'};
   var CODES_OLD={ETE2026:'31 août'};
   var cdSrc='pw', cdSaved=null, cdNext='email';
   function cdIn(){return cdSrc==='ob'?$('#obCode'):$('#codeIn');}

@@ -73,7 +73,7 @@ L'abonnement se renouvelle tout seul. Pour l'annuel, on t'envoie un email un moi
 Tu peux entrer un code en créant ton compte ou en passant à Plus.
 
 - Code créateur : ton premier mois de Plus est offert.
-- Code ami (parrainage) : un mois de Plus offert pour toi et pour l'ami qui t'a invité, quand tu t'abonnes.
+- Code ami (parrainage) : 10 scans gratuits en plus pour toi. L'ami qui t'a invité gagne un mois de Plus quand tu t'abonnes.
 - Un seul code par compte. Les codes ne se cumulent pas, n'ont pas de valeur en argent et peuvent expirer : la date est alors indiquée.
 - En cas d'abus (faux comptes, codes revendus), on peut annuler l'avantage.
 
