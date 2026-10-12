@@ -3197,7 +3197,7 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
             <p>L'abonnement se renouvelle tout seul. Pour l'annuel, on t'envoie un email un mois avant le renouvellement, avec la date et le prix.</p>
             <h4>5. Codes ami et créateur</h4>
             <p>Tu peux entrer un code en créant ton compte ou en passant à Plus.</p>
-            <ul><li>Code créateur : ton premier mois de Plus est offert.</li><li>Code ami (parrainage) : 10 scans gratuits en plus pour toi. L'ami qui t'a invité gagne un mois de Plus quand tu t'abonnes.</li><li>Un seul code par compte. Les codes ne se cumulent pas, n'ont pas de valeur en argent et peuvent expirer : la date est alors indiquée.</li><li>En cas d'abus (faux comptes, codes revendus), on peut annuler l'avantage.</li></ul>
+            <ul><li>Code créateur : 10 scans gratuits en plus. Pendant le lancement, il donne aussi 1 mois de Plus offert : 3 mois pour 13,98 € payés d'avance, puis 6,99 €/mois. La date de fin est indiquée.</li><li>Code ami (parrainage) : 10 scans gratuits en plus pour toi. L'ami qui t'a invité gagne un mois de Plus quand tu t'abonnes.</li><li>Un seul code par compte. Les codes ne se cumulent pas, n'ont pas de valeur en argent et peuvent expirer : la date est alors indiquée.</li><li>En cas d'abus (faux comptes, codes revendus), on peut annuler l'avantage.</li></ul>
             <p>Quand tu utilises le code d'un créateur, il touche une commission. On lui donne le nombre d'abonnés venus par son code, jamais ton nom ni ton email.</p>
             <h4>6. Si le paiement échoue</h4>
             <p>Si ta banque refuse le paiement, rien n'est débité et Plus ne s'active pas. Tu peux réessayer ou changer de carte.</p>
@@ -4372,7 +4372,7 @@ button.pstats{width:calc(100% - 32px);text-align:inherit;color:inherit}
   $('#pfUpd').addEventListener('click',function(){pfPlay(true)});
 
   // ---- Code ami ou créateur (inscription et « Passe à Plus »). Démo : MARIE (créatrice), LEA7F3 (amie), ETE2026 (expiré). Pas de « tu voulais dire » : ça laisserait deviner les codes des autres.
-  var CODES={MARIE:'Code MARIE : ton premier mois de Plus est offert.',LEA7F3:'Code de Léa : 10 scans gratuits en plus.'};
+  var CODES={MARIE:'Code MARIE : 10 scans en plus, et 1 mois de Plus offert (3 mois pour 13,98 €).',LEA7F3:'Code de Léa : 10 scans gratuits en plus.'};
   var CODES_OLD={ETE2026:'31 août'};
   var cdSrc='pw', cdSaved=null, cdNext='email';
   function cdIn(){return cdSrc==='ob'?$('#obCode'):$('#codeIn');}

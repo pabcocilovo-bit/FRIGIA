@@ -55,7 +55,7 @@ Cette branche contient les maquettes du nouveau design (octobre 2026). Le code d
 | Liste de courses | rien | À créer (table Supabase) |
 | Crée ta semaine, planning, remplacer un repas | rien | À créer (table Supabase) |
 | Passe à Plus, paiement refusé, bienvenue dans Plus, résilier | `PaywallModal`, `CheckoutSuccessModal`, `CanceledScreen`, `api/create-checkout.ts`, `api/customer-portal.ts`, `api/stripe-webhook.ts` | Habillage ; la pause d'un mois est à créer |
-| Code ami ou créateur | rien | À créer (codes promo Stripe ou table) |
+| Code ami ou créateur | rien | À créer (table des codes ; créateur = +10 scans, et 3 mois pour 13,98 € pendant les 2 premiers mois de la campagne) |
 | Bilan du mois, compteur de la communauté | rien | À créer (calcul à partir des repas cuisinés) |
 | Famille, ajouter un proche, « +1 invité » | rien | À créer (table foyer : prénom, âge, allergies, n'aime pas) |
 | Réglages, Mon compte, photo de profil | `SettingsModal` (onglet profil), `avatarSrc` | Habillage ; changer d'email par code et relier Google à créer |
