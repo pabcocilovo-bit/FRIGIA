@@ -58,7 +58,7 @@ export function Recipe({ history, isPlus, name, avatar, isFavorite, onToggleFavo
               <RoundButton icon="cal" label="Ajouter à ma semaine" onClick={addToWeek} />
               <RoundButton icon="heart" label={fav ? "Retirer des favoris" : "Ajouter aux favoris"} aria-pressed={fav}
                 style={fav ? { background: "var(--sage)", color: "var(--on)" } : undefined}
-                onClick={() => onToggleFavorite(recipe)} />
+                onClick={() => onToggleFavorite({ ...recipe, scanDate: recipe.scanDate ?? entry?.date.toISOString(), savedServings: servings })} />
             </span>
           </div>
         </div>

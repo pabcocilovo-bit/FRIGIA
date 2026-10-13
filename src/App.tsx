@@ -1,6 +1,5 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
-import type { GeneratedRecipe, HistoryEntry, User } from "./lib/types";
-import { buildShareText, fetchTheMealImage, mealImageCache, recipeIcon } from "./lib/recipes";
+import type { GeneratedRecipe, User } from "./lib/types";
 import { customerPortalUrl, fetchScanQuota, quotaText, getCachedQuota, isPlus as hasPlus, paymentFailed, quotaTotal, scansLeft, setCachedQuota, type ScanQuota } from "./lib/billing";
 import {
   changePassword, clearLocalData, deleteAccount as deleteAccountRequest, displayName, getAvatar, getPrefs,
@@ -15,7 +14,6 @@ import { AppFrame } from "./app/AppFrame";
 import { Home } from "./app/Home";
 import { Courses, Planning } from "./app/Lists";
 import { Family } from "./app/Family";
-import { LegacyPage } from "./app/LegacyPage";
 import { useBack } from "./app/nav";
 import { showToast } from "./app/toast";
 import {
@@ -25,6 +23,8 @@ import { Camera, EmailSignup, Forgot, Login, QDiet, QGoal, QTime, Ready, Signup,
 import { takeOAuthIntent } from "./app/onboarding/oauth";
 import { resetAnswers } from "./app/onboarding/answers";
 import { firstName } from "./app/format";
+import { Favorites } from "./app/library/Favorites";
+import { Scans } from "./app/library/Scans";
 import { Cancel, HelloSheet, Paywall, PayReturn, PlusWelcome } from "./app/plus/Plus";
 import { useOpenScan } from "./app/offline";
 import { ScanCamera } from "./app/scan/ScanCamera";
@@ -133,57 +133,6 @@ function GlobalStyles({ theme, keyframesOnly }: { theme: Theme; keyframesOnly?: 
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
-
-function RecipeImage({
-  title,
-  imageSearch,
-  style,
-}: {
-  title: string;
-  imageSearch?: string;
-  style?: React.CSSProperties;
-}) {
-  const query = imageSearch || title;
-  const isDirectUrl = query.startsWith("http");
-  const [src, setSrc] = useState<string | null>(isDirectUrl ? query : (mealImageCache[query] || null));
-  const [loaded, setLoaded] = useState(isDirectUrl || !!mealImageCache[query]);
-  const [errored, setErrored] = useState(false);
-
-  useEffect(() => {
-    if (isDirectUrl || mealImageCache[query]) return;
-    let cancelled = false;
-    const timeout = setTimeout(() => { if (!cancelled) setErrored(true); }, 8000);
-    fetchTheMealImage(query).then((url) => {
-      if (cancelled) return;
-      clearTimeout(timeout);
-      if (url) { mealImageCache[query] = url; setSrc(url); }
-      else setErrored(true);
-    });
-    return () => { cancelled = true; clearTimeout(timeout); };
-  }, [query, isDirectUrl]);
-
-  return (
-    <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", ...style }}>
-      {!loaded && !errored && (
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg,rgba(255,107,53,0.07) 0%,rgba(255,255,255,0.13) 40%,rgba(46,204,113,0.07) 70%,rgba(255,107,53,0.07) 100%)", backgroundSize: "250% 100%", animation: "shimmer 2.2s ease-in-out infinite" }} />
-      )}
-      {errored && (
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg,rgba(255,107,53,0.15),rgba(46,204,113,0.15))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28 }}>
-          {recipeIcon(title)}
-        </div>
-      )}
-      {src && (
-        <img
-          src={src}
-          alt={title}
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: loaded ? 1 : 0, animation: loaded ? "imgFadeIn 0.55s ease both" : "none", transition: "opacity 0.45s ease" }}
-          onLoad={() => setLoaded(true)}
-          onError={() => { setSrc(null); setErrored(true); }}
-        />
-      )}
-    </div>
-  );
-}
 
 // ─── CropModal ────────────────────────────────────────────────────────────────
 function CropModal({ imageSrc, onConfirm, onCancel }: {
@@ -952,202 +901,6 @@ function SettingsModal({
   );
 }
 
-// ─── HistoryTab ───────────────────────────────────────────────────────────────
-function HistoryTab({
-  theme,
-  history,
-  onDeleteScan,
-  onRecipeClick,
-  isFavorite,
-  onToggleFavorite,
-}: {
-  theme: Theme;
-  history: HistoryEntry[];
-  onDeleteScan: (entryId: string) => void;
-  onRecipeClick: (recipe: GeneratedRecipe, servings: number) => void;
-  isFavorite: (recipe: GeneratedRecipe) => boolean;
-  onToggleFavorite: (recipe: GeneratedRecipe) => void;
-}) {
-  const v = getThemeVars(theme);
-  const [openIngredients, setOpenIngredients] = useState<Record<string, boolean>>({});
-  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
-  const toggleIngredients = (id: string) => setOpenIngredients(prev => ({ ...prev, [id]: !prev[id] }));
-
-  if (history.length === 0) {
-    return (
-      <div style={{ textAlign: "center", padding: "60px 20px" }}>
-        <div style={{ fontSize: 64, marginBottom: 16 }}>📭</div>
-        <h3
-          style={{
-            fontSize: 20,
-            fontWeight: 800,
-            color: v.text,
-            marginBottom: 8,
-          }}
-        >
-          Aucun historique pour l'instant
-        </h3>
-        <p style={{ color: v.muted, fontSize: 14 }}>
-          Scannez votre frigo pour commencer à construire votre historique de
-          recettes.
-        </p>
-      </div>
-    );
-  }
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-      {history.map((entry) => (
-        <div key={entry.id} style={{ ...glassCard(theme), padding: 24, position: "relative" }}>
-          {/* Trash button — top-right corner */}
-          {confirmDeleteId === entry.id ? (
-            <div style={{ position: "absolute", top: 16, right: 16, display: "flex", alignItems: "center", gap: 6 }}>
-              <span style={{ fontSize: 12, color: "#e74c3c", fontWeight: 600 }}>Supprimer ?</span>
-              <button
-                onClick={() => { onDeleteScan(entry.id); setConfirmDeleteId(null); }}
-                style={{ padding: "5px 12px", borderRadius: 8, border: "none", background: "#e74c3c", color: "#fff", fontSize: 12, fontWeight: 700, cursor: "pointer" }}
-              >Oui</button>
-              <button
-                onClick={() => setConfirmDeleteId(null)}
-                style={{ padding: "5px 10px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", background: "none", color: v.muted, fontSize: 12, cursor: "pointer" }}
-              >Non</button>
-            </div>
-          ) : (
-            <button
-              onClick={() => setConfirmDeleteId(entry.id)}
-              title="Supprimer ce scan"
-              style={{ position: "absolute", top: 16, right: 16, width: 30, height: 30, borderRadius: "50%", border: "1px solid rgba(231,76,60,0.3)", background: "rgba(231,76,60,0.08)", color: "#e74c3c", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}
-            >🗑️</button>
-          )}
-          {/* Entry header */}
-          <div style={{ marginBottom: 16, paddingRight: 42 }}>
-            <div style={{ fontWeight: 800, fontSize: 15, color: v.text }}>
-              {entry.date.toLocaleDateString("fr-FR", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}{" "}
-              à{" "}
-              {entry.date.toLocaleTimeString("fr-FR", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </div>
-            <div style={{ fontSize: 13, color: v.muted, marginTop: 3 }}>
-              👥 {entry.servings} personne{entry.servings > 1 ? "s" : ""}{" "}
-              · 🛒 {entry.ingredients.length} ingrédients détectés ·{" "}
-              🍽️ {entry.recipes.length} recette
-              {entry.recipes.length > 1 ? "s" : ""}
-            </div>
-          </div>
-
-          {/* Ingredients accordion */}
-          {entry.ingredients.length > 0 && (
-            <div style={{ marginBottom: 16 }}>
-              <button
-                onClick={() => toggleIngredients(entry.id)}
-                style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(46,204,113,0.08)", border: "1px solid rgba(46,204,113,0.2)", borderRadius: 100, padding: "5px 14px", cursor: "pointer", fontSize: 12, fontWeight: 700, color: "#2ECC71" }}
-              >
-                Aliments détectés ({entry.ingredients.length})
-                <span style={{ fontSize: 10, transition: "transform 0.2s", display: "inline-block", transform: openIngredients[entry.id] ? "rotate(180deg)" : "rotate(0deg)" }}>▼</span>
-              </button>
-              {openIngredients[entry.id] && (
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
-                  {entry.ingredients.map((ing) => (
-                    <div
-                      key={ing.name}
-                      style={{ display: "flex", alignItems: "center", gap: 5, padding: "4px 10px", background: "rgba(46,204,113,0.1)", border: "1px solid rgba(46,204,113,0.2)", borderRadius: 100, fontSize: 12, color: v.text }}
-                    >
-                      <span>{ing.icon}</span>
-                      <span style={{ fontWeight: 600 }}>{ing.name}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Recipe cards grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fill, minmax(180px, 1fr))",
-              gap: 12,
-            }}
-          >
-            {entry.recipes.map((recipe) => (
-              <div
-                key={recipe.title}
-                style={{
-                  position: "relative",
-                  ...glassCard(theme),
-                  overflow: "hidden",
-                  cursor: "pointer",
-                  transition: "transform 0.2s",
-                }}
-                onClick={() => onRecipeClick(recipe, entry.servings)}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-4px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
-                <div
-                  style={{
-                    height: 110,
-                    position: "relative",
-                    overflow: "hidden",
-                  }}
-                >
-                  <RecipeImage title={recipe.title} imageSearch={recipe.imageSearch} />
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      background:
-                        "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.5) 100%)",
-                    }}
-                  />
-                  <button
-                    onClick={(e) => { e.stopPropagation(); onToggleFavorite(recipe); }}
-                    style={{ position: "absolute", top: 8, right: 8, width: 30, height: 30, borderRadius: "50%", background: isFavorite(recipe) ? "rgba(255,107,53,0.9)" : "rgba(0,0,0,0.5)", backdropFilter: "blur(8px)", border: "none", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}
-                  >{isFavorite(recipe) ? "❤️" : "🤍"}</button>
-                </div>
-                <div style={{ padding: "10px 12px" }}>
-                  <div style={{ fontWeight: 700, fontSize: 12, color: v.text, marginBottom: 4, lineHeight: 1.3 }}>
-                    {recipe.title}
-                  </div>
-                  <div style={{ fontSize: 11, color: v.muted, marginBottom: 8 }}>
-                    {recipe.time} · {recipe.cal} kcal
-                  </div>
-                  <div style={{ display: "flex", gap: 6 }}>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); onRecipeClick(recipe, entry.servings); }}
-                      style={{ flex: 1, padding: "6px", borderRadius: 8, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", fontSize: 11, fontWeight: 700, cursor: "pointer" }}
-                    >Voir →</button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        const text = buildShareText(recipe);
-                        if (navigator.share) { navigator.share({ title: recipe.title, text }).catch(() => {}); }
-                        else { navigator.clipboard.writeText(text).catch(() => {}); }
-                      }}
-                      style={{ padding: "6px 10px", borderRadius: 8, border: `1px solid rgba(255,255,255,0.1)`, background: "none", color: "rgba(255,255,255,0.4)", fontSize: 11, cursor: "pointer" }}
-                    >↗</button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-// ─── Showcase Recipes ────────────────────────────────────────────────────────
 
 // ─── SupportFAQItem (used in Settings) ───────────────────────────────────────
 function SupportFAQItem({ theme, q, a }: { theme: Theme; q: string; a: string }) {
@@ -1177,54 +930,6 @@ const SUPPORT_FAQS = [
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
 /** Ancienne liste des favoris (onglet Recettes), gardée telle quelle jusqu'à l'étape 7. */
-function LegacyFavorites({ theme, favorites, onOpen, onToggleFavorite }: {
-  theme: Theme; favorites: GeneratedRecipe[]; onOpen: (r: GeneratedRecipe) => void; onToggleFavorite: (r: GeneratedRecipe) => void;
-}) {
-  const v = getThemeVars(theme);
-  if (favorites.length === 0) return (
-    <div style={{ textAlign: "center", padding: "60px 20px" }}>
-      <div style={{ fontSize: 56, marginBottom: 16 }}>🤍</div>
-      <div style={{ fontSize: 18, fontWeight: 800, color: v.text, marginBottom: 8 }}>Aucun favori pour l'instant</div>
-      <div style={{ fontSize: 13, color: v.muted }}>Appuyez sur ❤️ sur une recette pour la sauvegarder ici.</div>
-    </div>
-  );
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-      {favorites.map((r) => (
-        <div key={r.title} style={{ ...glassCard(theme), padding: 0, overflow: "hidden", borderRadius: 16, cursor: "pointer" }} onClick={() => onOpen(r)}>
-          <div style={{ position: "relative", height: 130 }}>
-            <RecipeImage title={r.title} imageSearch={r.imageSearch} />
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.6) 100%)" }} />
-            <button
-              onClick={(e) => { e.stopPropagation(); onToggleFavorite(r); }}
-              style={{ position: "absolute", top: 8, right: 8, width: 30, height: 30, borderRadius: "50%", background: "rgba(255,107,53,0.9)", border: "none", cursor: "pointer", fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center" }}
-            >❤️</button>
-          </div>
-          <div style={{ padding: "12px 14px 8px" }}>
-            <div style={{ fontWeight: 700, fontSize: 14, color: v.text, marginBottom: 4 }}>{r.title}</div>
-            <div style={{ fontSize: 12, color: v.muted, marginBottom: 10 }}>{r.time} · {r.cal} kcal · {r.diff}</div>
-            <div style={{ display: "flex", gap: 8 }}>
-              <button
-                onClick={(e) => { e.stopPropagation(); onOpen(r); }}
-                style={{ flex: 1, padding: "8px", borderRadius: 10, border: "none", background: "linear-gradient(135deg,#FF6B35,#2ECC71)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 700 }}
-              >Voir →</button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const text = buildShareText(r);
-                  if (navigator.share) { navigator.share({ title: r.title, text }).catch(() => {}); }
-                  else { navigator.clipboard.writeText(text).catch(() => {}); }
-                }}
-                style={{ padding: "8px 12px", borderRadius: 10, border: `1px solid ${v.border}`, background: "none", color: v.muted, cursor: "pointer", fontSize: 13 }}
-              >↗</button>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 export default function Frigia() {
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
   // Le thème sombre part avec l'ancien écran : les anciens écrans encore utilisés s'affichent en clair
@@ -1244,7 +949,7 @@ export default function Frigia() {
 
   const [userId, setUserId] = useState<string | undefined>();
   const library = useLibrary(userId);
-  const { history, favorites, toggleFavorite, isFavorite, deleteScan, updateScanRecipes } = library;
+  const { history, favorites, toggleFavorite, isFavorite, updateScanRecipes } = library;
 
   /** Charge les goûts du compte, une fois par connexion. Juste après l'inscription, les réponses aux questions deviennent le profil. */
   const loadProfile = async (u: User) => {
@@ -1417,18 +1122,8 @@ return (
       <Route path="/recettes/:id" element={<Results history={history} isPlus={isPlus} onNewIdeas={updateScanRecipes} />} />
       <Route path="/recettes/:id/:n" element={<Recipe history={history} isPlus={isPlus} name={name} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
       <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} name={name} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
-      <Route path="/scans" element={
-        <LegacyPage title={<>Tes <em>scans</em></>}>
-          <GlobalStyles theme={theme} />
-          <HistoryTab theme={theme} history={history} onDeleteScan={deleteScan} onRecipeClick={(r, s) => openRecipe(r, s)} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />
-        </LegacyPage>
-      } />
-      <Route path="/favoris" element={
-        <LegacyPage title={<>Tes <em>favoris</em></>}>
-          <GlobalStyles theme={theme} />
-          <LegacyFavorites theme={theme} favorites={favorites} onOpen={r => openRecipe(r)} onToggleFavorite={toggleFavorite} />
-        </LegacyPage>
-      } />
+      <Route path="/scans" element={<Scans history={history} isPlus={isPlus} />} />
+      <Route path="/favoris" element={<Favorites favorites={favorites} history={history} isPlus={isPlus} onOpen={r => openRecipe(r, r.savedServings)} onToggleFavorite={toggleFavorite} />} />
       <Route path="/reglages" element={<>
         <GlobalStyles theme={theme} />
         <SettingsModal theme={theme} onClose={back} user={user} avatarSrc={avatarSrc} onAvatarChange={setAvatarSrc} />

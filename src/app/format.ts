@@ -89,3 +89,52 @@ export function sinceScan(date: Date, now = new Date()): string {
   if (n < 7) return `Depuis ton scan de ${DAYS[date.getDay()].toLowerCase()}`;
   return `Depuis ton scan du ${date.getDate()} ${MONTHS[date.getMonth()]}`;
 }
+
+const SHORT_MONTHS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+const hm = (d: Date) => `${d.getHours()} h ${String(d.getMinutes()).padStart(2, "0")}`;
+
+/** « Lundi soir », « Dimanche midi » ; un scan pour la semaine : « Lundi, pour la semaine ». */
+export function scanDayTitle(date: Date, meal?: "m" | "s" | "w"): string {
+  const day = DAYS[date.getDay()];
+  if (meal === "w") return `${day}, pour la semaine`;
+  return `${day} ${meal === "m" || (!meal && date.getHours() < 15) ? "midi" : "soir"}`;
+}
+
+/** « 5 oct. · 19 h 05 · 8 ingrédients » (l'année s'ajoute quand ce n'est pas cette année). */
+export function scanDateLine(date: Date, ingredients: number, now = new Date()): string {
+  const year = date.getFullYear() !== now.getFullYear() ? ` ${date.getFullYear()}` : "";
+  return `${date.getDate()} ${SHORT_MONTHS[date.getMonth()]}${year} · ${hm(date)} · ${plural(ingredients, "ingrédient")}`;
+}
+
+const mondayOf = (d: Date) => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x.getTime(); };
+
+/** Le groupe d'un scan dans « Tes scans » : « Cette semaine », « La semaine dernière », puis le mois. */
+export function scanGroup(date: Date, now = new Date()): { key: string; label: string; month: boolean } {
+  const weeks = Math.round((mondayOf(now) - mondayOf(date)) / (7 * 86_400_000));
+  if (weeks <= 0) return { key: "w0", label: "Cette semaine", month: false };
+  if (weeks === 1) return { key: "w1", label: "La semaine dernière", month: false };
+  const m = cap(MONTHS[date.getMonth()]);
+  return { key: `${date.getFullYear()}-${date.getMonth()}`, label: date.getFullYear() !== now.getFullYear() ? `${m} ${date.getFullYear()}` : m, month: true };
+}
+
+/** « Il y a 9 jours », « Il y a 2 semaines », « Il y a 3 mois ». */
+export function agoText(date: Date, now = new Date()): string {
+  const n = daysAgo(date, now);
+  if (n <= 0) return "Aujourd'hui";
+  if (n === 1) return "Hier";
+  if (n < 14) return `Il y a ${n} jours`;
+  if (n < 60) return `Il y a ${Math.floor(n / 7)} semaines`;
+  return `Il y a ${Math.floor(n / 30)} mois`;
+}
+
+/** D'où vient un favori : « Scan d'hier soir », « Scan de jeudi », sinon depuis quand il est gardé. */
+export function favoriteOrigin(scanDate: Date | null, savedAt: Date | null, now = new Date()): { text: string; scan: boolean } {
+  if (scanDate) {
+    const n = daysAgo(scanDate, now), evening = scanDate.getHours() >= 18;
+    if (n <= 0) return { text: evening ? "Scan de ce soir" : "Scan d'aujourd'hui", scan: true };
+    if (n === 1) return { text: evening ? "Scan d'hier soir" : "Scan d'hier", scan: true };
+    if (n < 7) return { text: `Scan de ${DAYS[scanDate.getDay()].toLowerCase()}`, scan: true };
+    return { text: agoText(scanDate, now), scan: false };
+  }
+  return { text: savedAt ? agoText(savedAt, now) : "Gardé en favori", scan: false };
+}

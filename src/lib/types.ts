@@ -29,6 +29,10 @@ export type GeneratedRecipe = {
   items?: RecipeItem[];
   /** Minuteur de chaque étape (même ordre que steps), null s'il n'y en a pas */
   timers?: (StepTimer | null)[];
+  // Favori : quand il a été gardé, depuis quel scan et pour combien
+  savedAt?: string;
+  scanDate?: string;
+  savedServings?: number;
 };
 /** Pour quel repas : ce midi, ce soir, la semaine. */
 export type Meal = "m" | "s" | "w";

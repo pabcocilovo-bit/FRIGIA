@@ -51,11 +51,11 @@ export async function loadHistoryFromSupabase(userId: string): Promise<HistoryEn
 export async function loadFavoritesFromSupabase(userId: string): Promise<GeneratedRecipe[]> {
   const { data, error } = await supabase
     .from("user_favorites")
-    .select("recipe")
+    .select("recipe, created_at")
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
   if (error || !data) return [];
-  return (data as { recipe: GeneratedRecipe }[]).map((row) => row.recipe);
+  return (data as { recipe: GeneratedRecipe; created_at: string }[]).map((row) => ({ savedAt: row.created_at, ...row.recipe }));
 }
 
 export async function dbInsertHistoryEntry(userId: string, entry: HistoryEntry) {

@@ -29,12 +29,12 @@ export function useLibrary(userId: string | undefined) {
         if (userId) { setCachedFavorites(userId, next); dbDeleteFavorite(userId, recipe.title); }
         return next;
       }
-      const full = [recipe, ...prev];
+      const full = [{ ...recipe, savedAt: recipe.savedAt ?? new Date().toISOString() }, ...prev];
       const evicted = full.slice(MAX_FAVORITES);
       const next = full.slice(0, MAX_FAVORITES);
       if (userId) {
         setCachedFavorites(userId, next);
-        dbInsertFavorite(userId, recipe);
+        dbInsertFavorite(userId, full[0]);
         evicted.forEach(e => dbDeleteFavorite(userId, e.title));
       }
       return next;

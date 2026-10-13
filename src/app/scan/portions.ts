@@ -35,10 +35,18 @@ export function itemText(it: RecipeItem, factor: number): { q: string; n: string
 const BASICS = ["sel", "poivre", "eau"];
 const words = (s: string) => s.toLowerCase().replace(/œ/g, "oe").replace(/æ/g, "ae").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z ]/g, " ")
   .split(" ").filter(w => w.length > 2).map(w => w.replace(/[sx]$/, ""));
-function inFridge(name: string, found: DetectedIngredient[]): boolean {
+// « Inclure mon placard » : pâtes, riz, huile, ail, épices
+const PANTRY = ["pate", "penne", "spaghetti", "riz", "huile", "ail", "epice", "farine", "sucre"];
+function inFridge(name: string, found: DetectedIngredient[], pantry = false): boolean {
   const w = words(name);
-  if (w.some(x => BASICS.includes(x))) return true;
+  if (w.some(x => BASICS.includes(x) || (pantry && PANTRY.includes(x)))) return true;
   return found.some(f => words(f.name).some(x => w.includes(x)));
+}
+
+/** « Tu as tout » : chaque ingrédient de la recette est dans ce scan (ou dans le placard). */
+export function allInFridge(r: GeneratedRecipe, found: DetectedIngredient[]): boolean {
+  const names = r.items?.length ? r.items.map(i => i.name) : (r.recipeIngredients ?? []).map(i => i.name);
+  return found.length > 0 && names.length > 0 && names.every(n => inFridge(n, found, true));
 }
 
 /** Lignes d'ingrédients d'une recette, nouvelles (items) ou anciennes (recipeIngredients, quantités écrites).
