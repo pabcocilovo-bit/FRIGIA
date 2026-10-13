@@ -7,7 +7,7 @@ import { inFridge, words } from "./portions";
 
 // Pas du gaspillage évité : l'assaisonnement et le placard sec
 const SKIP = ["sel", "poivre", "eau", "epice", "pate", "penne", "spaghetti", "tagliatelle", "fusilli", "riz", "huile", "farine", "sucre",
-  "vinaigre", "moutarde", "bouillon", "cumin", "paprika", "curry", "cannelle", "muscade", "thym", "laurier", "origan", "levure", "maizena", "semoule"];
+  "vinaigre", "moutarde", "bouillon", "coco", "cumin", "paprika", "curry", "cannelle", "muscade", "thym", "laurier", "origan", "levure", "maizena", "semoule"];
 
 // Grammes par pièce (« 2 courgettes »)
 const PIECE: [string, number][] = [
@@ -19,24 +19,50 @@ const PIECE: [string, number][] = [
   ["orange", 180], ["poire", 160], ["peche", 150], ["abricot", 50], ["tortilla", 40], ["pain", 250], ["ail", 5],
 ];
 
-// Prix moyen au kilo (words() retire le s final : « pois », « radis », « maïs » s'écrivent ici sans)
-const PRICE: [string[], number][] = [
-  [["saumon", "thon", "cabillaud", "poisson", "crevette", "colin", "sardine", "maquereau", "truite", "lieu", "merlu", "moule"], 18],
-  [["poulet", "boeuf", "porc", "veau", "agneau", "dinde", "lardon", "jambon", "saucisse", "merguez", "steak", "bacon", "chorizo",
-    "viande", "hache", "escalope", "canard", "magret", "cuisse"], 14],
+// Prix moyen au kilo en grande surface, TTC, année 2024 : Observatoire de la formation des prix et des marges
+// (FranceAgriMer, rapport au Parlement 2025, d'après RNM et Kantar). Quand l'Observatoire ne publie pas le produit,
+// on prend le prix publié le plus proche et le plus bas, pour ne jamais gonfler le chiffre (marqué « estimé »).
+// La première ligne qui correspond l'emporte. Troisième colonne : un mot qui doit aussi être là (« filet » de poulet).
+// words() retire le s final : « pois », « radis », « maïs » s'écrivent ici sans.
+const POULTRY = ["poulet", "dinde", "volaille"];
+const PRICE: [string[], number, string[]?][] = [
+  // Lieu noir en découpe 11,74 ; les autres poissons, estimé au même prix
+  [["saumon", "thon", "cabillaud", "poisson", "crevette", "colin", "sardine", "maquereau", "truite", "lieu", "merlu", "moule"], 11.74],
+  // Jambon cuit libre-service 14,26 ; lardons, bacon, chorizo estimés pareil
+  [["jambon", "lardon", "bacon", "chorizo"], 14.26],
+  // Poulet : escalope ou filet 11,02, cuisse 4,73, entier label rouge 6,46
+  [["filet", "escalope", "blanc", "aiguillette"], 11.02, POULTRY],
+  [["escalope"], 11.02],
+  [["cuisse", "pilon"], 4.73, POULTRY],
+  [POULTRY, 6.46],
+  // Viande hachée de bœuf 15 % MG 13,41 ; les autres viandes rouges, estimé pareil
+  [["boeuf", "steak", "hache", "veau", "agneau", "viande", "canard", "magret"], 13.41],
+  // Longe de porc 8,19 ; saucisses estimées pareil
+  [["porc", "longe", "echine", "saucisse", "merguez"], 8.19],
+  // Fromage blanc, yaourt, crème : panier laitier 2,31 (estimé, l'Observatoire ne détaille pas leur prix)
+  [["blanc", "frai"], 2.31, ["fromage"]],
+  [["yaourt", "creme", "skyr", "faisselle", "suisse"], 2.31],
+  // Bûchette de chèvre 11,30 ; les autres fromages, estimé pareil
   [["fromage", "parmesan", "emmental", "comte", "mozzarella", "feta", "chevre", "gruyere", "cheddar", "ricotta", "mascarpone",
-    "raclette", "reblochon", "camembert", "brie", "roquefort", "burrata", "halloumi"], 13],
-  [["beurre"], 10],
+    "raclette", "reblochon", "camembert", "brie", "roquefort", "burrata", "halloumi"], 11.3],
+  [["beurre"], 9.82],
+  [["lait"], 1.09],
+  // Œufs : estimé (l'Observatoire ne les suit pas), environ 0,27 € l'œuf
   [["oeuf"], 5],
-  [["lait", "creme", "yaourt", "skyr"], 2.5],
-  [["tomate", "courgette", "oignon", "echalote", "carotte", "pomme", "terre", "poivron", "aubergine", "avocat", "citron", "banane",
-    "concombre", "poireau", "champignon", "brocoli", "chou", "salade", "laitue", "epinard", "haricot", "poi", "radi",
-    "navet", "fenouil", "potiron", "courge", "butternut", "betterave", "celeri", "legume", "fruit", "mangue", "orange", "poire",
-    "peche", "abricot", "fraise", "framboise", "persil", "basilic", "coriandre", "menthe", "ciboulette", "patate", "mai"], 3],
+  // Pomme de terre 1,63
+  [["terre", "patate"], 1.63],
+  // Panier de légumes 2,51 (avant les fruits : « tomate cerise » est un légume)
+  [["tomate", "courgette", "oignon", "echalote", "carotte", "poivron", "aubergine", "concombre", "poireau", "champignon",
+    "brocoli", "chou", "salade", "laitue", "epinard", "haricot", "poi", "radi", "navet", "fenouil", "potiron", "courge",
+    "butternut", "betterave", "celeri", "legume", "persil", "basilic", "coriandre", "menthe", "ciboulette", "mai",
+    "endive", "artichaut", "asperge", "blette", "roquette", "mache", "panai"], 2.51],
+  // Panier de fruits 3,45
+  [["pomme", "avocat", "citron", "banane", "mangue", "orange", "poire", "peche", "abricot", "fraise", "framboise", "fruit",
+    "kiwi", "raisin", "melon", "pasteque", "cerise", "clementine", "prune", "myrtille", "ananas"], 3.45],
 ];
 const has = (w: string[], list: string[]) => w.some(x => list.includes(x));
 /** Prix au kilo d'un produit frais, null pour le reste (pas compté) */
-const pricePerKg = (w: string[]) => PRICE.find(([list]) => has(w, list))?.[1] ?? null;
+const pricePerKg = (w: string[]) => PRICE.find(([list, , also]) => has(w, list) && (!also || has(w, also)))?.[1] ?? null;
 
 /** Poids en grammes d'une quantité « 200 g », « 2 », « 1 c. à s. »… */
 function grams(name: string[], qty: number | null, unit: string): number {
