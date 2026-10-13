@@ -25,7 +25,7 @@ export function LegalPage({ page }: { page: Page }) {
             <a href="/"><img src="/landing/frigia-logo-inverse.svg" alt="Frigia" width={78} height={28} /></a>
             <nav className="legal" aria-label="Informations légales">
               {LEGAL.map(p => <a key={p.key} href={`/${p.slug}`}>{p.tab}</a>)}
-              <a href="mailto:frigia.contact@gmail.com">Contact</a>
+              <a href="mailto:contact@frigia.fr">Contact</a>
             </nav>
           </div>
         </div>
