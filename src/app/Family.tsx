@@ -68,11 +68,11 @@ export function Family({ user, name, isPlus, avatar, profile, dishes, onAvatar, 
         <p className="pintro">Enregistrés sur ton compte : tu les retrouves sur tous tes appareils.</p>
         {tastes && (
           <div className="plist">
-            {([["salad", "Régime", tastes.diet, 2], ["pan", "Ustensiles", tastes.equipment, 3], ["clock", "Temps en semaine", tastes.time, 3]] as const)
-              .filter(([, , value]) => value)
-              .map(([icon, title, value, question]) => (
+            {/* Les 3 lignes restent, même vides : la maquette n'a pas d'état vide, on invite à compléter */}
+            {([["salad", "Régime", tastes.diet, 2, ""], ["pan", "Ustensiles", tastes.equipment, 3, "Ajoute ton matériel"], ["clock", "Temps en semaine", tastes.time, 3, "Indique ton temps"]] as const)
+              .map(([icon, title, value, question, empty]) => (
                 <button key={title} type="button" className="prow" onClick={() => onEditTastes(question)}>
-                  <span className="pi"><Icon name={icon} /></span><span className="tx"><b>{title}</b><span>{value}</span></span><Icon name="next" />
+                  <span className="pi"><Icon name={icon} /></span><span className="tx"><b>{title}</b>{value ? <span>{value}</span> : <span className="add">{empty}</span>}</span><Icon name="next" />
                 </button>
               ))}
           </div>
