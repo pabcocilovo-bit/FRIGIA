@@ -42,6 +42,14 @@
       "destination": "/"
     },
     {
+      "source": "/recettes/:id/:n/cuisine",
+      "destination": "/"
+    },
+    {
+      "source": "/recette/cuisine",
+      "destination": "/"
+    },
+    {
       "source": "/reglages/:page",
       "destination": "/"
     },

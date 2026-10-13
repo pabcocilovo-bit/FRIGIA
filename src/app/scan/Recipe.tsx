@@ -1,7 +1,7 @@
 // Fiche recette : la photo, les chiffres, les ingrédients (quantités recalculées pour les portions) et les étapes.
-// Les manquants partent dans la liste de courses (étape 10), la cuisson guidée arrive à l'étape 9.
+// Les manquants partent dans la liste de courses (étape 10). « Lancer la cuisson » ouvre le mode cuisine pour ces portions.
 import { useState } from "react";
-import { Navigate, useLocation, useParams } from "react-router";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router";
 import { Badge, Icon, LockPill, RoundButton } from "../../ui/components";
 import type { GeneratedRecipe, HistoryEntry } from "../../lib/types";
 import { useBack } from "../nav";
@@ -19,6 +19,7 @@ export function Recipe({ history, isPlus, name, avatar, isFavorite, onToggleFavo
   isFavorite: (r: GeneratedRecipe) => boolean; onToggleFavorite: (r: GeneratedRecipe) => void;
 }) {
   const back = useBack();
+  const navigate = useNavigate();
   const openPaywall = useOpenPaywall();
   const { id, n } = useParams();
   const state = useLocation().state as RecipeState | null;
@@ -37,6 +38,7 @@ export function Recipe({ history, isPlus, name, avatar, isFavorite, onToggleFavo
   const missing = total - have;
   const steps = recipe.steps ?? [];
   const fav = isFavorite(recipe);
+  const cook = () => navigate(entry ? `/recettes/${entry.id}/${index}/cuisine` : "/recette/cuisine", { state: { recipe, servings } satisfies RecipeState });
   const addToWeek = () => (isPlus ? comingSoon(10) : openPaywall("planning", "/planning"));
   const addMissing = () => (isPlus ? comingSoon(10) : openPaywall("courses", "/courses"));
   // Plus : toi, et les invités du soir (comptés comme des adultes)
@@ -131,7 +133,7 @@ export function Recipe({ history, isPlus, name, avatar, isFavorite, onToggleFavo
           )}
         </div>
       </div>
-      <button type="button" className="gobar" onClick={() => comingSoon(9)}>
+      <button type="button" className="gobar" onClick={cook}>
         <span><b>Lancer la cuisson</b><small>{recipe.time} · {steps.length} étape{steps.length > 1 ? "s" : ""}</small></span>
         <span className="go"><Icon name="arrow" /></span>
       </button>

@@ -33,11 +33,11 @@ export function itemText(it: RecipeItem, factor: number): { q: string; n: string
 // Anciennes recettes (avant l'étape 6) : l'IA ne disait pas ce qui était dans le frigo.
 // On compare les noms avec les ingrédients trouvés sur la photo ; sel, poivre et eau comptent comme là.
 const BASICS = ["sel", "poivre", "eau"];
-const words = (s: string) => s.toLowerCase().replace(/œ/g, "oe").replace(/æ/g, "ae").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z ]/g, " ")
+export const words = (s: string) => s.toLowerCase().replace(/œ/g, "oe").replace(/æ/g, "ae").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z ]/g, " ")
   .split(" ").filter(w => w.length > 2).map(w => w.replace(/[sx]$/, ""));
 // « Inclure mon placard » : pâtes, riz, huile, ail, épices
 const PANTRY = ["pate", "penne", "spaghetti", "riz", "huile", "ail", "epice", "farine", "sucre"];
-function inFridge(name: string, found: DetectedIngredient[], pantry = false): boolean {
+export function inFridge(name: string, found: DetectedIngredient[], pantry = false): boolean {
   const w = words(name);
   if (w.some(x => BASICS.includes(x) || (pantry && PANTRY.includes(x)))) return true;
   return found.some(f => words(f.name).some(x => w.includes(x)));

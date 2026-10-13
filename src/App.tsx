@@ -3,6 +3,7 @@ import type { GeneratedRecipe, User } from "./lib/types";
 import { fetchScanQuota, quotaText, getCachedQuota, isPlus as hasPlus, paymentFailed, quotaTotal, scansLeft, setCachedQuota, type ScanQuota } from "./lib/billing";
 import { clearLocalData, deleteAccount, displayName, fetchAvatar, getAvatar, getPrefs, saveAvatar, signOut } from "./lib/account";
 import { useLibrary } from "./hooks/useLibrary";
+import { useCooked } from "./hooks/useCooked";
 import { useSession } from "./hooks/useSession";
 import { isStandalone } from "./landing/browser";
 import { Analytics } from "@vercel/analytics/react";
@@ -31,6 +32,8 @@ import { Ingredients } from "./app/scan/Ingredients";
 import { Prep } from "./app/scan/Prep";
 import { Results } from "./app/scan/Results";
 import { Recipe, type RecipeState } from "./app/scan/Recipe";
+import { Cook } from "./app/scan/Cook";
+import { totalSaved } from "./lib/cooked";
 import { guideState } from "./app/scan/guideSteps";
 import { Account, Settings } from "./app/settings/Settings";
 import { Help } from "./app/settings/Help";
@@ -65,6 +68,7 @@ export default function Frigia() {
   const [userId, setUserId] = useState<string | undefined>();
   const library = useLibrary(userId);
   const { history, favorites, toggleFavorite, isFavorite, updateScanRecipes } = library;
+  const cooked = useCooked(userId);
 
   /** Charge les goûts du compte, une fois par connexion. Juste après l'inscription, les réponses aux questions deviennent le profil. */
   const loadProfile = async (u: User) => {
@@ -100,6 +104,7 @@ export default function Frigia() {
       }
       setUserId(u.id);
       void library.load(u.id);
+      void cooked.load(u.id);
       // Réponses aux questions en attente : c'est un compte tout neuf (même rendu que la connexion, pas de passage par l'accueil)
       if (profileFor.current !== u.id && hasPendingProfile()) setGoCamera(true);
       void loadProfile(u);
@@ -118,6 +123,7 @@ export default function Frigia() {
       // Déconnexion voulue : Bienvenue, une fois la session vidée à l'écran (effet plus bas)
       if (!signOutTo.current && !OB_PATHS.includes(window.location.pathname)) navigate("/", { replace: true });
       library.clear();
+      cooked.clear();
       setAvatarSrc(null);
     },
   });
@@ -230,7 +236,7 @@ const dishes = [...favorites, ...history.flatMap(h => h.recipes)]
   .filter((r, i, all) => all.findIndex(o => o.title === r.title) === i).slice(0, 3)
   .map(r => ({ title: r.title, imageSearch: r.imageSearch }));
 const account = {
-  user, name, avatar: avatarSrc, isPlus,
+  user, name, avatar: avatarSrc, isPlus, savedKg: totalSaved(cooked.meals).kg,
   onSignOut: () => {
     showToast(`À bientôt, ${name}`);
     setTimeout(() => { signOutTo.current = "/bienvenue"; void signOut(); }, 700);
@@ -251,7 +257,7 @@ return (
   // Retour de la page Stripe : « On attend ta banque » tout de suite, sans l'écran d'ouverture
   <AppFrame splash={location.pathname !== "/plus/paiement"}>
     <Routes>
-      <Route path="/" element={<Home user={user} name={name} isPlus={isPlus} quota={quota} avatar={avatarSrc} history={history} favorites={favorites} onOpenRecipe={r => openRecipe(r)} />} />
+      <Route path="/" element={<Home user={user} name={name} isPlus={isPlus} quota={quota} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/planning" element={<Planning isPlus={isPlus} lastScan={history[0]?.date} />} />
       <Route path="/courses" element={<Courses isPlus={isPlus} />} />
       <Route path="/famille" element={<Family user={user} name={name} isPlus={isPlus} avatar={avatarSrc} profile={profile}
@@ -272,7 +278,9 @@ return (
       <Route path="/recettes/:id" element={<Results history={history} isPlus={isPlus} onNewIdeas={updateScanRecipes} />} />
       <Route path="/recettes/:id/:n" element={<Recipe history={history} isPlus={isPlus} name={name} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
       <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} name={name} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
-      <Route path="/scans" element={<Scans history={history} isPlus={isPlus} />} />
+      <Route path="/recettes/:id/:n/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} />} />
+      <Route path="/recette/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} />} />
+      <Route path="/scans" element={<Scans history={history} cooked={cooked.meals} isPlus={isPlus} />} />
       <Route path="/favoris" element={<Favorites favorites={favorites} history={history} isPlus={isPlus} onOpen={r => openRecipe(r, r.savedServings)} onToggleFavorite={toggleFavorite} />} />
       <Route path="/reglages" element={<Settings {...account} />} />
       <Route path="/reglages/compte" element={<Account {...account} dishes={dishes} onAvatar={onAvatar} onName={onName} />} />

@@ -21,6 +21,8 @@ export type AccountProps = {
   onSignOut: () => void;
   /** Supprime le compte côté serveur ; onGone quitte l'appli une fois « Compte supprimé » affiché. */
   onDelete: () => Promise<void>; onGone: () => void;
+  /** Kilos sauvés avec les repas cuisinés, pour le merci de fin */
+  savedKg: number;
 };
 
 function Row({ icon, title, sub, value, onClick, className }: {
@@ -36,7 +38,7 @@ function Row({ icon, title, sub, value, onClick, className }: {
   );
 }
 
-export function Settings({ user, name, avatar, isPlus, onSignOut, onDelete, onGone }: AccountProps) {
+export function Settings({ user, name, avatar, isPlus, onSignOut, onDelete, onGone, savedKg }: AccountProps) {
   const back = useBack();
   const navigate = useNavigate();
   const openPaywall = useOpenPaywall();
@@ -84,12 +86,12 @@ export function Settings({ user, name, avatar, isPlus, onSignOut, onDelete, onGo
         <p className="st-ver"><span className="st-logo" />Frigia · version 1.0</p>
       </div>
       <ContactSheet mode={send} onClose={() => setSend(null)} user={user} />
-      <DeleteSheet open={del} onClose={() => setDel(false)} isPlus={isPlus} user={user} onDelete={onDelete} onGone={onGone} />
+      <DeleteSheet open={del} onClose={() => setDel(false)} isPlus={isPlus} user={user} onDelete={onDelete} onGone={onGone} savedKg={savedKg} />
     </div>
   );
 }
 
-export function Account({ user, name, avatar, isPlus, onSignOut, onDelete, onGone, dishes, onAvatar, onName }: AccountProps & {
+export function Account({ user, name, avatar, isPlus, onSignOut, onDelete, onGone, savedKg, dishes, onAvatar, onName }: AccountProps & {
   dishes: Dish[]; onAvatar: (src: string | null) => void; onName: (name: string) => void;
 }) {
   const back = useBack();
@@ -163,7 +165,7 @@ export function Account({ user, name, avatar, isPlus, onSignOut, onDelete, onGon
         <button type="button" className="st-del" onClick={() => setDel(true)}>Supprimer mon compte</button>
       </div>
       <AccountSheet mode={sheet} onClose={() => setSheet(null)} onMode={setSheet} user={user} name={name} avatar={avatar} dishes={dishes} onAvatar={onAvatar} onName={onName} />
-      <DeleteSheet open={del} onClose={() => setDel(false)} isPlus={isPlus} user={user} onDelete={onDelete} onGone={onGone} />
+      <DeleteSheet open={del} onClose={() => setDel(false)} isPlus={isPlus} user={user} onDelete={onDelete} onGone={onGone} savedKg={savedKg} />
     </div>
   );
 }

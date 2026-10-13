@@ -10,6 +10,7 @@ import { CodeBoxes } from "../onboarding/Onboarding";
 import { authMessage } from "../onboarding/errors";
 import { useRecipePhoto } from "../photo";
 import { showToast } from "../toast";
+import { kilos } from "../scan/savings";
 import "../onboarding/ob.css";
 import "./settings.css";
 
@@ -206,8 +207,8 @@ function PassPane({ user, onClose }: { user: User; onClose: () => void }) {
 }
 
 // ─── Supprimer mon compte : glisser jusqu'au bout pour confirmer ─────────────
-export function DeleteSheet({ open, onClose, isPlus, user, onDelete, onGone }: {
-  open: boolean; onClose: () => void; isPlus: boolean; user: User;
+export function DeleteSheet({ open, onClose, isPlus, user, onDelete, onGone, savedKg }: {
+  open: boolean; onClose: () => void; isPlus: boolean; user: User; savedKg: number;
   /** Supprime le compte côté serveur. Lève une erreur avec le message à afficher. */
   onDelete: () => Promise<void>;
   /** Après « Compte supprimé » : on quitte l'appli. */
@@ -282,6 +283,7 @@ export function DeleteSheet({ open, onClose, isPlus, user, onDelete, onGone }: {
         <div className="dl-done">
           <span className="dl-ic ok" aria-hidden="true"><Icon name="check" /></span>
           <h3>Compte <em>supprimé</em></h3>
+          {savedKg > 0 && <p>Merci d'avoir sauvé <b>{kilos(savedKg)}</b> de nourriture avec nous.</p>}
         </div>
       )}
     </Dialog>
