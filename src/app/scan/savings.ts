@@ -1,5 +1,7 @@
-// Ce que « J'ai cuisiné ça » a sauvé : le poids des ingrédients déjà là (ceux du frigo), et ce qu'ils auraient coûté.
-// Estimation simple : poids par pièce, prix moyen au kilo par famille d'aliments. Sel, eau, épices et placard ne comptent pas.
+// Ce que « J'ai cuisiné ça » compte, en kilos et en euros (poids par pièce, prix moyen au kilo par famille d'aliments) :
+// - cuisiné de ton frigo : les produits frais déjà là (légumes, fruits, laitiers, viande, poisson, œufs) ;
+// - sauvé : parmi eux, ceux marqués « À finir » au scan, qui allaient se perdre.
+// Le placard, les condiments et ce qu'on ne reconnaît pas ne comptent pas.
 import type { DetectedIngredient, GeneratedRecipe } from "../../lib/types";
 import { inFridge, words } from "./portions";
 
@@ -32,10 +34,9 @@ const PRICE: [string[], number][] = [
     "navet", "fenouil", "potiron", "courge", "butternut", "betterave", "celeri", "legume", "fruit", "mangue", "orange", "poire",
     "peche", "abricot", "fraise", "framboise", "persil", "basilic", "coriandre", "menthe", "ciboulette", "patate", "mai"], 3],
 ];
-const DEFAULT_PRICE = 4;
-
 const has = (w: string[], list: string[]) => w.some(x => list.includes(x));
-const pricePerKg = (w: string[]) => PRICE.find(([list]) => has(w, list))?.[1] ?? DEFAULT_PRICE;
+/** Prix au kilo d'un produit frais, null pour le reste (pas compté) */
+const pricePerKg = (w: string[]) => PRICE.find(([list]) => has(w, list))?.[1] ?? null;
 
 /** Poids en grammes d'une quantité « 200 g », « 2 », « 1 c. à s. »… */
 function grams(name: string[], qty: number | null, unit: string): number {
@@ -63,22 +64,28 @@ function parseQty(text: string): { qty: number | null; unit: string } {
   return { qty: m[1] === "½" ? 0.5 : Number(m[1]), unit: m[2] };
 }
 
-export type Saved = { kg: number; eur: number };
+export type Amount = { kg: number; eur: number };
+export type Counted = { used: Amount; saved: Amount };
 
-/** Kilos et euros sauvés en cuisinant cette recette pour n portions. found : les ingrédients du scan (anciennes recettes). */
-export function savedBy(r: GeneratedRecipe, servings: number, found?: DetectedIngredient[]): Saved {
+const round = (g: number, eur: number): Amount => ({ kg: Math.round(g / 100) / 10, eur: Math.round(eur * 100) / 100 });
+
+/** Cuisiné de ton frigo et sauvé, pour cette recette en n portions. found : les ingrédients du scan (avec « À finir »). */
+export function countCooked(r: GeneratedRecipe, servings: number, found?: DetectedIngredient[]): Counted {
   const lines = r.items?.length
     ? r.items.map(i => ({ name: i.name, qty: i.qty, unit: i.unit, have: i.have, factor: servings / (r.serves || servings || 1) }))
-    : (r.recipeIngredients ?? []).map(i => ({ name: i.name, ...parseQty(i.qty), have: !found?.length || inFridge(i.name, found), factor: 1 }));
-  let g = 0, eur = 0;
+    : (r.recipeIngredients ?? []).map(i => ({ name: i.name, ...parseQty(i.qty), have: !!found?.length && inFridge(i.name, found), factor: 1 }));
+  const toFinish = (found ?? []).filter(f => f.finish);
+  let g = 0, eur = 0, sg = 0, seur = 0;
   for (const l of lines) {
     const w = words(l.name);
     if (!l.have || !w.length || has(w, SKIP)) continue;
-    const lg = grams(w, l.qty, l.unit) * l.factor;
-    g += lg;
-    eur += (lg / 1000) * pricePerKg(w);
+    const price = pricePerKg(w);
+    if (price == null) continue;
+    const lg = grams(w, l.qty, l.unit) * l.factor, le = (lg / 1000) * price;
+    g += lg; eur += le;
+    if (toFinish.length && inFridge(l.name, toFinish)) { sg += lg; seur += le; }
   }
-  return { kg: Math.round(g / 100) / 10, eur: Math.round(eur * 100) / 100 };
+  return { used: round(g, eur), saved: round(sg, seur) };
 }
 
 /** « 4,20 € », « 0,9 kg » */

@@ -1,4 +1,4 @@
-// « C'est bien ça ? » : les ingrédients trouvés sur la photo. On retire ce qui n'y est plus, on ajoute ce qui manque,
+// « C'est bien ça ? » : les ingrédients trouvés sur la photo. On retire ce qui n'y est plus, on ajoute ce qui manque, on marque ce qui est à finir,
 // puis le placard, l'envie du moment et pour combien (en Plus : qui mange, et les invités).
 import { useRef } from "react";
 import { Navigate, useNavigate } from "react-router";
@@ -59,6 +59,8 @@ export function Ingredients({ isPlus, name, avatar, profile, guide, userId }: {
   const n = scan.ingredients.length;
   // Sans jeton, aucune photo n'a été lue : les ingrédients ont été tapés à la main
   const remove = (i: number) => setScan({ ingredients: getScan().ingredients.filter((_, k) => k !== i) });
+  // « À finir » : passe en premier dans les recettes, et compte comme sauvé une fois cuisiné
+  const toggleFinish = (i: number) => setScan({ ingredients: getScan().ingredients.map((it, k) => (k === i ? { ...it, finish: !it.finish } : it)) });
 
   return (
     <section ref={screen} className="fa scan-screen scr-ingr" aria-label="Ingrédients trouvés">
@@ -72,15 +74,16 @@ export function Ingredients({ isPlus, name, avatar, profile, guide, userId }: {
           <div className="grab" />
           <span className="label">{n} ingrédient{n > 1 ? "s" : ""} {scan.token ? "trouvé" : "ajouté"}{n > 1 ? "s" : ""}</span>
           <h2>C'est bien <em>ça&nbsp;?</em></h2>
-          <p>Retire ce qui n'y est plus, ajoute ce qui manque.</p>
+          <p>Retire ce qui n'y est plus, ajoute ce qui manque, et marque ce qui est à finir vite.</p>
         </div>
         <div className="scroll">
           <div className="ingr-body">
             {n > 0 && (
               <div className="ilist">
                 {scan.ingredients.map((it, i) => (
-                  <div key={it.name + i} className="irow">
+                  <div key={it.name + i} className={"irow" + (it.finish ? " fin" : "")}>
                     <i /><b>{it.name}</b><span>{it.qty}</span>
+                    <button type="button" className="finb" aria-pressed={!!it.finish} aria-label={`${it.name} à finir`} onClick={() => toggleFinish(i)}>À finir</button>
                     <button type="button" className="rm" aria-label={`Retirer ${it.name}`} onClick={() => remove(i)}><Icon name="x" /></button>
                   </div>
                 ))}

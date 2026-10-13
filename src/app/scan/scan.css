@@ -68,6 +68,10 @@ body:has(.scan-screen){background:#EFE3D0}
 .fa .irow i{width:8px;height:8px;border-radius:50%;background:var(--sage);flex:none}
 .fa .irow b{flex:1;font-weight:500;font-size:15.5px}
 .fa .irow span{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+/* « À finir » (pas dans la maquette) : passe en premier dans les recettes, compte comme sauvé une fois cuisiné */
+.fa .irow .finb{flex:none;font:600 12px/1 var(--sans);padding:7px 10px;border-radius:999px;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line);transition:background .15s,color .15s}
+.fa .irow .finb[aria-pressed="true"]{background:var(--hi-soft);color:var(--hi-ink);box-shadow:none}
+.fa .irow.fin i{background:var(--hi)}
 .fa .rm{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--surface);color:var(--muted)}
 .fa .rm svg{width:15px;height:15px}
 .fa .add .rm{background:var(--sage);color:var(--on)}
@@ -406,6 +410,7 @@ body:has(.fa .gd.on) .fa .toast{opacity:0;visibility:hidden}
 .fa .savedbox .sv div+div{border-left:1px solid var(--line);padding-left:16px}
 .fa .savedbox .sv b{font:300 34px/1 var(--sans);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .fa .savedbox .sv span{font-size:12.5px;color:var(--muted)}
+.fa .savedbox .used{margin:0;font-size:13px;line-height:1.35;color:var(--muted)}
 .fa .savedbox .foot{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .fa .done-actions{width:100%;display:flex;flex-direction:column;gap:8px}
 .fa .done-actions .ghost{padding:14px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(247,241,230,.4);font-weight:600;text-align:center}

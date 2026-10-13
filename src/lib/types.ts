@@ -3,7 +3,8 @@ import type { User } from "@supabase/supabase-js";
 
 export type { User };
 export type RecipeIngredient = { name: string; qty: string };
-export type DetectedIngredient = { name: string; icon: string; conf: number; qty?: string };
+/** finish : « À finir » au scan, à cuisiner vite. Cuisiné, il compte comme nourriture sauvée. */
+export type DetectedIngredient = { name: string; icon: string; conf: number; qty?: string; finish?: boolean };
 /** Ingrédient d'une recette du nouveau scan : la quantité est un nombre, recalculé selon les portions. */
 export type RecipeItem = { name: string; plural: string; qty: number | null; unit: string; have: boolean };
 export type StepTimer = { label: string; min: number };

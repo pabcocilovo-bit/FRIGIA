@@ -5,7 +5,7 @@ import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./
 import { askClaude, checkIdeasLimit, checkRateLimit, checkScanToken, dishPhoto, prefLines, refundFreeScan, takeFreeScan, type Prefs } from "./_ai.js";
 
 type Body = {
-  ingredients?: { name?: unknown; qty?: unknown }[];
+  ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
   pantry?: boolean; envie?: string; meal?: string; servings?: number;
   prefs?: Prefs; recentTitles?: string[]; avoid?: string[]; more?: boolean; token?: string;
 };
@@ -41,7 +41,7 @@ export default async function handler(req: Req, res: Res) {
   if (body.more && !plus) return res.status(403).json({ error: "« D'autres idées » est dans Frigia Plus.", code: "plus" });
 
   const list = (Array.isArray(body.ingredients) ? body.ingredients : [])
-    .map(i => ({ name: str(i?.name, 60), qty: str(i?.qty, 30) }))
+    .map(i => ({ name: str(i?.name, 60), qty: str(i?.qty, 30), finish: i?.finish === true }))
     .filter(i => i.name)
     .slice(0, 40);
   if (list.length === 0) return res.status(400).json({ error: "Aucun ingrédient" });
@@ -67,9 +67,11 @@ export default async function handler(req: Req, res: Res) {
   const count = body.more ? 2 : 3;
   const servings = Math.min(16, Math.max(0.5, Number(body.servings) || 2));
   const lines = prefLines(body.prefs);
+  const finish = list.filter(i => i.finish).map(i => i.name);
   const avoid = [...(body.avoid ?? []), ...(body.recentTitles ?? [])].filter(t => typeof t === "string").slice(0, 20);
   const prompt = [
     `Ingrédients disponibles : ${list.map(i => (i.qty ? `${i.name} (${i.qty})` : i.name)).join(", ")}.`,
+    finish.length ? `À FINIR EN PRIORITÉ (ils vont se perdre) : ${finish.join(", ")}. Chaque recette en utilise au moins un, et le plus possible.` : "",
     body.pantry
       ? "Le placard a aussi : pâtes, riz, huile, ail, épices, sel, poivre, farine, sucre. Ils comptent comme disponibles."
       : "Seuls sel, poivre et eau sont disponibles en plus de la liste.",

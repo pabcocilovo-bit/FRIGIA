@@ -107,7 +107,7 @@ export function Results({ history, isPlus, onNewIdeas }: {
     setBusy(true);
     const s = getScan();
     const r = await makeRecipes({
-      ingredients: entry.ingredients.map(i => ({ name: i.name, qty: i.qty ?? "" })),
+      ingredients: entry.ingredients.map(i => ({ name: i.name, qty: i.qty ?? "", finish: i.finish })),
       pantry: s.pantry, envie: s.envie, meal, servings: entry.servings, token: null,
       avoid: entry.recipes.map(x => x.title), more: true,
     });

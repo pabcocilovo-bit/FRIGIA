@@ -86,10 +86,13 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
         </Band>
       </div>
       <div className="hbody">
-        {month.length > 0 && (
+        {(saved.kg > 0 || saved.usedKg > 0) && (
           <button type="button" className="saved-card" onClick={() => (isPlus ? comingSoon(11) : openPaywall("bilan"))}>
             <span className="ico"><Icon name="leaf" /></span>
-            <div><b>{euros(saved.eur)} sauvés en {MONTHS[new Date().getMonth()]}</b><span>{kilos(saved.kg)} de nourriture en moins à la poubelle</span></div>
+            {/* Sauvé : ce qui était « À finir ». Sans rien de marqué, ce qui a été cuisiné de ton frigo. */}
+            {saved.kg > 0
+              ? <div><b>{euros(saved.eur)} sauvés en {MONTHS[new Date().getMonth()]}</b><span>{kilos(saved.kg)} de nourriture en moins à la poubelle</span></div>
+              : <div><b>{kilos(saved.usedKg)} de ton frigo cuisinés en {MONTHS[new Date().getMonth()]}</b><span>Marque « À finir » au scan pour compter ce que tu sauves</span></div>}
             {isPlus ? <Icon name="next" className="muted" /> : <span className="lockpill">Aperçu</span>}
           </button>
         )}

@@ -11,7 +11,7 @@ import { useOpenPaywall } from "../plus/subscription";
 import { comingSoon, showToast } from "../toast";
 import { recipeLines, words } from "./portions";
 import type { RecipeState } from "./Recipe";
-import { euros, kilos, savedBy } from "./savings";
+import { type Counted, countCooked, euros, kilos } from "./savings";
 import { shareStory, storyImage } from "./story";
 import "./scan.css";
 
@@ -71,7 +71,7 @@ export function Cook({ history, isPlus, meals, onCooked }: {
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
   const [story, setStory] = useState(false);
-  const [saved, setSaved] = useState<{ kg: number; eur: number } | null>(null);
+  const [counted, setCounted] = useState<Counted | null>(null);
   const photo = useRecipePhoto(recipe?.title, recipe?.imageSearch);
   const t = recipe?.timers?.[step] ?? null;
   const timer = useTimer((t?.min ?? 0) * 60, step);
@@ -86,15 +86,20 @@ export function Cook({ history, isPlus, meals, onCooked }: {
   const chips = lines.filter((_, i) => words(names[i] ?? "").some(w => stepWords.includes(w)));
   const last = step === steps.length - 1;
   const meal = new Date().getHours() < 16 ? "Ce midi" : "Ce soir";
-  const badge = saved ? `${euros(saved.eur)} sauvés ${meal.toLowerCase()}` : "";
+  const saved = counted && counted.saved.kg > 0 ? counted.saved : null;
+  const used = counted && counted.used.kg > 0 ? counted.used : null;
+  const badge = saved ? `${euros(saved.eur)} sauvés ${meal.toLowerCase()}` : "Cuisiné avec mon frigo";
 
   const go = (i: number) => { timer.stop(); setStep(i); };
   const finish = () => {
     timer.stop();
-    if (!saved) {
-      const s = savedBy(recipe, servings, entry?.ingredients);
-      setSaved(s);
-      onCooked({ scanId: entry?.id ?? null, title: recipe.title, image: photo, servings: Math.max(1, Math.round(servings)), kg: s.kg, eur: s.eur });
+    if (!counted) {
+      const c = countCooked(recipe, servings, entry?.ingredients);
+      setCounted(c);
+      onCooked({
+        scanId: entry?.id ?? null, title: recipe.title, image: photo, servings: Math.max(1, Math.round(servings)),
+        kg: c.saved.kg, eur: c.saved.eur, usedKg: c.used.kg, usedEur: c.used.eur,
+      });
     }
     setDone(true);
   };
@@ -142,12 +147,20 @@ export function Cook({ history, isPlus, meals, onCooked }: {
       <div className={"done-view" + (done ? " on" : "")} aria-hidden={!done}>
         {photo ? <img className="plate" src={photo} alt="" /> : <span className="plate" style={{ background: "var(--sage-deep)" }} />}
         <h2>Bon appétit !</h2>
-        {saved && (
+        {counted && (
           <div className="savedbox">
-            <span className="label">{meal}, tu as sauvé</span>
-            <div className="sv"><div><b>{euros(saved.eur)}</b><span>de courses</span></div><div><b>{kilos(saved.kg)}</b><span>de nourriture</span></div></div>
+            {/* Sauvé : ce qui était « À finir ». Sinon, ce qui a été cuisiné de ton frigo (pas forcément sauvé). */}
+            {saved ? <>
+              <span className="label">{meal}, tu as sauvé</span>
+              <div className="sv"><div><b>{euros(saved.eur)}</b><span>de courses</span></div><div><b>{kilos(saved.kg)}</b><span>de nourriture</span></div></div>
+              {used && used.kg > saved.kg && <p className="used">Et {kilos(used.kg)} de ton frigo cuisinés en tout.</p>}
+            </> : used ? <>
+              <span className="label">{meal}, tu as cuisiné de ton frigo</span>
+              <div className="sv"><div><b>{euros(used.eur)}</b><span>de courses utilisées</span></div><div><b>{kilos(used.kg)}</b><span>de produits frais</span></div></div>
+              <p className="used">Marque « À finir » au scan ce qui doit partir vite : on le comptera comme sauvé.</p>
+            </> : null}
             {isPlus ? (
-              <div className="foot"><span>{MONTHS[new Date().getMonth()]} : {euros(month.eur)} sauvés</span>
+              <div className="foot"><span>{MONTHS[new Date().getMonth()]} : {month.eur > 0 ? `${euros(month.eur)} sauvés` : `${kilos(month.usedKg)} de ton frigo cuisinés`}</span>
                 <button type="button" className="link" onClick={() => comingSoon(11)}>Ton bilan</button></div>
             ) : (
               <div className="foot"><span>Ton bilan du mois est dans Plus</span>

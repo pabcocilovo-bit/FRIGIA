@@ -33,7 +33,8 @@ export const RATE_TEXT = "Tu as fait 5 scans cette heure-ci. Réessaie un peu pl
 export type ScanSource = "frigo" | "placard" | "ticket";
 export type Envie = "rapide" | "healthy" | "proteine" | "gourmand";
 /** Ingrédient de « C'est bien ça ? » : trouvé sur la photo (avec sa place), ou ajouté à la main. */
-export type ScanIngredient = { name: string; qty: string; x?: number; y?: number };
+/** finish : marqué « À finir » sur « C'est bien ça ? » */
+export type ScanIngredient = { name: string; qty: string; x?: number; y?: number; finish?: boolean };
 type Problem = "floue" | "sombre" | "vide";
 
 type Failure =
@@ -135,7 +136,7 @@ export async function makeRecipes(o: {
   const { data: { session } } = await supabase.auth.getSession();
   const userId = session?.user?.id;
   const { response, data } = await post("/api/recipes", {
-    ingredients: o.ingredients.map(i => ({ name: i.name, qty: i.qty })),
+    ingredients: o.ingredients.map(i => ({ name: i.name, qty: i.qty, finish: i.finish || undefined })),
     pantry: o.pantry, envie: o.envie, meal: o.meal, servings: o.servings, token: o.token, avoid: o.avoid, more: o.more,
     prefs: userId ? apiPrefs(getCachedProfile(userId)) : null,
     recentTitles: userId ? recentRecipeTitles(userId) : [],
@@ -148,4 +149,4 @@ export async function makeRecipes(o: {
 
 /** Ingrédients du scan gardés dans l'historique. */
 export const toDetected = (list: ScanIngredient[]): DetectedIngredient[] =>
-  list.map(i => ({ name: i.name, icon: ingredientIcon(i.name), conf: 90, qty: i.qty }));
+  list.map(i => ({ name: i.name, icon: ingredientIcon(i.name), conf: 90, qty: i.qty, ...(i.finish ? { finish: true } : {}) }));
