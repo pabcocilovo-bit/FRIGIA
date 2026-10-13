@@ -32,6 +32,24 @@ function describe(sub: Stripe.Subscription, user: User) {
   };
 }
 
+const MONTH = new Intl.DateTimeFormat("fr-FR", { month: "long" });
+
+/** « septembre » si la carte de l'abonnement a expiré (« septembre 2025 » si ce n'est pas cette année), sinon null. */
+async function expiredCard(stripe: Stripe, sub: Stripe.Subscription): Promise<string | null> {
+  let pm = sub.default_payment_method;
+  if (!pm) {
+    const customer = await stripe.customers.retrieve(typeof sub.customer === "string" ? sub.customer : sub.customer.id);
+    pm = customer.deleted ? null : customer.invoice_settings.default_payment_method;
+  }
+  const card = (typeof pm === "string" ? await stripe.paymentMethods.retrieve(pm) : pm)?.card;
+  if (!card) return null;
+  const now = new Date();
+  // Une carte reste valable jusqu'à la fin de son mois
+  if (card.exp_year * 12 + card.exp_month >= now.getFullYear() * 12 + now.getMonth() + 1) return null;
+  const month = MONTH.format(new Date(card.exp_year, card.exp_month - 1, 1));
+  return card.exp_year === now.getFullYear() ? month : `${month} ${card.exp_year}`;
+}
+
 export default async function handler(req: Req, res: Res) {
   if (preflight(req, res)) return;
   const { action, reason } = (req.body ?? {}) as { action?: string; reason?: string };
@@ -88,6 +106,25 @@ export default async function handler(req: Req, res: Res) {
       const meta = { pause_from: null, pause_until: null, pause_renew: null };
       await setMeta(admin, user, meta);
       return res.json({ subscription: describe(updated, { ...user, app_metadata: { ...user.app_metadata, ...meta } }) });
+    }
+
+    // Paiement refusé : on ne dit la raison que si la carte a expiré (le reste reste général, c'est moins gênant)
+    if (action === "payfail") return res.json({ expired: await expiredCard(stripe, sub) });
+
+    // Retour du portail Stripe avec une nouvelle carte : on retente tout de suite la facture en attente
+    if (action === "retry") {
+      if (["past_due", "unpaid"].includes(sub.status)) {
+        const ref = sub.latest_invoice;
+        const invoice = typeof ref === "string" ? await stripe.invoices.retrieve(ref) : ref;
+        if (invoice?.id && invoice.status === "open") {
+          try {
+            await stripe.invoices.pay(invoice.id);
+          } catch {
+            return res.status(402).json({ error: "Ta banque n'a pas validé le paiement.", code: "declined" });
+          }
+        }
+      }
+      return res.json({ subscription: describe(await stripe.subscriptions.retrieve(sub.id), user) });
     }
 
     return res.json({ subscription: describe(sub, user) });

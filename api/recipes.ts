@@ -2,7 +2,7 @@
 // Avec le jeton d'une photo déjà comptée, rien n'est recompté. Sans jeton (ingrédients tapés à la main),
 // la formule Gratuit compte un scan. « D'autres idées » (2 recettes de plus) est réservé à Frigia Plus.
 import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
-import { askClaude, checkRateLimit, checkScanToken, dishPhoto, prefLines, refundFreeScan, takeFreeScan, type Prefs } from "./_ai.js";
+import { askClaude, checkIdeasLimit, checkRateLimit, checkScanToken, dishPhoto, prefLines, refundFreeScan, takeFreeScan, type Prefs } from "./_ai.js";
 
 type Body = {
   ingredients?: { name?: unknown; qty?: unknown }[];
@@ -46,12 +46,13 @@ export default async function handler(req: Req, res: Res) {
     .slice(0, 40);
   if (list.length === 0) return res.status(400).json({ error: "Aucun ingrédient" });
 
-  if (!(await checkRateLimit(admin, user.id))) {
+  // Ingrédients tapés à la main (pas de photo comptée) : c'est un scan, compté dans la limite par heure
+  // et, en Gratuit, dans les 15 scans
+  const fromPhoto = checkScanToken(body.token, user.id);
+  if (!(fromPhoto || body.more ? checkIdeasLimit(user.id) : await checkRateLimit(admin, user.id))) {
     return res.status(429).json({ error: "Limite atteinte. Réessaie dans une heure.", code: "rate" });
   }
-
-  // Ingrédients tapés à la main (pas de photo comptée) : en Gratuit, c'est un scan
-  const counted = !plus && !checkScanToken(body.token, user.id);
+  const counted = !plus && !fromPhoto;
   let scansLeft: number | null = null;
   if (counted) {
     scansLeft = await takeFreeScan(admin, user.id);

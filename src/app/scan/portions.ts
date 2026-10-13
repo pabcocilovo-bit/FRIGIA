@@ -1,6 +1,6 @@
 // Portions et quantités : « Pour 4 personnes » (Gratuit), « 2 portions » (Plus, un enfant compte pour une demi),
 // et les quantités de la recette recalculées pour ce nombre.
-import type { GeneratedRecipe, RecipeItem } from "../../lib/types";
+import type { DetectedIngredient, GeneratedRecipe, RecipeItem } from "../../lib/types";
 import type { ScanState } from "./store";
 
 export const num = (n: number) => String(n).replace(".", ",");
@@ -30,19 +30,32 @@ export function itemText(it: RecipeItem, factor: number): { q: string; n: string
   return { q: u ? `${s} ${u}` : s, n: !it.unit && r > 1 ? it.plural : it.name };
 }
 
-/** Lignes d'ingrédients d'une recette, nouvelles (items) ou anciennes (recipeIngredients, quantités écrites). */
-export function recipeLines(r: GeneratedRecipe, servings: number): { q: string; n: string; have: boolean }[] {
+// Anciennes recettes (avant l'étape 6) : l'IA ne disait pas ce qui était dans le frigo.
+// On compare les noms avec les ingrédients trouvés sur la photo ; sel, poivre et eau comptent comme là.
+const BASICS = ["sel", "poivre", "eau"];
+const words = (s: string) => s.toLowerCase().replace(/œ/g, "oe").replace(/æ/g, "ae").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z ]/g, " ")
+  .split(" ").filter(w => w.length > 2).map(w => w.replace(/[sx]$/, ""));
+function inFridge(name: string, found: DetectedIngredient[]): boolean {
+  const w = words(name);
+  if (w.some(x => BASICS.includes(x))) return true;
+  return found.some(f => words(f.name).some(x => w.includes(x)));
+}
+
+/** Lignes d'ingrédients d'une recette, nouvelles (items) ou anciennes (recipeIngredients, quantités écrites).
+ *  found : les ingrédients du scan, pour savoir ce qui manque dans une ancienne recette. */
+export function recipeLines(r: GeneratedRecipe, servings: number, found?: DetectedIngredient[]): { q: string; n: string; have: boolean }[] {
   if (r.items?.length) {
     const factor = servings / (r.serves || servings || 1);
     return r.items.map(it => ({ ...itemText(it, factor), have: it.have }));
   }
-  return (r.recipeIngredients ?? []).map(i => ({ q: i.qty, n: i.name, have: true }));
+  return (r.recipeIngredients ?? []).map(i => ({ q: i.qty, n: i.name, have: !found?.length || inFridge(i.name, found) }));
 }
 
-/** « 6 sur 8 » : ce que tu as déjà, sur le total. */
-export function haveCount(r: GeneratedRecipe): { have: number; total: number } {
-  const items = r.items ?? [];
-  return { have: items.filter(i => i.have).length, total: items.length };
+/** « 6 sur 8 » : ce que tu as déjà, sur le total (0 sur 0 quand on ne sait pas). */
+export function haveCount(r: GeneratedRecipe, found?: DetectedIngredient[]): { have: number; total: number } {
+  if (r.items?.length) return { have: r.items.filter(i => i.have).length, total: r.items.length };
+  if (!found?.length || !r.recipeIngredients?.length) return { have: 0, total: 0 };
+  return { have: r.recipeIngredients.filter(i => inFridge(i.name, found)).length, total: r.recipeIngredients.length };
 }
 
 export const minutesOf = (r: GeneratedRecipe) => r.minutes ?? (parseInt(r.time, 10) || 0);

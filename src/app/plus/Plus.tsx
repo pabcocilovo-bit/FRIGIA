@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { supabase } from "../../supabase";
-import { checkoutUrl, fetchOffers, isPlus, subscriptionAction, type PlanChoice, type Subscription } from "../../lib/billing";
+import { checkoutUrl, expiredCardMonth, fetchOffers, isPlus, subscriptionAction, type PlanChoice, type Subscription } from "../../lib/billing";
 import type { User } from "../../lib/types";
 import { Icon, Pill, RoundButton } from "../../ui/components";
 import { LOGO_SYMBOL } from "../logo";
@@ -112,18 +112,34 @@ const STUCK = ["incomplete", "past_due", "unpaid"];
 export function PayReturn() {
   const navigate = useNavigate();
   const location = useLocation();
+  const params = new URLSearchParams(location.search);
   // Retour du portail Stripe après avoir changé de carte
-  const card = new URLSearchParams(location.search).has("carte");
-  const [ko, setKo] = useState(false);
+  const card = params.has("carte");
+  // Renouvellement refusé (ouvert depuis l'accueil) : le refus tout de suite, sans attendre la banque
+  const [ko, setKo] = useState(params.has("refus"));
   const [busy, setBusy] = useState(false);
+  const [expired, setExpired] = useState<string | null>(null);
 
-  // Le webhook Stripe écrit l'abonnement sur le compte : on relit la session jusqu'à le voir (20 s au plus)
+  // La raison du refus : seulement « carte expirée », sinon la phrase générale
+  useEffect(() => {
+    if (!ko) return;
+    let live = true;
+    expiredCardMonth().then(m => { if (live) setExpired(m); }).catch(() => { /* phrase générale */ });
+    return () => { live = false; };
+  }, [ko]);
+
+  // Le webhook Stripe écrit l'abonnement sur le compte : on relit la session jusqu'à le voir (20 s au plus).
+  // Avec une nouvelle carte, on retente d'abord le paiement en attente.
   useEffect(() => {
     if (ko) return;
     let live = true;
     let tries = 0;
     let timer: ReturnType<typeof setTimeout>;
     const poll = async () => {
+      if (card && tries === 0) {
+        try { await subscriptionAction("retry"); } catch { if (live) setKo(true); return; }
+        if (!live) return;
+      }
       const { data } = await supabase.auth.refreshSession();
       if (!live) return;
       const u = data.session?.user ?? null;
@@ -134,7 +150,7 @@ export function PayReturn() {
     };
     timer = setTimeout(poll, 1200);
     return () => { live = false; clearTimeout(timer); };
-  }, [ko, navigate]);
+  }, [ko, card, navigate]);
 
   const updateCard = async () => {
     setBusy(true);
@@ -164,7 +180,7 @@ export function PayReturn() {
           </div>
           <div className="pf-ko" role={ko ? "alert" : undefined}>
             <h2>Paiement <em>refusé</em></h2>
-            <p>Ta banque n'a pas validé le paiement.</p>
+            <p>{expired ? `Ta carte bancaire a expiré fin ${expired}.` : "Ta banque n'a pas validé le paiement."} Rien n'a été débité.</p>
             <p className="pf-keep"><Icon name="check" /><span>Tes scans gratuits et tes favoris restent là.</span></p>
           </div>
         </div>

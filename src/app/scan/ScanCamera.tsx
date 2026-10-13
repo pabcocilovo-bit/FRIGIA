@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useNavigate } from "react-router";
 import { Icon, RoundButton } from "../../ui/components";
-import { detectIngredients, type ScanIngredient, type ScanSource } from "../../lib/scan";
+import { detectIngredients, RATE_TEXT, type ScanIngredient, type ScanSource } from "../../lib/scan";
 import type { Meal } from "../../lib/types";
 import { openOffline } from "../offline";
 import { showToast } from "../toast";
@@ -109,7 +109,7 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
       if (r.status === "quota") onOutOfScans();
       else if (r.status === "error") {
         if (!navigator.onLine) openOffline();
-        else showToast(r.rate ? "Beaucoup de scans cette heure-ci. Réessaie un peu plus tard." : "Frigia ne répond pas. Réessaie dans un instant.");
+        else showToast(r.rate ? RATE_TEXT : "Frigia ne répond pas. Réessaie dans un instant.");
       }
     }
   };

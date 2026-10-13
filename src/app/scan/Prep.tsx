@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { Icon, RoundButton } from "../../ui/components";
-import { makeRecipes, toDetected } from "../../lib/scan";
+import { makeRecipes, RATE_TEXT, toDetected } from "../../lib/scan";
 import type { GeneratedRecipe, HistoryEntry } from "../../lib/types";
 import { useRecipePhoto } from "../photo";
 import { openOffline } from "../offline";
@@ -87,7 +87,7 @@ export function Prep({ isPlus, onReady, onCounted, onOutOfScans }: {
         onOutOfScans();
       } else if (r.status !== "signed-out") {
         if (!navigator.onLine) openOffline();
-        else showToast(r.status === "error" && r.rate ? "Beaucoup de scans cette heure-ci. Réessaie un peu plus tard." : "Frigia ne répond pas. Réessaie dans un instant.");
+        else showToast(r.status === "error" && r.rate ? (scan.token ? "Beaucoup de demandes cette heure-ci. Réessaie un peu plus tard." : RATE_TEXT) : "Frigia ne répond pas. Réessaie dans un instant.");
         navigate(-1);
       }
     });

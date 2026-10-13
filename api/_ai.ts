@@ -2,8 +2,11 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-// ─── Limite : 40 appels à l'IA par heure et par compte (un scan en fait deux : ingrédients, puis recettes) ───
-const RATE_LIMIT = 40;
+// ─── Limite : 5 scans par heure et par compte ───
+// Un scan, c'est une photo (ou des ingrédients tapés à la main). Les recettes d'une photo déjà comptée
+// et « D'autres idées » ne comptent pas comme un scan : une limite plus large les protège (IDEAS_LIMIT).
+const RATE_LIMIT = 5;
+const IDEAS_LIMIT = 20;
 const RATE_WINDOW_MS = 3600 * 1000;
 
 const rateLimitMap = new Map<string, { count: number; reset: number }>();
@@ -19,6 +22,9 @@ function checkMemoryRateLimit(userId: string, limit: number): boolean {
   entry.count++;
   return true;
 }
+
+/** Recettes d'une photo déjà comptée, « D'autres idées » : 20 demandes par heure (compteur de l'instance). */
+export const checkIdeasLimit = (userId: string) => checkMemoryRateLimit(`idees:${userId}`, IDEAS_LIMIT);
 
 // Shared counter in Supabase (see supabase/migrations), so it holds across serverless instances
 export async function checkRateLimit(admin: SupabaseClient, userId: string, limit = RATE_LIMIT): Promise<boolean> {

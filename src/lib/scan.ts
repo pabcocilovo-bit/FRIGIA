@@ -27,6 +27,9 @@ export function compressImage(f: Blob): Promise<{ base64: string; type: string }
   });
 }
 
+/** La limite du serveur (api/_ai.ts) : 5 scans par heure. */
+export const RATE_TEXT = "Tu as fait 5 scans cette heure-ci. Réessaie un peu plus tard.";
+
 export type ScanSource = "frigo" | "placard" | "ticket";
 export type Envie = "rapide" | "healthy" | "proteine" | "gourmand";
 /** Ingrédient de « C'est bien ça ? » : trouvé sur la photo (avec sa place), ou ajouté à la main. */

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router";
 import { Badge, Chip, Icon, LockPill, RoundButton } from "../../ui/components";
 import { makeRecipes } from "../../lib/scan";
-import type { GeneratedRecipe, HistoryEntry } from "../../lib/types";
+import type { DetectedIngredient, GeneratedRecipe, HistoryEntry } from "../../lib/types";
 import { AppTabBar } from "../AppTabBar";
 import { daysAgo } from "../format";
 import { useBack } from "../nav";
@@ -37,9 +37,9 @@ function useAddToWeek(isPlus: boolean) {
   return () => (isPlus ? comingSoon(10) : openPaywall("planning", "/planning"));
 }
 
-function Feat({ recipe, label, onClick }: { recipe: GeneratedRecipe; label: string; onClick: () => void }) {
+function Feat({ recipe, found, label, onClick }: { recipe: GeneratedRecipe; found: DetectedIngredient[]; label: string; onClick: () => void }) {
   const photo = useRecipePhoto(recipe.title, recipe.imageSearch);
-  const { have, total } = haveCount(recipe);
+  const { have, total } = haveCount(recipe, found);
   return (
     <button type="button" className="feat" onClick={onClick}>
       {photo ? <img className="ph" src={photo} alt={recipe.title} /> : <span className="ph" style={{ display: "block", height: 230, borderRadius: 24, background: "var(--surface)" }} />}
@@ -56,9 +56,9 @@ function Feat({ recipe, label, onClick }: { recipe: GeneratedRecipe; label: stri
   );
 }
 
-function Idea({ recipe, onClick, onWeek }: { recipe: GeneratedRecipe; onClick: () => void; onWeek: () => void }) {
+function Idea({ recipe, found, onClick, onWeek }: { recipe: GeneratedRecipe; found: DetectedIngredient[]; onClick: () => void; onWeek: () => void }) {
   const photo = useRecipePhoto(recipe.title, recipe.imageSearch);
-  const { have, total } = haveCount(recipe);
+  const { have, total } = haveCount(recipe, found);
   return (
     <button type="button" className="gc" onClick={onClick}>
       <span className="gc-wk" role="button" tabIndex={0} aria-label="Ajouter à ma semaine"
@@ -144,12 +144,12 @@ export function Results({ history, isPlus, onNewIdeas }: {
             </div>
           )}
           {feat ? <>
-            <Feat recipe={feat.r} label={MEAL_WORDS[meal].feat} onClick={() => open(feat.i)} />
+            <Feat recipe={feat.r} found={entry.ingredients} label={MEAL_WORDS[meal].feat} onClick={() => open(feat.i)} />
             <button type="button" className="wk-add" onClick={addToWeek}><Icon name="cal" /><span>Ajouter à ma semaine</span>{!isPlus && <LockPill />}</button>
           </> : <p className="muted" style={{ margin: 0, fontSize: 14 }}>Aucune idée de ce scan ne correspond.</p>}
           {others.length > 0 && <>
             <div className="sec"><h3>{meal === "w" ? "Pour la suite de la semaine" : "Autres idées"}</h3><span className="muted" style={{ fontSize: 13 }}>avec ton frigo</span></div>
-            <div className="grid2">{others.map(x => <Idea key={x.i} recipe={x.r} onClick={() => open(x.i)} onWeek={addToWeek} />)}</div>
+            <div className="grid2">{others.map(x => <Idea key={x.i} recipe={x.r} found={entry.ingredients} onClick={() => open(x.i)} onWeek={addToWeek} />)}</div>
           </>}
           <button type="button" className="more" disabled={busy} onClick={more}>
             <Icon name="redo" /><span>D'autres idées <small>· sans utiliser de scan</small></span>{!isPlus && <LockPill />}

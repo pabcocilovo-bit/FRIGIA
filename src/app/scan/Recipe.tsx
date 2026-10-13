@@ -32,8 +32,8 @@ export function Recipe({ history, isPlus, name, avatar, isFavorite, onToggleFavo
   const photo = useRecipePhoto(recipe?.title, recipe?.imageSearch);
   if (!recipe) return <Navigate to="/" replace />;
 
-  const lines = recipeLines(recipe, servings);
-  const { have, total } = haveCount(recipe);
+  const lines = recipeLines(recipe, servings, entry?.ingredients);
+  const { have, total } = haveCount(recipe, entry?.ingredients);
   const missing = total - have;
   const steps = recipe.steps ?? [];
   const fav = isFavorite(recipe);

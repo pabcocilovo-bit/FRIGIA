@@ -57,6 +57,7 @@ export function Ingredients({ isPlus, name, avatar, profile, guide, userId }: {
   if (!scan.photo && scan.ingredients.length === 0) return <Navigate to="/scan" replace />;
 
   const n = scan.ingredients.length;
+  // Sans jeton, aucune photo n'a été lue : les ingrédients ont été tapés à la main
   const remove = (i: number) => setScan({ ingredients: getScan().ingredients.filter((_, k) => k !== i) });
 
   return (
@@ -69,7 +70,7 @@ export function Ingredients({ isPlus, name, avatar, profile, guide, userId }: {
       <div className="ingr-sheet">
         <div className="ingr-gh">
           <div className="grab" />
-          <span className="label">{n} ingrédient{n > 1 ? "s" : ""} trouvé{n > 1 ? "s" : ""}</span>
+          <span className="label">{n} ingrédient{n > 1 ? "s" : ""} {scan.token ? "trouvé" : "ajouté"}{n > 1 ? "s" : ""}</span>
           <h2>C'est bien <em>ça&nbsp;?</em></h2>
           <p>Retire ce qui n'y est plus, ajoute ce qui manque.</p>
         </div>

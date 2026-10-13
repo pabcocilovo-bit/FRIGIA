@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
 import type { GeneratedRecipe, HistoryEntry, User } from "./lib/types";
 import { buildShareText, fetchTheMealImage, mealImageCache, recipeIcon } from "./lib/recipes";
-import { customerPortalUrl, fetchScanQuota, quotaText, getCachedQuota, isPlus as hasPlus, quotaTotal, scansLeft, setCachedQuota, type ScanQuota } from "./lib/billing";
+import { customerPortalUrl, fetchScanQuota, quotaText, getCachedQuota, isPlus as hasPlus, paymentFailed, quotaTotal, scansLeft, setCachedQuota, type ScanQuota } from "./lib/billing";
 import {
   changePassword, clearLocalData, deleteAccount as deleteAccountRequest, displayName, getAvatar, getPrefs,
   isOAuthUser as isOAuthAccount, setAvatar, signOut, updateProfile,
@@ -1305,6 +1305,16 @@ export default function Frigia() {
     document.getElementById("prerender")?.remove();
     document.querySelector('meta[name="viewport"]')?.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover");
   }, [user]);
+
+  // Renouvellement de Plus refusé (carte expirée…) : « Paiement refusé » une fois par visite, en arrivant sur l'accueil
+  useEffect(() => {
+    if (!paymentFailed(user) || location.pathname !== "/") return;
+    try {
+      if (sessionStorage.getItem("frigia_payfail_seen")) return;
+      sessionStorage.setItem("frigia_payfail_seen", "1");
+    } catch { return; }
+    navigate("/plus/paiement?refus=1");
+  }, [user, location.pathname, navigate]);
 
 /** Enregistre les goûts (questions remplies une fois connecté, ou « Modifier » depuis Famille). */
 const saveTastes = async (p: Profile) => {

@@ -75,5 +75,9 @@ export const checkoutUrl = (plan: PlanChoice) => post<{ url?: string }>("/api/cr
 export const customerPortalUrl = () => post<{ url?: string }>("/api/customer-portal");
 /** Places restantes au prix fondateur (500 premiers abonnés annuels). */
 export const fetchOffers = () => post<{ founderLeft: number }>("/api/subscription", { action: "offers" });
-export const subscriptionAction = (action: "status" | "cancel" | "undo" | "pause" | "resume", reason?: string) =>
+export const subscriptionAction = (action: "status" | "cancel" | "undo" | "pause" | "resume" | "retry", reason?: string) =>
   post<{ subscription: Subscription | null }>("/api/subscription", { action, reason }).then(r => r.subscription);
+/** Paiement refusé : le mois où la carte a expiré (« septembre »), ou null si la raison n'est pas une carte expirée. */
+export const expiredCardMonth = () => post<{ expired?: string | null }>("/api/subscription", { action: "payfail" }).then(r => r.expired ?? null);
+/** Paiement de l'abonnement refusé au renouvellement : Stripe va retenter, la carte est à changer. */
+export const paymentFailed = (u: User | null | undefined) => ["past_due", "unpaid"].includes(u?.app_metadata?.subscription_status);
