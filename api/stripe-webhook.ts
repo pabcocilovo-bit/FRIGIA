@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
-import { errorMessage, grantPlusMonth, type Req, type Res } from "./_shared.js";
+import { cancelEmail } from "./_email.js";
+import { errorMessage, grantPlusMonth, periodEnd, type Req, type Res } from "./_shared.js";
 import { notify } from "./_push.js";
 
 export const config = { api: { bodyParser: false } };
@@ -104,6 +105,18 @@ export default async function handler(req: Req, res: Res) {
     });
   };
 
+  /** L'adresse du compte, sinon celle du client Stripe. */
+  const emailOf = async (userId: string | null, sub: Stripe.Subscription): Promise<string | null> => {
+    if (userId) {
+      const { data } = await admin.auth.admin.getUserById(userId);
+      if (data?.user?.email) return data.user.email;
+    }
+    try {
+      const customer = await stripe.customers.retrieve(sub.customer as string);
+      return customer.deleted ? null : customer.email;
+    } catch { return null; }
+  };
+
   if (processedEvents.has(event.id)) return res.json({ received: true });
   processedEvents.add(event.id);
   if (processedEvents.size > 500) {
@@ -133,6 +146,16 @@ export default async function handler(req: Req, res: Res) {
         const sub = event.data.object as Stripe.Subscription;
         const userId = await getUserIdFromSubscription(sub);
         if (userId) await updateUser(userId, sub.status);
+        // Résiliation (depuis l'appli ou le portail Stripe) : l'email de confirmation part d'ici
+        const before = event.data.previous_attributes as Partial<Stripe.Subscription> | undefined;
+        const nowCanceling = sub.cancel_at_period_end || !!sub.cancel_at;
+        const wasCanceling = before && ("cancel_at_period_end" in before || "cancel_at" in before)
+          ? !!before.cancel_at_period_end || !!before.cancel_at
+          : nowCanceling;
+        if (nowCanceling && !wasCanceling) {
+          const email = await emailOf(userId, sub);
+          if (email) await cancelEmail(email, sub.cancel_at ?? periodEnd(sub), `cancel-${event.id}`);
+        }
         break;
       }
       case "customer.subscription.deleted": {
