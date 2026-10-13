@@ -82,3 +82,32 @@ export function cancelEmail(to: string, endsAt: number, idempotencyKey: string) 
     note: `Tu peux reprendre Plus jusqu'au ${end}, en un clic, au même prix.`,
   }, idempotencyKey);
 }
+
+const euros = (cents: number) => (cents / 100).toFixed(2).replace(".", ",") + " €";
+
+/** Renouvellement refusé : changer de carte avant que Plus s'arrête. */
+export function payFailedEmail(to: string, amount: number, idempotencyKey: string) {
+  return sendEmail(to, "Ton paiement Frigia Plus n'est pas passé", {
+    title: "Ton paiement n'est pas passé",
+    paragraphs: [
+      `Ta banque a refusé le renouvellement de Frigia Plus (${euros(amount)}). Ça arrive souvent quand une carte expire.`,
+      "Mets à jour ta carte en deux minutes pour garder ta semaine, ta famille et tes scans sans limite.",
+    ],
+    button: { label: "Mettre à jour ma carte", href: `${SITE}/plus/paiement?refus=1` },
+    note: "On réessaiera automatiquement dans quelques jours. Sans paiement, tu repasseras en Gratuit, sans rien perdre.",
+  }, idempotencyKey);
+}
+
+/** Rappel avant la reconduction d'un abonnement annuel, avec la possibilité de ne pas le renouveler. */
+export function renewalEmail(to: string, renewsAt: number, amount: number, idempotencyKey: string) {
+  const date = DAY_YEAR.format(new Date(renewsAt * 1000));
+  return sendEmail(to, `Frigia Plus se renouvelle le ${date}`, {
+    title: "Ton année Plus se renouvelle bientôt",
+    paragraphs: [
+      `Ton abonnement annuel Frigia Plus sera renouvelé automatiquement le ${date}, pour ${euros(amount)}.`,
+      "Tu n'as rien à faire pour continuer.",
+      `Si tu ne veux pas le renouveler, tu peux le résilier en trois clics jusqu'au ${date}. Plus reste alors actif jusqu'à cette date.`,
+    ],
+    button: { label: "Gérer mon abonnement", href: `${SITE}/resilier` },
+  }, idempotencyKey);
+}
