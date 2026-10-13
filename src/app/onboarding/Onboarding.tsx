@@ -81,7 +81,7 @@ function ObField({ label, icon, hint, eye, ref, ...input }: InputHTMLAttributes<
 }
 
 /** Les 6 cases du code reçu par email. Un vrai champ invisible par-dessus reçoit la saisie (et le code proposé par le téléphone). */
-function CodeBoxes({ value, onChange, state, inputRef }: {
+export function CodeBoxes({ value, onChange, state, inputRef }: {
   value: string; onChange: (v: string) => void; state: "ok" | "bad" | null; inputRef?: Ref<HTMLInputElement>;
 }) {
   return (

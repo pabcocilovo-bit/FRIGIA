@@ -1,16 +1,20 @@
 // 10 · Famille (prototype V3) : le compte, le foyer, les goûts, le parrainage et l'abonnement.
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Icon, Pill, RoundButton } from "../ui/components";
 import type { User } from "../lib/types";
 import type { Profile } from "../lib/profile";
 import { AppTabBar } from "./AppTabBar";
 import { Avatar } from "./Home";
-import { firstName, initial, memberSince, tasteRows } from "./format";
+import { memberSince, tasteRows } from "./format";
 import { comingSoon } from "./toast";
 import { subscriptionText, useOpenPaywall, useSubscription } from "./plus/subscription";
+import { AccountSheet, type AccountMode, type Dish } from "./settings/sheets";
 
-export function Family({ user, isPlus, avatar, profile, onEditTastes }: {
-  user: User; isPlus: boolean; avatar: string | null; profile: Profile | null;
+export function Family({ user, name, isPlus, avatar, profile, dishes, onAvatar, onName, onEditTastes }: {
+  user: User; name: string; isPlus: boolean; avatar: string | null; profile: Profile | null;
+  /** La photo de profil (le crayon sur la photo) : changée ici, comme dans Ton compte */
+  dishes: Dish[]; onAvatar: (src: string | null) => void; onName: (name: string) => void;
   /** Sans question : les 3 questions (« Modifier ») ; 2 ou 3 : cette question seule (une ligne de « Tes goûts ») */
   onEditTastes: (question?: 2 | 3) => void;
 }) {
@@ -19,7 +23,7 @@ export function Family({ user, isPlus, avatar, profile, onEditTastes }: {
   // L'abonnement Stripe (prix, prochaine date) ; null pour un compte Plus sans abonnement (accès offert)
   const { sub } = useSubscription(user.id, isPlus);
   const tastes = profile && tasteRows(profile);
-  const name = firstName(user);
+  const [sheet, setSheet] = useState<AccountMode | null>(null);
 
   return (
     <div className="fa fa-app" aria-label="Ta famille">
@@ -30,8 +34,8 @@ export function Family({ user, isPlus, avatar, profile, onEditTastes }: {
         </div>
         <div className="pid">
           <div className="pav">
-            <Avatar user={user} photo={avatar} className="plate pav-av" label="Ta photo de profil" />
-            <button type="button" className="pedit" aria-label="Changer ta photo de profil" onClick={() => navigate("/reglages")}><Icon name="cam" /></button>
+            <Avatar user={user} name={name} photo={avatar} className="plate pav-av" label="Ta photo de profil" />
+            <button type="button" className="pedit" aria-label="Changer ta photo de profil" onClick={() => setSheet("photo")}><Icon name="cam" /></button>
           </div>
           <h2>{name}</h2>
           <p>{memberSince(user)}</p>
@@ -46,7 +50,7 @@ export function Family({ user, isPlus, avatar, profile, onEditTastes }: {
         {isPlus ? (
           <div className="plist">
             <button type="button" className="prow" onClick={() => comingSoon(10)}>
-              <span className="ini">{initial(user)}</span>
+              <span className={"ini" + (avatar ? " has-pp" : "")} style={avatar ? { backgroundImage: `url(${avatar})` } : undefined}>{name.charAt(0).toUpperCase()}</span>
               <span className="tx"><b>{name}</b><span>Adulte · aime tout</span></span>
               <Icon name="next" />
             </button>
@@ -103,6 +107,7 @@ export function Family({ user, isPlus, avatar, profile, onEditTastes }: {
         </div>
       </div>
       <AppTabBar active="family" isPlus={isPlus} />
+      <AccountSheet mode={sheet} onClose={() => setSheet(null)} onMode={setSheet} user={user} name={name} avatar={avatar} dishes={dishes} onAvatar={onAvatar} onName={onName} />
     </div>
   );
 }

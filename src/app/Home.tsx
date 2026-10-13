@@ -13,13 +13,14 @@ import { useOpenPaywall } from "./plus/subscription";
 
 const CATS = ["Ce soir", "Rapide", "Les enfants adorent", "Anti-gaspi", "Batch cooking"];
 
-export function Avatar({ user, photo, className, onClick, label }: {
-  user: User; photo: string | null; className: string; onClick?: () => void; label: string;
+export function Avatar({ user, name, photo, className, onClick, label }: {
+  user: User; name?: string; photo: string | null; className: string; onClick?: () => void; label: string;
 }) {
   const style = photo ? { backgroundImage: `url(${photo})` } : undefined;
+  const letter = name ? name.charAt(0).toUpperCase() : initial(user);
   return onClick
-    ? <button type="button" className={className + (photo ? " has-pp" : "")} style={style} aria-label={label} onClick={onClick}>{initial(user)}</button>
-    : <span className={className + (photo ? " has-pp" : "")} style={style} role="img" aria-label={label}>{initial(user)}</span>;
+    ? <button type="button" className={className + (photo ? " has-pp" : "")} style={style} aria-label={label} onClick={onClick}>{letter}</button>
+    : <span className={className + (photo ? " has-pp" : "")} style={style} role="img" aria-label={label}>{letter}</span>;
 }
 
 function ScanRow({ entry, locked, onClick }: { entry: HistoryEntry; locked: boolean; onClick: () => void }) {
@@ -47,8 +48,8 @@ function FavCard({ recipe, onClick }: { recipe: GeneratedRecipe; onClick: () => 
   );
 }
 
-export function Home({ user, isPlus, quota, avatar, history, favorites, onOpenRecipe }: {
-  user: User; isPlus: boolean; quota: ScanQuota | null; avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
+export function Home({ user, name, isPlus, quota, avatar, history, favorites, onOpenRecipe }: {
+  user: User; name: string; isPlus: boolean; quota: ScanQuota | null; avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
   onOpenRecipe: (r: GeneratedRecipe) => void;
 }) {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ export function Home({ user, isPlus, quota, avatar, history, favorites, onOpenRe
     <div className="fa fa-app" aria-label="Accueil">
       <div className="ghead">
         <div className="row">
-          <Avatar user={user} photo={avatar} className="avatar" label="Ta famille" onClick={() => navigate("/famille")} />
+          <Avatar user={user} name={name} photo={avatar} className="avatar" label="Ta famille" onClick={() => navigate("/famille")} />
           <span className="word">Frigia</span>
           <RoundButton icon="bell" label="Notifications" tone="glass" onClick={() => comingSoon(12)} />
         </div>

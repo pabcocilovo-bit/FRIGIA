@@ -237,17 +237,17 @@ export function Sheet({ open, onClose, label, children }: { open: boolean; onClo
 }
 
 /** Petite feuille flottante (code introuvable, nous écrire…) : un rond avec une icône, un titre serif, du texte, des boutons. */
-export function Dialog({ open, onClose, icon, badge, title, children }: {
-  open: boolean; onClose: () => void; icon?: IconName; badge?: ReactNode; title: ReactNode; children?: ReactNode;
+export function Dialog({ open, onClose, icon, badge, title, className, label, children }: {
+  open: boolean; onClose: () => void; icon?: IconName; badge?: ReactNode; title?: ReactNode; className?: string; label?: string; children?: ReactNode;
 }) {
   useEscape(open, onClose);
   return createPortal(
     <div className={cx("fa fa-layer", open && "open")} aria-hidden={!open} inert={!open}>
       <div className="scrim" onClick={onClose} />
-      <div className="dialog" role="dialog" aria-modal="true">
+      <div className={cx("dialog", className)} role="dialog" aria-modal="true" aria-label={label}>
         <span className="grab" />
         {icon && <span className="dialog-art"><Icon name={icon} />{badge != null && <span className="dialog-badge">{badge}</span>}</span>}
-        <h3>{title}</h3>
+        {title && <h3>{title}</h3>}
         {children}
       </div>
     </div>,
