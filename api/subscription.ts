@@ -2,6 +2,7 @@
 // mettre en pause un mois (une fois par an, même si on reprend plus tôt) et reprendre.
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import type Stripe from "stripe";
+import { pauseEndEmail } from "./_email.js";
 import {
   adminClient, authUser, currentSubscription, errorMessage, founderSeatsLeft, hasCreatorOffer, periodEnd, planOf, plusOneMonth, preflight, stripeClient, type Req, type Res,
 } from "./_shared.js";
@@ -48,7 +49,34 @@ async function expiredCard(stripe: Stripe, sub: Stripe.Subscription): Promise<st
   return card.exp_year === now.getFullYear() ? month : `${month} ${card.exp_year}`;
 }
 
+const HOUR_S = 3600;
+
+/** Tous les jours (vercel.json, crons) : prévient la veille ceux dont la pause se termine.
+ *  Fenêtre de 25 h pour ne rater personne si le cron glisse ; un email en double est évité par Resend. */
+async function pauseReminders(admin: SupabaseClient): Promise<number> {
+  const now = Date.now() / 1000;
+  let sent = 0;
+  for (let page = 1; ; page++) {
+    const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 1000 });
+    if (error) throw error;
+    for (const u of data.users) {
+      const until = u.app_metadata?.pause_until;
+      if (u.email && typeof until === "number" && until >= now + 12 * HOUR_S && until < now + 37 * HOUR_S) {
+        if (await pauseEndEmail(u.email, until, `pause-end-${u.id}-${until}`)) sent++;
+      }
+    }
+    if (data.users.length < 1000) return sent;
+  }
+}
+
 export default async function handler(req: Req, res: Res) {
+  // Le cron de Vercel appelle en GET avec CRON_SECRET
+  if (req.method === "GET" && process.env.CRON_SECRET && req.headers.authorization === `Bearer ${process.env.CRON_SECRET}`) {
+    try { return res.json({ sent: await pauseReminders(adminClient()) }); } catch (e) {
+      console.error("pause reminders:", errorMessage(e));
+      return res.status(500).json({ error: "failed" });
+    }
+  }
   if (preflight(req, res)) return;
   const { action, reason } = (req.body ?? {}) as { action?: string; reason?: string };
   if (!process.env.STRIPE_SECRET_KEY) return res.status(500).json({ error: "Stripe not configured" });

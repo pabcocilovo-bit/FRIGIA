@@ -111,3 +111,19 @@ export function renewalEmail(to: string, renewsAt: number, amount: number, idemp
     button: { label: "Gérer mon abonnement", href: `${SITE}/resilier` },
   }, idempotencyKey);
 }
+
+const DAY = new Intl.DateTimeFormat("fr-FR", { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Paris" });
+
+/** La veille de la fin d'une pause (promis sur l'écran « Bonne pause »). */
+export function pauseEndEmail(to: string, until: number, idempotencyKey: string) {
+  const day = DAY.format(new Date(until * 1000));
+  return sendEmail(to, `Frigia Plus reprend ${day}`, {
+    title: "Ta pause se termine bientôt",
+    paragraphs: [
+      `Frigia Plus reprend tout seul ${day}.`,
+      "Ta semaine, ta famille et tes favoris t'attendent, rien n'a bougé.",
+    ],
+    button: { label: "Ouvrir Frigia", href: SITE },
+    note: "Tu ne veux pas reprendre ? Tu peux résilier depuis ton compte, en trois clics.",
+  }, idempotencyKey);
+}
