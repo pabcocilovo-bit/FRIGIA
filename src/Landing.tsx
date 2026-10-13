@@ -718,7 +718,7 @@ function Footer() {
       <LegalModal title="Mentions légales" onClose={() => setModal(null)}>
         <span style={s.heading}>Éditeur</span>
         Frigia — Application web éditée par un particulier.<br />
-        Contact : <a href="mailto:frigia.contact@gmail.com" style={{ color:C.orange }}>frigia.contact@gmail.com</a>
+        Contact : <a href="mailto:contact@frigia.fr" style={{ color:C.orange }}>contact@frigia.fr</a>
         <span style={s.heading}>Hébergement</span>
         Vercel Inc., 340 Pine Street Suite 900, San Francisco, CA 94104, USA.
         <span style={s.heading}>Propriété intellectuelle</span>
@@ -738,7 +738,7 @@ function Footer() {
         <span style={s.heading}>5. Responsabilité</span>
         Les recettes générées par l'IA sont fournies à titre indicatif. Frigia ne peut être tenu responsable d'une utilisation inappropriée des suggestions.
         <span style={s.heading}>6. Contact</span>
-        <a href="mailto:frigia.contact@gmail.com" style={{ color:C.orange }}>frigia.contact@gmail.com</a>
+        <a href="mailto:contact@frigia.fr" style={{ color:C.orange }}>contact@frigia.fr</a>
       </LegalModal>
     )}
     {modal === "confidentialite" && (
@@ -752,7 +752,7 @@ function Footer() {
         <span style={s.heading}>Durée de conservation</span>
         Vos données sont conservées tant que votre compte est actif. Elles sont supprimées intégralement à la suppression du compte.
         <span style={s.heading}>Vos droits (RGPD)</span>
-        Vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits : <a href="mailto:frigia.contact@gmail.com" style={{ color:C.orange }}>frigia.contact@gmail.com</a>
+        Vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits : <a href="mailto:contact@frigia.fr" style={{ color:C.orange }}>contact@frigia.fr</a>
         <span style={s.heading}>Cookies</span>
         Frigia n'utilise pas de cookies de suivi ou publicitaires.
       </LegalModal>
@@ -769,7 +769,7 @@ function Footer() {
               Votre Chef IA personnel.<br />4 jours gratuits, puis 4,99€/mois.
             </p>
             <p style={{ color:C.muted,fontSize:13,marginTop:12 }}>
-              <a href="mailto:frigia.contact@gmail.com" style={{ color:C.muted }} onMouseEnter={e=>(e.currentTarget.style.color=C.text)} onMouseLeave={e=>(e.currentTarget.style.color=C.muted)}>frigia.contact@gmail.com</a>
+              <a href="mailto:contact@frigia.fr" style={{ color:C.muted }} onMouseEnter={e=>(e.currentTarget.style.color=C.text)} onMouseLeave={e=>(e.currentTarget.style.color=C.muted)}>contact@frigia.fr</a>
             </p>
           </div>
           <div style={{ flex:1,minWidth:140 }}>

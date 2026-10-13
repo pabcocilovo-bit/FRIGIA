@@ -462,7 +462,7 @@ const LEGAL_CONTENT: Record<LegalPage, { title: string; body: React.ReactNode }>
       <div>
         <h3>Éditeur</h3>
         <p>Frigia est édité par Pablo Cocilovo, particulier.</p>
-        <p>Contact : <a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a></p>
+        <p>Contact : <a href="mailto:contact@frigia.fr">contact@frigia.fr</a></p>
 
         <h3>Hébergement</h3>
         <p>L'application est hébergée par <strong>Vercel Inc.</strong>, 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis — <a href="https://vercel.com" target="_blank" rel="noreferrer">vercel.com</a></p>
@@ -498,7 +498,7 @@ const LEGAL_CONTENT: Record<LegalPage, { title: string; body: React.ReactNode }>
         <p>L'éditeur se réserve le droit de modifier les présentes CGU à tout moment. Les modifications prennent effet à compter de leur publication dans l'application.</p>
 
         <h3>Contact</h3>
-        <p><a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a></p>
+        <p><a href="mailto:contact@frigia.fr">contact@frigia.fr</a></p>
       </div>
     ),
   },
@@ -507,7 +507,7 @@ const LEGAL_CONTENT: Record<LegalPage, { title: string; body: React.ReactNode }>
     body: (
       <div>
         <h3>Responsable du traitement</h3>
-        <p>Pablo Cocilovo — <a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a></p>
+        <p>Pablo Cocilovo — <a href="mailto:contact@frigia.fr">contact@frigia.fr</a></p>
 
         <h3>Données collectées</h3>
         <ul>
@@ -523,7 +523,7 @@ const LEGAL_CONTENT: Record<LegalPage, { title: string; body: React.ReactNode }>
         <p>Les données sont conservées pendant la durée de l'abonnement actif + 12 mois. Elles sont ensuite supprimées définitivement.</p>
 
         <h3>Vos droits (RGPD)</h3>
-        <p>Vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Pour exercer ces droits, contactez : <a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a></p>
+        <p>Vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Pour exercer ces droits, contactez : <a href="mailto:contact@frigia.fr">contact@frigia.fr</a></p>
 
         <h3>Sous-traitants</h3>
         <ul>
@@ -586,7 +586,7 @@ const LEGAL_CONTENT: Record<LegalPage, { title: string; body: React.ReactNode }>
         </ul>
 
         <h3>Exercer vos droits</h3>
-        <p>Envoyez votre demande à <a href="mailto:frigia.contact@gmail.com">frigia.contact@gmail.com</a>. Réponse sous 30 jours.</p>
+        <p>Envoyez votre demande à <a href="mailto:contact@frigia.fr">contact@frigia.fr</a>. Réponse sous 30 jours.</p>
 
         <h3>Réclamation</h3>
         <p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la <strong>CNIL</strong> (Commission Nationale de l'Informatique et des Libertés) — <a href="https://www.cnil.fr" target="_blank" rel="noreferrer">cnil.fr</a></p>
@@ -621,7 +621,7 @@ function LegalModal({ page, theme, onClose }: { page: LegalPage; theme: Theme; o
           {content.body}
         </div>
         <div style={{ padding: "12px 24px", borderTop: `1px solid ${v.border}`, fontSize: 12, color: v.muted, textAlign: "center" }}>
-          Contact : <a href="mailto:frigia.contact@gmail.com" style={{ color: "#FF6B35" }}>frigia.contact@gmail.com</a> — © 2026 Frigia
+          Contact : <a href="mailto:contact@frigia.fr" style={{ color: "#FF6B35" }}>contact@frigia.fr</a> — © 2026 Frigia
         </div>
       </div>
     </div>
@@ -1311,8 +1311,8 @@ function SettingsModal({
               <div style={{ ...glassCard(theme), padding: 24, marginTop: 16 }}>
                 <div style={{ fontWeight: 700, color: v.text, marginBottom: 8 }}>✉️ Nous contacter</div>
                 <p style={{ fontSize: 13, color: v.muted, marginBottom: 12 }}>Un problème ? Une question ? Notre équipe vous répond rapidement.</p>
-                <a href="mailto:frigia.contact@gmail.com" style={{ display: "inline-block", padding: "10px 20px", borderRadius: 100, background: v.inputBg, border: `1px solid ${v.border}`, color: v.text, fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
-                  frigia.contact@gmail.com
+                <a href="mailto:contact@frigia.fr" style={{ display: "inline-block", padding: "10px 20px", borderRadius: 100, background: v.inputBg, border: `1px solid ${v.border}`, color: v.text, fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
+                  contact@frigia.fr
                 </a>
               </div>
             </div>
