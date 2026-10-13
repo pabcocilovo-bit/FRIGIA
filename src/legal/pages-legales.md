@@ -66,7 +66,7 @@ Plus reste actif jusqu'à la fin de la période déjà payée, puis ton compte p
 
 ### 8. Droit de rétractation
 
-Tu as 14 jours après ton abonnement pour te rétracter, en écrivant à frigia.contact@gmail.com.
+Tu as 14 jours après ton abonnement pour te rétracter, en écrivant à contact@frigia.fr.
 
 Si tu demandes à profiter de Plus tout de suite en cochant la case prévue au paiement, tu reconnais que le service commence avant la fin de ce délai. En cas de rétractation, on te rembourse alors au prorata des jours restants.
 
@@ -102,7 +102,7 @@ Ces conditions relèvent du droit français. En cas de souci, écris-nous d'abor
 
 ### Contact
 
-frigia.contact@gmail.com
+contact@frigia.fr
 
 ---
 
@@ -119,7 +119,7 @@ _Mise à jour le 9 octobre 2026_
 
 ### Qui s'occupe de tes données
 
-**[À compléter : L'éditeur indiqué dans les mentions légales]** est responsable du traitement. Contact : frigia.contact@gmail.com.
+**[À compléter : L'éditeur indiqué dans les mentions légales]** est responsable du traitement. Contact : contact@frigia.fr.
 
 ### Ce qu'on enregistre
 
@@ -182,7 +182,7 @@ Il faut 15 ans pour créer un compte. Les informations des enfants sont saisies 
 
 ### Tes droits
 
-Tu peux accéder à tes données, les corriger, les supprimer, les récupérer dans un fichier, t'opposer à un traitement ou retirer ton accord. Écris à frigia.contact@gmail.com : réponse sous 30 jours.
+Tu peux accéder à tes données, les corriger, les supprimer, les récupérer dans un fichier, t'opposer à un traitement ou retirer ton accord. Écris à contact@frigia.fr : réponse sous 30 jours.
 
 Si tu penses que tes droits ne sont pas respectés, tu peux saisir la CNIL (cnil.fr).
 
@@ -207,7 +207,7 @@ Frigia est édité par **[À compléter : Pablo Cocilovo, statut à préciser (m
 
 Directeur de la publication : **[À compléter : Pablo Cocilovo]**.
 
-Contact : frigia.contact@gmail.com.
+Contact : contact@frigia.fr.
 
 ### Hébergement
 
