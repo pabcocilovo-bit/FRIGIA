@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
-import { errorMessage, type Req, type Res } from "./_shared.js";
+import { cancelEmail, payFailedEmail, renewalEmail } from "./_email.js";
+import { errorMessage, periodEnd, type Req, type Res } from "./_shared.js";
 
 export const config = { api: { bodyParser: false } };
 
@@ -64,16 +65,29 @@ export default async function handler(req: Req, res: Res) {
     return null;
   };
 
-  const getUserIdFromInvoice = async (invoice: Stripe.Invoice): Promise<string | null> => {
+  const subscriptionOfInvoice = async (invoice: Stripe.Invoice): Promise<Stripe.Subscription | null> => {
     // Ancienne API : invoice.subscription ; depuis 2025 : invoice.parent.subscription_details.subscription
     const inv = invoice as Stripe.Invoice & { subscription?: string | Stripe.Subscription | null };
     const ref = inv.subscription ?? invoice.parent?.subscription_details?.subscription;
     const subscriptionId = typeof ref === "string" ? ref : ref?.id;
-    if (subscriptionId) {
-      const sub = await stripe.subscriptions.retrieve(subscriptionId);
-      return getUserIdFromSubscription(sub);
+    return subscriptionId ? stripe.subscriptions.retrieve(subscriptionId) : null;
+  };
+
+  const getUserIdFromInvoice = async (invoice: Stripe.Invoice): Promise<string | null> => {
+    const sub = await subscriptionOfInvoice(invoice);
+    return sub ? getUserIdFromSubscription(sub) : null;
+  };
+
+  /** L'adresse du compte, sinon celle du client Stripe. */
+  const emailOf = async (userId: string | null, sub: Stripe.Subscription): Promise<string | null> => {
+    if (userId) {
+      const { data } = await admin.auth.admin.getUserById(userId);
+      if (data?.user?.email) return data.user.email;
     }
-    return null;
+    try {
+      const customer = await stripe.customers.retrieve(sub.customer as string);
+      return customer.deleted ? null : customer.email;
+    } catch { return null; }
   };
 
   if (processedEvents.has(event.id)) return res.json({ received: true });
@@ -103,6 +117,16 @@ export default async function handler(req: Req, res: Res) {
         const sub = event.data.object as Stripe.Subscription;
         const userId = await getUserIdFromSubscription(sub);
         if (userId) await updateUser(userId, sub.status);
+        // Résiliation (depuis l'appli ou le portail Stripe) : l'email de confirmation part d'ici
+        const before = event.data.previous_attributes as Partial<Stripe.Subscription> | undefined;
+        const nowCanceling = sub.cancel_at_period_end || !!sub.cancel_at;
+        const wasCanceling = before && ("cancel_at_period_end" in before || "cancel_at" in before)
+          ? !!before.cancel_at_period_end || !!before.cancel_at
+          : nowCanceling;
+        if (nowCanceling && !wasCanceling) {
+          const email = await emailOf(userId, sub);
+          if (email) await cancelEmail(email, sub.cancel_at ?? periodEnd(sub), `cancel-${event.id}`);
+        }
         break;
       }
       case "customer.subscription.deleted": {
@@ -125,8 +149,25 @@ export default async function handler(req: Req, res: Res) {
       }
       case "invoice.payment_failed": {
         const invoice = event.data.object as Stripe.Invoice;
-        const userId = await getUserIdFromInvoice(invoice);
+        const sub = await subscriptionOfInvoice(invoice);
+        const userId = sub ? await getUserIdFromSubscription(sub) : null;
         if (userId) await updateUser(userId, "past_due");
+        // Renouvellement refusé : un email au premier échec (au premier paiement, l'abonné est encore sur la page)
+        if (sub && invoice.billing_reason === "subscription_cycle" && invoice.attempt_count === 1) {
+          const email = await emailOf(userId, sub);
+          if (email) await payFailedEmail(email, invoice.amount_due, `payfail-${invoice.id}`);
+        }
+        break;
+      }
+      case "invoice.upcoming": {
+        // Reconduction d'un abonnement annuel : prévenir avant (art. L215-1 du Code de la consommation).
+        // Stripe l'envoie le nombre de jours réglé dans Billing > Subscriptions (« Upcoming renewal events »).
+        const invoice = event.data.object as Stripe.Invoice;
+        const sub = await subscriptionOfInvoice(invoice);
+        if (!sub || sub.cancel_at_period_end || sub.cancel_at || sub.items.data[0]?.price.recurring?.interval !== "year") break;
+        const email = await emailOf(await getUserIdFromSubscription(sub), sub);
+        const renewsAt = periodEnd(sub);
+        if (email) await renewalEmail(email, renewsAt, invoice.amount_due, `renew-${sub.id}-${renewsAt}`);
         break;
       }
       case "invoice.payment_succeeded": {
