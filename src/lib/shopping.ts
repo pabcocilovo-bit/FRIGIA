@@ -31,7 +31,33 @@ const same = (a: string, b: string) => norm(a).join(" ") === norm(b).join(" ");
 /** Déjà dans la liste, pas encore acheté */
 export const inList = (list: ShopItem[], name: string) => list.some(x => !x.done && same(x.name, name));
 
-/** Ajoute des articles à la liste. Déjà là et pas encore acheté : on ne le remet pas (la recette s'ajoute à « pour »). */
+/** « 12½ cl » → 12,5 et « cl ». null : pas de nombre au début (« 1 pot » oui, « un peu » non). */
+function parseQty(q: string): { v: number; u: string } | null {
+  const m = q.trim().match(/^(\d+(?:[.,]\d+)?)?(½)?\s*(.*)$/);
+  if (!m || (!m[1] && !m[2])) return null;
+  return { v: (m[1] ? parseFloat(m[1].replace(",", ".")) : 0) + (m[2] ? 0.5 : 0), u: m[3].trim() };
+}
+const unitKey = (u: string) => u.toLowerCase().replace(/s$/, "");
+const COUNTED = ["gousse", "tranche", "feuille", "pot", "boîte", "botte", "sachet"];
+function fmtQty(v: number, u: string): string {
+  if (u === "g" && v >= 1000) return `${String(Math.round(v / 100) / 10).replace(".", ",")} kg`;
+  const r = Math.round(v * 2) / 2;
+  const n = Number.isInteger(r) ? String(r) : r % 1 === 0.5 ? `${Math.floor(r) || ""}½` : String(Math.round(v * 10) / 10).replace(".", ",");
+  const unit = COUNTED.includes(unitKey(u)) ? unitKey(u) + (v > 1 ? "s" : "") : u;
+  return unit ? `${n} ${unit}` : n;
+}
+/** Deux recettes demandent le même ingrédient : « 40 g » + « 30 g » = « 70 g ». Unités différentes : « 40 g + 2 c. à s. ». */
+export function sumQty(a: string, b: string): string {
+  if (!a.trim()) return b;
+  if (!b.trim()) return a;
+  const x = parseQty(a), y = parseQty(b);
+  if (x && y && unitKey(x.u) === unitKey(y.u)) return fmtQty(x.v + y.v, x.u || y.u);
+  return `${a} + ${b}`;
+}
+const recipeOf = (from: string) => from.split(" · ")[0];
+
+/** Ajoute des articles à la liste. Déjà là et pas encore acheté : une seule ligne, les quantités s'additionnent
+ *  et la recette s'ajoute à « pour ». Une recette déjà comptée dans cette ligne n'est pas comptée deux fois. */
 export function addToList(list: ShopItem[], add: { name: string; qty: string }[], from: string): { list: ShopItem[]; added: string[] } {
   const next = [...list];
   const added: string[] = [];
@@ -39,7 +65,8 @@ export function addToList(list: ShopItem[], add: { name: string; qty: string }[]
     const name = a.name.charAt(0).toUpperCase() + a.name.slice(1);
     const i = next.findIndex(x => !x.done && same(x.name, name));
     if (i >= 0) {
-      if (!next[i].from.includes(from)) next[i] = { ...next[i], from: `${next[i].from}, ${from}` };
+      const counted = next[i].from.split(", ").some(f => recipeOf(f) === recipeOf(from));
+      if (!counted) next[i] = { ...next[i], qty: sumQty(next[i].qty, a.qty), from: `${next[i].from}, ${from}` };
       continue;
     }
     next.push({ id: crypto.randomUUID(), name, qty: a.qty, aisle: aisleOf(name), from, done: false, at: Date.now() });
