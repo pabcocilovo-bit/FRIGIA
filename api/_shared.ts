@@ -51,6 +51,8 @@ export function isPlus(user: User, now = Date.now()): boolean {
   if (m.is_whitelisted) return true;
   // Pause d'un mois : Plus est en veille entre la fin de la période payée et la reprise
   if (m.pause_from && m.pause_until && now >= m.pause_from * 1000 && now < m.pause_until * 1000) return false;
+  // Mois offerts (parrainage) et mois d'essai d'un code créateur : Plus jusqu'à cette date
+  if (typeof m.plus_until === "number" && now < m.plus_until * 1000) return true;
   if (m.subscription_status === "active") return true;
   if (m.subscription_status === "trialing") {
     // Anciens essais de 4 jours (avant Gratuit et Plus) : valables jusqu'au bout. Une pause passe aussi par « trialing ».
@@ -107,4 +109,30 @@ export function planOf(sub: Stripe.Subscription): "month" | "year" | "founder" |
 export function periodEnd(sub: Stripe.Subscription): number {
   const s = sub as Stripe.Subscription & { current_period_end?: number };
   return s.current_period_end ?? sub.items.data[0]?.current_period_end ?? 0;
+}
+
+/** Même date le mois suivant (secondes). */
+export const plusOneMonth = (s: number) => { const d = new Date(s * 1000); d.setMonth(d.getMonth() + 1); return Math.floor(d.getTime() / 1000); };
+
+/** Un mois de Plus offert (parrainage). Abonné : la prochaine échéance recule d'un mois (période d'essai chez Stripe,
+ *  pause comprise). Sinon, ou abonnement qui s'arrête : Plus sans paiement, à la suite de ce qui est déjà payé ou offert. */
+export async function grantPlusMonth(admin: SupabaseClient, stripe: Stripe, userId: string): Promise<void> {
+  const { data: { user } } = await admin.auth.admin.getUserById(userId);
+  if (!user) return; // compte supprimé
+  const m = user.app_metadata || {};
+  const now = Math.floor(Date.now() / 1000);
+  const given = typeof m.plus_until === "number" ? m.plus_until : 0;
+  const sub = await currentSubscription(stripe, user);
+  const meta: Record<string, number> = {};
+  if (sub && ["active", "trialing"].includes(sub.status) && !sub.cancel_at_period_end) {
+    const until = plusOneMonth(Math.max(sub.trial_end ?? 0, periodEnd(sub), now));
+    await stripe.subscriptions.update(sub.id, { trial_end: until, proration_behavior: "none" });
+    meta.plus_until = Math.max(given, until);
+    // En pause : la reprise remet cette date, elle recule aussi
+    if (typeof m.pause_renew === "number") meta.pause_renew = plusOneMonth(m.pause_renew);
+  } else {
+    meta.plus_until = plusOneMonth(Math.max(now, given, sub ? periodEnd(sub) : 0));
+  }
+  const { error } = await admin.auth.admin.updateUserById(userId, { app_metadata: meta });
+  if (error) throw error;
 }

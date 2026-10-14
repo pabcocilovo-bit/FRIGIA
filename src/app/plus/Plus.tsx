@@ -1,6 +1,6 @@
 // Gratuit et Plus (prototype V3) : Passe à Plus, On attend ta banque / Paiement refusé, Bienvenue dans Plus,
 // Résilier (avec la pause d'un mois), et la feuille « Bienvenue » de l'accueil après l'inscription.
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { supabase } from "../../supabase";
 import { checkoutUrl, expiredCardMonth, fetchOffers, isPlus, subscriptionAction, type PlanChoice, type Subscription } from "../../lib/billing";
@@ -10,6 +10,8 @@ import { LOGO_SYMBOL } from "../logo";
 import { useBack } from "../nav";
 import { showToast } from "../toast";
 import { PLUS_ART } from "./art";
+import { CodeSheet, type CodeProblem } from "./CodeSheet";
+import { cleanCode, redeemCode } from "../../lib/codes";
 import { WHY, checkoutChoice, isYearly, longDate, priceText, rememberCheckout, useSubscription, type PaywallState, type Why } from "./subscription";
 import "./plus.css";
 
@@ -35,7 +37,7 @@ const CMP: [string, string, string | null][] = [
   ["Historique", "7 jours", "Tout"],
 ];
 
-export function Paywall() {
+export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les scans offerts à relire */ onCode?: () => void }) {
   const location = useLocation();
   const back = useBack();
   const state = (location.state ?? {}) as PaywallState;
@@ -44,6 +46,24 @@ export function Paywall() {
   // Prix fondateur tant qu'il reste des places parmi les 500 premiers abonnés annuels
   const [founder, setFounder] = useState(true);
   const [busy, setBusy] = useState(false);
+  // Code ami ou créateur
+  const [codeOpen, setCodeOpen] = useState(!!state.code);
+  const [codeIn, setCodeIn] = useState("");
+  const [codeOk, setCodeOk] = useState<string | null>(null);
+  const [problem, setProblem] = useState<CodeProblem | null>(null);
+  const codeRef = useRef<HTMLInputElement>(null);
+  useEffect(() => { if (state.code) setTimeout(() => codeRef.current?.focus(), 350); }, [state.code]);
+  const apply = async () => {
+    const typed = cleanCode(codeIn);
+    if (!typed) { codeRef.current?.focus(); return; }
+    try {
+      const v = await redeemCode(typed);
+      if (v.status !== "ok") { codeRef.current?.blur(); setProblem({ ...v, typed }); return; }
+      setCodeOk(v.perk);
+      setCodeOpen(false);
+      onCode?.();
+    } catch (e) { showToast(failText(e)); }
+  };
 
   useEffect(() => {
     let live = true;
@@ -95,12 +115,26 @@ export function Paywall() {
               <span className="pr">6,99 €/mois</span>
             </button>
           </div>
+          <div className="code">
+            {!codeOk && <button type="button" className="tg" onClick={() => { setCodeOpen(o => !o); setTimeout(() => codeRef.current?.focus(), 50); }}>J'ai un code ami ou créateur</button>}
+            {codeOpen && (
+              <div className="row">
+                <input ref={codeRef} placeholder="Ton code, ex. MARIE" aria-label="Code ami ou créateur" autoComplete="off" autoCapitalize="characters"
+                  value={codeIn} onChange={e => setCodeIn(e.target.value)} onKeyDown={e => { if (e.key === "Enter") void apply(); }} />
+                <button type="button" onClick={() => void apply()}>Appliquer</button>
+              </div>
+            )}
+            {codeOk && <div className="ok"><Icon name="check" /><span>{codeOk}</span></div>}
+          </div>
         </div>
       </div>
       <div className="pw-foot">
         <Pill tone="cream" disabled={busy} onClick={pay}>Passer à Plus · {plan === "year" ? yearPrice : "6,99 €/mois"}</Pill>
         <small>Sans engagement. Paiement sécurisé par Stripe.</small>
       </div>
+      <CodeSheet problem={problem}
+        onFix={() => { setProblem(null); setTimeout(() => { codeRef.current?.focus(); codeRef.current?.select(); }, 350); }}
+        onSkip={() => { setProblem(null); setCodeIn(""); setCodeOpen(false); }} />
     </section>
   );
 }

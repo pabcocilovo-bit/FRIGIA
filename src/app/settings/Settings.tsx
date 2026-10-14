@@ -1,5 +1,5 @@
 // 22 · Tes réglages et Ton compte (prototype V3). On y arrive par la roue dentée de Famille.
-// Pas encore là : « Utiliser un code » (étape 11), Notifications (étape 12), Langue (l'appli n'existe qu'en français).
+// Pas encore là : Notifications (étape 12), Langue (l'appli n'existe qu'en français).
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import type { User } from "../../lib/types";
@@ -7,7 +7,7 @@ import { downloadMyData, hasGoogle, isOAuthUser, linkGoogle, passwordChangedAt, 
 import { Icon, RoundButton, ScreenHeader } from "../../ui/components";
 import { agoText } from "../format";
 import { useBack } from "../nav";
-import { useOpenPaywall } from "../plus/subscription";
+import { useOpenPaywall, type PaywallState } from "../plus/subscription";
 import { showToast } from "../toast";
 import { authMessage } from "../onboarding/errors";
 import { AccountSheet, ContactSheet, DeleteSheet, ProfileDot, type AccountMode, type Dish, type SendMode } from "./sheets";
@@ -58,6 +58,7 @@ export function Settings({ user, name, avatar, isPlus, onSignOut, onDelete, onGo
             <Icon name="next" className="st-chev" />
           </button>
           <Row icon="sparkle" title="Abonnement" value={isPlus ? "Plus" : "Gratuit"} onClick={() => (isPlus ? navigate("/resilier") : openPaywall("def"))} />
+          {!isPlus && <Row icon="gift" title="Utiliser un code" value="Ami ou créateur" onClick={() => navigate("/plus", { state: { why: "def", code: true } satisfies PaywallState })} />}
         </div>
 
         <span className="st-sec">L'app</span>

@@ -180,6 +180,8 @@
 .fa .dialog .link{padding:6px}
 .fa .dialog-art{position:relative;width:76px;height:76px;border-radius:50%;background:var(--sage-soft);color:var(--sage-deep);display:grid;place-items:center;flex:none}
 .fa .dialog-art>.i{width:34px;height:34px}
+.fa .cd-typed{padding:9px 18px;border-radius:12px;background:var(--card);box-shadow:inset 0 0 0 1.5px var(--line);font:700 17px/1 var(--sans);letter-spacing:.14em;color:var(--text)}
+.fa .cd-typed.old{text-decoration:line-through;text-decoration-color:var(--hi);color:var(--muted)}
 .fa .dialog-badge{position:absolute;right:-4px;bottom:-2px;width:32px;height:32px;border-radius:50%;background:var(--hi);color:#fff;display:grid;place-items:center;font:700 18px/1 var(--sans);box-shadow:0 0 0 4px var(--bg)}
 
 /* Petit message en bas */

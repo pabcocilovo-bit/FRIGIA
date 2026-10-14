@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
-import { errorMessage, type Req, type Res } from "./_shared.js";
+import { errorMessage, grantPlusMonth, type Req, type Res } from "./_shared.js";
 
 export const config = { api: { bodyParser: false } };
 
@@ -40,9 +40,11 @@ export default async function handler(req: Req, res: Res) {
   });
 
   // Writes to app_metadata (admin-only, not user-writable)
-  const updateUser = async (userId: string, status: string, customerId?: string) => {
-    const appData: Record<string, string> = { subscription_status: status };
+  const updateUser = async (userId: string, status: string, customerId?: string, plusUntil?: number) => {
+    const appData: Record<string, string | number> = { subscription_status: status };
     if (customerId) appData.stripe_customer_id = customerId;
+    // Mois offert d'un code créateur (période d'essai) : Plus jusqu'à sa fin
+    if (plusUntil) appData.plus_until = plusUntil;
     const { error } = await admin.auth.admin.updateUserById(userId, { app_metadata: appData });
     // Ignore "user not found" errors — account may have been deleted already
     if (error && !error.message.includes("not found") && !error.message.includes("User not found")) {
@@ -76,6 +78,24 @@ export default async function handler(req: Req, res: Res) {
     return null;
   };
 
+  // Premier vrai paiement de Plus : compté pour le code utilisé, et l'ami qui a invité gagne un mois (une seule fois)
+  const firstPayment = async (userId: string) => {
+    const now = new Date().toISOString();
+    const { error } = await admin.from("code_uses").update({ subscribed_at: now }).eq("user_id", userId).is("subscribed_at", null);
+    if (error) return; // pas de table des codes (migration 20261020000000 pas lancée)
+    const { data } = await admin.from("code_uses").update({ rewarded_at: now })
+      .eq("user_id", userId).eq("kind", "friend").is("rewarded_at", null).not("referrer", "is", null).select("referrer");
+    const referrer = data?.[0]?.referrer as string | undefined;
+    if (!referrer) return;
+    try {
+      await grantPlusMonth(admin, stripe, referrer);
+    } catch (e) {
+      // On rend la récompense pour que Stripe, en réessayant, la redonne
+      await admin.from("code_uses").update({ rewarded_at: null }).eq("user_id", userId);
+      throw e;
+    }
+  };
+
   if (processedEvents.has(event.id)) return res.json({ received: true });
   processedEvents.add(event.id);
   if (processedEvents.size > 500) {
@@ -91,11 +111,13 @@ export default async function handler(req: Req, res: Res) {
         if (userId) {
           // Read actual subscription status instead of hardcoding "trialing"
           let status = "trialing";
+          let trialEnd: number | undefined;
           if (session.subscription) {
             const sub = await stripe.subscriptions.retrieve(session.subscription as string);
             status = sub.status;
+            if (sub.status === "trialing" && sub.trial_end) trialEnd = sub.trial_end;
           }
-          await updateUser(userId, status, session.customer as string);
+          await updateUser(userId, status, session.customer as string, trialEnd);
         }
         break;
       }
@@ -133,6 +155,7 @@ export default async function handler(req: Req, res: Res) {
         const invoice = event.data.object as Stripe.Invoice;
         const userId = await getUserIdFromInvoice(invoice);
         if (userId) await updateUser(userId, "active");
+        if (userId && invoice.amount_paid > 0) await firstPayment(userId);
         break;
       }
     }

@@ -42,6 +42,8 @@ import { Recipe, type RecipeState } from "./app/scan/Recipe";
 import { Cook } from "./app/scan/Cook";
 import { totalSaved } from "./lib/cooked";
 import { Report } from "./app/report/Report";
+import { InviteLink, Refer } from "./app/refer/Refer";
+import { pendingCode, redeemCode, setPendingCode } from "./lib/codes";
 import { guideState } from "./app/scan/guideSteps";
 import { Account, Settings } from "./app/settings/Settings";
 import { Help } from "./app/settings/Help";
@@ -66,6 +68,7 @@ export default function Frigia() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [profileMissing, setProfileMissing] = useState(false);
   const profileFor = useRef<string | null>(null);
+  const redeeming = useRef<string | null>(null);
   // Déconnexion voulue (Se déconnecter, compte supprimé) : on part sur Bienvenue, comme le prototype
   const signOutTo = useRef<string | null>(null);
   // Compte tout neuf : on passe par l'accès à la caméra avant l'accueil
@@ -118,8 +121,15 @@ export default function Frigia() {
       // Réponses aux questions en attente : c'est un compte tout neuf (même rendu que la connexion, pas de passage par l'accueil)
       if (profileFor.current !== u.id && hasPendingProfile()) setGoCamera(true);
       void loadProfile(u);
+      // Code ami ou créateur vérifié à l'inscription : il sert dès que le compte existe (gardé si le réseau manque)
+      const code = pendingCode();
+      // La session s'annonce plusieurs fois à l'ouverture : un seul envoi
+      if (code && redeeming.current !== code) void redeemCode(redeeming.current = code).then(v => {
+        setPendingCode(null);
+        if (v.status === "ok") void fetchScanQuota(u.id).then(q => { if (q && profileFor.current === u.id) setQuota(q); });
+      }).catch(() => { redeeming.current = null; /* réessayé à la prochaine ouverture */ });
       const oauth = takeOAuthIntent();
-      if (oauth === "signup") showToast("Compte Google relié : pas d'email à confirmer");
+      if (oauth === "signup") showToast(code ? "Compte Google relié, ton code est gardé" : "Compte Google relié : pas d'email à confirmer");
       if (oauth === "login") { const n = firstName(u); showToast(n ? `Bon retour, ${n}` : "Bon retour"); }
     },
     onSignedOut: () => {
@@ -202,6 +212,7 @@ if (!user || obPath) {
     <AppFrame splash={sessionReady ? !!user || isStandalone() : undefined} guest={!user}>
       <Routes>
         {screens.map(([path, el]) => <Route key={path} path={path} element={open(path) ? el : <Navigate to="/" replace />} />)}
+        <Route path="/i/:code" element={<InviteLink />} />
         <Route path="/" element={isStandalone()
           ? <Navigate to="/bienvenue" replace />
           : <><Analytics /><Suspense fallback={null}><Landing
@@ -297,7 +308,7 @@ return (
           onMyAllergies={allergies => void saveTastes({ ...(profile ?? EMPTY_PROFILE), allergies })} />
           : <Navigate to="/plus" replace state={{ why: "famille" }} />} />
       ))}
-      <Route path="/plus" element={isPlus ? <Navigate to="/" replace /> : <Paywall />} />
+      <Route path="/plus" element={isPlus ? <Navigate to="/" replace /> : <Paywall onCode={() => void fetchScanQuota(user.id).then(q => { if (q) setQuota(q); })} />} />
       <Route path="/plus/paiement" element={<PayReturn />} />
       <Route path="/plus/bienvenue" element={<PlusWelcome user={user} name={name} />} />
       <Route path="/resilier" element={<Cancel user={user} />} />
@@ -314,6 +325,8 @@ return (
       <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
       <Route path="/recettes/:id/:n/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} />} />
       <Route path="/recette/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} />} />
+      <Route path="/parrainage" element={<Refer name={name} avatar={avatarSrc} isPlus={isPlus} />} />
+      <Route path="/i/:code" element={<Navigate to="/" replace />} />
       <Route path="/bilan" element={isPlus ? <Report meals={cooked.meals} /> : <Navigate to="/" replace />} />
       <Route path="/scans" element={<Scans history={history} cooked={cooked.meals} isPlus={isPlus} />} />
       <Route path="/favoris" element={<Favorites favorites={favorites} history={history} isPlus={isPlus} onOpen={r => openRecipe(r, r.savedServings)} onToggleFavorite={toggleFavorite} />} />

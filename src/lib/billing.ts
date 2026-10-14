@@ -12,6 +12,8 @@ export function isPlus(u: User | null | undefined, now = Date.now()): boolean {
   if (m.is_whitelisted) return true;
   // Pause d'un mois : Plus est en veille entre la fin de la période payée et la reprise
   if (m.pause_from && m.pause_until && now >= m.pause_from * 1000 && now < m.pause_until * 1000) return false;
+  // Mois offerts (parrainage) et mois d'essai d'un code créateur : Plus jusqu'à cette date
+  if (typeof m.plus_until === "number" && now < m.plus_until * 1000) return true;
   if (m.subscription_status === "active") return true;
   if (m.subscription_status === "trialing") return !!m.pause_until || now < new Date(u.created_at).getTime() + TRIAL_MS;
   return false;

@@ -22,6 +22,9 @@ export default async function handler(req: Req, res: Res) {
       const portal = await stripe.billingPortal.sessions.create({ customer, return_url: `${origin}/plus/paiement?carte=1` });
       return res.json({ url: portal.url });
     }
+    // Code créateur avec un mois offert : période d'essai au premier abonnement (jamais deux fois)
+    const { data: use } = await adminClient().from("code_uses").select("plus_days, subscribed_at").eq("user_id", user.id).maybeSingle();
+    const trialDays = use && use.plus_days > 0 && !use.subscribed_at && !customer ? use.plus_days as number : 0;
     const price = plan === "month" ? STRIPE_PRICE_MONTHLY
       : STRIPE_PRICE_FOUNDER && await founderSeatsLeft(stripe) > 0 ? STRIPE_PRICE_FOUNDER : STRIPE_PRICE_YEARLY;
     const session = await stripe.checkout.sessions.create({
@@ -30,7 +33,7 @@ export default async function handler(req: Req, res: Res) {
       client_reference_id: user.id,
       metadata: { supabase_user_id: user.id },
       line_items: [{ price, quantity: 1 }],
-      subscription_data: { metadata: { supabase_user_id: user.id } },
+      subscription_data: { metadata: { supabase_user_id: user.id }, ...(trialDays ? { trial_period_days: trialDays } : {}) },
       success_url: `${origin}/plus/paiement?checkout=success`,
       cancel_url: `${origin}/plus`,
     });

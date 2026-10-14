@@ -8,7 +8,6 @@ import { memberSub, type Person } from "../lib/household";
 import { AppTabBar } from "./AppTabBar";
 import { Avatar } from "./Home";
 import { memberSince, tasteRows } from "./format";
-import { comingSoon } from "./toast";
 import { subscriptionText, useOpenPaywall, useSubscription } from "./plus/subscription";
 import { AccountSheet, type AccountMode, type Dish } from "./settings/sheets";
 
@@ -90,7 +89,7 @@ export function Family({ user, name, isPlus, avatar, profile, household, dishes,
         <div className="refer">
           <span className="pi"><Icon name="gift" /></span>
           <div><b>1 mois offert par ami abonné</b><span>Et 10 scans en plus pour ton ami</span></div>
-          <button type="button" className="pill" style={{ boxShadow: "inset 0 0 0 1px var(--line)" }} onClick={() => comingSoon(11)}>Inviter</button>
+          <button type="button" className="pill" style={{ boxShadow: "inset 0 0 0 1px var(--line)" }} onClick={() => navigate("/parrainage")}>Inviter</button>
         </div>
 
         <div className="sec"><h3>Ton abonnement</h3></div>

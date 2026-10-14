@@ -18,6 +18,10 @@
       "destination": "/"
     },
     {
+      "source": "/i/:code",
+      "destination": "/"
+    },
+    {
       "source": "/questions/:n",
       "destination": "/"
     },

@@ -14,6 +14,8 @@ import { getSignupEmail, resetAnswers, setSignupEmail, useAnswers } from "./answ
 import { useCaptcha } from "./captcha";
 import { authMessage, isEmailNotConfirmed, looksLikeEmail } from "./errors";
 import { withGoogle } from "./oauth";
+import { checkCode, cleanCode, clearInviteCode, inviteCode, setPendingCode } from "../../lib/codes";
+import { CodeSheet, type CodeProblem } from "../plus/CodeSheet";
 import "./ob.css";
 
 const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).join(" ");
@@ -355,24 +357,70 @@ export function Ready() {
 }
 
 // ─── F · Crée ton compte ─────────────────────────────────────────────────────
-// Le champ « J'ai un code ami ou créateur » arrive avec les codes (étape 11 du plan).
+// « J'ai un code ami ou créateur » : vérifié avant de continuer (Google comme email), utilisé dès que le compte existe.
+// Un lien d'invitation (frigia.fr/i/…) le préremplit.
 
 export function Signup() {
   const navigate = useNavigate();
   const [a] = useAnswers();
+  const [code, setCode] = useState(() => inviteCode() ?? "");
+  const [codeOpen, setCodeOpen] = useState(() => !!inviteCode());
+  const [codeOk, setCodeOk] = useState<string | null>(null);
+  const [problem, setProblem] = useState<CodeProblem | null>(null);
+  const [next, setNext] = useState<"google" | "email">("email");
+  const [busy, setBusy] = useState(false);
+  const codeInput = useRef<HTMLInputElement>(null);
+
+  const go = (to: "google" | "email") => {
+    setPendingProfile(a);
+    if (to === "google") void withGoogle("signup"); else navigate("/compte/email");
+  };
+  // Un code tapé : on le vérifie d'abord. Refusé : la petite feuille, sans continuer.
+  const start = async (to: "google" | "email") => {
+    const typed = cleanCode(code);
+    if (!typed) { setPendingCode(null); go(to); return; }
+    setNext(to);
+    setBusy(true);
+    try {
+      const v = await checkCode(typed);
+      if (v.status !== "ok") { setProblem({ ...v, typed }); return; }
+      setPendingCode(typed);
+      clearInviteCode();
+      setCodeOk(v.perk);
+      setTimeout(() => go(to), 600);
+    } catch (e) {
+      showToast(e instanceof Error ? e.message : "Ça n'a pas marché. Réessaie.");
+    } finally { setBusy(false); }
+  };
+
   return (
     <Screen cls="ob" label="Crée ton compte">
       <ObHead from={60} to={72} label="Dernière étape" title={<>Crée ton compte <em>gratuit</em></>} sub="Pour garder tes réponses et lancer ton premier scan." />
       <div className="scroll"><div className="ob-body" style={{ paddingBottom: 28 }}>
-        <button type="button" className="ob-btn white" onClick={() => { setPendingProfile(a); void withGoogle("signup"); }}><Icon name="google" />Continuer avec Google</button>
+        {!codeOpen
+          ? <button type="button" className="ob-codetg" style={{ alignSelf: "center" }} onClick={() => { setCodeOpen(true); setTimeout(() => codeInput.current?.focus(), 50); }}><Icon name="gift" />J'ai un code ami ou créateur</button>
+          : (
+            <div className="ob-field">
+              <label htmlFor="obCode">Code ami ou créateur (facultatif)</label>
+              <div className="ob-input"><Icon name="gift" />
+                <input ref={codeInput} id="obCode" autoComplete="off" autoCapitalize="characters" placeholder="Ex. MARIE" style={{ textTransform: code ? "uppercase" : "none" }}
+                  value={code} onChange={e => { setCode(e.target.value); setCodeOk(null); }} />
+              </div>
+              {codeOk && <span className="ob-codeok"><Icon name="check" /><span>{codeOk}</span></span>}
+            </div>
+          )}
+        <button type="button" className="ob-btn white" disabled={busy} onClick={() => void start("google")}><Icon name="google" />Continuer avec Google</button>
         <div className="ob-or">ou</div>
-        <button type="button" className="ob-btn sage" onClick={() => navigate("/compte/email")}><Icon name="mail" />Continuer avec un email</button>
+        <button type="button" className="ob-btn sage" disabled={busy} onClick={() => void start("email")}><Icon name="mail" />Continuer avec un email</button>
         <div className="ob-perks">
           {["15 scans offerts pour commencer", "Sans carte bancaire", "Tes goûts gardés sur ton compte"].map(p => <div key={p}><i><Icon name="check" /></i>{p}</div>)}
         </div>
         <p className="ob-have">Déjà un compte ? <button type="button" onClick={() => { clearPendingProfile(); navigate("/connexion"); }}>Se connecter</button></p>
         <p className="ob-legal">En continuant, tu acceptes les <a href="/cgu">conditions d'utilisation</a> et la <a href="/confidentialite">politique de confidentialité</a>.</p>
       </div></div>
+      <CodeSheet problem={problem}
+        onFix={() => { setProblem(null); setTimeout(() => { codeInput.current?.focus(); codeInput.current?.select(); }, 350); }}
+        onSkip={() => { setProblem(null); setCode(""); setCodeOpen(false); setPendingCode(null); clearInviteCode(); setTimeout(() => go(next), 300); }} />
     </Screen>
   );
 }

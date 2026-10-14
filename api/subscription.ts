@@ -3,13 +3,11 @@
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import type Stripe from "stripe";
 import {
-  adminClient, authUser, currentSubscription, errorMessage, founderSeatsLeft, periodEnd, planOf, preflight, stripeClient, type Req, type Res,
+  adminClient, authUser, currentSubscription, errorMessage, founderSeatsLeft, periodEnd, planOf, plusOneMonth, preflight, stripeClient, type Req, type Res,
 } from "./_shared.js";
 
 const YEAR_S = 365 * 24 * 3600;
 
-/** Même date le mois suivant (secondes). */
-const plusOneMonth = (s: number) => { const d = new Date(s * 1000); d.setMonth(d.getMonth() + 1); return Math.floor(d.getTime() / 1000); };
 
 async function setMeta(admin: SupabaseClient, user: User, meta: Record<string, unknown>) {
   const { error } = await admin.auth.admin.updateUserById(user.id, { app_metadata: meta });

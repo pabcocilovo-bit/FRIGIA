@@ -17,7 +17,7 @@ export const WHY = {
 };
 export type Why = keyof typeof WHY;
 /** Ce que « Passe à Plus » reçoit : la raison, et l'écran à ouvrir une fois abonné. */
-export type PaywallState = { why?: Why; go?: string };
+export type PaywallState = { why?: Why; go?: string; /** « Utiliser un code » des réglages : le champ code ouvert */ code?: boolean };
 
 /** Ouvre « Passe à Plus » (formule Gratuit) avec sa raison, et l'écran à ouvrir une fois abonné. */
 export function useOpenPaywall() {

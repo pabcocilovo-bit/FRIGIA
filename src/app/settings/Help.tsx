@@ -1,5 +1,5 @@
 // 22 ter · Aide et questions fréquentes (prototype V3) : nous écrire, cartes « Bien démarrer », FAQ en rubriques.
-// Cachées jusqu'à leur étape : le code ami ou créateur (étape 11) et les notifications (étape 12).
+// Cachées jusqu'à leur étape : les notifications (étape 12).
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import type { User } from "../../lib/types";
@@ -27,6 +27,7 @@ const FAQ: { title: string; icon: IconName; qs: Q[] }[] = [
   ] },
   { title: "L'abonnement", icon: "sparkle", qs: [
     { k: "price", q: "Combien coûte Frigia Plus ?", a: "6,99 € par mois sans engagement, ou 39,99 € par an. Les 500 premiers abonnés ont le prix fondateur : 29,99 € par an, gardé tant qu'ils ne résilient pas.", act: ["Voir Frigia Plus", "paywall"] },
+    { k: "code", q: "J'ai un code ami ou créateur, où le mettre ?", a: "En créant ton compte, sous « J'ai un code ami ou créateur ». Ou au moment de passer à Plus. Un seul code par compte." },
     { k: "cancel", q: "Comment résilier ?", a: "Réglages, puis Abonnement : c'est fait en 3 clics. Plus reste actif jusqu'à la fin de la période payée. Tu peux aussi faire une pause d'un mois.", act: ["Gérer mon abonnement", "sub"] },
     { k: "declined", q: "Mon paiement est refusé, je perds tout ?", a: "Non. Rien n'est débité et rien n'est supprimé : tes favoris, tes scans et ta liste restent là. Tu changes de carte quand tu veux." },
   ] },
