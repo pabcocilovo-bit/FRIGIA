@@ -5,7 +5,7 @@ import { displayName } from "../lib/account";
 import { dayKey } from "../lib/home";
 
 const DAYS = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
-const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+export const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 
 /** Prénom affiché : le nom du compte, sinon le début de l'email. */
 export function firstName(u: User): string {
@@ -92,7 +92,7 @@ export function sinceScan(date: Date, now = new Date()): string {
   return `Depuis ton scan du ${date.getDate()} ${MONTHS[date.getMonth()]}`;
 }
 
-const SHORT_MONTHS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+export const SHORT_MONTHS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
 const hm = (d: Date) => `${d.getHours()} h ${String(d.getMinutes()).padStart(2, "0")}`;
 
 /** « Lundi soir », « Dimanche midi » ; un scan pour la semaine : « Lundi, pour la semaine ». */

@@ -41,6 +41,7 @@ import { Results } from "./app/scan/Results";
 import { Recipe, type RecipeState } from "./app/scan/Recipe";
 import { Cook } from "./app/scan/Cook";
 import { totalSaved } from "./lib/cooked";
+import { Report } from "./app/report/Report";
 import { guideState } from "./app/scan/guideSteps";
 import { Account, Settings } from "./app/settings/Settings";
 import { Help } from "./app/settings/Help";
@@ -313,6 +314,7 @@ return (
       <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
       <Route path="/recettes/:id/:n/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} />} />
       <Route path="/recette/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} />} />
+      <Route path="/bilan" element={isPlus ? <Report meals={cooked.meals} /> : <Navigate to="/" replace />} />
       <Route path="/scans" element={<Scans history={history} cooked={cooked.meals} isPlus={isPlus} />} />
       <Route path="/favoris" element={<Favorites favorites={favorites} history={history} isPlus={isPlus} onOpen={r => openRecipe(r, r.savedServings)} onToggleFavorite={toggleFavorite} />} />
       <Route path="/reglages" element={<Settings {...account} />} />

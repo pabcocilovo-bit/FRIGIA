@@ -10,7 +10,7 @@ import { AppTabBar } from "./AppTabBar";
 import { bandLabel, daysAgo, initial, plural, scanWhen } from "./format";
 import { useOpenScan } from "./offline";
 import { useRecipePhoto } from "./photo";
-import { comingSoon } from "./toast";
+import { comingSoon, showToast } from "./toast";
 import { useOpenPaywall } from "./plus/subscription";
 import { forTonight, type Person, portionsOf, portTxt } from "../lib/household";
 import type { MealKey, Week } from "../lib/home";
@@ -18,6 +18,8 @@ import { useScan } from "./scan/store";
 import { eatersOf } from "./scan/portions";
 import { weekDays } from "./format";
 import { Dish } from "./plan/Dish";
+import { cmFmt, useCommunity } from "./report/community";
+import "./report/report.css";
 import { SwapSheet, TonightSheet } from "./plan/sheets";
 import { count, dayOf, MEALS, options } from "./plan/week";
 
@@ -70,11 +72,12 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
   const navigate = useNavigate();
   const openScan = useOpenScan();
   const openPaywall = useOpenPaywall();
+  const community = useCommunity();
   const [cat, setCat] = useState(CATS[0]);
   // Plus : qui mange ce soir (« Qui mange » du scan), avec les invités
   const scan = useScan();
   const eaters = eatersOf(household, scan);
-  // Ce que les repas cuisinés ce mois-ci ont sauvé (le bilan complet arrive à l'étape 11)
+  // Ce que les repas cuisinés ce mois-ci ont sauvé (le détail : Ton bilan)
   const month = thisMonth(cooked);
   const saved = totalSaved(month);
   // Plus : la semaine, et le plat prévu ce soir
@@ -119,13 +122,22 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
       </div>
       <div className="hbody">
         {(saved.kg > 0 || saved.usedKg > 0) && (
-          <button type="button" className="saved-card" onClick={() => (isPlus ? comingSoon(11) : openPaywall("bilan"))}>
+          <button type="button" className="saved-card" onClick={() => (isPlus ? navigate("/bilan") : openPaywall("bilan"))}>
             <span className="ico"><Icon name="leaf" /></span>
             {/* Sauvé : ce qui était « À finir ». Sans rien de marqué, ce qui a été cuisiné de ton frigo. */}
             {saved.kg > 0
               ? <div><b>{euros(saved.eur)} sauvés en {MONTHS[new Date().getMonth()]}</b><span>{kilos(saved.kg)} de nourriture en moins à la poubelle</span></div>
               : <div><b>{kilos(saved.usedKg)} de ton frigo cuisinés en {MONTHS[new Date().getMonth()]}</b><span>Marque « À finir » au scan pour compter ce que tu sauves</span></div>}
             {isPlus ? <Icon name="next" className="muted" /> : <span className="lockpill">Aperçu</span>}
+          </button>
+        )}
+
+        {community && (
+          <button type="button" className="cm-line"
+            onClick={() => (isPlus ? navigate("/bilan") : showToast(`Ensemble, ${cmFmt(community.kg)} kg de nourriture en moins à la poubelle`))}>
+            <span className="cm-ic"><Icon name="users" /></span>
+            <span><b>{cmFmt(community.kg)} kg</b> sauvés par la communauté Frigia</span>
+            <i className="cm-live" aria-hidden="true" />
           </button>
         )}
 

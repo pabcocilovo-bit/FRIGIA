@@ -8,11 +8,13 @@ import type { HistoryEntry } from "../../lib/types";
 import { useBack } from "../nav";
 import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
-import { comingSoon, showToast } from "../toast";
+import { showToast } from "../toast";
 import { recipeLines, words } from "./portions";
 import type { RecipeState } from "./Recipe";
 import { type Counted, countCooked, euros, kilos } from "./savings";
 import { shareStory, storyImage } from "./story";
+import { cmFmt, useCommunity } from "../report/community";
+import "../report/report.css";
 import "./scan.css";
 
 const mmss = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
@@ -76,6 +78,7 @@ export function Cook({ history, isPlus, meals, onCooked }: {
   const t = recipe?.timers?.[step] ?? null;
   const timer = useTimer((t?.min ?? 0) * 60, step);
   const card = useRef<Promise<Blob | null> | null>(null);
+  const community = useCommunity();
   useWakeLock();
   if (!recipe || !steps.length) return <Navigate to="/" replace />;
 
@@ -98,7 +101,7 @@ export function Cook({ history, isPlus, meals, onCooked }: {
       setCounted(c);
       onCooked({
         scanId: entry?.id ?? null, title: recipe.title, image: photo, servings: Math.max(1, Math.round(servings)),
-        kg: c.saved.kg, eur: c.saved.eur, usedKg: c.used.kg, usedEur: c.used.eur,
+        kg: c.saved.kg, eur: c.saved.eur, usedKg: c.used.kg, usedEur: c.used.eur, items: c.items,
       });
     }
     setDone(true);
@@ -159,10 +162,14 @@ export function Cook({ history, isPlus, meals, onCooked }: {
               <div className="sv"><div><b>{euros(used.eur)}</b><span>de courses utilisées</span></div><div><b>{kilos(used.kg)}</b><span>de produits frais</span></div></div>
               <p className="used">Marque « À finir » au scan ce qui doit partir vite : on le comptera comme sauvé.</p>
             </> : null}
-            {isPlus ? (
+            {isPlus && (
               <div className="foot"><span>{MONTHS[new Date().getMonth()]} : {month.eur > 0 ? `${euros(month.eur)} sauvés` : `${kilos(month.usedKg)} de ton frigo cuisinés`}</span>
-                <button type="button" className="link" onClick={() => comingSoon(11)}>Ton bilan</button></div>
-            ) : (
+                <button type="button" className="link" onClick={() => navigate("/bilan")}>Ton bilan</button></div>
+            )}
+            {community && (
+              <div className="foot cm-foot"><span><Icon name="users" />Avec toi, la communauté a sauvé <b>{cmFmt(community.kg)} kg</b></span></div>
+            )}
+            {!isPlus && (
               <div className="foot"><span>Ton bilan du mois est dans Plus</span>
                 <button type="button" className="lockpill" onClick={() => openPaywall("bilan")}><Icon name="lock" />Voir</button></div>
             )}

@@ -2,6 +2,7 @@
 // - cuisiné de ton frigo : les produits frais déjà là (légumes, fruits, laitiers, viande, poisson, œufs) ;
 // - sauvé : parmi eux, ceux marqués « À finir » au scan, qui allaient se perdre.
 // Le placard, les condiments et ce qu'on ne reconnaît pas ne comptent pas.
+import type { SavedItem } from "../../lib/cooked";
 import type { DetectedIngredient, GeneratedRecipe } from "../../lib/types";
 import { inFridge, words } from "./portions";
 
@@ -91,7 +92,8 @@ function parseQty(text: string): { qty: number | null; unit: string } {
 }
 
 export type Amount = { kg: number; eur: number };
-export type Counted = { used: Amount; saved: Amount };
+/** items : le détail de « sauvé », produit par produit */
+export type Counted = { used: Amount; saved: Amount; items: SavedItem[] };
 
 const round = (g: number, eur: number): Amount => ({ kg: Math.round(g / 100) / 10, eur: Math.round(eur * 100) / 100 });
 
@@ -102,6 +104,7 @@ export function countCooked(r: GeneratedRecipe, servings: number, found?: Detect
     : (r.recipeIngredients ?? []).map(i => ({ name: i.name, ...parseQty(i.qty), have: !!found?.length && inFridge(i.name, found), factor: 1 }));
   const toFinish = (found ?? []).filter(f => f.finish);
   let g = 0, eur = 0, sg = 0, seur = 0;
+  const items: SavedItem[] = [];
   for (const l of lines) {
     const w = words(l.name);
     if (!l.have || !w.length || has(w, SKIP)) continue;
@@ -109,9 +112,9 @@ export function countCooked(r: GeneratedRecipe, servings: number, found?: Detect
     if (price == null) continue;
     const lg = grams(w, l.qty, l.unit) * l.factor, le = (lg / 1000) * price;
     g += lg; eur += le;
-    if (toFinish.length && inFridge(l.name, toFinish)) { sg += lg; seur += le; }
+    if (toFinish.length && inFridge(l.name, toFinish)) { sg += lg; seur += le; items.push({ name: l.name, ...round(lg, le) }); }
   }
-  return { used: round(g, eur), saved: round(sg, seur) };
+  return { used: round(g, eur), saved: round(sg, seur), items };
 }
 
 /** « 4,20 € », « 0,9 kg » */

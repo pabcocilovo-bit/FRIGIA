@@ -1,8 +1,11 @@
 // Repas cuisinés (« J'ai cuisiné ça ») : copie sur le téléphone + table Supabase cooked_meals.
 // Deux chiffres par repas : sauvé (kg, eur : ce qui était « À finir ») et cuisiné de ton frigo (used_kg, used_eur).
+// saved_items (étape 11) : le détail de ce qui a été sauvé, pour le bilan.
 // Sans la table (migration 20261016000000_cooked_meals.sql pas encore lancée), les repas restent sur le téléphone
 // et partent sur le compte au prochain chargement qui réussit.
 import { supabase } from "../supabase";
+
+export type SavedItem = { name: string; kg: number; eur: number };
 
 export type CookedMeal = {
   id: string;
@@ -17,6 +20,8 @@ export type CookedMeal = {
   /** Cuisiné de ton frigo : tous les produits frais déjà là */
   usedKg: number;
   usedEur: number;
+  /** Le détail de « sauvé » (absent pour les repas gardés avant l'étape 11) */
+  items?: SavedItem[];
   date: Date;
   /** Pas encore sur le compte */
   pending?: boolean;
@@ -24,7 +29,7 @@ export type CookedMeal = {
 
 type Row = {
   id: string; scan_id: string | null; recipe_title: string; recipe_image: string | null; servings: number;
-  kg: number | string; eur: number | string; used_kg?: number | string | null; used_eur?: number | string | null; cooked_at: string;
+  kg: number | string; eur: number | string; used_kg?: number | string | null; used_eur?: number | string | null; saved_items?: SavedItem[] | null; cooked_at: string;
 };
 type Stored = Omit<CookedMeal, "date"> & { date: string };
 
@@ -42,7 +47,8 @@ export function setCachedCooked(userId: string, meals: CookedMeal[]) {
 
 const fromRow = (r: Row): CookedMeal => ({
   id: r.id, scanId: r.scan_id, title: r.recipe_title, image: r.recipe_image, servings: r.servings,
-  kg: Number(r.kg), eur: Number(r.eur), usedKg: Number(r.used_kg ?? 0), usedEur: Number(r.used_eur ?? 0), date: new Date(r.cooked_at),
+  kg: Number(r.kg), eur: Number(r.eur), usedKg: Number(r.used_kg ?? 0), usedEur: Number(r.used_eur ?? 0),
+  items: Array.isArray(r.saved_items) && (r.saved_items.length || Number(r.kg) === 0) ? r.saved_items : undefined, date: new Date(r.cooked_at),
 });
 
 /** undefined : la table ne répond pas (pas encore créée, hors ligne). */
@@ -57,8 +63,10 @@ export async function dbInsertCooked(userId: string, m: CookedMeal): Promise<boo
     id: m.id, user_id: userId, scan_id: m.scanId, recipe_title: m.title, recipe_image: m.image,
     servings: m.servings, kg: m.kg, eur: m.eur, cooked_at: m.date.toISOString(),
   };
-  const { error } = await supabase.from("cooked_meals").insert({ ...row, used_kg: m.usedKg, used_eur: m.usedEur });
+  const { error } = await supabase.from("cooked_meals").insert({ ...row, used_kg: m.usedKg, used_eur: m.usedEur, saved_items: m.items ?? [] });
   if (!error) return true;
+  // Colonne saved_items pas encore ajoutée (migration 20261019000000) : le repas est gardé sans le détail
+  if (!(await supabase.from("cooked_meals").insert({ ...row, used_kg: m.usedKg, used_eur: m.usedEur })).error) return true;
   // Colonnes used_kg / used_eur pas encore ajoutées (migration 20261017000000) : le repas est gardé sans elles
   return !(await supabase.from("cooked_meals").insert(row)).error;
 }

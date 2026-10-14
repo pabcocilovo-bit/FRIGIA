@@ -26,7 +26,7 @@ function lines(ctx: CanvasRenderingContext2D, text: string, width: number): stri
   return out;
 }
 
-async function draw(photo: string | null, badge: string, title: string, withPhoto: boolean): Promise<Blob | null> {
+async function draw(photo: string | null, badge: string, title: string, foot0: string, withPhoto: boolean): Promise<Blob | null> {
   const canvas = document.createElement("canvas");
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext("2d");
@@ -58,7 +58,7 @@ async function draw(photo: string | null, badge: string, title: string, withPhot
   const left = 14 * K, width = W - 28 * K, gap = 6 * K;
   let y = H - 14 * K;
   ctx.font = `400 ${11.5 * K}px ${SANS}`;
-  const foot = lines(ctx, "Faite avec ce qu'il y avait dans le frigo · frigia.fr", width);
+  const foot = lines(ctx, foot0, width);
   const footLh = 11.5 * K * 1.35;
   y -= foot.length * footLh;
   ctx.globalAlpha = 0.85;
@@ -87,14 +87,15 @@ async function draw(photo: string | null, badge: string, title: string, withPhot
   }
 }
 
-/** L'image de la carte (PNG). */
-export async function storyImage(photo: string | null, badge: string, title: string): Promise<Blob | null> {
+/** L'image de la carte (PNG). foot : la petite phrase du bas. */
+export async function storyImage(photo: string | null, badge: string, title: string,
+  foot = "Faite avec ce qu'il y avait dans le frigo · frigia.fr"): Promise<Blob | null> {
   await Promise.all([
     document.fonts.load(`italic 400 ${22 * K}px ${SERIF}`),
     document.fonts.load(`400 ${26 * K}px ${SERIF}`),
     document.fonts.load(`600 ${12 * K}px ${SANS}`),
   ]).catch(() => undefined);
-  return (await draw(photo, badge, title, true)) ?? draw(photo, badge, title, false);
+  return (await draw(photo, badge, title, foot, true)) ?? draw(photo, badge, title, foot, false);
 }
 
 /** Partage la carte (Instagram, WhatsApp… depuis le menu du téléphone) ou l'enregistre. "saved" : téléchargée. */
