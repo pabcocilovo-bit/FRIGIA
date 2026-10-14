@@ -7,7 +7,8 @@
 -- Un code créateur : ajouté à la main, par exemple :
 --   insert into public.codes (code, kind, creator, plus_days, expires_at)
 --   values ('MARIE', 'creator', 'Marie', 30, '2026-12-31 23:59:59+01');
--- plus_days : jours de Plus offerts au premier abonnement (0 : seulement les scans). expires_at : null = sans fin.
+-- plus_days > 0 : l'offre de lancement au premier abonnement mensuel, 1 mois offert = 3 mois pour 13,98 € payés d'avance,
+-- puis 6,99 €/mois (0 : seulement les scans). expires_at : null = sans fin.
 -- Un seul code par compte. Seul le serveur lit et écrit ces tables (pas de lecture de la liste des codes).
 
 create table if not exists public.codes (

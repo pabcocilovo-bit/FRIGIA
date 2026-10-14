@@ -2,7 +2,7 @@
 import { postApi } from "./api";
 
 export type CodeVerdict =
-  | { status: "ok"; perk: string; bonus?: number }
+  | { status: "ok"; perk: string; bonus?: number; /** Code créateur : 3 mois pour 13,98 € au premier abonnement mensuel */ offer?: boolean }
   | { status: "unknown" | "own" }
   | { status: "expired"; since: string }
   | { status: "already"; code: string };

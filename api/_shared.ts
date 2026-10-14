@@ -111,6 +111,16 @@ export function periodEnd(sub: Stripe.Subscription): number {
   return s.current_period_end ?? sub.items.data[0]?.current_period_end ?? 0;
 }
 
+/** Offre de lancement d'un code créateur : 1 mois offert, soit 3 mois de Plus pour 13,98 € payés d'avance, puis 6,99 €/mois. */
+export const CREATOR_OFFER = { months: 3, cents: 1398 };
+
+/** Le compte a utilisé un code créateur avec l'offre, et ne s'est encore jamais abonné */
+export async function hasCreatorOffer(admin: SupabaseClient, user: User): Promise<boolean> {
+  if (user.app_metadata?.stripe_customer_id) return false;
+  const { data } = await admin.from("code_uses").select("plus_days, subscribed_at").eq("user_id", user.id).maybeSingle();
+  return !!data && data.plus_days > 0 && !data.subscribed_at;
+}
+
 /** Même date le mois suivant (secondes). */
 export const plusOneMonth = (s: number) => { const d = new Date(s * 1000); d.setMonth(d.getMonth() + 1); return Math.floor(d.getTime() / 1000); };
 

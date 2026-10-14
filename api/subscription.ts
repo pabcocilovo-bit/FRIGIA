@@ -3,7 +3,7 @@
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import type Stripe from "stripe";
 import {
-  adminClient, authUser, currentSubscription, errorMessage, founderSeatsLeft, periodEnd, planOf, plusOneMonth, preflight, stripeClient, type Req, type Res,
+  adminClient, authUser, currentSubscription, errorMessage, founderSeatsLeft, hasCreatorOffer, periodEnd, planOf, plusOneMonth, preflight, stripeClient, type Req, type Res,
 } from "./_shared.js";
 
 const YEAR_S = 365 * 24 * 3600;
@@ -55,7 +55,10 @@ export default async function handler(req: Req, res: Res) {
   const stripe = stripeClient();
 
   if (action === "offers") {
-    try { return res.json({ founderLeft: await founderSeatsLeft(stripe) }); } catch { return res.json({ founderLeft: 0 }); }
+    // creatorOffer : un code créateur attend son premier abonnement (3 mois pour 13,98 €)
+    const caller = await authUser(req, adminClient()).catch(() => null);
+    const creatorOffer = caller ? await hasCreatorOffer(adminClient(), caller).catch(() => false) : false;
+    try { return res.json({ founderLeft: await founderSeatsLeft(stripe), creatorOffer }); } catch { return res.json({ founderLeft: 0, creatorOffer }); }
   }
 
   const admin = adminClient();

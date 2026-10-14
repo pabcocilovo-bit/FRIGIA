@@ -28,8 +28,7 @@ async function perk(admin: SupabaseClient, c: Code): Promise<string> {
     const n = c.owner ? await firstName(admin, c.owner) : "";
     return `${n ? `Code de ${n}` : "Code ami"} : ${scans}.`;
   }
-  const plus = c.plus_days >= 28 ? `${Math.round(c.plus_days / 30)} mois de Plus offert` : `${c.plus_days} jours de Plus offerts`;
-  return `Code ${c.code} : ${scans}${c.plus_days ? `, et ${plus} quand tu t'abonnes` : ""}.`;
+  return `Code ${c.code} : ${scans}${c.plus_days ? ", et 1 mois de Plus offert : 3 mois pour 13,98 €, puis 6,99 €/mois" : ""}.`;
 }
 
 /** Ce que voit la personne : ok (avec ce que le code donne), introuvable, expiré, le sien, ou déjà un code */
@@ -107,5 +106,5 @@ export default async function handler(req: Req, res: Res) {
   const { data: status, error } = await admin.rpc("redeem_code", { p_user_id: user.id, p_code: code });
   if (error) return res.status(503).json({ error: "Codes indisponibles" });
   if (status !== "ok") return res.json({ status });
-  res.json({ status: "ok", perk: v.perk, bonus: v.c?.bonus_scans ?? 0 });
+  res.json({ status: "ok", perk: v.perk, bonus: v.c?.bonus_scans ?? 0, offer: (v.c?.plus_days ?? 0) > 0 });
 }

@@ -45,6 +45,8 @@ export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les s
   const [plan, setPlan] = useState<PlanChoice>("year");
   // Prix fondateur tant qu'il reste des places parmi les 500 premiers abonnés annuels
   const [founder, setFounder] = useState(true);
+  // Code créateur : le mensuel passe à 3 mois pour 13,98 € payés d'avance, puis 6,99 €/mois
+  const [offer, setOffer] = useState(false);
   const [busy, setBusy] = useState(false);
   // Code ami ou créateur
   const [codeOpen, setCodeOpen] = useState(!!state.code);
@@ -61,13 +63,18 @@ export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les s
       if (v.status !== "ok") { codeRef.current?.blur(); setProblem({ ...v, typed }); return; }
       setCodeOk(v.perk);
       setCodeOpen(false);
+      if (v.offer) { setOffer(true); setPlan("month"); }
       onCode?.();
     } catch (e) { showToast(failText(e)); }
   };
 
   useEffect(() => {
     let live = true;
-    fetchOffers().then(o => { if (live) setFounder(o.founderLeft > 0); }).catch(() => {});
+    fetchOffers().then(o => {
+      if (!live) return;
+      setFounder(o.founderLeft > 0);
+      if (o.creatorOffer) { setOffer(true); setPlan("month"); }
+    }).catch(() => {});
     return () => { live = false; };
   }, []);
 
@@ -111,8 +118,10 @@ export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les s
             </button>
             <button type="button" role="radio" aria-checked={plan === "month"} className={cx("offer", plan === "month" && "on")} onClick={() => setPlan("month")}>
               <span className="rd" />
-              <div><b>Mensuel</b><small>Sans engagement</small></div>
-              <span className="pr">6,99 €/mois</span>
+              {offer
+                ? <div><span className="lockpill">1 mois offert</span><b>Mensuel</b><small>3 mois pour 13,98 €, puis 6,99 €/mois</small></div>
+                : <div><b>Mensuel</b><small>Sans engagement</small></div>}
+              <span className="pr">{offer ? <><s>20,97 €</s>13,98 €</> : "6,99 €/mois"}</span>
             </button>
           </div>
           <div className="code">
@@ -129,7 +138,7 @@ export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les s
         </div>
       </div>
       <div className="pw-foot">
-        <Pill tone="cream" disabled={busy} onClick={pay}>Passer à Plus · {plan === "year" ? yearPrice : "6,99 €/mois"}</Pill>
+        <Pill tone="cream" disabled={busy} onClick={pay}>Passer à Plus · {plan === "year" ? yearPrice : offer ? "13,98 € pour 3 mois" : "6,99 €/mois"}</Pill>
         <small>Sans engagement. Paiement sécurisé par Stripe.</small>
       </div>
       <CodeSheet problem={problem}

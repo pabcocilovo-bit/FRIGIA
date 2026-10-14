@@ -1,6 +1,8 @@
 // Passer à Plus : ouvre la page de paiement Stripe pour la formule choisie (mensuel ou annuel).
 // L'annuel est au prix fondateur (29,99 €/an) tant qu'il reste des places parmi les 500 premiers.
-import { adminClient, authUser, currentSubscription, findCustomerId, founderSeatsLeft, preflight, siteOrigin, stripeClient, type Req, type Res } from "./_shared.js";
+import {
+  adminClient, authUser, CREATOR_OFFER, currentSubscription, findCustomerId, founderSeatsLeft, hasCreatorOffer, plusOneMonth, preflight, siteOrigin, stripeClient, type Req, type Res,
+} from "./_shared.js";
 
 export default async function handler(req: Req, res: Res) {
   if (preflight(req, res)) return;
@@ -22,9 +24,11 @@ export default async function handler(req: Req, res: Res) {
       const portal = await stripe.billingPortal.sessions.create({ customer, return_url: `${origin}/plus/paiement?carte=1` });
       return res.json({ url: portal.url });
     }
-    // Code créateur avec un mois offert : période d'essai au premier abonnement (jamais deux fois)
-    const { data: use } = await adminClient().from("code_uses").select("plus_days, subscribed_at").eq("user_id", user.id).maybeSingle();
-    const trialDays = use && use.plus_days > 0 && !use.subscribed_at && !customer ? use.plus_days as number : 0;
+    // Code créateur, mensuel, premier abonnement : 3 mois payés d'avance (13,98 €), puis 6,99 €/mois.
+    // Les 3 mois sont une période d'essai chez Stripe, payée d'un coup par une ligne unique sur la première facture.
+    const offer = plan === "month" && !customer && await hasCreatorOffer(adminClient(), user);
+    let trialEnd = Math.floor(Date.now() / 1000);
+    for (let i = 0; i < CREATOR_OFFER.months; i++) trialEnd = plusOneMonth(trialEnd);
     const price = plan === "month" ? STRIPE_PRICE_MONTHLY
       : STRIPE_PRICE_FOUNDER && await founderSeatsLeft(stripe) > 0 ? STRIPE_PRICE_FOUNDER : STRIPE_PRICE_YEARLY;
     const session = await stripe.checkout.sessions.create({
@@ -32,8 +36,11 @@ export default async function handler(req: Req, res: Res) {
       ...(customer ? { customer } : { customer_email: user.email }),
       client_reference_id: user.id,
       metadata: { supabase_user_id: user.id },
-      line_items: [{ price, quantity: 1 }],
-      subscription_data: { metadata: { supabase_user_id: user.id }, ...(trialDays ? { trial_period_days: trialDays } : {}) },
+      line_items: [{ price, quantity: 1 }, ...(offer ? [{
+        price_data: { currency: "eur", unit_amount: CREATOR_OFFER.cents, product_data: { name: `Frigia Plus, ${CREATOR_OFFER.months} mois payés d'avance (code créateur)` } },
+        quantity: 1,
+      }] : [])],
+      subscription_data: { metadata: { supabase_user_id: user.id }, ...(offer ? { trial_end: trialEnd } : {}) },
       success_url: `${origin}/plus/paiement?checkout=success`,
       cancel_url: `${origin}/plus`,
     });

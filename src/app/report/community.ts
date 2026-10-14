@@ -5,8 +5,8 @@ import { supabase } from "../../supabase";
 
 export type Community = { kg: number; households: number };
 
-/** En dessous, le compteur ne s'affiche pas : « 0 kg sauvés par la communauté » dessert l'appli */
-export const COMMUNITY_MIN_KG = 1;
+/** En dessous, le compteur ne s'affiche pas : un petit chiffre au lancement dessert l'appli (choix de Hugo : 100 kg) */
+export const COMMUNITY_MIN_KG = 100;
 const FRESH_MS = 60_000;
 
 let last: { at: number; value: Community | null } | null = null;
