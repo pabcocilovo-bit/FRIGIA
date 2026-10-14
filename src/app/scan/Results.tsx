@@ -1,5 +1,5 @@
 // Trois recettes : la première en grand, les autres à côté. « D'autres idées » relance l'IA sur le même scan,
-// sans le décompter (Frigia Plus). « Ajouter à ma semaine » arrive avec le planning (étape 10).
+// sans le décompter (Frigia Plus). « Ajouter à ma semaine » place une idée dans la semaine (Frigia Plus).
 import { useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router";
 import { Badge, Chip, Icon, LockPill, RoundButton } from "../../ui/components";
@@ -11,10 +11,14 @@ import { useBack } from "../nav";
 import { useOpenScan } from "../offline";
 import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
-import { comingSoon, showToast } from "../toast";
+import { showToast } from "../toast";
 import { getScan, MEAL_WORDS } from "./store";
 import { eatersOf, haveCount, minutesOf, srvLabel } from "./portions";
 import { apiEaters, familyBadges, type Person } from "../../lib/household";
+import type { Week } from "../../lib/home";
+import { weekDays } from "../format";
+import { WeekSheet } from "../plan/sheets";
+import { findTitle, type Option, placedText } from "../plan/week";
 import "./scan.css";
 
 type Filter = "all" | "quick" | "veg" | "oven" | "cold";
@@ -30,12 +34,6 @@ function scanTitle(e: HistoryEntry): string {
 /** « Manque le fromage », ou « Manque 2 ingrédients » quand la liste est longue. */
 function missingText(r: GeneratedRecipe, missing: number): string {
   return r.missing && r.missing.length <= 24 ? `Manque ${r.missing}` : `Manque ${missing} ingrédient${missing > 1 ? "s" : ""}`;
-}
-
-/** Ajouter à ma semaine : le planning arrive à l'étape 10 ; en Gratuit, c'est dans Plus. */
-function useAddToWeek(isPlus: boolean) {
-  const openPaywall = useOpenPaywall();
-  return () => (isPlus ? comingSoon(10) : openPaywall("planning", "/planning"));
 }
 
 function Feat({ recipe, found, label, isPlus, onClick }: { recipe: GeneratedRecipe; found: DetectedIngredient[]; label: string; isPlus: boolean; onClick: () => void }) {
@@ -58,12 +56,14 @@ function Feat({ recipe, found, label, isPlus, onClick }: { recipe: GeneratedReci
   );
 }
 
-function Idea({ recipe, found, onClick, onWeek }: { recipe: GeneratedRecipe; found: DetectedIngredient[]; onClick: () => void; onWeek: () => void }) {
+function Idea({ recipe, found, planned, onClick, onWeek }: {
+  recipe: GeneratedRecipe; found: DetectedIngredient[]; planned: boolean; onClick: () => void; onWeek: () => void;
+}) {
   const photo = useRecipePhoto(recipe.title, recipe.imageSearch);
   const { have, total } = haveCount(recipe, found);
   return (
     <button type="button" className="gc" onClick={onClick}>
-      <span className="gc-wk" role="button" tabIndex={0} aria-label="Ajouter à ma semaine"
+      <span className={"gc-wk" + (planned ? " done" : "")} role="button" tabIndex={0} aria-label={planned ? "Prévu dans ta semaine" : "Ajouter à ma semaine"}
         onClick={e => { e.stopPropagation(); onWeek(); }}
         onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); onWeek(); } }}>
         <Icon name="cal" />
@@ -78,8 +78,9 @@ function Idea({ recipe, found, onClick, onWeek }: { recipe: GeneratedRecipe; fou
   );
 }
 
-export function Results({ history, isPlus, household, onNewIdeas }: {
+export function Results({ history, isPlus, household, week, onWeek, onNewIdeas }: {
   history: HistoryEntry[]; isPlus: boolean; household: Person[];
+  week: Week; onWeek: (w: Week) => void;
   /** « D'autres idées » : les recettes du scan changent */
   onNewIdeas: (entryId: string, recipes: GeneratedRecipe[]) => void;
 }) {
@@ -87,7 +88,7 @@ export function Results({ history, isPlus, household, onNewIdeas }: {
   const back = useBack();
   const openScan = useOpenScan();
   const openPaywall = useOpenPaywall();
-  const addToWeek = useAddToWeek(isPlus);
+  const [wk, setWk] = useState<Option | null>(null);
   const { id } = useParams();
   const [filter, setFilter] = useState<Filter>("all");
   const [busy, setBusy] = useState(false);
@@ -102,6 +103,12 @@ export function Results({ history, isPlus, household, onNewIdeas }: {
   const [feat, ...others] = shown;
   const open = (i: number) => navigate(`/recettes/${entry.id}/${i}`);
   const n = entry.ingredients.length;
+  const days = weekDays();
+  // Ajouter à ma semaine (Plus) : la feuille « Quel repas ? » ; en Gratuit, c'est dans Plus
+  const addToWeek = (i: number) => (isPlus
+    ? setWk({ recipe: entry.recipes[i], scanId: entry.id, n: i, found: entry.ingredients, fav: false })
+    : openPaywall("planning", "/planning"));
+  const placed = (i: number) => (isPlus ? placedText(week, days, entry.recipes[i].title) : null);
 
   const more = async () => {
     if (!isPlus) { openPaywall("idees"); return; }
@@ -142,16 +149,19 @@ export function Results({ history, isPlus, household, onNewIdeas }: {
             <div className="res-week">
               <span className="ic"><Icon name="cal" /></span>
               <span><b>Choisis tes repas de la semaine</b>Touche le calendrier d'une idée pour la placer, ou laisse Frigia remplir les jours vides.</span>
-              <button type="button" className="pill sage" onClick={addToWeek}>Créer ma semaine</button>
+              <button type="button" className="pill sage" onClick={() => (isPlus ? navigate("/planning/creer") : openPaywall("planning", "/planning"))}>Créer ma semaine</button>
             </div>
           )}
           {feat ? <>
             <Feat recipe={feat.r} found={entry.ingredients} label={MEAL_WORDS[meal].feat} isPlus={isPlus} onClick={() => open(feat.i)} />
-            <button type="button" className="wk-add" onClick={addToWeek}><Icon name="cal" /><span>Ajouter à ma semaine</span>{!isPlus && <LockPill />}</button>
+            <button type="button" className={"wk-add" + (placed(feat.i) ? " done" : "")} onClick={() => addToWeek(feat.i)}>
+              <Icon name={placed(feat.i) ? "check" : "cal"} /><span>{placed(feat.i) ?? "Ajouter à ma semaine"}</span>{!isPlus && <LockPill />}
+            </button>
           </> : <p className="muted" style={{ margin: 0, fontSize: 14 }}>Aucune idée de ce scan ne correspond.</p>}
           {others.length > 0 && <>
             <div className="sec"><h3>{meal === "w" ? "Pour la suite de la semaine" : "Autres idées"}</h3><span className="muted" style={{ fontSize: 13 }}>avec ton frigo</span></div>
-            <div className="grid2">{others.map(x => <Idea key={x.i} recipe={x.r} found={entry.ingredients} onClick={() => open(x.i)} onWeek={addToWeek} />)}</div>
+            <div className="grid2">{others.map(x => <Idea key={x.i} recipe={x.r} found={entry.ingredients} planned={isPlus && !!findTitle(week, days, x.r.title)}
+              onClick={() => open(x.i)} onWeek={() => addToWeek(x.i)} />)}</div>
           </>}
           <button type="button" className="more" disabled={busy} onClick={more}>
             <Icon name="redo" /><span>D'autres idées <small>· sans utiliser de scan</small></span>{!isPlus && <LockPill />}
@@ -159,6 +169,7 @@ export function Results({ history, isPlus, household, onNewIdeas }: {
         </div>
       </div>
       <AppTabBar isPlus={isPlus} />
+      <WeekSheet option={wk} week={week} days={days} setWeek={onWeek} onClose={() => setWk(null)} />
     </section>
   );
 }

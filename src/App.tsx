@@ -14,7 +14,9 @@ import { Analytics } from "@vercel/analytics/react";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router";
 import { AppFrame } from "./app/AppFrame";
 import { Home } from "./app/Home";
-import { Courses, Planning } from "./app/Lists";
+import { Courses } from "./app/Lists";
+import { Planning } from "./app/plan/Planning";
+import { PlanNew } from "./app/plan/PlanNew";
 import { Family } from "./app/Family";
 import { Member } from "./app/family/Member";
 import { showToast } from "./app/toast";
@@ -261,12 +263,15 @@ const account = {
 const household = isPlus ? people(name, profile, home.members) : people(name, profile, []);
 const saveMember = (m: HomeMember) =>
   home.setMembers(list => (list.some(x => x.id === m.id) ? list.map(x => (x.id === m.id ? m : x)) : [...list, m]));
-/** Les manquants d'une recette dans la liste de courses. Renvoie ceux qui viennent d'arriver. */
-const addMissing = (add: { name: string; qty: string }[], from: string) => {
-  const r = addToList(home.shopping, add, from);
-  home.setShopping(r.list);
-  return r.list.filter(x => r.added.includes(x.name)).map(x => x.id);
+/** Les manquants de recettes dans la liste de courses. Renvoie ceux qui viennent d'arriver. */
+const addMissingOf = (groups: { items: { name: string; qty: string }[]; from: string }[]) => {
+  const list = groups.reduce((l, g) => addToList(l, g.items, g.from).list, home.shopping);
+  home.setShopping(list);
+  return list.filter(x => !home.shopping.some(o => o.id === x.id)).map(x => x.id);
 };
+const addMissing = (items: { name: string; qty: string }[], from: string) => addMissingOf([{ items, from }]);
+// La semaine (Plus) : Planning, Crée ta semaine, « Ajouter à ma semaine »
+const plan = { isPlus, week: home.week, setWeek: home.setWeek, history, favorites };
 const openRecipe = (recipe: GeneratedRecipe, servings?: number) => navigate("/recette", { state: { recipe, servings } satisfies RecipeState });
 // Premier scan guidé : juste après l'inscription, tant qu'aucun scan n'est fait et que les bulles n'ont pas été passées
 const guide = guideState(user.id);
@@ -275,8 +280,10 @@ return (
   // Retour de la page Stripe : « On attend ta banque » tout de suite, sans l'écran d'ouverture
   <AppFrame splash={location.pathname !== "/plus/paiement"}>
     <Routes>
-      <Route path="/" element={<Home user={user} name={name} isPlus={isPlus} quota={quota} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household} onOpenRecipe={r => openRecipe(r)} />} />
-      <Route path="/planning" element={<Planning isPlus={isPlus} lastScan={history[0]?.date} />} />
+      <Route path="/" element={<Home user={user} name={name} isPlus={isPlus} quota={quota} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household}
+        week={home.week} onWeek={home.setWeek} onOpenRecipe={r => openRecipe(r)} />} />
+      <Route path="/planning" element={<Planning {...plan} household={household} onAddMissing={addMissingOf} />} />
+      <Route path="/planning/creer" element={<PlanNew {...plan} />} />
       <Route path="/courses" element={<Courses isPlus={isPlus} items={home.shopping}
         onToggle={id => home.setShopping(l => l.map(x => (x.id === id ? { ...x, done: !x.done } : x)))}
         onClearDone={() => home.setShopping(l => l.filter(x => !x.done))} />} />
@@ -301,9 +308,9 @@ return (
       <Route path="/scan/ajouter" element={<AddIngredient />} />
       <Route path="/scan/ingredients" element={<Ingredients isPlus={isPlus} household={household} avatar={avatarSrc} guide={guide === "ingr"} userId={user.id} />} />
       <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} onReady={library.addScan} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
-      <Route path="/recettes/:id" element={<Results history={history} isPlus={isPlus} household={household} onNewIdeas={updateScanRecipes} />} />
-      <Route path="/recettes/:id/:n" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} onAddMissing={addMissing} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
-      <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} onAddMissing={addMissing} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
+      <Route path="/recettes/:id" element={<Results history={history} isPlus={isPlus} household={household} week={home.week} onWeek={home.setWeek} onNewIdeas={updateScanRecipes} />} />
+      <Route path="/recettes/:id/:n" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
+      <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
       <Route path="/recettes/:id/:n/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} />} />
       <Route path="/recette/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} />} />
       <Route path="/scans" element={<Scans history={history} cooked={cooked.meals} isPlus={isPlus} />} />

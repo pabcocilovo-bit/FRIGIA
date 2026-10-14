@@ -12,9 +12,14 @@ import { useOpenScan } from "./offline";
 import { useRecipePhoto } from "./photo";
 import { comingSoon } from "./toast";
 import { useOpenPaywall } from "./plus/subscription";
-import { forTonight, type Person } from "../lib/household";
+import { forTonight, type Person, portionsOf, portTxt } from "../lib/household";
+import type { MealKey, Week } from "../lib/home";
 import { useScan } from "./scan/store";
 import { eatersOf } from "./scan/portions";
+import { weekDays } from "./format";
+import { Dish } from "./plan/Dish";
+import { SwapSheet, TonightSheet } from "./plan/sheets";
+import { count, dayOf, MEALS, options } from "./plan/week";
 
 const CATS = ["Ce soir", "Rapide", "Les enfants adorent", "Anti-gaspi", "Batch cooking"];
 
@@ -55,9 +60,10 @@ function FavCard({ recipe, onClick }: { recipe: GeneratedRecipe; onClick: () => 
 
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 
-export function Home({ user, name, isPlus, quota, avatar, history, favorites, cooked, household, onOpenRecipe }: {
+export function Home({ user, name, isPlus, quota, avatar, history, favorites, cooked, household, week, onWeek, onOpenRecipe }: {
   user: User; name: string; isPlus: boolean; quota: ScanQuota | null; avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
   household: Person[];
+  week: Week; onWeek: (w: Week) => void;
   cooked: CookedMeal[];
   onOpenRecipe: (r: GeneratedRecipe) => void;
 }) {
@@ -71,6 +77,13 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
   // Ce que les repas cuisinés ce mois-ci ont sauvé (le bilan complet arrive à l'étape 11)
   const month = thisMonth(cooked);
   const saved = totalSaved(month);
+  // Plus : la semaine, et le plat prévu ce soir
+  const days = weekDays();
+  const [tn, setTn] = useState(false);
+  const [swap, setSwap] = useState<{ i: number; meal: MealKey } | null>(null);
+  const planned = isPlus ? count(week, days) : { n: 0, last: -1 };
+  const plates = isPlus ? days.flatMap(d => MEALS.map(m => dayOf(week, d.key)[m])).filter(x => x && !x.left).slice(0, 3) : [];
+  const tonight = isPlus && !dayOf(week, days[0].key).off ? dayOf(week, days[0].key).s : undefined;
 
   return (
     <div className="fa fa-app" aria-label="Accueil">
@@ -85,9 +98,15 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
         </div>
       </div>
       <div className="hphoto"><img src="/landing/gratin-courgettes.jpg" alt="Gratin de courgettes doré dans un plat blanc" /></div>
-      <div className="home-band">
-        <Band label={bandLabel(user)} title={<>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>}>
-          <p>Prends ton frigo en photo. Trois idées pour toute la famille, avec ce que tu as.</p>
+      <div className={"home-band" + (tonight ? " tn-has" : "")}>
+        <Band label={bandLabel(user)} title={tonight ? <>Ce soir, c'est <em>prévu</em></> : <>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>}>
+          {tonight ? (
+            <button type="button" className="tn-card" onClick={() => setTn(true)}>
+              <Dish recipe={tonight.recipe} className="plate" />
+              <span className="tn-tx"><b>{tonight.recipe.title}</b><span className="tn-m">{tonight.recipe.time} · pour {portTxt(portionsOf(eaters, scan.guests))}</span></span>
+              <span className="tn-go" aria-hidden="true"><Icon name="arrow" /></span>
+            </button>
+          ) : <p>Prends ton frigo en photo. Trois idées pour toute la famille, avec ce que tu as.</p>}
           <Pill tone="cream" icon="cam" onClick={openScan}>Scanner mon frigo</Pill>
           {!isPlus && <BandFoot><QuotaBar left={scansLeft(quota)} total={quotaTotal(quota)} />{quotaText(quota)}</BandFoot>}
           {isPlus && (
@@ -113,11 +132,15 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
         <div className="sec"><h3>Ta semaine</h3>{!isPlus && <LockPill />}</div>
         <button type="button" className="week" onClick={() => (isPlus ? navigate("/planning") : openPaywall("planning", "/planning"))}>
           <span className="pl3">
-            <img className="plate" src="/landing/pasta-legumes.jpg" alt="" />
-            <img className="plate" src="/landing/soupe-detox.jpg" alt="" />
-            <img className="plate" src="/landing/wrap-proteine.jpg" alt="" />
+            {plates.length ? plates.map(sl => sl && <Dish key={sl.recipe.title} recipe={sl.recipe} className="plate" />) : <>
+              <img className="plate" src="/landing/pasta-legumes.jpg" alt="" />
+              <img className="plate" src="/landing/soupe-detox.jpg" alt="" />
+              <img className="plate" src="/landing/wrap-proteine.jpg" alt="" />
+            </>}
           </span>
-          <div className="tx"><b>{isPlus ? "Ta semaine est vide" : "Prévois tes 5 prochains repas"}</b><span className="m">À partir de ton scan d'hier, sans gâchis</span></div>
+          <div className="tx"><b>{!isPlus ? "Prévois tes 5 prochains repas" : planned.n
+            ? `${planned.n} repas prêt${planned.n > 1 ? "s" : ""}${planned.last > 0 ? ` jusqu'à ${days[planned.last].long.toLowerCase()}` : ""}`
+            : "Ta semaine est vide"}</b><span className="m">À partir de ton scan d'hier, sans gâchis</span></div>
           <Icon name="next" className="muted" />
         </button>
 
@@ -138,6 +161,10 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
         </>}
       </div>
       <AppTabBar active="home" isPlus={isPlus} />
+      <TonightSheet open={tn} slot={tonight} history={history} household={household} onClose={() => setTn(false)}
+        onSwap={() => { setTn(false); setTimeout(() => setSwap({ i: 0, meal: "s" }), 280); }} />
+      <SwapSheet at={swap} week={week} days={days} opts={options(history, favorites)} household={household}
+        setWeek={onWeek} onClose={() => setSwap(null)} />
     </div>
   );
 }

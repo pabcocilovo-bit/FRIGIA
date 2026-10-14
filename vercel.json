@@ -30,6 +30,10 @@
       "destination": "/"
     },
     {
+      "source": "/planning/:page",
+      "destination": "/"
+    },
+    {
       "source": "/famille/:page",
       "destination": "/"
     },

@@ -7,19 +7,23 @@ import type { GeneratedRecipe, HistoryEntry } from "../../lib/types";
 import { useBack } from "../nav";
 import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
-import { comingSoon, showToast } from "../toast";
+import { showToast } from "../toast";
 import { Stepper } from "./Ingredients";
 import { eatersOf, haveCount, recipeLines, srvLabel } from "./portions";
 import { familyBadges, type Person, portionsOf } from "../../lib/household";
-import type { ShopItem } from "../../lib/home";
+import type { ShopItem, Week } from "../../lib/home";
+import { weekDays } from "../format";
+import { WeekSheet } from "../plan/sheets";
+import { type Option, placedText } from "../plan/week";
 import { inList, joinNames } from "../../lib/shopping";
 import { useScan } from "./store";
 import "./scan.css";
 
 export type RecipeState = { recipe?: GeneratedRecipe; servings?: number };
 
-export function Recipe({ history, isPlus, household, shopping, onAddMissing, avatar, isFavorite, onToggleFavorite }: {
+export function Recipe({ history, isPlus, household, shopping, onAddMissing, week, onWeek, avatar, isFavorite, onToggleFavorite }: {
   history: HistoryEntry[]; isPlus: boolean; household: Person[]; avatar: string | null;
+  week: Week; onWeek: (w: Week) => void;
   shopping: ShopItem[];
   /** Les manquants partent dans la liste de courses ; renvoie les articles arrivés */
   onAddMissing: (items: { name: string; qty: string }[], from: string) => string[];
@@ -42,6 +46,7 @@ export function Recipe({ history, isPlus, household, shopping, onAddMissing, ava
   const [tab, setTab] = useState<"ing" | "stp">("ing");
   const [done, setDone] = useState<number[]>([]);
   const [arrived, setArrived] = useState<string[]>([]);
+  const [wk, setWk] = useState<Option | null>(null);
   const photo = useRecipePhoto(recipe?.title, recipe?.imageSearch);
   if (!recipe) return <Navigate to="/" replace />;
 
@@ -51,7 +56,12 @@ export function Recipe({ history, isPlus, household, shopping, onAddMissing, ava
   const steps = recipe.steps ?? [];
   const fav = isFavorite(recipe);
   const cook = () => navigate(entry ? `/recettes/${entry.id}/${index}/cuisine` : "/recette/cuisine", { state: { recipe, servings } satisfies RecipeState });
-  const addToWeek = () => (isPlus ? comingSoon(10) : openPaywall("planning", "/planning"));
+  // Ajouter à ma semaine (Plus) : la feuille « Quel repas ? »
+  const days = weekDays();
+  const placed = isPlus ? placedText(week, days, recipe.title) : null;
+  const addToWeek = () => (isPlus
+    ? setWk({ recipe, scanId: entry?.id ?? null, n: entry ? index : null, found: entry?.ingredients ?? [], fav: !entry })
+    : openPaywall("planning", "/planning"));
   // Les manquants (pour ces portions) dans la liste. Déjà dedans : « Dans ta liste · voir »
   const buy = lines.filter(l => !l.have).map(l => ({ name: l.n, qty: l.q }));
   const listed = buy.length > 0 && buy.every(b => inList(shopping, b.name));
@@ -100,7 +110,9 @@ export function Recipe({ history, isPlus, household, shopping, onAddMissing, ava
         </div>
         <div className="r-body">
           {recipe.intro && <p className="intro">{recipe.intro}</p>}
-          <button type="button" className="wk-add" onClick={addToWeek}><Icon name="cal" /><span>Ajouter à ma semaine</span>{!isPlus && <LockPill />}</button>
+          <button type="button" className={"wk-add" + (placed ? " done" : "")} onClick={addToWeek}>
+            <Icon name={placed ? "check" : "cal"} /><span>{placed ?? "Ajouter à ma semaine"}</span>{!isPlus && <LockPill />}
+          </button>
           <div className="seg" role="tablist">
             <button type="button" role="tab" aria-selected={tab === "ing"} className={tab === "ing" ? "on" : undefined} onClick={() => setTab("ing")}>Ingrédients</button>
             <button type="button" role="tab" aria-selected={tab === "stp"} className={tab === "stp" ? "on" : undefined} onClick={() => setTab("stp")}>Étapes</button>
@@ -165,6 +177,7 @@ export function Recipe({ history, isPlus, household, shopping, onAddMissing, ava
         <span><b>Lancer la cuisson</b><small>{recipe.time} · {steps.length} étape{steps.length > 1 ? "s" : ""}</small></span>
         <span className="go"><Icon name="arrow" /></span>
       </button>
+      <WeekSheet option={wk} week={week} days={days} setWeek={onWeek} onClose={() => setWk(null)} />
     </section>
   );
 }

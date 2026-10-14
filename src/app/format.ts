@@ -2,6 +2,7 @@
 import type { User } from "../lib/types";
 import type { Profile } from "../lib/profile";
 import { displayName } from "../lib/account";
+import { dayKey } from "../lib/home";
 
 const DAYS = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
@@ -65,13 +66,14 @@ export function tasteRows(p: Profile) {
 
 const SHORT_DAYS = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
 
-/** Les 7 jours de la semaine affichée, à partir d'aujourd'hui. */
+/** Les 7 jours de la semaine affichée, à partir d'aujourd'hui. key : « 2026-10-14 », comme dans la semaine enregistrée. */
 export function weekDays(now = new Date()) {
   return Array.from({ length: 7 }, (_, i) => {
     const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
-    return { key: d.toDateString(), short: SHORT_DAYS[d.getDay()], date: d };
+    return { key: dayKey(d), short: SHORT_DAYS[d.getDay()], long: DAYS[d.getDay()], date: d };
   });
 }
+export type WeekDay = ReturnType<typeof weekDays>[number];
 
 /** « Mardi 6 → lundi 12 octobre » (le mois de début n'est écrit que s'il change). */
 export function weekRange(now = new Date()) {
