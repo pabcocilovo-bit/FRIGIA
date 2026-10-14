@@ -14,6 +14,8 @@ import type { RecipeState } from "./Recipe";
 import { type Counted, countCooked, euros, kilos } from "./savings";
 import { shareStory, storyImage } from "./story";
 import { cmFmt, useCommunity } from "../report/community";
+import { notifAsked, pushState } from "../../lib/notify";
+import type { NotifAskState } from "../notifs/NotifAsk";
 import "../report/report.css";
 import "./scan.css";
 
@@ -78,6 +80,12 @@ export function Cook({ history, isPlus, meals, onCooked }: {
   const t = recipe?.timers?.[step] ?? null;
   const timer = useTimer((t?.min ?? 0) * 60, step);
   const card = useRef<Promise<Blob | null> | null>(null);
+  // Après le premier repas : « On te fait signe au bon moment ? » (une fois, si le téléphone ne sonne pas déjà)
+  const askNotif = useRef(false);
+  useEffect(() => { if (!notifAsked()) void pushState().then(p => { askNotif.current = p !== "on" && p !== "denied"; }); }, []);
+  const goHome = () => (askNotif.current
+    ? navigate("/notifications/activer", { replace: true, state: { back: "/" } satisfies NotifAskState })
+    : navigate("/", { replace: true }));
   const community = useCommunity();
   useWakeLock();
   if (!recipe || !steps.length) return <Navigate to="/" replace />;
@@ -177,7 +185,7 @@ export function Cook({ history, isPlus, meals, onCooked }: {
         )}
         <div className="done-actions">
           <Pill tone="cream" icon="share" onClick={openStory}>Partager en story</Pill>
-          <button type="button" className="ghost" onClick={() => navigate("/", { replace: true })}>Retour à l'accueil</button>
+          <button type="button" className="ghost" onClick={goHome}>Retour à l'accueil</button>
         </div>
       </div>
 

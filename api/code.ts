@@ -5,6 +5,7 @@
 // Pas de « tu voulais dire » ni de liste : on ne laisse pas deviner les codes des autres. 20 essais par heure.
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { randomInt } from "node:crypto";
+import { notify } from "./_push.js";
 import { adminClient, authUser, preflight, type Req, type Res } from "./_shared.js";
 
 const ATTEMPTS = 20;
@@ -106,5 +107,15 @@ export default async function handler(req: Req, res: Res) {
   const { data: status, error } = await admin.rpc("redeem_code", { p_user_id: user.id, p_code: code });
   if (error) return res.status(503).json({ error: "Codes indisponibles" });
   if (status !== "ok") return res.json({ status });
+  // Celui qui a invité le voit dans ses notifs
+  if (v.c?.kind === "friend" && v.c.owner) {
+    const meta = user.user_metadata ?? {};
+    const name = (await firstName(admin, user.id)) || String(meta.first_name ?? meta.full_name ?? meta.name ?? "").trim().split(/\s+/)[0];
+    await notify(admin, v.c.owner, {
+      kind: "referral", key: `ref-join:${user.id}`, url: "/parrainage",
+      title: `${name || "Un ami"} a rejoint Frigia avec ton lien`,
+      body: `Ton mois offert arrive dès que ${name || "ton ami"} passe à Plus.`,
+    });
+  }
   res.json({ status: "ok", perk: v.perk, bonus: v.c?.bonus_scans ?? 0, offer: (v.c?.plus_days ?? 0) > 0 });
 }

@@ -1,7 +1,7 @@
 // 22 ter · Aide et questions fréquentes (prototype V3) : nous écrire, cartes « Bien démarrer », FAQ en rubriques.
-// Cachées jusqu'à leur étape : les notifications (étape 12).
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router";
+// On peut y arriver sur une question ouverte : navigate("/aide", { state: { q: "notifs" } }).
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 import type { User } from "../../lib/types";
 import type { IconName } from "../../ui/icons";
 import { Icon, Pill, RoundButton, ScreenHeader } from "../../ui/components";
@@ -12,7 +12,7 @@ import { ART_ALLERGIES, ART_OFFLINE, ART_PHOTO } from "./helpArt";
 import "../library/library.css";
 import "./settings.css";
 
-type Act = "paywall" | "sub" | "privacy";
+type Act = "paywall" | "sub" | "privacy" | "install";
 type Q = { k: string; q: string; a: string; act?: [string, Act] };
 const FAQ: { title: string; icon: IconName; qs: Q[] }[] = [
   { title: "Le scan", icon: "cam", qs: [
@@ -35,6 +35,7 @@ const FAQ: { title: string; icon: IconName; qs: Q[] }[] = [
     // La maquette dit que la photo reste dans « Tes scans » : l'appli ne la garde pas
     { k: "photos", q: "Que devient la photo de mon frigo ?", a: "Elle sert seulement à lire tes ingrédients : Frigia ne la garde pas. On ne vend jamais tes données.", act: ["Lire la confidentialité", "privacy"] },
     { k: "family", q: "Comment ajouter ma famille ?", a: "Avec Plus, dans l'onglet Famille : un prénom, un âge, ses allergies et ce qu'il n'aime pas. Les recettes s'adaptent à toute la tablée." },
+    { k: "notifs", q: "Je ne reçois pas les notifications", a: "Sur iPhone, elles n'arrivent que si Frigia est sur ton écran d'accueil (iOS 16.4 ou plus). Vérifie ensuite les réglages du téléphone, puis dans Frigia : Réglages, Notifications.", act: ["Comment l'y mettre", "install"] },
     { k: "install", q: "Comment mettre Frigia sur mon écran d'accueil ?", a: "Sur iPhone, dans Safari : Partager, puis « Sur l'écran d'accueil ». Sur Android, dans Chrome : le menu ⋮, puis « Installer l'application »." },
     { k: "delete", q: "Comment supprimer mon compte ?", a: "Réglages, tout en bas : « Supprimer mon compte ». Tes scans, tes favoris et ta famille sont effacés." },
   ] },
@@ -50,7 +51,9 @@ export function Help({ user, isPlus }: { user: User; isPlus: boolean }) {
   const back = useBack();
   const navigate = useNavigate();
   const openPaywall = useOpenPaywall();
-  const [open, setOpen] = useState<string | null>(null);
+  const location = useLocation();
+  const asked = (location.state as { q?: string } | null)?.q ?? null;
+  const [open, setOpen] = useState<string | null>(asked);
   const [q, setQ] = useState("");
   const [send, setSend] = useState<SendMode | null>(null);
   const qRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -61,8 +64,13 @@ export function Help({ user, isPlus }: { user: User; isPlus: boolean }) {
     setOpen(k);
     setTimeout(() => qRefs.current[k]?.scrollIntoView({ behavior: "smooth", block: "center" }), 60);
   };
+  // Arrivé sur une question : on la montre
+  useEffect(() => {
+    if (asked) setTimeout(() => qRefs.current[asked]?.scrollIntoView({ block: "center" }), 60);
+  }, [asked]);
   const act = (a: Act) => {
-    if (a === "paywall") openPaywall("def");
+    if (a === "install") show("install");
+    else if (a === "paywall") openPaywall("def");
     else if (a === "sub" && isPlus) navigate("/resilier");
     else if (a === "sub") openPaywall("def");
     else navigate("/infos-legales/confidentialite");

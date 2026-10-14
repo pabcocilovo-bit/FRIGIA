@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 import { errorMessage, grantPlusMonth, type Req, type Res } from "./_shared.js";
+import { notify } from "./_push.js";
 
 export const config = { api: { bodyParser: false } };
 
@@ -94,6 +95,13 @@ export default async function handler(req: Req, res: Res) {
       await admin.from("code_uses").update({ rewarded_at: null }).eq("user_id", userId);
       throw e;
     }
+    const { data: p } = await admin.from("profiles").select("first_name").eq("id", userId).maybeSingle();
+    const name = ((p?.first_name as string | null) ?? "").trim().split(/\s+/)[0] || "Ton ami";
+    await notify(admin, referrer, {
+      kind: "referral", key: `ref-plus:${userId}`, url: "/parrainage",
+      title: `${name} a pris Frigia Plus : un mois offert pour toi`,
+      body: "Ton mois de Plus est ajouté. Merci de faire connaître Frigia.",
+    });
   };
 
   if (processedEvents.has(event.id)) return res.json({ received: true });

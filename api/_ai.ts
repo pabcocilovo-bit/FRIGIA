@@ -1,6 +1,7 @@
 // Outils communs au scan : limite par heure, scans gratuits, goûts du compte, appel à l'IA, photos des plats.
 import { createHmac, timingSafeEqual } from "node:crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { notify } from "./_push.js";
 
 // ─── Limite : 5 scans par heure et par compte ───
 // Un scan, c'est une photo (ou des ingrédients tapés à la main). Les recettes d'une photo déjà comptée
@@ -48,6 +49,12 @@ export async function takeFreeScan(admin: SupabaseClient, userId: string): Promi
   if (error) {
     console.error("use_free_scan failed:", error.message);
     return null;
+  }
+  if (data === 3) {
+    await notify(admin, userId, {
+      kind: "scans", key: "scans:3", url: "/plus", action: "Voir Plus",
+      title: "Il te reste 3 scans gratuits", body: "Pour continuer ensuite, il y a Frigia Plus.",
+    }, false);
   }
   return typeof data === "number" && data >= 0 ? data : -1;
 }

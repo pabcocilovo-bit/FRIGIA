@@ -10,15 +10,22 @@
     },
     "api/recipes.ts": {
       "maxDuration": 60
+    },
+    "api/notify.ts": {
+      "maxDuration": 60
     }
   },
   "rewrites": [
     {
-      "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera|plus|resilier|recette|aide|bilan|parrainage)",
+      "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera|plus|resilier|recette|aide|bilan|parrainage|notifications)",
       "destination": "/"
     },
     {
       "source": "/i/:code",
+      "destination": "/"
+    },
+    {
+      "source": "/notifications/:page",
       "destination": "/"
     },
     {
@@ -72,6 +79,16 @@
     {
       "source": "/infos-legales/:page",
       "destination": "/"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/notify?job=evening",
+      "schedule": "0 16 * * *"
+    },
+    {
+      "path": "/api/notify?job=week",
+      "schedule": "0 8 * * 0"
     }
   ]
 }

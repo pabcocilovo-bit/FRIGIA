@@ -37,7 +37,12 @@ function useCountUp(target: number | null) {
 
 export function Report({ meals }: { meals: CookedMeal[] }) {
   const back = useBack();
-  const [off, setOff] = useState(0);
+  // ?mois=2026-09 : ouvert depuis « Ton bilan de septembre est prêt »
+  const [off, setOff] = useState(() => {
+    const m = new URLSearchParams(window.location.search).get("mois")?.match(/^(\d{4})-(\d{2})$/);
+    const d = new Date();
+    return m ? Math.max(0, (d.getFullYear() - Number(m[1])) * 12 + d.getMonth() + 1 - Number(m[2])) : 0;
+  });
   const community = useCommunity();
   const shown = useCountUp(community?.kg ?? null);
   const r = report(meals, off);

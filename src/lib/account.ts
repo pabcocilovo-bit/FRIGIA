@@ -111,12 +111,14 @@ export async function unlinkGoogle() {
 
 /** Télécharge tout ce que Frigia garde sur le compte, dans un fichier JSON. */
 export async function downloadMyData(u: User) {
-  const [profile, history, favorites, cooked, home] = await Promise.all([
+  const [profile, history, favorites, cooked, home, notifs, notifSettings] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", u.id).maybeSingle(),
     supabase.from("user_history").select("*").eq("user_id", u.id),
     supabase.from("user_favorites").select("*").eq("user_id", u.id),
     supabase.from("cooked_meals").select("*").eq("user_id", u.id),
     supabase.from("home_data").select("members, week, shopping").eq("user_id", u.id).maybeSingle(),
+    supabase.from("notifications").select("kind, title, body, created_at, read_at").eq("user_id", u.id),
+    supabase.from("notif_settings").select("evening, week, news, tz").eq("user_id", u.id).maybeSingle(),
   ]);
   const failed = [profile, history, favorites].find(r => r.error);
   if (failed?.error) throw failed.error;
@@ -131,6 +133,8 @@ export async function downloadMyData(u: User) {
     foyer: home.error ? [] : home.data?.members ?? [],
     semaine: home.error ? {} : home.data?.week ?? {},
     liste_de_courses: home.error ? [] : home.data?.shopping ?? [],
+    notifications: notifs.error ? [] : notifs.data,
+    reglages_notifications: notifSettings.error ? null : notifSettings.data,
   };
   const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
   const a = Object.assign(document.createElement("a"), { href: url, download: "frigia-mes-donnees.json" });

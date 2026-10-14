@@ -1,7 +1,7 @@
 // 1 · Accueil (prototype V3).
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { Band, BandFoot, Icon, LockPill, Pill, QuotaBar, RoundButton } from "../ui/components";
+import { Band, BandFoot, Icon, LockPill, Pill, QuotaBar } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry, User } from "../lib/types";
 import { type CookedMeal, thisMonth, totalSaved } from "../lib/cooked";
 import { euros, kilos } from "./scan/savings";
@@ -10,7 +10,9 @@ import { AppTabBar } from "./AppTabBar";
 import { bandLabel, daysAgo, initial, plural, scanWhen } from "./format";
 import { useOpenScan } from "./offline";
 import { useRecipePhoto } from "./photo";
-import { comingSoon, showToast } from "./toast";
+import { showToast } from "./toast";
+import { useNotifs } from "../lib/notify";
+import "./notifs/notifs.css";
 import { useOpenPaywall } from "./plus/subscription";
 import { forTonight, type Person, portionsOf, portTxt } from "../lib/household";
 import type { MealKey, Week } from "../lib/home";
@@ -82,11 +84,15 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
   const saved = totalSaved(month);
   // Plus : la semaine, et le plat prévu ce soir
   const days = weekDays();
+  const notifs = useNotifs();
   const [tn, setTn] = useState(false);
   const [swap, setSwap] = useState<{ i: number; meal: MealKey } | null>(null);
   const planned = isPlus ? count(week, days) : { n: 0, last: -1 };
   const plates = isPlus ? days.flatMap(d => MEALS.map(m => dayOf(week, d.key)[m])).filter(x => x && !x.left).slice(0, 3) : [];
   const tonight = isPlus && !dayOf(week, days[0].key).off ? dayOf(week, days[0].key).s : undefined;
+
+  // La cloche : les notifs non lues (« Il te reste 3 scans » ne compte plus en Plus)
+  const unread = (notifs ?? []).filter(x => !x.read && !(isPlus && x.kind === "scans")).length;
 
   return (
     <div className="fa fa-app" aria-label="Accueil">
@@ -94,7 +100,9 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
         <div className="row">
           <Avatar user={user} name={name} photo={avatar} className="avatar" label="Ta famille" onClick={() => navigate("/famille")} />
           <span className="word">Frigia</span>
-          <RoundButton icon="bell" label="Notifications" tone="glass" onClick={() => comingSoon(12)} />
+          <button type="button" className="cbtn glass ib-bell" aria-label={unread ? `Notifications, ${unread} non lue${unread > 1 ? "s" : ""}` : "Notifications"} onClick={() => navigate("/notifications")}>
+            <Icon name="bell" />{unread > 0 && <i className="ib-badge" aria-hidden="true">{unread > 9 ? "9+" : unread}</i>}
+          </button>
         </div>
         <div className="cats">
           {CATS.map(c => <button key={c} type="button" className={c === cat ? "on" : undefined} onClick={() => setCat(c)}>{c}</button>)}

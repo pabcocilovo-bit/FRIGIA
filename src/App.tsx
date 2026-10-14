@@ -48,6 +48,9 @@ import { guideState } from "./app/scan/guideSteps";
 import { Account, Settings } from "./app/settings/Settings";
 import { Help } from "./app/settings/Help";
 import { Legal } from "./app/settings/Legal";
+import { Inbox } from "./app/notifs/Inbox";
+import { NotifAsk } from "./app/notifs/NotifAsk";
+import { useNotifSync } from "./app/notifs/sync";
 
 // Écrans de l'inscription et de la connexion (étape 4). Connecté, seuls les questions, la caméra
 // et le mot de passe oublié (le code connecte avant le nouveau mot de passe) restent ouverts.
@@ -148,6 +151,9 @@ export default function Frigia() {
       setAvatarSrc(null);
     },
   });
+
+  // Notifications : le centre suit le compte, une notif touchée ouvre son écran
+  useNotifSync(user);
 
   // Après « Se déconnecter » ou la suppression du compte : Bienvenue (fermé tant qu'un compte est connecté)
   useEffect(() => {
@@ -332,6 +338,8 @@ return (
       <Route path="/favoris" element={<Favorites favorites={favorites} history={history} isPlus={isPlus} onOpen={r => openRecipe(r, r.savedServings)} onToggleFavorite={toggleFavorite} />} />
       <Route path="/reglages" element={<Settings {...account} />} />
       <Route path="/reglages/compte" element={<Account {...account} dishes={dishes} onAvatar={onAvatar} onName={onName} />} />
+      <Route path="/notifications" element={<Inbox userId={user.id} name={name} isPlus={isPlus} history={history} />} />
+      <Route path="/notifications/activer" element={<NotifAsk />} />
       <Route path="/aide" element={<Help user={user} isPlus={isPlus} />} />
       <Route path="/infos-legales/:page" element={<Legal />} />
       <Route path="*" element={<Navigate to="/" replace />} />
