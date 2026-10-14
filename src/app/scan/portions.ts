@@ -1,12 +1,16 @@
 // Portions et quantités : « Pour 4 personnes » (Gratuit), « 2 portions » (Plus, un enfant compte pour une demi),
 // et les quantités de la recette recalculées pour ce nombre.
 import type { DetectedIngredient, GeneratedRecipe, RecipeItem } from "../../lib/types";
+import { type Person, portionsOf } from "../../lib/household";
 import type { ScanState } from "./store";
 
 export const num = (n: number) => String(n).replace(".", ",");
 
-/** En Plus : toi, et les invités (le foyer arrive à l'étape 10). En Gratuit : « Pour combien ? ». */
-export const portions = (isPlus: boolean, s: Pick<ScanState, "servings" | "guests">) => (isPlus ? 1 + s.guests : s.servings);
+/** En Plus : ceux du foyer qui mangent là, et les invités. En Gratuit : « Pour combien ? ». */
+export const portions = (isPlus: boolean, s: Pick<ScanState, "servings" | "guests">, eaters: Person[]) => (isPlus ? portionsOf(eaters, s.guests) : s.servings);
+
+/** Ceux du foyer qui mangent là */
+export const eatersOf = (household: Person[], s: Pick<ScanState, "away">) => household.filter(p => !s.away.includes(p.id));
 
 export const srvLabel = (isPlus: boolean, n: number) =>
   isPlus ? `${num(n)} portion${n > 1 ? "s" : ""}` : `${n} personne${n > 1 ? "s" : ""}`;

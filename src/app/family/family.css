@@ -1,0 +1,28 @@
+/* Famille (prototype V3) : la fiche d'un proche (22 quater) et les lignes du foyer */
+.fa.scr-member{background:var(--bg)}
+.fa .mb-head h2{font-size:40px}
+.fa .mb-lead{margin:2px 0 0;font-size:15px;line-height:1.5;color:var(--muted);max-width:330px}
+.fa .mb-lead b{color:var(--sage-deep)}
+.fa .mb-body{padding:14px 18px 120px;display:flex;flex-direction:column;gap:20px}
+.fa .mb-in{background:var(--card)}
+.fa .mb-in input:disabled{color:var(--muted);-webkit-text-fill-color:var(--muted)}
+.fa .mb-hint{font-size:12.5px;color:var(--muted);padding-left:4px}
+.fa .mb-x{width:30px;height:30px;border-radius:50%}
+.fa .mb-x svg{width:18px;height:18px;color:var(--sage-deep)}
+.fa .mb-add{width:34px;height:34px;border-radius:50%;background:var(--sage);color:var(--on)!important;margin-right:-6px}
+.fa .ob-input .mb-add svg{width:17px;height:17px;color:var(--on)}
+.fa .mb-seg{background:var(--card);box-shadow:0 0 0 1px var(--line)}
+.fa .mb-age{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px;padding:10px 10px 10px 16px;border-radius:16px;background:var(--hi-soft)}
+.fa .mb-agev{display:flex;flex-direction:column;gap:2px}
+.fa .mb-agev b{font:400 24px/1 var(--serif);color:#7A5212}
+.fa .mb-agev small{font-size:12.5px;color:#7A5212;opacity:.8}
+.fa .mb-age .stepper{background:var(--card);box-shadow:none}
+.fa .mb-tags{display:flex;flex-wrap:wrap;gap:8px}
+.fa .mb-tag{display:inline-flex;align-items:center;gap:6px;padding:8px 8px 8px 14px;border-radius:999px;background:var(--sage-soft);color:var(--sage-deep);font:600 14px/1 var(--sans)}
+.fa .mb-tag button{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:rgba(52,80,59,.12)}
+.fa .mb-tag svg{width:12px;height:12px}
+.fa .mb-note{display:flex;gap:10px;align-items:flex-start;margin:0;font-size:13px;line-height:1.45;color:var(--muted)}
+.fa .mb-note svg{width:17px;height:17px;flex:none;color:var(--sage);margin-top:1px}
+.fa .mb-del{align-self:center;padding:8px;font:600 14px/1 var(--sans);color:#9A3B26}
+.fa .mb-go[disabled]{background:#B9C3B3;box-shadow:none}
+.fa .mb-go[disabled] .go{color:#8E9A8A}

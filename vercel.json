@@ -30,6 +30,14 @@
       "destination": "/"
     },
     {
+      "source": "/famille/:page",
+      "destination": "/"
+    },
+    {
+      "source": "/famille/:page/:id",
+      "destination": "/"
+    },
+    {
       "source": "/scan/:etape",
       "destination": "/"
     },

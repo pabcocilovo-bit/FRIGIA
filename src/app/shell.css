@@ -207,3 +207,29 @@ body:has(.fa-app){background:#EFE3D0}
 .fa .wk-add .i{width:19px;height:19px}
 /* Famille sans la carte des chiffres (elle arrive avec les repas cuisinés, étape 9) */
 .fa .phead.no-stats{padding-bottom:30px}
+/* 7 · Liste de courses (étape 10) */
+.fa .lgroup{display:flex;flex-direction:column;gap:8px}
+.fa .lgroup .label{padding-left:4px}
+.fa .litems{display:flex;flex-direction:column;background:var(--card);border-radius:18px;padding:0 14px;box-shadow:0 1px 0 var(--line)}
+.fa .litem{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);width:100%;text-align:left}
+.fa .litem:last-child{border-bottom:0}
+.fa .litem .nm{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.fa .litem .nm b{font-weight:500;font-size:15.5px}
+.fa .litem .nm small{font-size:12px;color:var(--muted)}
+.fa .litem .q{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.fa .litem.done .ck{background:var(--sage);box-shadow:none;color:var(--on)}
+.fa .litem.done b,.fa .litem.done .q{color:var(--muted);text-decoration:line-through}
+.fa .litem.new{animation:lflash 1.6s ease}
+@keyframes lflash{0%,40%{background:var(--hi-soft)}100%{background:transparent}}
+.fa .l-clear{align-self:flex-start;margin:-6px 0 0 4px}
+.fa .share-row{display:flex;gap:8px;flex-wrap:wrap}
+.fa .share-row button{display:inline-flex;align-items:center;gap:7px;padding:10px 14px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);background:var(--card);font-weight:600;font-size:14px}
+.fa .share-row svg{width:17px;height:17px;color:var(--sage-deep)}
+.fa .drive{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:18px;padding:14px 16px}
+.fa .drive .pi{width:40px;height:40px;border-radius:12px;background:var(--card);display:grid;place-items:center;color:var(--muted);flex:none}
+.fa .drive .pi svg{width:20px;height:20px}
+.fa .drive div{flex:1;min-width:0}
+.fa .drive b{display:block;font-weight:600;color:var(--muted)}
+.fa .drive span{font-size:12.5px;color:var(--muted)}
+.fa .litem .ck{width:22px;height:22px;border-radius:7px;box-shadow:inset 0 0 0 1.5px var(--line);display:grid;place-items:center;color:transparent;flex:none;transition:background .15s}
+.fa .litem .ck svg{width:14px;height:14px}

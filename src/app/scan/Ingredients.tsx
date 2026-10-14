@@ -1,15 +1,15 @@
 // « C'est bien ça ? » : les ingrédients trouvés sur la photo. On retire ce qui n'y est plus, on ajoute ce qui manque, on marque ce qui est à finir,
-// puis le placard, l'envie du moment et pour combien (en Plus : qui mange, et les invités).
+// puis le placard, l'envie du moment et pour combien (en Plus : qui du foyer mange, et les invités).
 import { useRef } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { Chip, Chips, Icon, LockPill, RoundButton } from "../../ui/components";
 import type { Envie } from "../../lib/scan";
-import type { Profile } from "../../lib/profile";
+import { type Person, whoNote, whoParts } from "../../lib/household";
 import { useOpenPaywall } from "../plus/subscription";
 import { getScan, MEAL_WORDS, setScan, useScan } from "./store";
 import { Guide } from "./Guide";
 import { INGR_GUIDE, setGuideState } from "./guideSteps";
-import { portions, srvLabel } from "./portions";
+import { eatersOf, portions, srvLabel } from "./portions";
 import "./scan.css";
 
 const ENVIES: [Envie, string][] = [["rapide", "Rapide"], ["healthy", "Healthy"], ["proteine", "Protéiné"], ["gourmand", "Gourmand"]];
@@ -24,31 +24,37 @@ export function Stepper({ value, label, min, max, onChange }: { value: number; l
   );
 }
 
-/** En Plus : qui mange (pour l'instant toi seul, le foyer arrive à l'étape 10) et les invités, comptés comme des adultes. */
-function Who({ name, avatar, profile }: { name: string; avatar: string | null; profile: Profile | null }) {
+/** En Plus : qui mange (le foyer, chacun se retire d'un appui) et les invités, comptés comme des adultes. */
+function Who({ household, avatar }: { household: Person[]; avatar: string | null }) {
   const scan = useScan();
   const g = scan.guests;
-  const parts = ["1 adulte", ...(g ? [`${g} invité${g > 1 ? "s" : ""}`] : [])];
-  const allergies = profile?.allergies ?? [];
-  const note = allergies.length ? `Allergie de ${name} (${allergies.join(", ")}) : aucune recette n'en contient.` : `Pas de contrainte ${scan.meal === "m" ? "ce midi" : scan.meal === "w" ? "cette semaine" : "ce soir"}.`;
+  const eaters = eatersOf(household, scan);
+  const toggle = (id: string) => setScan({ away: scan.away.includes(id) ? scan.away.filter(x => x !== id) : [...scan.away, id] });
+  const when = scan.meal === "m" ? "ce midi" : scan.meal === "w" ? "cette semaine" : "ce soir";
   return (
     <div className="opt">
       <span className="label">{MEAL_WORDS[scan.meal].qui}</span>
       <div className="who">
-        <button type="button" className="wm on" aria-pressed="true">
-          <i className={avatar ? "has-pp" : undefined} style={avatar ? { backgroundImage: `url(${avatar})` } : undefined}>{name.charAt(0).toUpperCase()}</i>{name}
-        </button>
+        {household.map(p => {
+          const on = !scan.away.includes(p.id), pp = p.me && avatar;
+          return (
+            <button key={p.id} type="button" className={"wm" + (on ? " on" : "")} aria-pressed={on} onClick={() => toggle(p.id)}>
+              <i className={pp ? "has-pp" : undefined} style={pp ? { backgroundImage: `url(${avatar})` } : undefined}>{p.name.charAt(0).toUpperCase()}</i>{p.name}
+              {p.kid && <small>{p.age} ans</small>}
+            </button>
+          );
+        })}
       </div>
       <div className="gst"><span className="gst-ic"><Icon name="users" /></span><div><b>Des invités ?</b><small>Comptés comme des adultes</small></div>
         <Stepper value={g} min={0} max={8} label={["Un invité de moins", "Un invité de plus"]} onChange={n => setScan({ guests: n })} />
       </div>
-      <p className="whonote"><Icon name="users" /><span><b>{parts.join(" et ")}, soit {srvLabel(true, portions(true, scan))}.</b> {note}</span></p>
+      <p className="whonote"><Icon name="users" /><span><b>{whoParts(eaters, g) || "Personne"}, soit {srvLabel(true, portions(true, scan, eaters))}.</b> {whoNote(eaters, when)}</span></p>
     </div>
   );
 }
 
-export function Ingredients({ isPlus, name, avatar, profile, guide, userId }: {
-  isPlus: boolean; name: string; avatar: string | null; profile: Profile | null; guide: boolean; userId: string;
+export function Ingredients({ isPlus, household, avatar, guide, userId }: {
+  isPlus: boolean; household: Person[]; avatar: string | null; guide: boolean; userId: string;
 }) {
   const navigate = useNavigate();
   const openPaywall = useOpenPaywall();
@@ -98,7 +104,7 @@ export function Ingredients({ isPlus, name, avatar, profile, guide, userId }: {
               <span className="label">Envie de</span>
               <Chips>{ENVIES.map(([e, label]) => <Chip key={e} className="light" on={scan.envie === e} onClick={() => setScan({ envie: e })}>{label}</Chip>)}</Chips>
             </div>
-            {isPlus ? <Who name={name} avatar={avatar} profile={profile} /> : (
+            {isPlus ? <Who household={household} avatar={avatar} /> : (
               <div className="opt">
                 <div className="forrow"><b>Pour combien ?</b>
                   <Stepper value={scan.servings} min={1} max={8} label={["Moins", "Plus"]} onChange={s => setScan({ servings: s })} />
@@ -113,7 +119,7 @@ export function Ingredients({ isPlus, name, avatar, profile, guide, userId }: {
           </div>
         </div>
         <button type="button" className="gobar" disabled={n === 0} onClick={() => navigate("/scan/preparation")}>
-          <span><b>Voir mes 3 recettes</b><small>Pour {srvLabel(isPlus, portions(isPlus, scan))}</small></span>
+          <span><b>Voir mes 3 recettes</b><small>Pour {srvLabel(isPlus, portions(isPlus, scan, eatersOf(household, scan)))}</small></span>
           <span className="go"><Icon name="arrow" /></span>
         </button>
       </div>

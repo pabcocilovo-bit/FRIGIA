@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { Icon, Pill, RoundButton } from "../ui/components";
 import type { User } from "../lib/types";
 import type { Profile } from "../lib/profile";
+import { memberSub, type Person } from "../lib/household";
 import { AppTabBar } from "./AppTabBar";
 import { Avatar } from "./Home";
 import { memberSince, tasteRows } from "./format";
@@ -11,8 +12,10 @@ import { comingSoon } from "./toast";
 import { subscriptionText, useOpenPaywall, useSubscription } from "./plus/subscription";
 import { AccountSheet, type AccountMode, type Dish } from "./settings/sheets";
 
-export function Family({ user, name, isPlus, avatar, profile, dishes, onAvatar, onName, onEditTastes }: {
+export function Family({ user, name, isPlus, avatar, profile, household, dishes, onAvatar, onName, onEditTastes }: {
   user: User; name: string; isPlus: boolean; avatar: string | null; profile: Profile | null;
+  /** Toi, puis tes proches */
+  household: Person[];
   /** La photo de profil (le crayon sur la photo) : changée ici, comme dans Ton compte */
   dishes: Dish[]; onAvatar: (src: string | null) => void; onName: (name: string) => void;
   /** Sans question : les 3 questions (« Modifier ») ; 2 ou 3 : cette question seule (une ligne de « Tes goûts ») */
@@ -46,14 +49,19 @@ export function Family({ user, name, isPlus, avatar, profile, dishes, onAvatar, 
       </div>
 
       <div className="pbody">
-        <div className="sec"><h3>Ton foyer</h3>{isPlus && <button type="button" className="link" onClick={() => comingSoon(10)}>Ajouter</button>}</div>
+        <div className="sec"><h3>Ton foyer</h3>{isPlus && <button type="button" className="link" onClick={() => navigate("/famille/proche")}>Ajouter</button>}</div>
         {isPlus ? (
           <div className="plist">
-            <button type="button" className="prow" onClick={() => comingSoon(10)}>
-              <span className={"ini" + (avatar ? " has-pp" : "")} style={avatar ? { backgroundImage: `url(${avatar})` } : undefined}>{name.charAt(0).toUpperCase()}</span>
-              <span className="tx"><b>{name}</b><span>Adulte · aime tout</span></span>
-              <Icon name="next" />
-            </button>
+            {household.map(p => {
+              const sub = memberSub(p), pp = p.me && avatar;
+              return (
+                <button key={p.id} type="button" className="prow" onClick={() => navigate(`/famille/proche/${p.id}`)}>
+                  <span className={"ini" + (p.kid ? " k" : "") + (pp ? " has-pp" : "")} style={pp ? { backgroundImage: `url(${avatar})` } : undefined}>{p.name.charAt(0).toUpperCase()}</span>
+                  <span className="tx"><b>{p.name}{p.kid ? `, ${p.age} ans` : ""}</b><span className={sub.alert ? "add" : undefined}>{sub.text}</span></span>
+                  <Icon name="next" />
+                </button>
+              );
+            })}
           </div>
         ) : (
           <div className="famcta">

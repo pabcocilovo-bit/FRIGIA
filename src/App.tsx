@@ -4,6 +4,10 @@ import { fetchScanQuota, quotaText, getCachedQuota, isPlus as hasPlus, paymentFa
 import { clearLocalData, deleteAccount, displayName, fetchAvatar, getAvatar, getPrefs, saveAvatar, signOut } from "./lib/account";
 import { useLibrary } from "./hooks/useLibrary";
 import { useCooked } from "./hooks/useCooked";
+import { useHome } from "./hooks/useHome";
+import { people } from "./lib/household";
+import { addToList } from "./lib/shopping";
+import type { Member as HomeMember } from "./lib/home";
 import { useSession } from "./hooks/useSession";
 import { isStandalone } from "./landing/browser";
 import { Analytics } from "@vercel/analytics/react";
@@ -12,6 +16,7 @@ import { AppFrame } from "./app/AppFrame";
 import { Home } from "./app/Home";
 import { Courses, Planning } from "./app/Lists";
 import { Family } from "./app/Family";
+import { Member } from "./app/family/Member";
 import { showToast } from "./app/toast";
 import {
   EMPTY_PROFILE, clearPendingProfile, fetchProfile, hasPendingProfile, fromOldPrefs, getCachedProfile, saveProfile, takePendingProfile, type Profile,
@@ -69,6 +74,7 @@ export default function Frigia() {
   const library = useLibrary(userId);
   const { history, favorites, toggleFavorite, isFavorite, updateScanRecipes } = library;
   const cooked = useCooked(userId);
+  const home = useHome(userId);
 
   /** Charge les goûts du compte, une fois par connexion. Juste après l'inscription, les réponses aux questions deviennent le profil. */
   const loadProfile = async (u: User) => {
@@ -105,6 +111,7 @@ export default function Frigia() {
       setUserId(u.id);
       void library.load(u.id);
       void cooked.load(u.id);
+      void home.load(u.id);
       // Réponses aux questions en attente : c'est un compte tout neuf (même rendu que la connexion, pas de passage par l'accueil)
       if (profileFor.current !== u.id && hasPendingProfile()) setGoCamera(true);
       void loadProfile(u);
@@ -124,6 +131,7 @@ export default function Frigia() {
       if (!signOutTo.current && !OB_PATHS.includes(window.location.pathname)) navigate("/", { replace: true });
       library.clear();
       cooked.clear();
+      home.clear();
       setAvatarSrc(null);
     },
   });
@@ -249,6 +257,16 @@ const account = {
     void signOut("local").then(() => showToast("Ton compte Frigia est supprimé"));
   },
 };
+// Le foyer (Plus) : toi, puis tes proches. En Gratuit, toi seul.
+const household = isPlus ? people(name, profile, home.members) : people(name, profile, []);
+const saveMember = (m: HomeMember) =>
+  home.setMembers(list => (list.some(x => x.id === m.id) ? list.map(x => (x.id === m.id ? m : x)) : [...list, m]));
+/** Les manquants d'une recette dans la liste de courses. Renvoie ceux qui viennent d'arriver. */
+const addMissing = (add: { name: string; qty: string }[], from: string) => {
+  const r = addToList(home.shopping, add, from);
+  home.setShopping(r.list);
+  return r.list.filter(x => r.added.includes(x.name)).map(x => x.id);
+};
 const openRecipe = (recipe: GeneratedRecipe, servings?: number) => navigate("/recette", { state: { recipe, servings } satisfies RecipeState });
 // Premier scan guidé : juste après l'inscription, tant qu'aucun scan n'est fait et que les bulles n'ont pas été passées
 const guide = guideState(user.id);
@@ -257,12 +275,20 @@ return (
   // Retour de la page Stripe : « On attend ta banque » tout de suite, sans l'écran d'ouverture
   <AppFrame splash={location.pathname !== "/plus/paiement"}>
     <Routes>
-      <Route path="/" element={<Home user={user} name={name} isPlus={isPlus} quota={quota} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} onOpenRecipe={r => openRecipe(r)} />} />
+      <Route path="/" element={<Home user={user} name={name} isPlus={isPlus} quota={quota} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/planning" element={<Planning isPlus={isPlus} lastScan={history[0]?.date} />} />
-      <Route path="/courses" element={<Courses isPlus={isPlus} />} />
-      <Route path="/famille" element={<Family user={user} name={name} isPlus={isPlus} avatar={avatarSrc} profile={profile}
+      <Route path="/courses" element={<Courses isPlus={isPlus} items={home.shopping}
+        onToggle={id => home.setShopping(l => l.map(x => (x.id === id ? { ...x, done: !x.done } : x)))}
+        onClearDone={() => home.setShopping(l => l.filter(x => !x.done))} />} />
+      <Route path="/famille" element={<Family user={user} name={name} isPlus={isPlus} avatar={avatarSrc} profile={profile} household={household}
         dishes={dishes} onAvatar={onAvatar} onName={onName}
         onEditTastes={q => { resetAnswers(profile ?? EMPTY_PROFILE); navigate(`/questions/${q ?? 1}`, { state: { edit: true, only: !!q } }); }} />} />
+      {["/famille/proche", "/famille/proche/:id"].map(path => (
+        <Route key={path} path={path} element={isPlus ? <Member household={household} onSave={saveMember}
+          onRemove={id => home.setMembers(list => list.filter(x => x.id !== id))}
+          onMyAllergies={allergies => void saveTastes({ ...(profile ?? EMPTY_PROFILE), allergies })} />
+          : <Navigate to="/plus" replace state={{ why: "famille" }} />} />
+      ))}
       <Route path="/plus" element={isPlus ? <Navigate to="/" replace /> : <Paywall />} />
       <Route path="/plus/paiement" element={<PayReturn />} />
       <Route path="/plus/bienvenue" element={<PlusWelcome user={user} name={name} />} />
@@ -273,11 +299,11 @@ return (
       <Route path="/scan/recadrer" element={<Crop />} />
       <Route path="/scan/rate" element={<ScanFail />} />
       <Route path="/scan/ajouter" element={<AddIngredient />} />
-      <Route path="/scan/ingredients" element={<Ingredients isPlus={isPlus} name={name} avatar={avatarSrc} profile={profile} guide={guide === "ingr"} userId={user.id} />} />
-      <Route path="/scan/preparation" element={<Prep isPlus={isPlus} onReady={library.addScan} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
-      <Route path="/recettes/:id" element={<Results history={history} isPlus={isPlus} onNewIdeas={updateScanRecipes} />} />
-      <Route path="/recettes/:id/:n" element={<Recipe history={history} isPlus={isPlus} name={name} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
-      <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} name={name} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
+      <Route path="/scan/ingredients" element={<Ingredients isPlus={isPlus} household={household} avatar={avatarSrc} guide={guide === "ingr"} userId={user.id} />} />
+      <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} onReady={library.addScan} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
+      <Route path="/recettes/:id" element={<Results history={history} isPlus={isPlus} household={household} onNewIdeas={updateScanRecipes} />} />
+      <Route path="/recettes/:id/:n" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} onAddMissing={addMissing} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
+      <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} onAddMissing={addMissing} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
       <Route path="/recettes/:id/:n/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} />} />
       <Route path="/recette/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} />} />
       <Route path="/scans" element={<Scans history={history} cooked={cooked.meals} isPlus={isPlus} />} />

@@ -30,6 +30,10 @@ export type GeneratedRecipe = {
   items?: RecipeItem[];
   /** Minuteur de chaque étape (même ordre que steps), null s'il n'y en a pas */
   timers?: (StepTimer | null)[];
+  /** Frigia Plus, avec des enfants à table : une recette qui plaît aux petits (« Les enfants adorent ») */
+  kids?: boolean;
+  /** Frigia Plus : ce que quelqu'un n'aime pas et que la recette évite (« Sans champignons ») */
+  without?: string[];
   // Favori : quand il a été gardé, depuis quel scan et pour combien
   savedAt?: string;
   scanDate?: string;

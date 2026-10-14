@@ -1,6 +1,7 @@
 // Scan du frigo en deux temps : la photo devient des ingrédients (/api/ingredients), puis des recettes (/api/recipes).
 import { supabase } from "../supabase";
 import type { DetectedIngredient, GeneratedRecipe, Meal } from "./types";
+import type { ApiEater } from "./household";
 import { apiPrefs, getCachedProfile } from "./profile";
 import { recentRecipeTitles } from "./library";
 import { ingredientIcon, recipeIcon } from "./recipes";
@@ -100,6 +101,7 @@ type RawItem = { name: string; plural: string; qty: number | null; unit: string;
 type RawRecipe = {
   title: string; intro: string; minutes: number; calories: number; difficulty: string; imageSearch: string; imageUrl?: string;
   veg: boolean; oven: boolean; cold: boolean; missing: string; serves: number; items: RawItem[];
+  kids?: boolean; without?: string[];
   steps: { text: string; timer: { label: string; min: number } | null }[];
 };
 
@@ -125,6 +127,8 @@ function toRecipe(r: RawRecipe): GeneratedRecipe {
     serves: r.serves,
     items: r.items,
     timers: r.steps.map(s => s.timer),
+    ...(r.kids ? { kids: true } : {}),
+    ...(r.without?.length ? { without: r.without } : {}),
   };
 }
 
@@ -132,12 +136,14 @@ function toRecipe(r: RawRecipe): GeneratedRecipe {
 export async function makeRecipes(o: {
   ingredients: ScanIngredient[]; pantry: boolean; envie: Envie; meal: Meal; servings: number;
   token: string | null; avoid?: string[]; more?: boolean;
+  /** Frigia Plus : ceux du foyer qui mangent (allergies, ce qu'ils n'aiment pas, âge des enfants) */
+  eaters?: ApiEater[];
 }): Promise<RecipesResult> {
   const { data: { session } } = await supabase.auth.getSession();
   const userId = session?.user?.id;
   const { response, data } = await post("/api/recipes", {
     ingredients: o.ingredients.map(i => ({ name: i.name, qty: i.qty, finish: i.finish || undefined })),
-    pantry: o.pantry, envie: o.envie, meal: o.meal, servings: o.servings, token: o.token, avoid: o.avoid, more: o.more,
+    pantry: o.pantry, envie: o.envie, meal: o.meal, servings: o.servings, token: o.token, avoid: o.avoid, more: o.more, eaters: o.eaters,
     prefs: userId ? apiPrefs(getCachedProfile(userId)) : null,
     recentTitles: userId ? recentRecipeTitles(userId) : [],
   });

@@ -12,6 +12,9 @@ import { useOpenScan } from "./offline";
 import { useRecipePhoto } from "./photo";
 import { comingSoon } from "./toast";
 import { useOpenPaywall } from "./plus/subscription";
+import { forTonight, type Person } from "../lib/household";
+import { useScan } from "./scan/store";
+import { eatersOf } from "./scan/portions";
 
 const CATS = ["Ce soir", "Rapide", "Les enfants adorent", "Anti-gaspi", "Batch cooking"];
 
@@ -52,8 +55,9 @@ function FavCard({ recipe, onClick }: { recipe: GeneratedRecipe; onClick: () => 
 
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 
-export function Home({ user, name, isPlus, quota, avatar, history, favorites, cooked, onOpenRecipe }: {
+export function Home({ user, name, isPlus, quota, avatar, history, favorites, cooked, household, onOpenRecipe }: {
   user: User; name: string; isPlus: boolean; quota: ScanQuota | null; avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
+  household: Person[];
   cooked: CookedMeal[];
   onOpenRecipe: (r: GeneratedRecipe) => void;
 }) {
@@ -61,6 +65,9 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
   const openScan = useOpenScan();
   const openPaywall = useOpenPaywall();
   const [cat, setCat] = useState(CATS[0]);
+  // Plus : qui mange ce soir (« Qui mange » du scan), avec les invités
+  const scan = useScan();
+  const eaters = eatersOf(household, scan);
   // Ce que les repas cuisinés ce mois-ci ont sauvé (le bilan complet arrive à l'étape 11)
   const month = thisMonth(cooked);
   const saved = totalSaved(month);
@@ -83,6 +90,12 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
           <p>Prends ton frigo en photo. Trois idées pour toute la famille, avec ce que tu as.</p>
           <Pill tone="cream" icon="cam" onClick={openScan}>Scanner mon frigo</Pill>
           {!isPlus && <BandFoot><QuotaBar left={scansLeft(quota)} total={quotaTotal(quota)} />{quotaText(quota)}</BandFoot>}
+          {isPlus && (
+            <BandFoot>
+              <span className="stack">{eaters.map(p => <i key={p.id}>{p.name.charAt(0).toUpperCase()}</i>)}{scan.guests > 0 && <i>+{scan.guests}</i>}</span>
+              {forTonight(eaters, scan.guests)}
+            </BandFoot>
+          )}
         </Band>
       </div>
       <div className="hbody">

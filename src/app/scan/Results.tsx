@@ -13,7 +13,8 @@ import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
 import { comingSoon, showToast } from "../toast";
 import { getScan, MEAL_WORDS } from "./store";
-import { haveCount, minutesOf, srvLabel } from "./portions";
+import { eatersOf, haveCount, minutesOf, srvLabel } from "./portions";
+import { apiEaters, familyBadges, type Person } from "../../lib/household";
 import "./scan.css";
 
 type Filter = "all" | "quick" | "veg" | "oven" | "cold";
@@ -37,7 +38,7 @@ function useAddToWeek(isPlus: boolean) {
   return () => (isPlus ? comingSoon(10) : openPaywall("planning", "/planning"));
 }
 
-function Feat({ recipe, found, label, onClick }: { recipe: GeneratedRecipe; found: DetectedIngredient[]; label: string; onClick: () => void }) {
+function Feat({ recipe, found, label, isPlus, onClick }: { recipe: GeneratedRecipe; found: DetectedIngredient[]; label: string; isPlus: boolean; onClick: () => void }) {
   const photo = useRecipePhoto(recipe.title, recipe.imageSearch);
   const { have, total } = haveCount(recipe, found);
   return (
@@ -45,6 +46,7 @@ function Feat({ recipe, found, label, onClick }: { recipe: GeneratedRecipe; foun
       {photo ? <img className="ph" src={photo} alt={recipe.title} /> : <span className="ph" style={{ display: "block", height: 230, borderRadius: 24, background: "var(--surface)" }} />}
       <span className="band">
         <span className="label">{label}</span>
+        {isPlus && familyBadges(recipe).length > 0 && <span className="bbadges">{familyBadges(recipe).map(b => <Badge key={b} tone="ongreen">{b}</Badge>)}</span>}
         <b>{recipe.title}</b>
         <span className="meta"><span><Icon name="clock" />{recipe.time}</span><span><Icon name="flame" />{recipe.cal} kcal</span><span>{recipe.diff}</span></span>
         {total > 0 && <>
@@ -76,8 +78,8 @@ function Idea({ recipe, found, onClick, onWeek }: { recipe: GeneratedRecipe; fou
   );
 }
 
-export function Results({ history, isPlus, onNewIdeas }: {
-  history: HistoryEntry[]; isPlus: boolean;
+export function Results({ history, isPlus, household, onNewIdeas }: {
+  history: HistoryEntry[]; isPlus: boolean; household: Person[];
   /** « D'autres idées » : les recettes du scan changent */
   onNewIdeas: (entryId: string, recipes: GeneratedRecipe[]) => void;
 }) {
@@ -109,7 +111,7 @@ export function Results({ history, isPlus, onNewIdeas }: {
     const r = await makeRecipes({
       ingredients: entry.ingredients.map(i => ({ name: i.name, qty: i.qty ?? "", finish: i.finish })),
       pantry: s.pantry, envie: s.envie, meal, servings: entry.servings, token: null,
-      avoid: entry.recipes.map(x => x.title), more: true,
+      avoid: entry.recipes.map(x => x.title), more: true, eaters: apiEaters(eatersOf(household, s)),
     });
     setBusy(false);
     if (r.status === "ok" && r.recipes.length) {
@@ -144,7 +146,7 @@ export function Results({ history, isPlus, onNewIdeas }: {
             </div>
           )}
           {feat ? <>
-            <Feat recipe={feat.r} found={entry.ingredients} label={MEAL_WORDS[meal].feat} onClick={() => open(feat.i)} />
+            <Feat recipe={feat.r} found={entry.ingredients} label={MEAL_WORDS[meal].feat} isPlus={isPlus} onClick={() => open(feat.i)} />
             <button type="button" className="wk-add" onClick={addToWeek}><Icon name="cal" /><span>Ajouter à ma semaine</span>{!isPlus && <LockPill />}</button>
           </> : <p className="muted" style={{ margin: 0, fontSize: 14 }}>Aucune idée de ce scan ne correspond.</p>}
           {others.length > 0 && <>

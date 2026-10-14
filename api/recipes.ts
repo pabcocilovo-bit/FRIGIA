@@ -8,12 +8,14 @@ type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
   pantry?: boolean; envie?: string; meal?: string; servings?: number;
   prefs?: Prefs; recentTitles?: string[]; avoid?: string[]; more?: boolean; token?: string;
+  /** Frigia Plus : ceux du foyer qui mangent */
+  eaters?: { name?: unknown; kid?: unknown; age?: unknown; allergies?: unknown; dislikes?: unknown }[];
 };
 type RawItem = { name?: unknown; plural?: unknown; qty?: unknown; unit?: unknown; have?: unknown };
 type RawStep = { text?: unknown; timer?: { label?: unknown; min?: unknown } | null } | string;
 type RawRecipe = {
   title?: unknown; intro?: unknown; minutes?: unknown; calories?: unknown; difficulty?: unknown; imageSearch?: unknown;
-  veg?: unknown; oven?: unknown; cold?: unknown; missing?: unknown; ingredients?: RawItem[]; steps?: RawStep[];
+  veg?: unknown; oven?: unknown; cold?: unknown; kids?: unknown; missing?: unknown; ingredients?: RawItem[]; steps?: RawStep[];
 };
 
 const ENVIES: Record<string, string> = {
@@ -28,6 +30,8 @@ const MEALS: Record<string, string> = {
   w: "plusieurs repas de la semaine. Des recettes qui se gardent bien. Classe-les dans l'ordre où les cuisiner : d'abord celle qui utilise les produits qui s'abîment le plus vite",
 };
 const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
+const strs = (v: unknown, n: number, max: number) => (Array.isArray(v) ? v.map(x => str(x, max)).filter(Boolean).slice(0, n) : []);
+const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/s\b/g, "");
 const num = (v: unknown) => (typeof v === "number" && Number.isFinite(v) && v > 0 ? v : null);
 
 export default async function handler(req: Req, res: Res) {
@@ -68,6 +72,20 @@ export default async function handler(req: Req, res: Res) {
   const servings = Math.min(16, Math.max(0.5, Number(body.servings) || 2));
   const lines = prefLines(body.prefs);
   const finish = list.filter(i => i.finish).map(i => i.name);
+  // Le foyer (Plus) : qui mange, les allergies de chacun (obligatoire), ce qu'ils n'aiment pas (à éviter)
+  const eaters = (plus && Array.isArray(body.eaters) ? body.eaters : []).slice(0, 12).map(e => ({
+    name: str(e?.name, 20) || "Quelqu'un", kid: e?.kid === true,
+    age: typeof e?.age === "number" && e.age >= 1 && e.age <= 17 ? Math.round(e.age) : null,
+    allergies: strs(e?.allergies, 10, 30), dislikes: strs(e?.dislikes, 10, 24),
+  }));
+  const kids = eaters.filter(e => e.kid);
+  const dislikes = [...new Set(eaters.flatMap(e => e.dislikes))];
+  const familyLines = eaters.length ? [
+    `QUI MANGE : ${eaters.map(e => (e.kid ? `${e.name} (enfant${e.age ? `, ${e.age} ans` : ""})` : `${e.name} (adulte)`)).join(", ")}.`,
+    ...eaters.filter(e => e.allergies.length).map(e => `ALLERGIE DE ${e.name.toUpperCase()} (OBLIGATOIRE) : aucune recette ne doit contenir ${e.allergies.join(", ")}, même en petite quantité.`),
+    dislikes.length ? `N'AIMENT PAS (à éviter dans toutes les recettes) : ${eaters.filter(e => e.dislikes.length).map(e => `${e.name} : ${e.dislikes.join(", ")}`).join(" ; ")}.` : "",
+    kids.length ? `Des enfants mangent : des recettes qui leur plaisent, pas trop épicées. "kids" : true pour une recette que les enfants adorent.` : "",
+  ].filter(Boolean) : [];
   const avoid = [...(body.avoid ?? []), ...(body.recentTitles ?? [])].filter(t => typeof t === "string").slice(0, 20);
   const prompt = [
     `Ingrédients disponibles : ${list.map(i => (i.qty ? `${i.name} (${i.qty})` : i.name)).join(", ")}.`,
@@ -80,13 +98,14 @@ export default async function handler(req: Req, res: Res) {
     `Quantités pour ${String(servings).replace(".", ",")} portion${servings > 1 ? "s" : ""} (un enfant compte pour une demi-portion).`,
     "Utilise surtout ce qui est disponible. Une recette peut demander 1 ou 2 ingrédients à acheter, pas plus.",
     lines.length ? `PRÉFÉRENCES (à respecter) :\n${lines.join("\n")}` : "",
+    familyLines.length ? `LE FOYER :\n${familyLines.join("\n")}` : "",
     avoid.length ? `NE PROPOSE PAS ces recettes déjà vues : ${avoid.join(", ")}.` : "",
     `Pour chaque recette :
 - "title" : nom court et appétissant, en français.
 - "intro" : 1 ou 2 phrases simples qui donnent envie, au tutoiement.
 - "minutes" : durée totale. "calories" : kcal par portion. "difficulty" : "Facile", "Moyen" ou "Difficile".
 - "imageSearch" : le type de plat EN ANGLAIS, 2 mots au plus, sans ingrédient ni adjectif ("pasta", "omelette", "green salad", "chicken soup").
-- "veg" : true si sans viande ni poisson. "oven" : true si elle passe au four. "cold" : true si elle se mange froide.
+- "veg" : true si sans viande ni poisson. "oven" : true si elle passe au four. "cold" : true si elle se mange froide.${kids.length ? ` "kids" : true si les enfants l'adorent.` : ""}
 - "ingredients" : chaque ingrédient avec "name" (minuscules, singulier), "plural" (minuscules, pluriel), "qty" (nombre, ou null pour « un peu »), "unit" ("g", "ml", "cl", "c. à s.", "c. à c.", "gousse", "feuilles", "tranches", ou "" pour un nombre de pièces), "have" (true si disponible).
 - "missing" : les ingrédients à acheter avec leur article, en minuscules ("le parmesan et le basilic"), ou "" s'il ne manque rien.
 - "steps" : 3 à 7 étapes au tutoiement, phrases courtes, avec quantités, températures et durées. Une étape qui attend (four, cuisson, repos) a un "timer" : {"label":"Four","min":20}, sinon null.`,
@@ -124,6 +143,9 @@ export default async function handler(req: Req, res: Res) {
       veg: r.veg === true, oven: r.oven === true, cold: r.cold === true,
       missing: str(r.missing, 120),
       serves: servings,
+      // « Les enfants adorent » seulement avec des enfants à table ; « Sans champignons » vérifié sur les ingrédients
+      kids: kids.length > 0 && r.kids === true,
+      without: dislikes.filter(d => !items.some(i => norm(i.name).includes(norm(d)) || norm(d).includes(norm(i.name)))),
       items,
       steps,
     };

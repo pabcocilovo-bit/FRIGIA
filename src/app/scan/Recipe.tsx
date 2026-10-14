@@ -9,13 +9,20 @@ import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
 import { comingSoon, showToast } from "../toast";
 import { Stepper } from "./Ingredients";
-import { haveCount, recipeLines, srvLabel } from "./portions";
+import { eatersOf, haveCount, recipeLines, srvLabel } from "./portions";
+import { familyBadges, type Person, portionsOf } from "../../lib/household";
+import type { ShopItem } from "../../lib/home";
+import { inList, joinNames } from "../../lib/shopping";
+import { useScan } from "./store";
 import "./scan.css";
 
 export type RecipeState = { recipe?: GeneratedRecipe; servings?: number };
 
-export function Recipe({ history, isPlus, name, avatar, isFavorite, onToggleFavorite }: {
-  history: HistoryEntry[]; isPlus: boolean; name: string; avatar: string | null;
+export function Recipe({ history, isPlus, household, shopping, onAddMissing, avatar, isFavorite, onToggleFavorite }: {
+  history: HistoryEntry[]; isPlus: boolean; household: Person[]; avatar: string | null;
+  shopping: ShopItem[];
+  /** Les manquants partent dans la liste de courses ; renvoie les articles arrivés */
+  onAddMissing: (items: { name: string; qty: string }[], from: string) => string[];
   isFavorite: (r: GeneratedRecipe) => boolean; onToggleFavorite: (r: GeneratedRecipe) => void;
 }) {
   const back = useBack();
@@ -26,10 +33,15 @@ export function Recipe({ history, isPlus, name, avatar, isFavorite, onToggleFavo
   const entry = id ? history.find(e => e.id === id) : undefined;
   const index = Number(n);
   const recipe = entry ? entry.recipes[index] : state?.recipe;
-  const base = entry?.servings ?? state?.servings ?? (isPlus ? 1 : 2);
+  const scan = useScan();
+  // Plus : ceux du foyer qui mangent (« Qui mange ce soir ? »), et les invités en plus
+  const eaters = eatersOf(household, scan);
+  const family = portionsOf(eaters, 0);
+  const base = entry?.servings ?? state?.servings ?? (isPlus ? family : 2);
   const [servings, setServings] = useState(base);
   const [tab, setTab] = useState<"ing" | "stp">("ing");
   const [done, setDone] = useState<number[]>([]);
+  const [arrived, setArrived] = useState<string[]>([]);
   const photo = useRecipePhoto(recipe?.title, recipe?.imageSearch);
   if (!recipe) return <Navigate to="/" replace />;
 
@@ -40,12 +52,24 @@ export function Recipe({ history, isPlus, name, avatar, isFavorite, onToggleFavo
   const fav = isFavorite(recipe);
   const cook = () => navigate(entry ? `/recettes/${entry.id}/${index}/cuisine` : "/recette/cuisine", { state: { recipe, servings } satisfies RecipeState });
   const addToWeek = () => (isPlus ? comingSoon(10) : openPaywall("planning", "/planning"));
-  const addMissing = () => (isPlus ? comingSoon(10) : openPaywall("courses", "/courses"));
-  // Plus : toi, et les invités du soir (comptés comme des adultes)
-  const guests = Math.max(0, servings - 1);
+  // Les manquants (pour ces portions) dans la liste. Déjà dedans : « Dans ta liste · voir »
+  const buy = lines.filter(l => !l.have).map(l => ({ name: l.n, qty: l.q }));
+  const listed = buy.length > 0 && buy.every(b => inList(shopping, b.name));
+  const addMissing = () => {
+    if (!isPlus) { openPaywall("courses", "/courses"); return; }
+    if (listed) { navigate("/courses", { state: { flash: arrived } }); return; }
+    const ids = onAddMissing(buy, recipe.title);
+    setArrived(ids);
+    showToast(`${joinNames(buy.map(b => b.name.charAt(0).toUpperCase() + b.name.slice(1)))} ${buy.length > 1 ? "ajoutés" : "ajouté"} à ta liste`);
+  };
+  // Plus : les invités du soir, comptés comme des adultes
+  const guests = Math.max(0, Math.round(servings - family));
+  const all = eaters.length === household.length;
+  const who = (household.length > 1 && all ? (guests ? "Famille" : "Toute la famille") : eaters.map(p => p.name).join(", "))
+    + (guests ? ` + ${guests} invité${guests > 1 ? "s" : ""}` : "");
   const addGuest = (d: number) => {
     const g = Math.max(0, Math.min(8, guests + d));
-    setServings(1 + g);
+    setServings(family + g);
     if (d > 0) showToast(g === 1 ? "Un invité ce soir : les quantités suivent" : `${g} invités ce soir : les quantités suivent`);
   };
 
@@ -66,6 +90,7 @@ export function Recipe({ history, isPlus, name, avatar, isFavorite, onToggleFavo
         </div>
         <div className="band r-band">
           <span className="label">{entry ? `Recette ${index + 1} sur ${entry.recipes.length} · ${recipe.diff}` : recipe.diff}</span>
+          {isPlus && familyBadges(recipe).length > 0 && <span className="bbadges">{familyBadges(recipe).map(b => <Badge key={b} tone="ongreen">{b}</Badge>)}</span>}
           <h2>{recipe.title}</h2>
           <div className="stats">
             <div><b>{recipe.time}</b><span>au total</span></div>
@@ -85,10 +110,13 @@ export function Recipe({ history, isPlus, name, avatar, isFavorite, onToggleFavo
               {isPlus ? (
                 <div className="rg">
                   <span className="rg-avs">
-                    <span className={"ini" + (avatar ? " has-pp" : "")} style={avatar ? { backgroundImage: `url(${avatar})` } : undefined}>{name.charAt(0).toUpperCase()}</span>
+                    {eaters.slice(0, 3).map(p => {
+                      const pp = p.me && avatar;
+                      return <span key={p.id} className={"ini" + (p.kid ? " k" : "") + (pp ? " has-pp" : "")} style={pp ? { backgroundImage: `url(${avatar})` } : undefined}>{p.name.charAt(0).toUpperCase()}</span>;
+                    })}
                     {guests > 0 && <span key={guests} className="ini g pop">+{guests}</span>}
                   </span>
-                  <div className="rg-tx"><b>{srvLabel(true, servings)}</b><small>{name}{guests ? ` + ${guests} invité${guests > 1 ? "s" : ""}` : ""}</small></div>
+                  <div className="rg-tx"><b>{srvLabel(true, servings)}</b><small>{who}</small></div>
                   <span className="rg-ctl">
                     <button type="button" className="rg-minus" aria-label="Un invité de moins" hidden={!guests} onClick={() => addGuest(-1)}><Icon name="minus" /></button>
                     <button type="button" className="rg-plus" aria-label="Un invité de plus" onClick={() => addGuest(1)}>+1</button>
@@ -114,7 +142,7 @@ export function Recipe({ history, isPlus, name, avatar, isFavorite, onToggleFavo
               {missing > 0 && (
                 <button type="button" className="add" style={{ alignSelf: "flex-start" }} onClick={addMissing}>
                   <span className="rm"><Icon name="plus" /></span>
-                  <span>{missing > 1 ? `Ajouter les ${missing} manquants à ma liste` : "Ajouter le manquant à ma liste"}</span>
+                  <span>{isPlus && listed ? "Dans ta liste · voir" : missing > 1 ? `Ajouter les ${missing} manquants à ma liste` : "Ajouter le manquant à ma liste"}</span>
                   {!isPlus && <LockPill />}
                 </button>
               )}

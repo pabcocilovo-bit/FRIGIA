@@ -15,9 +15,9 @@ import { showToast } from "../toast";
 import "../scan/scan.css";
 import "./library.css";
 
-type Filter = "" | "frigo" | "rapide" | "vege";
-// « Les enfants adorent » arrive avec le foyer (étape 10)
-const FILTERS: [Filter, string][] = [["", "Récents"], ["frigo", "Avec mon frigo"], ["rapide", "Moins de 20 min"], ["vege", "Végé"]];
+type Filter = "" | "frigo" | "enfants" | "rapide" | "vege";
+// « Les enfants adorent » : en Plus, avec le foyer
+const FILTERS: [Filter, string][] = [["", "Récents"], ["frigo", "Avec mon frigo"], ["enfants", "Les enfants adorent"], ["rapide", "Moins de 20 min"], ["vege", "Végé"]];
 
 const norm = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 const words = (r: GeneratedRecipe) => [r.title, ...(r.items?.map(i => i.name) ?? r.recipeIngredients?.map(i => i.name) ?? [])].join(" ");
@@ -50,7 +50,7 @@ function FavCard({ recipe, isPlus, fridge, onOpen, onRemove }: {
       </div>
       <div className="fv-foot">
         <span><Icon name={origin.scan ? "cam" : "clock"} /><i>{origin.text}</i></span>
-        {fridge && <span className="fv-tag ok">Tu as tout</span>}
+        {fridge ? <span className="fv-tag ok">Tu as tout</span> : isPlus && recipe.kids ? <span className="fv-tag">Les enfants adorent</span> : null}
       </div>
     </div>
   );
@@ -71,7 +71,7 @@ export function Favorites({ favorites, history, isPlus, onOpen, onToggleFavorite
   const n = favorites.length;
   const query = norm(q.trim());
   const shown = favorites.filter(r =>
-    (filter === "" || (filter === "frigo" ? fridge(r) : filter === "rapide" ? minutesOf(r) < 20 : !!r.veg))
+    (filter === "" || (filter === "frigo" ? fridge(r) : filter === "enfants" ? !!r.kids : filter === "rapide" ? minutesOf(r) < 20 : !!r.veg))
     && (!query || norm(words(r)).includes(query)));
   const locked = (r: GeneratedRecipe) => !isPlus && oldFavorite(r);
 
@@ -85,7 +85,7 @@ export function Favorites({ favorites, history, isPlus, onOpen, onToggleFavorite
         {n > 0 && <>
           <label className="fv-search"><Icon name="search" /><input type="search" placeholder="Une recette, un ingrédient…" autoComplete="off" aria-label="Chercher dans tes favoris" value={q} onChange={e => setQ(e.target.value)} /></label>
           <div className="chips fv-chips">
-            {FILTERS.map(([f, label]) => <Chip key={f} className="fv-chip" on={filter === f} onClick={() => setFilter(f)}>{label}</Chip>)}
+            {FILTERS.filter(([f]) => isPlus || f !== "enfants").map(([f, label]) => <Chip key={f} className="fv-chip" on={filter === f} onClick={() => setFilter(f)}>{label}</Chip>)}
           </div>
         </>}
       </ScreenHeader>

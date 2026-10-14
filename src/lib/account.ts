@@ -111,11 +111,12 @@ export async function unlinkGoogle() {
 
 /** Télécharge tout ce que Frigia garde sur le compte, dans un fichier JSON. */
 export async function downloadMyData(u: User) {
-  const [profile, history, favorites, cooked] = await Promise.all([
+  const [profile, history, favorites, cooked, home] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", u.id).maybeSingle(),
     supabase.from("user_history").select("*").eq("user_id", u.id),
     supabase.from("user_favorites").select("*").eq("user_id", u.id),
     supabase.from("cooked_meals").select("*").eq("user_id", u.id),
+    supabase.from("home_data").select("members, week, shopping").eq("user_id", u.id).maybeSingle(),
   ]);
   const failed = [profile, history, favorites].find(r => r.error);
   if (failed?.error) throw failed.error;
@@ -127,6 +128,9 @@ export async function downloadMyData(u: User) {
     favoris: favorites.data,
     // Table pas encore créée : la liste reste vide plutôt que d'empêcher le téléchargement
     repas_cuisines: cooked.error ? [] : cooked.data,
+    foyer: home.error ? [] : home.data?.members ?? [],
+    semaine: home.error ? {} : home.data?.week ?? {},
+    liste_de_courses: home.error ? [] : home.data?.shopping ?? [],
   };
   const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
   const a = Object.assign(document.createElement("a"), { href: url, download: "frigia-mes-donnees.json" });

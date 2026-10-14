@@ -9,7 +9,8 @@ import { useRecipePhoto } from "../photo";
 import { openOffline } from "../offline";
 import { showToast } from "../toast";
 import { getScan } from "./store";
-import { portions } from "./portions";
+import { eatersOf, portions } from "./portions";
+import { apiEaters, type Person } from "../../lib/household";
 import "./scan.css";
 
 const ART = `<svg class="pr-svg" viewBox="0 0 300 270" aria-hidden="true">
@@ -43,8 +44,8 @@ function Card({ recipe, i, done }: { recipe?: GeneratedRecipe; i: number; done: 
   );
 }
 
-export function Prep({ isPlus, onReady, onCounted, onOutOfScans }: {
-  isPlus: boolean;
+export function Prep({ isPlus, household, onReady, onCounted, onOutOfScans }: {
+  isPlus: boolean; household: Person[];
   /** Les recettes sont prêtes : le scan rejoint l'historique */
   onReady: (entry: HistoryEntry) => void;
   onCounted: (left: number) => void;
@@ -76,8 +77,12 @@ export function Prep({ isPlus, onReady, onCounted, onOutOfScans }: {
     const t = [setTimeout(() => setLine(1), 1100), setTimeout(() => setLine(2), 2200)];
     if (started.current) return () => { alive.current = false; t.forEach(clearTimeout); };
     started.current = true;
-    const servings = portions(isPlus, scan);
-    void makeRecipes({ ingredients: scan.ingredients, pantry: scan.pantry, envie: scan.envie, meal: scan.meal, servings, token: scan.token }).then(r => {
+    const eaters = eatersOf(household, scan);
+    const servings = portions(isPlus, scan, eaters);
+    void makeRecipes({
+      ingredients: scan.ingredients, pantry: scan.pantry, envie: scan.envie, meal: scan.meal, servings, token: scan.token,
+      eaters: isPlus ? apiEaters(eaters) : undefined,
+    }).then(r => {
       if (!alive.current) return;
       if (r.status === "ok") {
         if (r.scansLeft != null) onCounted(r.scansLeft);

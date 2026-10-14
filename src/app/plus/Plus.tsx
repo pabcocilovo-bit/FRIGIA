@@ -225,8 +225,7 @@ export function PlusWelcome({ user, name }: { user: User; name: string | null })
         </ul>
       </div>
       <div className="po-foot">
-        {/* La fiche d'un membre de la famille arrive à l'étape 10 : en attendant, on ouvre Famille */}
-        <Pill block icon="users" onClick={() => navigate("/famille", { replace: true })}>Ajouter ma famille</Pill>
+        <Pill block icon="users" onClick={() => navigate("/famille/proche", { replace: true })}>Ajouter ma famille</Pill>
         <button type="button" className="po-later" onClick={later}>Plus tard</button>
       </div>
     </section>

@@ -23,6 +23,8 @@ export type ScanState = {
   servings: number;
   /** Frigia Plus : les invités, comptés comme des adultes */
   guests: number;
+  /** Frigia Plus : les membres du foyer qui ne mangent pas là (« Qui mange ce soir ? ») */
+  away: string[];
 };
 
 const SERVINGS_KEY = "frigia_servings";
@@ -32,7 +34,7 @@ const savedServings = () => {
 
 let state: ScanState = {
   meal: "s", source: "frigo", photo: null, pick: null, pending: null, ingredients: [], token: null, problem: "floue",
-  pantry: true, envie: "rapide", servings: savedServings(), guests: 0,
+  pantry: true, envie: "rapide", servings: savedServings(), guests: 0, away: [],
 };
 const listeners = new Set<() => void>();
 
