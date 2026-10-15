@@ -29,6 +29,8 @@
 .fa .offer small{font-size:12.5px;opacity:.8}
 .fa .offer .pr{text-align:right;font:600 17px/1.15 var(--sans);white-space:nowrap}
 .fa .offer .pr s{display:block;font-size:12px;font-weight:400;opacity:.6}
+.fa .offer .pr .was{display:block;font-size:12px;font-weight:400;opacity:.6}
+.fa .offer .pr .was s{display:inline;opacity:1}
 .fa .offer .lockpill{align-self:flex-start}
 .fa .code{display:flex;flex-direction:column;gap:8px}
 .fa .code .tg{align-self:center;font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:3px;opacity:.9}
