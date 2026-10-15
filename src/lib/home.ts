@@ -4,8 +4,9 @@
 import { supabase } from "../supabase";
 import type { GeneratedRecipe } from "./types";
 
-/** Un proche du foyer. Toi : id « me » (ton prénom et tes allergies viennent du compte, on garde ici ce que tu n'aimes pas). */
-export type Member = { id: string; name: string; kid: boolean; age: number; allergies: string[]; dislikes: string[] };
+/** Un proche du foyer. Toi : id « me » (ton prénom et tes allergies viennent du compte, on garde ici ce que tu n'aimes pas et ton appétit).
+ *  appetite : de 1 (petit appétit) à 5 (gros mangeur) ; absent, il dépend de l'âge (voir appetiteOf). */
+export type Member = { id: string; name: string; kid: boolean; age: number; allergies: string[]; dislikes: string[]; appetite?: number };
 export const ME = "me";
 
 /** Un repas prévu : la recette (copie), d'où elle vient, et si ce sont les restes de la veille. */

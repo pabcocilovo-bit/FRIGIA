@@ -1,10 +1,11 @@
-// 22 quater · Ajouter un proche (prototype V3) : prénom, adulte ou enfant (et son âge), allergies, ce qu'il n'aime pas.
+// 22 quater · Ajouter un proche (prototype V3) : prénom, adulte ou enfant (et son âge), appétit, allergies, ce qu'il n'aime pas.
+// Écart maquette : l'appétit (de « Petit appétit » à « Gros mangeur ») n'y est pas, demandé par Hugo pour ajuster les portions.
 // Toi aussi : ton prénom reste celui du compte, tes allergies sont celles de « Tes goûts ».
 import { useRef, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router";
 import { Chip, Icon, RoundButton } from "../../ui/components";
 import type { Member as MemberT } from "../../lib/home";
-import { type Person, portionsOf, portTxt } from "../../lib/household";
+import { APPETITE, appetiteOf, num, type Person, portionsOf, portTxt } from "../../lib/household";
 import { useBack } from "../nav";
 import { showToast } from "../toast";
 import "../onboarding/ob.css";
@@ -35,11 +36,15 @@ export function Member({ household, onSave, onRemove, onMyAllergies }: {
   const [age, setAge] = useState(edit?.kid ? edit.age : 6);
   const [allergies, setAllergies] = useState<string[]>(edit?.allergies ?? []);
   const [dislikes, setDislikes] = useState<string[]>(edit?.dislikes ?? []);
+  // Pas touché : il suit l'âge (enfant de moins de 12 ans = petit appétit)
+  const [appetite, setAppetite] = useState<number | undefined>(edit?.appetite);
   const [no, setNo] = useState("");
   const noRef = useRef<HTMLInputElement>(null);
   if (id && !edit) return <Navigate to="/famille" replace />;
 
   const n = name.trim();
+  const app = appetiteOf({ kid: !me && kid, age, appetite });
+  const part = APPETITE[app - 1].part;
   const allergy = (v: string) => setAllergies(a => (a.includes(v) ? a.filter(x => x !== v) : [...a, v]));
   const addNo = () => {
     const v = no.trim().toLowerCase();
@@ -49,7 +54,7 @@ export function Member({ household, onSave, onRemove, onMyAllergies }: {
   };
   const save = () => {
     if (!n) return;
-    const m: MemberT = { id: edit?.id ?? crypto.randomUUID(), name: cap(n), kid: !me && kid, age: !me && kid ? age : 0, allergies: me ? [] : allergies, dislikes };
+    const m: MemberT = { id: edit?.id ?? crypto.randomUUID(), name: cap(n), kid: !me && kid, age: !me && kid ? age : 0, allergies: me ? [] : allergies, dislikes, appetite };
     if (me) onMyAllergies(allergies);
     onSave(m);
     const after = edit ? household.map(p => (p.id === m.id ? { ...p, ...m } : p)) : [...household, m];
@@ -88,7 +93,7 @@ export function Member({ household, onSave, onRemove, onMyAllergies }: {
               </div>
               {kid && (
                 <div className="mb-age">
-                  <div className="mb-agev"><b>{age} ans</b><small>Compte pour une demi-portion</small></div>
+                  <div className="mb-agev"><b>{age} ans</b></div>
                   <div className="stepper">
                     <button type="button" aria-label="Plus jeune" onClick={() => setAge(a => Math.max(1, a - 1))}><Icon name="minus" /></button>
                     <button type="button" aria-label="Plus âgé" onClick={() => setAge(a => Math.min(17, a + 1))}><Icon name="plus" /></button>
@@ -97,6 +102,15 @@ export function Member({ household, onSave, onRemove, onMyAllergies }: {
               )}
             </div>
           )}
+          <div className="ob-field"><label>Appétit</label>
+            <div className="mb-age">
+              <div className="mb-agev"><b>{APPETITE[app - 1].label}</b><small>Compte pour {num(part)} portion{part > 1 ? "s" : ""}</small></div>
+              <div className="stepper">
+                <button type="button" aria-label="Mange moins" disabled={app === 1} onClick={() => setAppetite(Math.max(1, app - 1))}><Icon name="minus" /></button>
+                <button type="button" aria-label="Mange plus" disabled={app === 5} onClick={() => setAppetite(Math.min(5, app + 1))}><Icon name="plus" /></button>
+              </div>
+            </div>
+          </div>
           <div className="ob-field"><label>Allergies</label>
             <div className="ob-chips">
               <Chip on={!allergies.length} onClick={() => setAllergies([])}>Aucune</Chip>

@@ -1,4 +1,4 @@
-// Le foyer en Plus : toi d'abord, puis tes proches. Qui mange, combien de portions (un enfant compte pour une demi),
+// Le foyer en Plus : toi d'abord, puis tes proches. Qui mange, combien de portions (selon l'appétit de chacun),
 // et ce que les recettes doivent respecter (allergies, ce que chacun n'aime pas).
 import { ME, type Member } from "./home";
 import type { Profile } from "./profile";
@@ -9,12 +9,22 @@ export type Person = Member & { me?: boolean };
 /** Toi (prénom et allergies du compte, ce que tu n'aimes pas gardé dans le foyer), puis tes proches. */
 export function people(name: string, profile: Profile | null, members: Member[]): Person[] {
   const mine = members.find(m => m.id === ME);
-  const me: Person = { id: ME, name, kid: false, age: 0, allergies: profile?.allergies ?? [], dislikes: mine?.dislikes ?? [], me: true };
+  const me: Person = { id: ME, name, kid: false, age: 0, allergies: profile?.allergies ?? [], dislikes: mine?.dislikes ?? [], appetite: mine?.appetite, me: true };
   return [me, ...members.filter(m => m.id !== ME)];
 }
 
 export const num = (n: number) => String(n).replace(".", ",");
-export const portionsOf = (eaters: Person[], guests: number) => eaters.reduce((s, p) => s + (p.kid ? 0.5 : 1), 0) + guests || 1;
+/** L'appétit, de 1 à 5, et ce qu'il mange en portions */
+export const APPETITE: { label: string; part: number }[] = [
+  { label: "Petit appétit", part: 0.5 }, { label: "Appétit léger", part: 0.75 }, { label: "Appétit normal", part: 1 },
+  { label: "Bon appétit", part: 1.25 }, { label: "Gros mangeur", part: 1.5 },
+];
+/** Sans réglage : un enfant de moins de 12 ans a un petit appétit (une demi-portion), les autres un appétit normal */
+export const appetiteOf = (p: Pick<Member, "kid" | "age" | "appetite">) =>
+  Math.min(5, Math.max(1, Math.round(p.appetite ?? (p.kid && p.age < 12 ? 1 : 3))));
+export const partOf = (p: Pick<Member, "kid" | "age" | "appetite">) => APPETITE[appetiteOf(p) - 1].part;
+/** Les portions du repas, arrondies à la demi-portion ; un invité compte pour une */
+export const portionsOf = (eaters: Person[], guests: number) => Math.round(2 * eaters.reduce((s, p) => s + partOf(p), 0)) / 2 + guests || 1;
 export const portTxt = (n: number) => `${num(n)} portion${n > 1 ? "s" : ""}`;
 
 /** « Léo, Jade et 1 invité » */
@@ -42,7 +52,8 @@ export function whoNote(eaters: Person[], when: string): string {
 export function memberSub(p: Person): { text: string; alert: boolean } {
   if (p.allergies.length) return { text: `Allergie : ${p.allergies.join(", ")}`, alert: true };
   const t = p.dislikes.length ? `N'aime pas : ${p.dislikes.join(", ")}` : "aime tout";
-  return { text: (p.kid ? "" : "Adulte · ") + t, alert: false };
+  const app = p.appetite != null && appetiteOf(p) !== 3 ? `${APPETITE[appetiteOf(p) - 1].label.toLowerCase()} · ` : "";
+  return { text: (p.kid ? "" : "Adulte · ") + app + t, alert: false };
 }
 
 /** Ce que l'IA reçoit pour adapter les recettes à ceux qui mangent. */

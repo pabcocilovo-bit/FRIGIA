@@ -1,4 +1,4 @@
-// Portions et quantités : « Pour 4 personnes » (Gratuit), « 2 portions » (Plus, un enfant compte pour une demi),
+// Portions et quantités : « Pour 4 personnes » (Gratuit), « 2,5 portions » (Plus, selon l'appétit de chacun),
 // et les quantités de la recette recalculées pour ce nombre.
 import type { DetectedIngredient, GeneratedRecipe, RecipeItem } from "../../lib/types";
 import { type Person, portionsOf } from "../../lib/household";
