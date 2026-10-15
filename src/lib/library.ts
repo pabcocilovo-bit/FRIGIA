@@ -67,9 +67,13 @@ export async function dbInsertHistoryEntry(userId: string, entry: HistoryEntry) 
     recipes: entry.recipes,
     servings: entry.servings,
   };
-  const { error } = await supabase.from("user_history").insert({ ...row, meal: entry.meal ?? null });
+  const meal = entry.meal ?? null;
+  if (!(await supabase.from("user_history").insert({ ...row, meal })).error) return;
+  // Colonne servings en nombre entier (avant la migration 20261022000000) : 1,5 portion est refusé, on garde 2
+  const whole = { ...row, servings: Math.max(1, Math.round(row.servings)) };
+  if (whole.servings !== row.servings && !(await supabase.from("user_history").insert({ ...whole, meal })).error) return;
   // Colonne meal pas encore ajoutée (migration 20261014000000_scan_meal.sql) : le scan est gardé sans le repas
-  if (error) await supabase.from("user_history").insert(row);
+  await supabase.from("user_history").insert(whole);
 }
 
 /** « D'autres idées » : les recettes du scan changent. */
