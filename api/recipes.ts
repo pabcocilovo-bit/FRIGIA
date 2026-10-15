@@ -101,7 +101,7 @@ export default async function handler(req: Req, res: Res) {
     familyLines.length ? `LE FOYER :\n${familyLines.join("\n")}` : "",
     avoid.length ? `NE PROPOSE PAS ces recettes déjà vues : ${avoid.join(", ")}.` : "",
     `Pour chaque recette :
-- "title" : nom court et appétissant, en français.
+- "title" : nom court et appétissant, en français. Il décrit exactement le plat : tout ce qu'il nomme (base comme wrap, pâtes, riz, ou ingrédient) est dans "ingredients". Pas de « wrap » sans galette, pas de « gratin » sans four.
 - "intro" : 1 ou 2 phrases simples qui donnent envie, au tutoiement.
 - "minutes" : durée totale. "calories" : kcal par portion. "difficulty" : "Facile", "Moyen" ou "Difficile".
 - "imageSearch" : le type de plat EN ANGLAIS, 2 mots au plus, sans ingrédient ni adjectif ("pasta", "omelette", "green salad", "chicken soup").
