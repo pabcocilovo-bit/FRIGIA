@@ -114,7 +114,8 @@ export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les s
               {founder
                 ? <div><span className="lockpill">Prix fondateur</span><b>Annuel</b><small>Pour les 500 premiers abonnés</small></div>
                 : <div><b>Annuel</b></div>}
-              <span className="pr">{founder ? <><s>39,99 €</s>29,99 €/an</> : "39,99 €/an"}</span>
+              {/* Écart maquette : barré à 83,88 € (12 × 6,99 € en mensuel) au lieu de 39,99 €, demandé par Hugo pour l'impact */}
+              <span className="pr">{founder ? <><s>83,88 €</s>29,99 €/an</> : "39,99 €/an"}</span>
             </button>
             <button type="button" role="radio" aria-checked={plan === "month"} className={cx("offer", plan === "month" && "on")} onClick={() => setPlan("month")}>
               <span className="rd" />
