@@ -126,8 +126,8 @@ export function prefLines(prefs: Prefs | null | undefined): string[] {
 // ─── Appel à l'IA ───
 type Content = { type: "text"; text: string } | { type: "image"; source: { type: "base64"; media_type: string; data: string } };
 
-// Le modèle : ANTHROPIC_MODEL dans Vercel (ex. claude-haiku-5-5 sur l'aperçu pour tester moins cher), sinon Sonnet 4.6
-const MODEL = process.env.ANTHROPIC_MODEL?.trim() || "claude-sonnet-4-6";
+// Le modèle : Haiku 5.5 pour tous les plans (30 fois moins cher que Sonnet 4.6). ANTHROPIC_MODEL dans Vercel peut le changer
+const MODEL = process.env.ANTHROPIC_MODEL?.trim() || "claude-haiku-5-5";
 // Haiku 5.5 réfléchit par défaut : coupé, comme Sonnet 4.6, pour que la réflexion ne mange pas max_tokens
 const NO_THINKING = /^claude-haiku-5/.test(MODEL) ? { thinking: { type: "disabled" } } : {};
 
