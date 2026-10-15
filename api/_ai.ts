@@ -126,6 +126,11 @@ export function prefLines(prefs: Prefs | null | undefined): string[] {
 // ─── Appel à l'IA ───
 type Content = { type: "text"; text: string } | { type: "image"; source: { type: "base64"; media_type: string; data: string } };
 
+// Le modèle : ANTHROPIC_MODEL dans Vercel (ex. claude-haiku-5-5 sur l'aperçu pour tester moins cher), sinon Sonnet 4.6
+const MODEL = process.env.ANTHROPIC_MODEL?.trim() || "claude-sonnet-4-6";
+// Haiku 5.5 réfléchit par défaut : coupé, comme Sonnet 4.6, pour que la réflexion ne mange pas max_tokens
+const NO_THINKING = /^claude-haiku-5/.test(MODEL) ? { thinking: { type: "disabled" } } : {};
+
 /** Envoie la demande à Claude et renvoie le premier objet JSON de la réponse (null si l'IA ne répond pas ou mal). */
 export async function askClaude<T>(content: Content[], maxTokens: number): Promise<{ ok: true; json: T | null } | { ok: false }> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -133,7 +138,7 @@ export async function askClaude<T>(content: Content[], maxTokens: number): Promi
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01" },
-    body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: maxTokens, messages: [{ role: "user", content }] }),
+    body: JSON.stringify({ model: MODEL, max_tokens: maxTokens, ...NO_THINKING, messages: [{ role: "user", content }] }),
   }).catch(() => null);
   if (!res?.ok) {
     await res?.text();
