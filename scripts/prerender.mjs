@@ -57,7 +57,7 @@ for (const p of LEGAL) {
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover" />
     <title>${esc(title)}</title>
     <meta name="description" content="${esc(p.description)}" />
     <link rel="canonical" href="https://frigia.fr/${p.slug}" />

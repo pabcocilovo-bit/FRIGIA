@@ -6,6 +6,8 @@ import { LegalSheet, type LegalKey } from "./landing/legal";
 import { GoogleInAppBar, InstallSheet, SocialInAppScreen } from "./landing/InApp";
 import { InstallSection } from "./landing/InstallSection";
 import { FAQ } from "./landing/faq";
+import { Tonight } from "./landing/Tonight";
+import { RECIPES, fridgeScore } from "./landing/recipes";
 import { LEGAL } from "./legal/pages";
 import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./landing/browser";
 
@@ -30,11 +32,11 @@ const PINS: { name: string; x: number; y: number; up?: boolean }[] = [
   { name: "Courgettes", x: 64, y: 61, up: true },
   { name: "Œufs", x: 21, y: 63 },
 ];
-const HERO_IDEAS = [
-  ["pasta-legumes", "Penne aux légumes rôtis", "25 min · 6/8 dans ton frigo"],
-  ["gratin-courgettes", "Gratin de courgettes", "35 min · 5/6 dans ton frigo"],
-  ["omelette-tomates", "Omelette aux tomates", "15 min · 4/4 dans ton frigo"],
-];
+// Les mêmes recettes que la section « Avec ce frigo-là » plus bas
+const HERO_IDEAS = ["penne", "gratin", "omelette"].map(id => {
+  const r = RECIPES[id], s = fridgeScore(r);
+  return [r.photo, r.name, `${r.minutes} min · ${s.inFridge}/${s.total} dans ton frigo${s.missing ? ` · manque ${s.missing}` : ""}`];
+});
 
 function HeroArt() {
   return (
@@ -85,62 +87,6 @@ function HowItWorks() {
             </li>
           ))}
         </ol>
-      </div>
-    </section>
-  );
-}
-
-// ── Essai : avec ce frigo-là, on mange quoi ? ────────────────────────────────
-type Envie = "rapide" | "enfants" | "gaspi" | "vege";
-const ENVIES: [Envie, string][] = [["rapide", "Rapide"], ["enfants", "Les enfants adorent"], ["gaspi", "Anti-gaspi"], ["vege", "Végé"]];
-const PEOPLE = ["2", "3", "4", "5"];
-const PHOTO = { omelette: "omelette-tomates", gratin: "gratin-courgettes", pates: "pasta-legumes", salade: "salade-caprese", soupe: "soupe-detox", wrap: "wrap-proteine" };
-// [photo, nom, minutes, ingrédients du frigo utilisés / total]
-const IDEAS: Record<Envie, [keyof typeof PHOTO, string, number, string][]> = {
-  rapide: [["omelette", "Omelette tomates et poivrons", 15, "5/6"], ["wrap", "Wraps œufs et crudités", 15, "5/7"], ["salade", "Salade tomates-mozzarella", 10, "3/5"]],
-  enfants: [["pates", "Penne aux légumes rôtis", 25, "6/8"], ["gratin", "Gratin de courgettes", 35, "5/6"], ["wrap", "Wraps croustillants maison", 20, "5/7"]],
-  gaspi: [["soupe", "Soupe verte courgette-brocoli", 25, "5/5"], ["pates", "Pâtes du fond du frigo", 20, "7/8"], ["omelette", "Omelette aux restes de légumes", 15, "6/6"]],
-  vege: [["gratin", "Gratin de courgettes", 35, "5/6"], ["soupe", "Soupe verte courgette-brocoli", 25, "5/5"], ["salade", "Salade tomates-mozzarella", 10, "3/5"]],
-};
-
-function Tonight({ onStart }: { onStart: () => void }) {
-  const [envie, setEnvie] = useState<Envie>("rapide");
-  const [pers, setPers] = useState("4");
-  return (
-    <section className="tonight" id="essai">
-      <div className="container">
-        <div className="sh"><span className="k">Essaie, ici</span><h2>Avec ce frigo-là, <em>on mange quoi ?</em></h2><p className="lede">Choisis une envie et le nombre de personnes. Voici le genre d'idées que Frigia te proposerait avec les 8 ingrédients du scan.</p></div>
-        <form className="controls" onSubmit={e => e.preventDefault()}>
-          <fieldset>
-            <legend>Ce soir, plutôt</legend>
-            <div className="opts">
-              {ENVIES.map(([v, label]) => (
-                <label key={v}><input type="radio" name="envie" value={v} checked={envie === v} onChange={() => setEnvie(v)} /><span>{label}</span></label>
-              ))}
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend>Pour combien</legend>
-            <div className="opts">
-              {PEOPLE.map(p => (
-                <label key={p}><input type="radio" name="pers" value={p} checked={pers === p} onChange={() => setPers(p)} aria-label={`${p} personnes`} /><span>{p}</span></label>
-              ))}
-            </div>
-          </fieldset>
-        </form>
-        <div className="cards" aria-live="polite">
-          {IDEAS[envie].map(([img, name, min, used], i) => (
-            <article className="card" key={envie + i}>
-              <div className="img"><img src={`${IMG}/${PHOTO[img]}.jpg`} alt="" width={560} height={373} loading="lazy" /></div>
-              <div className="body">
-                <span className="k">Idée {i + 1} sur 3</span>
-                <h3>{name}</h3>
-                <div className="meta"><span>{min} min</span><span>Pour {pers}</span><span className="in">{used} dans ton frigo</span></div>
-              </div>
-            </article>
-          ))}
-        </div>
-        <div className="end"><span className="note">Exemple. Avec ton frigo, les idées seront les tiennes.</span><button className="btn btn-cream" onClick={onStart}>Essayer avec mon frigo</button></div>
       </div>
     </section>
   );
