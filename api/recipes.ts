@@ -6,7 +6,9 @@ import { askClaude, checkIdeasLimit, checkRateLimit, checkScanToken, dishPhoto, 
 
 type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
-  pantry?: boolean; envie?: string; meal?: string; servings?: number;
+  pantry?: boolean; envie?: string;
+  /** Frigia Plus : frigo vide, des plats avec le placard et une petite liste de courses */
+  empty?: boolean; meal?: string; servings?: number;
   prefs?: Prefs; recentTitles?: string[]; avoid?: string[]; more?: boolean; token?: string;
   /** Frigia Plus : ceux du foyer qui mangent */
   eaters?: { name?: unknown; kid?: unknown; age?: unknown; allergies?: unknown; dislikes?: unknown }[];
@@ -43,12 +45,14 @@ export default async function handler(req: Req, res: Res) {
   const body = (req.body ?? {}) as Body;
   const plus = isPlus(user);
   if (body.more && !plus) return res.status(403).json({ error: "« D'autres idées » est dans Frigia Plus.", code: "plus" });
+  const empty = body.empty === true;
+  if (empty && !plus) return res.status(403).json({ error: "Les idées frigo vide sont dans Frigia Plus.", code: "plus" });
 
   const list = (Array.isArray(body.ingredients) ? body.ingredients : [])
     .map(i => ({ name: str(i?.name, 60), qty: str(i?.qty, 30), finish: i?.finish === true }))
     .filter(i => i.name)
     .slice(0, 40);
-  if (list.length === 0) return res.status(400).json({ error: "Aucun ingrédient" });
+  if (list.length === 0 && !empty) return res.status(400).json({ error: "Aucun ingrédient" });
 
   // Ingrédients tapés à la main (pas de photo comptée) : c'est un scan, compté dans la limite par heure
   // et, en Gratuit, dans les 15 scans
@@ -88,15 +92,19 @@ export default async function handler(req: Req, res: Res) {
   ].filter(Boolean) : [];
   const avoid = [...(body.avoid ?? []), ...(body.recentTitles ?? [])].filter(t => typeof t === "string").slice(0, 20);
   const prompt = [
-    `Ingrédients disponibles : ${list.map(i => (i.qty ? `${i.name} (${i.qty})` : i.name)).join(", ")}.`,
+    empty && !list.length
+      ? "Le frigo est vide : rien de frais à la maison."
+      : `Ingrédients disponibles : ${list.map(i => (i.qty ? `${i.name} (${i.qty})` : i.name)).join(", ")}.`,
     finish.length ? `À FINIR EN PRIORITÉ (ils vont se perdre) : ${finish.join(", ")}. Chaque recette en utilise au moins un, et le plus possible.` : "",
-    body.pantry
+    body.pantry || empty
       ? "Le placard a aussi : pâtes, riz, huile, ail, épices, sel, poivre, farine, sucre. Ils comptent comme disponibles."
       : "Seuls sel, poivre et eau sont disponibles en plus de la liste.",
     `Propose EXACTEMENT ${count} recettes pour ${MEALS[body.meal ?? ""] ?? MEALS.s}.`,
     ENVIES[body.envie ?? ""] ? `Envie : des recettes ${ENVIES[body.envie!]}.` : "",
     `Quantités pour ${String(servings).replace(".", ",")} portion${servings > 1 ? "s" : ""} (un enfant compte pour une demi-portion).`,
-    "Utilise surtout ce qui est disponible. Une recette peut demander 1 ou 2 ingrédients à acheter, pas plus.",
+    empty
+      ? "Des plats simples et sans gâchis, faits surtout avec le placard. Chaque recette demande au plus 4 ingrédients à acheter, faciles à trouver au supermarché. Les 3 recettes partagent le plus possible les mêmes achats."
+      : "Utilise surtout ce qui est disponible. Une recette peut demander 1 ou 2 ingrédients à acheter, pas plus.",
     lines.length ? `PRÉFÉRENCES (à respecter) :\n${lines.join("\n")}` : "",
     familyLines.length ? `LE FOYER :\n${familyLines.join("\n")}` : "",
     avoid.length ? `NE PROPOSE PAS ces recettes déjà vues : ${avoid.join(", ")}.` : "",

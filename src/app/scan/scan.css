@@ -428,3 +428,9 @@ body:has(.fa .gd.on) .fa .toast{opacity:0;visibility:hidden}
 .fa .scard .sv2{align-self:flex-start;font:600 12px/1 var(--sans);padding:6px 9px;border-radius:99px;background:var(--on);color:var(--sage-deep)}
 .fa .story .acts{display:flex;gap:8px}
 .fa .story .acts button{padding:11px 14px;border-radius:999px;background:var(--on);color:var(--sage-deep);font-weight:600;font-size:14px}
+/* Scan raté, frigo vide : des plats quand même (Plus) */
+.fa .sf-empty{display:flex;align-items:center;gap:12px;width:100%;margin-top:18px;padding:14px;border-radius:18px;background:var(--sage-soft);text-align:left}
+.fa .sf-empty .ico{width:40px;height:40px;border-radius:50%;background:var(--sage);color:var(--on);display:grid;place-items:center;flex:none}
+.fa .sf-empty .ico svg{width:20px;height:20px}
+.fa .sf-empty .tx{flex:1;min-width:0;font-size:13px;line-height:1.35;color:var(--muted)}
+.fa .sf-empty .tx b{display:block;font:600 16px/1.2 var(--sans);color:var(--sage-deep);margin-bottom:2px}

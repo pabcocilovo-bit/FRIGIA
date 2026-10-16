@@ -14,6 +14,7 @@ export const WHY = {
   historique: "Tout ton historique est dans Frigia Plus.",
   favoris: "En gratuit, tes favoris des 7 derniers jours. Avec Plus, tu les gardes tous.",
   bilan: "Ton bilan d'économies complet est dans Frigia Plus.",
+  vide: "Frigo vide ? Avec Plus, Frigia te propose quand même 3 plats, avec la petite liste de courses.",
 };
 export type Why = keyof typeof WHY;
 /** Ce que « Passe à Plus » reçoit : la raison, et l'écran à ouvrir une fois abonné. */

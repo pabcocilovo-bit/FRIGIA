@@ -136,6 +136,8 @@ function toRecipe(r: RawRecipe): GeneratedRecipe {
 export async function makeRecipes(o: {
   ingredients: ScanIngredient[]; pantry: boolean; envie: Envie; meal: Meal; servings: number;
   token: string | null; avoid?: string[]; more?: boolean;
+  /** Frigia Plus : frigo vide, des plats avec le placard et une petite liste de courses */
+  empty?: boolean;
   /** Frigia Plus : ceux du foyer qui mangent (allergies, ce qu'ils n'aiment pas, âge des enfants) */
   eaters?: ApiEater[];
 }): Promise<RecipesResult> {
@@ -144,6 +146,7 @@ export async function makeRecipes(o: {
   const { response, data } = await post("/api/recipes", {
     ingredients: o.ingredients.map(i => ({ name: i.name, qty: i.qty, finish: i.finish || undefined })),
     pantry: o.pantry, envie: o.envie, meal: o.meal, servings: o.servings, token: o.token, avoid: o.avoid, more: o.more, eaters: o.eaters,
+    empty: o.empty || undefined,
     prefs: userId ? apiPrefs(getCachedProfile(userId)) : null,
     recentTitles: userId ? recentRecipeTitles(userId) : [],
   });

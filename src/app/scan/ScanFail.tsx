@@ -1,16 +1,25 @@
 // Quand la photo ne passe pas : on le dit gentiment, le scan n'est pas décompté.
 // Trois conseils, puis on reprend la photo, ou on tape ses ingrédients.
+// Frigo vide : en Plus, des plats quand même (avec le placard et une petite liste de courses) ; en Gratuit, l'aperçu de Plus.
 import { useNavigate } from "react-router";
-import { Icon, Pill } from "../../ui/components";
-import { useScan } from "./store";
+import { Icon, LockPill, Pill } from "../../ui/components";
+import { useOpenPaywall } from "../plus/subscription";
+import { setScan, useScan } from "./store";
 import "./scan.css";
 
 const WHAT = { frigo: "ton frigo", placard: "ton placard", ticket: "ton ticket" };
 const WHY = { floue: "La photo est un peu floue.", sombre: "La photo est un peu sombre.", vide: "On n'a pas trouvé d'aliment sur la photo." };
 
-export function ScanFail() {
+export function ScanFail({ isPlus }: { isPlus: boolean }) {
   const navigate = useNavigate();
+  const openPaywall = useOpenPaywall();
   const scan = useScan();
+  const empty = scan.problem === "vide" && scan.source !== "ticket";
+  const ideas = () => {
+    if (!isPlus) { openPaywall("vide"); return; }
+    setScan({ empty: true, ingredients: [], token: null });
+    navigate("/scan/preparation", { replace: true });
+  };
   return (
     <section className="fa scan-screen scr-scanfail" aria-label="Scan raté">
       <div className="sf-top"><button type="button" className="fg-x" aria-label="Fermer" onClick={() => navigate("/")}><Icon name="x" /></button></div>
@@ -27,6 +36,14 @@ export function ScanFail() {
           <li><span><Icon name="cam" /></span><div><b>Recule d'un pas</b>Toutes les étagères dans le cadre</div></li>
           <li><span><Icon name="help" /></span><div><b>Porte grande ouverte</b>Et le téléphone bien droit</div></li>
         </ul>
+        {/* Écart maquette : la carte « Frigo vide ? » n'existe pas dans le prototype, demandée par Hugo le 16 octobre */}
+        {empty && (
+          <button type="button" className="sf-empty" onClick={ideas}>
+            <span className="ico"><Icon name="sparkle" /></span>
+            <span className="tx"><b>Frigo vide ?</b>3 plats avec ton placard, et une petite liste de courses</span>
+            {isPlus ? <Icon name="next" className="muted" /> : <LockPill />}
+          </button>
+        )}
       </div></div>
       <div className="sf-foot">
         <Pill block icon="cam" onClick={() => navigate("/scan", { replace: true })}>Reprendre la photo</Pill>

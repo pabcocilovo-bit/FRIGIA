@@ -43,7 +43,7 @@ function ScanRow({ entry, locked, onClick }: { entry: HistoryEntry; locked: bool
   return (
     <button type="button" className={"hrow" + (locked ? " old blur" : "")} onClick={onClick}>
       {photo ? <img src={photo} alt="" /> : <span style={{ width: 46, height: 46, borderRadius: 12, background: "var(--surface)", flex: "none" }} />}
-      <div><b>{scanWhen(entry.date)}</b><span>{plural(entry.ingredients.length, "ingrédient")} · {plural(entry.recipes.length, "recette")}</span></div>
+      <div><b>{scanWhen(entry.date)}</b><span>{entry.ingredients.length ? plural(entry.ingredients.length, "ingrédient") : "Frigo vide"} · {plural(entry.recipes.length, "recette")}</span></div>
       {locked ? <LockPill /> : <Icon name="next" className="muted" />}
     </button>
   );

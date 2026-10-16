@@ -117,7 +117,7 @@ export function Results({ history, isPlus, household, week, onWeek, onNewIdeas }
     const s = getScan();
     const r = await makeRecipes({
       ingredients: entry.ingredients.map(i => ({ name: i.name, qty: i.qty ?? "", finish: i.finish })),
-      pantry: s.pantry, envie: s.envie, meal, servings: entry.servings, token: null,
+      pantry: s.pantry || n === 0, envie: s.envie, meal, servings: entry.servings, token: null, empty: n === 0,
       avoid: entry.recipes.map(x => x.title), more: true, eaters: apiEaters(eatersOf(household, s)),
     });
     setBusy(false);
@@ -136,7 +136,7 @@ export function Results({ history, isPlus, household, week, onWeek, onNewIdeas }
           <RoundButton icon="cam" label="Rescanner" tone="glass" onClick={openScan} />
         </div>
         <div>
-          <span className="label">{n} ingrédient{n > 1 ? "s" : ""} · {srvLabel(isPlus, entry.servings)}</span>
+          <span className="label">{n ? `${n} ingrédient${n > 1 ? "s" : ""}` : "Frigo vide"} · {srvLabel(isPlus, entry.servings)}</span>
           <h2>{meal === "w" ? <>Des idées pour <em>ta semaine</em></> : <>Trois idées pour <em>{meal === "m" ? "ce midi" : "ce soir"}</em></>}</h2>
         </div>
         <div className="chips">
@@ -159,7 +159,7 @@ export function Results({ history, isPlus, household, week, onWeek, onNewIdeas }
             </button>
           </> : <p className="muted" style={{ margin: 0, fontSize: 14 }}>Aucune idée de ce scan ne correspond.</p>}
           {others.length > 0 && <>
-            <div className="sec"><h3>{meal === "w" ? "Pour la suite de la semaine" : "Autres idées"}</h3><span className="muted" style={{ fontSize: 13 }}>avec ton frigo</span></div>
+            <div className="sec"><h3>{meal === "w" ? "Pour la suite de la semaine" : "Autres idées"}</h3><span className="muted" style={{ fontSize: 13 }}>{n ? "avec ton frigo" : "avec ton placard"}</span></div>
             <div className="grid2">{others.map(x => <Idea key={x.i} recipe={x.r} found={entry.ingredients} planned={isPlus && !!findTitle(week, days, x.r.title)}
               onClick={() => open(x.i)} onWeek={() => addToWeek(x.i)} />)}</div>
           </>}

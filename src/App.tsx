@@ -322,7 +322,7 @@ return (
       <Route path="/scan" element={noScansLeft ? <Navigate to="/plus" replace state={{ why: "quota" }} /> :
         <ScanCamera userId={user.id} guide={guide === "" && history.length === 0} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
       <Route path="/scan/recadrer" element={<Crop />} />
-      <Route path="/scan/rate" element={<ScanFail />} />
+      <Route path="/scan/rate" element={<ScanFail isPlus={isPlus} />} />
       <Route path="/scan/ajouter" element={<AddIngredient />} />
       <Route path="/scan/ingredients" element={<Ingredients isPlus={isPlus} household={household} avatar={avatarSrc} guide={guide === "ingr"} userId={user.id} />} />
       <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} onReady={library.addScan} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />

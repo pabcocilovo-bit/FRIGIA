@@ -17,6 +17,8 @@ export type ScanState = {
   /** Jeton de la photo comptée : ses recettes ne recomptent pas de scan */
   token: string | null;
   problem: "floue" | "sombre" | "vide";
+  /** Frigia Plus : frigo vide, des plats quand même (sans ingrédient) */
+  empty: boolean;
   pantry: boolean;
   envie: Envie;
   /** Formule Gratuit : « Pour combien ? » */
@@ -33,7 +35,7 @@ const savedServings = () => {
 };
 
 let state: ScanState = {
-  meal: "s", source: "frigo", photo: null, pick: null, pending: null, ingredients: [], token: null, problem: "floue",
+  meal: "s", source: "frigo", photo: null, pick: null, pending: null, ingredients: [], token: null, problem: "floue", empty: false,
   pantry: true, envie: "rapide", servings: savedServings(), guests: 0, away: [],
 };
 const listeners = new Set<() => void>();

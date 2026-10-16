@@ -105,7 +105,7 @@ export function scanDayTitle(date: Date, meal?: "m" | "s" | "w"): string {
 /** « 5 oct. · 19 h 05 · 8 ingrédients » (l'année s'ajoute quand ce n'est pas cette année). */
 export function scanDateLine(date: Date, ingredients: number, now = new Date()): string {
   const year = date.getFullYear() !== now.getFullYear() ? ` ${date.getFullYear()}` : "";
-  return `${date.getDate()} ${SHORT_MONTHS[date.getMonth()]}${year} · ${hm(date)} · ${plural(ingredients, "ingrédient")}`;
+  return `${date.getDate()} ${SHORT_MONTHS[date.getMonth()]}${year} · ${hm(date)} · ${ingredients ? plural(ingredients, "ingrédient") : "frigo vide"}`;
 }
 
 const mondayOf = (d: Date) => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x.getTime(); };

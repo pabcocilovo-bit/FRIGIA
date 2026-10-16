@@ -90,7 +90,7 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
     const r = await detectIngredients(photo, getScan().source);
     if (!alive.current) { busy.current = false; return; }
     if (r.status === "ok") {
-      setScan({ photo: url, ingredients: r.ingredients, token: r.token, guests: 0 });
+      setScan({ photo: url, ingredients: r.ingredients, token: r.token, guests: 0, empty: false });
       setFound(r.ingredients);
       // Les pastilles apparaissent sur la photo, puis la liste
       setTimeout(() => {
@@ -99,7 +99,7 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
         if (r.scansLeft != null) onCounted(r.scansLeft);
       }, 1300 + Math.min(r.ingredients.length, 8) * 120);
     } else if (r.status === "unclear") {
-      setScan({ photo: url, ingredients: [], token: null, problem: r.problem });
+      setScan({ photo: url, ingredients: [], token: null, problem: r.problem, empty: false });
       navigate("/scan/rate", { replace: true });
     } else {
       URL.revokeObjectURL(url);
