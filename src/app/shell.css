@@ -233,3 +233,12 @@ body:has(.fa-app){background:#EFE3D0}
 .fa .drive span{font-size:12.5px;color:var(--muted)}
 .fa .litem .ck{width:22px;height:22px;border-radius:7px;box-shadow:inset 0 0 0 1.5px var(--line);display:grid;place-items:center;color:transparent;flex:none;transition:background .15s}
 .fa .litem .ck svg{width:14px;height:14px}
+/* Accueil sans scan ni favori : les étapes, puis un mot sur les favoris */
+.fa .hrow.how img{object-position:50% 18%}
+.fa .fav-hint{margin:0 4px 10px;font-size:13px;line-height:1.4;color:var(--muted)}
+.fa .fav-hint svg{width:14px;height:14px;vertical-align:-2px;color:var(--sage)}
+.fa .fav-empty{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:18px;padding:14px;box-shadow:0 1px 0 var(--line)}
+.fa .fav-empty .ico{width:40px;height:40px;border-radius:50%;background:var(--sage-soft);color:var(--sage-deep);display:grid;place-items:center;flex:none}
+.fa .fav-empty div{flex:1;min-width:0}
+.fa .fav-empty b{display:block;font:600 15px/1.25 var(--sans)}
+.fa .fav-empty span{font-size:13px;color:var(--muted)}
