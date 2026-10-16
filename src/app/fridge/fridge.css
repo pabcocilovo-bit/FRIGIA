@@ -1,0 +1,19 @@
+/* 7 · Mon frigo : les deux pages (frigo, courses) dans l'en-tête vert, les produits par rayon */
+.fa .fr-tabs{margin-top:2px}
+.fa .fr-tabs .chip svg{width:13px;height:13px;margin-left:5px;vertical-align:-1px;opacity:.8}
+.fa .fr-item .nm small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fa .fr-fin{flex:none;font:600 12px/1 var(--sans);padding:7px 10px;border-radius:999px;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line)}
+.fa .fr-fin.on{background:var(--hi-soft);color:#5E4210;box-shadow:none}
+.fa .fr-x{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.fa .fr-x svg{width:15px;height:15px}
+.fa .fr-x:active{background:var(--surface)}
+.fa .fr-note{display:flex;align-items:center;gap:12px;background:var(--sage-soft);border-radius:16px;padding:12px 14px;font-size:13.5px;line-height:1.4;color:var(--sage-deep)}
+.fa .fr-note span{flex:1;min-width:0}
+.fa .fr-note .link{flex:none}
+.fa .fr-old{margin:0 4px;font-size:13px;color:var(--muted)}
+.fa .fr-add{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:999px;padding:6px 6px 6px 18px;box-shadow:0 1px 0 var(--line)}
+.fa .fr-add input{flex:1;min-width:0;border:0;background:none;font:400 15px/1.2 var(--sans);color:var(--text);padding:8px 0;outline:none}
+.fa .fr-add button{flex:none;width:38px;height:38px;border-radius:50%;background:var(--sage);color:var(--on);display:grid;place-items:center}
+.fa .fr-add button:disabled{opacity:.4}
+.fa .fr-add button svg{width:18px;height:18px}
+.fa .fr-ideas{margin-top:0}

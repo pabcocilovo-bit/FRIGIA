@@ -27,7 +27,7 @@ Ton compte est personnel. Garde ton mot de passe pour toi.
 
 - 15 scans offerts au total, sans carte bancaire et sans limite de temps.
 - Les favoris et les scans de plus de 7 jours restent enregistrés, mais s'affichent floutés.
-- La famille, le planning de la semaine et la liste de courses complète sont réservés à Plus.
+- La famille, le planning de la semaine et la liste de courses complète sont réservés à Plus. Mon frigo (ce que tes scans ont vu) est ouvert à tous.
 
 ### 4. Frigia Plus
 
@@ -138,7 +138,7 @@ _Mise à jour le 16 octobre 2026_
 - Tes réponses à l'inscription : objectif, régime, allergies, temps pour cuisiner, ustensiles.
 - Ta famille (Plus) : prénom, âge, allergies et ce que chacun n'aime pas, y compris pour les enfants.
 - Tes scans : la photo du frigo, les ingrédients trouvés, les recettes proposées et ce que tu as cuisiné.
-- Tes favoris, ta semaine, ta liste de courses et tes économies estimées.
+- Tes favoris, ta semaine, ta liste de courses, le contenu de ton frigo (ce que tes scans ont vu, tes courses cochées, ce que tu ajoutes) et tes économies estimées.
 - Ton abonnement : formule, dates et code utilisé. Le paiement est géré par Stripe : on ne voit jamais ton numéro de carte.
 - Tes notifications : celles que tu as reçues (la cloche de l'accueil), tes choix dans Réglages et le fuseau horaire de ton téléphone, pour t'écrire à la bonne heure.
 - Si tu actives les notifications : l'adresse d'abonnement de ton téléphone, donnée par ton navigateur. Elle ne contient ni ton nom ni ton email, et sert seulement à t'envoyer les notifications.

@@ -3,7 +3,8 @@ import type { ShopItem } from "./home";
 
 export const AISLES = ["Fruits et légumes", "Boucherie", "Poissonnerie", "Crèmerie", "Boulangerie", "Épicerie"] as const;
 
-const norm = (s: string) => s.toLowerCase().replace(/œ/g, "oe").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z ]/g, " ")
+/** Les mots d'un nom, sans accent ni pluriel (« Tomates cerises » → tomate, cerise) */
+export const norm = (s: string) => s.toLowerCase().replace(/œ/g, "oe").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z ]/g, " ")
   .split(" ").filter(w => w.length > 2).map(w => w.replace(/[sx]$/, ""));
 
 // Le premier rayon qui reconnaît un mot l'emporte (« blanc de poulet » : boucherie ; « crème » : crèmerie)
@@ -26,7 +27,7 @@ export function aisleOf(name: string): string {
   return WORDS.find(([, list]) => w.some(x => list.includes(x)))?.[0] ?? "Épicerie";
 }
 
-const same = (a: string, b: string) => norm(a).join(" ") === norm(b).join(" ");
+export const same = (a: string, b: string) => norm(a).join(" ") === norm(b).join(" ");
 
 /** Déjà dans la liste, pas encore acheté */
 export const inList = (list: ShopItem[], name: string) => list.some(x => !x.done && same(x.name, name));

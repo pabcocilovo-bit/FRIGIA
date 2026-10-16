@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router";
 import { Icon, Pill, RoundButton } from "../../ui/components";
 import { type CookedMeal, thisMonth, totalSaved } from "../../lib/cooked";
-import type { HistoryEntry } from "../../lib/types";
+import type { GeneratedRecipe, HistoryEntry } from "../../lib/types";
 import { useBack } from "../nav";
 import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
@@ -59,9 +59,11 @@ function useWakeLock() {
   }, []);
 }
 
-export function Cook({ history, isPlus, meals, onCooked }: {
+export function Cook({ history, isPlus, meals, onCooked, onUsed }: {
   history: HistoryEntry[]; isPlus: boolean; meals: CookedMeal[];
   onCooked: (m: Omit<CookedMeal, "id" | "date">) => void;
+  /** Mon frigo : ce que la recette a pris en sort */
+  onUsed: (r: GeneratedRecipe) => void;
 }) {
   const back = useBack();
   const navigate = useNavigate();
@@ -111,6 +113,7 @@ export function Cook({ history, isPlus, meals, onCooked }: {
         scanId: entry?.id ?? null, title: recipe.title, image: photo, servings: Math.max(1, Math.round(servings)),
         kg: c.saved.kg, eur: c.saved.eur, usedKg: c.used.kg, usedEur: c.used.eur, items: c.items,
       });
+      onUsed(recipe);
     }
     setDone(true);
   };

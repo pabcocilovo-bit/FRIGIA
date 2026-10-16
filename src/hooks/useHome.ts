@@ -1,4 +1,4 @@
-// Le foyer, la semaine et la liste de courses de la personne connectée.
+// Le foyer, la semaine, la liste de courses et le frigo de la personne connectée.
 // Chaque changement est gardé tout de suite sur le téléphone, puis envoyé sur le compte (regroupé, une fois par demi-seconde).
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cachePart, EMPTY_HOME, type Home, loadHome, type Part, sendPart } from "../lib/home";
@@ -31,5 +31,6 @@ export function useHome(userId: string | undefined) {
     setMembers: (u: Update<Home["members"]>) => set("members", u),
     setWeek: (u: Update<Home["week"]>) => set("week", u),
     setShopping: (u: Update<Home["shopping"]>) => set("shopping", u),
+    setFridge: (u: Update<Home["fridge"]>) => set("fridge", u),
   };
 }

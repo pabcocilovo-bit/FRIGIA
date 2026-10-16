@@ -15,6 +15,9 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router"
 import { AppFrame } from "./app/AppFrame";
 import { Home } from "./app/Home";
 import { Courses } from "./app/Lists";
+import { MyFridge } from "./app/fridge/Fridge";
+import { cookFrom, fromScan, fromShopping } from "./lib/fridge";
+import { getScan } from "./app/scan/store";
 import { Planning } from "./app/plan/Planning";
 import { PlanNew } from "./app/plan/PlanNew";
 import { Family } from "./app/Family";
@@ -302,8 +305,14 @@ return (
         week={home.week} onWeek={home.setWeek} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/planning" element={<Planning {...plan} household={household} onAddMissing={addMissingOf} />} />
       <Route path="/planning/creer" element={<PlanNew {...plan} />} />
+      <Route path="/frigo" element={<MyFridge isPlus={isPlus} fridge={home.fridge} onFridge={home.setFridge} />} />
       <Route path="/courses" element={<Courses isPlus={isPlus} items={home.shopping}
-        onToggle={id => home.setShopping(l => l.map(x => (x.id === id ? { ...x, done: !x.done } : x)))}
+        onToggle={id => {
+          // Cochée (dans le panier) : elle entre dans le frigo ; décochée, elle en sort
+          const it = home.shopping.find(x => x.id === id);
+          home.setShopping(l => l.map(x => (x.id === id ? { ...x, done: !x.done } : x)));
+          if (it) home.setFridge(f => fromShopping(f, { ...it, done: !it.done }));
+        }}
         onClearDone={() => home.setShopping(l => l.filter(x => !x.done))} />} />
       <Route path="/famille" element={<Family user={user} name={name} isPlus={isPlus} avatar={avatarSrc} profile={profile} household={household}
         dishes={dishes} onAvatar={onAvatar} onName={onName}
@@ -325,12 +334,16 @@ return (
       <Route path="/scan/rate" element={<ScanFail isPlus={isPlus} />} />
       <Route path="/scan/ajouter" element={<AddIngredient />} />
       <Route path="/scan/ingredients" element={<Ingredients isPlus={isPlus} household={household} avatar={avatarSrc} guide={guide === "ingr"} userId={user.id} />} />
-      <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} onReady={library.addScan} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
+      <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} onReady={e => {
+        library.addScan(e);
+        // Le frigo prend ce que le scan a vu (pas un scan « frigo vide », qui n'a rien vu)
+        if (e.ingredients.length) home.setFridge(f => fromScan(f, e.ingredients, getScan().source));
+      }} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
       <Route path="/recettes/:id" element={<Results history={history} isPlus={isPlus} household={household} week={home.week} onWeek={home.setWeek} onNewIdeas={updateScanRecipes} />} />
       <Route path="/recettes/:id/:n" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
       <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
-      <Route path="/recettes/:id/:n/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} />} />
-      <Route path="/recette/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} />} />
+      <Route path="/recettes/:id/:n/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} onUsed={r => home.setFridge(f => cookFrom(f, r))} />} />
+      <Route path="/recette/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} onUsed={r => home.setFridge(f => cookFrom(f, r))} />} />
       <Route path="/parrainage" element={<Refer name={name} avatar={avatarSrc} isPlus={isPlus} />} />
       <Route path="/i/:code" element={<Navigate to="/" replace />} />
       <Route path="/bilan" element={isPlus ? <Report meals={cooked.meals} /> : <Navigate to="/" replace />} />

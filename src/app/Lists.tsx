@@ -1,4 +1,4 @@
-// 7 · Liste de courses (étape 10). Le planning est dans plan/.
+// 7 · Liste de courses (étape 10), la 2e page de l'onglet « Mon frigo ». Le planning est dans plan/.
 import { useLocation } from "react-router";
 import { EmptyState, Icon, LockPill, Pill, RoundButton } from "../ui/components";
 import type { ShopItem } from "../lib/home";
@@ -6,6 +6,7 @@ import { byAisle, listText } from "../lib/shopping";
 import { ArtBag } from "../ui/art";
 import { plural } from "./format";
 import { AppTabBar } from "./AppTabBar";
+import { FridgeTabs } from "./fridge/Fridge";
 import { useOpenScan } from "./offline";
 import { showToast } from "./toast";
 import { useOpenPaywall, type Why } from "./plus/subscription";
@@ -67,6 +68,7 @@ export function Courses({ isPlus, items, onToggle, onClearDone }: {
           {list.length > 0 && <span className="label">{plural(list.length, "article")}{done ? ` · ${done} dans le panier` : ""}</span>}
           <h2>Ta liste de <em>courses</em></h2>
         </div>
+        <FridgeTabs on="courses" isPlus={isPlus} />
       </div>
       <div className="lbody">
         {!isPlus && <LockBar why="courses" />}
@@ -74,7 +76,7 @@ export function Courses({ isPlus, items, onToggle, onClearDone }: {
           <EmptyState
             art={<ArtBag />}
             title={<>Ta liste est <em>vide</em></>}
-            text="Sur une recette, touche « Ajouter les manquants » : ils arrivent ici, rangés par rayon."
+            text="Sur une recette, touche « Ajouter les manquants » : ils arrivent ici, rangés par rayon. Coche-les en faisant les courses : ils entrent dans ton frigo."
             action={<Pill icon="cam" onClick={openScan}>Scanner mon frigo</Pill>}
           />
         ) : <>

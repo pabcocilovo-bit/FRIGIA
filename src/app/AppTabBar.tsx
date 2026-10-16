@@ -1,5 +1,5 @@
-// Barre d'onglets branchée sur la navigation : chaque onglet a son adresse (/, /planning, /courses, /famille).
-// En Gratuit, Planning et Courses (cadenas) ouvrent « Passe à Plus », comme le prototype.
+// Barre d'onglets branchée sur la navigation : chaque onglet a son adresse (/, /planning, /frigo, /famille).
+// En Gratuit, Planning (cadenas) ouvre « Passe à Plus », comme le prototype. Mon frigo est ouvert à tous (les courses, dedans, sont en Plus).
 import { useNavigate } from "react-router";
 import { TabBar, type TabId } from "../ui/components";
 import { TAB_PATHS } from "./nav";
@@ -12,7 +12,7 @@ export function AppTabBar({ active, isPlus }: { active?: TabId; isPlus: boolean 
   const openPaywall = useOpenPaywall();
   const onTab = (t: TabId) => {
     if (t === active) return;
-    if (!isPlus && (t === "plan" || t === "list")) openPaywall(t === "plan" ? "planning" : "courses", TAB_PATHS[t]);
+    if (!isPlus && t === "plan") openPaywall("planning", TAB_PATHS[t]);
     else navigate(TAB_PATHS[t]);
   };
   return <TabBar active={active} isPlus={isPlus} onTab={onTab} onScan={openScan} />;

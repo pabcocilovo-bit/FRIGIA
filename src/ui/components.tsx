@@ -1,13 +1,17 @@
 // Briques de base du nouveau design (prototype V3). Le style est dans ui.css, sous .fa.
 import { useEffect, useId, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { ICONS, type IconName } from "./icons";
+import { ICONS, type IconName as ProtoIcon } from "./icons";
+import { APP_ICONS } from "./icons-app";
 import "./ui.css";
+
+export type IconName = ProtoIcon | keyof typeof APP_ICONS;
+const ALL_ICONS = { ...ICONS, ...APP_ICONS };
 
 const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).join(" ");
 
 export function Icon({ name, className }: { name: IconName; className?: string }) {
-  const d = ICONS[name];
+  const d = ALL_ICONS[name];
   return <svg className={cx("i", className)} viewBox={d.vb} {...d.a} aria-hidden="true" dangerouslySetInnerHTML={{ __html: d.svg }} />;
 }
 
@@ -115,7 +119,8 @@ export type TabId = "home" | "plan" | "list" | "family";
 const TABS: { id: TabId; label: string; icon: IconName; plusOnly?: boolean }[] = [
   { id: "home", label: "Accueil", icon: "home" },
   { id: "plan", label: "Planning", icon: "cal", plusOnly: true },
-  { id: "list", label: "Courses", icon: "cart", plusOnly: true },
+  // Écart maquette : « Courses » devient « Mon frigo » (le frigo pour tous, les courses en Plus), demandé par Hugo le 16 octobre
+  { id: "list", label: "Mon frigo", icon: "fridge" },
   { id: "family", label: "Famille", icon: "users" },
 ];
 
