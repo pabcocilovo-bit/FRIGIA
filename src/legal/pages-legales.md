@@ -1,6 +1,6 @@
 ## Conditions d'utilisation et de vente
 
-_Mise à jour le 9 octobre 2026_
+_Mise à jour le 16 octobre 2026_
 
 **L'essentiel**
 
@@ -88,15 +88,26 @@ Tu t'engages à ne pas contourner les limites de scans, ne pas créer de faux co
 
 On fait de notre mieux pour que Frigia marche tout le temps, sans pouvoir le garantir. Sans réseau, ta liste de courses, ta semaine et tes favoris restent ouverts, car ils sont gardés sur ton téléphone. Le scan attend le retour du réseau.
 
-### 12. Supprimer ton compte
+### 12. Notifications
+
+Frigia peut t'envoyer des notifications sur ton téléphone, seulement si tu les acceptes.
+
+- L'idée du soir : en fin de journée, une recette de ton dernier scan pas encore cuisinée. Pas plus d'une par jour, et rien si tu as déjà cuisiné ce jour-là.
+- Ta semaine : le dimanche matin, pour la préparer.
+- Le parrainage : quand un ami rejoint Frigia ou s'abonne avec ton lien.
+- Ton bilan du mois et les scans qu'il te reste : dans la cloche de l'accueil seulement, sans sonnerie.
+
+Tu choisis lesquelles dans Réglages, puis Notifications. Tu peux aussi tout couper dans les réglages de ton téléphone. L'heure d'envoi est approximative. Sur iPhone, elles n'arrivent que si Frigia est ajouté à l'écran d'accueil.
+
+### 13. Supprimer ton compte
 
 Dans Réglages, « Supprimer mon compte ». Tu confirmes par email. Ton abonnement est résilié en même temps et tes données sont effacées sous 30 jours.
 
-### 13. Changements
+### 14. Changements
 
 Si ces conditions ou les prix changent, on te prévient par email au moins 30 jours avant. Tu peux résilier avant que le changement s'applique.
 
-### 14. Litiges
+### 15. Litiges
 
 Ces conditions relèvent du droit français. En cas de souci, écris-nous d'abord : on répond sous 48 heures. Si on ne trouve pas d'accord, tu peux saisir gratuitement le médiateur de la consommation : **[À compléter : nom et site du médiateur à désigner]**.
 
@@ -108,7 +119,7 @@ contact@frigia.fr
 
 ## Politique de confidentialité
 
-_Mise à jour le 9 octobre 2026_
+_Mise à jour le 16 octobre 2026_
 
 **L'essentiel**
 
@@ -129,7 +140,9 @@ _Mise à jour le 9 octobre 2026_
 - Tes scans : la photo du frigo, les ingrédients trouvés, les recettes proposées et ce que tu as cuisiné.
 - Tes favoris, ta semaine, ta liste de courses et tes économies estimées.
 - Ton abonnement : formule, dates et code utilisé. Le paiement est géré par Stripe : on ne voit jamais ton numéro de carte.
-- Tes choix de notifications, et des données techniques : connexions, type d'appareil, langue.
+- Tes notifications : celles que tu as reçues (la cloche de l'accueil), tes choix dans Réglages et le fuseau horaire de ton téléphone, pour t'écrire à la bonne heure.
+- Si tu actives les notifications : l'adresse d'abonnement de ton téléphone, donnée par ton navigateur. Elle ne contient ni ton nom ni ton email, et sert seulement à t'envoyer les notifications.
+- Des données techniques : connexions, type d'appareil, langue.
 
 ### Les allergies, un cas à part
 
@@ -154,6 +167,7 @@ Elle est envoyée à l'IA pour lire les ingrédients, puis gardée dans « Tes s
 - Anthropic : lecture de la photo et création des recettes (États-Unis). Ne reçoit que la photo, les ingrédients et les contraintes (allergies, âges, goûts), jamais ton nom ni ton email. Selon ses conditions, il n'entraîne pas ses modèles avec ces données.
 - Stripe : paiement.
 - Google : connexion avec Google, si tu la choisis.
+- Le service de notifications de ton navigateur (Apple, Google ou Mozilla) : il transmet les notifications à ton téléphone, sans pouvoir lire leur contenu, qui est chiffré.
 - Cloudflare (Turnstile) : protection contre les robots à l'inscription.
 - **[À compléter : Outil d'envoi des emails automatiques, à préciser]**.
 - Pexels ne reçoit que le nom de la recette pour trouver une photo.
@@ -171,6 +185,8 @@ Certains de ces services sont aux États-Unis. Les transferts sont encadrés par
 - Après suppression du compte : effacement sous 30 jours.
 - Les factures sont gardées 10 ans, comme la loi l'impose.
 - Les données techniques de connexion : 12 mois.
+- Les notifications reçues : tant que ton compte existe, ou jusqu'à ce que tu les supprimes (glisse vers la gauche dans la cloche).
+- L'adresse d'abonnement d'un téléphone : effacée dès qu'il ne la reconnaît plus, par exemple si tu bloques les notifications, et avec ton compte.
 
 ### Sur ton téléphone
 
