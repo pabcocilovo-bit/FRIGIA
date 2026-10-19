@@ -15,12 +15,6 @@
       "maxDuration": 60
     }
   },
-  "crons": [
-    {
-      "path": "/api/subscription",
-      "schedule": "0 8 * * *"
-    }
-  ],
   "rewrites": [
     {
       "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera|plus|resilier|recette|aide|bilan|parrainage|notifications)",
@@ -88,6 +82,10 @@
     }
   ],
   "crons": [
+    {
+      "path": "/api/subscription",
+      "schedule": "0 8 * * *"
+    },
     {
       "path": "/api/notify?job=evening",
       "schedule": "0 16 * * *"
