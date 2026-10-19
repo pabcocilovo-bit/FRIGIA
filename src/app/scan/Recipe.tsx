@@ -11,7 +11,7 @@ import { useOpenPaywall } from "../plus/subscription";
 import { showToast } from "../toast";
 import { Stepper } from "./Ingredients";
 import { eatersOf, haveCount, recipeLines, srvLabel } from "./portions";
-import { familyBadges, type Person, portionsOf } from "../../lib/household";
+import { recipeBadges, type Person, portionsOf } from "../../lib/household";
 import type { Fridge, ShopItem, Week } from "../../lib/home";
 import { weekDays } from "../format";
 import { WeekSheet } from "../plan/sheets";
@@ -121,7 +121,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
         </div>
         <div className="band r-band">
           <span className="label">{entry ? `Recette ${index + 1} sur ${entry.recipes.length} · ${recipe.diff}` : recipe.diff}</span>
-          {isPlus && familyBadges(recipe).length > 0 && <span className="bbadges">{familyBadges(recipe).map(b => <Badge key={b} tone="ongreen">{b}</Badge>)}</span>}
+          {recipeBadges(recipe, isPlus).length > 0 && <span className="bbadges">{recipeBadges(recipe, isPlus).map(b => <Badge key={b} tone="ongreen">{b}</Badge>)}</span>}
           <h2>{recipe.title}</h2>
           <div className="stats">
             <div><b>{recipe.time}</b><span>au total</span></div>

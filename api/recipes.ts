@@ -17,7 +17,7 @@ type RawItem = { name?: unknown; plural?: unknown; qty?: unknown; unit?: unknown
 type RawStep = { text?: unknown; timer?: { label?: unknown; min?: unknown } | null } | string;
 type RawRecipe = {
   title?: unknown; intro?: unknown; minutes?: unknown; calories?: unknown; difficulty?: unknown; imageSearch?: unknown;
-  veg?: unknown; oven?: unknown; cold?: unknown; kids?: unknown; missing?: unknown; ingredients?: RawItem[]; steps?: RawStep[];
+  veg?: unknown; oven?: unknown; cold?: unknown; kids?: unknown; missing?: unknown; origin?: unknown; ingredients?: RawItem[]; steps?: RawStep[];
 };
 
 const ENVIES: Record<string, string> = {
@@ -31,6 +31,9 @@ const MEALS: Record<string, string> = {
   s: "le dîner de ce soir",
   w: "plusieurs repas de la semaine. Des recettes qui se gardent bien. Classe-les dans l'ordre où les cuisiner : d'abord celle qui utilise les produits qui s'abîment le plus vite",
 };
+// Pour varier : une recette sur trois peut s'inspirer d'une cuisine tirée au sort (les deux autres restent du quotidien)
+const STYLES = ["italienne", "espagnole", "grecque", "libanaise", "marocaine", "indienne", "thaïlandaise", "japonaise", "mexicaine",
+  "provençale", "basque", "alsacienne", "bretonne", "lyonnaise", "américaine", "portugaise", "vietnamienne", "turque"];
 const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 const strs = (v: unknown, n: number, max: number) => (Array.isArray(v) ? v.map(x => str(x, max)).filter(Boolean).slice(0, n) : []);
 const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/s\b/g, "");
@@ -90,7 +93,8 @@ export default async function handler(req: Req, res: Res) {
     dislikes.length ? `N'AIMENT PAS (à éviter dans toutes les recettes) : ${eaters.filter(e => e.dislikes.length).map(e => `${e.name} : ${e.dislikes.join(", ")}`).join(" ; ")}.` : "",
     kids.length ? `Des enfants mangent : des recettes qui leur plaisent, pas trop épicées. "kids" : true pour une recette que les enfants adorent.` : "",
   ].filter(Boolean) : [];
-  const avoid = [...(body.avoid ?? []), ...(body.recentTitles ?? [])].filter(t => typeof t === "string").slice(0, 20);
+  const avoid = [...new Set([...(body.avoid ?? []), ...(body.recentTitles ?? [])].filter(t => typeof t === "string").map(t => t.slice(0, 80)))].slice(0, 40);
+  const style = STYLES[Math.floor(Math.random() * STYLES.length)];
   const prompt = [
     empty && !list.length
       ? "Le frigo est vide : rien de frais à la maison."
@@ -105,19 +109,22 @@ export default async function handler(req: Req, res: Res) {
     empty
       ? "Des plats simples et sans gâchis, faits surtout avec le placard. Chaque recette demande au plus 4 ingrédients à acheter, faciles à trouver au supermarché. Les 3 recettes partagent le plus possible les mêmes achats."
       : "Utilise surtout ce qui est disponible. Une recette peut demander 1 ou 2 ingrédients à acheter, pas plus.",
+    "Des recettes qui existent vraiment et qu'on a envie de manger : n'associe que des ingrédients qui vont bien ensemble. Mieux vaut laisser un ingrédient de côté qu'inventer un mélange étrange.",
+    `VARIÉTÉ : ${count} plats de types différents (pas deux plats de pâtes, pas deux poêlées, pas deux omelettes), avec des bases différentes (pâtes, riz, pommes de terre, pain, légumineuses, œufs…). ${count > 2 ? "Au moins 2 recettes" : "Au moins 1 recette"} sont des plats du quotidien qu'on connaît en France. La dernière peut venir d'ailleurs : aujourd'hui, inspire-toi de la cuisine ${style} si les ingrédients s'y prêtent.`,
     lines.length ? `PRÉFÉRENCES (à respecter) :\n${lines.join("\n")}` : "",
     familyLines.length ? `LE FOYER :\n${familyLines.join("\n")}` : "",
-    avoid.length ? `NE PROPOSE PAS ces recettes déjà vues : ${avoid.join(", ")}.` : "",
+    avoid.length ? `DÉJÀ PROPOSÉES RÉCEMMENT, À NE PAS REPROPOSER, ni une variante proche (le même plat avec les mêmes ingrédients principaux sous un autre nom) : ${avoid.join(" ; ")}.` : "",
     `Pour chaque recette :
 - "title" : nom court et appétissant, en français. Il décrit exactement le plat : tout ce qu'il nomme (base comme wrap, pâtes, riz, ou ingrédient) est dans "ingredients". Pas de « wrap » sans galette, pas de « gratin » sans four.
-- "intro" : 1 ou 2 phrases simples qui donnent envie, au tutoiement.
+- "intro" : 1 ou 2 phrases simples qui donnent envie, au tutoiement. Pour un plat peu connu en France, dis d'abord en quelques mots ce que c'est (« La shakshuka, ce sont des œufs pochés dans une sauce tomate épicée. »).
+- "origin" : "" pour un plat courant en France. Pour une spécialité d'un pays ou d'une région, 2 à 4 mots : "Spécialité libanaise", "Plat indien", "Recette basque".
 - "minutes" : durée totale. "calories" : kcal par portion. "difficulty" : "Facile", "Moyen" ou "Difficile".
 - "imageSearch" : le type de plat EN ANGLAIS, 2 mots au plus, sans ingrédient ni adjectif ("pasta", "omelette", "green salad", "chicken soup").
 - "veg" : true si sans viande ni poisson. "oven" : true si elle passe au four. "cold" : true si elle se mange froide.${kids.length ? ` "kids" : true si les enfants l'adorent.` : ""}
 - "ingredients" : chaque ingrédient avec "name" (minuscules, singulier), "plural" (minuscules, pluriel), "qty" (nombre, ou null pour « un peu »), "unit" ("g", "ml", "cl", "c. à s.", "c. à c.", "gousse", "feuilles", "tranches", ou "" pour un nombre de pièces), "have" (true si disponible).
 - "missing" : les ingrédients à acheter avec leur article, en minuscules ("le parmesan et le basilic"), ou "" s'il ne manque rien.
 - "steps" : 3 à 7 étapes au tutoiement, phrases courtes, avec quantités, températures et durées. Une étape qui attend (four, cuisson, repos) a un "timer" : {"label":"Four","min":20}, sinon null.`,
-    `JSON uniquement : {"recipes":[{"title":"Penne aux légumes rôtis","intro":"Les légumes rôtissent pendant que les pâtes cuisent.","minutes":25,"calories":540,"difficulty":"Facile","imageSearch":"pasta","veg":true,"oven":true,"cold":false,"ingredients":[{"name":"penne","plural":"penne","qty":200,"unit":"g","have":true},{"name":"courgette","plural":"courgettes","qty":1,"unit":"","have":true},{"name":"parmesan","plural":"parmesan","qty":30,"unit":"g","have":false}],"missing":"le parmesan","steps":[{"text":"Préchauffe le four à 220 °C. Coupe la courgette en gros morceaux.","timer":null},{"text":"Enfourne les légumes avec un filet d'huile.","timer":{"label":"Four","min":20}}]}]}`,
+    `JSON uniquement : {"recipes":[{"title":"Penne aux légumes rôtis","intro":"Les légumes rôtissent pendant que les pâtes cuisent.","minutes":25,"calories":540,"difficulty":"Facile","imageSearch":"pasta","origin":"","veg":true,"oven":true,"cold":false,"ingredients":[{"name":"penne","plural":"penne","qty":200,"unit":"g","have":true},{"name":"courgette","plural":"courgettes","qty":1,"unit":"","have":true},{"name":"parmesan","plural":"parmesan","qty":30,"unit":"g","have":false}],"missing":"le parmesan","steps":[{"text":"Préchauffe le four à 220 °C. Coupe la courgette en gros morceaux.","timer":null},{"text":"Enfourne les légumes avec un filet d'huile.","timer":{"label":"Four","min":20}}]}]}`,
   ].filter(Boolean).join("\n");
 
   const answer = await askClaude<{ recipes?: RawRecipe[] }>([{ type: "text", text: prompt }], 4000);
@@ -150,6 +157,7 @@ export default async function handler(req: Req, res: Res) {
       imageUrl: await dishPhoto(imageSearch),
       veg: r.veg === true, oven: r.oven === true, cold: r.cold === true,
       missing: str(r.missing, 120),
+      origin: str(r.origin, 40),
       serves: servings,
       // « Les enfants adorent » seulement avec des enfants à table ; « Sans champignons » vérifié sur les ingrédients
       kids: kids.length > 0 && r.kids === true,

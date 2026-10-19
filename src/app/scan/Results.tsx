@@ -14,7 +14,7 @@ import { useOpenPaywall } from "../plus/subscription";
 import { showToast } from "../toast";
 import { getScan, MEAL_WORDS } from "./store";
 import { eatersOf, haveCount, minutesOf, srvLabel } from "./portions";
-import { apiEaters, familyBadges, type Person } from "../../lib/household";
+import { apiEaters, recipeBadges, type Person } from "../../lib/household";
 import type { Week } from "../../lib/home";
 import { weekDays } from "../format";
 import { WeekSheet } from "../plan/sheets";
@@ -44,7 +44,7 @@ function Feat({ recipe, found, label, isPlus, onClick }: { recipe: GeneratedReci
       {photo ? <img className="ph" src={photo} alt={recipe.title} /> : <span className="ph" style={{ display: "block", height: 230, borderRadius: 24, background: "var(--surface)" }} />}
       <span className="band">
         <span className="label">{label}</span>
-        {isPlus && familyBadges(recipe).length > 0 && <span className="bbadges">{familyBadges(recipe).map(b => <Badge key={b} tone="ongreen">{b}</Badge>)}</span>}
+        {recipeBadges(recipe, isPlus).length > 0 && <span className="bbadges">{recipeBadges(recipe, isPlus).map(b => <Badge key={b} tone="ongreen">{b}</Badge>)}</span>}
         <b>{recipe.title}</b>
         <span className="meta"><span><Icon name="clock" />{recipe.time}</span><span><Icon name="flame" />{recipe.cal} kcal</span><span>{recipe.diff}</span></span>
         {total > 0 && <>
@@ -71,7 +71,7 @@ function Idea({ recipe, found, planned, onClick, onWeek }: {
       <span className="tg">{recipe.time}</span>
       <span className="rw">
         {photo ? <img className="plate" src={photo} alt="" /> : <span className="plate" style={{ width: 58, background: "var(--surface)" }} />}
-        <span><b>{recipe.title}</b><span className="m">{recipe.cal} kcal</span></span>
+        <span><b>{recipe.title}</b><span className="m">{recipe.cal} kcal{recipe.origin ? ` · ${recipe.origin}` : ""}</span></span>
       </span>
       {total > 0 && (have === total ? <Badge icon="check">Tu as tout</Badge> : <Badge tone="warn">{missingText(recipe, total - have)}</Badge>)}
     </button>

@@ -32,6 +32,8 @@ export type GeneratedRecipe = {
   timers?: (StepTimer | null)[];
   /** Frigia Plus, avec des enfants à table : une recette qui plaît aux petits (« Les enfants adorent ») */
   kids?: boolean;
+  /** Une spécialité d'ailleurs (« Spécialité libanaise ») ; absent pour un plat courant en France */
+  origin?: string;
   /** Frigia Plus : ce que quelqu'un n'aime pas et que la recette évite (« Sans champignons ») */
   without?: string[];
   // Favori : quand il a été gardé, depuis quel scan et pour combien

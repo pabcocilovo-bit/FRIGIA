@@ -27,7 +27,7 @@ export function setCachedFavorites(userId: string, favorites: GeneratedRecipe[])
 }
 
 /** Titres des dernières recettes proposées, pour que l'IA ne les repropose pas. */
-export const recentRecipeTitles = (userId: string, max = 15) =>
+export const recentRecipeTitles = (userId: string, max = 30) =>
   getCachedHistory(userId).flatMap(e => e.recipes.map(r => r.title)).slice(0, max);
 
 // ─── Supabase ────────────────────────────────────────────────────────────────

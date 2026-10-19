@@ -101,7 +101,7 @@ type RawItem = { name: string; plural: string; qty: number | null; unit: string;
 type RawRecipe = {
   title: string; intro: string; minutes: number; calories: number; difficulty: string; imageSearch: string; imageUrl?: string;
   veg: boolean; oven: boolean; cold: boolean; missing: string; serves: number; items: RawItem[];
-  kids?: boolean; without?: string[];
+  kids?: boolean; without?: string[]; origin?: string;
   steps: { text: string; timer: { label: string; min: number } | null }[];
 };
 
@@ -128,6 +128,7 @@ function toRecipe(r: RawRecipe): GeneratedRecipe {
     items: r.items,
     timers: r.steps.map(s => s.timer),
     ...(r.kids ? { kids: true } : {}),
+    ...(r.origin ? { origin: r.origin } : {}),
     ...(r.without?.length ? { without: r.without } : {}),
   };
 }

@@ -69,6 +69,9 @@ export function forTonight(eaters: Person[], guests: number): string {
 }
 
 /** Plus : « Les enfants adorent », « Sans champignons » (ce que quelqu'un du foyer n'aime pas) */
+/** Les étiquettes d'une recette : d'où elle vient (pour tous), puis le foyer (Plus) */
+export const recipeBadges = (r: GeneratedRecipe, isPlus: boolean): string[] => [...(r.origin ? [r.origin] : []), ...(isPlus ? familyBadges(r) : [])];
+
 export function familyBadges(r: GeneratedRecipe): string[] {
   return [...(r.kids ? ["Les enfants adorent"] : []), ...(r.without ?? []).slice(0, 1).map(w => `Sans ${w}`)];
 }
