@@ -16,7 +16,7 @@ import { INGR_GUIDE, setGuideState } from "./guideSteps";
 import { eatersOf, portions, srvLabel } from "./portions";
 import "./scan.css";
 
-const ENVIES: [Envie, string][] = [["rapide", "Rapide"], ["healthy", "Healthy"], ["proteine", "Protéiné"], ["gourmand", "Gourmand"]];
+const ENVIES: [Envie, string][] = [["rapide", "Rapide"], ["healthy", "Healthy"], ["proteine", "Protéiné"], ["gourmand", "Gourmand"], ["enfants", "Enfants"], ["gaspi", "Anti-gaspi"]];
 
 export function Stepper({ value, label, min, max, onChange }: { value: number; label: [string, string]; min: number; max: number; onChange: (n: number) => void }) {
   return (

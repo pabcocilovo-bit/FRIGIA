@@ -16,7 +16,7 @@ import "./notifs/notifs.css";
 import { useOpenPaywall } from "./plus/subscription";
 import { forTonight, type Person, portionsOf, portTxt } from "../lib/household";
 import type { MealKey, Week } from "../lib/home";
-import { useScan } from "./scan/store";
+import { type ScanState, setScan, useScan } from "./scan/store";
 import { eatersOf } from "./scan/portions";
 import { weekDays } from "./format";
 import { Dish } from "./plan/Dish";
@@ -25,7 +25,17 @@ import "./report/report.css";
 import { SwapSheet, TonightSheet } from "./plan/sheets";
 import { count, dayOf, MEALS, options } from "./plan/week";
 
-const CATS = ["Ce soir", "Rapide", "Les enfants adorent", "Anti-gaspi", "Batch cooking"];
+// Les envies du haut (écart maquette : décoratives dans le prototype). Chacune règle le prochain scan
+// et change le bandeau : Rapide, Les enfants adorent, Anti-gaspi (l'envie), Batch cooking (la semaine).
+type Cat = { id: string; label: string; title: React.ReactNode; text: string; scan: Partial<ScanState> };
+const CATS: Cat[] = [
+  { id: "soir", label: "Ce soir", title: null, text: "", scan: { meal: "s", envie: "rapide" } },
+  { id: "rapide", label: "Rapide", title: <>Prêt en <em>25 minutes</em></>, text: "Prends ton frigo en photo : trois idées rapides avec ce que tu as.", scan: { meal: "s", envie: "rapide" } },
+  { id: "enfants", label: "Les enfants adorent", title: <>Un plat que les <em>enfants adorent</em></>, text: "Trois idées simples et douces, qui plaisent aux petits.", scan: { meal: "s", envie: "enfants" } },
+  { id: "gaspi", label: "Anti-gaspi", title: <>Rien ne se <em>perd</em></>, text: "Les recettes vident le frigo, en commençant par ce qui s'abîme vite. Au scan, marque « À finir » ce qui presse.", scan: { meal: "s", envie: "gaspi" } },
+  { id: "batch", label: "Batch cooking", title: <>Cuisine une fois, mange <em>toute la semaine</em></>, text: "Des plats qui se gardent, dans l'ordre où les cuisiner.", scan: { meal: "w" } },
+];
+const catOf = (s: ScanState) => (s.meal === "w" ? "batch" : s.envie === "enfants" ? "enfants" : s.envie === "gaspi" ? "gaspi" : "soir");
 
 export function Avatar({ user, name, photo, className, onClick, label }: {
   user: User; name?: string; photo: string | null; className: string; onClick?: () => void; label: string;
@@ -82,9 +92,11 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
   const openScan = useOpenScan();
   const openPaywall = useOpenPaywall();
   const community = useCommunity();
-  const [cat, setCat] = useState(CATS[0]);
   // Plus : qui mange ce soir (« Qui mange » du scan), avec les invités
   const scan = useScan();
+  const [catId, setCatId] = useState(() => catOf(scan));
+  const cat = CATS.find(c => c.id === catId) ?? CATS[0];
+  const pickCat = (c: Cat) => { setCatId(c.id); setScan(c.scan); };
   const eaters = eatersOf(household, scan);
   // Ce que les repas cuisinés ce mois-ci ont sauvé (le détail : Ton bilan)
   const month = thisMonth(cooked);
@@ -116,13 +128,13 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
           </button>
         </div>
         <div className="cats">
-          {CATS.map(c => <button key={c} type="button" className={c === cat ? "on" : undefined} onClick={() => setCat(c)}>{c}</button>)}
+          {CATS.map(c => <button key={c.id} type="button" className={c.id === cat.id ? "on" : undefined} aria-pressed={c.id === cat.id} onClick={() => pickCat(c)}>{c.label}</button>)}
         </div>
       </div>
       <div className="hphoto"><img src="/landing/gratin-courgettes.jpg" alt="Gratin de courgettes doré dans un plat blanc" /></div>
       <div className={"home-band" + (tonight ? " tn-has" : "")}>
-        <Band label={bandLabel(user)} title={tonight ? <>Ce soir, c'est <em>prévu</em></> : <>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>}>
-          {tonight ? (
+        <Band label={bandLabel(user)} title={cat.title ?? (tonight ? <>Ce soir, c'est <em>prévu</em></> : <>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>)}>
+          {cat.title ? <p>{cat.text}</p> : tonight ? (
             <button type="button" className="tn-card" onClick={() => setTn(true)}>
               <Dish recipe={tonight.recipe} className="plate" />
               <span className="tn-tx"><b>{tonight.recipe.title}</b><span className="tn-m">{tonight.recipe.time} · pour {portTxt(portionsOf(eaters, scan.guests))}</span></span>

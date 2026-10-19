@@ -25,6 +25,8 @@ const ENVIES: Record<string, string> = {
   healthy: "légères et équilibrées",
   proteine: "riches en protéines (viande, poisson, œufs, légumineuses)",
   gourmand: "généreuses et réconfortantes",
+  enfants: "qui plaisent aux enfants : simples, douces, pas épicées",
+  gaspi: "anti-gaspi : elles utilisent le plus possible d'ingrédients disponibles, d'abord ceux qui s'abîment vite",
 };
 const MEALS: Record<string, string> = {
   m: "le déjeuner de ce midi. Au moins une recette doit pouvoir se manger froide (à emporter)",

@@ -32,7 +32,7 @@ export function compressImage(f: Blob): Promise<{ base64: string; type: string }
 export const RATE_TEXT = "Tu as fait 5 scans cette heure-ci. Réessaie un peu plus tard.";
 
 export type ScanSource = "frigo" | "placard" | "ticket";
-export type Envie = "rapide" | "healthy" | "proteine" | "gourmand";
+export type Envie = "rapide" | "healthy" | "proteine" | "gourmand" | "enfants" | "gaspi";
 /** Ingrédient de « C'est bien ça ? » : trouvé sur la photo (avec sa place), ou ajouté à la main. */
 /** finish : marqué « À finir » sur « C'est bien ça ? » */
 export type ScanIngredient = { name: string; qty: string; x?: number; y?: number; finish?: boolean };
