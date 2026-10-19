@@ -15,7 +15,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router"
 import { AppFrame } from "./app/AppFrame";
 import { Home } from "./app/Home";
 import { Courses } from "./app/Lists";
-import { MyFridge } from "./app/fridge/Fridge";
+import { MyKitchen } from "./app/fridge/Fridge";
 import { cookFrom, fromScan, fromShopping } from "./lib/fridge";
 import { getScan } from "./app/scan/store";
 import { Planning } from "./app/plan/Planning";
@@ -305,7 +305,8 @@ return (
         week={home.week} onWeek={home.setWeek} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/planning" element={<Planning {...plan} household={household} onAddMissing={addMissingOf} />} />
       <Route path="/planning/creer" element={<PlanNew {...plan} />} />
-      <Route path="/frigo" element={<MyFridge isPlus={isPlus} fridge={home.fridge} onFridge={home.setFridge} />} />
+      <Route path="/cuisine" element={<MyKitchen isPlus={isPlus} fridge={home.fridge} onFridge={home.setFridge} />} />
+      <Route path="/frigo" element={<Navigate to="/cuisine" replace />} />
       <Route path="/courses" element={<Courses isPlus={isPlus} items={home.shopping}
         onToggle={id => {
           // Cochée (dans le panier) : elle entre dans le frigo ; décochée, elle en sort

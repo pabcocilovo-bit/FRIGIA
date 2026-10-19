@@ -17,3 +17,15 @@
 .fa .fr-add button:disabled{opacity:.4}
 .fa .fr-add button svg{width:18px;height:18px}
 .fa .fr-ideas{margin-top:0}
+/* Ma cuisine : sous-titre, filtres, rangement (frigo / placards), basiques des placards, « Que cuisiner avec ? » collé en bas */
+.fa .fr-sub{margin:6px 0 0;font-size:15px;color:rgba(247,241,230,.8)}
+.fa .fr-filters{margin:0 -16px;padding:0 16px}
+.fa .fr-filters .chip .n{margin-left:6px;font-size:12px;opacity:.7}
+.fa .fr-place{font:inherit;color:var(--sage-deep);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:2px;padding:0}
+.fa .fr-none{margin:4px;font-size:14px;line-height:1.45;color:var(--muted)}
+.fa .fr-basics{display:flex;flex-direction:column;gap:8px}
+.fa .fr-basics .label{padding-left:4px}
+.fa .fr-chips{display:flex;flex-wrap:wrap;gap:8px}
+.fa .fr-chips button{display:inline-flex;align-items:center;gap:5px;font:500 13.5px/1 var(--sans);padding:9px 12px;border-radius:999px;background:var(--card);box-shadow:0 1px 0 var(--line);color:var(--text)}
+.fa .fr-chips button svg{width:14px;height:14px;color:var(--sage)}
+.fa .fr-cook{position:sticky;bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:3;box-shadow:0 10px 24px -12px rgba(31,42,34,.5)}

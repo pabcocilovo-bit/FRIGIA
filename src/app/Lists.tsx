@@ -1,4 +1,4 @@
-// 7 · Liste de courses (étape 10), la 2e page de l'onglet « Mon frigo ». Le planning est dans plan/.
+// 7 · Liste de courses (étape 10), la 2e page de l'onglet « Ma cuisine ». Le planning est dans plan/.
 import { useLocation } from "react-router";
 import { EmptyState, Icon, LockPill, Pill, RoundButton } from "../ui/components";
 import type { ShopItem } from "../lib/home";
@@ -76,7 +76,7 @@ export function Courses({ isPlus, items, onToggle, onClearDone }: {
           <EmptyState
             art={<ArtBag />}
             title={<>Ta liste est <em>vide</em></>}
-            text="Sur une recette, touche « Ajouter les manquants » : ils arrivent ici, rangés par rayon. Coche-les en faisant les courses : ils entrent dans ton frigo."
+            text="Sur une recette, touche « Ajouter les manquants » : ils arrivent ici, rangés par rayon. Coche-les en faisant les courses : ils entrent dans ta cuisine."
             action={<Pill icon="cam" onClick={openScan}>Scanner mon frigo</Pill>}
           />
         ) : <>

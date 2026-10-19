@@ -119,8 +119,8 @@ export type TabId = "home" | "plan" | "list" | "family";
 const TABS: { id: TabId; label: string; icon: IconName; plusOnly?: boolean }[] = [
   { id: "home", label: "Accueil", icon: "home" },
   { id: "plan", label: "Planning", icon: "cal", plusOnly: true },
-  // Écart maquette : « Courses » devient « Mon frigo » (le frigo pour tous, les courses en Plus), demandé par Hugo le 16 octobre
-  { id: "list", label: "Mon frigo", icon: "fridge" },
+  // Écart maquette : « Courses » devient « Ma cuisine » (frigo et placards pour tous, les courses en Plus), demandé par Hugo les 16 et 19 octobre
+  { id: "list", label: "Ma cuisine", icon: "fridge" },
   { id: "family", label: "Famille", icon: "users" },
 ];
 

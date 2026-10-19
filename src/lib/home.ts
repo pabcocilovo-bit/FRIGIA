@@ -19,10 +19,13 @@ export type Week = { midi: boolean; days: Record<string, PlanDay> };
 /** Un article de la liste : rangé par rayon, avec la recette (et le jour) qui le demande. */
 export type ShopItem = { id: string; name: string; qty: string; aisle: string; from: string; done: boolean; at: number };
 
-/** Un produit du frigo. from : vu au scan, acheté (course cochée, shopId) ou ajouté à la main. finish : « À finir ». */
-export type FridgeItem = { id: string; name: string; qty: string; at: number; from: "scan" | "courses" | "main"; finish?: boolean; shopId?: string };
-/** Mon frigo : les produits, la date du dernier scan du frigo, et la dernière recette cuisinée (ce qu'elle a retiré, pour « Remettre »). */
-export type Fridge = { items: FridgeItem[]; seen: number | null; cooked?: { title: string; items: FridgeItem[]; at: number } };
+/** Un produit de Ma cuisine. from : vu au scan, acheté (course cochée, shopId) ou ajouté à la main. finish : « À finir ».
+ *  place : dans le frigo ou les placards (absent : deviné d'après le nom, voir placeOf). */
+export type Place = "frigo" | "placard";
+export type FridgeItem = { id: string; name: string; qty: string; at: number; from: "scan" | "courses" | "main"; finish?: boolean; shopId?: string; place?: Place };
+/** Ma cuisine (colonne fridge) : les produits, la date du dernier scan du frigo (seen) et des placards (seenPlacard),
+ *  et la dernière recette cuisinée (ce qu'elle a retiré, pour « Remettre »). */
+export type Fridge = { items: FridgeItem[]; seen: number | null; seenPlacard?: number; cooked?: { title: string; items: FridgeItem[]; at: number } };
 export const EMPTY_FRIDGE: Fridge = { items: [], seen: null };
 
 export type Home = { members: Member[]; week: Week; shopping: ShopItem[]; fridge: Fridge };
@@ -45,7 +48,8 @@ const clean = (h: Partial<Home>): Home => ({
   week: prune(h.week && typeof h.week === "object" ? h.week : EMPTY_HOME.week),
   shopping: Array.isArray(h.shopping) ? h.shopping : [],
   fridge: h.fridge && typeof h.fridge === "object" && Array.isArray(h.fridge.items)
-    ? { items: h.fridge.items, seen: typeof h.fridge.seen === "number" ? h.fridge.seen : null, ...(h.fridge.cooked ? { cooked: h.fridge.cooked } : {}) }
+    ? { items: h.fridge.items, seen: typeof h.fridge.seen === "number" ? h.fridge.seen : null,
+      ...(typeof h.fridge.seenPlacard === "number" ? { seenPlacard: h.fridge.seenPlacard } : {}), ...(h.fridge.cooked ? { cooked: h.fridge.cooked } : {}) }
     : EMPTY_FRIDGE,
 });
 
