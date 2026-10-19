@@ -21,6 +21,8 @@ export function guessPlace(name: string): Place {
   return w.length && OUTSIDE.includes(w[0]) ? "placard" : "frigo";
 }
 export const placeOf = (x: FridgeItem): Place => x.place ?? guessPlace(x.name);
+/** La quantité. « à la main » : l'ancienne façon de marquer un ingrédient tapé, pas une quantité. */
+export const qtyOf = (q: string | undefined) => (q === "à la main" ? "" : q ?? "");
 
 /** Ajoute des produits ; déjà là : la quantité et la date sont mises à jour. */
 export function addItems(f: Fridge, add: { name: string; qty: string; finish?: boolean }[], from: FridgeItem["from"], extra: Partial<FridgeItem> = {}): Fridge {
@@ -38,7 +40,7 @@ export function addItems(f: Fridge, add: { name: string; qty: string; finish?: b
 /** Le scan est fini. Frigo : ce qui est au frigo est remplacé par ce que la photo a vu. Placards : pareil pour les placards.
  *  Ticket : tout s'ajoute, rangé d'après le nom. */
 export function fromScan(f: Fridge, found: DetectedIngredient[], source: ScanSource): Fridge {
-  const add = found.map(i => ({ name: i.name, qty: i.qty ?? "", finish: i.finish }));
+  const add = found.map(i => ({ name: i.name, qty: qtyOf(i.qty), finish: i.finish }));
   if (source === "ticket") return addItems(f, add, "scan");
   const place: Place = source === "frigo" ? "frigo" : "placard";
   const kept = { ...f, items: f.items.filter(x => placeOf(x) !== place) };
@@ -80,4 +82,4 @@ export function undoCooked(f: Fridge): Fridge {
 }
 
 /** Les produits à donner au scan (« Que cuisiner avec ? ») */
-export const toIngredients = (f: Fridge) => f.items.map(x => ({ name: x.name, qty: x.qty, ...(x.finish ? { finish: true } : {}) }));
+export const toIngredients = (f: Fridge) => f.items.map(x => ({ name: x.name, qty: qtyOf(x.qty), ...(x.finish ? { finish: true } : {}) }));

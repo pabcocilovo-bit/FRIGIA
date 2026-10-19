@@ -52,7 +52,7 @@ export default async function handler(req: Req, res: Res) {
       text: `Voici ${what}. Liste les aliments qu'on peut cuisiner (pas les boissons alcoolisées, pas les produits ménagers).
 Pour chaque aliment :
 - "name" : son nom en français, court, avec une majuscule, au pluriel s'il y en a plusieurs ("Courgettes", "Tomates cerises", "Lait").
-- "qty" : la quantité visible, très courte ("3", "2 barquettes", "1 bouteille", "500 g"). Chaîne vide si on ne sait pas.
+- "qty" : la quantité, très courte ("3", "2 barquettes", "1 bouteille", "500 g"). Compte ce qui se compte (fruits, légumes, œufs, pots). Sinon estime d'après la taille de l'emballage ("1 paquet", "environ 200 g"). Chaîne vide seulement si rien ne permet de le dire.
 ${ticket ? "" : `- "x" et "y" : la position du centre de l'aliment sur la photo, en pourcentage de la largeur et de la hauteur (0 à 100).\n`}Regroupe les doublons. 20 aliments au plus, les plus utiles pour cuisiner d'abord.
 Si la photo ne permet pas de repérer d'aliment, renvoie une liste vide et "problem" : "floue" (photo floue ou bougée), "sombre" (trop sombre) ou "vide" (rien à cuisiner sur la photo).
 JSON uniquement : {"ingredients":[{"name":"Courgettes","qty":"3"${ticket ? "" : ',"x":42,"y":61'}}],"problem":null}`,

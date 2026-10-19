@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Icon } from "../../ui/components";
 import type { IconName } from "../../ui/icons";
+import { typedItem } from "../../lib/shopping";
 import { showToast } from "../toast";
 import { getScan, setScan, useScan } from "./store";
 import "./scan.css";
@@ -76,7 +77,12 @@ export function AddIngredient() {
 
   const commit = () => {
     if (!picked.length) return;
-    const added = picked.map(it => ({ name: it[0], qty: it[1] === "libre" ? "à la main" : it[2] }));
+    // Tapé librement : « 500 g de farine » donne farine, 500 g ; sans quantité, elle se met sur « C'est bien ça ? »
+    const added = picked.map(it => {
+      if (it[1] !== "libre") return { name: it[0], qty: it[2] };
+      const t = typedItem(it[0]);
+      return { name: t.name.charAt(0).toUpperCase() + t.name.slice(1), qty: t.qty };
+    });
     const n = added.length;
     showToast(`${n} ingrédient${n > 1 ? "s" : ""} ajouté${n > 1 ? "s" : ""}`);
     if (typed) {

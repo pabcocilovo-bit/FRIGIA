@@ -28,6 +28,6 @@ export const SCAN_GUIDE: GuideStep[] = [
   { target: ".shutter", r: 999, pad: 10, pos: "up", title: "Touche le rond", text: "Ou choisis une photo déjà prise, à gauche. Frigia repère tes ingrédients en quelques secondes.", btn: "C'est parti", cam: true },
 ];
 export const INGR_GUIDE: GuideStep[] = [
-  { target: ".ilist .irow", r: 16, pos: "down", title: "Vérifie ce qu'on a trouvé", text: "Une erreur, ou ce n'est plus là ? Touche la croix pour le retirer." },
+  { target: ".ilist .irow", r: 16, pos: "down", title: "Vérifie ce qu'on a trouvé", text: "Touche un nom ou une quantité pour le corriger. Ce n'est plus là ? Touche la croix." },
   { target: ".ingr-body > .add", r: 16, pos: "up", title: "Il manque quelque chose ?", text: "Ajoute-le ici. Puis tes trois recettes arrivent.", btn: "Compris" },
 ];

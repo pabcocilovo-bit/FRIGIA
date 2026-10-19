@@ -1,12 +1,14 @@
 // 7 · Ma cuisine (écart maquette, demandé par Hugo les 16 et 19 octobre) : l'onglet « Courses » devient « Ma cuisine », deux pages.
 // Ma cuisine (pour tous) : le frigo et les placards au même endroit, filtrés Tout, Frigo, Placards, À finir.
-// Ce que les scans ont vu, les courses cochées, ce qu'on ajoute. La liste de courses (Plus) : Lists.tsx.
+// Ce que les scans ont vu, les courses cochées, ce qu'on ajoute. Toucher un nom ou une quantité le change.
+// La liste de courses (Plus) : Lists.tsx.
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { ItemEdit } from "./ItemEdit";
 import { Chip, EmptyState, Icon, LockPill, Pill, RoundButton } from "../../ui/components";
 import { ArtFridge } from "../../ui/art";
 import type { Fridge, FridgeItem, Place } from "../../lib/home";
-import { addItems, placeOf, toIngredients, undoCooked } from "../../lib/fridge";
+import { addItems, placeOf, qtyOf, toIngredients, undoCooked } from "../../lib/fridge";
 import { joinNames, same } from "../../lib/shopping";
 import type { ScanSource } from "../../lib/scan";
 import { AppTabBar } from "../AppTabBar";
@@ -45,14 +47,25 @@ export function FridgeTabs({ on, isPlus }: { on: "cuisine" | "courses"; isPlus: 
   );
 }
 
-function Row({ it, onFinish, onMove, onRemove }: { it: FridgeItem; onFinish: () => void; onMove: () => void; onRemove: () => void }) {
+function Row({ it, onFinish, onMove, onRemove, onEdit }: {
+  it: FridgeItem; onFinish: () => void; onMove: () => void; onRemove: () => void; onEdit: (name: string, qty: string) => void;
+}) {
   const place = placeOf(it);
+  const [editing, setEditing] = useState<"name" | "qty" | null>(null);
+  const qty = qtyOf(it.qty);
+  if (editing) return (
+    <div className="litem fr-item editing">
+      <ItemEdit name={it.name} qty={qty} focus={editing} onSave={(n, q) => { onEdit(n, q); setEditing(null); }} onCancel={() => setEditing(null)} />
+    </div>
+  );
   return (
     <div className={"litem fr-item" + (it.finish ? " fin" : "")}>
       <span className="nm">
-        <b>{it.name}</b>
+        <button type="button" className="fr-nm" aria-label={`Changer le nom de ${it.name}`} onClick={() => setEditing("name")}><b>{it.name}</b></button>
         <small>
-          {it.qty ? `${it.qty} · ` : ""}
+          <button type="button" className={"fr-q" + (qty ? "" : " none")} aria-label={qty ? `Quantité de ${it.name} : ${qty}. Changer` : `Ajouter une quantité à ${it.name}`}
+            onClick={() => setEditing("qty")}>{qty || "+ quantité"}</button>
+          {" · "}
           <button type="button" className="fr-place" aria-label={`${it.name} : ${PLACE[place]}. Ranger ${place === "frigo" ? "aux placards" : "au frigo"}`} onClick={onMove}>{PLACE[place]}</button>
           {` · ${FROM[it.from]} ${ago(it.at)}`}
         </small>
@@ -154,7 +167,8 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
                 <Row key={it.id} it={it}
                   onFinish={() => set(it.id, { finish: !it.finish || undefined })}
                   onMove={() => set(it.id, { place: placeOf(it) === "frigo" ? "placard" : "frigo" })}
-                  onRemove={() => set(it.id, null)} />
+                  onRemove={() => set(it.id, null)}
+                  onEdit={(name, qty) => set(it.id, { name, qty })} />
               ))}
             </div>
           ) : (

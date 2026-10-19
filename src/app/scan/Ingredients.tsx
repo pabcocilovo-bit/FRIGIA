@@ -1,6 +1,7 @@
 // « C'est bien ça ? » : les ingrédients trouvés sur la photo. On retire ce qui n'y est plus, on ajoute ce qui manque, on marque ce qui est à finir,
+// Toucher un ingrédient change son nom ou sa quantité.
 // puis le placard, l'envie du moment et pour combien (en Plus : qui du foyer mange, et les invités).
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { Chip, Chips, Icon, LockPill, RoundButton } from "../../ui/components";
 import type { Envie } from "../../lib/scan";
@@ -8,6 +9,9 @@ import { type Person, whoNote, whoParts } from "../../lib/household";
 import { useOpenPaywall } from "../plus/subscription";
 import { getScan, MEAL_WORDS, setScan, useScan } from "./store";
 import { Guide } from "./Guide";
+import { ItemEdit } from "../fridge/ItemEdit";
+import { qtyOf } from "../../lib/fridge";
+import "../fridge/fridge.css";
 import { INGR_GUIDE, setGuideState } from "./guideSteps";
 import { eatersOf, portions, srvLabel } from "./portions";
 import "./scan.css";
@@ -60,12 +64,17 @@ export function Ingredients({ isPlus, household, avatar, guide, userId }: {
   const openPaywall = useOpenPaywall();
   const scan = useScan();
   const screen = useRef<HTMLElement>(null);
+  const [editing, setEditing] = useState<{ i: number; focus: "name" | "qty" } | null>(null);
   if (!scan.photo && scan.ingredients.length === 0) return <Navigate to="/scan" replace />;
 
   const n = scan.ingredients.length;
   // Sans jeton, aucune photo n'a été lue : les ingrédients ont été tapés à la main
   const remove = (i: number) => setScan({ ingredients: getScan().ingredients.filter((_, k) => k !== i) });
   // « À finir » : passe en premier dans les recettes, et compte comme sauvé une fois cuisiné
+  const rename = (i: number, name: string, qty: string) => {
+    setScan({ ingredients: getScan().ingredients.map((it, k) => (k === i ? { ...it, name, qty } : it)) });
+    setEditing(null);
+  };
   const toggleFinish = (i: number) => setScan({ ingredients: getScan().ingredients.map((it, k) => (k === i ? { ...it, finish: !it.finish } : it)) });
 
   return (
@@ -80,19 +89,26 @@ export function Ingredients({ isPlus, household, avatar, guide, userId }: {
           <div className="grab" />
           <span className="label">{n} ingrédient{n > 1 ? "s" : ""} {scan.token ? "trouvé" : "ajouté"}{n > 1 ? "s" : ""}</span>
           <h2>C'est bien <em>ça&nbsp;?</em></h2>
-          <p>Retire ce qui n'y est plus, ajoute ce qui manque, et marque ce qui est à finir vite.</p>
+          <p>Retire ce qui n'y est plus, ajoute ce qui manque, et marque ce qui est à finir vite. Touche un nom ou une quantité pour le changer.</p>
         </div>
         <div className="scroll">
           <div className="ingr-body">
             {n > 0 && (
               <div className="ilist">
-                {scan.ingredients.map((it, i) => (
-                  <div key={it.name + i} className={"irow" + (it.finish ? " fin" : "")}>
-                    <i /><b>{it.name}</b><span>{it.qty}</span>
+                {scan.ingredients.map((it, i) => { const qty = qtyOf(it.qty); return (
+                  <div key={it.name + i} className={"irow" + (it.finish ? " fin" : "") + (editing?.i === i ? " editing" : "")}>
+                    <i />
+                    {editing?.i === i ? <ItemEdit name={it.name} qty={qty} focus={editing.focus} onSave={(nm, q) => rename(i, nm, q)} onCancel={() => setEditing(null)} /> : <>
+                      <button type="button" className="inm" aria-label={`Changer le nom de ${it.name}`} onClick={() => setEditing({ i, focus: "name" })}><b>{it.name}</b></button>
+                      <button type="button" className={"iq" + (qty ? "" : " none")} aria-label={qty ? `Quantité de ${it.name} : ${qty}. Changer` : `Ajouter une quantité à ${it.name}`}
+                        onClick={() => setEditing({ i, focus: "qty" })}>{qty || "+ quantité"}</button>
+                    </>}
+                    {editing?.i !== i && <>
                     <button type="button" className="finb" aria-pressed={!!it.finish} aria-label={`${it.name} à finir`} onClick={() => toggleFinish(i)}>À finir</button>
                     <button type="button" className="rm" aria-label={`Retirer ${it.name}`} onClick={() => remove(i)}><Icon name="x" /></button>
+                    </>}
                   </div>
-                ))}
+                ); })}
               </div>
             )}
             <button type="button" className="add" onClick={() => navigate("/scan/ajouter")}><span className="rm"><Icon name="plus" /></span>Ajouter un ingrédient</button>

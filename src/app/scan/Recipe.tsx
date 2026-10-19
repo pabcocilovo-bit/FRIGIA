@@ -18,6 +18,7 @@ import { WeekSheet } from "../plan/sheets";
 import { type Option, placedText } from "../plan/week";
 import { inListAs, joinNames } from "../../lib/shopping";
 import { checkQty, type Stock } from "../../lib/stock";
+import { qtyOf } from "../../lib/fridge";
 import { useScan } from "./store";
 import "./scan.css";
 
@@ -60,7 +61,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
   if (!recipe) return <Navigate to="/" replace />;
 
   // Ce que tu as : Ma cuisine d'abord, puis la photo du scan de la recette
-  const stocks: Stock[] = [...fridge.items, ...(entry?.ingredients ?? []).map(i => ({ name: i.name, qty: i.qty ?? "" }))];
+  const stocks: Stock[] = [...fridge.items, ...(entry?.ingredients ?? [])].map(i => ({ name: i.name, qty: qtyOf(i.qty) }));
   const linesFor = (srv: number) => recipeLines(recipe, srv, entry?.ingredients)
     .map(l => ({ ...l, check: l.have && l.q ? checkQty(l.q, l.n, stocks) : null }));
   const lines = linesFor(servings);
