@@ -169,7 +169,7 @@ Elle est envoyée à l'IA pour lire les ingrédients, puis gardée dans « Tes s
 - Google : connexion avec Google, si tu la choisis.
 - Le service de notifications de ton navigateur (Apple, Google ou Mozilla) : il transmet les notifications à ton téléphone, sans pouvoir lire leur contenu, qui est chiffré.
 - Cloudflare (Turnstile) : protection contre les robots à l'inscription.
-- **[À compléter : Outil d'envoi des emails automatiques, à préciser]**.
+- Resend : envoi des emails (confirmation de résiliation, paiement refusé, renouvellement, fin de pause, suppression du compte, réponses à tes messages). Reçoit ton email et le contenu du message, envoyés depuis l'Union européenne (Irlande).
 - Pexels ne reçoit que le nom de la recette pour trouver une photo.
 
 Les créateurs ne voient que le nombre d'abonnés venus par leur code. On ne vend ni ne loue jamais tes données.
