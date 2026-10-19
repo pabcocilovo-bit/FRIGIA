@@ -120,6 +120,9 @@ body:has(.scan-screen){background:#EFE3D0}
 .fa .ings li.done .nm,.fa .ings li.done .q{color:var(--muted);text-decoration:line-through}
 .fa .ings .q{min-width:74px;font-weight:700;color:var(--sage);font-variant-numeric:tabular-nums}
 .fa .ings .nm{flex:1}
+/* Ce que tu as dans ta cuisine, face à la recette */
+.fa .ings .ing-have{display:block;margin-top:3px;font-size:12.5px;line-height:1.3;color:var(--muted)}
+.fa .ings .ing-have.low{color:var(--hi-ink);font-weight:600}
 .fa .stepcards{display:flex;flex-direction:column;gap:10px;list-style:none;margin:0;padding:0}
 .fa .stepcards li{background:var(--card);border-radius:18px;padding:16px;display:grid;grid-template-columns:30px 1fr;gap:12px;box-shadow:0 1px 0 var(--line)}
 .fa .stepcards .num{width:30px;height:30px;border-radius:50%;background:var(--sage);color:var(--on);display:grid;place-items:center;font:400 18px/1 var(--serif)}

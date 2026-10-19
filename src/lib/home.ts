@@ -22,7 +22,9 @@ export type ShopItem = { id: string; name: string; qty: string; aisle: string; f
 /** Un produit de Ma cuisine. from : vu au scan, acheté (course cochée, shopId) ou ajouté à la main. finish : « À finir ».
  *  place : dans le frigo ou les placards (absent : deviné d'après le nom, voir placeOf). */
 export type Place = "frigo" | "placard";
-export type FridgeItem = { id: string; name: string; qty: string; at: number; from: "scan" | "courses" | "main"; finish?: boolean; shopId?: string; place?: Place };
+export type FridgeItem = { id: string; name: string; qty: string; at: number; from: "scan" | "courses" | "main"; finish?: boolean; shopId?: string; place?: Place;
+  /** Une course cochée s'est ajoutée à ce qu'on avait déjà : la quantité d'avant, remise si on la décoche */
+  prev?: { qty: string; from: FridgeItem["from"]; at: number } };
 /** Ma cuisine (colonne fridge) : les produits, la date du dernier scan du frigo (seen) et des placards (seenPlacard),
  *  et la dernière recette cuisinée (ce qu'elle a retiré, pour « Remettre »). */
 export type Fridge = { items: FridgeItem[]; seen: number | null; seenPlacard?: number; cooked?: { title: string; items: FridgeItem[]; at: number } };

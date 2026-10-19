@@ -1,8 +1,9 @@
 // 7 · Liste de courses (étape 10), la 2e page de l'onglet « Ma cuisine ». Le planning est dans plan/.
+import { useState } from "react";
 import { useLocation } from "react-router";
 import { EmptyState, Icon, LockPill, Pill, RoundButton } from "../ui/components";
 import type { ShopItem } from "../lib/home";
-import { byAisle, listText } from "../lib/shopping";
+import { byAisle, listText, typedItem } from "../lib/shopping";
 import { ArtBag } from "../ui/art";
 import { plural } from "./format";
 import { AppTabBar } from "./AppTabBar";
@@ -23,16 +24,28 @@ function LockBar({ why }: { why: Why }) {
 }
 
 /** 7 · Liste de courses : les manquants des recettes, rangés par rayon. On coche en faisant les courses, on envoie la liste. */
-export function Courses({ isPlus, items, onToggle, onClearDone }: {
+export function Courses({ isPlus, items, onToggle, onAdd, onClearDone }: {
   isPlus: boolean; items: ShopItem[];
   onToggle: (id: string) => void;
+  /** Un article tapé à la main (« 2 citrons ») ; renvoie son id */
+  onAdd: (item: { name: string; qty: string }) => string | null;
   /** Retire ce qui est déjà dans le panier */
   onClearDone: () => void;
 }) {
   const openScan = useOpenScan();
   const openPaywall = useOpenPaywall();
   // Les articles qui viennent d'arriver (« Dans ta liste · voir ») s'allument un instant
-  const flash = (useLocation().state as { flash?: string[] } | null)?.flash ?? [];
+  const arrived = (useLocation().state as { flash?: string[] } | null)?.flash ?? [];
+  const [typed, setTyped] = useState("");
+  const [mine, setMine] = useState<string[]>([]);
+  const flash = [...arrived, ...mine];
+  const add = () => {
+    if (!isPlus) { openPaywall("courses"); return; }
+    if (!typed.trim()) return;
+    const id = onAdd(typedItem(typed));
+    if (id) setMine(m => [...m, id]);
+    setTyped("");
+  };
   const list = isPlus ? items : [];
   const done = list.filter(x => x.done).length;
   const left = list.length - done;
@@ -72,11 +85,16 @@ export function Courses({ isPlus, items, onToggle, onClearDone }: {
       </div>
       <div className="lbody">
         {!isPlus && <LockBar why="courses" />}
+        <form className="fr-add" onSubmit={e => { e.preventDefault(); add(); }}>
+          <input value={typed} onChange={e => setTyped(e.target.value)} onFocus={() => !isPlus && openPaywall("courses")}
+            placeholder="Ajouter un article (ex. 2 citrons)" aria-label="Ajouter un article" maxLength={60} enterKeyHint="done" />
+          <button type="submit" aria-label="Ajouter à la liste" disabled={isPlus && !typed.trim()}><Icon name="plus" /></button>
+        </form>
         {list.length === 0 ? (
           <EmptyState
             art={<ArtBag />}
             title={<>Ta liste est <em>vide</em></>}
-            text="Sur une recette, touche « Ajouter les manquants » : ils arrivent ici, rangés par rayon. Coche-les en faisant les courses : ils entrent dans ta cuisine."
+            text="Sur une recette, touche « Ajouter les manquants » : ils arrivent ici, rangés par rayon. Tu peux aussi ajouter un article au-dessus. Coche-les en faisant les courses : ils entrent dans ta cuisine."
             action={<Pill icon="cam" onClick={openScan}>Scanner mon frigo</Pill>}
           />
         ) : <>

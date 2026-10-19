@@ -1,5 +1,6 @@
 // Fiche recette : la photo, les chiffres, les ingrédients (quantités recalculées pour les portions) et les étapes.
 // Les manquants partent dans la liste de courses (étape 10). « Lancer la cuisson » ouvre le mode cuisine pour ces portions.
+// Ce que tu as est comparé à Ma cuisine (ou à la photo du scan) : avec des invités, « il en manque 200 g » part aussi dans la liste.
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router";
 import { Badge, Icon, LockPill, RoundButton } from "../../ui/components";
@@ -11,20 +12,28 @@ import { showToast } from "../toast";
 import { Stepper } from "./Ingredients";
 import { eatersOf, haveCount, recipeLines, srvLabel } from "./portions";
 import { familyBadges, type Person, portionsOf } from "../../lib/household";
-import type { ShopItem, Week } from "../../lib/home";
+import type { Fridge, ShopItem, Week } from "../../lib/home";
 import { weekDays } from "../format";
 import { WeekSheet } from "../plan/sheets";
 import { type Option, placedText } from "../plan/week";
-import { inList, joinNames } from "../../lib/shopping";
+import { inListAs, joinNames } from "../../lib/shopping";
+import { checkQty, type Stock } from "../../lib/stock";
 import { useScan } from "./store";
 import "./scan.css";
 
+/** « Ajouter les 2 manquants à ma liste », « Ajouter le manque à ma liste », « Ajouter les 2 manquants et le manque à ma liste » */
+function addText(missing: number, short: number): string {
+  const m = missing > 1 ? `les ${missing} manquants` : missing ? "le manquant" : "";
+  const s = short ? "le manque" : "";
+  return `Ajouter ${[m, s].filter(Boolean).join(" et ")} à ma liste`;
+}
+
 export type RecipeState = { recipe?: GeneratedRecipe; servings?: number };
 
-export function Recipe({ history, isPlus, household, shopping, onAddMissing, week, onWeek, avatar, isFavorite, onToggleFavorite }: {
+export function Recipe({ history, isPlus, household, shopping, fridge, onAddMissing, week, onWeek, avatar, isFavorite, onToggleFavorite }: {
   history: HistoryEntry[]; isPlus: boolean; household: Person[]; avatar: string | null;
   week: Week; onWeek: (w: Week) => void;
-  shopping: ShopItem[];
+  shopping: ShopItem[]; fridge: Fridge;
   /** Les manquants partent dans la liste de courses ; renvoie les articles arrivés */
   onAddMissing: (items: { name: string; qty: string }[], from: string) => string[];
   isFavorite: (r: GeneratedRecipe) => boolean; onToggleFavorite: (r: GeneratedRecipe) => void;
@@ -50,7 +59,11 @@ export function Recipe({ history, isPlus, household, shopping, onAddMissing, wee
   const photo = useRecipePhoto(recipe?.title, recipe?.imageSearch);
   if (!recipe) return <Navigate to="/" replace />;
 
-  const lines = recipeLines(recipe, servings, entry?.ingredients);
+  // Ce que tu as : Ma cuisine d'abord, puis la photo du scan de la recette
+  const stocks: Stock[] = [...fridge.items, ...(entry?.ingredients ?? []).map(i => ({ name: i.name, qty: i.qty ?? "" }))];
+  const linesFor = (srv: number) => recipeLines(recipe, srv, entry?.ingredients)
+    .map(l => ({ ...l, check: l.have && l.q ? checkQty(l.q, l.n, stocks) : null }));
+  const lines = linesFor(servings);
   const { have, total } = haveCount(recipe, entry?.ingredients);
   const missing = total - have;
   const steps = recipe.steps ?? [];
@@ -62,9 +75,10 @@ export function Recipe({ history, isPlus, household, shopping, onAddMissing, wee
   const addToWeek = () => (isPlus
     ? setWk({ recipe, scanId: entry?.id ?? null, n: entry ? index : null, found: entry?.ingredients ?? [], fav: !entry })
     : openPaywall("planning", "/planning"));
-  // Les manquants (pour ces portions) dans la liste. Déjà dedans : « Dans ta liste · voir »
-  const buy = lines.filter(l => !l.have).map(l => ({ name: l.n, qty: l.q }));
-  const listed = buy.length > 0 && buy.every(b => inList(shopping, b.name));
+  // Les manquants (pour ces portions) dans la liste, et ce qu'il manque de ce que tu as. Déjà dedans : « Dans ta liste · voir »
+  const short = lines.filter(l => l.check?.short).length;
+  const buy = lines.filter(l => !l.have || l.check?.short).map(l => ({ name: l.n, qty: l.check?.short ?? l.q }));
+  const listed = buy.length > 0 && buy.every(b => inListAs(shopping, b, recipe.title));
   const addMissing = () => {
     if (!isPlus) { openPaywall("courses", "/courses"); return; }
     if (listed) { navigate("/courses", { state: { flash: arrived } }); return; }
@@ -80,7 +94,13 @@ export function Recipe({ history, isPlus, household, shopping, onAddMissing, wee
   const addGuest = (d: number) => {
     const g = Math.max(0, Math.min(8, guests + d));
     setServings(family + g);
-    if (d > 0) showToast(g === 1 ? "Un invité ce soir : les quantités suivent" : `${g} invités ce soir : les quantités suivent`);
+    if (d <= 0) return;
+    // Assez pour tout le monde ? Comparé à ce que tu as
+    const next = linesFor(family + g);
+    const low = next.filter(l => l.check?.short).map(l => l.n);
+    const tonight = g === 1 ? "Un invité ce soir" : `${g} invités ce soir`;
+    showToast(low.length ? `${tonight}. Pas assez : ${joinNames(low).toLowerCase()}`
+      : next.some(l => l.check?.sure) ? `${tonight} : les quantités suivent, tu as assez` : `${tonight} : les quantités suivent`);
   };
 
   return (
@@ -145,16 +165,25 @@ export function Recipe({ history, isPlus, household, shopping, onAddMissing, wee
                     <li key={i} className={done.includes(i) ? "done" : undefined}>
                       <button type="button" className="ck" aria-label="Cocher" aria-pressed={done.includes(i)}
                         onClick={() => setDone(d => (d.includes(i) ? d.filter(x => x !== i) : [...d, i]))}><Icon name="check" /></button>
-                      <span className="q">{l.q}</span><span className="nm">{l.n}</span>
+                      <span className="q">{l.q}</span>
+                      <span className="nm">{l.n}
+                        {/* Ce que tu as : quand il en manque, ou dès que les portions changent */}
+                        {l.check && (l.check.short || servings !== base) && (
+                          <small className={"ing-have" + (l.check.short ? " low" : "")}>
+                            {l.check.short ? `Tu en as ${l.check.have} · il manque ${l.check.short}`
+                              : l.check.sure ? `Tu en as ${l.check.have} : assez` : `Tu en as ${l.check.have} : vérifie`}
+                          </small>
+                        )}
+                      </span>
                       {!l.have && <Badge tone="warn">À acheter</Badge>}
                     </li>
                   ))}
                 </ul>
               </div>
-              {missing > 0 && (
+              {missing + short > 0 && (
                 <button type="button" className="add" style={{ alignSelf: "flex-start" }} onClick={addMissing}>
                   <span className="rm"><Icon name="plus" /></span>
-                  <span>{isPlus && listed ? "Dans ta liste · voir" : missing > 1 ? `Ajouter les ${missing} manquants à ma liste` : "Ajouter le manquant à ma liste"}</span>
+                  <span>{isPlus && listed ? "Dans ta liste · voir" : addText(missing, short)}</span>
                   {!isPlus && <LockPill />}
                 </button>
               )}

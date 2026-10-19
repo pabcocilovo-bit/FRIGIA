@@ -4,7 +4,7 @@
 // Une recette cuisinée retire ce qu'elle a pris, et « Remettre » annule.
 import type { DetectedIngredient, GeneratedRecipe } from "./types";
 import type { Fridge, FridgeItem, Place } from "./home";
-import { aisleOf, norm, same } from "./shopping";
+import { aisleOf, norm, same, sumQty } from "./shopping";
 import type { ScanSource } from "./scan";
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -46,10 +46,16 @@ export function fromScan(f: Fridge, found: DetectedIngredient[], source: ScanSou
   return place === "frigo" ? { ...next, seen: Date.now() } : { ...next, seenPlacard: Date.now() };
 }
 
-/** Une course cochée entre dans le frigo ; décochée, elle en sort. */
+/** Une course cochée entre dans le frigo ; décochée, elle en sort. Déjà là : les quantités s'additionnent
+ *  (300 g + 200 g achetés = 500 g), et décochée, la quantité d'avant revient. */
 export function fromShopping(f: Fridge, shop: { id: string; name: string; qty: string; done: boolean }): Fridge {
-  if (shop.done) return addItems(f, [{ name: shop.name, qty: shop.qty }], "courses", { shopId: shop.id });
-  return { ...f, items: f.items.filter(x => x.shopId !== shop.id) };
+  if (shop.done) {
+    const old = f.items.find(x => same(x.name, shop.name));
+    if (!old || old.shopId) return addItems(f, [{ name: shop.name, qty: shop.qty }], "courses", { shopId: shop.id });
+    const prev = { qty: old.qty, from: old.from, at: old.at };
+    return { ...f, items: f.items.map(x => (x === old ? { ...x, qty: sumQty(x.qty, shop.qty), from: "courses", at: Date.now(), shopId: shop.id, prev } : x)) };
+  }
+  return { ...f, items: f.items.flatMap(x => (x.shopId !== shop.id ? [x] : x.prev ? [{ ...x, ...x.prev, shopId: undefined, prev: undefined }] : [])) };
 }
 
 // Le sel, l'huile, les pâtes : jamais retirés du frigo par une recette

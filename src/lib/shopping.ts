@@ -31,6 +31,9 @@ export const same = (a: string, b: string) => norm(a).join(" ") === norm(b).join
 
 /** Déjà dans la liste, pas encore acheté */
 export const inList = (list: ShopItem[], name: string) => list.some(x => !x.done && same(x.name, name));
+/** Déjà dans la liste pour cette quantité (ou la ligne sert aussi à d'autres recettes) */
+export const inListAs = (list: ShopItem[], a: { name: string; qty: string }, from: string) =>
+  list.some(x => !x.done && same(x.name, a.name) && (x.qty === a.qty || !onlyFrom(x, from)));
 
 /** « 12½ cl » → 12,5 et « cl ». null : pas de nombre au début (« 1 pot » oui, « un peu » non). */
 function parseQty(q: string): { v: number; u: string } | null {
@@ -57,8 +60,13 @@ export function sumQty(a: string, b: string): string {
 }
 const recipeOf = (from: string) => from.split(" · ")[0];
 
+export const BY_HAND = "Ajouté à la main";
+const onlyFrom = (x: ShopItem, from: string) => x.from.split(", ").every(f => recipeOf(f) === recipeOf(from));
+
 /** Ajoute des articles à la liste. Déjà là et pas encore acheté : une seule ligne, les quantités s'additionnent
- *  et la recette s'ajoute à « pour ». Une recette déjà comptée dans cette ligne n'est pas comptée deux fois. */
+ *  et la recette s'ajoute à « pour ». Une recette déjà comptée dans cette ligne n'est pas comptée deux fois :
+ *  si la ligne ne vient que d'elle, sa quantité devient la nouvelle (des invités en plus : plus à acheter).
+ *  Ajouté à la main : la quantité s'ajoute toujours. */
 export function addToList(list: ShopItem[], add: { name: string; qty: string }[], from: string): { list: ShopItem[]; added: string[] } {
   const next = [...list];
   const added: string[] = [];
@@ -67,7 +75,9 @@ export function addToList(list: ShopItem[], add: { name: string; qty: string }[]
     const i = next.findIndex(x => !x.done && same(x.name, name));
     if (i >= 0) {
       const counted = next[i].from.split(", ").some(f => recipeOf(f) === recipeOf(from));
-      if (!counted) next[i] = { ...next[i], qty: sumQty(next[i].qty, a.qty), from: `${next[i].from}, ${from}` };
+      if (from === BY_HAND) next[i] = { ...next[i], qty: sumQty(next[i].qty, a.qty), from: counted ? next[i].from : `${next[i].from}, ${from}` };
+      else if (!counted) next[i] = { ...next[i], qty: sumQty(next[i].qty, a.qty), from: `${next[i].from}, ${from}` };
+      else if (onlyFrom(next[i], from) && a.qty.trim()) next[i] = { ...next[i], qty: a.qty };
       continue;
     }
     next.push({ id: crypto.randomUUID(), name, qty: a.qty, aisle: aisleOf(name), from, done: false, at: Date.now() });
@@ -93,4 +103,12 @@ export function listText(list: ShopItem[]): string {
 export function joinNames(a: string[]): string {
   const l = a.map((x, i) => (i ? x.toLowerCase() : x));
   return l.length > 1 ? `${l.slice(0, -1).join(", ")} et ${l[l.length - 1]}` : l[0] ?? "";
+}
+
+/** Ce qu'on tape à la main : « 500 g de farine » → farine, 500 g ; « 2 citrons » → citrons, 2 ; « lait » → lait. */
+export function typedItem(text: string): { name: string; qty: string } {
+  const t = text.trim().replace(/\s+/g, " ");
+  const m = t.match(/^(\d+(?:[.,]\d+)?|½)\s*(kg|g|gr|l|cl|ml|dl|paquets?|bo[iî]tes?|pots?|sachets?|bouteilles?|bottes?|tranches?|gousses?|briques?)?\.?\s+(?:de |d'|d’)?(.+)$/i);
+  if (!m) return { name: t, qty: "" };
+  return { name: m[3], qty: m[2] ? `${m[1]} ${m[2].toLowerCase()}` : m[1] };
 }

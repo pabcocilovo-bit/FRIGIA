@@ -6,7 +6,7 @@ import { useLibrary } from "./hooks/useLibrary";
 import { useCooked } from "./hooks/useCooked";
 import { useHome } from "./hooks/useHome";
 import { people } from "./lib/household";
-import { addToList } from "./lib/shopping";
+import { addToList, BY_HAND, same } from "./lib/shopping";
 import type { Member as HomeMember } from "./lib/home";
 import { useSession } from "./hooks/useSession";
 import { isStandalone } from "./landing/browser";
@@ -314,6 +314,12 @@ return (
           home.setShopping(l => l.map(x => (x.id === id ? { ...x, done: !x.done } : x)));
           if (it) home.setFridge(f => fromShopping(f, { ...it, done: !it.done }));
         }}
+        onAdd={item => {
+          const { list, added } = addToList(home.shopping, [item], BY_HAND);
+          home.setShopping(list);
+          if (!added.length) showToast(`${item.name.charAt(0).toUpperCase() + item.name.slice(1)} : déjà dans ta liste${item.qty ? ", quantité ajoutée" : ""}`);
+          return list.find(x => !x.done && same(x.name, item.name))?.id ?? null;
+        }}
         onClearDone={() => home.setShopping(l => l.filter(x => !x.done))} />} />
       <Route path="/famille" element={<Family user={user} name={name} isPlus={isPlus} avatar={avatarSrc} profile={profile} household={household}
         dishes={dishes} onAvatar={onAvatar} onName={onName}
@@ -341,8 +347,8 @@ return (
         if (e.ingredients.length) home.setFridge(f => fromScan(f, e.ingredients, getScan().source));
       }} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
       <Route path="/recettes/:id" element={<Results history={history} isPlus={isPlus} household={household} week={home.week} onWeek={home.setWeek} onNewIdeas={updateScanRecipes} />} />
-      <Route path="/recettes/:id/:n" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
-      <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
+      <Route path="/recettes/:id/:n" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} fridge={home.fridge} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
+      <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} fridge={home.fridge} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
       <Route path="/recettes/:id/:n/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} onUsed={r => home.setFridge(f => cookFrom(f, r))} />} />
       <Route path="/recette/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} onUsed={r => home.setFridge(f => cookFrom(f, r))} />} />
       <Route path="/parrainage" element={<Refer name={name} avatar={avatarSrc} isPlus={isPlus} />} />
