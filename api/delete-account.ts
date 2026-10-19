@@ -1,5 +1,6 @@
 import type { User } from "@supabase/supabase-js";
 import Stripe from "stripe";
+import { deletedEmail } from "./_email.js";
 import { adminClient, authUser, errorMessage, preflight, type Req, type Res } from "./_shared.js";
 
 // The webhook stores the customer id in app_metadata. Older accounts may not have it,
@@ -40,6 +41,7 @@ export default async function handler(req: Req, res: Res) {
     await admin.from("profiles").delete().eq("id", user.id);
     const { error: deleteError } = await admin.auth.admin.deleteUser(user.id);
     if (deleteError) throw deleteError;
+    if (user.email) await deletedEmail(user.email, `deleted-${user.id}`);
     return res.json({ success: true });
   } catch (err) {
     return res.status(500).json({ error: errorMessage(err) || "Échec de la suppression" });

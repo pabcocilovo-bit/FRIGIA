@@ -20,7 +20,7 @@ type Mail = {
 /** Le gabarit commun : le logo, un titre, quelques phrases, un bouton vert. */
 function layout({ title, paragraphs, button, note }: Mail): string {
   const p = (t: string, color = C.text, size = 16) =>
-    `<p style="margin:0 0 16px;font-size:${size}px;line-height:1.5;color:${color}">${esc(t)}</p>`;
+    `<p style="margin:0 0 16px;font-size:${size}px;line-height:1.5;color:${color}">${esc(t).replace(/\n/g, "<br>")}</p>`;
   return `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title></head>
 <body style="margin:0;padding:0;background:${C.bg}">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.bg}"><tr><td align="center" style="padding:32px 16px">
@@ -43,7 +43,7 @@ function plain({ title, paragraphs, button, note }: Mail): string {
 
 /** Envoie un email. idempotencyKey : Resend n'envoie qu'une fois par clé (le webhook Stripe peut être rejoué).
  *  Ne lève jamais d'erreur : un email raté ne doit pas faire échouer le reste. */
-export async function sendEmail(to: string, subject: string, mail: Mail, idempotencyKey?: string): Promise<boolean> {
+export async function sendEmail(to: string, subject: string, mail: Mail, idempotencyKey?: string, replyTo = "contact@frigia.fr"): Promise<boolean> {
   const key = process.env.RESEND_API_KEY;
   if (!key) { console.warn("email non envoyé (RESEND_API_KEY absente):", subject); return false; }
   try {
@@ -54,7 +54,7 @@ export async function sendEmail(to: string, subject: string, mail: Mail, idempot
         "Content-Type": "application/json",
         ...(idempotencyKey ? { "Idempotency-Key": idempotencyKey } : {}),
       },
-      body: JSON.stringify({ from: FROM, to, subject, html: layout(mail), text: plain(mail), reply_to: "contact@frigia.fr" }),
+      body: JSON.stringify({ from: FROM, to, subject, html: layout(mail), text: plain(mail), reply_to: replyTo }),
     });
     if (!r.ok) { console.error("email:", r.status, await r.text()); return false; }
     return true;
@@ -126,4 +126,33 @@ export function pauseEndEmail(to: string, until: number, idempotencyKey: string)
     button: { label: "Ouvrir Frigia", href: SITE },
     note: "Tu ne veux pas reprendre ? Tu peux résilier depuis ton compte, en trois clics.",
   }, idempotencyKey);
+}
+
+/** Le compte est supprimé : la confirmation, avec la fin de l'abonnement. */
+export function deletedEmail(to: string, idempotencyKey: string) {
+  return sendEmail(to, "Ton compte Frigia est supprimé", {
+    title: "Ton compte est supprimé",
+    paragraphs: [
+      "Ton compte Frigia et tes données sont effacés : tes scans, tes favoris, ta semaine, ta liste et ta famille.",
+      "Si tu avais Frigia Plus, l'abonnement est arrêté. Aucun autre paiement ne sera prélevé.",
+      "Merci d'avoir cuisiné avec nous. Tu peux revenir quand tu veux avec la même adresse.",
+    ],
+    button: { label: "Revenir sur Frigia", href: SITE },
+    note: "Ce n'est pas toi ? Réponds à cet email, on regarde tout de suite.",
+  }, idempotencyKey);
+}
+
+const KIND = { contact: "Nous écrire", bug: "Problème signalé", idea: "Idée" } as const;
+
+/** Un message envoyé depuis l'appli, pour l'équipe. Répondre à l'email répond à la personne. */
+export function supportEmail(m: { id: number; kind: keyof typeof KIND; topic: string; message: string; appInfo: string; from: string | null; userId: string }) {
+  const to = process.env.SUPPORT_EMAIL || "contact@frigia.fr";
+  return sendEmail(to, `${KIND[m.kind]}${m.topic ? ` : ${m.topic}` : ""}`, {
+    title: `${KIND[m.kind]}${m.topic ? ` · ${m.topic}` : ""}`,
+    paragraphs: [
+      ...m.message.split(/\n{2,}/),
+      `De : ${m.from ?? "adresse inconnue"}`,
+    ],
+    note: [m.appInfo, `Compte ${m.userId} · message n° ${m.id} dans support_messages`].filter(Boolean).join(" · "),
+  }, `support-${m.id}`, m.from ?? undefined);
 }

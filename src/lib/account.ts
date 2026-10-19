@@ -144,8 +144,12 @@ export async function downloadMyData(u: User) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-/** « Nous écrire », « Signaler un problème », « Donner ton avis » : le message arrive dans la table support_messages. */
+/** « Nous écrire », « Signaler un problème », « Donner ton avis » : le message arrive dans la table support_messages,
+ *  et par email chez Frigia (api/support.ts). Serveur injoignable : on le garde quand même dans la table. */
 export async function sendSupportMessage(u: User, kind: "contact" | "bug" | "idea", topic: string, message: string, appInfo?: string) {
+  const res = await postApi("/api/support", { kind, topic, message, appInfo }).catch(() => null);
+  if (res?.ok) return;
+  if (res?.status === 429) throw new Error("Trop de messages");
   const { error } = await supabase.from("support_messages").insert({
     user_id: u.id, email: u.email ?? null, kind, topic, message, app_info: appInfo ?? null,
   });
