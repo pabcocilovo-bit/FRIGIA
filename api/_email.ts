@@ -17,7 +17,8 @@ type Mail = {
   note?: string;
 };
 
-/** Le gabarit commun : le logo, un titre, quelques phrases, un bouton vert. */
+/** Le gabarit commun : le nom, un titre, quelques phrases, un bouton vert.
+ *  Volontairement sobre (pas d'image) : Gmail range moins vite en « Promotions » un email transactionnel léger. */
 function layout({ title, paragraphs, button, note }: Mail): string {
   const p = (t: string, color = C.text, size = 16) =>
     `<p style="margin:0 0 16px;font-size:${size}px;line-height:1.5;color:${color}">${esc(t).replace(/\n/g, "<br>")}</p>`;
@@ -26,7 +27,7 @@ function layout({ title, paragraphs, button, note }: Mail): string {
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.bg}"><tr><td align="center" style="padding:32px 16px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:${C.raised};border:1px solid ${C.line};border-radius:20px">
 <tr><td style="padding:32px 28px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
-<img src="${SITE}/icon-192.png" width="48" height="48" alt="Frigia" style="display:block;border-radius:12px;margin:0 0 24px">
+<p style="margin:0 0 20px;font-size:15px;font-weight:700;color:${C.brand}">Frigia</p>
 <h1 style="margin:0 0 16px;font-size:24px;line-height:1.25;color:${C.brand};font-weight:700">${esc(title)}</h1>
 ${paragraphs.map(t => p(t)).join("\n")}
 ${button ? `<a href="${esc(button.href)}" style="display:inline-block;margin:8px 0 16px;padding:14px 24px;border-radius:999px;background:${C.brand};color:${C.onBrand};font-size:16px;font-weight:600;text-decoration:none">${esc(button.label)}</a>` : ""}
