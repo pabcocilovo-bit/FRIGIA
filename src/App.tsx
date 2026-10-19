@@ -333,7 +333,7 @@ return (
       <Route path="/plus" element={isPlus ? <Navigate to="/" replace /> : <Paywall onCode={() => void fetchScanQuota(user.id).then(q => { if (q) setQuota(q); })} />} />
       <Route path="/plus/paiement" element={<PayReturn />} />
       <Route path="/plus/bienvenue" element={<PlusWelcome user={user} name={name} />} />
-      <Route path="/resilier" element={<Cancel user={user} />} />
+      <Route path="/resilier" element={<Cancel user={user} saved={totalSaved(cooked.meals).eur} />} />
       {/* Les 15 scans gratuits sont utilisés : « Passe à Plus » à la place du scan */}
       <Route path="/scan" element={noScansLeft ? <Navigate to="/plus" replace state={{ why: "quota" }} /> :
         <ScanCamera userId={user.id} guide={guide === "" && history.length === 0} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />

@@ -7,6 +7,7 @@ import { checkoutUrl, expiredCardMonth, fetchOffers, isPlus, subscriptionAction,
 import type { User } from "../../lib/types";
 import { Icon, Pill, RoundButton } from "../../ui/components";
 import { LOGO_SYMBOL } from "../logo";
+import { euros } from "../scan/savings";
 import { useBack } from "../nav";
 import { showToast } from "../toast";
 import { PLUS_ART } from "./art";
@@ -296,7 +297,8 @@ function doneText(sub: Subscription): string {
     : `Pas de paiement le ${longDate(sub.pauseFrom ?? sub.periodEnd)}. Plus reprend tout seul le ${longDate(sub.pauseUntil ?? sub.periodEnd)}.`;
 }
 
-export function Cancel({ user }: { user: User }) {
+/** saved : les euros sauvés depuis le début (le bilan : seulement ce qui était « À finir ») */
+export function Cancel({ user, saved }: { user: User; saved: number }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { sub, failed, update } = useSubscription(user.id);
@@ -352,9 +354,9 @@ export function Cancel({ user }: { user: User }) {
               <span className="fg-tile" dangerouslySetInnerHTML={{ __html: LOGO_SYMBOL }} />
               <i className="d1" /><i className="d2" />
             </div>
-            {/* « Continue de sauver 22,60 € par mois » : le montant viendra du bilan d'économies (étape 9) */}
-            <h2>Continue avec <em>Plus</em></h2>
-            <p>En Gratuit, tu repasses à 15 scans, sans la famille ni ta semaine.{founder ? " Et ton prix fondateur ne reviendra pas." : ""}</p>
+            {/* La maquette dit « Continue de sauver 22,60 € par mois » : on montre le vrai total du bilan, et rien sous 1 € */}
+            {saved >= 1 ? <h2>Tu as déjà sauvé <em>{euros(saved)}</em></h2> : <h2>Continue avec <em>Plus</em></h2>}
+            <p>{saved >= 1 ? "Avec Frigia, sur ce que tu avais à finir. " : ""}En Gratuit, tu repasses à 15 scans, sans la famille ni ta semaine.{founder ? " Et ton prix fondateur ne reviendra pas." : ""}</p>
             {sub?.canPause && (
               <button type="button" className="cx-pause" disabled={busy} onClick={() => run("pause", () => setStep("done"))}>
                 <span><Icon name="clock" /></span>
