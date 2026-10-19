@@ -11,7 +11,7 @@ import type { WeekDay } from "../format";
 import { showToast } from "../toast";
 import { Stepper } from "../scan/Ingredients";
 import { eatersOf, minutesOf } from "../scan/portions";
-import { setScan, useScan } from "../scan/store";
+import { MAX_GUESTS, setScan, useScan } from "../scan/store";
 import { Dish } from "./Dish";
 import {
   dayOf, doubled, findTitle, foundOf, leftFor, MEAL_NAME, type Option, recipePath, setSlot, slotOption, status, swapOrder, type SwapBy,
@@ -288,7 +288,7 @@ export function TonightSheet({ open, slot, history, household, onSwap, onClose }
         })}
       </div>
       <div className="gst tn-gst"><span className="gst-ic"><Icon name="users" /></span><div><b>Des invités ?</b><small>Comptés comme des adultes</small></div>
-        <Stepper value={scan.guests} min={0} max={8} label={["Un invité de moins", "Un invité de plus"]} onChange={guests} />
+        <Stepper value={scan.guests} min={0} max={MAX_GUESTS} label={["Un invité de moins", "Un invité de plus"]} onChange={guests} />
       </div>
       <button type="button" className="gobar tn-cook" onClick={() => { onClose(); navigate(`${path}/cuisine`, { state: { recipe: r, servings: p } }); }}>
         <span><b>Commencer la cuisson</b><small>Pour {portTxt(p)} · {r.time}</small></span>

@@ -30,8 +30,10 @@ export type ScanState = {
 };
 
 const SERVINGS_KEY = "frigia_servings";
+/** Invités (et personnes en Gratuit) : un plafond large, pour garder des quantités sensées (l'API accepte 60 portions) */
+export const MAX_GUESTS = 50;
 const savedServings = () => {
-  try { const n = Number(localStorage.getItem(SERVINGS_KEY)); return n >= 1 && n <= 8 ? n : 4; } catch { return 4; }
+  try { const n = Number(localStorage.getItem(SERVINGS_KEY)); return n >= 1 && n <= MAX_GUESTS ? n : 4; } catch { return 4; }
 };
 
 let state: ScanState = {

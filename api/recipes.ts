@@ -76,7 +76,7 @@ export default async function handler(req: Req, res: Res) {
   };
 
   const count = body.more ? 2 : 3;
-  const servings = Math.min(16, Math.max(0.5, Number(body.servings) || 2));
+  const servings = Math.min(60, Math.max(0.5, Number(body.servings) || 2));
   const lines = prefLines(body.prefs);
   const finish = list.filter(i => i.finish).map(i => i.name);
   // Le foyer (Plus) : qui mange, les allergies de chacun (obligatoire), ce qu'ils n'aiment pas (à éviter)

@@ -19,7 +19,7 @@ import { type Option, placedText } from "../plan/week";
 import { inListAs, joinNames } from "../../lib/shopping";
 import { checkQty, type Stock } from "../../lib/stock";
 import { qtyOf } from "../../lib/fridge";
-import { useScan } from "./store";
+import { MAX_GUESTS, useScan } from "./store";
 import "./scan.css";
 
 /** « Ajouter les 2 manquants à ma liste », « Ajouter le manque à ma liste », « Ajouter les 2 manquants et le manque à ma liste » */
@@ -93,7 +93,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
   const who = (household.length > 1 && all ? (guests ? "Famille" : "Toute la famille") : eaters.map(p => p.name).join(", "))
     + (guests ? ` + ${guests} invité${guests > 1 ? "s" : ""}` : "");
   const addGuest = (d: number) => {
-    const g = Math.max(0, Math.min(8, guests + d));
+    const g = Math.max(0, Math.min(MAX_GUESTS, guests + d));
     setServings(family + g);
     if (d <= 0) return;
     // Assez pour tout le monde ? Comparé à ce que tu as
@@ -157,7 +157,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
                 </div>
               ) : (
                 <div className="forrow"><b>Pour {srvLabel(false, servings)}</b>
-                  <Stepper value={servings} min={1} max={8} label={["Moins", "Plus"]} onChange={setServings} />
+                  <Stepper value={servings} min={1} max={MAX_GUESTS} label={["Moins", "Plus"]} onChange={setServings} />
                 </div>
               )}
               <div className="ingbox">

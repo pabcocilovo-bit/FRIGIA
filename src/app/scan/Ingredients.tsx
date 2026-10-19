@@ -7,7 +7,7 @@ import { Chip, Chips, Icon, LockPill, RoundButton } from "../../ui/components";
 import type { Envie } from "../../lib/scan";
 import { type Person, whoNote, whoParts } from "../../lib/household";
 import { useOpenPaywall } from "../plus/subscription";
-import { getScan, MEAL_WORDS, setScan, useScan } from "./store";
+import { getScan, MAX_GUESTS, MEAL_WORDS, setScan, useScan } from "./store";
 import { Guide } from "./Guide";
 import { ItemEdit } from "../fridge/ItemEdit";
 import { qtyOf } from "../../lib/fridge";
@@ -50,7 +50,7 @@ function Who({ household, avatar }: { household: Person[]; avatar: string | null
         })}
       </div>
       <div className="gst"><span className="gst-ic"><Icon name="users" /></span><div><b>Des invités ?</b><small>Comptés comme des adultes</small></div>
-        <Stepper value={g} min={0} max={8} label={["Un invité de moins", "Un invité de plus"]} onChange={n => setScan({ guests: n })} />
+        <Stepper value={g} min={0} max={MAX_GUESTS} label={["Un invité de moins", "Un invité de plus"]} onChange={n => setScan({ guests: n })} />
       </div>
       <p className="whonote"><Icon name="users" /><span><b>{whoParts(eaters, g) || "Personne"}, soit {srvLabel(true, portions(true, scan, eaters))}.</b> {whoNote(eaters, when)}</span></p>
     </div>
@@ -123,7 +123,7 @@ export function Ingredients({ isPlus, household, avatar, guide, userId }: {
             {isPlus ? <Who household={household} avatar={avatar} /> : (
               <div className="opt">
                 <div className="forrow"><b>Pour combien ?</b>
-                  <Stepper value={scan.servings} min={1} max={8} label={["Moins", "Plus"]} onChange={s => setScan({ servings: s })} />
+                  <Stepper value={scan.servings} min={1} max={MAX_GUESTS} label={["Moins", "Plus"]} onChange={s => setScan({ servings: s })} />
                 </div>
                 <button type="button" className="famlock" onClick={() => openPaywall("famille")}>
                   <span className="ini"><Icon name="users" /></span>
