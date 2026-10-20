@@ -38,28 +38,6 @@ function parse(r: RawRecipe | null | undefined) {
   if (missingFromTitle(str(r.title, 80), items.map(i => i.name)).length) return null;
   return { r, title: str(r.title, 80), items, steps };
 }
-// Aliments qu'un titre peut nommer : s'il en nomme un, il doit être dans les ingrédients
-// (« Riz sauté aux œufs et petits pois » sans petits pois n'est pas montré). Pas de mot qu'un morceau ou une variété remplace
-// dans la liste (porc et filet mignon, fromage et emmental).
-const FOODS = ["pois", "petit pois", "pois chiche", "haricot", "lentille", "champignon", "poulet", "dinde",
-  "jambon", "lardon", "bacon", "chorizo", "saucisse", "merguez", "saumon", "thon", "cabillaud", "colin", "crevette", "moule",
-  "sardine", "maquereau", "tomate", "courgette", "aubergine", "poivron", "carotte", "pomme de terre", "patate", "epinard", "brocoli",
-  "chou-fleur", "chou", "poireau", "oignon", "echalote", "potiron", "courge", "butternut", "betterave", "concombre", "avocat",
-  "mozzarella", "parmesan", "chevre", "feta", "comte", "emmental", "gruyere", "ricotta", "raclette", "reblochon", "camembert",
-  "riz", "quinoa", "semoule", "boulgour", "gnocchi", "tofu", "oeuf", "pomme", "poire", "banane", "fraise", "framboise", "myrtille",
-  "citron", "orange", "abricot", "peche", "ananas", "mangue", "chocolat", "noisette", "amande", "noix", "coco", "miel", "yaourt"];
-// Minuscules, sans accent ni s final, mots séparés par des espaces (« Petits pois » : " petit poi ")
-const words = (s: string) => ` ${norm(s.replace(/œ/g, "oe").replace(/Œ/g, "oe")).replace(/[^a-z-]+/g, " ").trim()} `;
-const FOOD_WORDS = FOODS.map(f => words(f).trim());
-/** Les aliments que le titre nomme et qui ne sont pas dans la liste (le plus long d'abord : « pois chiche » avant « pois »).
- *  Un aliment en deux mots est trouvé par son dernier mot (« petits pois » avec « pois »). */
-function missingFromTitle(title: string, names: string[]): string[] {
-  const t = words(title), all = names.map(words).join("|");
-  const named = FOOD_WORDS.filter(f => t.includes(` ${f} `)).sort((a, b) => b.length - a.length)
-    .filter((f, i, l) => !l.slice(0, i).some(g => g.includes(f)));
-  return named.filter(f => !all.includes(` ${f} `) && !all.includes(` ${f.split(" ").pop()} `));
-}
-
 type RawRecipe = {
   title?: unknown; intro?: unknown; minutes?: unknown; time?: unknown; calories?: unknown; kcal?: unknown; difficulty?: unknown; imageSearch?: unknown;
   veg?: unknown; oven?: unknown; cold?: unknown; kids?: unknown; missing?: unknown; origin?: unknown; ingredients?: (RawItem | string)[]; steps?: RawStep[];
@@ -90,6 +68,28 @@ const num = (v: unknown) => {
   const n = typeof v === "string" ? parseFloat(v.replace(",", ".")) : v;
   return typeof n === "number" && Number.isFinite(n) && n > 0 ? n : null;
 };
+
+// Aliments qu'un titre peut nommer : s'il en nomme un, il doit être dans les ingrédients
+// (« Riz sauté aux œufs et petits pois » sans petits pois n'est pas montré). Pas de mot qu'un morceau ou une variété remplace
+// dans la liste (porc et filet mignon, fromage et emmental).
+const FOODS = ["pois", "petit pois", "pois chiche", "haricot", "lentille", "champignon", "poulet", "dinde",
+  "jambon", "lardon", "bacon", "chorizo", "saucisse", "merguez", "saumon", "thon", "cabillaud", "colin", "crevette", "moule",
+  "sardine", "maquereau", "tomate", "courgette", "aubergine", "poivron", "carotte", "pomme de terre", "patate", "epinard", "brocoli",
+  "chou-fleur", "chou", "poireau", "oignon", "echalote", "potiron", "courge", "butternut", "betterave", "concombre", "avocat",
+  "mozzarella", "parmesan", "chevre", "feta", "comte", "emmental", "gruyere", "ricotta", "raclette", "reblochon", "camembert",
+  "riz", "quinoa", "semoule", "boulgour", "gnocchi", "tofu", "oeuf", "pomme", "poire", "banane", "fraise", "framboise", "myrtille",
+  "citron", "orange", "abricot", "peche", "ananas", "mangue", "chocolat", "noisette", "amande", "noix", "coco", "miel", "yaourt"];
+// Minuscules, sans accent ni s final, mots séparés par des espaces (« Petits pois » : " petit poi ")
+const words = (s: string) => ` ${norm(s.replace(/œ/g, "oe").replace(/Œ/g, "oe")).replace(/[^a-z-]+/g, " ").trim()} `;
+const FOOD_WORDS = FOODS.map(f => words(f).trim());
+/** Les aliments que le titre nomme et qui ne sont pas dans la liste (le plus long d'abord : « pois chiche » avant « pois »).
+ *  Un aliment en deux mots est trouvé par son dernier mot (« petits pois » avec « pois »). */
+function missingFromTitle(title: string, names: string[]): string[] {
+  const t = words(title), all = names.map(words).join("|");
+  const named = FOOD_WORDS.filter(f => t.includes(` ${f} `)).sort((a, b) => b.length - a.length)
+    .filter((f, i, l) => !l.slice(0, i).some(g => g.includes(f)));
+  return named.filter(f => !all.includes(` ${f} `) && !all.includes(` ${f.split(" ").pop()} `));
+}
 
 /** Les recettes complètes d'une réponse coupée en route (trop longue) : chaque objet entier de la liste. */
 function salvage(text: string): RawRecipe[] {
