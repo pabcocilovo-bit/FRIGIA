@@ -35,8 +35,31 @@ function parse(r: RawRecipe | null | undefined) {
       return { text: str(s.text, 400), timer: min ? { label: str(s.timer?.label, 30) || "Minuteur", min: Math.round(min) } : null };
     });
   if (items.length < 2 || steps.length < 2) return null;
+  if (missingFromTitle(str(r.title, 80), items.map(i => i.name)).length) return null;
   return { r, title: str(r.title, 80), items, steps };
 }
+// Aliments qu'un titre peut nommer : s'il en nomme un, il doit être dans les ingrédients
+// (« Riz sauté aux œufs et petits pois » sans petits pois n'est pas montré). Pas de mot qu'un morceau ou une variété remplace
+// dans la liste (porc et filet mignon, fromage et emmental).
+const FOODS = ["pois", "petit pois", "pois chiche", "haricot", "lentille", "champignon", "poulet", "dinde",
+  "jambon", "lardon", "bacon", "chorizo", "saucisse", "merguez", "saumon", "thon", "cabillaud", "colin", "crevette", "moule",
+  "sardine", "maquereau", "tomate", "courgette", "aubergine", "poivron", "carotte", "pomme de terre", "patate", "epinard", "brocoli",
+  "chou-fleur", "chou", "poireau", "oignon", "echalote", "potiron", "courge", "butternut", "betterave", "concombre", "avocat",
+  "mozzarella", "parmesan", "chevre", "feta", "comte", "emmental", "gruyere", "ricotta", "raclette", "reblochon", "camembert",
+  "riz", "quinoa", "semoule", "boulgour", "gnocchi", "tofu", "oeuf", "pomme", "poire", "banane", "fraise", "framboise", "myrtille",
+  "citron", "orange", "abricot", "peche", "ananas", "mangue", "chocolat", "noisette", "amande", "noix", "coco", "miel", "yaourt"];
+// Minuscules, sans accent ni s final, mots séparés par des espaces (« Petits pois » : " petit poi ")
+const words = (s: string) => ` ${norm(s.replace(/œ/g, "oe").replace(/Œ/g, "oe")).replace(/[^a-z-]+/g, " ").trim()} `;
+const FOOD_WORDS = FOODS.map(f => words(f).trim());
+/** Les aliments que le titre nomme et qui ne sont pas dans la liste (le plus long d'abord : « pois chiche » avant « pois »).
+ *  Un aliment en deux mots est trouvé par son dernier mot (« petits pois » avec « pois »). */
+function missingFromTitle(title: string, names: string[]): string[] {
+  const t = words(title), all = names.map(words).join("|");
+  const named = FOOD_WORDS.filter(f => t.includes(` ${f} `)).sort((a, b) => b.length - a.length)
+    .filter((f, i, l) => !l.slice(0, i).some(g => g.includes(f)));
+  return named.filter(f => !all.includes(` ${f} `) && !all.includes(` ${f.split(" ").pop()} `));
+}
+
 type RawRecipe = {
   title?: unknown; intro?: unknown; minutes?: unknown; time?: unknown; calories?: unknown; kcal?: unknown; difficulty?: unknown; imageSearch?: unknown;
   veg?: unknown; oven?: unknown; cold?: unknown; kids?: unknown; missing?: unknown; origin?: unknown; ingredients?: (RawItem | string)[]; steps?: RawStep[];
@@ -160,7 +183,7 @@ export default async function handler(req: Req, res: Res) {
     familyLines.length ? `LE FOYER :\n${familyLines.join("\n")}` : "",
     avoid.length ? `DÉJÀ PROPOSÉES RÉCEMMENT, À NE PAS REPROPOSER, ni une variante proche (le même plat avec les mêmes ingrédients principaux sous un autre nom) : ${avoid.join(" ; ")}.` : "",
     `Pour chaque recette :
-- "title" : nom court et appétissant, en français. Il décrit exactement le plat : tout ce qu'il nomme (base comme wrap, pâtes, riz, ou ingrédient) est dans "ingredients". Pas de « wrap » sans galette, pas de « gratin » sans four.
+- "title" : nom court et appétissant, en français. Il décrit exactement le plat : tout ce qu'il nomme (base comme wrap, pâtes, riz, ou ingrédient) est dans "ingredients". Vérifie-le avant de répondre : un titre « aux petits pois » demande des petits pois dans "ingredients". Pas de « wrap » sans galette, pas de « gratin » sans four.
 - "intro" : 1 ou 2 phrases simples qui donnent envie, au tutoiement. Pour un plat peu connu en France, dis d'abord en quelques mots ce que c'est (« La shakshuka, ce sont des œufs pochés dans une sauce tomate épicée. »).
 - "origin" : "" pour un plat courant en France. Pour une spécialité d'un pays ou d'une région, 2 à 4 mots : "Spécialité libanaise", "Plat indien", "Recette basque".
 - "minutes" : durée totale. "calories" : kcal par portion. "difficulty" : "Facile", "Moyen" ou "Difficile".
