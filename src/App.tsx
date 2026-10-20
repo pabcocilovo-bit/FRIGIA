@@ -356,7 +356,7 @@ return (
       <Route path="/parrainage" element={<Refer name={name} avatar={avatarSrc} isPlus={isPlus} />} />
       <Route path="/i/:code" element={<Navigate to="/" replace />} />
       <Route path="/bilan" element={isPlus ? <Report meals={cooked.meals} /> : <Navigate to="/" replace />} />
-      <Route path="/scans" element={<Scans history={history} cooked={cooked.meals} isPlus={isPlus} onDelete={library.deleteScan} />} />
+      <Route path="/scans" element={<Scans history={history} cooked={cooked.meals} week={home.week} isPlus={isPlus} onDelete={library.deleteScan} />} />
       <Route path="/favoris" element={<Favorites favorites={favorites} history={history} isPlus={isPlus} onOpen={r => openRecipe(r, r.savedServings)} onToggleFavorite={toggleFavorite} />} />
       <Route path="/reglages" element={<Settings {...account} />} />
       <Route path="/reglages/compte" element={<Account {...account} dishes={dishes} onAvatar={onAvatar} onName={onName} />} />

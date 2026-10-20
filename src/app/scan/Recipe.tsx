@@ -29,7 +29,8 @@ function addText(missing: number, short: number): string {
   return `Ajouter ${[m, s].filter(Boolean).join(" et ")} à ma liste`;
 }
 
-export type RecipeState = { recipe?: GeneratedRecipe; servings?: number };
+/** from « plan » : ouverte depuis le planning (un favori gardé ici dit « Depuis ton planning ») */
+export type RecipeState = { recipe?: GeneratedRecipe; servings?: number; from?: "plan" };
 
 export function Recipe({ history, isPlus, household, shopping, fridge, onAddMissing, week, onWeek, avatar, isFavorite, onToggleFavorite }: {
   history: HistoryEntry[]; isPlus: boolean; household: Person[]; avatar: string | null;
@@ -115,7 +116,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
               <RoundButton icon="cal" label="Ajouter à ma semaine" onClick={addToWeek} />
               <RoundButton icon="heart" label={fav ? "Retirer des favoris" : "Ajouter aux favoris"} aria-pressed={fav}
                 style={fav ? { background: "var(--sage)", color: "var(--on)" } : undefined}
-                onClick={() => onToggleFavorite({ ...recipe, scanDate: recipe.scanDate ?? entry?.date.toISOString(), savedServings: servings })} />
+                onClick={() => onToggleFavorite({ ...recipe, scanDate: recipe.scanDate ?? entry?.date.toISOString(), savedServings: servings, ...(state?.from === "plan" ? { fromPlan: true } : {}) })} />
             </span>
           </div>
         </div>

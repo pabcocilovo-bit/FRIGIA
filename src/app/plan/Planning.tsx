@@ -89,7 +89,7 @@ export function Planning({ isPlus, week, setWeek, history, favorites, household,
                     return (
                       <div key={meal} className="pmw">
                         <button type="button" className={"pm" + (i === 0 && meal === "s" ? " now" : "")}
-                          onClick={() => navigate(recipePath(sl, history), { state: { recipe: sl.recipe, servings: portions } })}>
+                          onClick={() => navigate(recipePath(sl, history), { state: { recipe: sl.recipe, servings: portions, from: "plan" } })}>
                           <Dish recipe={sl.recipe} className="plate" />
                           <span className="tx"><span className="tg">{name}</span><b>{sl.recipe.title}</b>
                             <span className="m">{sl.left ? `Restes de ${days[i - 1]?.long.toLowerCase() ?? "la veille"} soir · rien à cuisiner` : sl.recipe.time}</span>

@@ -1,16 +1,18 @@
 // 1 bis · Tes scans (prototype V3) : cette semaine, la semaine dernière, puis mois par mois.
 // En Gratuit, les scans de plus de 7 jours sont floutés et ouvrent « Passe à Plus ».
 // Chaque scan dit ce qui a été cuisiné (« J'ai cuisiné ça » du mode cuisine) ; les onglets trient cuisinés et pas cuisinés.
+// « Au planning : plat » quand une de ses idées est prévue dans la semaine (et pas encore cuisinée).
 // Écart maquette : une croix supprime un scan, après confirmation (demandé par Hugo le 20 octobre).
 import { Fragment, useState } from "react";
 import { useNavigate } from "react-router";
 import type { CookedMeal } from "../../lib/cooked";
+import type { Week } from "../../lib/home";
 import { MAX_HISTORY } from "../../lib/library";
 import type { HistoryEntry } from "../../lib/types";
 import { ArtFridge } from "../../ui/art";
 import { Dialog, EmptyState, Icon, LockPill, Pill, RoundButton, ScreenHeader, TextLink } from "../../ui/components";
 import { AppTabBar } from "../AppTabBar";
-import { daysAgo, plural, scanDateLine, scanDayTitle, scanGroup } from "../format";
+import { daysAgo, plural, scanDateLine, scanDayTitle, scanGroup, weekDays } from "../format";
 import { useBack } from "../nav";
 import { useOpenScan } from "../offline";
 import { useRecipePhoto } from "../photo";
@@ -22,8 +24,8 @@ const Plate = ({ title, search }: { title: string; search?: string }) => {
   return photo ? <img src={photo} alt="" /> : null;
 };
 
-function ScanCard({ entry, cooked, first, locked, old, onClick }: {
-  entry: HistoryEntry; cooked?: CookedMeal; first: boolean; locked: boolean; old: boolean; onClick: () => void;
+function ScanCard({ entry, cooked, planned, first, locked, old, onClick }: {
+  entry: HistoryEntry; cooked?: CookedMeal; planned?: string; first: boolean; locked: boolean; old: boolean; onClick: () => void;
 }) {
   const lead = entry.recipes[0];
   const photo = useRecipePhoto(lead?.title, lead?.imageSearch);
@@ -35,6 +37,7 @@ function ScanCard({ entry, cooked, first, locked, old, onClick }: {
         <span className="hs-date">{scanDateLine(entry.date, entry.ingredients.length)}</span>
         {cooked
           ? <span className="hs-st ok"><Icon name="pan" /><span>Cuisiné : {cooked.title}</span></span>
+          : planned ? <span className="hs-st plan"><Icon name="cal" /><span>Au planning : {planned}</span></span>
           : <span className="hs-st"><Icon name="clock" /><span>Pas encore cuisiné · {plural(entry.recipes.length, "idée")}</span></span>}
         {first && <span className="hs-first">Ton premier scan</span>}
       </span>
@@ -45,7 +48,9 @@ function ScanCard({ entry, cooked, first, locked, old, onClick }: {
 
 type Tab = "" | "cook" | "todo";
 
-export function Scans({ history, cooked, isPlus, onDelete }: { history: HistoryEntry[]; cooked: CookedMeal[]; isPlus: boolean; onDelete: (id: string) => void }) {
+export function Scans({ history, cooked, week, isPlus, onDelete }: {
+  history: HistoryEntry[]; cooked: CookedMeal[]; week: Week; isPlus: boolean; onDelete: (id: string) => void;
+}) {
   const back = useBack();
   const [tab, setTab] = useState<Tab>("");
   const [del, setDel] = useState<HistoryEntry | null>(null);
@@ -56,6 +61,12 @@ export function Scans({ history, cooked, isPlus, onDelete }: { history: HistoryE
   // Le dernier plat cuisiné de chaque scan (les repas sont rangés du plus récent au plus ancien)
   const cookedOf = new Map<string, CookedMeal>();
   for (const m of cooked) if (m.scanId && !cookedOf.has(m.scanId)) cookedOf.set(m.scanId, m);
+  // Le premier repas prévu (aujourd'hui ou plus tard) de chaque scan
+  const plannedOf = new Map<string, string>();
+  for (const d of weekDays()) for (const m of ["m", "s"] as const) {
+    const sl = week.days[d.key]?.[m];
+    if (sl?.scanId && !sl.left && !plannedOf.has(sl.scanId)) plannedOf.set(sl.scanId, sl.recipe.title);
+  }
   const ids = new Set(history.map(e => e.id));
   const meals = cooked.filter(m => m.scanId && ids.has(m.scanId)).length;
   const shown = (e: HistoryEntry) => !tab || (tab === "cook") === cookedOf.has(e.id);
@@ -112,7 +123,7 @@ export function Scans({ history, cooked, isPlus, onDelete }: { history: HistoryE
                       </button>
                     )}
                     <div className="hs-item">
-                      <ScanCard entry={e} cooked={cookedOf.get(e.id)} first={e.id === oldestId} old={old} locked={locked}
+                      <ScanCard entry={e} cooked={cookedOf.get(e.id)} planned={plannedOf.get(e.id)} first={e.id === oldestId} old={old} locked={locked}
                         onClick={() => (locked ? openPaywall("historique", "/scans") : navigate(`/recettes/${e.id}`))} />
                       <button type="button" className="hs-del" aria-label={`Supprimer le scan ${scanDayTitle(e.date, e.meal)}`} onClick={() => setDel(e)}><Icon name="x" /></button>
                     </div>

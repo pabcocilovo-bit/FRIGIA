@@ -98,7 +98,7 @@ export function PlanNew({ isPlus, week, setWeek, history, favorites }: PlanProps
                               : dbl ? { t: "Double la dose · restes pour demain midi", c: " dbl" } : { t: st.text, c: st.warn ? " warn" : "" };
                             return (
                               <div key={id} className={"pn-card" + (meal === "m" ? " mid" : "") + (menu === id ? " menu" : "")}>
-                                <button type="button" className="rw" onClick={() => navigate(recipePath(sl, history), { state: { recipe: sl.recipe } })}>
+                                <button type="button" className="rw" onClick={() => navigate(recipePath(sl, history), { state: { recipe: sl.recipe, from: "plan" } })}>
                                   <Dish recipe={sl.recipe} /><span className="tx"><b>{sl.recipe.title}</b><span>{sl.left ? "Rien à cuisiner" : sl.recipe.time}</span></span>
                                 </button>
                                 <button type="button" className="pn-more" aria-label="Options" aria-expanded={menu === id} onClick={() => setMenu(m => (m === id ? null : id))}>···</button>

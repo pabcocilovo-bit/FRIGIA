@@ -9,6 +9,7 @@
 .fa .hs-card{position:relative;display:flex;gap:14px;align-items:center;width:100%;padding:12px;text-align:left;background:#fff;border-radius:22px;box-shadow:0 1px 0 var(--line),0 10px 24px -20px rgba(31,42,34,.5)}
 .fa .hs-card[hidden]{display:none}
 .fa .hs-item{position:relative}
+.fa .hs-item .hs-st{padding-right:30px}
 .fa .hs-del{position:absolute;right:8px;bottom:8px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
 .fa .hs-del svg{width:15px;height:15px}
 .fa .hs-del:active{background:var(--surface)}

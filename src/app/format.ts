@@ -130,7 +130,8 @@ export function agoText(date: Date, now = new Date()): string {
 }
 
 /** D'où vient un favori : « Scan d'hier soir », « Scan de jeudi », sinon depuis quand il est gardé. */
-export function favoriteOrigin(scanDate: Date | null, savedAt: Date | null, now = new Date()): { text: string; scan: boolean } {
+export function favoriteOrigin(scanDate: Date | null, savedAt: Date | null, now = new Date(), fromPlan = false): { text: string; scan: boolean; plan?: boolean } {
+  if (fromPlan) return { text: "Depuis ton planning", scan: false, plan: true };
   if (scanDate) {
     const n = daysAgo(scanDate, now), evening = scanDate.getHours() >= 18;
     if (n <= 0) return { text: evening ? "Scan de ce soir" : "Scan d'aujourd'hui", scan: true };

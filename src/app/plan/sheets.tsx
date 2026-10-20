@@ -295,7 +295,7 @@ export function TonightSheet({ open, slot, history, household, onSwap, onClose }
         <span className="go"><Icon name="arrow" /></span>
       </button>
       <div className="tn-links">
-        <button type="button" className="link" onClick={() => { onClose(); navigate(path, { state: { recipe: r, servings: p } }); }}>Voir la recette en entier</button>
+        <button type="button" className="link" onClick={() => { onClose(); navigate(path, { state: { recipe: r, servings: p, from: "plan" } }); }}>Voir la recette en entier</button>
         <button type="button" className="link" onClick={onSwap}>Changer de plat</button>
       </div>
     </Dialog>

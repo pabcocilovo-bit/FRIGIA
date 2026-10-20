@@ -32,7 +32,7 @@ function FavCard({ recipe, isPlus, fridge, onOpen, onRemove }: {
   const photo = useRecipePhoto(recipe.title, recipe.imageSearch);
   const [gone, setGone] = useState(false);
   const old = oldFavorite(recipe);
-  const origin = favoriteOrigin(dateOf(recipe.scanDate), dateOf(recipe.savedAt));
+  const origin = favoriteOrigin(dateOf(recipe.scanDate), dateOf(recipe.savedAt), undefined, recipe.fromPlan);
   const serves = recipe.savedServings ?? recipe.serves;
   const remove = () => { setGone(true); setTimeout(onRemove, 250); };
   return (
@@ -49,7 +49,7 @@ function FavCard({ recipe, isPlus, fridge, onOpen, onRemove }: {
         <button type="button" className="fv-heart" aria-label="Retirer des favoris" style={{ margin: "14px 14px 0 0" }} onClick={remove}><Icon name="heart-f" /></button>
       </div>
       <div className="fv-foot">
-        <span><Icon name={origin.scan ? "cam" : "clock"} /><i>{origin.text}</i></span>
+        <span><Icon name={origin.plan ? "cal" : origin.scan ? "cam" : "clock"} /><i>{origin.text}</i></span>
         {fridge ? <span className="fv-tag ok">Tu as tout</span> : isPlus && recipe.kids ? <span className="fv-tag">Les enfants adorent</span> : null}
       </div>
     </div>
