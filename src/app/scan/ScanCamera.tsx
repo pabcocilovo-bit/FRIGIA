@@ -3,7 +3,6 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useNavigate } from "react-router";
 import { Icon, RoundButton } from "../../ui/components";
 import { detectIngredients, RATE_TEXT, type ScanIngredient, type ScanSource } from "../../lib/scan";
-import type { Meal } from "../../lib/types";
 import { openOffline } from "../offline";
 import { showToast } from "../toast";
 import { getScan, setScan, useScan } from "./store";
@@ -11,10 +10,9 @@ import { Guide } from "./Guide";
 import { SCAN_GUIDE, setGuideState } from "./guideSteps";
 import "./scan.css";
 
-const FOR: [Meal, string, string][] = [
-  ["m", "Ce midi", "Des idées pour ce midi"],
-  ["s", "Ce soir", "Des idées pour ce soir"],
-  ["w", "Semaine", "Des idées pour remplir ta semaine"],
+// Plat (midi avant 16 h, soir après, ou la semaine venue du batch cooking) ou dessert
+const FOR: ["plat" | "d", string, string][] = [
+  ["plat", "Plat", "Des idées de plats"],
   ["d", "Dessert", "Des idées sucrées pour le dessert"],
 ];
 const MODES: [ScanSource, string][] = [["frigo", "Frigo"], ["placard", "Placard"], ["ticket", "Ticket de caisse"]];
@@ -133,9 +131,9 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
     else capture.current?.click();
   };
 
-  const pickFor = (m: Meal, msg: string) => {
-    if (m === scan.meal) return;
-    setScan({ meal: m });
+  const pickFor = (m: "plat" | "d", msg: string) => {
+    if ((m === "d") === (scan.meal === "d")) return;
+    setScan({ meal: m === "d" ? "d" : new Date().getHours() < 16 ? "m" : "s" });
     showToast(msg);
   };
 
@@ -165,8 +163,8 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
       )}
       <div className="cam-top">
         <RoundButton icon="x" label="Fermer" tone="dark" onClick={() => navigate("/")} />
-        <div className="for" role="group" aria-label="Pour quel repas">
-          {FOR.map(([m, label, msg]) => <button key={m} type="button" className={scan.meal === m ? "on" : undefined} onClick={() => pickFor(m, msg)}>{label}</button>)}
+        <div className="for" role="group" aria-label="Plat ou dessert">
+          {FOR.map(([m, label, msg]) => <button key={m} type="button" className={(m === "d") === (scan.meal === "d") ? "on" : undefined} onClick={() => pickFor(m, msg)}>{label}</button>)}
         </div>
         {torch !== null
           ? <RoundButton icon="flash" label={torch ? "Éteindre le flash" : "Flash"} tone="dark" aria-pressed={torch} onClick={toggleTorch} />

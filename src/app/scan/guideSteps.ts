@@ -23,7 +23,7 @@ export function setGuideState(userId: string, v: "ingr" | "done") {
 }
 
 export const SCAN_GUIDE: GuideStep[] = [
-  { target: ".for", r: 999, pos: "down", title: "Pour quand ?", text: "Ce soir, ce midi ou toute la semaine. Les idées suivent ce choix." },
+  { target: ".for", r: 999, pos: "down", title: "Plat ou dessert ?", text: "Un plat salé, ou une idée sucrée pour finir. Les recettes suivent ce choix." },
   { target: ".frame", r: 28, pos: "mid", title: "Tout le frigo dans le cadre", text: "Porte grande ouverte, lumière allumée, un pas en arrière. Pas besoin que ce soit parfait." },
   { target: ".shutter", r: 999, pad: 10, pos: "up", title: "Touche le rond", text: "Ou choisis une photo déjà prise, à gauche. Frigia repère tes ingrédients en quelques secondes.", btn: "C'est parti", cam: true },
 ];

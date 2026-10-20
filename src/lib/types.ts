@@ -42,7 +42,7 @@ export type GeneratedRecipe = {
   scanDate?: string;
   savedServings?: number;
 };
-/** Pour quel repas : ce midi, ce soir, la semaine. */
+/** Pour quel repas : ce midi, ce soir, la semaine (batch cooking), le dessert. Au scan, « Plat » choisit midi ou soir selon l'heure. */
 export type Meal = "m" | "s" | "w" | "d";
 export type HistoryEntry = {
   id: string;

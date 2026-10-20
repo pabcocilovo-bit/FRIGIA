@@ -74,7 +74,7 @@ function FavCard({ recipe, onClick }: { recipe: GeneratedRecipe; onClick: () => 
 
 // Sans scan : les trois étapes, avec les captures de la page d'accueil du site
 const STEPS = [
-  { img: "app-scan", t: "Tu prends ton frigo en photo", p: "Pour ce midi, ce soir ou la semaine" },
+  { img: "app-scan", t: "Tu prends ton frigo en photo", p: "Pour un plat ou un dessert" },
   { img: "app-ingr", t: "Tu vérifies, tu dis qui mange", p: "Frigia liste ce qu'il a vu" },
   { img: "app-results", t: "Tu choisis parmi trois recettes", p: "Avec ce que tu as déjà" },
 ];

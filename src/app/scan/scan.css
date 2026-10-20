@@ -298,11 +298,7 @@ body:has(.scan-screen){background:#EFE3D0}
 .fa .gc-wk svg{width:14px;height:14px}
 .fa .gc-wk.done{background:var(--sage);color:var(--on);box-shadow:none}
 .fa .for{display:flex;gap:0;background:rgba(10,13,11,.6);padding:4px;border-radius:999px;min-width:0}
-.fa .for button{font:600 13px/1 var(--sans);padding:9px 11px;border-radius:999px;color:rgba(255,255,255,.8);white-space:nowrap}
-/* 4 choix (avec Dessert) : plus serrés sur un téléphone moyen, sur une 2e ligne sur un petit */
-@media (max-width:420px){.fa .for button{padding:9px 8px;font-size:12px}}
-@media (max-width:360px){.fa .cam-top{flex-wrap:wrap;row-gap:10px}.fa .cam-top .for{order:3;margin:0 auto}
-  .fa .hint{top:calc(var(--top) + 106px)}.fa .frame{top:calc(var(--top) + 154px)}}
+.fa .for button{font:600 15px/1 var(--sans);padding:12px 24px;border-radius:999px;color:rgba(255,255,255,.8);white-space:nowrap}
 .fa .for button.on{background:var(--on);color:var(--sage-deep)}
 
 .fa .res-week{display:grid;grid-template-columns:40px 1fr;gap:6px 12px;align-items:center;padding:14px;border-radius:20px;background:var(--card);box-shadow:inset 0 0 0 1.5px var(--sage)}
