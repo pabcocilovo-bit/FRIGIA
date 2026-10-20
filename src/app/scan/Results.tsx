@@ -124,7 +124,7 @@ export function Results({ history, isPlus, household, week, onWeek, onNewIdeas }
     if (r.status === "ok" && r.recipes.length) {
       onNewIdeas(entry.id, [entry.recipes[0], ...r.recipes].slice(0, 3));
       showToast(`${r.recipes.length} nouvelle${r.recipes.length > 1 ? "s" : ""} idée${r.recipes.length > 1 ? "s" : ""}. Ton scan n'est pas décompté.`);
-    } else if (r.status !== "signed-out") showToast("Frigia ne répond pas. Réessaie dans un instant.");
+    } else if (r.status !== "signed-out") showToast(r.status === "error" && r.message ? r.message : "Frigia ne répond pas. Réessaie dans un instant.");
   };
 
   return (

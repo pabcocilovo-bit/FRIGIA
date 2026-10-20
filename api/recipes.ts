@@ -135,9 +135,9 @@ export default async function handler(req: Req, res: Res) {
     if (scansLeft === null) return res.status(503).json({ error: "Service temporairement indisponible." });
     if (scansLeft < 0) return res.status(403).json({ error: "Tes scans gratuits sont utilisés.", code: "quota" });
   }
-  const fail = async (status: number, error: string) => {
+  const fail = async (status: number, error: string, code?: string) => {
     if (counted) await refundFreeScan(admin, user.id);
-    return res.status(status).json({ error });
+    return res.status(status).json({ error, ...(code ? { code } : {}) });
   };
 
   const count = body.more ? 2 : 3;
@@ -169,7 +169,7 @@ export default async function handler(req: Req, res: Res) {
       ? "Le placard a aussi : pâtes, riz, huile, ail, épices, sel, poivre, farine, sucre. Ils comptent comme disponibles."
       : "Seuls sel, poivre et eau sont disponibles en plus de la liste.",
     `Propose EXACTEMENT ${count} recettes pour ${MEALS[body.meal ?? ""] ?? MEALS.s}.`,
-    body.meal === "d" ? "" : "Des plats salés (entrée ou plat principal) : jamais de dessert, de gâteau ni de recette sucrée. Les produits sucrés de la liste (biscuits, chocolat, barres, confiture…) sont ignorés.",
+    body.meal === "d" ? "" : "Des plats salés (entrée ou plat principal) : jamais de dessert, de gâteau ni de recette sucrée. Les produits sucrés de la liste (biscuits, chocolat, barres, confiture…) sont ignorés. S'il ne reste presque rien de salé, fais des plats simples avec le placard et les 1 ou 2 achats permis.",
     ENVIES[body.envie ?? ""] ? `Envie : des recettes ${ENVIES[body.envie!]}.` : "",
     `Quantités pour ${String(servings).replace(".", ",")} portion${servings > 1 ? "s" : ""} (un enfant compte pour une demi-portion).`,
     empty
@@ -206,14 +206,20 @@ export default async function handler(req: Req, res: Res) {
     if (valid.length < count) console.warn(`recipes: ${valid.length}/${count} valides`, answer.text.slice(0, 1500));
     return valid;
   };
+  const t0 = Date.now();
   const first = await ask();
   if (!first) return fail(502, "Service IA temporairement indisponible.");
   let raw = first.slice(0, count);
-  if (raw.length < count) {
+  // Une 2e demande seulement s'il reste le temps (la fonction s'arrête à 60 s)
+  if (raw.length < count && Date.now() - t0 < 25000) {
     const again = (await ask()) ?? [];
     raw = [...raw, ...again.filter(r => !raw.some(o => norm(o.title) === norm(r.title)))].slice(0, count);
   }
-  if (raw.length === 0) return fail(500, "Réponse IA invalide.");
+  if (raw.length === 0) {
+    return fail(422, body.meal === "d"
+      ? "Pas de dessert trouvé avec ces ingrédients. Ajoute-en un ou deux, ou essaie « Plat »."
+      : "Pas de plat trouvé avec ces ingrédients. Ajoute-en un ou deux, ou essaie « Dessert ».", "none");
+  }
 
   const recipes = await Promise.all(raw.map(async ({ r, items, steps }) => {
     const imageSearch = str(r.imageSearch, 40) || str(r.title, 80);

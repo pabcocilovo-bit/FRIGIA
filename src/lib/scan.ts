@@ -41,7 +41,7 @@ type Problem = "floue" | "sombre" | "vide";
 type Failure =
   | { status: "signed-out" }        // 401 : la session n'est plus valable, on a déconnecté
   | { status: "quota" }             // 403 : les 15 scans gratuits sont utilisés
-  | { status: "error"; rate?: boolean }; // le service ne répond pas (ou trop de scans cette heure-ci)
+  | { status: "error"; rate?: boolean; /** Pas de recette possible avec ces ingrédients : la phrase à montrer */ message?: string }; // le service ne répond pas (ou trop de scans cette heure-ci)
 
 export type IngredientsResult =
   | { status: "ok"; ingredients: ScanIngredient[]; token: string | null; scansLeft: number | null; /** La photo montre autre chose que le mode choisi */ seen?: ScanSource }
@@ -74,6 +74,7 @@ async function failure(response: Response | null, data: Record<string, unknown>)
     void supabase.auth.refreshSession();
     return { status: "quota" };
   }
+  if (data.code === "none" && typeof data.error === "string") return { status: "error", message: data.error };
   return { status: "error", rate: response?.status === 429 };
 }
 

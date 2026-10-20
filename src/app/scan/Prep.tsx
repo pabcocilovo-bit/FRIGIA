@@ -96,7 +96,8 @@ export function Prep({ isPlus, household, onReady, onCounted, onOutOfScans }: {
         onOutOfScans();
       } else if (r.status !== "signed-out") {
         if (!navigator.onLine) openOffline();
-        else showToast(r.status === "error" && r.rate ? (scan.token ? "Beaucoup de demandes cette heure-ci. Réessaie un peu plus tard." : RATE_TEXT) : "Frigia ne répond pas. Réessaie dans un instant.");
+        else showToast(r.status === "error" && r.message ? r.message
+          : r.status === "error" && r.rate ? (scan.token ? "Beaucoup de demandes cette heure-ci. Réessaie un peu plus tard." : RATE_TEXT) : "Frigia ne répond pas. Réessaie dans un instant.");
         navigate(-1);
       }
     });
