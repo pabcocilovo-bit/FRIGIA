@@ -48,6 +48,8 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
   const [live, setLive] = useState(false);
   const [torch, setTorch] = useState<boolean | null>(null);
   const [shot, setShot] = useState<string | null>(null);
+  // La photo prise, en entier (pas recadrée) : sa taille à l'écran, pour y poser les pastilles au bon endroit
+  const [box, setBox] = useState<{ w: number; h: number } | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [found, setFound] = useState<ScanIngredient[] | null>(null);
   const busy = useRef(false);
@@ -85,6 +87,7 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
     if (!navigator.onLine) { busy.current = false; openOffline(); return; }
     const url = URL.createObjectURL(photo);
     setShot(url);
+    setBox(null);
     setFound(null);
     setAnalyzing(true);
     const r = await detectIngredients(photo, getScan().source);
@@ -142,8 +145,23 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
     <section ref={screen} className={"fa scan-screen scr-scan" + (analyzing ? " analyzing" : "")} aria-label="Scan du frigo">
       <div className="cam">
         <video ref={video} playsInline muted autoPlay hidden={!live || !!shot} />
-        {shot && <img src={shot} alt="Photo de ton frigo" />}
+        {shot && <img className="cam-blur" src={shot} alt="" />}
       </div>
+      {shot && (
+        <div className="cam-shot" style={box ? { width: box.w, height: box.h } : { visibility: "hidden" }}>
+          <img src={shot} alt="Photo de ton frigo" onLoad={e => {
+            const im = e.currentTarget, W = screen.current?.clientWidth ?? 0, H = screen.current?.clientHeight ?? 0;
+            const k = Math.min(W / im.naturalWidth, H / im.naturalHeight);
+            setBox({ w: Math.round(im.naturalWidth * k), h: Math.round(im.naturalHeight * k) });
+          }} />
+          <div className="dots">
+            {dots.map((d, k) => {
+              const style = { left: `${d.x}%`, top: `${d.y}%`, "--d": `${k * 0.2}s` } as CSSProperties;
+              return [<i key={"d" + k} className="dot" style={style} />, <span key={"t" + k} className={"tag" + (d.x! > 60 ? " left" : "")} style={style}>{d.name}</span>];
+            })}
+          </div>
+        </div>
+      )}
       <div className="cam-top">
         <RoundButton icon="x" label="Fermer" tone="dark" onClick={() => navigate("/")} />
         <div className="for" role="group" aria-label="Pour quel repas">
@@ -155,12 +173,6 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
       </div>
       <div className="hint">Ouvre bien la porte et recule d'un pas</div>
       <div className="frame"><i className="tl" /><i className="tr" /><i className="bl" /><i className="br" /></div>
-      <div className="dots">
-        {dots.map((d, k) => {
-          const style = { left: `${d.x}%`, top: `${d.y}%`, "--d": `${k * 0.2}s` } as CSSProperties;
-          return [<i key={"d" + k} className="dot" style={style} />, <span key={"t" + k} className={"tag" + (d.x! > 60 ? " left" : "")} style={style}>{d.name}</span>];
-        })}
-      </div>
       <div className="cam-bot">
         <div className="modes" role="tablist">
           {MODES.map(([s, label]) => (

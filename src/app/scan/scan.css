@@ -18,6 +18,11 @@ body:has(.scan-screen){background:#EFE3D0}
 .fa .cam{position:absolute;inset:0}
 .fa .cam img{width:100%;height:100%;object-fit:cover;filter:brightness(.8) saturate(.92);transition:filter .5s}
 .fa.scr-scan.analyzing .cam img{filter:brightness(.55) saturate(.8)}
+/* La photo prise, en entière (pas recadrée) ; derrière, la même floutée pour remplir l'écran. Les pastilles se posent sur la photo */
+.fa .cam img.cam-blur{filter:blur(28px) brightness(.35);transform:scale(1.15)}
+.fa .cam-shot{position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%)}
+.fa .cam-shot>img{display:block;width:100%;height:100%;filter:brightness(.8) saturate(.92);transition:filter .5s}
+.fa.scr-scan.analyzing .cam-shot>img{filter:brightness(.55) saturate(.8)}
 .fa .cam-top{position:absolute;z-index:4;top:var(--top);left:16px;right:16px;display:flex;justify-content:space-between;align-items:center}
 .fa .hint{position:absolute;z-index:4;top:calc(var(--top) + 56px);left:50%;transform:translateX(-50%);font-size:13px;padding:8px 14px;border-radius:999px;background:rgba(10,13,11,.6);white-space:nowrap;transition:opacity .3s}
 .fa .frame{position:absolute;z-index:3;left:26px;right:26px;top:calc(var(--top) + 104px);bottom:236px;transition:opacity .3s,transform .3s}
