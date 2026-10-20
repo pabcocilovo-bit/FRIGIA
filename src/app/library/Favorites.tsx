@@ -1,7 +1,8 @@
 // 1 bis · Tes favoris (prototype V3) : recherche, filtres, cartes avec leur origine.
 // En Gratuit, les favoris gardés il y a plus de 7 jours sont floutés et ouvrent « Passe à Plus ».
 import { useState } from "react";
-import type { GeneratedRecipe, HistoryEntry } from "../../lib/types";
+import type { Fridge } from "../../lib/home";
+import type { GeneratedRecipe } from "../../lib/types";
 import { ArtRecipeBox } from "../../ui/art";
 import { Chip, EmptyState, Icon, LockPill, Pill, RoundButton, ScreenHeader } from "../../ui/components";
 import { AppTabBar } from "../AppTabBar";
@@ -10,7 +11,7 @@ import { useBack } from "../nav";
 import { useOpenScan } from "../offline";
 import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
-import { allInFridge, minutesOf, srvLabel } from "../scan/portions";
+import { allInKitchen, minutesOf, srvLabel } from "../scan/portions";
 import { showToast } from "../toast";
 import "../scan/scan.css";
 import "./library.css";
@@ -56,8 +57,8 @@ function FavCard({ recipe, isPlus, fridge, onOpen, onRemove }: {
   );
 }
 
-export function Favorites({ favorites, history, isPlus, onOpen, onToggleFavorite }: {
-  favorites: GeneratedRecipe[]; history: HistoryEntry[]; isPlus: boolean;
+export function Favorites({ favorites, kitchen, isPlus, onOpen, onToggleFavorite }: {
+  favorites: GeneratedRecipe[]; kitchen: Fridge; isPlus: boolean;
   onOpen: (r: GeneratedRecipe) => void; onToggleFavorite: (r: GeneratedRecipe) => void;
 }) {
   const back = useBack();
@@ -65,9 +66,9 @@ export function Favorites({ favorites, history, isPlus, onOpen, onToggleFavorite
   const openPaywall = useOpenPaywall();
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<Filter>("");
-  // « Avec mon frigo » : tout est dans ton dernier scan (ou ton placard)
-  const found = history[0]?.ingredients ?? [];
-  const fridge = (r: GeneratedRecipe) => allInFridge(r, found);
+  // « Avec mon frigo » et « Tu as tout » : tout est dans Ma cuisine (choix de Hugo le 20 octobre)
+  const found = kitchen.items.map(x => ({ name: x.name }));
+  const fridge = (r: GeneratedRecipe) => allInKitchen(r, found);
   const n = favorites.length;
   const query = norm(q.trim());
   const shown = favorites.filter(r =>
