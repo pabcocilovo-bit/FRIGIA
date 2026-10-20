@@ -67,7 +67,7 @@ function HeroArt() {
 
 // ── Comment ça marche : 3 cartes avec les vrais écrans de l'appli ────────────
 const STEPS = [
-  { n: "Un.", img: "app-scan", alt: "L'écran de scan : le frigo dans le viseur, avec le choix ce midi, ce soir ou la semaine", t: "Tu prends ton frigo en photo.", p: "Pour ce midi, ce soir ou la semaine. Une photo de ta galerie marche aussi, pas besoin de ranger avant." },
+  { n: "Un.", img: "app-scan", alt: "L'écran de scan : le frigo dans le viseur, avec le choix plat ou dessert", t: "Tu prends ton frigo en photo.", p: "Pour un plat ou un dessert. Une photo de ta galerie marche aussi, pas besoin de ranger avant." },
   { n: "Deux.", img: "app-ingr", alt: "L'écran « C'est bien ça ? » : 8 ingrédients trouvés, puis qui mange ce soir avec Camille, Thomas, Léo et Jade", t: "Tu vérifies, tu dis qui mange.", p: "Frigia liste ce qu'il a vu, avec les quantités. Tu corriges d'un geste et tu choisis qui est à table, allergies comprises." },
   { n: "Trois.", img: "app-results", alt: "L'écran « Trois idées pour ce soir » avec des penne aux légumes rôtis", t: "Tu choisis parmi trois recettes.", p: "Avec ce que tu as déjà, en commençant par ce qui se périme. Le mode cuisine te guide pas à pas." },
 ];
