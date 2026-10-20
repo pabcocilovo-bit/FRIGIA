@@ -87,7 +87,7 @@ export function AddIngredient() {
     showToast(`${n} ingrédient${n > 1 ? "s" : ""} ajouté${n > 1 ? "s" : ""}`);
     if (typed) {
       // Sans photo lue : la liste part de zéro, et les recettes compteront un scan en Gratuit
-      setScan({ ingredients: added, token: null, guests: 0 });
+      setScan({ ingredients: added, token: null, guests: 0, merge: true });
       navigate("/scan/ingredients", { replace: true });
     } else {
       setScan({ ingredients: [...getScan().ingredients, ...added] });

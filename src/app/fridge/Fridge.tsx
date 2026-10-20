@@ -109,7 +109,7 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
   const scan = (source: ScanSource) => { setScan({ source }); openScan(); };
   // « Que cuisiner avec ? » : les produits passent dans « C'est bien ça ? », sans photo
   const cook = () => {
-    setScan({ source: "frigo", photo: null, ingredients: toIngredients(fridge), token: null, empty: false, guests: 0 });
+    setScan({ source: "frigo", photo: null, ingredients: toIngredients(fridge), token: null, empty: false, merge: true, guests: 0 });
     navigate("/scan/ingredients");
   };
   // Rien dedans : des plats quand même (Plus)

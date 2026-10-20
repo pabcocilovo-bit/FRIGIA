@@ -16,7 +16,7 @@ import { AppFrame } from "./app/AppFrame";
 import { Home } from "./app/Home";
 import { Courses } from "./app/Lists";
 import { MyKitchen } from "./app/fridge/Fridge";
-import { cookFrom, fromScan, fromShopping } from "./lib/fridge";
+import { cookFrom, fromList, fromScan, fromShopping } from "./lib/fridge";
 import { getScan } from "./app/scan/store";
 import { Planning } from "./app/plan/Planning";
 import { PlanNew } from "./app/plan/PlanNew";
@@ -343,8 +343,10 @@ return (
       <Route path="/scan/ingredients" element={<Ingredients isPlus={isPlus} household={household} avatar={avatarSrc} guide={guide === "ingr"} userId={user.id} />} />
       <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} onReady={e => {
         library.addScan(e);
-        // Le frigo prend ce que le scan a vu (pas un scan « frigo vide », qui n'a rien vu)
-        if (e.ingredients.length) home.setFridge(f => fromScan(f, e.ingredients, getScan().source));
+        // Le frigo prend ce que le scan a vu (pas un scan « frigo vide », qui n'a rien vu).
+        // Sans photo (« Que cuisiner avec ? », ingrédients tapés) : ajoutés, chacun garde sa place.
+        const s = getScan();
+        if (e.ingredients.length) home.setFridge(f => (s.merge ? fromList(f, e.ingredients) : fromScan(f, e.ingredients, s.source)));
       }} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
       <Route path="/recettes/:id" element={<Results history={history} isPlus={isPlus} household={household} week={home.week} onWeek={home.setWeek} onNewIdeas={updateScanRecipes} />} />
       <Route path="/recettes/:id/:n" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} fridge={home.fridge} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />

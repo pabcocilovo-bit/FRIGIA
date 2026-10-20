@@ -90,7 +90,7 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
     const r = await detectIngredients(photo, getScan().source);
     if (!alive.current) { busy.current = false; return; }
     if (r.status === "ok") {
-      setScan({ photo: url, ingredients: r.ingredients, token: r.token, guests: 0, empty: false });
+      setScan({ photo: url, ingredients: r.ingredients, token: r.token, guests: 0, empty: false, merge: false });
       setFound(r.ingredients);
       // Les pastilles apparaissent sur la photo, puis la liste
       setTimeout(() => {

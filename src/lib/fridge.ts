@@ -48,6 +48,17 @@ export function fromScan(f: Fridge, found: DetectedIngredient[], source: ScanSou
   return place === "frigo" ? { ...next, seen: Date.now() } : { ...next, seenPlacard: Date.now() };
 }
 
+/** Sans photo (« Que cuisiner avec ? », ingrédients tapés) : rien n'est remplacé. Déjà là : chaque produit garde sa place
+ *  et sa date, seuls la quantité et « À finir » suivent la liste vérifiée. Nouveau : ajouté, rangé d'après le nom. */
+export function fromList(f: Fridge, found: DetectedIngredient[]): Fridge {
+  const known = f.items.map(x => {
+    const a = found.find(i => same(i.name, x.name));
+    return a ? { ...x, qty: qtyOf(a.qty).trim() || x.qty, finish: a.finish || undefined } : x;
+  });
+  const fresh = found.filter(i => !f.items.some(x => same(x.name, i.name)));
+  return addItems({ ...f, items: known }, fresh.map(i => ({ name: i.name, qty: qtyOf(i.qty), finish: i.finish })), "scan");
+}
+
 /** Une course cochée entre dans le frigo ; décochée, elle en sort. Déjà là : les quantités s'additionnent
  *  (300 g + 200 g achetés = 500 g), et décochée, la quantité d'avant revient. */
 export function fromShopping(f: Fridge, shop: { id: string; name: string; qty: string; done: boolean }): Fridge {
