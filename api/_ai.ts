@@ -163,19 +163,48 @@ function extractFirstJSON(str: string): string | null {
   return null;
 }
 
-/** Photo du plat (Pexels), à partir de 2 mots en anglais. Sans clé ou sans résultat : pas de photo. */
+type PexelsPhoto = { alt?: string; src: { large: string } };
+
+async function searchPexels(key: string, words: string): Promise<PexelsPhoto[]> {
+  const r = await fetch(
+    `https://api.pexels.com/v1/search?query=${encodeURIComponent(`${words} food`)}&per_page=15&orientation=landscape`,
+    { headers: { Authorization: key } }
+  );
+  const d = await r.json() as { photos?: PexelsPhoto[] };
+  return d.photos || [];
+}
+
+/** La photo dont la description cite le plus de mots de la recherche, le type de plat comptant double. */
+function bestPhoto(photos: PexelsPhoto[], words: string[]): PexelsPhoto | undefined {
+  let best: PexelsPhoto | undefined;
+  let bestScore = 0;
+  for (const p of photos) {
+    const alt = (p.alt || "").toLowerCase();
+    const score = words.reduce((n, w, i) => n + (alt.includes(w) ? (i === words.length - 1 ? 2 : 1) : 0), 0);
+    if (score > bestScore) { best = p; bestScore = score; }
+  }
+  return best;
+}
+
+/** Photo du plat (Pexels), à partir de quelques mots en anglais ("mushroom pasta").
+ *  On garde la photo qui décrit vraiment le plat, sinon on cherche juste le type de plat.
+ *  Sans clé ou sans résultat : pas de photo. */
 export async function dishPhoto(imageSearch: string): Promise<string | undefined> {
   const pexelsKey = process.env.PEXELS_API_KEY;
-  if (!pexelsKey || !imageSearch) return undefined;
+  const words = imageSearch.toLowerCase().replace(/[^a-z\s]/g, " ").split(/\s+/).filter(w => w.length > 2);
+  if (!pexelsKey || !words.length) return undefined;
   try {
-    const query = `${imageSearch} food photography`;
-    const r = await fetch(
-      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=10&orientation=landscape`,
-      { headers: { Authorization: pexelsKey } }
-    );
-    const d = await r.json() as { photos?: { src: { large: string } }[] };
-    const photos = d.photos || [];
-    return (photos[1] || photos[0])?.src.large;
+    const photos = await searchPexels(pexelsKey, words.join(" "));
+    const found = bestPhoto(photos, words);
+    if (found) return found.src.large;
+    const dish = words[words.length - 1];
+    if (words.length > 1) {
+      const more = await searchPexels(pexelsKey, dish);
+      const again = bestPhoto(more, [dish]);
+      if (again) return again.src.large;
+      if (more[0]) return more[0].src.large;
+    }
+    return photos[0]?.src.large;
   } catch {
     return undefined;
   }

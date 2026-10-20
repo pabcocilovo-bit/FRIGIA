@@ -97,8 +97,8 @@ export async function fetchTheMealImage(query: string): Promise<string | null> {
   };
   const url = await trySearch(query);
   if (url) return url;
-  // Fallback: try just the first keyword
-  const firstWord = query.split(" ")[0];
-  if (firstWord && firstWord !== query) return trySearch(firstWord);
+  // Sinon, juste le type de plat (le dernier mot : "mushroom pasta" → "pasta")
+  const dish = query.trim().split(/\s+/).pop();
+  if (dish && dish !== query) return trySearch(dish);
   return null;
 }
