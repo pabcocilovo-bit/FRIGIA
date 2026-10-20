@@ -44,39 +44,47 @@ export default async function handler(req: Req, res: Res) {
     return res.status(status).json(body);
   };
 
-  const what = SOURCES[source ?? ""] ?? SOURCES.frigo;
-  const ticket = source === "ticket";
-  const answer = await askClaude<Answer>([
-    {
-      type: "text",
-      text: `Voici ${what}. Liste les aliments qu'on peut cuisiner (pas les boissons alcoolisées, pas les produits ménagers).
+  const chosen = source && source in SOURCES ? source : "frigo";
+  const media = SUPPORTED_TYPES.includes(mediaType ?? "") ? mediaType! : "image/jpeg";
+  const ask = async (src: string) => {
+    const ticket = src === "ticket";
+    const answer = await askClaude<Answer>([
+      {
+        type: "text",
+        text: `Voici ${SOURCES[src]}. Liste les produits alimentaires qu'on y voit, frais ou en paquet : légumes, viandes, laitages, pâtes, conserves, mais aussi biscuits, gâteaux, chocolat, chips ou bonbons (pas les boissons alcoolisées, pas les produits ménagers).
 Pour chaque aliment :
 - "name" : son nom en français, court, avec une majuscule, au pluriel s'il y en a plusieurs ("Courgettes", "Tomates cerises", "Lait").
 - "qty" : la quantité, très courte ("3", "2 barquettes", "1 bouteille", "500 g"). Compte ce qui se compte (fruits, légumes, œufs, pots). Sinon estime d'après la taille de l'emballage ("1 paquet", "environ 200 g"). Chaîne vide seulement si rien ne permet de le dire.
 ${ticket ? "" : `- "x" et "y" : la position du centre de l'aliment sur la photo, en pourcentage de la largeur et de la hauteur (0 à 100).\n`}Regroupe les doublons. 20 aliments au plus, les plus utiles pour cuisiner d'abord.
-Si la photo ne permet pas de repérer d'aliment, renvoie une liste vide et "problem" : "floue" (photo floue ou bougée), "sombre" (trop sombre) ou "vide" (rien à cuisiner sur la photo).
+Si la photo ne permet pas de repérer d'aliment, renvoie une liste vide et "problem" : "floue" (photo floue ou bougée), "sombre" (trop sombre) ou "vide" (aucun aliment sur la photo).
 "seen" : ce que montre vraiment la photo, quoi qu'on t'ait annoncé : "frigo" (l'intérieur d'un frigo), "placard" (un placard, une étagère ou un garde-manger), "ticket" (un ticket de caisse) ou "autre".
-JSON uniquement : {"ingredients":[{"name":"Courgettes","qty":"3"${ticket ? "" : ',"x":42,"y":61'}}],"problem":null,"seen":"${source && SOURCES[source] ? source : "frigo"}"}`,
-    },
-    { type: "image", source: { type: "base64", media_type: SUPPORTED_TYPES.includes(mediaType ?? "") ? mediaType! : "image/jpeg", data: imageBase64 } },
-  ], 1200);
+JSON uniquement : {"ingredients":[{"name":"Courgettes","qty":"3"${ticket ? "" : ',"x":42,"y":61'}}],"problem":null,"seen":"${src}"}`,
+      },
+      { type: "image", source: { type: "base64", media_type: media, data: imageBase64 } },
+    ], 1200);
+    if (!answer.ok) return null;
+    const ingredients = (answer.json?.ingredients ?? [])
+      .filter(i => typeof i?.name === "string" && i.name.trim())
+      .slice(0, 20)
+      .map(i => ({
+        name: String(i.name).trim().slice(0, 60),
+        qty: typeof i.qty === "string" ? i.qty.trim().slice(0, 30) : "",
+        x: ticket ? undefined : pct(i.x),
+        y: ticket ? undefined : pct(i.y),
+      }));
+    const seen = typeof answer.json?.seen === "string" && answer.json.seen in SOURCES ? answer.json.seen : null;
+    const p = String(answer.json?.problem);
+    return { ingredients, seen, problem: PROBLEMS.includes(p) ? p : "floue" };
+  };
 
-  if (!answer.ok) return fail(502, { error: "Service IA temporairement indisponible." });
-  const ingredients = (answer.json?.ingredients ?? [])
-    .filter(i => typeof i?.name === "string" && i.name.trim())
-    .slice(0, 20)
-    .map(i => ({
-      name: String(i.name).trim().slice(0, 60),
-      qty: typeof i.qty === "string" ? i.qty.trim().slice(0, 30) : "",
-      x: ticket ? undefined : pct(i.x),
-      y: ticket ? undefined : pct(i.y),
-    }));
-  if (ingredients.length === 0) {
-    const p = answer.json?.problem;
-    return fail(422, { error: "Photo illisible", code: "unclear", problem: PROBLEMS.includes(String(p)) ? p : "floue" });
+  let found = await ask(chosen);
+  if (!found) return fail(502, { error: "Service IA temporairement indisponible." });
+  // La photo ne montre pas ce qui a été choisi (un placard pris en mode Frigo…) : l'appli range au bon endroit.
+  // Rien trouvé avec le mauvais mode : on relit la photo avec le bon.
+  const seen = found.seen && found.seen !== chosen ? found.seen : undefined;
+  if (seen && found.ingredients.length === 0) found = (await ask(seen)) ?? found;
+  if (found.ingredients.length === 0) {
+    return fail(422, { error: "Photo illisible", code: "unclear", problem: found.problem, ...(seen ? { seen } : {}) });
   }
-
-  // La photo ne montre pas ce qui a été choisi (un placard pris en mode Frigo…) : l'appli range au bon endroit
-  const seen = typeof answer.json?.seen === "string" && answer.json.seen in SOURCES && answer.json.seen !== (source ?? "frigo") ? answer.json.seen : undefined;
-  res.json({ ingredients, scansLeft, token: scanToken(user.id), ...(seen ? { seen } : {}) });
+  res.json({ ingredients: found.ingredients, scansLeft, token: scanToken(user.id), ...(seen ? { seen } : {}) });
 }

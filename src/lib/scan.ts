@@ -45,7 +45,7 @@ type Failure =
 
 export type IngredientsResult =
   | { status: "ok"; ingredients: ScanIngredient[]; token: string | null; scansLeft: number | null; /** La photo montre autre chose que le mode choisi */ seen?: ScanSource }
-  | { status: "unclear"; problem: Problem }   // photo illisible : le scan n'est pas décompté
+  | { status: "unclear"; problem: Problem; seen?: ScanSource }   // photo illisible : le scan n'est pas décompté
   | Failure;
 
 export type RecipesResult =
@@ -77,6 +77,9 @@ async function failure(response: Response | null, data: Record<string, unknown>)
   return { status: "error", rate: response?.status === 429 };
 }
 
+/** La photo montre autre chose que le mode choisi (un placard pris en mode Frigo…) */
+const seenOf = (v: unknown): { seen?: ScanSource } => (v === "frigo" || v === "placard" || v === "ticket" ? { seen: v } : {});
+
 /** Scan, 1re partie : la photo devient une liste d'ingrédients. En Gratuit, c'est là que le scan est compté. */
 export async function detectIngredients(file: Blob, source: ScanSource): Promise<IngredientsResult> {
   const image = await compressImage(file).catch(() => null);
@@ -85,7 +88,7 @@ export async function detectIngredients(file: Blob, source: ScanSource): Promise
   const { response, data } = await post("/api/ingredients", { imageBase64, mediaType, source });
   if (response?.status === 422 && data.code === "unclear") {
     const p = data.problem;
-    return { status: "unclear", problem: p === "sombre" || p === "vide" ? p : "floue" };
+    return { status: "unclear", problem: p === "sombre" || p === "vide" ? p : "floue", ...seenOf(data.seen) };
   }
   if (!response?.ok) return failure(response, data);
   const ingredients = (Array.isArray(data.ingredients) ? data.ingredients : []) as ScanIngredient[];
@@ -94,7 +97,7 @@ export async function detectIngredients(file: Blob, source: ScanSource): Promise
     ingredients: ingredients.map(i => ({ name: String(i.name), qty: String(i.qty ?? ""), x: i.x ?? undefined, y: i.y ?? undefined })),
     token: typeof data.token === "string" ? data.token : null,
     scansLeft: typeof data.scansLeft === "number" ? data.scansLeft : null,
-    ...(data.seen === "frigo" || data.seen === "placard" || data.seen === "ticket" ? { seen: data.seen as ScanSource } : {}),
+    ...seenOf(data.seen),
   };
 }
 

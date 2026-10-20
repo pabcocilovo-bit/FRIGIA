@@ -8,6 +8,8 @@ import { setScan, useScan } from "./store";
 import "./scan.css";
 
 const WHAT = { frigo: "ton frigo", placard: "ton placard", ticket: "ton ticket" };
+const SEEN = { frigo: "ton frigo", placard: "un placard", ticket: "un ticket de caisse" };
+const MODE = { frigo: "Frigo", placard: "Placard", ticket: "Ticket de caisse" };
 const WHY = { floue: "La photo est un peu floue.", sombre: "La photo est un peu sombre.", vide: "On n'a pas trouvé d'aliment sur la photo." };
 
 export function ScanFail({ isPlus }: { isPlus: boolean }) {
@@ -31,6 +33,8 @@ export function ScanFail({ isPlus }: { isPlus: boolean }) {
         </div>
         <h2>On n'a pas bien vu <em>{WHAT[scan.source]}</em></h2>
         <p>{WHY[scan.problem]} Pas de panique : <b>ce scan n'est pas décompté.</b></p>
+        {/* Photo d'un placard prise en mode Frigo (ou l'inverse) : la caméra repart sur le bon mode */}
+        {scan.switched && <p>On dirait {SEEN[scan.source]} : la caméra passe en mode {MODE[scan.source]}.</p>}
         <ul className="sf-tips">
           <li><span><Icon name="flash" /></span><div><b>Plus de lumière</b>Allume la cuisine ou le flash</div></li>
           <li><span><Icon name="cam" /></span><div><b>Recule d'un pas</b>Toutes les étagères dans le cadre</div></li>
