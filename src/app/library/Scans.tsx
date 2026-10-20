@@ -1,13 +1,14 @@
 // 1 bis · Tes scans (prototype V3) : cette semaine, la semaine dernière, puis mois par mois.
 // En Gratuit, les scans de plus de 7 jours sont floutés et ouvrent « Passe à Plus ».
 // Chaque scan dit ce qui a été cuisiné (« J'ai cuisiné ça » du mode cuisine) ; les onglets trient cuisinés et pas cuisinés.
+// Écart maquette : une croix supprime un scan, après confirmation (demandé par Hugo le 20 octobre).
 import { Fragment, useState } from "react";
 import { useNavigate } from "react-router";
 import type { CookedMeal } from "../../lib/cooked";
 import { MAX_HISTORY } from "../../lib/library";
 import type { HistoryEntry } from "../../lib/types";
 import { ArtFridge } from "../../ui/art";
-import { EmptyState, Icon, LockPill, Pill, RoundButton, ScreenHeader } from "../../ui/components";
+import { Dialog, EmptyState, Icon, LockPill, Pill, RoundButton, ScreenHeader, TextLink } from "../../ui/components";
 import { AppTabBar } from "../AppTabBar";
 import { daysAgo, plural, scanDateLine, scanDayTitle, scanGroup } from "../format";
 import { useBack } from "../nav";
@@ -44,9 +45,10 @@ function ScanCard({ entry, cooked, first, locked, old, onClick }: {
 
 type Tab = "" | "cook" | "todo";
 
-export function Scans({ history, cooked, isPlus }: { history: HistoryEntry[]; cooked: CookedMeal[]; isPlus: boolean }) {
+export function Scans({ history, cooked, isPlus, onDelete }: { history: HistoryEntry[]; cooked: CookedMeal[]; isPlus: boolean; onDelete: (id: string) => void }) {
   const back = useBack();
   const [tab, setTab] = useState<Tab>("");
+  const [del, setDel] = useState<HistoryEntry | null>(null);
   const navigate = useNavigate();
   const openScan = useOpenScan();
   const openPaywall = useOpenPaywall();
@@ -109,8 +111,11 @@ export function Scans({ history, cooked, isPlus }: { history: HistoryEntry[]; co
                         <LockPill /><span><b>Retrouve tous tes scans</b>En gratuit, tu vois ceux des 7 derniers jours.</span>
                       </button>
                     )}
-                    <ScanCard entry={e} cooked={cookedOf.get(e.id)} first={e.id === oldestId} old={old} locked={locked}
-                      onClick={() => (locked ? openPaywall("historique", "/scans") : navigate(`/recettes/${e.id}`))} />
+                    <div className="hs-item">
+                      <ScanCard entry={e} cooked={cookedOf.get(e.id)} first={e.id === oldestId} old={old} locked={locked}
+                        onClick={() => (locked ? openPaywall("historique", "/scans") : navigate(`/recettes/${e.id}`))} />
+                      <button type="button" className="hs-del" aria-label={`Supprimer le scan ${scanDayTitle(e.date, e.meal)}`} onClick={() => setDel(e)}><Icon name="x" /></button>
+                    </div>
                   </Fragment>
                 );
               })}
@@ -118,6 +123,11 @@ export function Scans({ history, cooked, isPlus }: { history: HistoryEntry[]; co
           ))}
         </div>
       )}
+      <Dialog open={!!del} onClose={() => setDel(null)} icon="trash" title={<>Supprimer ce <em>scan ?</em></>} label="Supprimer ce scan">
+        <p>Ses ingrédients et ses idées de recettes sont effacés. Tes favoris et ce que tu as cuisiné restent.</p>
+        <Pill block tone="danger" onClick={() => { if (del) onDelete(del.id); setDel(null); }}>Supprimer</Pill>
+        <TextLink onClick={() => setDel(null)}>Annuler</TextLink>
+      </Dialog>
       <AppTabBar active="home" isPlus={isPlus} />
     </div>
   );
