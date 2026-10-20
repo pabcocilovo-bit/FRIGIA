@@ -26,7 +26,7 @@ const ENVIES: Record<string, string> = {
   proteine: "riches en protéines (viande, poisson, œufs, légumineuses)",
   gourmand: "généreuses et réconfortantes",
   enfants: "qui plaisent aux enfants : simples, douces, pas épicées",
-  gaspi: "anti-gaspi : elles utilisent le plus possible d'ingrédients disponibles, d'abord ceux qui s'abîment vite",
+  gaspi: "anti-gaspi : elles utilisent d'abord les ingrédients disponibles qui s'abîment vite, sans forcer ceux qui ne vont pas avec le plat",
 };
 const MEALS: Record<string, string> = {
   m: "le déjeuner de ce midi. Au moins une recette doit pouvoir se manger froide (à emporter)",
@@ -101,7 +101,7 @@ export default async function handler(req: Req, res: Res) {
     empty && !list.length
       ? "Le frigo est vide : rien de frais à la maison."
       : `Ingrédients disponibles : ${list.map(i => (i.qty ? `${i.name} (${i.qty})` : i.name)).join(", ")}.`,
-    finish.length ? `À FINIR EN PRIORITÉ (ils vont se perdre) : ${finish.join(", ")}. Chaque recette en utilise au moins un, et le plus possible.` : "",
+    finish.length ? `À FINIR EN PRIORITÉ (ils vont se perdre) : ${finish.join(", ")}. Chaque recette en utilise au moins un, s'il va avec le plat.` : "",
     body.pantry || empty
       ? "Le placard a aussi : pâtes, riz, huile, ail, épices, sel, poivre, farine, sucre. Ils comptent comme disponibles."
       : "Seuls sel, poivre et eau sont disponibles en plus de la liste.",
@@ -112,6 +112,7 @@ export default async function handler(req: Req, res: Res) {
       ? "Des plats simples et sans gâchis, faits surtout avec le placard. Chaque recette demande au plus 4 ingrédients à acheter, faciles à trouver au supermarché. Les 3 recettes partagent le plus possible les mêmes achats."
       : "Utilise surtout ce qui est disponible. Une recette peut demander 1 ou 2 ingrédients à acheter, pas plus.",
     "Des recettes qui existent vraiment et qu'on a envie de manger : n'associe que des ingrédients qui vont bien ensemble. Mieux vaut laisser un ingrédient de côté qu'inventer un mélange étrange.",
+    "N'UTILISE PAS TOUT LE FRIGO : chaque recette prend seulement 3 à 6 ingrédients disponibles qui vont ensemble, pas toute la liste. Les 3 recettes se partagent le frigo : un ingrédient peut n'apparaître dans aucune. Ne mélange jamais sucré et salé (pas de pain au chocolat, viennoiserie, biscuit, yaourt sucré, confiture ou dessert dans un plat salé).",
     "UNE SEULE BASE PAR PLAT : jamais deux féculents principaux ensemble (pas de pâtes avec des gnocchis, pas de riz avec des pommes de terre, pas de pâtes avec du pain). Un produit tout prêt (gnocchis à la sauce, pâtes farcies, raviolis, plat cuisiné) est la base du plat à lui seul : on le complète avec des légumes, une protéine ou une garniture, jamais avec un autre produit tout prêt ni un autre féculent.",
     `VARIÉTÉ : ${count} plats de types différents (pas deux plats de pâtes, pas deux poêlées, pas deux omelettes), avec des bases différentes (pâtes, riz, pommes de terre, pain, légumineuses, œufs…). ${count > 2 ? "Au moins 2 recettes" : "Au moins 1 recette"} sont des plats du quotidien qu'on connaît en France. La dernière peut venir d'ailleurs : aujourd'hui, inspire-toi de la cuisine ${style} si les ingrédients s'y prêtent.`,
     lines.length ? `PRÉFÉRENCES (à respecter) :\n${lines.join("\n")}` : "",
