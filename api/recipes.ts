@@ -15,9 +15,31 @@ type Body = {
 };
 type RawItem = { name?: unknown; plural?: unknown; qty?: unknown; unit?: unknown; have?: unknown };
 type RawStep = { text?: unknown; timer?: { label?: unknown; min?: unknown } | null } | string;
+
+/** Ingrédients et étapes lisibles d'une recette de l'IA, ou null s'il en manque (moins de 2 de chaque). */
+function parse(r: RawRecipe | null | undefined) {
+  if (!r || !str(r.title, 80)) return null;
+  const items = (Array.isArray(r.ingredients) ? r.ingredients : [])
+    .map(i => (typeof i === "string" ? { name: i } : i))
+    .filter(i => str(i?.name, 60)).map(i => ({
+      name: str(i.name, 60),
+      plural: str(i.plural, 60) || str(i.name, 60),
+      qty: num(i.qty),
+      unit: str(i.unit, 20),
+      have: i.have !== false,
+    }));
+  const steps = (Array.isArray(r.steps) ? r.steps : []).map(s => (typeof s === "string" ? { text: s, timer: null } : s))
+    .filter(s => str(s?.text, 400))
+    .map(s => {
+      const min = num(s.timer?.min);
+      return { text: str(s.text, 400), timer: min ? { label: str(s.timer?.label, 30) || "Minuteur", min: Math.round(min) } : null };
+    });
+  if (items.length < 2 || steps.length < 2) return null;
+  return { r, title: str(r.title, 80), items, steps };
+}
 type RawRecipe = {
   title?: unknown; intro?: unknown; minutes?: unknown; calories?: unknown; difficulty?: unknown; imageSearch?: unknown;
-  veg?: unknown; oven?: unknown; cold?: unknown; kids?: unknown; missing?: unknown; origin?: unknown; ingredients?: RawItem[]; steps?: RawStep[];
+  veg?: unknown; oven?: unknown; cold?: unknown; kids?: unknown; missing?: unknown; origin?: unknown; ingredients?: (RawItem | string)[]; steps?: RawStep[];
 };
 
 const ENVIES: Record<string, string> = {
@@ -131,26 +153,23 @@ export default async function handler(req: Req, res: Res) {
     `JSON uniquement : {"recipes":[{"title":"Penne aux légumes rôtis","intro":"Les légumes rôtissent pendant que les pâtes cuisent.","minutes":25,"calories":540,"difficulty":"Facile","imageSearch":"vegetable pasta","origin":"","veg":true,"oven":true,"cold":false,"ingredients":[{"name":"penne","plural":"penne","qty":200,"unit":"g","have":true},{"name":"courgette","plural":"courgettes","qty":1,"unit":"","have":true},{"name":"parmesan","plural":"parmesan","qty":30,"unit":"g","have":false}],"missing":"le parmesan","steps":[{"text":"Préchauffe le four à 220 °C. Coupe la courgette en gros morceaux.","timer":null},{"text":"Enfourne les légumes avec un filet d'huile.","timer":{"label":"Four","min":20}}]}]}`,
   ].filter(Boolean).join("\n");
 
-  const answer = await askClaude<{ recipes?: RawRecipe[] }>([{ type: "text", text: prompt }], 4000);
-  if (!answer.ok) return fail(502, "Service IA temporairement indisponible.");
-  const raw = (answer.json?.recipes ?? []).filter(r => str(r?.title, 80)).slice(0, count);
+  // Une recette sans ses ingrédients ou ses étapes (réponse de l'IA incomplète) n'est jamais montrée :
+  // on redemande une fois les recettes qui manquent.
+  const ask = async () => {
+    const answer = await askClaude<{ recipes?: RawRecipe[] }>([{ type: "text", text: prompt }], 4000);
+    return answer.ok ? (answer.json?.recipes ?? []).map(parse).filter(r => r !== null) : null;
+  };
+  const first = await ask();
+  if (!first) return fail(502, "Service IA temporairement indisponible.");
+  let raw = first.slice(0, count);
+  if (raw.length < count) {
+    const again = (await ask()) ?? [];
+    raw = [...raw, ...again.filter(r => !raw.some(o => norm(o.title) === norm(r.title)))].slice(0, count);
+  }
   if (raw.length === 0) return fail(500, "Réponse IA invalide.");
 
-  const recipes = await Promise.all(raw.map(async r => {
+  const recipes = await Promise.all(raw.map(async ({ r, items, steps }) => {
     const imageSearch = str(r.imageSearch, 40) || str(r.title, 80);
-    const items = (Array.isArray(r.ingredients) ? r.ingredients : []).filter(i => str(i?.name, 60)).map(i => ({
-      name: str(i.name, 60),
-      plural: str(i.plural, 60) || str(i.name, 60),
-      qty: num(i.qty),
-      unit: str(i.unit, 20),
-      have: i.have !== false,
-    }));
-    const steps = (Array.isArray(r.steps) ? r.steps : []).map(s => (typeof s === "string" ? { text: s, timer: null } : s))
-      .filter(s => str(s?.text, 400))
-      .map(s => {
-        const min = num(s.timer?.min);
-        return { text: str(s.text, 400), timer: min ? { label: str(s.timer?.label, 30) || "Minuteur", min: Math.round(min) } : null };
-      });
     return {
       title: str(r.title, 80),
       intro: str(r.intro, 300),
