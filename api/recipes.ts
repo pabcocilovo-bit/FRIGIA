@@ -54,6 +54,7 @@ const MEALS: Record<string, string> = {
   m: "le déjeuner de ce midi. Au moins une recette doit pouvoir se manger froide (à emporter)",
   s: "le dîner de ce soir",
   w: "plusieurs repas de la semaine. Des recettes qui se gardent bien. Classe-les dans l'ordre où les cuisiner : d'abord celle qui utilise les produits qui s'abîment le plus vite",
+  d: "le dessert. UNIQUEMENT DU SUCRÉ (gâteau, crème, tarte, fruits, crêpes…), jamais de plat salé. Les ingrédients salés de la liste (viande, poisson, légumes, fromages forts) sont ignorés",
 };
 // Pour varier : une recette sur trois peut s'inspirer d'une cuisine tirée au sort (les deux autres restent du quotidien)
 const STYLES = ["italienne", "espagnole", "grecque", "libanaise", "marocaine", "indienne", "thaïlandaise", "japonaise", "mexicaine",

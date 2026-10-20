@@ -44,7 +44,7 @@ export async function loadHistoryFromSupabase(userId: string): Promise<HistoryEn
     ingredients: row.ingredients || [],
     recipes: row.recipes || [],
     servings: row.servings || 2,
-    meal: row.meal === "m" || row.meal === "s" || row.meal === "w" ? row.meal : undefined,
+    meal: row.meal === "m" || row.meal === "s" || row.meal === "w" || row.meal === "d" ? row.meal : undefined,
   }));
 }
 

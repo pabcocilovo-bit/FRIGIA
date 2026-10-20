@@ -34,7 +34,7 @@ function Who({ household, avatar }: { household: Person[]; avatar: string | null
   const g = scan.guests;
   const eaters = eatersOf(household, scan);
   const toggle = (id: string) => setScan({ away: scan.away.includes(id) ? scan.away.filter(x => x !== id) : [...scan.away, id] });
-  const when = scan.meal === "m" ? "ce midi" : scan.meal === "w" ? "cette semaine" : "ce soir";
+  const when = scan.meal === "m" ? "ce midi" : scan.meal === "w" ? "cette semaine" : scan.meal === "d" ? "pour le dessert" : "ce soir";
   return (
     <div className="opt">
       <span className="label">{MEAL_WORDS[scan.meal].qui}</span>

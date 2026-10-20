@@ -14,7 +14,8 @@ import "./scan.css";
 const FOR: [Meal, string, string][] = [
   ["m", "Ce midi", "Des idées pour ce midi"],
   ["s", "Ce soir", "Des idées pour ce soir"],
-  ["w", "La semaine", "Des idées pour remplir ta semaine"],
+  ["w", "Semaine", "Des idées pour remplir ta semaine"],
+  ["d", "Dessert", "Des idées sucrées pour le dessert"],
 ];
 const MODES: [ScanSource, string][] = [["frigo", "Frigo"], ["placard", "Placard"], ["ticket", "Ticket de caisse"]];
 

@@ -43,7 +43,7 @@ export type GeneratedRecipe = {
   savedServings?: number;
 };
 /** Pour quel repas : ce midi, ce soir, la semaine. */
-export type Meal = "m" | "s" | "w";
+export type Meal = "m" | "s" | "w" | "d";
 export type HistoryEntry = {
   id: string;
   date: Date;

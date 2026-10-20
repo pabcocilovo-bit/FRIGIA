@@ -96,7 +96,7 @@ export function Results({ history, isPlus, household, week, onWeek, onNewIdeas }
   if (!entry) return <Navigate to="/" replace />;
 
   const meal = entry.meal ?? "s";
-  const filters: [Filter, string][] = [["all", "Toutes"], ["quick", "Moins de 20 min"], ["veg", "Végé"], meal === "m" ? ["cold", "Se mange froid"] : ["oven", "Sans four"]];
+  const filters: [Filter, string][] = [["all", "Toutes"], ["quick", "Moins de 20 min"], ["veg", "Végé"], meal === "m" || meal === "d" ? ["cold", "Se mange froid"] : ["oven", "Sans four"]];
   const keep = (r: GeneratedRecipe) =>
     filter === "quick" ? minutesOf(r) < 20 : filter === "veg" ? !!r.veg : filter === "oven" ? r.oven === false : filter === "cold" ? !!r.cold : true;
   const shown = entry.recipes.map((r, i) => ({ r, i })).filter(x => keep(x.r));
@@ -137,7 +137,7 @@ export function Results({ history, isPlus, household, week, onWeek, onNewIdeas }
         </div>
         <div>
           <span className="label">{n ? `${n} ingrédient${n > 1 ? "s" : ""}` : "Frigo vide"} · {srvLabel(isPlus, entry.servings)}</span>
-          <h2>{meal === "w" ? <>Des idées pour <em>ta semaine</em></> : <>Trois idées pour <em>{meal === "m" ? "ce midi" : "ce soir"}</em></>}</h2>
+          <h2>{meal === "w" ? <>Des idées pour <em>ta semaine</em></> : meal === "d" ? <>Trois idées de <em>dessert</em></> : <>Trois idées pour <em>{meal === "m" ? "ce midi" : "ce soir"}</em></>}</h2>
         </div>
         <div className="chips">
           {filters.map(([f, label]) => <Chip key={f} ongreen on={filter === f} onClick={() => setFilter(f)}>{label}</Chip>)}

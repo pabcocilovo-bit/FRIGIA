@@ -96,9 +96,10 @@ export const SHORT_MONTHS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "
 const hm = (d: Date) => `${d.getHours()} h ${String(d.getMinutes()).padStart(2, "0")}`;
 
 /** « Lundi soir », « Dimanche midi » ; un scan pour la semaine : « Lundi, pour la semaine ». */
-export function scanDayTitle(date: Date, meal?: "m" | "s" | "w"): string {
+export function scanDayTitle(date: Date, meal?: "m" | "s" | "w" | "d"): string {
   const day = DAYS[date.getDay()];
   if (meal === "w") return `${day}, pour la semaine`;
+  if (meal === "d") return `${day}, pour le dessert`;
   return `${day} ${meal === "m" || (!meal && date.getHours() < 15) ? "midi" : "soir"}`;
 }
 
