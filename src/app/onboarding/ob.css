@@ -128,6 +128,7 @@ body:has(.ob-screen){background:#EFE3D0}
 .fa .ob-note{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);padding:4px 4px 0}
 .fa .ob-note svg{width:17px;height:17px;flex:none;color:var(--sage);margin-top:1px}
 .fa .ob-note b{color:var(--sage-deep);font-weight:600}
+.fa .ob-inline{font:inherit;color:var(--sage-deep);font-weight:600;text-decoration:underline;padding:0;background:none;border:0;cursor:pointer}
 /* Ton Frigia est prêt */
 .fa.scr-ready{background:var(--sage);color:var(--on)}
 .fa.scr-ready .ob-head{box-shadow:none;padding-bottom:0}

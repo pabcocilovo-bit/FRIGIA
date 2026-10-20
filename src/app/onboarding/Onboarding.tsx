@@ -525,6 +525,8 @@ export function VerifyEmail() {
           <button type="button" onClick={() => navigate("/compte/email")}>Changer d'email</button>
         </div>
         <p className="ob-note"><Icon name="mail" /><span>Rien reçu ? Regarde dans les spams ou l'onglet Promotions.</span></p>
+        {/* Adresse déjà inscrite : Supabase n'envoie aucun code et ne le dit pas toujours */}
+        <p className="ob-note"><Icon name="user" /><span>Déjà un compte avec cet email ? <button type="button" className="ob-inline" onClick={() => navigate("/connexion")}>Connecte-toi</button></span></p>
         {widget}
       </div></div>
     </Screen>
