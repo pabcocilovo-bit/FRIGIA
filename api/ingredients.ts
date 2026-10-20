@@ -6,7 +6,7 @@ import { askClaude, checkRateLimit, refundFreeScan, scanToken, SUPPORTED_TYPES, 
 
 type Body = { imageBase64?: string; mediaType?: string; source?: string };
 type RawIngredient = { name?: unknown; qty?: unknown; x?: unknown; y?: unknown };
-type Answer = { ingredients?: RawIngredient[]; problem?: unknown };
+type Answer = { ingredients?: RawIngredient[]; problem?: unknown; seen?: unknown };
 
 const SOURCES: Record<string, string> = {
   frigo: "une photo de l'intérieur d'un frigo",
@@ -55,7 +55,8 @@ Pour chaque aliment :
 - "qty" : la quantité, très courte ("3", "2 barquettes", "1 bouteille", "500 g"). Compte ce qui se compte (fruits, légumes, œufs, pots). Sinon estime d'après la taille de l'emballage ("1 paquet", "environ 200 g"). Chaîne vide seulement si rien ne permet de le dire.
 ${ticket ? "" : `- "x" et "y" : la position du centre de l'aliment sur la photo, en pourcentage de la largeur et de la hauteur (0 à 100).\n`}Regroupe les doublons. 20 aliments au plus, les plus utiles pour cuisiner d'abord.
 Si la photo ne permet pas de repérer d'aliment, renvoie une liste vide et "problem" : "floue" (photo floue ou bougée), "sombre" (trop sombre) ou "vide" (rien à cuisiner sur la photo).
-JSON uniquement : {"ingredients":[{"name":"Courgettes","qty":"3"${ticket ? "" : ',"x":42,"y":61'}}],"problem":null}`,
+"seen" : ce que montre vraiment la photo, quoi qu'on t'ait annoncé : "frigo" (l'intérieur d'un frigo), "placard" (un placard, une étagère ou un garde-manger), "ticket" (un ticket de caisse) ou "autre".
+JSON uniquement : {"ingredients":[{"name":"Courgettes","qty":"3"${ticket ? "" : ',"x":42,"y":61'}}],"problem":null,"seen":"${source && SOURCES[source] ? source : "frigo"}"}`,
     },
     { type: "image", source: { type: "base64", media_type: SUPPORTED_TYPES.includes(mediaType ?? "") ? mediaType! : "image/jpeg", data: imageBase64 } },
   ], 1200);
@@ -75,5 +76,7 @@ JSON uniquement : {"ingredients":[{"name":"Courgettes","qty":"3"${ticket ? "" : 
     return fail(422, { error: "Photo illisible", code: "unclear", problem: PROBLEMS.includes(String(p)) ? p : "floue" });
   }
 
-  res.json({ ingredients, scansLeft, token: scanToken(user.id) });
+  // La photo ne montre pas ce qui a été choisi (un placard pris en mode Frigo…) : l'appli range au bon endroit
+  const seen = typeof answer.json?.seen === "string" && answer.json.seen in SOURCES && answer.json.seen !== (source ?? "frigo") ? answer.json.seen : undefined;
+  res.json({ ingredients, scansLeft, token: scanToken(user.id), ...(seen ? { seen } : {}) });
 }

@@ -4,7 +4,7 @@
 import { useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { Chip, Chips, Icon, LockPill, RoundButton } from "../../ui/components";
-import type { Envie } from "../../lib/scan";
+import type { Envie, ScanSource } from "../../lib/scan";
 import { type Person, whoNote, whoParts } from "../../lib/household";
 import { useOpenPaywall } from "../plus/subscription";
 import { getScan, MAX_GUESTS, MEAL_WORDS, setScan, useScan } from "./store";
@@ -15,6 +15,14 @@ import "../fridge/fridge.css";
 import { INGR_GUIDE, setGuideState } from "./guideSteps";
 import { eatersOf, portions, srvLabel } from "./portions";
 import "./scan.css";
+
+// La photo ne montrait pas ce qui était choisi : où vont les produits, et « C'était bien… » pour revenir au choix de départ
+const SEEN: Record<ScanSource, string> = {
+  frigo: "On dirait ton frigo : ces produits iront dans le frigo de Ma cuisine.",
+  placard: "On dirait un placard : ces produits iront dans tes placards, pas dans le frigo.",
+  ticket: "On dirait un ticket de caisse : ces produits s'ajoutent à Ma cuisine, sans rien remplacer.",
+};
+const WAS: Record<ScanSource, string> = { frigo: "C'était bien le frigo", placard: "C'était bien un placard", ticket: "C'était bien un ticket" };
 
 const ENVIES: [Envie, string][] = [["rapide", "Rapide"], ["healthy", "Healthy"], ["proteine", "Protéiné"], ["gourmand", "Gourmand"], ["enfants", "Enfants"], ["gaspi", "Anti-gaspi"]];
 
@@ -90,6 +98,12 @@ export function Ingredients({ isPlus, household, avatar, guide, userId }: {
           <span className="label">{n} ingrédient{n > 1 ? "s" : ""} {scan.token ? "trouvé" : "ajouté"}{n > 1 ? "s" : ""}</span>
           <h2>C'est bien <em>ça&nbsp;?</em></h2>
           <p>Retire ce qui n'y est plus, ajoute ce qui manque, et marque ce qui est à finir vite. Touche un nom ou une quantité pour le changer.</p>
+          {scan.switched && !scan.merge && (
+            <div className="seen" role="status">
+              <Icon name="eye" /><span>{SEEN[scan.source]}</span>
+              <button type="button" onClick={() => setScan({ source: scan.switched!, switched: null })}>{WAS[scan.switched]}</button>
+            </div>
+          )}
         </div>
         <div className="scroll">
           <div className="ingr-body">

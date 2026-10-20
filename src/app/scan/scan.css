@@ -65,6 +65,10 @@ body:has(.scan-screen){background:#EFE3D0}
 .fa .ingr-gh h2{font:400 30px/1.05 var(--sans);letter-spacing:-.02em;margin:0}
 .fa .ingr-gh h2 em{font:400 italic 34px/1 var(--serif);letter-spacing:0}
 .fa .ingr-gh p{margin:0;font-size:14px;opacity:.85}
+/* La photo montrait autre chose que le mode choisi (un placard en mode Frigo…) */
+.fa .ingr-gh .seen{display:grid;grid-template-columns:20px 1fr;gap:4px 10px;align-items:start;margin-top:6px;padding:12px 14px;border-radius:16px;background:var(--on);color:var(--sage-deep);font-size:13.5px;line-height:1.35}
+.fa .ingr-gh .seen .i{width:20px;height:20px}
+.fa .ingr-gh .seen button{grid-column:2;justify-self:start;font:600 13.5px/1 var(--sans);color:var(--sage-deep);text-decoration:underline;text-underline-offset:3px;padding:4px 0}
 .fa .ingr-body{padding:14px 20px 120px;display:flex;flex-direction:column;gap:20px}
 .fa .ilist{display:flex;flex-direction:column;background:var(--card);border-radius:18px;padding:0 14px;box-shadow:0 1px 0 var(--line)}
 .fa .irow{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);transition:opacity .2s,transform .2s,max-height .25s,padding .25s;max-height:60px;overflow:hidden}

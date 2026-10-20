@@ -16,6 +16,11 @@ const FOR: ["plat" | "d", string, string][] = [
   ["d", "Dessert", "Des idées sucrées pour le dessert"],
 ];
 const MODES: [ScanSource, string][] = [["frigo", "Frigo"], ["placard", "Placard"], ["ticket", "Ticket de caisse"]];
+const HINTS: Record<ScanSource, string> = {
+  frigo: "Ouvre bien la porte et recule d'un pas",
+  placard: "Ouvre grand le placard, toutes les étagères dans le cadre",
+  ticket: "Pose le ticket à plat, sous une bonne lumière",
+};
 
 type Torch = MediaTrackCapabilities & { torch?: boolean };
 
@@ -92,7 +97,8 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
     const r = await detectIngredients(photo, getScan().source);
     if (!alive.current) { busy.current = false; return; }
     if (r.status === "ok") {
-      setScan({ photo: url, ingredients: r.ingredients, token: r.token, guests: 0, empty: false, merge: false });
+      setScan({ photo: url, ingredients: r.ingredients, token: r.token, guests: 0, empty: false, merge: false,
+        ...(r.seen ? { source: r.seen, switched: getScan().source } : { switched: null }) });
       setFound(r.ingredients);
       // Les pastilles apparaissent sur la photo, puis la liste
       setTimeout(() => {
@@ -170,7 +176,7 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
           ? <RoundButton icon="flash" label={torch ? "Éteindre le flash" : "Flash"} tone="dark" aria-pressed={torch} onClick={toggleTorch} />
           : <span style={{ width: 40 }} aria-hidden="true" />}
       </div>
-      <div className="hint">Ouvre bien la porte et recule d'un pas</div>
+      <div className="hint">{HINTS[scan.source]}</div>
       <div className="frame"><i className="tl" /><i className="tr" /><i className="bl" /><i className="br" /></div>
       <div className="cam-bot">
         <div className="modes" role="tablist">

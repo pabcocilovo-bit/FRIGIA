@@ -44,7 +44,7 @@ type Failure =
   | { status: "error"; rate?: boolean }; // le service ne répond pas (ou trop de scans cette heure-ci)
 
 export type IngredientsResult =
-  | { status: "ok"; ingredients: ScanIngredient[]; token: string | null; scansLeft: number | null }
+  | { status: "ok"; ingredients: ScanIngredient[]; token: string | null; scansLeft: number | null; /** La photo montre autre chose que le mode choisi */ seen?: ScanSource }
   | { status: "unclear"; problem: Problem }   // photo illisible : le scan n'est pas décompté
   | Failure;
 
@@ -94,6 +94,7 @@ export async function detectIngredients(file: Blob, source: ScanSource): Promise
     ingredients: ingredients.map(i => ({ name: String(i.name), qty: String(i.qty ?? ""), x: i.x ?? undefined, y: i.y ?? undefined })),
     token: typeof data.token === "string" ? data.token : null,
     scansLeft: typeof data.scansLeft === "number" ? data.scansLeft : null,
+    ...(data.seen === "frigo" || data.seen === "placard" || data.seen === "ticket" ? { seen: data.seen as ScanSource } : {}),
   };
 }
 

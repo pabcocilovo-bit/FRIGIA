@@ -7,6 +7,8 @@ import type { Meal } from "../../lib/types";
 export type ScanState = {
   meal: Meal;
   source: ScanSource;
+  /** La photo montrait autre chose que le mode choisi : source a suivi la photo, switched garde le choix de départ (pour revenir) */
+  switched: ScanSource | null;
   /** La photo analysée (adresse locale), pour le fond de « C'est bien ça ? » et « Ajouter » */
   photo: string | null;
   /** Photo de la galerie à recadrer */
@@ -39,7 +41,7 @@ const savedServings = () => {
 };
 
 let state: ScanState = {
-  meal: "s", source: "frigo", photo: null, pick: null, pending: null, ingredients: [], token: null, problem: "floue", empty: false, merge: false,
+  meal: "s", source: "frigo", switched: null, photo: null, pick: null, pending: null, ingredients: [], token: null, problem: "floue", empty: false, merge: false,
   pantry: true, envie: "rapide", servings: savedServings(), guests: 0, away: [],
 };
 const listeners = new Set<() => void>();
