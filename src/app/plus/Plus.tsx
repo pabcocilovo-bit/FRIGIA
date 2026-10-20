@@ -35,7 +35,7 @@ const CMP: [string, string, string | null][] = [
   ["Planning de la semaine", "–", null],
   ["Liste de courses", "–", null],
   ["Économies du mois", "Aperçu", "Complet"],
-  ["Historique", "7 jours", "Tout"],
+  ["Historique", "7 jours", "50 scans"],
 ];
 
 export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les scans offerts à relire */ onCode?: () => void }) {
