@@ -11,7 +11,7 @@ export const WHY = {
   courses: "La liste de courses est dans Frigia Plus.",
   famille: "Le mode famille est dans Frigia Plus : les goûts de chacun, les portions calculées.",
   idees: "« D'autres idées » est dans Frigia Plus, sans utiliser de scan.",
-  historique: "Tout ton historique est dans Frigia Plus.",
+  historique: "Tes 50 derniers scans sont dans Frigia Plus.",
   favoris: "En gratuit, tes favoris des 7 derniers jours. Avec Plus, tu les gardes tous.",
   bilan: "Ton bilan d'économies complet est dans Frigia Plus.",
   vide: "Frigo vide ? Avec Plus, Frigia te propose quand même 3 plats, avec la petite liste de courses.",

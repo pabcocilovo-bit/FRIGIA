@@ -119,7 +119,7 @@ export function Scans({ history, cooked, week, isPlus, onDelete }: {
                   <Fragment key={e.id}>
                     {e.id === firstLocked && (
                       <button type="button" className="fv-lock" onClick={() => openPaywall("historique", "/scans")}>
-                        <LockPill /><span><b>Retrouve tous tes scans</b>En gratuit, tu vois ceux des 7 derniers jours.</span>
+                        <LockPill /><span><b>Retrouve tes 50 derniers scans</b>En gratuit, tu vois ceux des 7 derniers jours.</span>
                       </button>
                     )}
                     <div className="hs-item">
