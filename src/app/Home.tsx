@@ -1,5 +1,5 @@
 // 1 · Accueil (prototype V3).
-import { useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { Band, BandFoot, Icon, LockPill, Pill, QuotaBar } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry, User } from "../lib/types";
@@ -15,7 +15,8 @@ import { useNotifs } from "../lib/notify";
 import "./notifs/notifs.css";
 import { useOpenPaywall } from "./plus/subscription";
 import { forTonight, type Person, portionsOf, portTxt } from "../lib/household";
-import type { MealKey, Week } from "../lib/home";
+import type { Fridge, MealKey, Week } from "../lib/home";
+import { weekRecipes } from "./featured";
 import { type ScanState, setScan, useScan } from "./scan/store";
 import { eatersOf } from "./scan/portions";
 import { weekDays } from "./format";
@@ -59,6 +60,33 @@ function ScanRow({ entry, locked, onClick }: { entry: HistoryEntry; locked: bool
   );
 }
 
+/** En haut de l'accueil : les recettes de la semaine, qu'on fait défiler. Une carte ouvre sa fiche recette. */
+function WeekRecipes({ kitchen, onOpen }: { kitchen: Fridge; onOpen: (r: GeneratedRecipe) => void }) {
+  const list = useMemo(() => weekRecipes(kitchen.items), [kitchen.items]);
+  const track = useRef<HTMLDivElement>(null);
+  const [at, setAt] = useState(0);
+  const go = (i: number) => track.current?.scrollTo({ left: i * track.current.clientWidth, behavior: "smooth" });
+  return (
+    <section className="hphoto wk" aria-label="Recettes de la semaine">
+      <div className="wk-track" ref={track} onScroll={e => setAt(Math.round(e.currentTarget.scrollLeft / e.currentTarget.clientWidth))}>
+        {list.map(({ recipe: r, alt }, i) => (
+          <button key={r.title} type="button" className="wk-slide" onClick={() => onOpen(r)} aria-label={`${r.title}, ${r.time}. Voir la recette`}>
+            <img src={r.imageSearch} alt={alt} loading={i ? "lazy" : undefined} />
+            <span className="wk-cap">
+              <small>{i === 0 ? "Recette de la semaine" : "Aussi cette semaine"}</small>
+              <b>{r.title}</b>
+              <span>{r.time} · {r.diff}{r.veg ? " · Végé" : ""}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+      <div className="wk-dots">
+        {list.map(({ recipe: r }, i) => <button key={r.title} type="button" className={i === at ? "on" : undefined} aria-label={`Recette ${i + 1} sur ${list.length}`} aria-current={i === at || undefined} onClick={() => go(i)} />)}
+      </div>
+    </section>
+  );
+}
+
 function FavCard({ recipe, onClick }: { recipe: GeneratedRecipe; onClick: () => void }) {
   const photo = useRecipePhoto(recipe.title, recipe.imageSearch);
   return (
@@ -81,11 +109,13 @@ const STEPS = [
 
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 
-export function Home({ user, name, isPlus, quota, avatar, history, favorites, cooked, household, week, onWeek, onOpenRecipe }: {
+export function Home({ user, name, isPlus, quota, avatar, history, favorites, cooked, household, week, onWeek, kitchen, onOpenRecipe }: {
   user: User; name: string; isPlus: boolean; quota: ScanQuota | null; avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
   household: Person[];
   week: Week; onWeek: (w: Week) => void;
   cooked: CookedMeal[];
+  /** Ma cuisine : ce qu'on a déjà pour les recettes de la semaine */
+  kitchen: Fridge;
   onOpenRecipe: (r: GeneratedRecipe) => void;
 }) {
   const navigate = useNavigate();
@@ -131,7 +161,7 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
           {CATS.map(c => <button key={c.id} type="button" className={c.id === cat.id ? "on" : undefined} aria-pressed={c.id === cat.id} onClick={() => pickCat(c)}>{c.label}</button>)}
         </div>
       </div>
-      <div className="hphoto"><img src="/landing/gratin-courgettes.jpg" alt="Gratin de courgettes doré dans un plat blanc" /></div>
+      <WeekRecipes kitchen={kitchen} onOpen={onOpenRecipe} />
       <div className={"home-band" + (tonight ? " tn-has" : "")}>
         <Band label={bandLabel(user)} title={cat.title ?? (tonight ? <>Ce soir, c'est <em>prévu</em></> : <>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>)}>
           {cat.title ? <p>{cat.text}</p> : tonight ? (

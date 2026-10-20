@@ -31,6 +31,20 @@ body:has(.fa-app){background:#EFE3D0}
 .fa .cats button.on{color:var(--on);border-color:var(--on)}
 .fa .hphoto{height:330px;position:relative}
 .fa .hphoto img{width:100%;height:100%;object-fit:cover}
+/* Recettes de la semaine : on fait défiler de droite à gauche. Le bas (78 px) passe sous le bandeau vert. */
+.fa .wk-track{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.fa .wk-track::-webkit-scrollbar{display:none}
+.fa .wk-slide{flex:0 0 100%;height:100%;position:relative;scroll-snap-align:start;padding:0;display:block;text-align:left}
+.fa .wk-slide::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(16,22,18,.6) 76%);pointer-events:none}
+.fa .wk-cap{position:absolute;left:20px;right:96px;bottom:94px;z-index:1;color:#fff;display:flex;flex-direction:column;gap:3px;text-shadow:0 1px 8px rgba(0,0,0,.3)}
+.fa .wk-cap small{font:700 11px/1 var(--sans);letter-spacing:.09em;text-transform:uppercase;opacity:.85}
+.fa .wk-cap b{font:400 25px/1.05 var(--serif)}
+.fa .wk-cap span{font-size:13px;opacity:.9}
+.fa .wk-dots{position:absolute;right:16px;bottom:98px;display:flex;gap:2px;z-index:1}
+.fa .wk-dots button{width:16px;height:16px;padding:0;display:grid;place-items:center}
+.fa .wk-dots button::before{content:"";width:6px;height:6px;border-radius:999px;background:rgba(255,255,255,.55);transition:width .2s}
+.fa .wk-dots button.on::before{width:16px;background:#fff}
+@media (prefers-reduced-motion:reduce){.fa .wk-dots button::before{transition:none}}
 .fa .home-band{margin:-78px 16px 0}
 .fa .home-band h2{font:400 31px/1.02 var(--serif);margin:0}
 .fa .home-band h2 em{font-style:italic}

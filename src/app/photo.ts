@@ -4,7 +4,8 @@ import { fetchTheMealImage, mealImageCache } from "../lib/recipes";
 
 export function useRecipePhoto(title: string | undefined, imageSearch?: string): string | null {
   const query = imageSearch || title || "";
-  const direct = query.startsWith("http") ? query : null;
+  // Une adresse (photo trouvée par le serveur, ou une photo de l'appli comme les recettes de la semaine)
+  const direct = query.startsWith("http") || query.startsWith("/") ? query : null;
   const [found, setFound] = useState<{ query: string; url: string | null } | null>(null);
   useEffect(() => {
     if (!query || direct || mealImageCache[query]) return;
