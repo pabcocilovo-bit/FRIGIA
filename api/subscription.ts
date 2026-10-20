@@ -132,7 +132,8 @@ export default async function handler(req: Req, res: Res) {
       const now = Math.floor(Date.now() / 1000);
       const trialEnd = typeof m.pause_renew === "number" && m.pause_renew > now + 60 ? m.pause_renew : "now";
       const updated = await stripe.subscriptions.update(sub.id, { trial_end: trialEnd, proration_behavior: "none" });
-      const meta = { pause_from: null, pause_until: null, pause_renew: null };
+      // Tant que la date de paiement d'origine n'est pas passée, Stripe reste en « trialing » : Plus jusque-là
+      const meta = { pause_from: null, pause_until: null, pause_renew: null, ...(typeof trialEnd === "number" ? { plus_until: Math.max(trialEnd, typeof m.plus_until === "number" ? m.plus_until : 0) } : {}) };
       await setMeta(admin, user, meta);
       return res.json({ subscription: describe(updated, { ...user, app_metadata: { ...user.app_metadata, ...meta } }) });
     }

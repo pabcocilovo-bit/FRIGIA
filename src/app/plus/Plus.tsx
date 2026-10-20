@@ -22,7 +22,9 @@ const failText = (e: unknown) => (e instanceof Error && e.message ? e.message : 
 /** Ouvre la page de paiement Stripe pour la formule choisie (ou le portail pour changer de carte). */
 async function goToCheckout(plan: PlanChoice, go: string | undefined) {
   rememberCheckout(plan, go);
-  const { url } = await checkoutUrl(plan);
+  const { url, plus } = await checkoutUrl(plan);
+  // Déjà abonné chez Stripe sans que le compte le sache : le compte vient d'être mis à jour, on attend de voir Plus
+  if (plus) { window.location.href = "/plus/paiement?checkout=success"; return; }
   if (!url) throw new Error("");
   window.location.href = url;
 }

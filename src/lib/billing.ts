@@ -73,7 +73,7 @@ async function post<T>(path: string, body?: unknown): Promise<T> {
 }
 
 /** Ouvre la page de paiement Stripe (ou le portail si un abonnement existe déjà). */
-export const checkoutUrl = (plan: PlanChoice) => post<{ url?: string }>("/api/create-checkout", { plan });
+export const checkoutUrl = (plan: PlanChoice) => post<{ url?: string; plus?: boolean }>("/api/create-checkout", { plan });
 export const customerPortalUrl = () => post<{ url?: string }>("/api/customer-portal");
 /** Places restantes au prix fondateur (500 premiers abonnés annuels). */
 /** founderLeft : places au prix fondateur ; creatorOffer : un code créateur donne 3 mois pour 13,98 € au premier abonnement mensuel */

@@ -1,7 +1,7 @@
 // Passer à Plus : ouvre la page de paiement Stripe pour la formule choisie (mensuel ou annuel).
 // L'annuel est au prix fondateur (29,99 €/an) tant qu'il reste des places parmi les 500 premiers.
 import {
-  adminClient, authUser, CREATOR_OFFER, currentSubscription, findCustomerId, founderSeatsLeft, hasCreatorOffer, plusOneMonth, preflight, siteOrigin, stripeClient, type Req, type Res,
+  adminClient, authUser, CREATOR_OFFER, currentSubscription, findCustomerId, founderSeatsLeft, hasCreatorOffer, isPlus, plusOneMonth, preflight, siteOrigin, stripeClient, type Req, type Res,
 } from "./_shared.js";
 
 export default async function handler(req: Req, res: Res) {
@@ -20,6 +20,16 @@ export default async function handler(req: Req, res: Res) {
     // Déjà un abonnement (paiement en retard…) : on ouvre le portail pour mettre la carte à jour.
     // Un premier paiement jamais abouti (« incomplete ») repasse par une nouvelle page de paiement.
     const sub = customer ? await currentSubscription(stripe, user) : null;
+    // Abonnement déjà payé que le compte ne voyait pas (webhook manqué) : on recopie l'état de Stripe
+    // sur le compte au lieu d'ouvrir le portail, et l'appli affiche Plus.
+    if (customer && sub && ["active", "trialing"].includes(sub.status)) {
+      const m = user.app_metadata || {};
+      const meta: Record<string, string | number> = { subscription_status: sub.status, stripe_customer_id: customer };
+      if (sub.status === "trialing" && sub.trial_end) meta.plus_until = Math.max(sub.trial_end, typeof m.plus_until === "number" ? m.plus_until : 0);
+      const { data, error } = await adminClient().auth.admin.updateUserById(user.id, { app_metadata: meta });
+      if (error) throw error;
+      if (isPlus(data.user)) return res.json({ plus: true });
+    }
     if (customer && sub && sub.status !== "incomplete") {
       const portal = await stripe.billingPortal.sessions.create({ customer, return_url: `${origin}/plus/paiement?carte=1` });
       return res.json({ url: portal.url });
