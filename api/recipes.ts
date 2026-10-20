@@ -2,7 +2,7 @@
 // Avec le jeton d'une photo déjà comptée, rien n'est recompté. Sans jeton (ingrédients tapés à la main),
 // la formule Gratuit compte un scan. « D'autres idées » (2 recettes de plus) est réservé à Frigia Plus.
 import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
-import { askClaude, checkIdeasLimit, checkRateLimit, checkScanToken, dishPhoto, prefLines, refundFreeScan, takeFreeScan, type Prefs } from "./_ai.js";
+import { askClaude, checkIdeasLimit, extractFirstJSON, checkRateLimit, checkScanToken, dishPhoto, prefLines, refundFreeScan, takeFreeScan, type Prefs } from "./_ai.js";
 
 type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
@@ -38,7 +38,7 @@ function parse(r: RawRecipe | null | undefined) {
   return { r, title: str(r.title, 80), items, steps };
 }
 type RawRecipe = {
-  title?: unknown; intro?: unknown; minutes?: unknown; calories?: unknown; difficulty?: unknown; imageSearch?: unknown;
+  title?: unknown; intro?: unknown; minutes?: unknown; time?: unknown; calories?: unknown; kcal?: unknown; difficulty?: unknown; imageSearch?: unknown;
   veg?: unknown; oven?: unknown; cold?: unknown; kids?: unknown; missing?: unknown; origin?: unknown; ingredients?: (RawItem | string)[]; steps?: RawStep[];
 };
 
@@ -62,7 +62,24 @@ const STYLES = ["italienne", "espagnole", "grecque", "libanaise", "marocaine", "
 const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 const strs = (v: unknown, n: number, max: number) => (Array.isArray(v) ? v.map(x => str(x, max)).filter(Boolean).slice(0, n) : []);
 const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/s\b/g, "");
-const num = (v: unknown) => (typeof v === "number" && Number.isFinite(v) && v > 0 ? v : null);
+// Un nombre, ou un texte qui commence par un nombre ("20 min", "450 kcal")
+const num = (v: unknown) => {
+  const n = typeof v === "string" ? parseFloat(v.replace(",", ".")) : v;
+  return typeof n === "number" && Number.isFinite(n) && n > 0 ? n : null;
+};
+
+/** Les recettes complètes d'une réponse coupée en route (trop longue) : chaque objet entier de la liste. */
+function salvage(text: string): RawRecipe[] {
+  const list = text.indexOf("[", text.indexOf('"recipes"'));
+  if (list === -1) return [];
+  const out: RawRecipe[] = [];
+  let at = list + 1;
+  for (let obj = extractFirstJSON(text, at); obj; obj = extractFirstJSON(text, at)) {
+    at = text.indexOf(obj, at) + obj.length;
+    try { out.push(JSON.parse(obj) as RawRecipe); } catch { break; }
+  }
+  return out;
+}
 
 export default async function handler(req: Req, res: Res) {
   if (preflight(req, res)) return;
@@ -129,6 +146,7 @@ export default async function handler(req: Req, res: Res) {
       ? "Le placard a aussi : pâtes, riz, huile, ail, épices, sel, poivre, farine, sucre. Ils comptent comme disponibles."
       : "Seuls sel, poivre et eau sont disponibles en plus de la liste.",
     `Propose EXACTEMENT ${count} recettes pour ${MEALS[body.meal ?? ""] ?? MEALS.s}.`,
+    body.meal === "d" ? "" : "Des plats salés (entrée ou plat principal) : jamais de dessert, de gâteau ni de recette sucrée. Les produits sucrés de la liste (biscuits, chocolat, barres, confiture…) sont ignorés.",
     ENVIES[body.envie ?? ""] ? `Envie : des recettes ${ENVIES[body.envie!]}.` : "",
     `Quantités pour ${String(servings).replace(".", ",")} portion${servings > 1 ? "s" : ""} (un enfant compte pour une demi-portion).`,
     empty
@@ -157,8 +175,13 @@ export default async function handler(req: Req, res: Res) {
   // Une recette sans ses ingrédients ou ses étapes (réponse de l'IA incomplète) n'est jamais montrée :
   // on redemande une fois les recettes qui manquent.
   const ask = async () => {
-    const answer = await askClaude<{ recipes?: RawRecipe[] }>([{ type: "text", text: prompt }], 4000);
-    return answer.ok ? (answer.json?.recipes ?? []).map(parse).filter(r => r !== null) : null;
+    const answer = await askClaude<{ recipes?: RawRecipe[] }>([{ type: "text", text: prompt }], 6000);
+    if (!answer.ok) return null;
+    const found = Array.isArray(answer.json?.recipes) ? answer.json.recipes : salvage(answer.text);
+    const valid = found.map(parse).filter(r => r !== null);
+    // Visible dans les logs Vercel : ce que l'IA a répondu quand il manque des recettes
+    if (valid.length < count) console.warn(`recipes: ${valid.length}/${count} valides`, answer.text.slice(0, 1500));
+    return valid;
   };
   const first = await ask();
   if (!first) return fail(502, "Service IA temporairement indisponible.");
@@ -174,8 +197,8 @@ export default async function handler(req: Req, res: Res) {
     return {
       title: str(r.title, 80),
       intro: str(r.intro, 300),
-      minutes: Math.round(num(r.minutes) ?? 20),
-      calories: Math.round(num(r.calories) ?? 400),
+      minutes: Math.round(num(r.minutes ?? r.time) ?? 20),
+      calories: Math.round(num(r.calories ?? r.kcal) ?? 400),
       difficulty: ["Facile", "Moyen", "Difficile"].includes(str(r.difficulty, 20)) ? str(r.difficulty, 20) : "Facile",
       imageSearch,
       imageUrl: await dishPhoto(imageSearch),

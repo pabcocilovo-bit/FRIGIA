@@ -132,7 +132,7 @@ const MODEL = process.env.ANTHROPIC_MODEL?.trim() || "claude-haiku-5-5";
 const NO_THINKING = /^claude-haiku-5/.test(MODEL) ? { thinking: { type: "disabled" } } : {};
 
 /** Envoie la demande à Claude et renvoie le premier objet JSON de la réponse (null si l'IA ne répond pas ou mal). */
-export async function askClaude<T>(content: Content[], maxTokens: number): Promise<{ ok: true; json: T | null } | { ok: false }> {
+export async function askClaude<T>(content: Content[], maxTokens: number): Promise<{ ok: true; json: T | null; text: string } | { ok: false }> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return { ok: false };
   const res = await fetch("https://api.anthropic.com/v1/messages", {
@@ -147,18 +147,25 @@ export async function askClaude<T>(content: Content[], maxTokens: number): Promi
   const data = await res.json() as { content?: { text?: string }[] };
   const text = (data.content || []).map(i => i.text || "").join("");
   const json = extractFirstJSON(text);
-  if (!json) return { ok: true, json: null };
-  try { return { ok: true, json: JSON.parse(json) as T }; } catch { return { ok: true, json: null }; }
+  if (!json) return { ok: true, json: null, text };
+  try { return { ok: true, json: JSON.parse(json) as T, text }; } catch { return { ok: true, json: null, text }; }
 }
 
-// Extract the first balanced JSON object (avoids greedy regex cutting across braces)
-function extractFirstJSON(str: string): string | null {
-  const start = str.indexOf("{");
+// Extract the first balanced JSON object (avoids greedy regex cutting across braces).
+// Les accolades dans les textes ("…{…}…") ne comptent pas.
+export function extractFirstJSON(str: string, from = 0): string | null {
+  const start = str.indexOf("{", from);
   if (start === -1) return null;
   let depth = 0;
+  let inString = false;
   for (let i = start; i < str.length; i++) {
-    if (str[i] === "{") depth++;
-    else if (str[i] === "}") { depth--; if (depth === 0) return str.slice(start, i + 1); }
+    const c = str[i];
+    if (inString) {
+      if (c === "\\") i++;
+      else if (c === '"') inString = false;
+    } else if (c === '"') inString = true;
+    else if (c === "{") depth++;
+    else if (c === "}") { depth--; if (depth === 0) return str.slice(start, i + 1); }
   }
   return null;
 }
