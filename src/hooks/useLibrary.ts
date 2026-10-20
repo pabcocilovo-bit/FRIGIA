@@ -9,17 +9,19 @@ import {
 export function useLibrary(userId: string | undefined) {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [favorites, setFavorites] = useState<GeneratedRecipe[]>([]);
+  // L'historique est là (copie du téléphone ou base) : avant, la page d'un scan rechargée attend au lieu de partir à l'accueil
+  const [ready, setReady] = useState(false);
 
   const load = useCallback((id: string) => loadLibrary(
     id,
-    (h, f) => { setHistory(h); setFavorites(f); },
+    (h, f) => { setHistory(h); setFavorites(f); if (h.length) setReady(true); },
     (lists) => {
-      if (lists.history) setHistory(lists.history);
+      if (lists.history) { setHistory(lists.history); setReady(true); }
       if (lists.favorites) setFavorites(lists.favorites);
     },
-  ), []);
+  ).finally(() => setReady(true)), []);
 
-  const clear = useCallback(() => { setHistory([]); setFavorites([]); }, []);
+  const clear = useCallback(() => { setHistory([]); setFavorites([]); setReady(false); }, []);
 
   const toggleFavorite = (recipe: GeneratedRecipe) => {
     setFavorites(prev => {
@@ -76,5 +78,5 @@ export function useLibrary(userId: string | undefined) {
     });
   };
 
-  return { history, favorites, load, clear, toggleFavorite, isFavorite, addScan, updateScanRecipes, deleteScan };
+  return { history, favorites, ready, load, clear, toggleFavorite, isFavorite, addScan, updateScanRecipes, deleteScan };
 }

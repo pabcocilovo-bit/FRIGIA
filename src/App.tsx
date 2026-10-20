@@ -85,6 +85,8 @@ export default function Frigia() {
   const [userId, setUserId] = useState<string | undefined>();
   const library = useLibrary(userId);
   const { history, favorites, toggleFavorite, isFavorite, updateScanRecipes } = library;
+  // Page d'un scan rechargée : on attend l'historique avant de chercher le scan
+  const waitScan = (el: React.ReactElement) => (library.ready ? el : null);
   const cooked = useCooked(userId);
   const home = useHome(userId);
 
@@ -348,10 +350,10 @@ return (
         const s = getScan();
         if (e.ingredients.length) home.setFridge(f => (s.merge ? fromList(f, e.ingredients) : fromScan(f, e.ingredients, s.source)));
       }} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
-      <Route path="/recettes/:id" element={<Results history={history} isPlus={isPlus} household={household} week={home.week} onWeek={home.setWeek} onNewIdeas={updateScanRecipes} />} />
-      <Route path="/recettes/:id/:n" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} fridge={home.fridge} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
+      <Route path="/recettes/:id" element={waitScan(<Results history={history} isPlus={isPlus} household={household} week={home.week} onWeek={home.setWeek} onNewIdeas={updateScanRecipes} />)} />
+      <Route path="/recettes/:id/:n" element={waitScan(<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} fridge={home.fridge} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />)} />
       <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} fridge={home.fridge} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
-      <Route path="/recettes/:id/:n/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} onUsed={r => home.setFridge(f => cookFrom(f, r))} />} />
+      <Route path="/recettes/:id/:n/cuisine" element={waitScan(<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} onUsed={r => home.setFridge(f => cookFrom(f, r))} />)} />
       <Route path="/recette/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} onUsed={r => home.setFridge(f => cookFrom(f, r))} />} />
       <Route path="/parrainage" element={<Refer name={name} avatar={avatarSrc} isPlus={isPlus} />} />
       <Route path="/i/:code" element={<Navigate to="/" replace />} />
