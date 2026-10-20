@@ -37,6 +37,8 @@ const FAQ: { title: string; icon: IconName; qs: Q[] }[] = [
     { k: "family", q: "Comment ajouter ma famille ?", a: "Avec Plus, dans l'onglet Famille : un prénom, un âge, ses allergies et ce qu'il n'aime pas. Les recettes s'adaptent à toute la tablée." },
     { k: "notifs", q: "Je ne reçois pas les notifications", a: "Sur iPhone, elles n'arrivent que si Frigia est sur ton écran d'accueil (iOS 16.4 ou plus). Vérifie ensuite les réglages du téléphone, puis dans Frigia : Réglages, Notifications.", act: ["Comment l'y mettre", "install"] },
     { k: "install", q: "Comment mettre Frigia sur mon écran d'accueil ?", a: "Sur iPhone, dans Safari : Partager, puis « Sur l'écran d'accueil ». Sur Android, dans Chrome : le menu ⋮, puis « Installer l'application »." },
+    // Limite d'iOS pour les sites installés sur l'écran d'accueil ; à retirer quand Frigia sera une vraie appli
+    { k: "camera", q: "Sur iPhone, Frigia me redemande la caméra à chaque fois", a: "C'est iOS qui fait ça quand Frigia est ouverte depuis l'écran d'accueil : Frigia ne peut pas l'empêcher. Pour ne plus avoir la question : Réglages de l'iPhone, Apps, Safari, Caméra, puis « Autoriser ». Attention : ce réglage vaut pour tous les sites que tu ouvres dans Safari, pas seulement Frigia, et il reste actif tant que tu ne le changes pas. Si tu préfères, laisse « Demander » : il suffit de toucher « Autoriser » à chaque scan." },
     { k: "delete", q: "Comment supprimer mon compte ?", a: "Réglages, tout en bas : « Supprimer mon compte ». Tes scans, tes favoris et ta famille sont effacés." },
   ] },
 ];
