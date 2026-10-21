@@ -85,8 +85,11 @@ export default async function handler(req: Req, res: Res) {
   if (action === "offers") {
     // creatorOffer : un code créateur attend son premier abonnement (3 mois pour 13,98 €)
     const caller = await authUser(req, adminClient()).catch(() => null);
+    // usedCode : le code déjà mis sur le compte (à l'inscription) : le paywall ne le redemande pas
     const creatorOffer = caller ? await hasCreatorOffer(adminClient(), caller).catch(() => false) : false;
-    try { return res.json({ founderLeft: await founderSeatsLeft(stripe), creatorOffer }); } catch { return res.json({ founderLeft: 0, creatorOffer }); }
+    const { data: used } = caller ? await adminClient().from("code_uses").select("code").eq("user_id", caller.id).maybeSingle() : { data: null };
+    const usedCode = (used?.code as string | undefined) ?? null;
+    try { return res.json({ founderLeft: await founderSeatsLeft(stripe), creatorOffer, usedCode }); } catch { return res.json({ founderLeft: 0, creatorOffer, usedCode }); }
   }
 
   const admin = adminClient();

@@ -76,8 +76,9 @@ async function post<T>(path: string, body?: unknown): Promise<T> {
 export const checkoutUrl = (plan: PlanChoice) => post<{ url?: string; plus?: boolean }>("/api/create-checkout", { plan });
 export const customerPortalUrl = () => post<{ url?: string }>("/api/customer-portal");
 /** Places restantes au prix fondateur (500 premiers abonnés annuels). */
-/** founderLeft : places au prix fondateur ; creatorOffer : un code créateur donne 3 mois pour 13,98 € au premier abonnement mensuel */
-export const fetchOffers = () => post<{ founderLeft: number; creatorOffer?: boolean }>("/api/subscription", { action: "offers" });
+/** founderLeft : places au prix fondateur ; creatorOffer : un code créateur donne 3 mois pour 13,98 € au premier abonnement mensuel ;
+ *  usedCode : le code déjà mis sur le compte */
+export const fetchOffers = () => post<{ founderLeft: number; creatorOffer?: boolean; usedCode?: string | null }>("/api/subscription", { action: "offers" });
 export const subscriptionAction = (action: "status" | "cancel" | "undo" | "pause" | "resume" | "retry", reason?: string) =>
   post<{ subscription: Subscription | null }>("/api/subscription", { action, reason }).then(r => r.subscription);
 /** Paiement refusé : le mois où la carte a expiré (« septembre »), ou null si la raison n'est pas une carte expirée. */

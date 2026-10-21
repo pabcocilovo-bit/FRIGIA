@@ -77,6 +77,8 @@ export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les s
       if (!live) return;
       setFounder(o.founderLeft > 0);
       if (o.creatorOffer) { setOffer(true); setPlan("month"); }
+      // Code déjà mis (à l'inscription ou ici avant) : gardé sur le compte, on ne le redemande pas
+      if (o.usedCode) { setCodeOk(`Code ${o.usedCode} déjà sur ton compte${o.creatorOffer ? " : 1 mois offert sur le mensuel" : ""}.`); setCodeOpen(false); }
     }).catch(() => {});
     return () => { live = false; };
   }, []);
