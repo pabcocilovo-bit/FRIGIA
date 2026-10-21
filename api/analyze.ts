@@ -117,6 +117,7 @@ export default async function handler(req: any, res: any) {
   };
   const mealTypeBlock = mealType && mealTypeMap[mealType] ? `\n\n${mealTypeMap[mealType]}` : "";
 
+  const MODEL = process.env.ANTHROPIC_MODEL?.trim() || "claude-haiku-5-5";
   const anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
@@ -125,8 +126,11 @@ export default async function handler(req: any, res: any) {
       "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify({
-      model: "claude-sonnet-4-6",
+      // Haiku 5.5 : 30 fois moins cher que Sonnet 4.6. ANTHROPIC_MODEL dans Vercel peut le changer
+      model: MODEL,
       max_tokens: 2000,
+      // Haiku 5.5 réfléchit par défaut : coupé pour que la réflexion ne mange pas max_tokens
+      ...(/^claude-haiku-5/.test(MODEL) ? { thinking: { type: "disabled" } } : {}),
       messages: [
         {
           role: "user",
