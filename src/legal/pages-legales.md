@@ -13,7 +13,7 @@ _Mise à jour le 21 octobre 2026_
 
 Frigia est une application web (installable sur ton téléphone) qui te propose des recettes à partir d'une photo de ton frigo. Une intelligence artificielle lit la photo, repère les ingrédients et propose trois recettes.
 
-Frigia est édité par Pablo Cocilovo (voir les mentions légales). En créant un compte, tu acceptes ces conditions.
+Frigia est édité par Pablo Cocilovo et Hugo Broutin (voir les mentions légales). En créant un compte, tu acceptes ces conditions.
 
 ### 2. Ton compte
 
@@ -130,7 +130,7 @@ _Mise à jour le 21 octobre 2026_
 
 ### Qui s'occupe de tes données
 
-Pablo Cocilovo, éditeur de Frigia (voir les mentions légales), est responsable du traitement. Contact : contact@frigia.fr.
+Pablo Cocilovo et Hugo Broutin, éditeurs de Frigia (voir les mentions légales), sont responsables du traitement. Contact : contact@frigia.fr.
 
 ### Ce qu'on enregistre
 
@@ -212,7 +212,7 @@ Mots de passe chiffrés, connexions sécurisées, accès limité aux personnes q
 
 ## Mentions légales
 
-_Mise à jour le 9 octobre 2026_
+_Mise à jour le 21 octobre 2026_
 
 **L'essentiel**
 
@@ -221,9 +221,9 @@ _Mise à jour le 9 octobre 2026_
 
 ### Éditeur
 
-Frigia est édité par **[À compléter : Pablo Cocilovo, statut à préciser (micro-entreprise au minimum), SIRET, adresse]**.
+Frigia est édité par Pablo Cocilovo et Hugo Broutin, à titre de particuliers.
 
-Directeur de la publication : Pablo Cocilovo.
+Directeurs de la publication : Pablo Cocilovo et Hugo Broutin.
 
 Contact : contact@frigia.fr.
 
@@ -247,7 +247,7 @@ Les recettes sont créées par une IA et données à titre indicatif. Vérifie l
 
 ## Cookies et stockage
 
-_Mise à jour le 9 octobre 2026_
+_Mise à jour le 21 octobre 2026_
 
 **L'essentiel**
 
