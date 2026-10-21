@@ -57,11 +57,11 @@ function WeekRecipes({ kitchen, onOpen }: { kitchen: Fridge; onOpen: (r: Generat
   return (
     <section className="hphoto wk" aria-label="Recettes de la semaine">
       <div className="wk-track" ref={track} onScroll={e => setAt(Math.round(e.currentTarget.scrollLeft / e.currentTarget.clientWidth))}>
-        {list.map(({ recipe: r, alt }, i) => (
+        {list.map(({ recipe: r, alt, kicker }, i) => (
           <button key={r.title} type="button" className="wk-slide" onClick={() => onOpen(r)} aria-label={`${r.title}, ${r.time}. Voir la recette`}>
             <img src={r.imageSearch} alt={alt} loading={i ? "lazy" : undefined} />
             <span className="wk-cap">
-              <small>{i === 0 ? "Recette de la semaine" : "Aussi cette semaine"}</small>
+              <small>{kicker}</small>
               <b>{r.title}</b>
               <span>{r.time} · {r.diff}{r.veg ? " · Végé" : ""}</span>
             </span>
