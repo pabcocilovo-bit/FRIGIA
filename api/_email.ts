@@ -28,7 +28,7 @@ function layout({ title, paragraphs, button, note }: Mail): string {
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:${C.raised};border:1px solid ${C.line};border-radius:20px">
 <tr><td style="padding:32px 28px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
 <p style="margin:0 0 20px;font-size:15px;font-weight:700;color:${C.brand}">Frigia</p>
-<h1 style="margin:0 0 16px;font-size:24px;line-height:1.25;color:${C.brand};font-weight:700">${esc(title)}</h1>
+<h1 style="margin:0 0 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:24px;line-height:1.25;color:${C.brand};font-weight:700">${esc(title)}</h1>
 ${paragraphs.map(t => p(t)).join("\n")}
 ${button ? `<a href="${esc(button.href)}" style="display:inline-block;margin:8px 0 16px;padding:14px 24px;border-radius:999px;background:${C.brand};color:${C.onBrand};font-size:16px;font-weight:600;text-decoration:none">${esc(button.label)}</a>` : ""}
 ${note ? p(note, C.muted, 14) : ""}
