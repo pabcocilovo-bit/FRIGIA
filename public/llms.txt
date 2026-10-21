@@ -1,0 +1,33 @@
+# Frigia
+
+> Frigia est une application web française qui propose trois recettes à partir d'une photo du frigo. Elle repère les ingrédients, tient compte de qui mange (âges, allergies, goûts) et commence par ce qui se périme, pour moins gaspiller. Elle marche dans le navigateur et s'ajoute à l'écran d'accueil, sur iPhone comme sur Android.
+
+Site : https://frigia.fr — en français, pour la France.
+
+## Comment ça marche
+
+1. Tu prends ton frigo en photo, pour ce midi, ce soir ou la semaine. Une photo de la galerie marche aussi.
+2. Frigia liste les ingrédients trouvés avec leurs quantités. Tu corriges et tu choisis qui mange ce soir, allergies comprises.
+3. Frigia propose trois recettes avec ce que tu as déjà. Le mode cuisine guide pas à pas.
+
+## Prix
+
+- Gratuit : 0 €, 15 scans offerts au total, sans carte bancaire, 3 recettes par scan, historique de 7 jours.
+- Frigia Plus : 6,99 € par mois ou 39,99 € par an, sans engagement. Prix fondateur : 29,99 € par an pour les 500 premiers abonnés.
+- Plus ajoute : scans illimités, mode famille (un profil par personne, enfants compris), planning de la semaine, liste de courses, autres idées sur un même scan, bilan des économies du mois, historique complet.
+- Paiement sécurisé par Stripe. Résiliation depuis les réglages.
+
+## Questions fréquentes
+
+- Faut-il une carte bancaire pour essayer ? Non, la formule Gratuit se crée avec un email ou un compte Google.
+- Faut-il télécharger une appli ? Non, Frigia s'ouvre dans le navigateur et s'ajoute à l'écran d'accueil, sans passer par un store.
+- Ça marche avec des enfants et des allergies ? Oui, avec Frigia Plus. Les recettes sont créées par une IA : il faut toujours vérifier les étiquettes en cas d'allergie.
+- Où mettre un code créateur ? À l'inscription, ou en passant à Frigia Plus.
+
+## Contact
+
+- Email : contact@frigia.fr
+- Mentions légales : https://frigia.fr/mentions-legales
+- Conditions d'utilisation et de vente : https://frigia.fr/cgu
+- Politique de confidentialité : https://frigia.fr/confidentialite
+- Cookies et stockage : https://frigia.fr/cookies

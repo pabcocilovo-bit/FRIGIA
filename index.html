@@ -2,66 +2,87 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover" />
 
-    <title>Frigia — Votre Chef IA Personnel | Recettes depuis votre frigo</title>
-    <meta name="description" content="Prenez votre frigo en photo. Frigia génère des recettes personnalisées en quelques secondes grâce à l'IA. 4 jours gratuits, puis 4,99€/mois." />
-    <meta name="keywords" content="Frigia, recettes IA, frigo, chef IA, recettes personnalisées, anti-gaspi" />
-    <link rel="canonical" href="https://frigia.fr/" />
+    <title>Frigia · Des recettes avec ce qu'il y a dans ton frigo</title>
+    <meta name="description" content="Une photo de ton frigo, trois recettes pour ce soir avec ce que tu as déjà. Frigia repère tes ingrédients, pense à toute la famille et limite le gaspillage. 15 scans offerts, sans carte bancaire." />
+        <link rel="canonical" href="https://frigia.fr/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://frigia.fr/" />
-    <meta property="og:title" content="Frigia — Votre Chef IA Personnel" />
-    <meta property="og:description" content="Prenez votre frigo en photo. L'IA génère des recettes personnalisées en secondes. 4 jours gratuits." />
-    <meta property="og:image" content="https://frigia.fr/apple-touch-icon.png" />
+    <meta property="og:title" content="Frigia · Des recettes avec ce qu'il y a dans ton frigo" />
+    <meta property="og:description" content="Frigia repère ce qu'il y a dans ton frigo et te propose trois recettes avec ce que tu as déjà. 15 scans offerts, sans carte bancaire." />
+    <meta property="og:image" content="https://frigia.fr/og-frigia.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:site_name" content="Frigia" />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Frigia — Votre Chef IA Personnel" />
-    <meta name="twitter:description" content="Prenez votre frigo en photo. L'IA génère des recettes personnalisées en secondes." />
-    <meta name="twitter:image" content="https://frigia.fr/apple-touch-icon.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Frigia · Des recettes avec ce qu'il y a dans ton frigo" />
+    <meta name="twitter:description" content="Frigia repère ce qu'il y a dans ton frigo et te propose trois recettes avec ce que tu as déjà." />
+    <meta name="twitter:image" content="https://frigia.fr/og-frigia.png" />
 
     <!-- JSON-LD structured data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Frigia",
-      "url": "https://frigia.fr",
-      "description": "Application IA qui génère des recettes personnalisées à partir des ingrédients de votre frigo.",
-      "applicationCategory": "FoodApplication",
-      "operatingSystem": "iOS, Android, Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "4.99",
-        "priceCurrency": "EUR",
-        "trialPeriodDays": 4
-      },
-      "inLanguage": "fr-FR",
-      "author": {
-        "@type": "Person",
-        "name": "Pablo Cocilovo"
-      }
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://frigia.fr/#organisation",
+          "name": "Frigia",
+          "url": "https://frigia.fr",
+          "logo": "https://frigia.fr/og-frigia.png",
+          "email": "contact@frigia.fr",
+          "founder": [{ "@type": "Person", "name": "Pablo Cocilovo" }, { "@type": "Person", "name": "Hugo Broutin" }],
+          "areaServed": "FR"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Frigia",
+          "url": "https://frigia.fr",
+          "description": "Application web française qui propose trois recettes à partir d'une photo du frigo, en tenant compte de qui mange (âges, allergies, goûts) et en commençant par ce qui se périme.",
+          "applicationCategory": "LifestyleApplication",
+          "applicationSubCategory": "Recettes de cuisine",
+          "operatingSystem": "Navigateur web, iOS, Android",
+          "inLanguage": "fr-FR",
+          "publisher": { "@id": "https://frigia.fr/#organisation" },
+          "offers": [
+            { "@type": "Offer", "name": "Gratuit, 15 scans offerts", "price": "0", "priceCurrency": "EUR" },
+            { "@type": "Offer", "name": "Frigia Plus mensuel", "price": "6.99", "priceCurrency": "EUR" },
+            { "@type": "Offer", "name": "Frigia Plus annuel", "price": "39.99", "priceCurrency": "EUR" }
+          ]
+        }
+      ]
     }
     </script>
 
     <!-- Theme -->
-    <meta name="theme-color" content="#FF6B35" />
+    <meta name="theme-color" content="#F5EFE3" />
 
     <!-- PWA manifest -->
     <link rel="manifest" href="/manifest.json" />
 
     <!-- iOS home screen -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Frigia" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Polices de la refonte -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" />
+    <!-- Connecté : on masque la landing pré-rendue pour ne pas la voir passer avant l'appli -->
+    <script>try{for(var k in localStorage)if(/^sb-.+-auth-token$/.test(k)){document.documentElement.classList.add("has-session");break}}catch(e){}</script>
+    <style>.has-session #prerender{display:none}</style>
   </head>
   <body>
     <div id="root"></div>
