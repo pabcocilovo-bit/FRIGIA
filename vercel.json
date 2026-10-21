@@ -1,7 +1,98 @@
 {
+  "buildCommand": "npm run build",
+  "cleanUrls": true,
   "functions": {
     "api/analyze.ts": {
       "maxDuration": 60
+    },
+    "api/ingredients.ts": {
+      "maxDuration": 60
+    },
+    "api/recipes.ts": {
+      "maxDuration": 60
+    },
+    "api/notify.ts": {
+      "maxDuration": 60
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera|plus|resilier|recette|aide|bilan|parrainage|notifications)",
+      "destination": "/"
+    },
+    {
+      "source": "/i/:code",
+      "destination": "/"
+    },
+    {
+      "source": "/notifications/:page",
+      "destination": "/"
+    },
+    {
+      "source": "/questions/:n",
+      "destination": "/"
+    },
+    {
+      "source": "/compte/:etape",
+      "destination": "/"
+    },
+    {
+      "source": "/plus/:etape",
+      "destination": "/"
+    },
+    {
+      "source": "/planning/:page",
+      "destination": "/"
+    },
+    {
+      "source": "/famille/:page",
+      "destination": "/"
+    },
+    {
+      "source": "/famille/:page/:id",
+      "destination": "/"
+    },
+    {
+      "source": "/scan/:etape",
+      "destination": "/"
+    },
+    {
+      "source": "/recettes/:id",
+      "destination": "/"
+    },
+    {
+      "source": "/recettes/:id/:n",
+      "destination": "/"
+    },
+    {
+      "source": "/recettes/:id/:n/cuisine",
+      "destination": "/"
+    },
+    {
+      "source": "/recette/cuisine",
+      "destination": "/"
+    },
+    {
+      "source": "/reglages/:page",
+      "destination": "/"
+    },
+    {
+      "source": "/infos-legales/:page",
+      "destination": "/"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/subscription",
+      "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/notify?job=evening",
+      "schedule": "0 16 * * *"
+    },
+    {
+      "path": "/api/notify?job=week",
+      "schedule": "0 8 * * 0"
+    }
+  ]
 }

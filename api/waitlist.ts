@@ -1,0 +1,35 @@
+// La liste d'attente du site (avant l'ouverture à tous) : prénom + email, gardés dans waitlist (migration 20261026000000).
+// Sans compte. Une adresse ne s'inscrit qu'une fois (« already »). Un email de confirmation part (sans RESEND_API_KEY : rien).
+// website : un champ caché du formulaire. Un robot le remplit, une personne non : on répond « ok » sans rien garder.
+import { waitlistEmail } from "./_email.js";
+import { adminClient, errorMessage, preflight, type Req, type Res } from "./_shared.js";
+
+const PER_MINUTE = 30;
+const EMAIL = /^[^\s@]{1,64}@[^\s@]{1,190}\.[a-z]{2,24}$/i;
+const text = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
+
+export default async function handler(req: Req, res: Res) {
+  if (preflight(req, res)) return;
+  const body = (req.body ?? {}) as { firstName?: unknown; email?: unknown; source?: unknown; website?: unknown };
+  if (text(body.website, 200)) return res.json({ status: "ok" });
+  const email = text(body.email, 254).toLowerCase();
+  const firstName = text(body.firstName, 40);
+  if (!EMAIL.test(email)) return res.status(400).json({ error: "Cette adresse email n'a pas l'air valide." });
+  if (!firstName) return res.status(400).json({ error: "Ton prénom manque." });
+  const source = text(body.source, 60) || null;
+
+  const admin = adminClient();
+  try {
+    const { count } = await admin.from("waitlist").select("id", { count: "exact", head: true })
+      .gte("created_at", new Date(Date.now() - 60e3).toISOString());
+    if ((count ?? 0) >= PER_MINUTE) return res.status(429).json({ error: "Beaucoup d'inscriptions en ce moment. Réessaie dans une minute." });
+    const { error } = await admin.from("waitlist").insert({ email, first_name: firstName, source });
+    if (error?.code === "23505") return res.json({ status: "already" });
+    if (error) throw error;
+    await waitlistEmail(email, firstName);
+    return res.json({ status: "ok" });
+  } catch (e) {
+    console.error("waitlist:", errorMessage(e));
+    return res.status(500).json({ error: "L'inscription n'a pas marché. Réessaie." });
+  }
+}

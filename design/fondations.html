@@ -1,0 +1,320 @@
+<title>Frigia Fondations</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* Mise en page : guide de style à une colonne, sections empilées, les tokens de la page SONT ceux de l'app (prototype V3).
+   L'app est en mode clair seulement : la page garde volontairement ce seul thème. */
+:root{
+  color-scheme:light;
+  --page:#EFE3D0; --bg:#F5EFE3; --card:#FBF7EF; --surface:#ECE4D4; --line:#E0D6C3;
+  --text:#1F2A22; --muted:#66705F;
+  --sage:#527659; --sage-deep:#34503B; --sage-soft:#DCE5D5; --on:#F7F1E6;
+  --hi:#E0A44A; --hi-soft:#F6E5C6; --hi-ink:#7A5216;
+  --danger:#9A3B26; --danger-soft:#F3E1D9;
+  --logo:#2D5E45; --mint:#9FCCA4;
+  --sans:"Hanken Grotesk",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font:400 16px/1.5 var(--sans);padding:0 16px}
+.wrap{max-width:1080px;margin:0 auto;padding-block:36px 80px;display:flex;flex-direction:column;gap:64px}
+p{margin:0}
+em{font-style:italic;color:var(--sage)}
+.kicker{font:600 12px/16px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--sage)}
+h1{font:400 clamp(40px,7vw,64px)/1.02 var(--serif);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font:400 clamp(28px,4.4vw,36px)/1.08 var(--serif);margin:0;text-wrap:balance}
+h3{font:600 16px/22px var(--sans);margin:0}
+.lead{color:var(--muted);max-width:60ch;font-size:17px;line-height:1.55}
+.small{font-size:14px;line-height:20px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:22px}
+.sec-h{display:flex;flex-direction:column;gap:8px}
+code{font:500 12.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* En-tête */
+header{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;align-items:end}
+.h-txt{display:flex;flex-direction:column;gap:16px;min-width:0}
+.h-logo{background:var(--sage-deep);border-radius:28px;padding:34px 28px;display:grid;place-items:center;min-height:220px}
+.h-logo img{width:min(260px,100%)}
+@media (max-width:760px){header{grid-template-columns:1fr}.h-logo{min-height:170px}}
+
+/* Ce qui change */
+.chg{border-top:1px solid var(--line);display:flex;flex-direction:column}
+.chg-r{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1.3fr);gap:18px;padding:14px 0;border-bottom:1px solid var(--line);align-items:center}
+.chg-r b{font-weight:600;font-size:15px}
+.chg-old{color:var(--muted);font-size:14px;text-decoration:line-through;text-decoration-color:rgba(102,112,95,.5)}
+.chg-new{font-size:15px;display:flex;align-items:flex-start;gap:10px}
+.chg-new .sw{margin-top:2px}
+.sw{width:18px;height:18px;border-radius:6px;flex:none;box-shadow:inset 0 0 0 1px rgba(31,42,34,.08)}
+@media (max-width:640px){.chg-r{grid-template-columns:1fr;gap:4px}}
+
+/* Logo */
+.logos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.lg{border-radius:22px;overflow:hidden;display:flex;flex-direction:column;background:var(--card)}
+.lg .art{height:170px;display:grid;place-items:center;padding:24px}
+.lg .art>img{height:118px;width:auto;max-width:100%;object-fit:contain}
+.lg .art>img.sym{height:96px}
+.lg .t{padding:12px 16px 14px;display:flex;flex-direction:column;gap:2px;font-size:14px}
+.lg .t b{font-weight:600}
+.art.cream{background:var(--bg)}
+.art.deep{background:var(--sage-deep)}
+.art.logo-g{background:var(--logo)}
+.art.sand{background:var(--surface)}
+.icons{display:flex;align-items:flex-end;gap:22px}
+.icons figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.icons img{display:block}
+.note{background:var(--hi-soft);color:var(--hi-ink);border-radius:16px;padding:14px 16px;font-size:14px;line-height:1.5;max-width:70ch}
+.note b{font-weight:600}
+
+/* Couleurs */
+.cgroups{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.cg{background:var(--card);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.cg h3{font-size:14px;color:var(--muted);font-weight:600}
+.cl{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center}
+.cl i{width:44px;height:44px;border-radius:14px;box-shadow:inset 0 0 0 1px rgba(31,42,34,.08)}
+.cl div{display:flex;flex-direction:column;gap:3px;font-size:13px;line-height:1.3;min-width:0}
+.cl b{font-size:14px;font-weight:600}
+.cl code{font-size:12px}
+
+/* Typo */
+.types{border-top:1px solid var(--line);display:flex;flex-direction:column}
+.ty{display:grid;grid-template-columns:170px minmax(0,1fr);gap:18px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)}
+.ty .m{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.45}
+.ty .m b{display:block;color:var(--text);font-weight:600;font-size:13.5px}
+.t-hero{font:400 44px/1.02 var(--serif)}
+.t-h1{font:400 34px/1.05 var(--serif)}
+.t-h2{font:400 26px/1.1 var(--serif)}
+.t-card{font:600 18px/24px var(--sans)}
+.t-body{font:400 16px/24px var(--sans)}
+.t-sm{font:400 14px/20px var(--sans);color:var(--muted)}
+.t-btn{font:600 15px/1 var(--sans)}
+@media (max-width:560px){.ty{grid-template-columns:1fr;gap:6px}.t-hero{font-size:38px}}
+
+/* Formes */
+.shapes{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end}
+.shp{background:var(--card);box-shadow:inset 0 0 0 1px var(--line);display:flex;align-items:flex-end;justify-content:center;padding:0 6px 8px;font-size:12px;color:var(--muted);text-align:center;line-height:1.3}
+.spaces{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end}
+.sp{display:flex;flex-direction:column;gap:6px;align-items:center;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sp i{display:block;background:var(--sage-soft);box-shadow:inset 0 0 0 1px var(--sage)}
+
+/* Composants */
+.comps{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.box{background:var(--card);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.box.deep{background:var(--sage-deep);color:var(--on)}
+.box.deep .small{color:rgba(247,241,230,.7)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:600 15px/1 var(--sans);padding:15px 22px;border:0;cursor:pointer;transition:transform .12s}
+.pill:active{transform:scale(.97)}
+.pill:focus-visible,.chip:focus-visible{outline:2px solid var(--hi);outline-offset:2px}
+.pill.sage{background:var(--sage);color:var(--on)}
+.pill.cream{background:var(--card);color:var(--sage-deep)}
+.pill.line{background:transparent;color:var(--sage-deep);box-shadow:inset 0 0 0 1.5px var(--sage-deep)}
+.pill.ghost{background:transparent;color:var(--on);box-shadow:inset 0 0 0 1px rgba(247,241,230,.4)}
+.pill.gold{background:var(--hi);color:#2A1E08}
+.pill.danger{background:var(--danger-soft);color:var(--danger)}
+.pill.text{background:none;color:var(--sage);padding-inline:6px}
+.pill svg{width:18px;height:18px}
+.chip{font:500 14px/1 var(--sans);padding:10px 14px;border-radius:999px;border:0;background:var(--surface);color:var(--text);cursor:pointer}
+.chip.on{background:var(--sage);color:var(--on)}
+.badge{display:inline-flex;align-items:center;gap:4px;font:600 11.5px/1 var(--sans);padding:5px 8px;border-radius:999px;background:var(--sage-soft);color:var(--sage-deep)}
+.badge.gold{background:var(--hi-soft);color:var(--hi-ink)}
+.badge.gold::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--hi)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;font-weight:600;color:var(--muted)}
+.field input{font:400 16px var(--sans);padding:14px 16px;border-radius:14px;border:0;background:var(--bg);color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
+.field input:focus-visible{outline:2px solid var(--sage);outline-offset:1px}
+
+.rc{background:var(--bg);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.rc img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.rc .b{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px}
+.meta{display:flex;gap:14px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.meta span{display:flex;gap:5px;align-items:center}
+svg.i{width:16px;height:16px;flex:none}
+
+.tb-wrap{background:var(--bg);border-radius:18px;padding:22px 12px 14px}
+.tabbar{height:66px;background:var(--sage);border-radius:999px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;box-shadow:0 18px 30px -16px rgba(52,80,59,.75)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:rgba(247,241,230,.62);width:56px;text-align:center}
+.tab svg{width:22px;height:22px}
+.tab.on{color:var(--on);font-weight:600}
+.tab.scan{width:54px;height:54px;border-radius:50%;background:var(--on);color:var(--sage-deep);justify-content:center;margin-top:-30px;box-shadow:0 8px 18px -8px rgba(52,80,59,.8)}
+
+.sheet-demo{background:var(--sage-deep);border-radius:18px;padding:26px 14px 0;display:flex;align-items:flex-end;min-height:240px}
+.sheet{width:100%;background:var(--bg);border-radius:28px 28px 0 0;padding:10px 18px 20px;display:flex;flex-direction:column;gap:12px}
+.grab{width:38px;height:4px;border-radius:4px;background:var(--line);align-self:center}
+.sheet .t-h2{font-size:24px}
+.toast{align-self:flex-start;background:var(--text);color:var(--on);padding:12px 16px;border-radius:14px;font-size:14px;line-height:1.35}
+
+/* Règles */
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin:0;padding:0;list-style:none}
+.rules li{background:var(--card);border-radius:18px;padding:16px;font-size:15px;line-height:1.45;display:flex;flex-direction:column;gap:4px}
+.rules li b{font-weight:600}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2.5"/><path d="M4 10h16M9 3v4M15 3v4"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.5 11h11L21 7H6.2"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21 20c0-2.6-1.6-4.8-4-5.6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+</svg>
+
+<div class="wrap">
+  <header>
+    <div class="h-txt">
+      <span class="kicker">Frigia · fondations V3 · 10 octobre 2026</span>
+      <h1>Crème, sauge et <em>une touche d'or</em></h1>
+      <p class="lead">La base du nouveau design, mise à jour avec tout ce qu'on a changé depuis la première version : le vert sauge, les titres en serif, le doré réservé à Plus et le logo final. Ces valeurs sont celles du prototype V3 et de <code>design/tokens.css</code>.</p>
+    </div>
+    <div class="h-logo"><img src="logo/frigia-logo-inverse.svg" alt="Logo Frigia sur fond vert"></div>
+  </header>
+
+  <section>
+    <div class="sec-h"><span class="kicker">Depuis la v1</span><h2>Ce qui a <em>changé</em></h2></div>
+    <div class="chg">
+      <div class="chg-r"><b>Vert principal</b><span class="chg-old">Vert sapin #12493A</span><span class="chg-new"><i class="sw" style="background:var(--sage)"></i><span>Sauge #527659, et sauge foncé #34503B pour les bandeaux</span></span></div>
+      <div class="chg-r"><b>Fond</b><span class="chg-old">Crème froid #F6F3EC</span><span class="chg-new"><i class="sw" style="background:var(--bg)"></i><span>Crème plus chaud #F5EFE3, cartes #FBF7EF</span></span></div>
+      <div class="chg-r"><b>Titres</b><span class="chg-old">Hanken Grotesk fin</span><span class="chg-new"><span>Instrument Serif, avec le mot clé en <em>italique sauge</em></span></span></div>
+      <div class="chg-r"><b>Accent</b><span class="chg-old">Abricot pour le focus</span><span class="chg-new"><i class="sw" style="background:var(--hi)"></i><span>Doré #E0A44A, seulement pour Plus et les badges</span></span></div>
+      <div class="chg-r"><b>Actions à risque</b><span class="chg-old">Rouge vif #B3412C</span><span class="chg-new"><i class="sw" style="background:var(--danger)"></i><span>Terre cuite #9A3B26 sur fond rosé, jamais en plein</span></span></div>
+      <div class="chg-r"><b>Barre d'onglets</b><span class="chg-old">Pilule crème, 4 onglets</span><span class="chg-new"><span>Pilule sauge, 5 onglets, le scan au centre</span></span></div>
+      <div class="chg-r"><b>Arrondis</b><span class="chg-old">16 px partout</span><span class="chg-new"><span>18 à 22 px pour les cartes, 28 px pour les feuilles</span></span></div>
+      <div class="chg-r"><b>Mode sombre</b><span class="chg-old">Prévu dès la v1</span><span class="chg-new"><span>Mis de côté : mode clair seulement pour le lancement</span></span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="kicker">Logo</span><h2>Le frigo dans <em>le viseur</em></h2><p class="small">Choisi le 6 octobre. Le nom est en Quicksand épaissie, déjà vectorisé dans les SVG. Tous les fichiers sont dans <code>design/logo/</code>.</p></div>
+    <div class="logos">
+      <div class="lg"><div class="art cream"><img src="logo/frigia-logo.svg" alt="Logo Frigia sur fond clair"></div><div class="t"><b>Sur fond clair</b><code>frigia-logo.svg</code></div></div>
+      <div class="lg"><div class="art deep"><img src="logo/frigia-logo-inverse.svg" alt="Logo Frigia sur fond vert"></div><div class="t"><b>Sur fond vert</b><code>frigia-logo-inverse.svg</code></div></div>
+      <div class="lg"><div class="art sand"><img class="sym" src="logo/frigia-symbole.svg" alt="Symbole Frigia seul"></div><div class="t"><b>Le symbole seul</b><code>frigia-symbole.svg</code></div></div>
+      <div class="lg"><div class="art cream">
+        <div class="icons">
+          <figure><img src="logo/icon-192.png" width="88" height="88" alt="Icône de l'app" style="border-radius:20px"><figcaption>App</figcaption></figure>
+          <figure><img src="logo/apple-touch-icon.png" width="56" height="56" alt="Icône iPhone" style="border-radius:13px"><figcaption>iPhone</figcaption></figure>
+          <figure><img src="logo/favicon-32.png" width="32" height="32" alt="Favicon"><figcaption>Onglet</figcaption></figure>
+        </div></div><div class="t"><b>Icônes</b><code>icon-192/512 · favicon</code></div></div>
+    </div>
+    <p class="note"><b>Le vert du logo n'est pas encore aligné.</b> Le logo utilise #2D5E45 avec une menthe #9FCCA4, un peu plus froid que la sauge foncé #34503B de l'app. Côte à côte sur l'écran d'ouverture, ça passe. On pourra régénérer les fichiers en sauge si tu préfères.</p>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="kicker">Couleurs</span><h2>Des tons de cuisine, <em>un seul vert</em></h2></div>
+    <div class="cgroups">
+      <div class="cg"><h3>Fonds</h3>
+        <div class="cl"><i style="background:var(--bg)"></i><div><b>Crème</b><code>--bg #F5EFE3</code>Fond des écrans</div></div>
+        <div class="cl"><i style="background:var(--card)"></i><div><b>Carte</b><code>--card #FBF7EF</code>Cartes, feuilles</div></div>
+        <div class="cl"><i style="background:var(--surface)"></i><div><b>Sable</b><code>--surface #ECE4D4</code>Blocs secondaires, puces</div></div>
+        <div class="cl"><i style="background:var(--line)"></i><div><b>Trait</b><code>--line #E0D6C3</code>Séparateurs, contours</div></div>
+      </div>
+      <div class="cg"><h3>Sauge</h3>
+        <div class="cl"><i style="background:var(--sage)"></i><div><b>Sauge</b><code>--sage #527659</code>Boutons, onglet actif</div></div>
+        <div class="cl"><i style="background:var(--sage-deep)"></i><div><b>Sauge foncé</b><code>--sage-deep #34503B</code>Bandeaux, titres forts</div></div>
+        <div class="cl"><i style="background:var(--sage-soft)"></i><div><b>Sauge clair</b><code>--sage-soft #DCE5D5</code>Badges, encadrés d'info</div></div>
+        <div class="cl"><i style="background:var(--on)"></i><div><b>Sur le vert</b><code>--on #F7F1E6</code>Texte posé sur la sauge</div></div>
+      </div>
+      <div class="cg"><h3>Texte</h3>
+        <div class="cl"><i style="background:var(--text)"></i><div><b>Encre</b><code>--text #1F2A22</code>Texte principal</div></div>
+        <div class="cl"><i style="background:var(--muted)"></i><div><b>Encre douce</b><code>--muted #66705F</code>Temps, aides, légendes</div></div>
+        <div class="cl"><i style="background:var(--page)"></i><div><b>Fond ordinateur</b><code>--page #EFE3D0</code>Derrière l'app sur grand écran</div></div>
+      </div>
+      <div class="cg"><h3>Accents rares</h3>
+        <div class="cl"><i style="background:var(--hi)"></i><div><b>Doré</b><code>--hi #E0A44A</code>Plus, badges, étincelles</div></div>
+        <div class="cl"><i style="background:var(--hi-soft)"></i><div><b>Doré clair</b><code>--hi-soft #F6E5C6</code>Fond des encarts Plus</div></div>
+        <div class="cl"><i style="background:var(--danger)"></i><div><b>Terre cuite</b><code>--danger #9A3B26</code>Se déconnecter, supprimer</div></div>
+        <div class="cl"><i style="background:var(--danger-soft)"></i><div><b>Terre cuite clair</b><code>--danger-soft #F3E1D9</code>Fond des boutons à risque</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="kicker">Typographie</span><h2>Un serif pour parler, <em>un sans pour lire</em></h2></div>
+    <div class="types">
+      <div class="ty"><div class="m"><b>Grand titre</b>Instrument Serif · 44 / 1,02</div><div class="t-hero">Qu'est-ce qu'on mange <em>ce soir ?</em></div></div>
+      <div class="ty"><div class="m"><b>Titre d'écran</b>Instrument Serif · 34 / 1,05</div><div class="t-h1">Ton <em>bilan</em> d'octobre</div></div>
+      <div class="ty"><div class="m"><b>Titre de feuille</b>Instrument Serif · 26 / 1,1</div><div class="t-h2">Autre chose <em>ce soir ?</em></div></div>
+      <div class="ty"><div class="m"><b>Titre de carte</b>Hanken · 18 / 24 · 600</div><div class="t-card">Penne aux légumes du frigo</div></div>
+      <div class="ty"><div class="m"><b>Texte</b>Hanken · 16 / 24 · 400</div><div class="t-body">Fais revenir la courgette 5 minutes, puis ajoute les tomates.</div></div>
+      <div class="ty"><div class="m"><b>Petit texte</b>Hanken · 14 / 20 · 400</div><div class="t-sm">Courgette, penne, tomates, parmesan, basilic</div></div>
+      <div class="ty"><div class="m"><b>Surtitre</b>Hanken · 12 / 16 · 600 · capitales</div><div class="kicker">Recette 1 sur 3</div></div>
+      <div class="ty"><div class="m"><b>Bouton</b>Hanken · 15 · 600</div><div class="t-btn">Scanner mon frigo</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="kicker">Formes et espaces</span><h2>Tout est <em>arrondi</em></h2></div>
+    <div class="shapes">
+      <div class="shp" style="width:84px;height:64px;border-radius:14px">14<br>champ, toast</div>
+      <div class="shp" style="width:96px;height:72px;border-radius:18px">18<br>carte</div>
+      <div class="shp" style="width:104px;height:78px;border-radius:22px">22<br>bloc</div>
+      <div class="shp" style="width:120px;height:78px;border-radius:28px 28px 0 0">28<br>feuille</div>
+      <div class="shp" style="width:130px;height:48px;border-radius:999px;align-items:center;padding-bottom:0">pilule</div>
+    </div>
+    <div class="spaces">
+      <div class="sp"><i style="width:4px;height:4px"></i>4</div>
+      <div class="sp"><i style="width:8px;height:8px"></i>8</div>
+      <div class="sp"><i style="width:12px;height:12px"></i>12</div>
+      <div class="sp"><i style="width:14px;height:14px"></i>14</div>
+      <div class="sp"><i style="width:20px;height:20px"></i>20</div>
+      <div class="sp"><i style="width:26px;height:26px"></i>26</div>
+      <div class="sp"><i style="width:40px;height:40px"></i>40</div>
+    </div>
+    <p class="small">Écart entre blocs : 12 à 14. Marge des écrans : 20. Pas d'ombre sur les cartes ; seule la barre d'onglets flotte avec une ombre verte.</p>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="kicker">Composants</span><h2>Les briques <em>de base</em></h2></div>
+    <div class="comps">
+      <div class="box"><h3>Boutons</h3>
+        <div class="row"><button class="pill sage" id="b1"><svg><use href="#i-cam"/></svg>Scanner mon frigo</button><button class="pill line" id="b2">Rescanner</button></div>
+        <div class="row"><button class="pill gold" id="b3">Passer à Plus</button><button class="pill danger" id="b4">Se déconnecter</button><button class="pill text" id="b5">Plus tard</button></div>
+        <p class="small">Sauge pour l'action principale, une seule par écran. Doré uniquement pour Plus.</p>
+      </div>
+      <div class="box deep"><h3>Sur fond sauge foncé</h3>
+        <div class="row"><button class="pill cream" id="b6">C'est parti</button><button class="pill ghost" id="b7">J'ai déjà un compte</button></div>
+        <p class="small">Écran d'ouverture, inscription, bienvenue dans Plus.</p>
+      </div>
+      <div class="box"><h3>Puces, badges, champ</h3>
+        <div class="row"><button class="chip on" id="c1">Mon frigo</button><button class="chip" id="c2">Plus rapide</button><button class="chip" id="c3">Enfants</button></div>
+        <div class="row"><span class="badge">25 min</span><span class="badge">Végé</span><span class="badge gold">Plus</span></div>
+        <div class="field"><label for="em">Email</label><input id="em" type="email" value="camille@exemple.fr"></div>
+      </div>
+      <div class="box"><h3>Carte recette</h3>
+        <div class="rc"><img src="img/plat-pates.jpg" alt="Assiette de penne aux légumes">
+          <div class="b"><span class="kicker">Recette 1 sur 3</span><div class="t-card">Penne aux légumes du frigo</div>
+            <div class="meta"><span><svg class="i"><use href="#i-clock"/></svg>20 min</span><span><svg class="i"><use href="#i-users"/></svg>2 pers.</span><span><svg class="i"><use href="#i-heart"/></svg>Favori</span></div>
+          </div></div>
+      </div>
+      <div class="box"><h3>Barre d'onglets</h3>
+        <div class="tb-wrap"><nav class="tabbar" aria-label="Exemple de navigation">
+          <span class="tab on"><svg><use href="#i-home"/></svg>Accueil</span>
+          <span class="tab"><svg><use href="#i-cal"/></svg>Planning</span>
+          <span class="tab scan"><svg><use href="#i-cam"/></svg></span>
+          <span class="tab"><svg><use href="#i-cart"/></svg>Courses</span>
+          <span class="tab"><svg><use href="#i-users"/></svg>Famille</span>
+        </nav></div>
+        <p class="small">Icônes au trait 1,75, toutes de la même famille. Le scan reste toujours au centre.</p>
+      </div>
+      <div class="box"><h3>Feuille et message</h3>
+        <div class="sheet-demo"><div class="sheet"><span class="grab"></span><span class="kicker">Mardi · soir</span><div class="t-h2">Autre chose <em>ce soir ?</em></div><button class="pill sage" id="b8" style="width:100%">Remplacer par ce plat</button></div></div>
+        <span class="toast">Planning mis à jour</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="kicker">Règles</span><h2>Ce qui garde Frigia <em>chaleureux</em></h2></div>
+    <ul class="rules">
+      <li><b>Un mot en italique</b>Chaque titre a un seul mot clé en italique sauge, jamais deux.</li>
+      <li><b>L'or reste rare</b>Le doré signale Plus et les petites victoires. Ailleurs, la sauge suffit.</li>
+      <li><b>Tutoiement, phrases courtes</b>« Ouvre ton frigo » plutôt que « Veuillez scanner ».</li>
+      <li><b>Les bons mots</b>On dit « Midi », jamais « panier-repas ».</li>
+      <li><b>Vrais chiffres</b>Le compteur de la communauté est la vraie somme. Pas de note inventée.</li>
+      <li><b>Zéro emoji</b>Des icônes au trait et de vraies photos de plats.</li>
+    </ul>
+  </section>
+
+  <footer>Fondations V3 de Frigia. Valeurs reprises du prototype V3 et de <code>design/tokens.css</code>. Remplace la v1 du 6 octobre.</footer>
+</div>

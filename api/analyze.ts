@@ -1,111 +1,45 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+// Ancien scan en un seul appel (photo -> ingrédients et 3 recettes). Gardé pour les téléphones qui ont encore
+// l'ancienne appli en mémoire ; la nouvelle appelle /api/ingredients puis /api/recipes.
+import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
+import { askClaude, checkRateLimit, dishPhoto, prefLines, refundFreeScan, SUPPORTED_TYPES, takeFreeScan, type Prefs } from "./_ai.js";
 
-const ALLOWED_ORIGINS = ["https://frigia.fr", "https://frigia-ten.vercel.app", "http://localhost:5173"];
+type Body = {
+  imageBase64: string; mediaType: string; recentTitles?: string[]; mealType?: string;
+  prefs?: Prefs;
+};
+type RawRecipe = { title?: string; time?: string; calories?: number; difficulty?: string; imageSearch?: string; ingredients?: unknown; steps?: unknown };
 
-// Rate limiting: 20 requests per hour per user
-const RATE_LIMIT = 20;
-const RATE_WINDOW_MS = 3600 * 1000;
-
-// Shared counter in Supabase (see supabase/migrations), so it holds across serverless instances
-async function checkRateLimit(admin: SupabaseClient, userId: string): Promise<boolean> {
-  const { data, error } = await admin.rpc("check_scan_rate_limit", {
-    p_user_id: userId,
-    p_limit: RATE_LIMIT,
-    p_window_seconds: RATE_WINDOW_MS / 1000,
-  });
-  if (!error) return data === true;
-  // Migration not applied yet: fall back to the per-instance counter instead of blocking scans
-  console.error("check_scan_rate_limit failed:", error.message);
-  return checkMemoryRateLimit(userId);
-}
-
-const rateLimitMap = new Map<string, { count: number; reset: number }>();
-
-function checkMemoryRateLimit(userId: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(userId);
-  if (!entry || now > entry.reset) {
-    rateLimitMap.set(userId, { count: 1, reset: now + RATE_WINDOW_MS });
-    return true;
-  }
-  if (entry.count >= RATE_LIMIT) return false;
-  entry.count++;
-  return true;
-}
-
-export default async function handler(req: any, res: any) {
-  const origin = req.headers.origin as string | undefined;
-  const allowedOrigin = ALLOWED_ORIGINS.includes(origin ?? "") ? origin! : ALLOWED_ORIGINS[0];
-  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  if (req.method === "OPTIONS") return res.status(200).end();
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
-
-  const authHeader = req.headers.authorization as string | undefined;
-  if (!authHeader?.startsWith("Bearer ")) return res.status(401).json({ error: "Missing token" });
-  const token = authHeader.replace("Bearer ", "");
-
-  const admin = createClient(process.env.VITE_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
-    auth: { autoRefreshToken: false, persistSession: false },
-  });
-  const { data: { user }, error } = await admin.auth.getUser(token);
-  if (error || !user) return res.status(401).json({ error: "Invalid token" });
-
-  // Only app_metadata is trusted: user_metadata can be edited by the user from the browser
-  const appMeta = user.app_metadata || {};
-  const status = appMeta.subscription_status;
-  const isWhitelisted = !!appMeta.is_whitelisted;
-
-  // Trial is valid only if status is "trialing" AND 4-day window hasn't expired
-  const TRIAL_MS = 4 * 24 * 60 * 60 * 1000;
-  const trialExpired = user.created_at
-    ? Date.now() > new Date(user.created_at).getTime() + TRIAL_MS
-    : true;
-  const isTrialing = status === "trialing" && !trialExpired;
-
-  const hasAccess = isWhitelisted || status === "active" || isTrialing;
-  if (!hasAccess) {
-    const code = status === "past_due" ? "past_due" : status === "canceled" ? "canceled" : "no_subscription";
-    return res.status(403).json({ error: "No active subscription", code });
-  }
+export default async function handler(req: Req, res: Res) {
+  if (preflight(req, res)) return;
+  const admin = adminClient();
+  const user = await authUser(req, admin);
+  if (!user) return res.status(401).json({ error: "Invalid token" });
 
   if (!(await checkRateLimit(admin, user.id))) {
     return res.status(429).json({ error: "Limite atteinte. Réessayez dans une heure." });
   }
 
-  const { imageBase64, mediaType, prefs, recentTitles, mealType } = req.body as { imageBase64: string; mediaType: string; prefs?: { goal?: string; diet?: string[]; time?: string; equipment?: string[] }; recentTitles?: string[]; mealType?: string };
-  if (!imageBase64) return res.status(400).json({ error: "Missing imageBase64" });
-  if (imageBase64.length > 4 * 1024 * 1024) return res.status(400).json({ error: "Image trop lourde" });
+  // Gratuit : un scan est compté avant l'analyse (le 16e est refusé), et rendu si l'analyse échoue
+  const plus = isPlus(user);
+  let scansLeft: number | null = null;
+  if (!plus) {
+    scansLeft = await takeFreeScan(admin, user.id);
+    if (scansLeft === null) return res.status(503).json({ error: "Service temporairement indisponible. Réessayez." });
+    if (scansLeft < 0) return res.status(403).json({ error: "Tes scans gratuits sont utilisés.", code: "quota" });
+  }
+  const fail = async (status: number, error: string) => {
+    if (!plus) await refundFreeScan(admin, user.id);
+    return res.status(status).json({ error });
+  };
 
-  const SUPPORTED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+  const { imageBase64, mediaType, prefs, recentTitles, mealType } = (req.body ?? {}) as Body;
+  if (!imageBase64) return fail(400, "Missing imageBase64");
+  if (imageBase64.length > 4 * 1024 * 1024) return fail(400, "Image trop lourde");
+
   const safeMediaType = SUPPORTED_TYPES.includes(mediaType) ? mediaType : "image/jpeg";
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: "ANTHROPIC_API_KEY not configured" });
-
-  // Build personalization constraints from questionnaire prefs
-  const prefLines: string[] = [];
-  if (prefs) {
-    const dietMap: Record<string, string> = { veggie: "végétarien (sans viande ni poisson)", vegan: "vegan (sans aucun produit animal)", glutenfree: "sans gluten" };
-    const goalMap: Record<string, string> = { healthy: "recettes saines et équilibrées", nogaspi: "recettes zéro gaspillage utilisant un maximum d'ingrédients visibles", quick: "recettes rapides à préparer" };
-    const equipMap: Record<string, string> = { airfryer: "AirFryer", moulinex: "Moulinex", thermomix: "Thermomix" };
-    const timeMap: Record<string, string> = { "15min": "15 minutes maximum", "30min": "30 minutes maximum" };
-
-    const dietConstraints = (prefs.diet || []).filter(d => d !== "all").map(d => dietMap[d]).filter(Boolean);
-    if (dietConstraints.length > 0) prefLines.push(`ALIMENTATION (OBLIGATOIRE sur les 3 recettes) : ${dietConstraints.join(" et ")}.`);
-
-    const goal = prefs.goal ? goalMap[prefs.goal] : null;
-    if (goal) prefLines.push(`OBJECTIF : Privilégier des ${goal}.`);
-
-    const timeConstraint = prefs.time ? timeMap[prefs.time] : null;
-    if (timeConstraint) prefLines.push(`DURÉE : Au moins 2 recettes sur 3 doivent être réalisables en ${timeConstraint}. La 3ème peut être plus longue.`);
-
-    const equipList = (prefs.equipment || []).map(e => equipMap[e]).filter(Boolean);
-    if (equipList.length > 0) prefLines.push(`ÉQUIPEMENT : L'utilisateur possède ${equipList.join(", ")}. Exactement 1 recette sur 3 peut suggérer d'utiliser cet équipement (les autres doivent rester classiques).`);
-  }
-  const prefBlock = prefLines.length > 0 ? `\n\nPRÉFÉRENCES UTILISATEUR :\n${prefLines.join("\n")}` : "";
+  const lines = prefLines(prefs);
+  const prefBlock = lines.length > 0 ? `\n\nPRÉFÉRENCES UTILISATEUR :\n${lines.join("\n")}` : "";
   const avoidBlock = recentTitles && recentTitles.length > 0
     ? `\n\nRECETTES DÉJÀ PROPOSÉES (NE PAS RÉPÉTER) : ${recentTitles.join(", ")}. Propose des recettes différentes même si les ingrédients sont similaires.`
     : "";
@@ -117,102 +51,31 @@ export default async function handler(req: any, res: any) {
   };
   const mealTypeBlock = mealType && mealTypeMap[mealType] ? `\n\n${mealTypeMap[mealType]}` : "";
 
-  const MODEL = process.env.ANTHROPIC_MODEL?.trim() || "claude-haiku-5-5";
-  const anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({
-      // Haiku 5.5 : 30 fois moins cher que Sonnet 4.6. ANTHROPIC_MODEL dans Vercel peut le changer
-      model: MODEL,
-      max_tokens: 2000,
-      // Haiku 5.5 réfléchit par défaut : coupé pour que la réflexion ne mange pas max_tokens
-      ...(/^claude-haiku-5/.test(MODEL) ? { thinking: { type: "disabled" } } : {}),
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: `Analyse cette photo de frigo. Retourne EXACTEMENT 3 recettes réalisables avec les ingrédients visibles. Étapes : format chef — courtes, précises, avec quantités + températures + durées, sans phrases longues. REGLE ABSOLUE imageSearch : EN ANGLAIS + TYPE DE PLAT SEULEMENT (2 mots max, ZERO ingrédient, ZERO sauce, ZERO adjectif). Exemples corrects: "scrambled eggs", "beef steak", "milkshake", "green salad", "pasta", "chicken soup", "fried rice", "omelette". JAMAIS: "eggs soy milk", "marinated steak citrus".${prefBlock}${avoidBlock}${mealTypeBlock} JSON uniquement: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"12 min","calories":380,"difficulty":"Facile","imageSearch":"omelette","ingredients":[{"name":"Oeufs","qty":"3"},{"name":"Tomates","qty":"2"},{"name":"Fromage râpé","qty":"40g"},{"name":"Beurre","qty":"10g"}],"steps":["Battre 3 oeufs + sel + poivre à la fourchette 1 min, légère mousse","Couper 2 tomates en dés 1cm, égoutter papier absorbant","Poêle 24cm feu moyen (6/9), fondre 10g beurre sans brûler","Verser oeufs, spatule : ramener bords au centre + incliner poêle, 2-3 min","Garnir une moitié : tomates + 40g fromage, plier, couvrir 30s, servir"]}]}`,
-            },
-            {
-              type: "image",
-              source: {
-                type: "base64",
-                media_type: safeMediaType,
-                data: imageBase64,
-              },
-            },
-          ],
-        },
-      ],
-    }),
-  });
-
-  if (!anthropicRes.ok) {
-    await anthropicRes.text();
-    return res.status(502).json({ error: "Service IA temporairement indisponible. Réessayez." });
-  }
-
-  const data = await anthropicRes.json() as { content?: { text?: string }[] };
-  const text = (data.content || []).map((i: any) => i.text || "").join("");
-
-  // Extract the first balanced JSON object (avoids greedy regex cutting across braces)
-  function extractFirstJSON(str: string): string | null {
-    const start = str.indexOf("{");
-    if (start === -1) return null;
-    let depth = 0;
-    for (let i = start; i < str.length; i++) {
-      if (str[i] === "{") depth++;
-      else if (str[i] === "}") { depth--; if (depth === 0) return str.slice(start, i + 1); }
-    }
-    return null;
-  }
-
-  const jsonStr = extractFirstJSON(text);
-  let parsed: any = null;
-  if (jsonStr) {
-    try { parsed = JSON.parse(jsonStr); } catch (e) {
-      return res.status(500).json({ error: "Réponse IA invalide. Réessayez." });
-    }
-  }
+  const answer = await askClaude<{ ingredients?: unknown[]; recipes?: RawRecipe[] }>([
+    { type: "text", text: `Analyse cette photo de frigo. Retourne EXACTEMENT 3 recettes réalisables avec les ingrédients visibles. Étapes : format chef — courtes, précises, avec quantités + températures + durées, sans phrases longues. REGLE ABSOLUE imageSearch : EN ANGLAIS + TYPE DE PLAT SEULEMENT (2 mots max, ZERO ingrédient, ZERO sauce, ZERO adjectif). Exemples corrects: "scrambled eggs", "beef steak", "milkshake", "green salad", "pasta", "chicken soup", "fried rice", "omelette". JAMAIS: "eggs soy milk", "marinated steak citrus".${prefBlock}${avoidBlock}${mealTypeBlock} JSON uniquement: {"ingredients":[{"name":"Tomates","confidence":95}],"recipes":[{"title":"Omelette tomate fromage","time":"12 min","calories":380,"difficulty":"Facile","imageSearch":"omelette","ingredients":[{"name":"Oeufs","qty":"3"},{"name":"Tomates","qty":"2"},{"name":"Fromage râpé","qty":"40g"},{"name":"Beurre","qty":"10g"}],"steps":["Battre 3 oeufs + sel + poivre à la fourchette 1 min, légère mousse","Couper 2 tomates en dés 1cm, égoutter papier absorbant","Poêle 24cm feu moyen (6/9), fondre 10g beurre sans brûler","Verser oeufs, spatule : ramener bords au centre + incliner poêle, 2-3 min","Garnir une moitié : tomates + 40g fromage, plier, couvrir 30s, servir"]}]}` },
+    { type: "image", source: { type: "base64", media_type: safeMediaType, data: imageBase64 } },
+  ], 2000);
+  if (!answer.ok) return fail(502, "Service IA temporairement indisponible. Réessayez.");
+  const parsed = answer.json;
 
   if (!parsed || (!parsed.ingredients?.length && !parsed.recipes?.length)) {
-    return res.status(500).json({ error: "Aucun aliment détecté dans la photo. Essayez avec une image plus nette ou mieux éclairée." });
+    return fail(500, "Aucun aliment détecté dans la photo. Essayez avec une image plus nette ou mieux éclairée.");
   }
 
-  const baseRecipes = (parsed.recipes || []).slice(0, 3).map((recipe: any) => ({
+  const baseRecipes = (parsed.recipes || []).slice(0, 3).map(recipe => ({
     title: recipe.title || "Recette",
     time: recipe.time || "15 min",
     calories: recipe.calories || 350,
     difficulty: recipe.difficulty || "Facile",
-    imageSearch: recipe.imageSearch || recipe.title,
+    imageSearch: recipe.imageSearch || recipe.title || "",
     ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
     steps: Array.isArray(recipe.steps) ? recipe.steps : [],
   }));
 
-  const pexelsKey = process.env.PEXELS_API_KEY;
-  const recipes = await Promise.all(
-    baseRecipes.map(async (recipe: typeof baseRecipes[number]) => {
-      if (!pexelsKey) return recipe;
-      try {
-        const query = `${recipe.imageSearch} food photography`;
-        const r = await fetch(
-          `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=10&orientation=landscape`,
-          { headers: { Authorization: pexelsKey } }
-        );
-        const d = await r.json() as any;
-        const photos = d.photos || [];
-        const photo = photos[1] || photos[0];
-        if (photo) return { ...recipe, imageUrl: photo.src.large };
-      } catch {}
-      return recipe;
-    })
-  );
+  const recipes = await Promise.all(baseRecipes.map(async recipe => {
+    const imageUrl = await dishPhoto(recipe.imageSearch);
+    return imageUrl ? { ...recipe, imageUrl } : recipe;
+  }));
 
-  res.json({ ingredients: parsed.ingredients || [], recipes });
+  res.json({ ingredients: parsed.ingredients || [], recipes, scansLeft });
 }
