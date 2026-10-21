@@ -14,6 +14,10 @@
   background:var(--bg);color:var(--text);font:400 15px/1.45 var(--sans);letter-spacing:normal;
   -webkit-font-smoothing:antialiased;text-align:left;
 }
+/* Une appli, pas une page web : pas de texte sélectionné au toucher (appui long, double appui), ni de menu « Copier ».
+   Les champs où l'on tape restent sélectionnables. Demandé par Hugo le 21 octobre. */
+.fa{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.fa input,.fa textarea,.fa [contenteditable="true"]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 .fa *,.fa *::before,.fa *::after{box-sizing:border-box}
 .fa button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0;text-align:inherit}
 .fa button:focus-visible,.fa a:focus-visible{outline:2px solid var(--hi);outline-offset:2px}
