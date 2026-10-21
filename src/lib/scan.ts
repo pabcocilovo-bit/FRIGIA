@@ -106,7 +106,7 @@ type RawItem = { name: string; plural: string; qty: number | null; unit: string;
 type RawRecipe = {
   title: string; intro: string; minutes: number; calories: number; difficulty: string; imageSearch: string; imageUrl?: string;
   veg: boolean; oven: boolean; cold: boolean; missing: string; serves: number; items: RawItem[];
-  kids?: boolean; without?: string[]; origin?: string;
+  kids?: boolean; without?: string[]; origin?: string; dessert?: boolean;
   steps: { text: string; timer: { label: string; min: number } | null }[];
 };
 
@@ -135,6 +135,7 @@ function toRecipe(r: RawRecipe): GeneratedRecipe {
     ...(r.kids ? { kids: true } : {}),
     ...(r.origin ? { origin: r.origin } : {}),
     ...(r.without?.length ? { without: r.without } : {}),
+    ...(r.dessert ? { dessert: true } : {}),
   };
 }
 
@@ -144,6 +145,8 @@ export async function makeRecipes(o: {
   /** Ce qu'il y a vraiment dans les placards (vide : « Inclure mes placards » décoché, ou placards vides) */
   pantry: { name: string; qty: string }[]; envie: Envie; meal: Meal; servings: number;
   token: string | null; avoid?: string[]; more?: boolean;
+  /** Le menu : combien de recettes (3 par défaut), et combien de desserts parmi elles (le reste : des plats pour meal) */
+  count?: number; desserts?: number;
   /** Frigia Plus : frigo vide, des plats avec les placards et une petite liste de courses */
   empty?: boolean;
   /** Frigia Plus : ceux du foyer qui mangent (allergies, ce qu'ils n'aiment pas, âge des enfants) */
@@ -153,7 +156,7 @@ export async function makeRecipes(o: {
   const userId = session?.user?.id;
   const { response, data } = await post("/api/recipes", {
     ingredients: o.ingredients.map(i => ({ name: i.name, qty: i.qty, finish: i.finish || undefined })),
-    pantry: o.pantry, envie: o.envie, meal: o.meal, servings: o.servings, token: o.token, avoid: o.avoid, more: o.more, eaters: o.eaters,
+    pantry: o.pantry, envie: o.envie, meal: o.meal, count: o.count, desserts: o.desserts || undefined, servings: o.servings, token: o.token, avoid: o.avoid, more: o.more, eaters: o.eaters,
     empty: o.empty || undefined,
     prefs: userId ? apiPrefs(getCachedProfile(userId)) : null,
     recentTitles: userId ? recentRecipeTitles(userId) : [],

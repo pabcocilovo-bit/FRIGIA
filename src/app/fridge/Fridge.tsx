@@ -111,16 +111,19 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
     setName("");
   };
   const scan = (source: ScanSource) => { setScan({ source }); openScan(); };
-  // « Que cuisiner avec ? » : les produits passent dans « C'est bien ça ? », sans photo
+  // « Que cuisiner avec ? » : le frigo part tout droit sur « Qu'est-ce qu'on cuisine ? » (sans photo) ; les placards s'y ajoutent
+  // avec « Inclure mes placards ». Rien au frigo : ce sont les placards qui partent.
   const cook = () => {
-    setScan({ source: "frigo", switched: null, photo: null, ingredients: toIngredients(fridge), token: null, empty: false, merge: true, guests: 0 });
-    navigate("/scan/ingredients");
+    const cold = fridge.items.filter(x => placeOf(x) === "frigo");
+    setScan({ source: cold.length ? "frigo" : "placard", switched: null, photo: null, ingredients: toIngredients({ ...fridge, items: cold.length ? cold : fridge.items }),
+      token: null, empty: false, merge: true, guests: 0, pantry: true });
+    navigate("/scan/menu");
   };
   // Rien dedans : des plats quand même (Plus)
   const ideas = () => {
     if (!isPlus) { openPaywall("vide"); return; }
     setScan({ source: "frigo", switched: null, photo: null, ingredients: [], token: null, empty: true });
-    navigate("/scan/preparation");
+    navigate("/scan/menu");
   };
 
   return (

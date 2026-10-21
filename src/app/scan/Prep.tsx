@@ -8,7 +8,7 @@ import type { GeneratedRecipe, HistoryEntry } from "../../lib/types";
 import { useRecipePhoto } from "../photo";
 import { openOffline } from "../offline";
 import { showToast } from "../toast";
-import { getScan, pantryFor } from "./store";
+import { getScan, menuOf, pantryFor } from "./store";
 import type { Fridge } from "../../lib/home";
 import { eatersOf, portions } from "./portions";
 import { apiEaters, type Person } from "../../lib/household";
@@ -67,9 +67,10 @@ export function Prep({ isPlus, household, kitchen, onReady, onCounted, onOutOfSc
   // Frigo vide (Plus) : pas d'ingrédient, des plats avec les placards et une petite liste de courses
   const empty = isPlus && scan.empty && !n;
   const pantry = pantryFor(kitchen, { ...scan, empty });
+  const menu = menuOf(scan.menu);
   const lines = empty
-    ? [pantry.length ? "Je regarde ce qu'il y a dans tes placards" : "Je pars de zéro", "Je fais une petite liste de courses", "Je choisis tes 3 recettes"]
-    : [`Je mélange tes ${n} ingrédient${n > 1 ? "s" : ""}`, pantry.length ? "J'ajoute ce qu'il y a dans tes placards" : "Je cherche ce qui va ensemble", "Je choisis tes 3 recettes"];
+    ? [pantry.length ? "Je regarde ce qu'il y a dans tes placards" : "Je pars de zéro", "Je fais une petite liste de courses", `Je choisis tes ${menu.n} recettes`]
+    : [`Je mélange tes ${n} ingrédient${n > 1 ? "s" : ""}`, pantry.length ? "J'ajoute ce qu'il y a dans tes placards" : "Je cherche ce qui va ensemble", `Je choisis tes ${menu.n} recettes`];
 
   const finish = () => {
     const e = entry.current;
@@ -88,7 +89,7 @@ export function Prep({ isPlus, household, kitchen, onReady, onCounted, onOutOfSc
     const eaters = eatersOf(household, scan);
     const servings = portions(isPlus, scan, eaters);
     void makeRecipes({
-      ingredients: scan.ingredients, pantry, envie: scan.envie, meal: scan.meal, servings, token: scan.token, empty,
+      ingredients: scan.ingredients, pantry, envie: scan.envie, meal: scan.meal, count: menu.n, desserts: menu.desserts, servings, token: scan.token, empty,
       eaters: isPlus ? apiEaters(eaters) : undefined,
     }).then(r => {
       if (!alive.current) return;
@@ -130,7 +131,7 @@ export function Prep({ isPlus, household, kitchen, onReady, onCounted, onOutOfSc
         <div className="pr-dots">{[0, 1, 2].map(i => <i key={i} className={i <= line ? "on" : undefined} />)}</div>
       </div>
       <div className="pr-cards">
-        {[0, 1, 2].map(i => <Card key={i} i={i} recipe={recipes?.[i]} done={filled > i} from={!empty ? "avec ton frigo" : pantry.length ? "avec tes placards" : "avec quelques courses"} />)}
+        {Array.from({ length: recipes?.length || menu.n }, (_, i) => i).map(i => <Card key={i} i={i} recipe={recipes?.[i]} done={filled > i} from={!empty ? "avec ton frigo" : pantry.length ? "avec tes placards" : "avec quelques courses"} />)}
       </div>
     </section>
   );

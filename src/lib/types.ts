@@ -36,6 +36,8 @@ export type GeneratedRecipe = {
   origin?: string;
   /** Frigia Plus : ce que quelqu'un n'aime pas et que la recette évite (« Sans champignons ») */
   without?: string[];
+  /** Un dessert du menu (« 2 plats et 1 dessert ») */
+  dessert?: boolean;
   // Favori : quand il a été gardé, depuis quel scan (ou depuis le planning) et pour combien
   savedAt?: string;
   fromPlan?: boolean;

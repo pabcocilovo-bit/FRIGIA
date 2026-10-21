@@ -6,8 +6,24 @@ import type { Meal } from "../../lib/types";
 import type { Fridge } from "../../lib/home";
 import { pantryOf } from "../../lib/fridge";
 
+/** Le menu choisi après « C'est bien ça ? » : combien de recettes, et combien de desserts parmi elles */
+export type MenuId = "plats" | "plats-dessert" | "plat-dessert" | "desserts" | "semaine";
+export const MENUS: { id: MenuId; label: string; sub: string; n: number; desserts: number; plus?: boolean }[] = [
+  { id: "plats", label: "3 plats", sub: "Trois idées de plats, au choix", n: 3, desserts: 0 },
+  { id: "plats-dessert", label: "2 plats et 1 dessert", sub: "Deux idées de plats, et le dessert", n: 3, desserts: 1 },
+  { id: "plat-dessert", label: "1 plat et 1 dessert", sub: "Le repas complet, sans hésiter", n: 2, desserts: 1 },
+  { id: "desserts", label: "3 desserts", sub: "Trois idées sucrées", n: 3, desserts: 3 },
+  { id: "semaine", label: "Pour la semaine", sub: "Batch cooking : des plats qui se gardent", n: 3, desserts: 0, plus: true },
+];
+export const menuOf = (id: MenuId) => MENUS.find(m => m.id === id) ?? MENUS[0];
+/** Le repas qui va avec le menu : la semaine, le dessert, ou des plats pour ce midi (avant 16 h) ou ce soir */
+export const mealOf = (id: MenuId, now = new Date()): Meal =>
+  id === "semaine" ? "w" : id === "desserts" ? "d" : now.getHours() < 16 ? "m" : "s";
+
 export type ScanState = {
+  /** Suit le menu (mealOf) : il règle les textes (« Qui mange ce soir ? ») et l'historique */
   meal: Meal;
+  menu: MenuId;
   source: ScanSource;
   /** La photo montrait autre chose que le mode choisi : source a suivi la photo, switched garde le choix de départ (pour revenir) */
   switched: ScanSource | null;
@@ -44,7 +60,7 @@ const savedServings = () => {
 };
 
 let state: ScanState = {
-  meal: "s", source: "frigo", switched: null, photo: null, pick: null, pending: null, ingredients: [], token: null, problem: "floue", empty: false, merge: false,
+  meal: "s", menu: "plats", source: "frigo", switched: null, photo: null, pick: null, pending: null, ingredients: [], token: null, problem: "floue", empty: false, merge: false,
   pantry: true, envie: "rapide", servings: savedServings(), guests: 0, away: [],
 };
 const listeners = new Set<() => void>();

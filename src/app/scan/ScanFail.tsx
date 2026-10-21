@@ -20,7 +20,7 @@ export function ScanFail({ isPlus }: { isPlus: boolean }) {
   const ideas = () => {
     if (!isPlus) { openPaywall("vide"); return; }
     setScan({ empty: true, ingredients: [], token: null });
-    navigate("/scan/preparation", { replace: true });
+    navigate("/scan/menu", { replace: true });
   };
   return (
     <section className="fa scan-screen scr-scanfail" aria-label="Scan raté">

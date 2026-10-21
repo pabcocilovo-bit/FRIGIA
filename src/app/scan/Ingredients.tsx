@@ -1,20 +1,16 @@
 // « C'est bien ça ? » : les ingrédients trouvés sur la photo. On retire ce qui n'y est plus, on ajoute ce qui manque, on marque ce qui est à finir,
 // Toucher un ingrédient change son nom ou sa quantité.
-// puis le placard, l'envie du moment et pour combien (en Plus : qui du foyer mange, et les invités).
+// puis « Continuer » : le menu, l'envie, les placards et pour combien se choisissent sur la page suivante (Menu.tsx).
 import { useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router";
-import { Chip, Chips, Icon, LockPill, RoundButton } from "../../ui/components";
-import type { Envie, ScanSource } from "../../lib/scan";
-import { type Person, whoNote, whoParts } from "../../lib/household";
-import { useOpenPaywall } from "../plus/subscription";
-import { getScan, MAX_GUESTS, MEAL_WORDS, pantryFor, setScan, useScan } from "./store";
-import type { Fridge } from "../../lib/home";
+import { Icon, RoundButton } from "../../ui/components";
+import type { ScanSource } from "../../lib/scan";
+import { getScan, setScan, useScan } from "./store";
 import { Guide } from "./Guide";
 import { ItemEdit } from "../fridge/ItemEdit";
 import { qtyOf } from "../../lib/fridge";
 import "../fridge/fridge.css";
 import { INGR_GUIDE, setGuideState } from "./guideSteps";
-import { eatersOf, portions, srvLabel } from "./portions";
 import "./scan.css";
 
 // La photo ne montrait pas ce qui était choisi : où vont les produits, et « C'était bien… » pour revenir au choix de départ
@@ -24,8 +20,6 @@ const SEEN: Record<ScanSource, string> = {
   ticket: "On dirait un ticket de caisse : ces produits s'ajoutent à Ma cuisine, sans rien remplacer.",
 };
 const WAS: Record<ScanSource, string> = { frigo: "C'était bien le frigo", placard: "C'était bien un placard", ticket: "C'était bien un ticket" };
-
-const ENVIES: [Envie, string][] = [["rapide", "Rapide"], ["healthy", "Healthy"], ["proteine", "Protéiné"], ["gourmand", "Gourmand"], ["enfants", "Enfants"], ["gaspi", "Anti-gaspi"]];
 
 export function Stepper({ value, label, min, max, onChange }: { value: number; label: [string, string]; min: number; max: number; onChange: (n: number) => void }) {
   return (
@@ -37,49 +31,14 @@ export function Stepper({ value, label, min, max, onChange }: { value: number; l
   );
 }
 
-/** En Plus : qui mange (le foyer, chacun se retire d'un appui) et les invités, comptés comme des adultes. */
-function Who({ household, avatar }: { household: Person[]; avatar: string | null }) {
-  const scan = useScan();
-  const g = scan.guests;
-  const eaters = eatersOf(household, scan);
-  const toggle = (id: string) => setScan({ away: scan.away.includes(id) ? scan.away.filter(x => x !== id) : [...scan.away, id] });
-  const when = scan.meal === "m" ? "ce midi" : scan.meal === "w" ? "cette semaine" : scan.meal === "d" ? "pour le dessert" : "ce soir";
-  return (
-    <div className="opt">
-      <span className="label">{MEAL_WORDS[scan.meal].qui}</span>
-      <div className="who">
-        {household.map(p => {
-          const on = !scan.away.includes(p.id), pp = p.me && avatar;
-          return (
-            <button key={p.id} type="button" className={"wm" + (on ? " on" : "")} aria-pressed={on} onClick={() => toggle(p.id)}>
-              <i className={pp ? "has-pp" : undefined} style={pp ? { backgroundImage: `url(${avatar})` } : undefined}>{p.name.charAt(0).toUpperCase()}</i>{p.name}
-              {p.kid && <small>{p.age} ans</small>}
-            </button>
-          );
-        })}
-      </div>
-      <div className="gst"><span className="gst-ic"><Icon name="users" /></span><div><b>Des invités ?</b><small>Comptés comme des adultes</small></div>
-        <Stepper value={g} min={0} max={MAX_GUESTS} label={["Un invité de moins", "Un invité de plus"]} onChange={n => setScan({ guests: n })} />
-      </div>
-      <p className="whonote"><Icon name="users" /><span><b>{whoParts(eaters, g) || "Personne"}, soit {srvLabel(true, portions(true, scan, eaters))}.</b> {whoNote(eaters, when)}</span></p>
-    </div>
-  );
-}
-
-export function Ingredients({ isPlus, household, avatar, guide, userId, kitchen }: {
-  isPlus: boolean; household: Person[]; avatar: string | null; guide: boolean; userId: string;
-  /** Ma cuisine : ce qu'il y a vraiment dans les placards */
-  kitchen: Fridge;
-}) {
+export function Ingredients({ guide, userId }: { guide: boolean; userId: string }) {
   const navigate = useNavigate();
-  const openPaywall = useOpenPaywall();
   const scan = useScan();
   const screen = useRef<HTMLElement>(null);
   const [editing, setEditing] = useState<{ i: number; focus: "name" | "qty" } | null>(null);
   if (!scan.photo && scan.ingredients.length === 0) return <Navigate to="/scan" replace />;
 
   const n = scan.ingredients.length;
-  const cupboard = pantryFor(kitchen, { ...scan, pantry: true });
   // Sans jeton, aucune photo n'a été lue : les ingrédients ont été tapés à la main
   const remove = (i: number) => setScan({ ingredients: getScan().ingredients.filter((_, k) => k !== i) });
   // « À finir » : passe en premier dans les recettes, et compte comme sauvé une fois cuisiné
@@ -130,36 +89,10 @@ export function Ingredients({ isPlus, household, avatar, guide, userId, kitchen 
               </div>
             )}
             <button type="button" className="add" onClick={() => navigate("/scan/ajouter")}><span className="rm"><Icon name="plus" /></span>Ajouter un ingrédient</button>
-            {/* Les placards de Ma cuisine, rien d'inventé. Un scan des placards les montre déjà au-dessus. */}
-            {scan.source !== "placard" && (
-              <div className={"toggle-row" + (cupboard.length ? "" : " off")}>
-                <div><b>Inclure mes placards</b><span>{cupboard.length
-                  ? cupboard.slice(0, 3).map(c => c.name).join(", ") + (cupboard.length > 3 ? ` et ${cupboard.length - 3} autre${cupboard.length > 4 ? "s" : ""}` : "")
-                  : "Rien dans tes placards pour l'instant. Scanne-les depuis Ma cuisine pour les ajouter ici."}</span></div>
-                <button type="button" className="sw" role="switch" aria-checked={!!cupboard.length && scan.pantry} disabled={!cupboard.length}
-                  aria-label="Inclure mes placards" onClick={() => setScan({ pantry: !scan.pantry })} />
-              </div>
-            )}
-            <div className="opt">
-              <span className="label">Envie de</span>
-              <Chips>{ENVIES.map(([e, label]) => <Chip key={e} className="light" on={scan.envie === e} onClick={() => setScan({ envie: e })}>{label}</Chip>)}</Chips>
-            </div>
-            {isPlus ? <Who household={household} avatar={avatar} /> : (
-              <div className="opt">
-                <div className="forrow"><b>Pour combien ?</b>
-                  <Stepper value={scan.servings} min={1} max={MAX_GUESTS} label={["Moins", "Plus"]} onChange={s => setScan({ servings: s })} />
-                </div>
-                <button type="button" className="famlock" onClick={() => openPaywall("famille")}>
-                  <span className="ini"><Icon name="users" /></span>
-                  <div><b>Mode famille</b><span>Les goûts de chacun, les portions calculées</span></div>
-                  <LockPill />
-                </button>
-              </div>
-            )}
           </div>
         </div>
-        <button type="button" className="gobar" disabled={n === 0} onClick={() => navigate("/scan/preparation")}>
-          <span><b>Voir mes 3 recettes</b><small>Pour {srvLabel(isPlus, portions(isPlus, scan, eatersOf(household, scan)))}</small></span>
+        <button type="button" className="gobar" disabled={n === 0} onClick={() => navigate("/scan/menu")}>
+          <span><b>Continuer</b><small>Puis tu choisis ton menu</small></span>
           <span className="go"><Icon name="arrow" /></span>
         </button>
       </div>

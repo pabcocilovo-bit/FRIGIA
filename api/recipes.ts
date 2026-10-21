@@ -8,6 +8,8 @@ type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
   /** Ce qu'il y a vraiment dans les placards (Ma cuisine), quand « Inclure mes placards » est coché */
   pantry?: { name?: unknown; qty?: unknown }[]; envie?: string;
+  /** Le menu : combien de recettes (3 par défaut), et combien de desserts parmi elles (le reste : des plats pour meal) */
+  count?: number; desserts?: number;
   /** Frigia Plus : frigo vide, des plats avec les placards et une petite liste de courses */
   empty?: boolean; meal?: string; servings?: number;
   prefs?: Prefs; recentTitles?: string[]; avoid?: string[]; more?: boolean; token?: string;
@@ -145,7 +147,12 @@ export default async function handler(req: Req, res: Res) {
     return res.status(status).json({ error, ...(code ? { code } : {}) });
   };
 
-  const count = body.more ? 2 : 3;
+  const count = body.more ? 2 : Math.min(3, Math.max(1, Math.round(Number(body.count) || 3)));
+  // Le menu : des plats (midi, soir ou la semaine) et des desserts, chacun demandé à part, en même temps.
+  // meal « d » (ancienne façon) : que des desserts.
+  const meal = body.meal === "m" || body.meal === "w" || body.meal === "d" ? body.meal : "s";
+  const desserts = meal === "d" ? count : meal === "w" ? 0 : Math.min(count, Math.max(0, Math.round(Number(body.desserts) || 0)));
+  const dishes = count - desserts;
   const servings = Math.min(60, Math.max(0.5, Number(body.servings) || 2));
   const lines = prefLines(body.prefs);
   const finish = list.filter(i => i.finish).map(i => i.name);
@@ -165,7 +172,7 @@ export default async function handler(req: Req, res: Res) {
   ].filter(Boolean) : [];
   const avoid = [...new Set([...(body.avoid ?? []), ...(body.recentTitles ?? [])].filter(t => typeof t === "string").map(t => t.slice(0, 80)))].slice(0, 40);
   const style = STYLES[Math.floor(Math.random() * STYLES.length)];
-  const prompt = [
+  const promptFor = (meal: string, count: number) => [
     empty && !list.length
       ? "Le frigo est vide : rien de frais à la maison."
       : `Ingrédients disponibles : ${list.map(i => (i.qty ? `${i.name} (${i.qty})` : i.name)).join(", ")}.`,
@@ -174,8 +181,8 @@ export default async function handler(req: Req, res: Res) {
       ? `Dans les placards : ${pantry.map(i => (i.qty ? `${i.name} (${i.qty})` : i.name)).join(", ")}. Ils comptent comme disponibles.`
       : empty ? "Les placards sont vides aussi." : "",
     "Sel, poivre et eau sont toujours là. Rien d'autre n'est disponible : tout ingrédient absent des listes (même huile, beurre, ail, épices) est à acheter, avec \"have\" : false.",
-    `Propose EXACTEMENT ${count} recettes pour ${MEALS[body.meal ?? ""] ?? MEALS.s}.`,
-    body.meal === "d" ? "" : "Des plats salés (entrée ou plat principal) : jamais de dessert, de gâteau ni de recette sucrée. Les produits sucrés de la liste (biscuits, chocolat, barres, confiture…) sont ignorés. S'il ne reste presque rien de salé, fais des plats simples avec ce qui reste et les 1 ou 2 achats permis.",
+    `Propose EXACTEMENT ${count} recette${count > 1 ? "s" : ""} pour ${MEALS[meal]}.`,
+    meal === "d" ? "" : "Des plats salés (entrée ou plat principal) : jamais de dessert, de gâteau ni de recette sucrée. Les produits sucrés de la liste (biscuits, chocolat, barres, confiture…) sont ignorés. S'il ne reste presque rien de salé, fais des plats simples avec ce qui reste et les 1 ou 2 achats permis.",
     ENVIES[body.envie ?? ""] ? `Envie : des recettes ${ENVIES[body.envie!]}.` : "",
     `Quantités pour ${String(servings).replace(".", ",")} portion${servings > 1 ? "s" : ""} (un enfant compte pour une demi-portion).`,
     empty
@@ -184,7 +191,7 @@ export default async function handler(req: Req, res: Res) {
     "Des recettes qui existent vraiment et qu'on a envie de manger : n'associe que des ingrédients qui vont bien ensemble. Mieux vaut laisser un ingrédient de côté qu'inventer un mélange étrange.",
     "N'UTILISE PAS TOUT LE FRIGO : chaque recette prend seulement 3 à 6 ingrédients disponibles qui vont ensemble, pas toute la liste. Les 3 recettes se partagent le frigo : un ingrédient peut n'apparaître dans aucune. Ne mélange jamais sucré et salé (pas de pain au chocolat, viennoiserie, biscuit, yaourt sucré, confiture ou dessert dans un plat salé).",
     "UNE SEULE BASE PAR PLAT : jamais deux féculents principaux ensemble (pas de pâtes avec des gnocchis, pas de riz avec des pommes de terre, pas de pâtes avec du pain). Un produit tout prêt (gnocchis à la sauce, pâtes farcies, raviolis, plat cuisiné) est la base du plat à lui seul : on le complète avec des légumes, une protéine ou une garniture, jamais avec un autre produit tout prêt ni un autre féculent.",
-    `VARIÉTÉ : ${count} plats de types différents (pas deux plats de pâtes, pas deux poêlées, pas deux omelettes), avec des bases différentes (pâtes, riz, pommes de terre, pain, légumineuses, œufs…). ${count > 2 ? "Au moins 2 recettes" : "Au moins 1 recette"} sont des plats du quotidien qu'on connaît en France. La dernière peut venir d'ailleurs : aujourd'hui, inspire-toi de la cuisine ${style} si les ingrédients s'y prêtent.`,
+    meal === "d" ? `VARIÉTÉ : ${count > 1 ? `${count} desserts de types différents (pas deux gâteaux, pas deux crèmes), ` : ""}des desserts qu'on connaît et qu'on a envie de manger.` : count < 2 ? "" : `VARIÉTÉ : ${count} plats de types différents (pas deux plats de pâtes, pas deux poêlées, pas deux omelettes), avec des bases différentes (pâtes, riz, pommes de terre, pain, légumineuses, œufs…). ${count > 2 ? "Au moins 2 recettes" : "Au moins 1 recette"} sont des plats du quotidien qu'on connaît en France. La dernière peut venir d'ailleurs : aujourd'hui, inspire-toi de la cuisine ${style} si les ingrédients s'y prêtent.`,
     lines.length ? `PRÉFÉRENCES (à respecter) :\n${lines.join("\n")}` : "",
     familyLines.length ? `LE FOYER :\n${familyLines.join("\n")}` : "",
     avoid.length ? `DÉJÀ PROPOSÉES RÉCEMMENT, À NE PAS REPROPOSER, ni une variante proche (le même plat avec les mêmes ingrédients principaux sous un autre nom) : ${avoid.join(" ; ")}.` : "",
@@ -203,31 +210,38 @@ export default async function handler(req: Req, res: Res) {
 
   // Une recette sans ses ingrédients ou ses étapes (réponse de l'IA incomplète) n'est jamais montrée :
   // on redemande une fois les recettes qui manquent.
-  const ask = async () => {
-    const answer = await askClaude<{ recipes?: RawRecipe[] }>([{ type: "text", text: prompt }], 6000);
+  const ask = async (meal: string, count: number) => {
+    const answer = await askClaude<{ recipes?: RawRecipe[] }>([{ type: "text", text: promptFor(meal, count) }], 6000);
     if (!answer.ok) return null;
     const found = Array.isArray(answer.json?.recipes) ? answer.json.recipes : salvage(answer.text);
     const valid = found.map(parse).filter(r => r !== null);
     // Visible dans les logs Vercel : ce que l'IA a répondu quand il manque des recettes
-    if (valid.length < count) console.warn(`recipes: ${valid.length}/${count} valides`, answer.text.slice(0, 1500));
+    if (valid.length < count) console.warn(`recipes ${meal}: ${valid.length}/${count} valides`, answer.text.slice(0, 1500));
     return valid;
   };
   const t0 = Date.now();
-  const first = await ask();
-  if (!first) return fail(502, "Service IA temporairement indisponible.");
-  let raw = first.slice(0, count);
-  // Une 2e demande seulement s'il reste le temps (la fonction s'arrête à 60 s)
-  if (raw.length < count && Date.now() - t0 < 25000) {
-    const again = (await ask()) ?? [];
-    raw = [...raw, ...again.filter(r => !raw.some(o => norm(o.title) === norm(r.title)))].slice(0, count);
-  }
+  const gen = async (meal: string, count: number) => {
+    if (!count) return [];
+    const first = await ask(meal, count);
+    if (!first) return null;
+    let raw = first.slice(0, count);
+    // Une 2e demande seulement s'il reste le temps (la fonction s'arrête à 60 s)
+    if (raw.length < count && Date.now() - t0 < 25000) {
+      const again = (await ask(meal, count)) ?? [];
+      raw = [...raw, ...again.filter(r => !raw.some(o => norm(o.title) === norm(r.title)))].slice(0, count);
+    }
+    return raw;
+  };
+  const [mains, sweets] = await Promise.all([gen(meal === "d" ? "s" : meal, dishes), gen("d", desserts)]);
+  if (!mains && !sweets) return fail(502, "Service IA temporairement indisponible.");
+  const raw = [...(mains ?? []).map(r => ({ ...r, dessert: false })), ...(sweets ?? []).map(r => ({ ...r, dessert: true }))];
   if (raw.length === 0) {
-    return fail(422, body.meal === "d"
-      ? "Pas de dessert trouvé avec ces ingrédients. Ajoute-en un ou deux, ou essaie « Plat »."
-      : "Pas de plat trouvé avec ces ingrédients. Ajoute-en un ou deux, ou essaie « Dessert ».", "none");
+    return fail(422, !dishes
+      ? "Pas de dessert trouvé avec ces ingrédients. Ajoute-en un ou deux, ou choisis des plats."
+      : "Pas de plat trouvé avec ces ingrédients. Ajoute-en un ou deux, ou choisis des desserts.", "none");
   }
 
-  const recipes = await Promise.all(raw.map(async ({ r, items, steps }) => {
+  const recipes = await Promise.all(raw.map(async ({ r, items, steps, dessert }) => {
     const imageSearch = str(r.imageSearch, 40) || str(r.title, 80);
     return {
       title: str(r.title, 80),
@@ -246,6 +260,7 @@ export default async function handler(req: Req, res: Res) {
       without: dislikes.filter(d => !items.some(i => norm(i.name).includes(norm(d)) || norm(d).includes(norm(i.name)))),
       items,
       steps,
+      ...(dessert ? { dessert: true } : {}),
     };
   }));
 

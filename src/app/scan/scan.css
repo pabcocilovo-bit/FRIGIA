@@ -302,9 +302,6 @@ body:has(.scan-screen){background:#EFE3D0}
 .fa .gc-wk{position:absolute;top:6px;right:6px;width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:var(--bg);color:var(--sage-deep);box-shadow:0 0 0 1px var(--line);z-index:1}
 .fa .gc-wk svg{width:14px;height:14px}
 .fa .gc-wk.done{background:var(--sage);color:var(--on);box-shadow:none}
-.fa .for{display:flex;gap:0;background:rgba(10,13,11,.6);padding:4px;border-radius:999px;min-width:0}
-.fa .for button{font:600 15px/1 var(--sans);padding:12px 24px;border-radius:999px;color:rgba(255,255,255,.8);white-space:nowrap}
-.fa .for button.on{background:var(--on);color:var(--sage-deep)}
 
 .fa .res-week{display:grid;grid-template-columns:40px 1fr;gap:6px 12px;align-items:center;padding:14px;border-radius:20px;background:var(--card);box-shadow:inset 0 0 0 1.5px var(--sage)}
 .fa .res-week[hidden]{display:none}
@@ -446,3 +443,24 @@ body:has(.fa .gd.on) .fa .toast{opacity:0;visibility:hidden}
 .fa .sf-empty .ico svg{width:20px;height:20px}
 .fa .sf-empty .tx{flex:1;min-width:0;font-size:13px;line-height:1.35;color:var(--muted)}
 .fa .sf-empty .tx b{display:block;font:600 16px/1.2 var(--sans);color:var(--sage-deep);margin-bottom:2px}
+/* « Qu'est-ce qu'on cuisine ? » : le menu, l'envie, les placards et pour combien (après « C'est bien ça ? ») */
+.fa.scr-menu{background:var(--sage)}
+.fa .mn-head{flex:none;color:var(--on);padding:var(--top) 20px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.fa .mn-head .label{color:rgba(247,241,230,.72);margin-top:10px}
+.fa .mn-head .mn-edit{font:inherit;letter-spacing:inherit;text-transform:inherit;padding:4px 0}
+.fa .mn-head .mn-edit u{text-underline-offset:3px}
+.fa .mn-head h2{font:400 30px/1.05 var(--sans);letter-spacing:-.02em;margin:0}
+.fa .mn-head h2 em{font:400 italic 34px/1 var(--serif);letter-spacing:0}
+.fa .mn-sheet{flex:1;min-height:0;position:relative;background:var(--bg);border-radius:28px 28px 0 0;display:flex;flex-direction:column;overflow:hidden}
+.fa .mn-list{display:flex;flex-direction:column;gap:8px}
+.fa .mn-card{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:18px;background:var(--card);box-shadow:0 0 0 1px var(--line);transition:box-shadow .15s,background .15s}
+.fa .mn-card.on{background:var(--sage-soft);box-shadow:0 0 0 2px var(--sage)}
+.fa .mn-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--surface);color:var(--sage-deep);flex:none}
+.fa .mn-card.on .mn-ic{background:var(--sage);color:var(--on)}
+.fa .mn-ic svg{width:20px;height:20px}
+.fa .mn-card .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.fa .mn-card b{font:600 15.5px/1.2 var(--sans)}
+.fa .mn-card small{font-size:13px;color:var(--muted)}
+.fa .mn-dot{width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--line);flex:none;position:relative}
+.fa .mn-card.on .mn-dot{box-shadow:inset 0 0 0 2px var(--sage)}
+.fa .mn-card.on .mn-dot::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--sage)}

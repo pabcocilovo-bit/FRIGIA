@@ -72,7 +72,7 @@ function Idea({ recipe, found, planned, onClick, onWeek }: {
       <span className="tg">{recipe.time}</span>
       <span className="rw">
         {photo ? <img className="plate" src={photo} alt="" /> : <span className="plate" style={{ width: 58, background: "var(--surface)" }} />}
-        <span><b>{recipe.title}</b><span className="m">{recipe.cal} kcal{recipe.origin ? ` · ${recipe.origin}` : ""}</span></span>
+        <span><b>{recipe.title}</b><span className="m">{recipe.dessert ? "Dessert · " : ""}{recipe.cal} kcal{recipe.origin ? ` · ${recipe.origin}` : ""}</span></span>
       </span>
       {total > 0 && (have === total ? <Badge icon="check">Tu as tout</Badge> : <Badge tone="warn">{missingText(recipe, total - have)}</Badge>)}
     </button>
@@ -106,6 +106,9 @@ export function Results({ history, isPlus, household, kitchen, week, onWeek, onN
   const [feat, ...others] = shown;
   const open = (i: number) => navigate(`/recettes/${entry.id}/${i}`);
   const n = entry.ingredients.length;
+  // Le menu : que des desserts, des plats et un dessert, ou que des plats
+  const sweets = entry.recipes.filter(r => r.dessert).length + (meal === "d" ? entry.recipes.filter(r => !r.dessert).length : 0);
+  const howMany = ["Une", "Deux", "Trois", "Quatre", "Cinq"][entry.recipes.length - 1] ?? String(entry.recipes.length);
   const days = weekDays();
   // Ajouter à ma semaine (Plus) : la feuille « Quel repas ? » ; en Gratuit, c'est dans Plus
   const addToWeek = (i: number) => (isPlus
@@ -140,7 +143,8 @@ export function Results({ history, isPlus, household, kitchen, week, onWeek, onN
         </div>
         <div>
           <span className="label">{n ? `${n} ingrédient${n > 1 ? "s" : ""}` : "Frigo vide"} · {srvLabel(isPlus, entry.servings)}</span>
-          <h2>{meal === "w" ? <>Des idées pour <em>ta semaine</em></> : meal === "d" ? <>Trois idées de <em>dessert</em></> : <>Trois idées pour <em>{meal === "m" ? "ce midi" : "ce soir"}</em></>}</h2>
+          <h2>{meal === "w" ? <>Des idées pour <em>ta semaine</em></> : sweets === entry.recipes.length ? <>{howMany} idées de <em>dessert</em></>
+            : sweets ? <>Ton menu pour <em>{meal === "m" ? "ce midi" : "ce soir"}</em></> : <>{howMany} idées pour <em>{meal === "m" ? "ce midi" : "ce soir"}</em></>}</h2>
         </div>
         <div className="chips">
           {filters.map(([f, label]) => <Chip key={f} ongreen on={filter === f} onClick={() => setFilter(f)}>{label}</Chip>)}
@@ -156,7 +160,7 @@ export function Results({ history, isPlus, household, kitchen, week, onWeek, onN
             </div>
           )}
           {feat ? <>
-            <Feat recipe={feat.r} found={entry.ingredients} label={MEAL_WORDS[meal].feat} isPlus={isPlus} onClick={() => open(feat.i)} />
+            <Feat recipe={feat.r} found={entry.ingredients} label={MEAL_WORDS[feat.r.dessert ? "d" : meal].feat} isPlus={isPlus} onClick={() => open(feat.i)} />
             <button type="button" className={"wk-add" + (placed(feat.i) ? " done" : "")} onClick={() => addToWeek(feat.i)}>
               <Icon name={placed(feat.i) ? "check" : "cal"} /><span>{placed(feat.i) ?? "Ajouter à ma semaine"}</span>{!isPlus && <LockPill />}
             </button>

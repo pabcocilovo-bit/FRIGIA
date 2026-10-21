@@ -40,6 +40,7 @@ import { ScanFail } from "./app/scan/ScanFail";
 import { AddIngredient } from "./app/scan/AddIngredient";
 import { rememberMine } from "./app/scan/catalog";
 import { Ingredients } from "./app/scan/Ingredients";
+import { Menu } from "./app/scan/Menu";
 import { Prep } from "./app/scan/Prep";
 import { Results } from "./app/scan/Results";
 import { Recipe, type RecipeState } from "./app/scan/Recipe";
@@ -343,7 +344,8 @@ return (
       <Route path="/scan/recadrer" element={<Crop />} />
       <Route path="/scan/rate" element={<ScanFail isPlus={isPlus} />} />
       <Route path="/scan/ajouter" element={<AddIngredient mine={home.fridge.mine ?? []} onMine={names => home.setFridge(f => ({ ...f, mine: rememberMine(f.mine ?? [], names) }))} />} />
-      <Route path="/scan/ingredients" element={<Ingredients isPlus={isPlus} household={household} avatar={avatarSrc} guide={guide === "ingr"} userId={user.id} kitchen={home.fridge} />} />
+      <Route path="/scan/ingredients" element={<Ingredients guide={guide === "ingr"} userId={user.id} />} />
+      <Route path="/scan/menu" element={<Menu isPlus={isPlus} household={household} avatar={avatarSrc} kitchen={home.fridge} />} />
       <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} kitchen={home.fridge} onReady={e => {
         library.addScan(e);
         // Le frigo prend ce que le scan a vu (pas un scan « frigo vide », qui n'a rien vu).

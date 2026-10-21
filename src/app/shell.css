@@ -25,10 +25,6 @@ body:has(.fa-app){background:#EFE3D0}
 .fa .ghead .row{display:flex;justify-content:space-between;align-items:center}
 .fa .word{font:400 italic 28px/1 var(--serif)}
 .fa .avatar{width:38px;height:38px;border-radius:50%;background:var(--on);color:var(--sage-deep);display:grid;place-items:center;font-weight:700;font-size:15px}
-.fa .cats{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:0 20px}
-.fa .cats::-webkit-scrollbar{display:none}
-.fa .cats button{flex:none;font:500 14px/1 var(--sans);color:rgba(247,241,230,.65);padding:6px 0 8px;border-bottom:2px solid transparent}
-.fa .cats button.on{color:var(--on);border-color:var(--on)}
 .fa .hphoto{height:330px;position:relative}
 .fa .hphoto img{width:100%;height:100%;object-fit:cover}
 /* Recettes de la semaine : on fait défiler de droite à gauche. Le bas (78 px) passe sous le bandeau vert. */
