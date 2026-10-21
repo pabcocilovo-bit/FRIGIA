@@ -16,6 +16,7 @@ import { plural } from "../format";
 import { useOpenScan } from "../offline";
 import { useOpenPaywall } from "../plus/subscription";
 import { setScan } from "../scan/store";
+import { showToast } from "../toast";
 import "../scan/scan.css";
 import "./fridge.css";
 
@@ -83,6 +84,9 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
   const openScan = useOpenScan();
   const openPaywall = useOpenPaywall();
   const [filter, setFilter] = useState<Filter>("tout");
+  // Rangé ailleurs depuis ce filtre : reste affiché (avec sa nouvelle place) jusqu'au prochain filtre, pour pouvoir revenir
+  const [moved, setMoved] = useState<string[]>([]);
+  const pick = (f: Filter) => { setFilter(f); setMoved([]); };
   const [name, setName] = useState("");
   const items = fridge.items;
   const old = fridge.seen != null && daysSince(fridge.seen) > 5;
@@ -92,7 +96,7 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
   // « À finir » d'abord, puis le frigo, puis les placards
   const rank = (x: FridgeItem) => (x.finish ? 0 : placeOf(x) === "frigo" ? 1 : 2);
   const shown = items
-    .filter(x => (filter === "tout" ? true : filter === "finir" ? x.finish : placeOf(x) === filter))
+    .filter(x => (filter === "tout" ? true : filter === "finir" ? x.finish : placeOf(x) === filter || moved.includes(x.id)))
     .sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name, "fr"));
   const count = (f: Filter) => (f === "tout" ? items.length : f === "finir" ? items.filter(x => x.finish).length : items.filter(x => placeOf(x) === f).length);
   const basics = BASICS.filter(([n]) => !items.some(x => same(x.name, n)));
@@ -155,7 +159,7 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
         </> : <>
           <div className="chips fr-filters" role="tablist" aria-label="Filtrer">
             {FILTERS.map(([f, label]) => (
-              <Chip key={f} on={filter === f} role="tab" aria-selected={filter === f} onClick={() => setFilter(f)}>
+              <Chip key={f} on={filter === f} role="tab" aria-selected={filter === f} onClick={() => pick(f)}>
                 {label}{f !== "tout" && count(f) > 0 && <span className="n">{count(f)}</span>}
               </Chip>
             ))}
@@ -166,7 +170,12 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
               {shown.map(it => (
                 <Row key={it.id} it={it}
                   onFinish={() => set(it.id, { finish: !it.finish || undefined })}
-                  onMove={() => set(it.id, { place: placeOf(it) === "frigo" ? "placard" : "frigo" })}
+                  onMove={() => {
+                    const to: Place = placeOf(it) === "frigo" ? "placard" : "frigo";
+                    set(it.id, { place: to });
+                    setMoved(m => (m.includes(it.id) ? m : [...m, it.id]));
+                    showToast(`${it.name} : rangé ${to === "frigo" ? "au frigo" : "aux placards"}`);
+                  }}
                   onRemove={() => set(it.id, null)}
                   onEdit={(name, qty) => set(it.id, { name, qty })} />
               ))}
