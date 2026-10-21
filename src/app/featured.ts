@@ -15,7 +15,7 @@ type Base = { title: string; photo: string; alt: string; /** L'accroche du carro
 // Photos : public/featured, recadrées sans les textes du document.
 const BASE: Base[] = [
   {
-    title: "Pancakes moelleux à la banane", photo: "pancakes-banane", alt: "Pile de pancakes à la banane, rondelles de banane et miel",
+    title: "Pancakes moelleux à la banane", photo: "pancakes-banane", alt: "Pile de pancakes, rondelles de banane et pot de miel",
     kicker: "Seulement 3 ingrédients",
     intro: "Une banane, deux œufs et des flocons d'avoine : c'est tout. À servir avec des fruits frais.",
     minutes: 10, cal: 215, diff: "Facile", serves: 2, veg: true,
@@ -26,7 +26,7 @@ const BASE: Base[] = [
       ["Fais cuire à feu moyen-doux, 2 à 3 minutes par face.", { label: "Pancakes", min: 3 }]],
   },
   {
-    title: "Burger healthy au poulet et à l'avocat", photo: "burger-poulet-avocat", alt: "Burger au poulet grillé, avocat, tomate et salade",
+    title: "Burger healthy au poulet et à l'avocat", photo: "burger-poulet-avocat", alt: "Burger au poulet croustillant et salade",
     kicker: "Le fast-food autrement",
     intro: "Le burger maison, version légère : poulet au paprika, avocat et une sauce yaourt-moutarde. Sans viande : une galette végétale et un yaourt végétal.",
     minutes: 20, cal: 440, diff: "Facile", serves: 2,
@@ -40,7 +40,7 @@ const BASE: Base[] = [
       ["Monte les burgers : sauce, laitue, poulet, tomate et avocat."]],
   },
   {
-    title: "Pizza tortilla croustillante", photo: "pizza-tortilla", alt: "Pizza sur tortilla avec mozzarella, tomates cerises et basilic",
+    title: "Pizza tortilla croustillante", photo: "pizza-tortilla", alt: "Pizza fine à la mozzarella, tomates cerises et basilic",
     kicker: "Une pizza en 12 min",
     intro: "Une tortilla en guise de pâte, et la pizza est prête en 12 minutes. Ajoute les légumes qui traînent dans ton frigo.",
     minutes: 12, cal: 380, diff: "Facile", serves: 1, veg: true, oven: true,
@@ -53,7 +53,7 @@ const BASE: Base[] = [
       ["Ajoute le basilic juste avant de servir."]],
   },
   {
-    title: "Pommes de terre smashées au parmesan", photo: "pommes-de-terre-smashees", alt: "Pommes de terre écrasées et dorées au parmesan et aux herbes",
+    title: "Pommes de terre smashées au parmesan", photo: "pommes-de-terre-smashees", alt: "Pommes de terre dorées aux herbes dans une poêle",
     kicker: "L'astuce anti-gaspi",
     intro: "Des pommes de terre écrasées puis rôties : fondantes dedans, croustillantes dehors. Avec des pommes de terre déjà cuites, c'est encore plus rapide.",
     minutes: 35, cal: 260, diff: "Facile", serves: 2, veg: true, oven: true,
@@ -66,7 +66,7 @@ const BASE: Base[] = [
       ["Enfourne jusqu'à ce qu'elles soient croustillantes.", { label: "Four", min: 13 }]],
   },
   {
-    title: "One-pot pasta aux tomates et épinards", photo: "one-pot-pasta", alt: "Pâtes crémeuses aux tomates cerises, épinards et parmesan",
+    title: "One-pot pasta aux tomates et épinards", photo: "one-pot-pasta", alt: "Spaghetti aux tomates cerises et épinards",
     kicker: "Tout dans une casserole",
     intro: "Tout cuit ensemble dans une seule casserole. Le crémeux vient de l'amidon des pâtes, sans crème.",
     minutes: 20, cal: 440, diff: "Facile", serves: 2, veg: true,
@@ -79,7 +79,7 @@ const BASE: Base[] = [
       ["Termine avec le parmesan et du poivre."]],
   },
   {
-    title: "Brownie fondant sans farine", photo: "brownie-banane", alt: "Brownie au chocolat, banane et éclats de cacahuète",
+    title: "Brownie fondant sans farine", photo: "brownie-banane", alt: "Brownies fondants au chocolat empilés",
     kicker: "Le dessert malin",
     intro: "Banane, purée de cacahuète et cacao : un brownie fondant, sans sucre ajouté. Attention, il contient des arachides.",
     minutes: 25, cal: 160, diff: "Facile", serves: 6, veg: true, oven: true,
