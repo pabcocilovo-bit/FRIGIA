@@ -263,8 +263,11 @@ const TIME_TIP: Record<string, string> = {
   "30": "Une demi-heure, c'est noté. Assez pour un gratin ou une soupe maison.",
   any: "C'est noté. On variera entre recettes rapides et petits plats.",
 };
+const NO_OVEN = "pas de four";
 const EQUIPMENT: [string, string][] = [
   ["four", "Four"], ["micro-ondes", "Micro-ondes"], ["airfryer", "Airfryer"], ["Cookeo", "Cookeo"], ["Thermomix", "Thermomix"], ["Monsieur Cuisine", "Monsieur Cuisine"],
+  // Seule façon de dire ce qu'on n'a pas : coché, l'IA ne propose plus rien au four (api/_ai.ts)
+  [NO_OVEN, "Pas de four"],
 ];
 
 /** onSave : la personne est déjà connectée (goûts à remplir, ou « Modifier » depuis Famille), on enregistre sur son compte. */
@@ -277,7 +280,9 @@ export function QTime({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
   const [tip, setTip] = useState("");
   const [saving, setSaving] = useState(false);
   const time = a.weeknight_time;
-  const equip = (v: string) => patch({ equipment: a.equipment.includes(v) ? a.equipment.filter(x => x !== v) : [...a.equipment, v] });
+  // « Four » et « Pas de four » ne vont pas ensemble
+  const equip = (v: string) => patch({ equipment: a.equipment.includes(v) ? a.equipment.filter(x => x !== v)
+    : [...a.equipment.filter(x => !(v === NO_OVEN && x === "four") && !(v === "four" && x === NO_OVEN)), v] });
 
   const next = async () => {
     if (!onSave) { navigate("/pret"); return; }

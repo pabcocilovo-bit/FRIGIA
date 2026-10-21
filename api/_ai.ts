@@ -118,7 +118,11 @@ export function prefLines(prefs: Prefs | null | undefined): string[] {
   const timeConstraint = prefs.time ? timeMap[prefs.time] : null;
   if (timeConstraint) lines.push(`DURÉE : Au moins 2 recettes sur 3 doivent être réalisables en ${timeConstraint}. La 3ème peut être plus longue.`);
 
-  const equipList = (prefs.equipment || []).map(e => equipMap[e.toLowerCase()] ?? e).filter(e => typeof e === "string" && e.length < 40);
+  // « Pas de four » (choix de l'équipement) : obligatoire. Four et micro-ondes : la cuisine de base, rien à suggérer.
+  const equipment = (prefs.equipment || []).filter(e => typeof e === "string");
+  const noOven = equipment.includes("pas de four");
+  if (noOven) lines.push(`PAS DE FOUR (OBLIGATOIRE) : aucune recette ne passe au four (ni gratin, ni gâteau, ni rôti au four), "oven" est toujours false.${equipment.some(e => e.toLowerCase() === "airfryer") ? " L'Airfryer peut le remplacer." : ""}`);
+  const equipList = equipment.filter(e => !["pas de four", "four", "micro-ondes"].includes(e.toLowerCase())).map(e => equipMap[e.toLowerCase()] ?? e).filter(e => e.length < 40);
   if (equipList.length > 0) lines.push(`ÉQUIPEMENT : L'utilisateur possède ${equipList.join(", ")}. Exactement 1 recette sur 3 peut suggérer d'utiliser cet équipement (les autres doivent rester classiques).`);
   return lines;
 }
