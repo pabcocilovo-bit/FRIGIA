@@ -190,3 +190,10 @@
 .fa .tn-links{display:flex;justify-content:center;gap:18px}
 @media (max-height:700px){.fa .dialog.tn-sheet .tn-have{display:none}.fa .tn-top .plate{width:60px;height:60px}.fa .dialog.tn-sheet{gap:10px}}
 @media (prefers-reduced-motion:reduce){.fa .pn-card{animation:none}.fa .sw-car{scroll-behavior:auto}}
+/* Le dessert prévu avec un repas (Planning, Crée ta semaine) */
+.fa .pm-ds,.fa .pn-ds{display:flex;align-items:center;gap:8px;margin:-2px 0 0 18px;padding:8px 14px;border-radius:999px;background:var(--sage-soft);color:var(--sage-deep);font-size:13px;text-align:left;min-width:0}
+.fa .pm-ds .i,.fa .pn-ds>.i{width:15px;height:15px;flex:none}
+.fa .pm-ds span,.fa .pn-ds span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fa .pm-ds b,.fa .pn-ds b{font-weight:600}
+.fa .pn-ds button{width:26px;height:26px;margin:-4px -8px -4px 0;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--sage-deep)}
+.fa .pn-ds button .i{width:13px;height:13px}

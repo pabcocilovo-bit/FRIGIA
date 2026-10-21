@@ -14,7 +14,7 @@ import { eatersOf, minutesOf } from "../scan/portions";
 import { MAX_GUESTS, setScan, useScan } from "../scan/store";
 import { Dish } from "./Dish";
 import {
-  dayOf, doubled, findTitle, foundOf, leftFor, MEAL_NAME, type Option, recipePath, setSlot, slotOption, status, swapOrder, type SwapBy,
+  dayOf, dessertKey, doubled, findTitle, foundOf, leftFor, MEAL_NAME, mealOfKey, type Option, recipePath, setSlot, slotOption, status, swapOrder, type SwapBy,
 } from "./week";
 import "../onboarding/ob.css";
 import "./plan.css";
@@ -63,7 +63,8 @@ export function PickSheet({ at, week, days, opts, favTitles, onPick, onClose }: 
   const tabs: [Tab, string][] = meal === "m"
     ? [["scan", "Idées du scan"], ["fav", "Tes favoris"], ["box", "Se mange froid"], ["fast", "Moins de 20 min"]]
     : [["scan", "Idées du scan"], ["fav", "Tes favoris"], ["ok", "Tu as tout"], ["fast", "Moins de 20 min"]];
-  const list = opts.filter(o =>
+  // Un plat pour la case : les desserts se placent avec « Ajouter à ma semaine »
+  const list = opts.filter(o => !o.recipe.dessert).filter(o =>
     tab === "scan" ? !o.fav : tab === "fav" ? favTitles.includes(o.recipe.title) : tab === "ok" ? status(o.recipe, o.found).missing === 0
       : tab === "box" ? !!o.recipe.cold : minutesOf(o.recipe) > 0 && minutesOf(o.recipe) < 20);
   const pick = (s: Slot, id: string) => {
@@ -102,7 +103,7 @@ export function PickSheet({ at, week, days, opts, favTitles, onPick, onClose }: 
               <Dish recipe={o.recipe} />
               <span className="tx"><b>{o.recipe.title}</b><span>{o.recipe.time}{tab === "box" ? " · se mange froid" : ""}</span>
                 <Badge tone={st.warn ? "warn" : undefined}>{st.text}</Badge>
-                {other && <span className="pn-used">Déjà prévu {when(days, other[0], other[1])}</span>}
+                {other && <span className="pn-used">Déjà prévu {when(days, other[0], mealOfKey(other[1]))}</span>}
               </span>
               <span className="ck"><Icon name="check" /></span>
             </button>
@@ -118,7 +119,8 @@ export function PickSheet({ at, week, days, opts, favTitles, onPick, onClose }: 
   );
 }
 
-/** « Ajouter à ta semaine » : on touche une case libre (ou pleine, pour remplacer). Déjà prévue ailleurs : elle se déplace. */
+/** « Ajouter à ta semaine » : on touche une case libre (ou pleine, pour remplacer). Déjà prévue ailleurs : elle se déplace.
+ *  Un dessert va avec le plat du midi ou du soir, sans le remplacer. */
 export function WeekSheet({ option, week, days, setWeek, onClose }: {
   option: Option | null; week: Week; days: WeekDay[]; setWeek: (w: Week) => void; onClose: () => void;
 }) {
@@ -126,18 +128,31 @@ export function WeekSheet({ option, week, days, setWeek, onClose }: {
   const [last, setLast] = useState(option);
   if (option && option !== last) setLast(option);
   const o = last;
+  const sweet = !!o?.recipe.dessert;
   const place = (i: number, meal: MealKey) => {
     if (!o) return;
+    const key = sweet ? dessertKey(meal) : meal;
     const old = findTitle(week, days, o.recipe.title);
     let w = week;
-    if (old && !(old[0] === i && old[1] === meal)) w = setSlot(w, days, days[old[0]].key, old[1], undefined);
-    setWeek(setSlot(w, days, days[i].key, meal, slotOption(o)));
+    if (old && !(old[0] === i && old[1] === key)) w = setSlot(w, days, days[old[0]].key, old[1], undefined);
+    setWeek(setSlot(w, days, days[i].key, key, slotOption(o)));
     onClose();
-    showToast(`Ajouté à ta semaine · ${days[i].long.toLowerCase()} ${MEAL_NAME[meal]}`);
+    showToast(`Ajouté à ta semaine · ${sweet ? "en dessert, " : ""}${days[i].long.toLowerCase()} ${MEAL_NAME[meal]}`);
   };
   const slotBtn = (i: number, meal: MealKey) => {
     const day = dayOf(week, days[i].key), sl = day[meal];
     const tag = <span className="wk-tag">{MEAL_NAME[meal]}</span>;
+    if (sweet) {
+      const ds = day[dessertKey(meal)];
+      if (!sl && !ds) return <button key={meal} type="button" className="wk-slot free" onClick={() => place(i, meal)}>{tag}Libre</button>;
+      const me = !!o && ds?.recipe.title === o.recipe.title;
+      return (
+        <button key={meal} type="button" className={"wk-slot has" + (me ? " me" : "")} onClick={() => place(i, meal)}>
+          {tag}<Dish recipe={(sl ?? ds)!.recipe} /><span><b>{sl ? sl.recipe.title : "Pas de plat"}</b>
+            <i>{me ? "Dessert déjà prévu ici" : ds ? `Dessert : ${ds.recipe.title} · remplacer` : "Toucher pour ajouter le dessert"}</i></span>
+        </button>
+      );
+    }
     if (!sl) return <button key={meal} type="button" className="wk-slot free" onClick={() => place(i, meal)}>{tag}Libre</button>;
     const me = !!o && !sl.left && sl.recipe.title === o.recipe.title;
     return (
@@ -151,7 +166,7 @@ export function WeekSheet({ option, week, days, setWeek, onClose }: {
       {o && <>
         <div className="wk-head"><Dish recipe={o.recipe} /><div><small>Ajouter à ta semaine</small><h3>{o.recipe.title}</h3></div>
           <button type="button" className="fg-x" aria-label="Fermer" onClick={onClose}><Icon name="x" /></button></div>
-        <p className="wk-q">Quel repas ?</p>
+        <p className="wk-q">{sweet ? "Avec quel repas ?" : "Quel repas ?"}</p>
         <div className="wk-list">
           {days.map((d, i) => {
             const off = dayOf(week, d.key).off;
@@ -183,7 +198,7 @@ export function SwapSheet({ at, week, days, opts, household, setWeek, onClose }:
   if (at && at !== last) { setLast(at); setBy("frigo"); setOff(0); setSel(0); }
   const i = last?.i ?? 0, meal = last?.meal ?? "s";
   const sl = last ? dayOf(week, days[i].key)[meal] : undefined;
-  const pool = swapOrder(opts.filter(o => o.recipe.title !== sl?.recipe.title), by);
+  const pool = swapOrder(opts.filter(o => !o.recipe.dessert && o.recipe.title !== sl?.recipe.title), by);
   const list = pool.length ? Array.from({ length: Math.min(3, pool.length) }, (_, j) => pool[(off + j) % pool.length]) : [];
   const dbl = !!sl && meal === "s" && doubled(week, days, i);
   const kids = household.some(p => p.kid);

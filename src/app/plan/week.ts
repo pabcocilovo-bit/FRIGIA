@@ -7,6 +7,11 @@ import { haveCount, minutesOf, words } from "../scan/portions";
 
 export const MEALS: MealKey[] = ["m", "s"];
 export const MEAL_NAME: Record<MealKey, string> = { m: "midi", s: "soir" };
+/** Une case de la semaine : le plat du midi ou du soir, ou le dessert qui l'accompagne (md, sd). */
+export type SlotKey = MealKey | "md" | "sd";
+export const dessertKey = (m: MealKey): "md" | "sd" => (m === "m" ? "md" : "sd");
+export const mealOfKey = (k: SlotKey): MealKey => (k === "md" ? "m" : k === "sd" ? "s" : k);
+const KEYS: SlotKey[] = ["s", "m", "sd", "md"];
 
 /** Un repas qu'on peut placer : la recette, le scan d'où elle vient (null : un favori), et ce qu'il y avait dans le frigo. */
 export type Option = { recipe: GeneratedRecipe; scanId: string | null; n: number | null; found: DetectedIngredient[]; fav: boolean };
@@ -67,7 +72,7 @@ export function tidy(w: Week, days: WeekDay[]): Week {
   return out;
 }
 
-export function setSlot(w: Week, days: WeekDay[], key: string, meal: MealKey, slot: Slot | undefined): Week {
+export function setSlot(w: Week, days: WeekDay[], key: string, meal: SlotKey, slot: Slot | undefined): Week {
   return tidy(put(w, key, { ...dayOf(w, key), off: slot ? false : dayOf(w, key).off, [meal]: slot }), days);
 }
 
@@ -95,10 +100,10 @@ export function count(w: Week, days: WeekDay[]): { n: number; lefts: number; las
   return { n, lefts, last };
 }
 
-/** Où une recette est déjà prévue (pas comme restes). */
-export function findTitle(w: Week, days: WeekDay[], title: string, skip?: [string, MealKey]): [number, MealKey] | null {
+/** Où une recette est déjà prévue (pas comme restes), en plat ou en dessert. */
+export function findTitle(w: Week, days: WeekDay[], title: string, skip?: [string, SlotKey]): [number, SlotKey] | null {
   for (let i = 0; i < days.length; i++) {
-    for (const m of ["s", "m"] as MealKey[]) {
+    for (const m of KEYS) {
       const s = dayOf(w, days[i].key)[m];
       if (s && !s.left && s.recipe.title === title && !(skip && skip[0] === days[i].key && skip[1] === m)) return [i, m];
     }
@@ -109,7 +114,7 @@ export function findTitle(w: Week, days: WeekDay[], title: string, skip?: [strin
 /** « Remplir » : les cases vides, ce qui se garde le moins d'abord (les recettes qui utilisent du « À finir »).
  *  Un midi sur deux prend les restes de la veille. Une recette n'est prévue qu'une fois. */
 export function fill(w: Week, days: WeekDay[], opts: Option[]): { week: Week; added: number; lefts: number } {
-  const sorted = [...opts].sort((a, b) => Number(finishes(b.recipe, b.found).length > 0) - Number(finishes(a.recipe, a.found).length > 0));
+  const sorted = opts.filter(o => !o.recipe.dessert).sort((a, b) => Number(finishes(b.recipe, b.found).length > 0) - Number(finishes(a.recipe, a.found).length > 0));
   const used = new Set<string>();
   days.forEach(d => MEALS.forEach(m => { const s = dayOf(w, d.key)[m]; if (s && !s.left) used.add(s.recipe.title); }));
   const next = (pref?: (o: Option) => boolean) => {
@@ -153,10 +158,12 @@ export function recipePath(slot: Slot, history: HistoryEntry[]): string {
   return e && slot.n != null && e.recipes[slot.n]?.title === slot.recipe.title ? `/recettes/${e.id}/${slot.n}` : "/recette";
 }
 
-/** « Prévu jeudi soir · changer » quand la recette est déjà dans la semaine. */
+/** « Prévu jeudi soir · changer », « Prévu en dessert ce soir · changer » quand la recette est déjà dans la semaine. */
 export function placedText(w: Week, days: WeekDay[], title: string): string | null {
   const at = findTitle(w, days, title);
-  return at ? `Prévu ${at[0] === 0 ? (at[1] === "m" ? "ce midi" : "ce soir") : `${days[at[0]].long.toLowerCase()} ${MEAL_NAME[at[1]]}`} · changer` : null;
+  if (!at) return null;
+  const m = mealOfKey(at[1]);
+  return `Prévu ${at[1] !== m ? "en dessert " : ""}${at[0] === 0 ? `ce ${MEAL_NAME[m]}` : `${days[at[0]].long.toLowerCase()} ${MEAL_NAME[m]}`} · changer`;
 }
 
 /** « Frigo scanné hier » (un scan de la semaine), sinon rien. */

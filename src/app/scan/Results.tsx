@@ -1,7 +1,7 @@
 // Trois recettes : la première en grand, les autres à côté. « D'autres idées » relance l'IA sur le même scan,
 // sans le décompter (Frigia Plus). « Ajouter à ma semaine » place une idée dans la semaine (Frigia Plus).
 import { useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router";
 import { Badge, Chip, Icon, LockPill, RoundButton } from "../../ui/components";
 import { makeRecipes } from "../../lib/scan";
 import type { DetectedIngredient, GeneratedRecipe, HistoryEntry } from "../../lib/types";
@@ -89,6 +89,8 @@ export function Results({ history, isPlus, household, kitchen, week, onWeek, onN
 }) {
   const navigate = useNavigate();
   const back = useBack();
+  // Tout juste créées : la flèche ramène à l'accueil, sans repasser par le menu
+  const fresh = !!(useLocation().state as { fresh?: boolean } | null)?.fresh;
   const openScan = useOpenScan();
   const openPaywall = useOpenPaywall();
   const [wk, setWk] = useState<Option | null>(null);
@@ -137,7 +139,7 @@ export function Results({ history, isPlus, household, kitchen, week, onWeek, onN
     <section className="fa scan-screen scr-results" aria-label="Trois recettes">
       <div className="rhead">
         <div className="row">
-          <RoundButton icon="back" label="Retour" tone="glass" onClick={back} />
+          <RoundButton icon="back" label="Retour" tone="glass" onClick={() => (fresh ? navigate("/", { replace: true }) : back())} />
           <span className="mid">{scanTitle(entry)}</span>
           <RoundButton icon="cam" label="Rescanner" tone="glass" onClick={openScan} />
         </div>

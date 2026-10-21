@@ -10,7 +10,7 @@ import type { Envie } from "../../lib/scan";
 import type { Fridge } from "../../lib/home";
 import { type Person, whoNote, whoParts } from "../../lib/household";
 import { useOpenPaywall } from "../plus/subscription";
-import { MAX_GUESTS, MEAL_WORDS, mealOf, menuOf, MENUS, type MenuId, pantryFor, setScan, useScan } from "./store";
+import { madeKey, MAX_GUESTS, MEAL_WORDS, mealOf, menuOf, MENUS, type MenuId, pantryFor, setScan, useScan } from "./store";
 import { Stepper } from "./Ingredients";
 import { eatersOf, portions, srvLabel } from "./portions";
 import "./scan.css";
@@ -55,14 +55,16 @@ export function Menu({ isPlus, household, avatar, kitchen }: {
   const navigate = useNavigate();
   const openPaywall = useOpenPaywall();
   const scan = useScan();
-  // La semaine est dans Plus : sans Plus, on repart sur 3 plats. Midi ou soir suit l'heure.
+  // La semaine est dans Plus : sans Plus, on repart sur 3 plats. Midi ou soir suit l'heure (puis « Pour quand ? »).
   const fixed = useRef(false);
   useEffect(() => {
     if (fixed.current) return;
     fixed.current = true;
+    // Retour sur le menu après les recettes : les choix restent (« Revoir mes recettes »)
+    if (scan.made) return;
     const id = scan.menu === "semaine" && !isPlus ? "plats" : scan.menu;
     setScan({ menu: id, meal: mealOf(id) });
-  }, [scan.menu, isPlus]);
+  }, [scan.menu, scan.made, isPlus]);
 
   const n = scan.ingredients.length;
   const empty = isPlus && scan.empty && !n;
@@ -72,8 +74,11 @@ export function Menu({ isPlus, household, avatar, kitchen }: {
   const cupboard = pantryFor(kitchen, { ...scan, pantry: true });
   const pick = (id: MenuId) => {
     if (menuOf(id).plus && !isPlus) { openPaywall("planning"); return; }
-    setScan({ menu: id, meal: mealOf(id) });
+    // Des plats : on garde « ce midi » ou « ce soir » s'il était choisi
+    setScan({ menu: id, meal: id !== "semaine" && id !== "desserts" && (scan.meal === "m" || scan.meal === "s") ? scan.meal : mealOf(id) });
   };
+  // Mêmes choix que les recettes déjà créées : on les rouvre (pas de nouveau scan, pas de nouvel appel)
+  const again = scan.made?.key === madeKey(scan) ? scan.made.id : null;
 
   return (
     <section className="fa scan-screen scr-menu" aria-label="Qu'est-ce qu'on cuisine ?">
@@ -104,6 +109,12 @@ export function Menu({ isPlus, household, avatar, kitchen }: {
                 })}
               </div>
             </div>
+            {(scan.meal === "m" || scan.meal === "s") && (
+              <div className="opt">
+                <span className="label">Pour quand ?</span>
+                <Chips>{(["m", "s"] as const).map(m => <Chip key={m} className="light" on={scan.meal === m} onClick={() => setScan({ meal: m })}>{m === "m" ? "Ce midi" : "Ce soir"}</Chip>)}</Chips>
+              </div>
+            )}
             <div className="opt">
               <span className="label">Envie de</span>
               <Chips>{ENVIES.map(([e, label]) => <Chip key={e} className="light" on={scan.envie === e} onClick={() => setScan({ envie: e })}>{label}</Chip>)}</Chips>
@@ -132,8 +143,11 @@ export function Menu({ isPlus, household, avatar, kitchen }: {
             )}
           </div>
         </div>
-        <button type="button" className="gobar" onClick={() => navigate("/scan/preparation")}>
-          <span><b>Créer mes {menu.n} recettes</b><small>Pour {srvLabel(isPlus, portions(isPlus, scan, eatersOf(household, scan)))}</small></span>
+        <button type="button" className="gobar" onClick={() => navigate(again ? `/recettes/${again}` : "/scan/preparation")}>
+          {again ? <span><b>Revoir mes recettes</b><small>Déjà prêtes, sans utiliser de scan</small></span>
+            : <span><b>Créer mes {menu.n} recettes</b>
+              {/* Gratuit sans photo comptée (« Que cuisiner avec ? ») : c'est ici que le scan part */}
+              <small>{!isPlus && !scan.token ? "Utilise 1 scan · " : ""}Pour {srvLabel(isPlus, portions(isPlus, scan, eatersOf(household, scan)))}</small></span>}
           <span className="go"><Icon name="arrow" /></span>
         </button>
       </div>

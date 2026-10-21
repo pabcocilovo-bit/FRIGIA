@@ -50,6 +50,8 @@ export type ScanState = {
   guests: number;
   /** Frigia Plus : les membres du foyer qui ne mangent pas là (« Qui mange ce soir ? ») */
   away: string[];
+  /** Les recettes déjà créées pour ces choix : revenir sur le menu les rouvre sans refaire de scan */
+  made: { key: string; id: string } | null;
 };
 
 const SERVINGS_KEY = "frigia_servings";
@@ -61,7 +63,7 @@ const savedServings = () => {
 
 let state: ScanState = {
   meal: "s", menu: "plats", source: "frigo", switched: null, photo: null, pick: null, pending: null, ingredients: [], token: null, problem: "floue", empty: false, merge: false,
-  pantry: true, envie: "rapide", servings: savedServings(), guests: 0, away: [],
+  pantry: true, envie: "rapide", servings: savedServings(), guests: 0, away: [], made: null,
 };
 const listeners = new Set<() => void>();
 
@@ -80,6 +82,10 @@ export function useScan(): ScanState {
     () => state,
   );
 }
+
+/** Ce qui fait les recettes : mêmes choix, mêmes recettes (made). */
+export const madeKey = (s: ScanState) => JSON.stringify([s.ingredients.map(i => [i.name, i.qty, !!i.finish]), s.menu, s.meal, s.envie,
+  s.pantry, s.empty, s.servings, s.guests, s.away]);
 
 /** « Ce midi », « ce soir », « la semaine » dans les phrases. */
 export const MEAL_WORDS: Record<Meal, { pour: string; qui: string; feat: string }> = {

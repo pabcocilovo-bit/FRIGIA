@@ -116,13 +116,13 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
   const cook = () => {
     const cold = fridge.items.filter(x => placeOf(x) === "frigo");
     setScan({ source: cold.length ? "frigo" : "placard", switched: null, photo: null, ingredients: toIngredients({ ...fridge, items: cold.length ? cold : fridge.items }),
-      token: null, empty: false, merge: true, guests: 0, pantry: true });
+      token: null, empty: false, merge: true, guests: 0, pantry: true, made: null });
     navigate("/scan/menu");
   };
   // Rien dedans : des plats quand même (Plus)
   const ideas = () => {
     if (!isPlus) { openPaywall("vide"); return; }
-    setScan({ source: "frigo", switched: null, photo: null, ingredients: [], token: null, empty: true });
+    setScan({ source: "frigo", switched: null, photo: null, ingredients: [], token: null, empty: true, made: null });
     navigate("/scan/menu");
   };
 

@@ -12,7 +12,8 @@ export const ME = "me";
 /** Un repas prévu : la recette (copie), d'où elle vient, et si ce sont les restes de la veille. */
 export type Slot = { recipe: GeneratedRecipe; scanId: string | null; n: number | null; left?: boolean };
 export type MealKey = "m" | "s";
-export type PlanDay = { off?: boolean; m?: Slot; s?: Slot };
+/** md, sd : le dessert du midi, du soir (en plus du plat) */
+export type PlanDay = { off?: boolean; m?: Slot; s?: Slot; md?: Slot; sd?: Slot };
 /** La semaine : jours à venir (« 2026-10-14 »), et si les midis sont prévus aussi. */
 export type Week = { midi: boolean; days: Record<string, PlanDay> };
 

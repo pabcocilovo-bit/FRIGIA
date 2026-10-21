@@ -12,7 +12,7 @@ import { weekDays, weekRange } from "../format";
 import { Dish } from "./Dish";
 import { PickSheet } from "./sheets";
 import {
-  canFill, count, dayOf, doubled, fill, foundOf, MEALS, options, type PlanProps, recipePath, scannedText, setSlot, status, toggleOff,
+  canFill, count, dayOf, dessertKey, doubled, fill, foundOf, MEALS, options, type PlanProps, recipePath, scannedText, setSlot, status, toggleOff,
 } from "./week";
 import "../scan/scan.css";
 import "./plan.css";
@@ -112,6 +112,13 @@ export function PlanNew({ isPlus, week, setWeek, history, favorites }: PlanProps
                               </div>
                             );
                           })(),
+                        // Le dessert prévu avec ce repas (placé depuis « Ajouter à ma semaine »)
+                        day[dessertKey(meal)] && (
+                          <div key={id + "d"} className="pn-ds">
+                            <Icon name="sparkle" /><span>Dessert : <b>{day[dessertKey(meal)]!.recipe.title}</b></span>
+                            <button type="button" aria-label="Retirer le dessert" onClick={() => setW(setSlot(w, days, d.key, dessertKey(meal), undefined))}><Icon name="x" /></button>
+                          </div>
+                        ),
                       ];
                     })}
                 </div>,

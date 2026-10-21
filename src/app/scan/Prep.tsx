@@ -8,7 +8,7 @@ import type { GeneratedRecipe, HistoryEntry } from "../../lib/types";
 import { useRecipePhoto } from "../photo";
 import { openOffline } from "../offline";
 import { showToast } from "../toast";
-import { getScan, menuOf, pantryFor } from "./store";
+import { getScan, madeKey, menuOf, pantryFor, setScan } from "./store";
 import type { Fridge } from "../../lib/home";
 import { eatersOf, portions } from "./portions";
 import { apiEaters, type Person } from "../../lib/household";
@@ -77,7 +77,8 @@ export function Prep({ isPlus, household, kitchen, onReady, onCounted, onOutOfSc
     if (!e || !alive.current) return;
     entry.current = null;
     onReady(e);
-    navigate(`/recettes/${e.id}`, { replace: true });
+    // fresh : la flèche des recettes ramène à l'accueil, pas sur le menu (qui referait les recettes)
+    navigate(`/recettes/${e.id}`, { replace: true, state: { fresh: true } });
   };
 
   useEffect(() => {
@@ -96,6 +97,7 @@ export function Prep({ isPlus, household, kitchen, onReady, onCounted, onOutOfSc
       if (r.status === "ok") {
         if (r.scansLeft != null) onCounted(r.scansLeft);
         entry.current = { id: Date.now().toString(), date: new Date(), ingredients: toDetected(scan.ingredients), recipes: r.recipes, servings, meal: scan.meal };
+        setScan({ made: { key: madeKey(scan), id: entry.current.id } });
         setRecipes(r.recipes);
       } else if (r.status === "quota") {
         onOutOfScans();

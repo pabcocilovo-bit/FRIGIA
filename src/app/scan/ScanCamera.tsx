@@ -102,7 +102,7 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
         if (r.scansLeft != null) onCounted(r.scansLeft);
       }, 1300 + Math.min(r.ingredients.length, 8) * 120);
     } else if (r.status === "unclear") {
-      setScan({ photo: url, ingredients: [], token: null, problem: r.problem, empty: false,
+      setScan({ photo: url, ingredients: [], token: null, made: null, problem: r.problem, empty: false,
         ...(r.seen ? { source: r.seen, switched: getScan().source } : { switched: null }) });
       navigate("/scan/rate", { replace: true });
     } else {
