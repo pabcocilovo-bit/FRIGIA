@@ -157,3 +157,15 @@ export function supportEmail(m: { id: number; kind: keyof typeof KIND; topic: st
     note: [m.appInfo, `Compte ${m.userId} · message n° ${m.id} dans support_messages`].filter(Boolean).join(" · "),
   }, `support-${m.id}`, m.from ?? undefined);
 }
+
+/** Inscription à la liste d'attente du site : la confirmation (une seule fois par adresse). */
+export function waitlistEmail(to: string, firstName: string) {
+  return sendEmail(to, "Tu es sur la liste d'attente de Frigia", {
+    title: `C'est noté${firstName ? `, ${firstName}` : ""} !`,
+    paragraphs: [
+      "Tu es sur la liste d'attente de Frigia : tu photographies ton frigo, et Frigia te propose des recettes avec ce que tu as déjà.",
+      "On ouvre l'appli par petits groupes. Quand c'est ton tour, tu reçois un email avec ton lien d'accès personnel.",
+    ],
+    note: "Tu ne t'es pas inscrit ? Ignore cet email : on ne t'écrira pas d'autre message.",
+  }, `waitlist-${to}`);
+}
