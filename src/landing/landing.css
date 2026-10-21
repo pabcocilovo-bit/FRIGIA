@@ -285,6 +285,18 @@
 .lp-legal .tabs a[aria-current="page"]{background:var(--sage);color:var(--on);border-color:var(--sage)}
 .lp-legal .tabs a:hover{border-color:var(--sage)}
 
+/* liste d'attente */
+.lp .wl-note{display:grid;gap:6px;justify-items:start;margin-top:-12px;font-size:14px;color:var(--muted)}
+.lp .wl-note button{font:500 14px/1.4 var(--sans);color:var(--sage-deep);text-decoration:underline;text-underline-offset:4px;padding:4px 0}
+.lp .nav .join-short{display:none}
+.lp .compare-join{margin-top:14px}
+.lp-sheet .field-err{font-size:13px;font-weight:500;color:#9A3B26}
+.lp-sheet input[aria-invalid="true"]{box-shadow:inset 0 0 0 2px #9A3B26}
+.lp-sheet .wl-trap{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.lp-sheet .wl-live:empty{display:none}
+.lp-sheet .wl-live{margin-top:12px}
+.lp-sheet .fine a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+
 /* faq + pied */
 .lp .faq .grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
 .lp .faq .sh{margin-bottom:0;align-self:start;align-content:start}
@@ -374,11 +386,16 @@
 @keyframes lpTap{0%{box-shadow:0 0 0 0 rgba(224,164,74,.6)}70%{box-shadow:0 0 0 14px rgba(224,164,74,0)}100%{box-shadow:0 0 0 0 rgba(224,164,74,0)}}
 @keyframes lpBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
+@media (max-width:1180px){
+  .lp .nav .links{display:none}
+}
 @media (max-width:900px){
   .lp{--gap:16px;--sec:72px;--nav:64px}
   .lp .nav .container{gap:16px}
   .lp .nav .links,.lp .nav .btn-line{display:none}
   .lp .nav .login-short{display:inline-block}
+  .lp .nav .join-long{display:none}
+  .lp .nav .join-short{display:inline}
   /* mobile : le bouton Télécharger devient une simple icône ronde */
   .lp .nav .right{gap:6px}
   .lp .nav .get-app{width:42px;padding:0}

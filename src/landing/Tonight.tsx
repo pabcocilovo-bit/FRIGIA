@@ -20,8 +20,8 @@ function Meta({ r, people }: { r: Recipe; people: number }) {
   );
 }
 
-function RecipeSheet({ r, people, setPeople, index, onStart, onClose }: {
-  r: Recipe; people: number; setPeople: (n: number) => void; index: number; onStart: () => void; onClose: () => void;
+function RecipeSheet({ r, people, setPeople, index, cta, onStart, onClose }: {
+  r: Recipe; people: number; setPeople: (n: number) => void; index: number; cta: string; onStart: () => void; onClose: () => void;
 }) {
   return (
     <Sheet label={r.name} onClose={onClose} wide>
@@ -51,14 +51,16 @@ function RecipeSheet({ r, people, setPeople, index, onStart, onClose }: {
         <ol className="steps-list">{r.steps.map(s => <li key={s}>{s}</li>)}</ol>
         <div className="rfoot">
           <p className="muted">Exemple fait avec le frigo de la photo. Avec le tien, Frigia te propose tes propres recettes.</p>
-          <button className="btn btn-fill" onClick={onStart}>Essayer avec mon frigo</button>
+          <button className="btn btn-fill" onClick={onStart}>{cta}</button>
         </div>
       </div>
     </Sheet>
   );
 }
 
-export function Tonight({ onStart }: { onStart: () => void }) {
+// cta : le libellé des boutons (« Essayer avec mon frigo », ou celui de la liste d'attente)
+// onStart reçoit d'où vient le clic : « essai » (bas de section) ou « recette » (fiche ouverte)
+export function Tonight({ onStart, cta = "Essayer avec mon frigo" }: { onStart: (source: string) => void; cta?: string }) {
   const [envie, setEnvie] = useState<Envie>("rapide");
   const [people, setPeople] = useState(4);
   const [open, setOpen] = useState<number | null>(null);
@@ -115,10 +117,10 @@ export function Tonight({ onStart }: { onStart: () => void }) {
             </article>
           ))}
         </div>
-        <div className="end"><span className="note">Exemple. Avec ton frigo, les idées seront les tiennes.</span><button className="btn btn-cream" onClick={onStart}>Essayer avec mon frigo</button></div>
+        <div className="end"><span className="note">Exemple. Avec ton frigo, les idées seront les tiennes.</span><button className="btn btn-cream" onClick={() => onStart("essai")}>{cta}</button></div>
       </div>
       {open !== null && (
-        <RecipeSheet r={ideas[open]} index={open} people={people} setPeople={setPeople} onStart={() => { setOpen(null); onStart(); }} onClose={() => setOpen(null)} />
+        <RecipeSheet r={ideas[open]} index={open} people={people} setPeople={setPeople} cta={cta} onStart={() => { setOpen(null); onStart("recette"); }} onClose={() => setOpen(null)} />
       )}
     </section>
   );

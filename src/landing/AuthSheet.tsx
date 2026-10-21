@@ -18,12 +18,14 @@ const GoogleIcon = () => (
 
 const errorText = (e: unknown) => (e instanceof Error && e.message) || "Une erreur est survenue. Réessaie.";
 
-export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, onClose }: {
+// onWaitlist : en mode liste d'attente, la connexion ne mène plus à l'inscription mais à la liste
+export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, onClose, onWaitlist }: {
   initialMode: AuthMode;
   captchaToken: string | null;
   onResetCaptcha: () => void;
   onLegal: (k: LegalKey) => void;
   onClose: () => void;
+  onWaitlist?: () => void;
 }) {
   const [mode, setMode] = useState<AuthMode>(initialMode);
   const [email, setEmail] = useState("");
@@ -129,7 +131,9 @@ export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, 
         <p className="switch">
           {signup
             ? <>Déjà un compte ? <button onClick={() => switchMode("login")}>Se connecter</button></>
-            : <>Pas encore de compte ? <button onClick={() => switchMode("signup")}>Créer un compte</button></>}
+            : onWaitlist
+              ? <>Pas encore invité ? <button onClick={onWaitlist}>Rejoins la liste d'attente</button></>
+              : <>Pas encore de compte ? <button onClick={() => switchMode("signup")}>Créer un compte</button></>}
         </p>
         {signup && (
           <p className="fine">En continuant, tu acceptes les <button onClick={() => onLegal("cgu")}>conditions d'utilisation</button> et la <button onClick={() => onLegal("confidentialite")}>politique de confidentialité</button>.</p>

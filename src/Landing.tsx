@@ -7,6 +7,7 @@ import { GoogleInAppBar, InstallSheet, SocialInAppScreen } from "./landing/InApp
 import { InstallSection } from "./landing/InstallSection";
 import { FAQ } from "./landing/faq";
 import { Tonight } from "./landing/Tonight";
+import { WaitlistSheet } from "./landing/Waitlist";
 import { RECIPES, fridgeScore } from "./landing/recipes";
 import { LEGAL } from "./legal/pages";
 import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./landing/browser";
@@ -17,6 +18,12 @@ import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./lan
 // onStart / onLogin : branchés par l'appli sur son parcours d'inscription quand il existera.
 // Sans eux, la landing ouvre sa propre feuille de connexion (Supabase), comme l'ancienne version.
 export type Plan = "free" | "plus";
+
+// Liste d'attente tant que l'appli n'est pas ouverte à tous.
+// true : tous les boutons d'inscription ouvrent la liste d'attente (seule la connexion reste, pour les invités).
+// false : la landing redevient comme avant, avec l'inscription.
+const WAITLIST = true;
+const JOIN = "Rejoindre la liste d'attente";
 type Props = { onStart?: (plan: Plan) => void; onLogin?: () => void };
 
 const IMG = "/landing";
@@ -118,6 +125,8 @@ export default function Landing({ onStart, onLogin }: Props) {
   const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
   const [gbarClosed, setGbarClosed] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  // Liste d'attente ouverte, avec le bouton d'où elle vient (« hero », « prix »…)
+  const [waitlist, setWaitlist] = useState<string | null>(null);
   const turnstile = useRef<TurnstileInstance>(null);
   const resetCaptcha = () => { turnstile.current?.reset(); setCaptchaToken(null); };
 
@@ -147,8 +156,12 @@ export default function Landing({ onStart, onLogin }: Props) {
     return <div className="lp"><SocialInAppScreen /></div>;
   }
 
-  const start = (plan: Plan = "free") => (onStart ? onStart(plan) : setAuth("signup"));
-  const login = () => (onLogin ? onLogin() : setAuth("login"));
+  // source : quel bouton a été touché, envoyé avec l'inscription à la liste d'attente
+  const start = (plan: Plan = "free", source = "hero") => {
+    if (WAITLIST) { setAuth(null); setWaitlist(source); return; }
+    if (onStart) onStart(plan); else setAuth("signup");
+  };
+  const login = () => { setWaitlist(null); if (onLogin) onLogin(); else setAuth("login"); };
   const internalAuth = !onStart || !onLogin;
   const showGbar = isGoogleApp && (isIos || isAndroid) && !gbarClosed;
   const canInstall = !isStandalone();
@@ -176,9 +189,11 @@ export default function Landing({ onStart, onLogin }: Props) {
                 <span>Télécharger l'app</span>
               </button>
             )}
-            <button className="login-short" onClick={login}>Connexion</button>
-            <button className="btn btn-line" onClick={login}>J'ai déjà un compte</button>
-            <button className="btn btn-fill" onClick={() => start()}>Commencer</button>
+            {!WAITLIST && <button className="login-short" onClick={login}>Connexion</button>}
+            <button className="btn btn-line" onClick={login}>{WAITLIST ? "Se connecter" : "J'ai déjà un compte"}</button>
+            {WAITLIST
+              ? <button className="btn btn-fill" onClick={() => start("free", "menu")} aria-label={JOIN}><span className="join-long">{JOIN}</span><span className="join-short">Liste d'attente</span></button>
+              : <button className="btn btn-fill" onClick={() => start()}>Commencer</button>}
           </div>
         </div>
       </header>
@@ -190,7 +205,13 @@ export default function Landing({ onStart, onLogin }: Props) {
               <span className="k">Pour les soirs de semaine</span>
               <h1>Une photo du frigo, <em>trois idées</em> pour ce soir.</h1>
               <p className="lede">Fini le « on mange quoi ce soir ? ». Frigia repère ce qu'il y a dans ton frigo et te propose trois recettes avec ce que tu as déjà, pour toute la famille.</p>
-              <div className="ctas"><button className="btn btn-fill" onClick={() => start()}>Commencer gratuitement</button><a className="link" href="#comment">Voir comment ça marche</a></div>
+              <div className="ctas"><button className="btn btn-fill" onClick={() => start("free", "hero")}>{WAITLIST ? JOIN : "Commencer gratuitement"}</button><a className="link" href="#comment">Voir comment ça marche</a></div>
+              {WAITLIST && (
+                <div className="wl-note">
+                  <p>Ouverture par petits groupes. Les premiers inscrits passent en premier.</p>
+                  <button onClick={login}>Déjà invité ? Se connecter</button>
+                </div>
+              )}
               <div className="reassure"><span className="chip plain">Sans carte bancaire</span><span className="chip plain">15 scans offerts</span><span className="chip plain">Rien à télécharger</span></div>
             </div>
             <HeroArt />
@@ -198,7 +219,7 @@ export default function Landing({ onStart, onLogin }: Props) {
         </section>
 
         <HowItWorks />
-        <Tonight onStart={() => start()} />
+        <Tonight onStart={source => start("free", source)} cta={WAITLIST ? JOIN : undefined} />
 
         <section className="plus" id="plus">
           <div className="container">
@@ -240,14 +261,14 @@ export default function Landing({ onStart, onLogin }: Props) {
                 <div className="amount">0 €</div>
                 <div className="sub"><span>Sans carte bancaire</span><span>Pour toujours</span></div>
                 <ul>{PLAN_ROWS.map(([label, free]) => <li key={label}><span>{label}</span><Cell v={free} /></li>)}</ul>
-                <div className="foot"><button className="btn btn-line" onClick={() => start("free")}>Commencer gratuitement</button></div>
+                <div className="foot"><button className="btn btn-line" onClick={() => start("free", "prix")}>{WAITLIST ? JOIN : "Commencer gratuitement"}</button></div>
               </div>
               <div className="plan pro">
                 <div className="top"><span className="k">Frigia Plus</span><span className="badge">Prix fondateur</span></div>
                 <div className="amount">29,99 €<small>par an</small></div>
                 <div className="sub"><span><s>39,99 €</s> pour les 500 premiers abonnés</span><span>Ou 6,99 € par mois</span></div>
                 <ul>{PLAN_ROWS.map(([label, , plus]) => <li key={label}><span>{label}</span><Cell v={plus} /></li>)}</ul>
-                <div className="foot"><button className="btn btn-cream" onClick={() => start("plus")}>Passer à Plus</button><span className="fine">Sans engagement. Paiement sécurisé par Stripe.</span></div>
+                <div className="foot"><button className="btn btn-cream" onClick={() => start("plus", "prix-plus")}>{WAITLIST ? JOIN : "Passer à Plus"}</button><span className="fine">Sans engagement. Paiement sécurisé par Stripe.</span></div>
               </div>
             </div>
 
@@ -266,14 +287,18 @@ export default function Landing({ onStart, onLogin }: Props) {
                     <tr key={label}><th scope="row">{label}</th><td><Cell v={free} /></td><td className="plus"><Cell v={plus} /></td></tr>
                   ))}
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <td></td>
-                    <td><button className="btn btn-line" onClick={() => start("free")}>Commencer</button></td>
-                    <td className="plus"><button className="btn btn-cream" onClick={() => start("plus")}>Passer à Plus</button></td>
-                  </tr>
-                </tfoot>
+                {!WAITLIST && (
+                  <tfoot>
+                    <tr>
+                      <td></td>
+                      <td><button className="btn btn-line" onClick={() => start("free")}>Commencer</button></td>
+                      <td className="plus"><button className="btn btn-cream" onClick={() => start("plus")}>Passer à Plus</button></td>
+                    </tr>
+                  </tfoot>
+                )}
               </table>
+              {/* Liste d'attente : un seul bouton sous le tableau, le libellé est trop long pour les colonnes */}
+              {WAITLIST && <button className="btn btn-fill full compare-join" onClick={() => start("free", "prix")}>{JOIN}</button>}
               <p className="fine">Plus : 29,99 € par an pour les 500 premiers abonnés au lieu de <s>39,99 €</s>, ou 6,99 € par mois. Sans engagement, paiement sécurisé par Stripe.</p>
             </div>
           </div>
@@ -299,7 +324,7 @@ export default function Landing({ onStart, onLogin }: Props) {
 
       <footer>
         <div className="container">
-          <div className="big"><h2>Ce soir, commence par <em>ouvrir le frigo.</em></h2><button className="btn btn-cream" onClick={() => start()}>Commencer gratuitement</button></div>
+          <div className="big"><h2>Ce soir, commence par <em>ouvrir le frigo.</em></h2><button className="btn btn-cream" onClick={() => start("free", "fin")}>{WAITLIST ? JOIN : "Commencer gratuitement"}</button></div>
           <div className="base">
             <img src={`${IMG}/frigia-logo-inverse.svg`} alt="Frigia" width={78} height={28} />
             <nav className="legal" aria-label="Informations légales">
@@ -310,7 +335,9 @@ export default function Landing({ onStart, onLogin }: Props) {
         </div>
       </footer>
 
-      {auth && <AuthSheet initialMode={auth} captchaToken={captchaToken} onResetCaptcha={resetCaptcha} onLegal={setLegal} onClose={() => setAuth(null)} />}
+      {auth && <AuthSheet initialMode={auth} captchaToken={captchaToken} onResetCaptcha={resetCaptcha} onLegal={setLegal} onClose={() => setAuth(null)}
+        onWaitlist={WAITLIST ? () => { setAuth(null); setWaitlist("connexion"); } : undefined} />}
+      {waitlist && <WaitlistSheet source={waitlist} onLogin={login} onClose={() => setWaitlist(null)} />}
       {legal && <LegalSheet initial={legal} onClose={() => setLegal(null)} />}
       {installHint && <InstallSheet onClose={() => setInstallHint(false)} />}
       {internalAuth && (
