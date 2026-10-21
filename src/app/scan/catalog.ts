@@ -3,8 +3,8 @@
 import { aisleOf, norm as words } from "../../lib/shopping";
 
 export type Cat = "legume" | "fruit" | "herbe" | "cremerie" | "viande" | "poisson" | "epicerie" | "libre";
-/** mine : tapé un jour par la personne, pas dans la liste */
-export type Sug = [name: string, cat: Cat, qty: string, mine?: true];
+/** from : tapé un jour par la personne (« toi ») ou par plusieurs comptes (« communaute »), pas dans la liste */
+export type Sug = [name: string, cat: Cat, qty: string, from?: "toi" | "communaute"];
 
 /** Souvent ajoutés : en tête quand on n'a rien tapé */
 export const OFTEN: Sug[] = [
@@ -67,8 +67,8 @@ export const same = (a: string, b: string) => {
 };
 
 const CAT_OF: Record<string, Cat> = { "Fruits et légumes": "legume", Boucherie: "viande", Poissonnerie: "poisson", Crèmerie: "cremerie" };
-/** Un ingrédient tapé un jour, rangé au rayon deviné d'après son nom */
-export const mineSug = (name: string): Sug => [name, CAT_OF[aisleOf(name)] ?? "epicerie", "", true];
+/** Un ingrédient tapé à la main, rangé au rayon deviné d'après son nom */
+export const typedSug = (name: string, from: "toi" | "communaute"): Sug => [name, CAT_OF[aisleOf(name)] ?? "epicerie", "", from];
 
 /** Garde les ingrédients tapés qui ne sont pas dans la liste : les derniers en tête, sans doublon, 80 au plus. */
 export function rememberMine(mine: string[], names: string[]): string[] {

@@ -6,7 +6,8 @@ import { Icon } from "../../ui/components";
 import type { IconName } from "../../ui/icons";
 import { typedItem } from "../../lib/shopping";
 import { showToast } from "../toast";
-import { CATALOG, type Cat, mineSug, OFTEN, same, type Sug } from "./catalog";
+import { CATALOG, type Cat, OFTEN, same, type Sug, typedSug } from "./catalog";
+import { communityIngredients, shareTyped } from "./community";
 import { getScan, setScan, useScan } from "./store";
 import "./scan.css";
 
@@ -24,7 +25,7 @@ function Row({ it, q, on, onClick }: { it: Sug; q: string; on: boolean; onClick:
       <span className={"ai-ic c-" + it[1]}><Icon name={icon} /></span>
       <span className="tx">
         <b>{i >= 0 ? <>{it[0].slice(0, i)}<mark>{it[0].slice(i, i + q.length)}</mark>{it[0].slice(i + q.length)}</> : it[0]}</b>
-        <small>{it[1] === "libre" ? "Pas dans la liste : on l'ajoute, et tu le retrouveras ici" : it[3] ? `${label} · ajouté par toi` : `${label} · ${it[2]}`}</small>
+        <small>{it[1] === "libre" ? "Pas dans la liste : on l'ajoute, et tu le retrouveras ici" : it[3] === "toi" ? `${label} · ajouté par toi` : it[3] ? `${label} · ajouté par la communauté` : `${label} · ${it[2]}`}</small>
       </span>
       <span className="ai-pl"><Icon name={on ? "check" : "plus"} /></span>
     </button>
@@ -39,7 +40,13 @@ export function AddIngredient({ mine, onMine }: { mine: string[]; onMine: (names
   const [raw, setRaw] = useState("");
   const [picked, setPicked] = useState<Sug[]>([]);
   const [all, setAll] = useState(false);
+  const [community, setCommunity] = useState<string[]>([]);
   const input = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    let on = true;
+    void communityIngredients(n => setCommunity(n)).then(n => { if (on) setCommunity(n); });
+    return () => { on = false; };
+  }, []);
   useEffect(() => {
     const t = setTimeout(() => { if (window.innerWidth > 700) input.current?.focus(); }, 350);
     return () => clearTimeout(t);
@@ -48,10 +55,12 @@ export function AddIngredient({ mine, onMine }: { mine: string[]; onMine: (names
   const q = norm(raw.trim());
   const have = (typed ? [] : scan.ingredients).map(i => i.name);
   const extra = picked.filter(p => p[1] === "libre");
-  const yours = mine.map(mineSug);
+  const yours = mine.map(n => typedSug(n, "toi"));
+  const known = [...yours, ...CATALOG];
+  const others = community.filter(n => !known.some(k => same(k[0], n))).map(n => typedSug(n, "communaute"));
   const fresh = (list: Sug[]) => list.filter(it => !have.some(h => same(h, it[0])));
   // Rien de tapé : tes ajouts d'abord, puis les plus courants. En cherchant : toute la liste.
-  const pool = fresh(q ? [...yours, ...CATALOG, ...extra] : [...yours, ...OFTEN, ...extra]);
+  const pool = fresh(q ? [...known, ...others, ...extra] : [...yours, ...OFTEN, ...extra]);
   const isOn = (it: Sug) => picked.some(p => p[0] === it[0]);
   const toggle = (it: Sug) => setPicked(p => (isOn(it) ? p.filter(x => x[0] !== it[0]) : [...p, it]));
 
@@ -73,11 +82,12 @@ export function AddIngredient({ mine, onMine }: { mine: string[]; onMine: (names
     if (!picked.length) return;
     // Tapé librement : « 500 g de farine » donne farine, 500 g ; sans quantité, elle se met sur « C'est bien ça ? »
     const added = picked.map(it => {
-      if (it[1] !== "libre" && !it[3]) return { name: it[0], qty: it[2] };
+      if (it[2]) return { name: it[0], qty: it[2] };
       const t = typedItem(it[0]);
       return { name: t.name.charAt(0).toUpperCase() + t.name.slice(1), qty: t.qty };
     });
     onMine(added.filter((_, i) => picked[i][1] === "libre" || picked[i][3]).map(a => a.name));
+    shareTyped(added.filter((_, i) => picked[i][1] === "libre").map(a => a.name));
     const n = added.length;
     showToast(`${n} ingrédient${n > 1 ? "s" : ""} ajouté${n > 1 ? "s" : ""}`);
     if (typed) {
