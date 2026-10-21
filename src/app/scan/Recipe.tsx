@@ -82,7 +82,6 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
   const buy = lines.filter(l => !l.have || l.check?.short).map(l => ({ name: l.n, qty: l.check?.short ?? l.q }));
   const listed = buy.length > 0 && buy.every(b => inListAs(shopping, b, recipe.title));
   const addMissing = () => {
-    if (!isPlus) { openPaywall("courses", "/courses"); return; }
     if (listed) { navigate("/courses", { state: { flash: arrived } }); return; }
     const ids = onAddMissing(buy, recipe.title);
     setArrived(ids);
@@ -132,6 +131,13 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
         </div>
         <div className="r-body">
           {recipe.intro && <p className="intro">{recipe.intro}</p>}
+          {/* Ce qui manque, en vue dès le haut : un appui et c'est dans la liste de courses */}
+          {missing + short > 0 && (
+            <button type="button" className={"wk-add" + (listed ? " done" : "")} onClick={addMissing}>
+              <Icon name={listed ? "check" : "cart"} />
+              <span>{listed ? "Dans ta liste de courses · voir" : recipe.missing && recipe.missing.length <= 24 && !short ? `Manque ${recipe.missing} · ajouter à ma liste` : addText(missing, short)}</span>
+            </button>
+          )}
           <button type="button" className={"wk-add" + (placed ? " done" : "")} onClick={addToWeek}>
             <Icon name={placed ? "check" : "cal"} /><span>{placed ?? "Ajouter à ma semaine"}</span>{!isPlus && <LockPill />}
           </button>
@@ -185,8 +191,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
               {missing + short > 0 && (
                 <button type="button" className="add" style={{ alignSelf: "flex-start" }} onClick={addMissing}>
                   <span className="rm"><Icon name="plus" /></span>
-                  <span>{isPlus && listed ? "Dans ta liste · voir" : addText(missing, short)}</span>
-                  {!isPlus && <LockPill />}
+                  <span>{listed ? "Dans ta liste · voir" : addText(missing, short)}</span>
                 </button>
               )}
             </div>

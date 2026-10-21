@@ -35,7 +35,7 @@ const CMP: [string, string, string | null][] = [
   ["Scans du frigo", "15 en tout", "Illimités"],
   ["Mode famille", "–", null],
   ["Planning de la semaine", "–", null],
-  ["Liste de courses", "–", null],
+  ["Liste de courses", "Oui", "+ la semaine"],
   ["Économies du mois", "Aperçu", "Complet"],
   ["Historique", "7 jours", "50 scans"],
 ];
@@ -268,7 +268,7 @@ export function PlusWelcome({ user, name }: { user: User; name: string | null })
           </div>
         )}
         <ul className="po-unl" aria-label="Ce qui est débloqué">
-          {["Scans illimités", "Mode famille", "Planning", "Liste de courses"].map(t => <li key={t}><Icon name="check" />{t}</li>)}
+          {["Scans illimités", "Mode famille", "Planning", "Courses de la semaine"].map(t => <li key={t}><Icon name="check" />{t}</li>)}
         </ul>
       </div>
       <div className="po-foot">

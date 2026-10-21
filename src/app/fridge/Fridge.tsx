@@ -35,14 +35,14 @@ const BASICS: [string, string][] = [
   ["Tomates en conserve", "1 boîte"], ["Lentilles", "1 sachet"], ["Oignons", "3"], ["Pommes de terre", "1 kg"], ["Thon en boîte", "1 boîte"],
 ];
 
-/** Les deux pages de l'onglet : Ma cuisine, Courses (cadenas en Gratuit) */
-export function FridgeTabs({ on, isPlus }: { on: "cuisine" | "courses"; isPlus: boolean }) {
+/** Les deux pages de l'onglet : Ma cuisine, Courses */
+export function FridgeTabs({ on }: { on: "cuisine" | "courses" }) {
   const navigate = useNavigate();
   return (
     <div className="chips fr-tabs" role="tablist">
       <Chip ongreen on={on === "cuisine"} role="tab" aria-selected={on === "cuisine"} onClick={() => on !== "cuisine" && navigate("/cuisine", { replace: true })}>Ma cuisine</Chip>
       <Chip ongreen on={on === "courses"} role="tab" aria-selected={on === "courses"} onClick={() => on !== "courses" && navigate("/courses", { replace: true })}>
-        Courses{!isPlus && <Icon name="lock" />}
+        Courses
       </Chip>
     </div>
   );
@@ -137,7 +137,7 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
           <h2>Ma <em>cuisine</em></h2>
           <p className="fr-sub">Ton frigo et tes placards au même endroit.</p>
         </div>
-        <FridgeTabs on="cuisine" isPlus={isPlus} />
+        <FridgeTabs on="cuisine" />
       </div>
       <div className="lbody">
         {cooked && (

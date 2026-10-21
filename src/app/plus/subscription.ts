@@ -8,7 +8,7 @@ export const WHY = {
   def: "Fini le « on mange quoi ce soir ? », et moins de courses à la poubelle.",
   quota: "Tu as utilisé tes 15 scans gratuits. Avec Plus, scanne autant que tu veux.",
   planning: "Le planning de la semaine est dans Frigia Plus.",
-  courses: "La liste de courses est dans Frigia Plus.",
+  courses: "Les courses de la semaine en un appui sont dans Frigia Plus.",
   famille: "Le mode famille est dans Frigia Plus : les goûts de chacun, les portions calculées.",
   idees: "« D'autres idées » est dans Frigia Plus, sans utiliser de scan.",
   historique: "Tes 50 derniers scans sont dans Frigia Plus.",

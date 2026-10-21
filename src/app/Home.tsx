@@ -15,7 +15,7 @@ import { useNotifs } from "../lib/notify";
 import "./notifs/notifs.css";
 import { useOpenPaywall } from "./plus/subscription";
 import { forTonight, type Person, portionsOf, portTxt } from "../lib/household";
-import type { Fridge, MealKey, Week } from "../lib/home";
+import type { Fridge, MealKey, ShopItem, Week } from "../lib/home";
 import { weekRecipes } from "./featured";
 import { useScan } from "./scan/store";
 import { eatersOf } from "./scan/portions";
@@ -97,13 +97,15 @@ const STEPS = [
 
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 
-export function Home({ user, name, isPlus, quota, avatar, history, favorites, cooked, household, week, onWeek, kitchen, onOpenRecipe }: {
+export function Home({ user, name, isPlus, quota, avatar, history, favorites, cooked, household, week, onWeek, kitchen, shopping, onOpenRecipe }: {
   user: User; name: string; isPlus: boolean; quota: ScanQuota | null; avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
   household: Person[];
   week: Week; onWeek: (w: Week) => void;
   cooked: CookedMeal[];
   /** Ma cuisine : ce qu'on a déjà pour les recettes de la semaine */
   kitchen: Fridge;
+  /** La liste de courses : sa carte, pour qu'on la trouve sans chercher */
+  shopping: ShopItem[];
   onOpenRecipe: (r: GeneratedRecipe) => void;
 }) {
   const navigate = useNavigate();
@@ -125,6 +127,8 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
   const plates = isPlus ? days.flatMap(d => MEALS.map(m => dayOf(week, d.key)[m])).filter(x => x && !x.left).slice(0, 3) : [];
   const tonight = isPlus && !dayOf(week, days[0].key).off ? dayOf(week, days[0].key).s : undefined;
 
+  const toBuy = shopping.filter(x => !x.done);
+
   // Sans favori : deux recettes du dernier scan encore ouvert (moins de 7 jours en gratuit)
   const recent = history.find(e => e.recipes.length > 0 && (isPlus || daysAgo(e.date) <= 7));
   const ideas = recent ? recent.recipes.slice(0, 2) : [];
@@ -135,12 +139,18 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
   return (
     <div className="fa fa-app" aria-label="Accueil">
       <div className="ghead">
-        <div className="row">
+        <div className="row hd-row">
           <Avatar user={user} name={name} photo={avatar} className="avatar" label="Ta famille" onClick={() => navigate("/famille")} />
           <span className="word">Frigia</span>
+          <span className="hd-r">
+          {/* La liste de courses, toujours à portée : le panier, avec ce qu'il reste à acheter */}
+          <button type="button" className="cbtn glass ib-bell" aria-label={toBuy.length ? `Liste de courses, ${toBuy.length} article${toBuy.length > 1 ? "s" : ""}` : "Liste de courses"} onClick={() => navigate("/courses")}>
+            <Icon name="cart" />{toBuy.length > 0 && <i className="ib-badge" aria-hidden="true">{toBuy.length > 9 ? "9+" : toBuy.length}</i>}
+          </button>
           <button type="button" className="cbtn glass ib-bell" aria-label={unread ? `Notifications, ${unread} non lue${unread > 1 ? "s" : ""}` : "Notifications"} onClick={() => navigate("/notifications")}>
             <Icon name="bell" />{unread > 0 && <i className="ib-badge" aria-hidden="true">{unread > 9 ? "9+" : unread}</i>}
           </button>
+          </span>
         </div>
       </div>
       <WeekRecipes kitchen={kitchen} onOpen={onOpenRecipe} />
@@ -196,6 +206,16 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
           <div className="tx"><b>{!isPlus ? "Prévois tes 5 prochains repas" : planned.n
             ? `${planned.n} repas prêt${planned.n > 1 ? "s" : ""}${planned.last > 0 ? ` jusqu'à ${days[planned.last].long.toLowerCase()}` : ""}`
             : "Ta semaine est vide"}</b><span className="m">{history.length ? "À partir de ton scan d'hier, sans gâchis" : "À partir de ton premier scan, sans gâchis"}</span></div>
+          <Icon name="next" className="muted" />
+        </button>
+
+        {/* La liste de courses : cochée au magasin, elle range tout dans Ma cuisine */}
+        <div className="sec"><h3>Tes courses</h3></div>
+        <button type="button" className="week shop" onClick={() => navigate("/courses")}>
+          <span className="shop-ic"><Icon name="cart" /></span>
+          <div className="tx">{toBuy.length
+            ? <><b>{toBuy.length} article{toBuy.length > 1 ? "s" : ""} à acheter</b><span className="m">{toBuy.slice(0, 3).map(x => x.name).join(", ")}{toBuy.length > 3 ? "…" : ""}</span></>
+            : <><b>Ta liste de courses</b><span className="m">Ce qui manque à une recette s'ajoute en un appui. Coché au magasin, c'est rangé dans Ma cuisine.</span></>}</div>
           <Icon name="next" className="muted" />
         </button>
 

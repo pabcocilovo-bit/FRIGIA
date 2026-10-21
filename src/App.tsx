@@ -306,7 +306,7 @@ return (
   <AppFrame splash={location.pathname !== "/plus/paiement"}>
     <Routes>
       <Route path="/" element={<Home user={user} name={name} isPlus={isPlus} quota={quota} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household}
-        week={home.week} onWeek={home.setWeek} kitchen={home.fridge} onOpenRecipe={r => openRecipe(r)} />} />
+        week={home.week} onWeek={home.setWeek} kitchen={home.fridge} shopping={home.shopping} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/planning" element={<Planning {...plan} household={household} onAddMissing={addMissingOf} />} />
       <Route path="/planning/creer" element={<PlanNew {...plan} />} />
       <Route path="/cuisine" element={<MyKitchen isPlus={isPlus} fridge={home.fridge} onFridge={home.setFridge} />} />
