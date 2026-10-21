@@ -12,10 +12,11 @@ import { useOpenScan } from "../offline";
 import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
 import { showToast } from "../toast";
-import { getScan, MEAL_WORDS } from "./store";
+import { getScan, MEAL_WORDS, pantryFor } from "./store";
 import { eatersOf, haveCount, minutesOf, srvLabel } from "./portions";
 import { apiEaters, recipeBadges, type Person } from "../../lib/household";
-import type { Week } from "../../lib/home";
+import type { Fridge, Week } from "../../lib/home";
+import { pantryOf } from "../../lib/fridge";
 import { weekDays } from "../format";
 import { WeekSheet } from "../plan/sheets";
 import { findTitle, type Option, placedText } from "../plan/week";
@@ -78,8 +79,10 @@ function Idea({ recipe, found, planned, onClick, onWeek }: {
   );
 }
 
-export function Results({ history, isPlus, household, week, onWeek, onNewIdeas }: {
+export function Results({ history, isPlus, household, kitchen, week, onWeek, onNewIdeas }: {
   history: HistoryEntry[]; isPlus: boolean; household: Person[];
+  /** Ma cuisine : ce qu'il y a vraiment dans les placards */
+  kitchen: Fridge;
   week: Week; onWeek: (w: Week) => void;
   /** « D'autres idées » : les recettes du scan changent */
   onNewIdeas: (entryId: string, recipes: GeneratedRecipe[]) => void;
@@ -117,7 +120,7 @@ export function Results({ history, isPlus, household, week, onWeek, onNewIdeas }
     const s = getScan();
     const r = await makeRecipes({
       ingredients: entry.ingredients.map(i => ({ name: i.name, qty: i.qty ?? "", finish: i.finish })),
-      pantry: s.pantry || n === 0, envie: s.envie, meal, servings: entry.servings, token: null, empty: n === 0,
+      pantry: pantryFor(kitchen, { ...s, empty: n === 0 }, entry.ingredients), envie: s.envie, meal, servings: entry.servings, token: null, empty: n === 0,
       avoid: entry.recipes.map(x => x.title), more: true, eaters: apiEaters(eatersOf(household, s)),
     });
     setBusy(false);
@@ -159,7 +162,7 @@ export function Results({ history, isPlus, household, week, onWeek, onNewIdeas }
             </button>
           </> : <p className="muted" style={{ margin: 0, fontSize: 14 }}>Aucune idée de ce scan ne correspond.</p>}
           {others.length > 0 && <>
-            <div className="sec"><h3>{meal === "w" ? "Pour la suite de la semaine" : "Autres idées"}</h3><span className="muted" style={{ fontSize: 13 }}>{n ? "avec ton frigo" : "avec ton placard"}</span></div>
+            <div className="sec"><h3>{meal === "w" ? "Pour la suite de la semaine" : "Autres idées"}</h3><span className="muted" style={{ fontSize: 13 }}>{n ? "avec ton frigo" : pantryOf(kitchen).length ? "avec tes placards" : "avec quelques courses"}</span></div>
             <div className="grid2">{others.map(x => <Idea key={x.i} recipe={x.r} found={entry.ingredients} planned={isPlus && !!findTitle(week, days, x.r.title)}
               onClick={() => open(x.i)} onWeek={() => addToWeek(x.i)} />)}</div>
           </>}

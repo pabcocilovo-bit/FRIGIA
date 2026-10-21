@@ -3,6 +3,8 @@
 import { useSyncExternalStore } from "react";
 import type { Envie, ScanIngredient, ScanSource } from "../../lib/scan";
 import type { Meal } from "../../lib/types";
+import type { Fridge } from "../../lib/home";
+import { pantryOf } from "../../lib/fridge";
 
 export type ScanState = {
   meal: Meal;
@@ -23,6 +25,7 @@ export type ScanState = {
   empty: boolean;
   /** Pas de photo lue (« Que cuisiner avec ? », ingrédients tapés) : Ma cuisine les ajoute sans rien remplacer */
   merge: boolean;
+  /** « Inclure mes placards » : ce que Ma cuisine range aux placards part avec la liste */
   pantry: boolean;
   envie: Envie;
   /** Formule Gratuit : « Pour combien ? » */
@@ -69,3 +72,11 @@ export const MEAL_WORDS: Record<Meal, { pour: string; qui: string; feat: string 
   w: { pour: "pour la semaine", qui: "Qui mange cette semaine ?", feat: "À cuisiner en premier" },
   d: { pour: "pour le dessert", qui: "Qui prend un dessert ?", feat: "Idéal en dessert" },
 };
+
+/** Les placards qui partent avec les ingrédients : rien d'inventé, seulement Ma cuisine.
+ *  Un scan des placards les montre déjà (et remplace les anciens) : rien de plus. Frigo vide : toujours inclus. */
+export function pantryFor(kitchen: Fridge, s: ScanState, list: { name: string }[] = s.ingredients): { name: string; qty: string }[] {
+  if (s.empty) return pantryOf(kitchen, list);
+  if (s.source === "placard" || !s.pantry) return [];
+  return pantryOf(kitchen, list);
+}

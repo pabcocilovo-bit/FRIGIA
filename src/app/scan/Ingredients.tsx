@@ -7,7 +7,8 @@ import { Chip, Chips, Icon, LockPill, RoundButton } from "../../ui/components";
 import type { Envie, ScanSource } from "../../lib/scan";
 import { type Person, whoNote, whoParts } from "../../lib/household";
 import { useOpenPaywall } from "../plus/subscription";
-import { getScan, MAX_GUESTS, MEAL_WORDS, setScan, useScan } from "./store";
+import { getScan, MAX_GUESTS, MEAL_WORDS, pantryFor, setScan, useScan } from "./store";
+import type { Fridge } from "../../lib/home";
 import { Guide } from "./Guide";
 import { ItemEdit } from "../fridge/ItemEdit";
 import { qtyOf } from "../../lib/fridge";
@@ -65,8 +66,10 @@ function Who({ household, avatar }: { household: Person[]; avatar: string | null
   );
 }
 
-export function Ingredients({ isPlus, household, avatar, guide, userId }: {
+export function Ingredients({ isPlus, household, avatar, guide, userId, kitchen }: {
   isPlus: boolean; household: Person[]; avatar: string | null; guide: boolean; userId: string;
+  /** Ma cuisine : ce qu'il y a vraiment dans les placards */
+  kitchen: Fridge;
 }) {
   const navigate = useNavigate();
   const openPaywall = useOpenPaywall();
@@ -76,6 +79,7 @@ export function Ingredients({ isPlus, household, avatar, guide, userId }: {
   if (!scan.photo && scan.ingredients.length === 0) return <Navigate to="/scan" replace />;
 
   const n = scan.ingredients.length;
+  const cupboard = pantryFor(kitchen, { ...scan, pantry: true });
   // Sans jeton, aucune photo n'a été lue : les ingrédients ont été tapés à la main
   const remove = (i: number) => setScan({ ingredients: getScan().ingredients.filter((_, k) => k !== i) });
   // « À finir » : passe en premier dans les recettes, et compte comme sauvé une fois cuisiné
@@ -126,10 +130,16 @@ export function Ingredients({ isPlus, household, avatar, guide, userId }: {
               </div>
             )}
             <button type="button" className="add" onClick={() => navigate("/scan/ajouter")}><span className="rm"><Icon name="plus" /></span>Ajouter un ingrédient</button>
-            <div className="toggle-row">
-              <div><b>Inclure mon placard</b><span>Pâtes, riz, huile, ail, épices</span></div>
-              <button type="button" className="sw" role="switch" aria-checked={scan.pantry} aria-label="Inclure mon placard" onClick={() => setScan({ pantry: !scan.pantry })} />
-            </div>
+            {/* Les placards de Ma cuisine, rien d'inventé. Un scan des placards les montre déjà au-dessus. */}
+            {scan.source !== "placard" && (
+              <div className={"toggle-row" + (cupboard.length ? "" : " off")}>
+                <div><b>Inclure mes placards</b><span>{cupboard.length
+                  ? cupboard.slice(0, 3).map(c => c.name).join(", ") + (cupboard.length > 3 ? ` et ${cupboard.length - 3} autre${cupboard.length > 4 ? "s" : ""}` : "")
+                  : "Rien dans tes placards pour l'instant. Scanne-les depuis Ma cuisine pour les ajouter ici."}</span></div>
+                <button type="button" className="sw" role="switch" aria-checked={!!cupboard.length && scan.pantry} disabled={!cupboard.length}
+                  aria-label="Inclure mes placards" onClick={() => setScan({ pantry: !scan.pantry })} />
+              </div>
+            )}
             <div className="opt">
               <span className="label">Envie de</span>
               <Chips>{ENVIES.map(([e, label]) => <Chip key={e} className="light" on={scan.envie === e} onClick={() => setScan({ envie: e })}>{label}</Chip>)}</Chips>

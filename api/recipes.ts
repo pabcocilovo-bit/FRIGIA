@@ -6,8 +6,9 @@ import { askClaude, checkIdeasLimit, extractFirstJSON, checkRateLimit, checkScan
 
 type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
-  pantry?: boolean; envie?: string;
-  /** Frigia Plus : frigo vide, des plats avec le placard et une petite liste de courses */
+  /** Ce qu'il y a vraiment dans les placards (Ma cuisine), quand « Inclure mes placards » est coché */
+  pantry?: { name?: unknown; qty?: unknown }[]; envie?: string;
+  /** Frigia Plus : frigo vide, des plats avec les placards et une petite liste de courses */
   empty?: boolean; meal?: string; servings?: number;
   prefs?: Prefs; recentTitles?: string[]; avoid?: string[]; more?: boolean; token?: string;
   /** Frigia Plus : ceux du foyer qui mangent */
@@ -121,6 +122,10 @@ export default async function handler(req: Req, res: Res) {
     .filter(i => i.name)
     .slice(0, 40);
   if (list.length === 0 && !empty) return res.status(400).json({ error: "Aucun ingrédient" });
+  const pantry = (Array.isArray(body.pantry) ? body.pantry : [])
+    .map(i => ({ name: str(i?.name, 60), qty: str(i?.qty, 30) }))
+    .filter(i => i.name)
+    .slice(0, 60);
 
   // Ingrédients tapés à la main (pas de photo comptée) : c'est un scan, compté dans la limite par heure
   // et, en Gratuit, dans les 15 scans
@@ -165,15 +170,16 @@ export default async function handler(req: Req, res: Res) {
       ? "Le frigo est vide : rien de frais à la maison."
       : `Ingrédients disponibles : ${list.map(i => (i.qty ? `${i.name} (${i.qty})` : i.name)).join(", ")}.`,
     finish.length ? `À FINIR EN PRIORITÉ (ils vont se perdre) : ${finish.join(", ")}. Chaque recette en utilise au moins un, s'il va avec le plat.` : "",
-    body.pantry || empty
-      ? "Le placard a aussi : pâtes, riz, huile, ail, épices, sel, poivre, farine, sucre. Ils comptent comme disponibles."
-      : "Seuls sel, poivre et eau sont disponibles en plus de la liste.",
+    pantry.length
+      ? `Dans les placards : ${pantry.map(i => (i.qty ? `${i.name} (${i.qty})` : i.name)).join(", ")}. Ils comptent comme disponibles.`
+      : empty ? "Les placards sont vides aussi." : "",
+    "Sel, poivre et eau sont toujours là. Rien d'autre n'est disponible : tout ingrédient absent des listes (même huile, beurre, ail, épices) est à acheter, avec \"have\" : false.",
     `Propose EXACTEMENT ${count} recettes pour ${MEALS[body.meal ?? ""] ?? MEALS.s}.`,
-    body.meal === "d" ? "" : "Des plats salés (entrée ou plat principal) : jamais de dessert, de gâteau ni de recette sucrée. Les produits sucrés de la liste (biscuits, chocolat, barres, confiture…) sont ignorés. S'il ne reste presque rien de salé, fais des plats simples avec le placard et les 1 ou 2 achats permis.",
+    body.meal === "d" ? "" : "Des plats salés (entrée ou plat principal) : jamais de dessert, de gâteau ni de recette sucrée. Les produits sucrés de la liste (biscuits, chocolat, barres, confiture…) sont ignorés. S'il ne reste presque rien de salé, fais des plats simples avec ce qui reste et les 1 ou 2 achats permis.",
     ENVIES[body.envie ?? ""] ? `Envie : des recettes ${ENVIES[body.envie!]}.` : "",
     `Quantités pour ${String(servings).replace(".", ",")} portion${servings > 1 ? "s" : ""} (un enfant compte pour une demi-portion).`,
     empty
-      ? "Des plats simples et sans gâchis, faits surtout avec le placard. Chaque recette demande au plus 4 ingrédients à acheter, faciles à trouver au supermarché. Les 3 recettes partagent le plus possible les mêmes achats."
+      ? `Des plats simples et sans gâchis${pantry.length ? ", faits surtout avec les placards" : ""}. Chaque recette demande au plus ${pantry.length ? 4 : 5} ingrédients à acheter, faciles à trouver au supermarché. Les 3 recettes partagent le plus possible les mêmes achats.`
       : "Utilise surtout ce qui est disponible. Une recette peut demander 1 ou 2 ingrédients à acheter, pas plus.",
     "Des recettes qui existent vraiment et qu'on a envie de manger : n'associe que des ingrédients qui vont bien ensemble. Mieux vaut laisser un ingrédient de côté qu'inventer un mélange étrange.",
     "N'UTILISE PAS TOUT LE FRIGO : chaque recette prend seulement 3 à 6 ingrédients disponibles qui vont ensemble, pas toute la liste. Les 3 recettes se partagent le frigo : un ingrédient peut n'apparaître dans aucune. Ne mélange jamais sucré et salé (pas de pain au chocolat, viennoiserie, biscuit, yaourt sucré, confiture ou dessert dans un plat salé).",

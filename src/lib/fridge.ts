@@ -21,6 +21,9 @@ export function guessPlace(name: string): Place {
   return w.length && OUTSIDE.includes(w[0]) ? "placard" : "frigo";
 }
 export const placeOf = (x: FridgeItem): Place => x.place ?? guessPlace(x.name);
+/** Ce qu'il y a vraiment dans les placards (pour « Inclure mes placards »), sans ce que la liste a déjà. */
+export const pantryOf = (f: Fridge, without: { name: string }[] = []): { name: string; qty: string }[] =>
+  f.items.filter(x => placeOf(x) === "placard" && !without.some(w => same(w.name, x.name))).map(x => ({ name: x.name, qty: qtyOf(x.qty) }));
 /** La quantité. « à la main » : l'ancienne façon de marquer un ingrédient tapé, pas une quantité. */
 export const qtyOf = (q: string | undefined) => (q === "à la main" ? "" : q ?? "");
 

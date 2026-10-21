@@ -44,7 +44,7 @@ export function ScanFail({ isPlus }: { isPlus: boolean }) {
         {empty && (
           <button type="button" className="sf-empty" onClick={ideas}>
             <span className="ico"><Icon name="sparkle" /></span>
-            <span className="tx"><b>Frigo vide ?</b>3 plats avec ton placard, et une petite liste de courses</span>
+            <span className="tx"><b>Frigo vide ?</b>3 plats simples avec ce qui te reste, et une petite liste de courses</span>
             {isPlus ? <Icon name="next" className="muted" /> : <LockPill />}
           </button>
         )}

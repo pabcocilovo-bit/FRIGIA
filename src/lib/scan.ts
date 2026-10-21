@@ -140,9 +140,11 @@ function toRecipe(r: RawRecipe): GeneratedRecipe {
 
 /** Scan, 2e partie : la liste vérifiée devient 3 recettes (ou 2 « autres idées » avec more). */
 export async function makeRecipes(o: {
-  ingredients: ScanIngredient[]; pantry: boolean; envie: Envie; meal: Meal; servings: number;
+  ingredients: ScanIngredient[];
+  /** Ce qu'il y a vraiment dans les placards (vide : « Inclure mes placards » décoché, ou placards vides) */
+  pantry: { name: string; qty: string }[]; envie: Envie; meal: Meal; servings: number;
   token: string | null; avoid?: string[]; more?: boolean;
-  /** Frigia Plus : frigo vide, des plats avec le placard et une petite liste de courses */
+  /** Frigia Plus : frigo vide, des plats avec les placards et une petite liste de courses */
   empty?: boolean;
   /** Frigia Plus : ceux du foyer qui mangent (allergies, ce qu'ils n'aiment pas, âge des enfants) */
   eaters?: ApiEater[];

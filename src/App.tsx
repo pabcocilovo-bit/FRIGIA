@@ -343,15 +343,15 @@ return (
       <Route path="/scan/recadrer" element={<Crop />} />
       <Route path="/scan/rate" element={<ScanFail isPlus={isPlus} />} />
       <Route path="/scan/ajouter" element={<AddIngredient mine={home.fridge.mine ?? []} onMine={names => home.setFridge(f => ({ ...f, mine: rememberMine(f.mine ?? [], names) }))} />} />
-      <Route path="/scan/ingredients" element={<Ingredients isPlus={isPlus} household={household} avatar={avatarSrc} guide={guide === "ingr"} userId={user.id} />} />
-      <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} onReady={e => {
+      <Route path="/scan/ingredients" element={<Ingredients isPlus={isPlus} household={household} avatar={avatarSrc} guide={guide === "ingr"} userId={user.id} kitchen={home.fridge} />} />
+      <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} kitchen={home.fridge} onReady={e => {
         library.addScan(e);
         // Le frigo prend ce que le scan a vu (pas un scan « frigo vide », qui n'a rien vu).
         // Sans photo (« Que cuisiner avec ? », ingrédients tapés) : ajoutés, chacun garde sa place.
         const s = getScan();
         if (e.ingredients.length) home.setFridge(f => (s.merge ? fromList(f, e.ingredients) : fromScan(f, e.ingredients, s.source)));
       }} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
-      <Route path="/recettes/:id" element={waitScan(<Results history={history} isPlus={isPlus} household={household} week={home.week} onWeek={home.setWeek} onNewIdeas={updateScanRecipes} />)} />
+      <Route path="/recettes/:id" element={waitScan(<Results history={history} isPlus={isPlus} household={household} kitchen={home.fridge} week={home.week} onWeek={home.setWeek} onNewIdeas={updateScanRecipes} />)} />
       <Route path="/recettes/:id/:n" element={waitScan(<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} fridge={home.fridge} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />)} />
       <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} fridge={home.fridge} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
       <Route path="/recettes/:id/:n/cuisine" element={waitScan(<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} onUsed={r => home.setFridge(f => cookFrom(f, r))} />)} />
