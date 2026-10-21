@@ -1,25 +1,15 @@
 // Ajouter ce que la photo a raté : une feuille par-dessus la liste. On cherche, ou on pioche dans ce qu'on ajoute
-// souvent, rangé par rayon. Plusieurs d'un coup. Si rien ne correspond, on ajoute le mot tapé tel quel.
+// souvent, rangé par rayon. Plusieurs d'un coup. Si rien ne correspond, on ajoute le mot tapé tel quel, et il revient la fois d'après.
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Icon } from "../../ui/components";
 import type { IconName } from "../../ui/icons";
 import { typedItem } from "../../lib/shopping";
 import { showToast } from "../toast";
+import { CATALOG, type Cat, mineSug, OFTEN, same, type Sug } from "./catalog";
 import { getScan, setScan, useScan } from "./store";
 import "./scan.css";
 
-type Cat = "legume" | "fruit" | "herbe" | "cremerie" | "viande" | "poisson" | "epicerie" | "libre";
-type Sug = [name: string, cat: Cat, qty: string];
-
-const SUG: Sug[] = [
-  ["Fromage râpé", "cremerie", "1 sachet"], ["Oignons", "legume", "3"], ["Pommes de terre", "legume", "1 kg"], ["Jambon", "viande", "4 tranches"],
-  ["Crème fraîche", "cremerie", "1 pot"], ["Poulet", "viande", "2 filets"], ["Beurre", "cremerie", "1 plaquette"], ["Citron", "fruit", "2"],
-  ["Lardons", "viande", "1 barquette"], ["Mozzarella", "cremerie", "1 boule"], ["Saumon", "poisson", "2 pavés"], ["Thon en boîte", "poisson", "1 boîte"],
-  ["Épinards", "legume", "1 sachet"], ["Salade", "legume", "1"], ["Concombre", "legume", "1"], ["Poireaux", "legume", "2"], ["Pommes", "fruit", "4"],
-  ["Persil", "herbe", "1 bouquet"], ["Basilic", "herbe", "1 pot"], ["Yaourts nature", "cremerie", "4"], ["Pâte feuilletée", "epicerie", "1 rouleau"],
-  ["Pain de mie", "epicerie", "1 paquet"], ["Lentilles", "epicerie", "1 sachet"], ["Petits pois", "legume", "1 boîte"], ["Pâte à pizza", "epicerie", "1 rouleau"],
-];
 const CAT: Record<Cat, [IconName, string]> = {
   legume: ["sprout", "Légumes"], fruit: ["leaf", "Fruits"], herbe: ["leaf", "Herbes"], cremerie: ["milk", "Crèmerie"],
   viande: ["utensils", "Boucherie"], poisson: ["fish", "Poissonnerie"], epicerie: ["wheat", "Épicerie"], libre: ["plus", "Ajouté à la main"],
@@ -34,14 +24,15 @@ function Row({ it, q, on, onClick }: { it: Sug; q: string; on: boolean; onClick:
       <span className={"ai-ic c-" + it[1]}><Icon name={icon} /></span>
       <span className="tx">
         <b>{i >= 0 ? <>{it[0].slice(0, i)}<mark>{it[0].slice(i, i + q.length)}</mark>{it[0].slice(i + q.length)}</> : it[0]}</b>
-        <small>{it[1] === "libre" ? "Pas dans la liste : on l'ajoute tel quel" : `${label} · ${it[2]}`}</small>
+        <small>{it[1] === "libre" ? "Pas dans la liste : on l'ajoute, et tu le retrouveras ici" : it[3] ? `${label} · ajouté par toi` : `${label} · ${it[2]}`}</small>
       </span>
       <span className="ai-pl"><Icon name={on ? "check" : "plus"} /></span>
     </button>
   );
 }
 
-export function AddIngredient() {
+/** mine : les ingrédients tapés un jour (gardés sur le compte) ; onMine : ceux qu'on vient de taper, à garder */
+export function AddIngredient({ mine, onMine }: { mine: string[]; onMine: (names: string[]) => void }) {
   const navigate = useNavigate();
   const typed = !!(useLocation().state as { typed?: boolean } | null)?.typed;
   const scan = useScan();
@@ -55,9 +46,12 @@ export function AddIngredient() {
   }, []);
 
   const q = norm(raw.trim());
-  const have = (typed ? [] : scan.ingredients).map(i => norm(i.name));
+  const have = (typed ? [] : scan.ingredients).map(i => i.name);
   const extra = picked.filter(p => p[1] === "libre");
-  const pool = [...SUG, ...extra].filter(it => !have.includes(norm(it[0])));
+  const yours = mine.map(mineSug);
+  const fresh = (list: Sug[]) => list.filter(it => !have.some(h => same(h, it[0])));
+  // Rien de tapé : tes ajouts d'abord, puis les plus courants. En cherchant : toute la liste.
+  const pool = fresh(q ? [...yours, ...CATALOG, ...extra] : [...yours, ...OFTEN, ...extra]);
   const isOn = (it: Sug) => picked.some(p => p[0] === it[0]);
   const toggle = (it: Sug) => setPicked(p => (isOn(it) ? p.filter(x => x[0] !== it[0]) : [...p, it]));
 
@@ -69,7 +63,7 @@ export function AddIngredient() {
   } else {
     rows = pool.filter(it => norm(it[0]).includes(q)).sort((a, b) => norm(a[0]).indexOf(q) - norm(b[0]).indexOf(q));
     sec = rows.length ? `${rows.length} résultat${rows.length > 1 ? "s" : ""}` : "Aucun résultat";
-    if (!rows.some(it => norm(it[0]) === q)) {
+    if (!rows.some(it => norm(it[0]) === q || same(it[0], raw))) {
       const t = raw.trim();
       rows = [...rows, [t.charAt(0).toUpperCase() + t.slice(1), "libre", ""]];
     }
@@ -79,10 +73,11 @@ export function AddIngredient() {
     if (!picked.length) return;
     // Tapé librement : « 500 g de farine » donne farine, 500 g ; sans quantité, elle se met sur « C'est bien ça ? »
     const added = picked.map(it => {
-      if (it[1] !== "libre") return { name: it[0], qty: it[2] };
+      if (it[1] !== "libre" && !it[3]) return { name: it[0], qty: it[2] };
       const t = typedItem(it[0]);
       return { name: t.name.charAt(0).toUpperCase() + t.name.slice(1), qty: t.qty };
     });
+    onMine(added.filter((_, i) => picked[i][1] === "libre" || picked[i][3]).map(a => a.name));
     const n = added.length;
     showToast(`${n} ingrédient${n > 1 ? "s" : ""} ajouté${n > 1 ? "s" : ""}`);
     if (typed) {

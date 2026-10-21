@@ -26,8 +26,9 @@ export type FridgeItem = { id: string; name: string; qty: string; at: number; fr
   /** Une course cochée s'est ajoutée à ce qu'on avait déjà : la quantité d'avant, remise si on la décoche */
   prev?: { qty: string; from: FridgeItem["from"]; at: number } };
 /** Ma cuisine (colonne fridge) : les produits, la date du dernier scan du frigo (seen) et des placards (seenPlacard),
- *  et la dernière recette cuisinée (ce qu'elle a retiré, pour « Remettre »). */
-export type Fridge = { items: FridgeItem[]; seen: number | null; seenPlacard?: number; cooked?: { title: string; items: FridgeItem[]; at: number } };
+ *  la dernière recette cuisinée (ce qu'elle a retiré, pour « Remettre ») et les ingrédients tapés à la main
+ *  qui n'étaient pas dans la liste (mine), proposés aux prochains ajouts. */
+export type Fridge = { items: FridgeItem[]; seen: number | null; seenPlacard?: number; cooked?: { title: string; items: FridgeItem[]; at: number }; mine?: string[] };
 export const EMPTY_FRIDGE: Fridge = { items: [], seen: null };
 
 export type Home = { members: Member[]; week: Week; shopping: ShopItem[]; fridge: Fridge };
@@ -51,7 +52,8 @@ const clean = (h: Partial<Home>): Home => ({
   shopping: Array.isArray(h.shopping) ? h.shopping : [],
   fridge: h.fridge && typeof h.fridge === "object" && Array.isArray(h.fridge.items)
     ? { items: h.fridge.items, seen: typeof h.fridge.seen === "number" ? h.fridge.seen : null,
-      ...(typeof h.fridge.seenPlacard === "number" ? { seenPlacard: h.fridge.seenPlacard } : {}), ...(h.fridge.cooked ? { cooked: h.fridge.cooked } : {}) }
+      ...(typeof h.fridge.seenPlacard === "number" ? { seenPlacard: h.fridge.seenPlacard } : {}), ...(h.fridge.cooked ? { cooked: h.fridge.cooked } : {}),
+      ...(Array.isArray(h.fridge.mine) ? { mine: h.fridge.mine.filter((x): x is string => typeof x === "string") } : {}) }
     : EMPTY_FRIDGE,
 });
 

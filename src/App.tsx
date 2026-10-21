@@ -38,6 +38,7 @@ import { ScanCamera } from "./app/scan/ScanCamera";
 import { Crop } from "./app/scan/Crop";
 import { ScanFail } from "./app/scan/ScanFail";
 import { AddIngredient } from "./app/scan/AddIngredient";
+import { rememberMine } from "./app/scan/catalog";
 import { Ingredients } from "./app/scan/Ingredients";
 import { Prep } from "./app/scan/Prep";
 import { Results } from "./app/scan/Results";
@@ -341,7 +342,7 @@ return (
         <ScanCamera userId={user.id} guide={guide === "" && history.length === 0} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
       <Route path="/scan/recadrer" element={<Crop />} />
       <Route path="/scan/rate" element={<ScanFail isPlus={isPlus} />} />
-      <Route path="/scan/ajouter" element={<AddIngredient />} />
+      <Route path="/scan/ajouter" element={<AddIngredient mine={home.fridge.mine ?? []} onMine={names => home.setFridge(f => ({ ...f, mine: rememberMine(f.mine ?? [], names) }))} />} />
       <Route path="/scan/ingredients" element={<Ingredients isPlus={isPlus} household={household} avatar={avatarSrc} guide={guide === "ingr"} userId={user.id} />} />
       <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} onReady={e => {
         library.addScan(e);
