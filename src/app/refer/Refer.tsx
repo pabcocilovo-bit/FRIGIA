@@ -25,7 +25,7 @@ export function Refer({ name, avatar, isPlus }: { name: string; avatar: string |
   const navigate = useNavigate();
   const [ref, setRef] = useState<Referral | null>(cache);
   const [failed, setFailed] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<"link" | "code" | null>(null);
 
   const fetchNow = () => fetchReferral().then(r => { cache = r; setRef(r); setFailed(false); }).catch(() => setFailed(true));
   const load = () => { setFailed(false); void fetchNow(); };
@@ -33,13 +33,13 @@ export function Refer({ name, avatar, isPlus }: { name: string; avatar: string |
 
   const link = ref ? inviteLink(ref.code) : "";
   const text = ref ? `Je trouve quoi cuisiner avec ce qu'il y a dans mon frigo grâce à Frigia. Avec mon code ${ref.code}, tu as 10 scans gratuits en plus : ${link}` : "";
-  const copy = async () => {
+  const copy = async (what: "link" | "code" = "link") => {
     if (!ref) return;
     try {
-      await navigator.clipboard.writeText(link);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
-      showToast("Lien copié");
+      await navigator.clipboard.writeText(what === "code" ? ref.code : link);
+      setCopied(what);
+      setTimeout(() => setCopied(null), 1800);
+      showToast(what === "code" ? "Code copié" : "Lien copié");
     } catch { showToast(`Ton code : ${ref.code}`); }
   };
   const share = async (app?: "WhatsApp" | "Message" | "Email") => {
@@ -77,9 +77,9 @@ export function Refer({ name, avatar, isPlus }: { name: string; avatar: string |
         <div className="rf-link">
           <div><span>Ton lien</span>
             <b>{ref ? link.replace(/^https?:\/\//, "") : failed ? "Pas de réseau pour l'instant" : "…"}</b>
-            {ref ? <small>Ou ton code : <b>{ref.code}</b></small> : failed && <small><button type="button" className="link" onClick={load}>Réessayer</button></small>}
+            {ref ? <small>Ou ton code : <button type="button" className={"rf-code" + (copied === "code" ? " ok" : "")} aria-label={`Copier le code ${ref.code}`} onClick={() => void copy("code")}><b>{ref.code}</b><Icon name={copied === "code" ? "check" : "copy"} /></button></small> : failed && <small><button type="button" className="link" onClick={load}>Réessayer</button></small>}
           </div>
-          <button type="button" className={"rf-copy" + (copied ? " ok" : "")} aria-label="Copier le lien" disabled={!ref} onClick={() => void copy()}><Icon name={copied ? "check" : "copy"} /></button>
+          <button type="button" className={"rf-copy" + (copied === "link" ? " ok" : "")} aria-label="Copier le lien" disabled={!ref} onClick={() => void copy()}><Icon name={copied === "link" ? "check" : "copy"} /></button>
         </div>
         <Pill block icon="share" onClick={() => void share()}>Partager mon lien</Pill>
         <div className="rf-apps">

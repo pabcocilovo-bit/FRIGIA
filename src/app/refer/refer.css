@@ -22,6 +22,9 @@
 .fa .rf-link>div>b{font:600 16.5px/1.3 var(--sans);color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fa .rf-link small{font-size:12.5px;color:var(--muted)}
 .fa .rf-link small b{color:var(--sage-deep);letter-spacing:.04em}
+.fa .rf-code{display:inline-flex;align-items:center;gap:5px;margin:-4px 0 -4px 2px;padding:4px 6px;border-radius:8px;font:inherit;color:inherit;transition:background .2s}
+.fa .rf-code svg{width:13px;height:13px;color:var(--sage-deep)}
+.fa .rf-code:active,.fa .rf-code.ok{background:var(--sage-soft)}
 .fa .rf-copy{width:44px;height:44px;border-radius:14px;background:var(--sage-soft);color:var(--sage-deep);display:grid;place-items:center;flex:none;transition:background .2s,color .2s}
 .fa .rf-copy svg{width:19px;height:19px}
 .fa .rf-copy.ok{background:var(--sage);color:var(--on)}
