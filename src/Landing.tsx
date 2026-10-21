@@ -254,7 +254,7 @@ export default function Landing({ onStart, onLogin }: Props) {
 
         <section className="price rule" id="prix">
           <div className="container">
-            <div className="sh"><span className="k">Prix</span><h2>Commence gratuitement, <em>passe à Plus</em> quand tu veux.</h2><p className="lede">Pas de carte bancaire pour essayer. Plus est sans engagement, et un code créateur se saisit à l'inscription.</p></div>
+            <div className="sh"><span className="k">{WAITLIST ? "Prix à l'ouverture" : "Prix"}</span><h2>Commence gratuitement, <em>passe à Plus</em> quand tu veux.</h2><p className="lede">Pas de carte bancaire pour essayer. Plus est sans engagement, et un code créateur se saisit à l'inscription.</p></div>
             <div className="plans">
               <div className="plan">
                 <div className="top"><span className="k">Gratuit</span></div>

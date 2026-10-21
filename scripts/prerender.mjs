@@ -11,6 +11,16 @@ const root = fileURLToPath(new URL("..", import.meta.url));
 const dist = resolve(root, "dist");
 const out = resolve(root, "node_modules/.frigia-prerender");
 
+// Garde-fou : aucun « [À compléter] » ne doit partir en production dans les pages légales.
+// Sur Vercel en production, le build échoue ; ailleurs (aperçus, local), simple avertissement.
+const legalSource = readFileSync(resolve(root, "src/legal/pages-legales.md"), "utf8");
+const todo = legalSource.split("\n").filter(l => l.includes("[À compléter")).length;
+if (todo) {
+  const msg = `${todo} « [À compléter] » dans src/legal/pages-legales.md`;
+  if (process.env.VERCEL_ENV === "production") throw new Error(`${msg} : à remplir avant la mise en production.`);
+  console.warn(`Attention : ${msg}.`);
+}
+
 // Le client Supabase est créé à l'import ; le pré-rendu ne l'appelle jamais, une adresse factice suffit
 process.env.VITE_SUPABASE_URL ||= "https://prerender.invalid";
 process.env.VITE_SUPABASE_ANON_KEY ||= "prerender";
