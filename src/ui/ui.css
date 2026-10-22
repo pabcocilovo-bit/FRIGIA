@@ -54,7 +54,7 @@
 /* Pastilles et badges */
 .fa .chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:0 20px}
 .fa .chips::-webkit-scrollbar{display:none}
-.fa .chips.wrap{flex-wrap:wrap;overflow:visible;margin:0;padding:0;row-gap:8px}
+.fa .chips.wrap{flex-wrap:wrap;justify-content:center;overflow:visible;margin:0;padding:0;row-gap:8px}
 .fa .chip{flex:none;font:500 14px/1 var(--sans);padding:10px 14px;border-radius:999px;transition:background .15s,color .15s}
 .fa .chip.light{box-shadow:inset 0 0 0 1px var(--line)}
 .fa .chip.light.on{background:var(--sage);color:var(--on);box-shadow:none}
