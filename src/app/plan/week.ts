@@ -190,3 +190,26 @@ export type PlanProps = {
   history: HistoryEntry[];
   favorites: GeneratedRecipe[];
 };
+
+/** Le prochain repas prévu, pour l'accueil : ce midi (avant 15 h), puis ce soir, puis les jours suivants. Un repas déjà
+ *  cuisiné aujourd'hui laisse la place à son dessert, s'il y en a un, puis au repas d'après. */
+export type NextUp = { slot: Slot; i: number; key: SlotKey; dessert?: Slot };
+export function nextUp(w: Week, days: WeekDay[], cookedToday: string[], now = new Date()): NextUp | null {
+  const done = (s?: Slot) => !!s && cookedToday.includes(s.recipe.title);
+  for (let i = 0; i < days.length; i++) {
+    const day = dayOf(w, days[i].key);
+    if (day.off) continue;
+    for (const m of MEALS) {
+      const sl = day[m], ds = day[dessertKey(m)];
+      if (i === 0) {
+        if (m === "m" && now.getHours() >= 15) continue;
+        if (sl && !done(sl)) return { slot: sl, i, key: m, dessert: ds };
+        // Le plat est cuisiné (ou il n'y en a pas) : son dessert
+        if (ds && !done(ds) && (sl || now.getHours() >= (m === "m" ? 11 : 18))) return { slot: ds, i, key: dessertKey(m) };
+        continue;
+      }
+      if (sl) return { slot: sl, i, key: m, dessert: ds };
+    }
+  }
+  return null;
+}

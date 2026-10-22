@@ -24,7 +24,7 @@ import { Dish } from "./plan/Dish";
 import { cmFmt, useCommunity } from "./report/community";
 import "./report/report.css";
 import { SwapSheet, TonightSheet } from "./plan/sheets";
-import { count, dayOf, MEALS, options } from "./plan/week";
+import { count, dayOf, MEAL_NAME, MEALS, mealOfKey, nextUp, options } from "./plan/week";
 
 export function Avatar({ user, name, photo, className, onClick, label }: {
   user: User; name?: string; photo: string | null; className: string; onClick?: () => void; label: string;
@@ -125,7 +125,16 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
   const [swap, setSwap] = useState<{ i: number; meal: MealKey } | null>(null);
   const planned = isPlus ? count(week, days) : { n: 0, last: -1 };
   const plates = isPlus ? days.flatMap(d => MEALS.map(m => dayOf(week, d.key)[m])).filter(x => x && !x.left).slice(0, 3) : [];
-  const tonight = isPlus && !dayOf(week, days[0].key).off ? dayOf(week, days[0].key).s : undefined;
+  // Le prochain repas prévu : ce midi, ce soir, le dessert une fois le plat cuisiné, sinon demain ou plus loin
+  const today = new Date().toDateString();
+  const next = isPlus ? nextUp(week, days, cooked.filter(c => c.date.toDateString() === today).map(c => c.title)) : null;
+  const tonight = next?.slot;
+  const nm = next ? MEAL_NAME[mealOfKey(next.key)] : "";
+  const sweet = !!next && (next.key === "md" || next.key === "sd");
+  const when = !next ? "" : next.i === 0 ? `ce ${nm}` : next.i === 1 ? `demain ${nm}` : `${days[next.i].long.toLowerCase()} ${nm}`;
+  const nextTitle = !next ? null : sweet ? <>Le dessert de <em>{when}</em></>
+    : next.i === 0 ? <>{nm === "midi" ? "Ce midi" : "Ce soir"}, c'est <em>prévu</em></>
+      : <>{when.charAt(0).toUpperCase() + when.slice(1)}, c'est <em>prévu</em></>;
 
   const toBuy = shopping.filter(x => !x.done);
 
@@ -155,11 +164,11 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
       </div>
       <WeekRecipes kitchen={kitchen} onOpen={onOpenRecipe} />
       <div className={"home-band" + (tonight ? " tn-has" : "")}>
-        <Band label={bandLabel(user)} title={tonight ? <>Ce soir, c'est <em>prévu</em></> : <>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>}>
+        <Band label={bandLabel(user)} title={nextTitle ?? <>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>}>
           {tonight ? (
             <button type="button" className="tn-card" onClick={() => setTn(true)}>
               <Dish recipe={tonight.recipe} className="plate" />
-              <span className="tn-tx"><b>{tonight.recipe.title}</b><span className="tn-m">{tonight.recipe.time} · pour {portTxt(portionsOf(eaters, scan.guests))}</span></span>
+              <span className="tn-tx"><b>{tonight.recipe.title}</b><span className="tn-m">{tonight.recipe.time} · pour {portTxt(portionsOf(eaters, scan.guests))}{next?.dessert ? " · et un dessert" : ""}</span></span>
               <span className="tn-go" aria-hidden="true"><Icon name="arrow" /></span>
             </button>
           ) : <p>Prends ton frigo en photo, puis choisis ton menu : des plats, un dessert, ou la semaine.</p>}
@@ -259,7 +268,8 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
       </div>
       <AppTabBar active="home" isPlus={isPlus} />
       <TonightSheet open={tn} slot={tonight} history={history} household={household} onClose={() => setTn(false)}
-        onSwap={() => { setTn(false); setTimeout(() => setSwap({ i: 0, meal: "s" }), 280); }} />
+        label={sweet ? `Le dessert de ${when}` : `Prévu ${when}`}
+        onSwap={next && !sweet ? () => { setTn(false); setTimeout(() => setSwap({ i: next.i, meal: mealOfKey(next.key) }), 280); } : undefined} />
       <SwapSheet at={swap} week={week} days={days} opts={options(history, favorites)} household={household}
         setWeek={onWeek} onClose={() => setSwap(null)} />
     </div>

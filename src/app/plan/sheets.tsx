@@ -313,9 +313,12 @@ export function SwapSheet({ at, week, days, opts, household, setWeek, onClose }:
 }
 
 /** Accueil (Plus) : le plat prévu ce soir. Qui mange, les invités, puis la cuisson. */
-export function TonightSheet({ open, slot, history, household, onSwap, onClose }: {
+export function TonightSheet({ open, slot, history, household, label = "Prévu ce soir", onSwap, onClose }: {
   open: boolean; slot: Slot | undefined; history: HistoryEntry[]; household: Person[];
-  onSwap: () => void; onClose: () => void;
+  /** « Prévu ce soir », « Prévu demain midi », « Le dessert de ce soir » */
+  label?: string;
+  /** Changer de plat (pas pour un dessert) */
+  onSwap?: () => void; onClose: () => void;
 }) {
   const navigate = useNavigate();
   const scan = useScan();
@@ -336,10 +339,10 @@ export function TonightSheet({ open, slot, history, household, onSwap, onClose }
     setScan({ guests: g });
   };
   return (
-    <Dialog open={open} onClose={onClose} className="tn-sheet" label="Prévu ce soir">
+    <Dialog open={open} onClose={onClose} className="tn-sheet" label={label}>
       <div className="tn-top">
         <Dish recipe={r} className="plate" />
-        <div><span className="label">Prévu ce soir</span><h3>{r.title}</h3><span className="tn-sm">{r.time}{steps ? ` · ${steps} étape${steps > 1 ? "s" : ""}` : ""}</span></div>
+        <div><span className="label">{label}</span><h3>{r.title}</h3><span className="tn-sm">{r.time}{steps ? ` · ${steps} étape${steps > 1 ? "s" : ""}` : ""}</span></div>
       </div>
       <p className={"tn-have" + (st.warn ? " warn" : "")}><Icon name={st.warn ? "cart" : "leaf"} /><span>{st.text}{st.warn ? " : pense à l'acheter en rentrant." : "."}</span></p>
       <span className="label tn-q">Qui mange ?</span>
@@ -362,7 +365,7 @@ export function TonightSheet({ open, slot, history, household, onSwap, onClose }
       </button>
       <div className="tn-links">
         <button type="button" className="link" onClick={() => { onClose(); navigate(path, { state: { recipe: r, servings: p, from: "plan" } }); }}>Voir la recette en entier</button>
-        <button type="button" className="link" onClick={onSwap}>Changer de plat</button>
+        {onSwap && <button type="button" className="link" onClick={onSwap}>Changer de plat</button>}
       </div>
     </Dialog>
   );
