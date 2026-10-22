@@ -62,10 +62,10 @@ export const apiEaters = (eaters: Person[]): ApiEater[] =>
   eaters.map(p => ({ name: p.name, kid: p.kid, age: p.kid ? p.age : undefined, allergies: p.allergies, dislikes: p.dislikes }));
 
 /** « Pour 4 ce soir : Camille, Thomas, Léo et Jade » */
-export function forTonight(eaters: Person[], guests: number): string {
+export function forTonight(eaters: Person[], guests: number, when = "ce soir"): string {
   const list = eaters.map(p => p.name);
   if (guests) list.push(`${guests} invité${guests > 1 ? "s" : ""}`);
-  return `Pour ${eaters.length + guests} ce soir : ${names(list)}`;
+  return `Pour ${eaters.length + guests} ${when} : ${names(list)}`;
 }
 
 /** Plus : « Les enfants adorent », « Sans champignons » (ce que quelqu'un du foyer n'aime pas) */

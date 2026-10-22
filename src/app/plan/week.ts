@@ -191,25 +191,29 @@ export type PlanProps = {
   favorites: GeneratedRecipe[];
 };
 
-/** Le prochain repas prévu, pour l'accueil : ce midi (avant 15 h), puis ce soir, puis demain. Un repas déjà
- *  cuisiné aujourd'hui laisse la place à son dessert, s'il y en a un, puis au repas d'après. Rien demain : null. */
+/** Le prochain repas prévu, pour l'accueil : ce midi (avant 15 h), puis ce soir. Un repas déjà cuisiné aujourd'hui
+ *  laisse la place à son dessert, s'il y en a un, puis au repas d'après. Rien de prévu ce soir : null tant que le soir
+ *  n'est pas passé (l'accueil demande « Qu'est-ce qu'on mange ce soir ? »). Demain : le soir d'abord, le midi ensuite
+ *  (on peut être au travail). Demandé par Hugo le 22 octobre. */
 export type NextUp = { slot: Slot; i: number; key: SlotKey; dessert?: Slot };
-export function nextUp(w: Week, days: WeekDay[], cookedToday: string[], now = new Date()): NextUp | null {
+export function nextUp(w: Week, days: WeekDay[], cookedToday: string[], eveningOver: boolean, now = new Date()): NextUp | null {
   const done = (s?: Slot) => !!s && cookedToday.includes(s.recipe.title);
   for (let i = 0; i < Math.min(2, days.length); i++) {
     const day = dayOf(w, days[i].key);
-    if (day.off) continue;
-    for (const m of MEALS) {
-      const sl = day[m], ds = day[dessertKey(m)];
-      if (i === 0) {
+    if (i === 0) {
+      if (!day.off) for (const m of MEALS) {
+        const sl = day[m], ds = day[dessertKey(m)];
         if (m === "m" && now.getHours() >= 15) continue;
         if (sl && !done(sl)) return { slot: sl, i, key: m, dessert: ds };
         // Le plat est cuisiné (ou il n'y en a pas) : son dessert
         if (ds && !done(ds) && (sl || now.getHours() >= (m === "m" ? 11 : 18))) return { slot: ds, i, key: dessertKey(m) };
-        continue;
       }
-      if (sl) return { slot: sl, i, key: m, dessert: ds };
+      // Rien de prévu ce soir : la question d'abord, les prévisions une fois le soir passé
+      if (!day.s && !eveningOver) return null;
+      continue;
     }
+    if (day.off) continue;
+    for (const m of ["s", "m"] as const) if (day[m]) return { slot: day[m]!, i, key: m, dessert: day[dessertKey(m)] };
   }
   return null;
 }

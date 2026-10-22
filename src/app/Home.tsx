@@ -127,14 +127,14 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
   const plates = isPlus ? days.flatMap(d => MEALS.map(m => dayOf(week, d.key)[m])).filter(x => x && !x.left).slice(0, 3) : [];
   // Le prochain repas prévu : ce midi, ce soir, le dessert une fois le plat cuisiné, sinon demain ou plus loin
   const today = new Date().toDateString();
-  const next = isPlus ? nextUp(week, days, cooked.filter(c => c.date.toDateString() === today).map(c => c.title)) : null;
+  // Le soir est passé : repas du soir cuisiné, ou après 21 h. Avant, rien de prévu ce soir : « Qu'est-ce qu'on mange ce soir ? »
+  const now = new Date();
+  const evening = now.getHours() >= 21 || cooked.some(c => c.date.toDateString() === today && c.date.getHours() >= 17);
+  const next = isPlus ? nextUp(week, days, cooked.filter(c => c.date.toDateString() === today).map(c => c.title), evening) : null;
   const tonight = next?.slot;
   const nm = next ? MEAL_NAME[mealOfKey(next.key)] : "";
   const sweet = !!next && (next.key === "md" || next.key === "sd");
-  const when = !next ? "" : next.i === 0 ? `ce ${nm}` : `demain ${nm}`;
-  // Rien de prévu : « ce soir ? », ou « demain ? » une fois le soir passé (repas du soir cuisiné, ou après 21 h)
-  const now = new Date();
-  const evening = now.getHours() >= 21 || cooked.some(c => c.date.toDateString() === today && c.date.getHours() >= 17);
+  const when = !next ? (evening ? "demain" : "ce soir") : next.i === 0 ? `ce ${nm}` : `demain ${nm}`;
   const nextTitle = !next ? (evening ? <>Qu'est-ce qu'on mange <em>demain&nbsp;?</em></> : <>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>)
     : sweet ? <>Le dessert de <em>{when}</em></>
       : next.i === 0 ? <>{nm === "midi" ? "Ce midi" : "Ce soir"}, c'est <em>prévu</em></>
@@ -181,7 +181,7 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
           {isPlus && (
             <BandFoot>
               <span className="stack">{eaters.map(p => <i key={p.id}>{p.name.charAt(0).toUpperCase()}</i>)}{scan.guests > 0 && <i>+{scan.guests}</i>}</span>
-              {forTonight(eaters, scan.guests)}
+              {forTonight(eaters, scan.guests, when)}
             </BandFoot>
           )}
         </Band>
