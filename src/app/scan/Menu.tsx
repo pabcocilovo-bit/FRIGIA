@@ -117,7 +117,7 @@ export function Menu({ isPlus, household, avatar, kitchen }: {
             )}
             <div className="opt">
               <span className="label">Envie de</span>
-              <Chips>{ENVIES.map(([e, label]) => <Chip key={e} className="light" on={scan.envie === e} onClick={() => setScan({ envie: e })}>{label}</Chip>)}</Chips>
+              <Chips wrap>{ENVIES.map(([e, label]) => <Chip key={e} className="light" on={scan.envie === e} onClick={() => setScan({ envie: e })}>{label}</Chip>)}</Chips>
             </div>
             {/* Les placards de Ma cuisine, rien d'inventé. Un scan des placards les montre déjà ; frigo vide : toujours inclus. */}
             {scan.source !== "placard" && !empty && (

@@ -47,8 +47,9 @@ export function Chip({ on, ongreen, className, ...rest }: BtnProps & { on?: bool
   return <button type="button" aria-pressed={on} className={cx("chip", ongreen ? "ongreen" : "light", on && "on", className)} {...rest} />;
 }
 
-export function Chips({ children }: { children: ReactNode }) {
-  return <div className="chips">{children}</div>;
+/** wrap : les pastilles passent à la ligne au lieu de défiler */
+export function Chips({ wrap, children }: { wrap?: boolean; children: ReactNode }) {
+  return <div className={cx("chips", wrap && "wrap")}>{children}</div>;
 }
 
 export function Badge({ tone, icon, children }: { tone?: "warn" | "ongreen"; icon?: IconName; children: ReactNode }) {
