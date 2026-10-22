@@ -131,10 +131,14 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
   const tonight = next?.slot;
   const nm = next ? MEAL_NAME[mealOfKey(next.key)] : "";
   const sweet = !!next && (next.key === "md" || next.key === "sd");
-  const when = !next ? "" : next.i === 0 ? `ce ${nm}` : next.i === 1 ? `demain ${nm}` : `${days[next.i].long.toLowerCase()} ${nm}`;
-  const nextTitle = !next ? null : sweet ? <>Le dessert de <em>{when}</em></>
-    : next.i === 0 ? <>{nm === "midi" ? "Ce midi" : "Ce soir"}, c'est <em>prévu</em></>
-      : <>{when.charAt(0).toUpperCase() + when.slice(1)}, c'est <em>prévu</em></>;
+  const when = !next ? "" : next.i === 0 ? `ce ${nm}` : `demain ${nm}`;
+  // Rien de prévu : « ce soir ? », ou « demain ? » une fois le soir passé (repas du soir cuisiné, ou après 21 h)
+  const now = new Date();
+  const evening = now.getHours() >= 21 || cooked.some(c => c.date.toDateString() === today && c.date.getHours() >= 17);
+  const nextTitle = !next ? (evening ? <>Qu'est-ce qu'on mange <em>demain&nbsp;?</em></> : <>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>)
+    : sweet ? <>Le dessert de <em>{when}</em></>
+      : next.i === 0 ? <>{nm === "midi" ? "Ce midi" : "Ce soir"}, c'est <em>prévu</em></>
+        : <>Demain {nm}, c'est <em>prévu</em></>;
 
   const toBuy = shopping.filter(x => !x.done);
 
@@ -164,7 +168,7 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
       </div>
       <WeekRecipes kitchen={kitchen} onOpen={onOpenRecipe} />
       <div className={"home-band" + (tonight ? " tn-has" : "")}>
-        <Band label={bandLabel(user)} title={nextTitle ?? <>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>}>
+        <Band label={bandLabel(user)} title={nextTitle}>
           {tonight ? (
             <button type="button" className="tn-card" onClick={() => setTn(true)}>
               <Dish recipe={tonight.recipe} className="plate" />
