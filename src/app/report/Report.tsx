@@ -1,12 +1,15 @@
 // 25 · Ton bilan (prototype V3, Plus) : ce que tu as sauvé ce mois-ci, comparé au mois d'avant, sur trois mois,
 // avec le compteur de la communauté, le détail du calcul et ce qui a le plus servi. On remonte jusqu'à un an.
 // Pas de « Restes réutilisés » : un repas de restes ne passe pas par « J'ai cuisiné ça », on ne sait pas le compter.
+// Ce qui a été jeté : les produits notés « Jeté » dans Ma cuisine (date passée), et la part sauvée (sauvé / sauvé + jeté).
 import { useEffect, useState } from "react";
+import { type Budget, monthTossed } from "../../lib/budget";
 import type { CookedMeal } from "../../lib/cooked";
 import { Icon, Pill, RoundButton, ScreenHeader } from "../../ui/components";
 import { useBack } from "../nav";
 import { showToast } from "../toast";
 import { kilos } from "../scan/savings";
+import { plural } from "../format";
 import { shareStory, storyImage } from "../scan/story";
 import { cmFmt, useCommunity } from "./community";
 import { eur, eurShort, mealsOf, report } from "./report";
@@ -35,7 +38,7 @@ function useCountUp(target: number | null) {
   return v;
 }
 
-export function Report({ meals }: { meals: CookedMeal[] }) {
+export function Report({ meals, budget }: { meals: CookedMeal[]; budget: Budget }) {
   const back = useBack();
   // ?mois=2026-09 : ouvert depuis « Ton bilan de septembre est prêt »
   const [off, setOff] = useState(() => {
@@ -51,6 +54,10 @@ export function Report({ meals }: { meals: CookedMeal[] }) {
   const saved = mode === "saved";
   const when = now ? "ce mois-ci" : `en ${r.name}`;
   const [whole, cents] = eur(sum.eur).split(",");
+  const d = new Date();
+  const tossed = monthTossed(budget, new Date(d.getFullYear(), d.getMonth() - r.off, 1));
+  const tossedEur = Math.round(tossed.reduce((t, x) => t + x.eur, 0) * 100) / 100;
+  const part = saved && tossedEur > 0 ? Math.round((sum.eur / (sum.eur + tossedEur)) * 100) : null;
 
   // Graphique : la barre la plus haute (ou la projection) à 88 % de la hauteur, pour garder la place des étiquettes
   const mx = Math.max(...r.chart.map(b => b.eur), r.proj ?? 0) / 0.88 || 1;
@@ -136,6 +143,14 @@ export function Report({ meals }: { meals: CookedMeal[] }) {
           </div>
         </>}
 
+        {tossed.length > 0 && <>
+          <span className="st-sec">Ce qui a été jeté</span>
+          <div className="st-card rp-calc">
+            <div className="rp-row"><span className="pi"><Icon name="trash" /></span><span>Jeté, date passée · {plural(tossed.length, "produit")}</span><b>{eur(tossedEur)}</b></div>
+            {part != null && <div className="rp-row rp-sum"><span>Part sauvée {when}</span><b>{part} %</b></div>}
+          </div>
+        </>}
+
         {sum.top.length > 0 && <>
           <span className="st-sec">Ce qui a le plus servi</span>
           <div className="st-card rp-top">
@@ -149,7 +164,7 @@ export function Report({ meals }: { meals: CookedMeal[] }) {
         </>}
 
         <p className="rp-note">{saved
-          ? "Estimations à partir de prix moyens en supermarché : ce que tu aurais sans doute jeté, puis racheté. Seul ce que tu as marqué « À finir » au scan compte."
+          ? "Estimations à partir de prix moyens en supermarché : ce que tu aurais sans doute jeté, puis racheté. Compte ce qui était « À finir » (marqué au scan, ou proche de sa date) et ce que tu as noté « Mangé » dans Ma cuisine."
           : "Rien n'est encore compté comme sauvé : marque « À finir » au scan ce qui doit partir vite. Estimations à partir de prix moyens en supermarché."}</p>
         <Pill block icon="share" onClick={() => void share()}>Partager mon bilan</Pill>
       </div>

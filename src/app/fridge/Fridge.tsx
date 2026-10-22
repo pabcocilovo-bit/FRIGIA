@@ -2,6 +2,7 @@
 // Ma cuisine (pour tous) : le frigo et les placards au même endroit, filtrés Tout, Frigo, Placards, À finir.
 // Ce que les scans ont vu, les courses cochées, ce qu'on ajoute. Toucher un nom ou une quantité le change.
 // Les dates (lib/shelf.ts) : estimées d'après le produit, ou la vraie date d'un appui ; proches, le produit passe en « À finir ».
+// Date passée (demandé par Hugo le 22 octobre) : « Mangé » le compte comme sauvé, « Jeté » le compte dans Ton bilan.
 // La liste de courses (Plus) : Lists.tsx.
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -11,12 +12,13 @@ import { ArtFridge } from "../../ui/art";
 import type { Fridge, FridgeItem, Place } from "../../lib/home";
 import { addItems, placeOf, qtyOf, toIngredients, undoCooked } from "../../lib/fridge";
 import { joinNames, same } from "../../lib/shopping";
-import { atNoon, dayWord, dueText, finishOf } from "../../lib/shelf";
+import { atNoon, dayWord, daysTo, dueOf, dueText, finishOf } from "../../lib/shelf";
 import type { ScanSource } from "../../lib/scan";
 import { AppTabBar } from "../AppTabBar";
 import { plural } from "../format";
 import { useOpenScan } from "../offline";
 import { useOpenPaywall } from "../plus/subscription";
+import { type Amount, countItem, euros } from "../scan/savings";
 import { setScan } from "../scan/store";
 import { showToast } from "../toast";
 import "../scan/scan.css";
@@ -73,15 +75,18 @@ function DueEdit({ it, onDate, onClose }: { it: FridgeItem; onDate: (until: numb
   );
 }
 
-function Row({ it, onFinish, onMove, onRemove, onEdit, onDate }: {
+function Row({ it, onFinish, onMove, onRemove, onEdit, onDate, onGone }: {
   it: FridgeItem; onFinish: () => void; onMove: () => void; onRemove: () => void; onEdit: (name: string, qty: string) => void;
-  onDate: (until: number | undefined) => void;
+  onDate: (until: number | undefined) => void; onGone: (ate: boolean) => void;
 }) {
   const place = placeOf(it);
   const [editing, setEditing] = useState<"name" | "qty" | "date" | null>(null);
   const qty = qtyOf(it.qty);
   const fin = finishOf(it);
   const due = dueText(it);
+  const d = dueOf(it);
+  // Date passée : « Mangé » ou « Jeté » à la place de « À finir » et de la croix
+  const past = !!d && daysTo(d.at) < 0;
   if (editing === "date") return <DueEdit it={it} onDate={u => { onDate(u); setEditing(null); }} onClose={() => setEditing(null)} />;
   if (editing) return (
     <div className="litem fr-item editing">
@@ -105,14 +110,21 @@ function Row({ it, onFinish, onMove, onRemove, onEdit, onDate }: {
             <button type="button" className="fr-due" aria-label={`Mettre la date de ${it.name}`} onClick={() => setEditing("date")}>+ date</button></>}</>}
         </small>
       </span>
-      <button type="button" className={"fr-fin" + (fin ? " on" : "")} aria-pressed={fin} onClick={onFinish}>À finir</button>
-      <button type="button" className="fr-x" aria-label={`Retirer ${it.name}`} onClick={onRemove}><Icon name="x" /></button>
+      {past ? <>
+        <button type="button" className="fr-gone" aria-label={`${it.name} : mangé`} onClick={() => onGone(true)}>Mangé</button>
+        <button type="button" className="fr-gone" aria-label={`${it.name} : jeté`} onClick={() => onGone(false)}>Jeté</button>
+      </> : <>
+        <button type="button" className={"fr-fin" + (fin ? " on" : "")} aria-pressed={fin} onClick={onFinish}>À finir</button>
+        <button type="button" className="fr-x" aria-label={`Retirer ${it.name}`} onClick={onRemove}><Icon name="x" /></button>
+      </>}
     </div>
   );
 }
 
-export function MyKitchen({ isPlus, fridge, onFridge }: {
+export function MyKitchen({ isPlus, fridge, onFridge, onGone }: {
   isPlus: boolean; fridge: Fridge; onFridge: (f: Fridge | ((f: Fridge) => Fridge)) => void;
+  /** Date passée : mangé (compte comme sauvé) ou jeté (compte dans Ton bilan), avec ce que le produit valait */
+  onGone: (it: FridgeItem, ate: boolean, value: Amount) => void;
 }) {
   const navigate = useNavigate();
   const openScan = useOpenScan();
@@ -220,6 +232,12 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
                     showToast(`${it.name} : rangé ${to === "frigo" ? "au frigo" : "aux placards"}`);
                   }}
                   onRemove={() => set(it.id, null)}
+                  onGone={ate => {
+                    const value = countItem(it.name, qtyOf(it.qty));
+                    set(it.id, null);
+                    onGone(it, ate, value);
+                    showToast(ate ? (value.eur > 0 ? `${it.name} : ${euros(value.eur)} sauvés` : `${it.name} : noté, mangé`) : `${it.name} : noté, retiré de ta cuisine`);
+                  }}
                   onEdit={(name, qty) => set(it.id, { name, qty })} />
               ))}
             </div>

@@ -1,7 +1,7 @@
 // Bilan du mois (prototype V3) : les repas cuisinés, mois par mois.
 // Le chiffre, c'est « sauvé » : les produits frais marqués « À finir » au scan (option C, voir savings.ts).
 // Tant que rien n'a jamais été marqué, le bilan montre ce qui a été cuisiné de ton frigo, sans l'appeler « sauvé ».
-import type { CookedMeal } from "../../lib/cooked";
+import { type CookedMeal, isMeal } from "../../lib/cooked";
 import { MONTHS, SHORT_MONTHS } from "../format";
 import { words } from "../scan/portions";
 
@@ -71,7 +71,8 @@ export function sumOf(meals: CookedMeal[], mode: Mode): MonthSum {
   return {
     eur: total(meals, mode),
     kg: Math.round(meals.reduce((t, m) => t + (mode === "saved" ? m.kg : m.usedKg), 0) * 10) / 10,
-    meals: meals.length,
+    // Les produits « Mangé » dans Ma cuisine comptent dans sauvé, pas dans les repas
+    meals: meals.filter(isMeal).length,
     // Les repas d'avant l'étape 11 n'ont pas le détail : pas de nombre plutôt qu'un nombre faux
     ingredients: mode === "saved" && withItems.length === meals.length ? withItems.reduce((t, m) => t + (m.items?.length ?? 0), 0) : null,
     top: [...byKey.values()].sort((a, b) => b.n - a.n || b.eur - a.eur).slice(0, 3),

@@ -5,9 +5,11 @@ import type { Person } from "./household";
 
 /** Une dépense : le montant, le jour (du ticket, sinon de l'ajout), où (« Leclerc », « Marché »), et d'où elle vient. */
 export type Spend = { id: string; eur: number; at: number; label: string; from: "ticket" | "main" };
-/** monthly : le budget du mois (null : pas encore fixé) */
-export type Budget = { monthly: number | null; spends: Spend[] };
-export const EMPTY_BUDGET: Budget = { monthly: null, spends: [] };
+/** Jeté : un produit de Ma cuisine dont la date est passée, noté « Jeté » (Ton bilan : ce qui a fini à la poubelle). */
+export type Tossed = { id: string; name: string; kg: number; eur: number; at: number };
+/** monthly : le budget du mois (null : pas encore fixé). tossed : pour tous, gardé ici avec l'argent pour ne pas ajouter de colonne. */
+export type Budget = { monthly: number | null; spends: Spend[]; tossed: Tossed[] };
+export const EMPTY_BUDGET: Budget = { monthly: null, spends: [], tossed: [] };
 
 const YEAR = 400 * 864e5;
 /** Ce qui vient du compte ou du téléphone, remis au propre (on garde un peu plus d'un an de dépenses) */
@@ -18,12 +20,17 @@ export function cleanBudget(b: unknown, now = Date.now()): Budget {
   const spends = (Array.isArray(o.spends) ? o.spends : []).filter((s): s is Spend =>
     !!s && typeof s.id === "string" && typeof s.eur === "number" && s.eur > 0 && typeof s.at === "number" && now - s.at < YEAR)
     .map((s): Spend => ({ id: s.id, eur: s.eur, at: s.at, label: typeof s.label === "string" ? s.label : "", from: s.from === "ticket" ? "ticket" : "main" }));
-  return { monthly, spends };
+  const tossed = (Array.isArray(o.tossed) ? o.tossed : []).filter((t): t is Tossed =>
+    !!t && typeof t.id === "string" && typeof t.name === "string" && typeof t.kg === "number" && typeof t.eur === "number"
+    && typeof t.at === "number" && now - t.at < YEAR);
+  return { monthly, spends, tossed };
 }
 
 const sameMonth = (at: number, now: Date) => { const d = new Date(at); return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth(); };
 /** Les dépenses du mois, la plus récente d'abord */
 export const monthSpends = (b: Budget, now = new Date()) => b.spends.filter(s => sameMonth(s.at, now)).sort((a, z) => z.at - a.at);
+/** Ce qui a été jeté un mois donné */
+export const monthTossed = (b: Budget, now = new Date()) => b.tossed.filter(t => sameMonth(t.at, now));
 export const total = (list: Spend[]) => Math.round(list.reduce((t, s) => t + s.eur, 0) * 100) / 100;
 
 /** Ajoute une dépense. Le même ticket scanné deux fois (même jour, même montant) ne compte qu'une fois. */

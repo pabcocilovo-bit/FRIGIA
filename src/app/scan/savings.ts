@@ -117,6 +117,20 @@ export function countCooked(r: GeneratedRecipe, servings: number, found?: Detect
   return { used: round(g, eur), saved: round(sg, seur), items };
 }
 
+/** Un produit de Ma cuisine entier (« 4 », « 500 g », « 1 barquette », rien), mangé ou jeté une fois sa date passée.
+ *  Même prix au kilo que les recettes ; le placard, les condiments et ce qu'on ne reconnaît pas valent 0. */
+export function countItem(name: string, qty: string): Amount {
+  const w = words(name);
+  const price = !w.length || has(w, SKIP) ? null : pricePerKg(w);
+  if (price == null) return { kg: 0, eur: 0 };
+  const { qty: n, unit } = parseQty(qty);
+  const u = unit.trim().toLowerCase();
+  // Les emballages (pas dans grams) : une barquette, un pot, un paquet font environ 250 g ; une bouteille ou une brique, 1 l
+  const g = n == null ? grams(w, 1, "") : /^(barquettes?|pots?|paquets?|bo[iî]tes?|sachets?)$/.test(u) ? n * 250
+    : /^(bouteilles?|briques?)$/.test(u) ? n * 1000 : grams(w, n, unit);
+  return round(g, (g / 1000) * price);
+}
+
 /** « 4,20 € », « 0,9 kg » */
 export const euros = (n: number) => `${n.toFixed(2).replace(".", ",")} €`;
 export const kilos = (n: number) => `${String(Math.round(n * 10) / 10).replace(".", ",")} kg`;

@@ -3,7 +3,7 @@ import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { Band, BandFoot, Icon, LockPill, Pill, QuotaBar } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry, User } from "../lib/types";
-import { type CookedMeal, thisMonth, totalSaved } from "../lib/cooked";
+import { type CookedMeal, isMeal, thisMonth, totalSaved } from "../lib/cooked";
 import { euros, kilos } from "./scan/savings";
 import { quotaText, quotaTotal, scansLeft, type ScanQuota } from "../lib/billing";
 import { AppTabBar } from "./AppTabBar";
@@ -129,8 +129,10 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
   const today = new Date().toDateString();
   // Le soir est passé : repas du soir cuisiné, ou après 21 h. Avant, rien de prévu ce soir : « Qu'est-ce qu'on mange ce soir ? »
   const now = new Date();
-  const evening = now.getHours() >= 21 || cooked.some(c => c.date.toDateString() === today && c.date.getHours() >= 17);
-  const next = isPlus ? nextUp(week, days, cooked.filter(c => c.date.toDateString() === today).map(c => c.title), evening) : null;
+  // (un produit « Mangé » dans Ma cuisine n'est pas un repas)
+  const meals = cooked.filter(isMeal);
+  const evening = now.getHours() >= 21 || meals.some(c => c.date.toDateString() === today && c.date.getHours() >= 17);
+  const next = isPlus ? nextUp(week, days, meals.filter(c => c.date.toDateString() === today).map(c => c.title), evening) : null;
   const tonight = next?.slot;
   const nm = next ? MEAL_NAME[mealOfKey(next.key)] : "";
   const sweet = !!next && (next.key === "md" || next.key === "sd");

@@ -48,7 +48,7 @@ import { Prep } from "./app/scan/Prep";
 import { Results } from "./app/scan/Results";
 import { Recipe, type RecipeState } from "./app/scan/Recipe";
 import { Cook } from "./app/scan/Cook";
-import { totalSaved } from "./lib/cooked";
+import { ATE, totalSaved } from "./lib/cooked";
 import { Report } from "./app/report/Report";
 import { InviteLink, Refer } from "./app/refer/Refer";
 import { pendingCode, redeemCode, setPendingCode } from "./lib/codes";
@@ -312,7 +312,12 @@ return (
         week={home.week} onWeek={home.setWeek} kitchen={home.fridge} shopping={home.shopping} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/planning" element={<Planning {...plan} household={household} onAddMissing={addMissingOf} />} />
       <Route path="/planning/creer" element={<PlanNew {...plan} />} />
-      <Route path="/cuisine" element={<MyKitchen isPlus={isPlus} fridge={home.fridge} onFridge={home.setFridge} />} />
+      <Route path="/cuisine" element={<MyKitchen isPlus={isPlus} fridge={home.fridge} onFridge={home.setFridge} onGone={(it, ate, v) => {
+        // Mangé : compte comme sauvé (gardé avec les repas, scan_id ATE). Jeté : gardé pour Ton bilan.
+        if (v.kg <= 0 && v.eur <= 0) return;
+        if (ate) cooked.add({ scanId: ATE, title: it.name, image: null, servings: 1, kg: v.kg, eur: v.eur, usedKg: v.kg, usedEur: v.eur, items: [{ name: it.name, ...v }] });
+        else home.setBudget(b => ({ ...b, tossed: [...b.tossed, { id: crypto.randomUUID(), name: it.name, ...v, at: Date.now() }] }));
+      }} />} />
       <Route path="/frigo" element={<Navigate to="/cuisine" replace />} />
       <Route path="/courses" element={<Courses isPlus={isPlus} items={home.shopping}
         onToggle={id => {
@@ -368,7 +373,7 @@ return (
       <Route path="/recette/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} onUsed={r => home.setFridge(f => cookFrom(f, r))} />} />
       <Route path="/parrainage" element={<Refer name={name} avatar={avatarSrc} isPlus={isPlus} />} />
       <Route path="/i/:code" element={<Navigate to="/" replace />} />
-      <Route path="/bilan" element={isPlus ? <Report meals={cooked.meals} /> : <Navigate to="/" replace />} />
+      <Route path="/bilan" element={isPlus ? <Report meals={cooked.meals} budget={home.budget} /> : <Navigate to="/" replace />} />
       <Route path="/scans" element={<Scans history={history} cooked={cooked.meals} week={home.week} isPlus={isPlus} onDelete={library.deleteScan} />} />
       <Route path="/favoris" element={<Favorites favorites={favorites} kitchen={home.fridge} isPlus={isPlus} onOpen={r => openRecipe(r, r.savedServings)} onToggleFavorite={toggleFavorite} />} />
       <Route path="/reglages" element={<Settings {...account} />} />

@@ -33,6 +33,11 @@ type Row = {
 };
 type Stored = Omit<CookedMeal, "date"> & { date: string };
 
+/** « Mangé » dans Ma cuisine (un produit dont la date est passée, mangé tel quel) : gardé comme un repas pour compter
+ *  dans « sauvé », marqué par ce scan_id. Ce n'est pas un repas cuisiné : isMeal le laisse de côté (compte des repas, ce soir). */
+export const ATE = "mange";
+export const isMeal = (m: CookedMeal) => m.scanId !== ATE;
+
 const key = (userId: string) => `frigia_cooked_${userId}`;
 
 export function getCachedCooked(userId: string): CookedMeal[] {
