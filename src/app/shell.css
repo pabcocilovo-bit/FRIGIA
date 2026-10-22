@@ -260,3 +260,14 @@ body:has(.fa-app){background:#EFE3D0}
 .fa .ghead .hd-row{position:relative}
 .fa .ghead .hd-row .word{position:absolute;left:50%;transform:translateX(-50%)}
 .fa .ghead .hd-r{display:flex;gap:8px}
+
+/* Paysage sur un téléphone : l'appli reste en portrait (AppFrame, Rotate). Pas sur une tablette ni un ordinateur. */
+.fa.rotate{display:none}
+@media (orientation:landscape) and (max-height:540px) and (hover:none) and (pointer:coarse){
+  .fa.rotate{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+    background:var(--sage);color:var(--on);text-align:center;padding:20px;touch-action:none}
+  .fa.rotate svg{width:64px;height:64px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;margin-bottom:6px}
+  .fa.rotate h2{font:400 34px/1.05 var(--serif)}
+  .fa.rotate p{font-size:15px;opacity:.85}
+  html:has(.fa.rotate){overflow:hidden}
+}

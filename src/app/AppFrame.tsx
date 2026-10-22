@@ -67,6 +67,18 @@ function Offline({ onClose }: { onClose: () => void }) {
   );
 }
 
+/** Téléphone tourné en paysage (demandé par Hugo le 22 octobre) : l'appli reste en portrait. Le manifeste le dit
+ *  (orientation), mais l'iPhone ne le respecte pas : cet écran couvre tout tant que le téléphone est couché (shell.css). */
+function Rotate() {
+  return (
+    <section className="fa rotate" aria-label="Tourne ton téléphone">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="20" y="8" width="24" height="44" rx="5" /><path d="M29 46h6" /><path className="ar" d="M50 22a20 20 0 0 1 4 12m0 0l3-4m-3 4l-4-3" /></svg>
+      <h2>Tourne ton <em>téléphone</em></h2>
+      <p>Frigia s'utilise à la verticale.</p>
+    </section>
+  );
+}
+
 // L'écran d'ouverture se décide une seule fois par visite, dès qu'on sait si quelqu'un est connecté
 let splashDecided = false;
 
@@ -94,6 +106,8 @@ export function AppFrame({ children, splash: wantSplash, guest }: { children: Re
       {offline && !guest && <Offline onClose={closeOffline} />}
       {splash && <Splash onDone={endSplash} />}
       <div className="fa"><Toast message={toast} /></div>
+      {/* Pas sur le site public (la page d'accueil d'un visiteur) */}
+      {!(guest && pathname === "/") && <Rotate />}
     </>
   );
 }
