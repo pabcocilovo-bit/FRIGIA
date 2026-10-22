@@ -7,8 +7,11 @@ import { askClaude, checkIdeasLimit, extractFirstJSON, checkRateLimit, checkScan
 type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
   /** Ce qu'il y a vraiment dans les placards (Ma cuisine), et les pastilles de « Dans tes placards ? » */
-  pantry?: { name?: unknown; qty?: unknown }[]; /** Une ou plusieurs envies (« envie » : une seule, les anciennes versions de l'app) */
+  pantry?: { name?: unknown; qty?: unknown }[];
+  /** Une ou plusieurs envies (« envie » : une seule, les anciennes versions de l'app) */
   envie?: string; envies?: unknown;
+  /** « Zéro course » : rien à acheter, seulement le frigo et les placards */
+  noShop?: boolean;
   /** Le menu : combien de recettes (3 par défaut), et combien de desserts parmi elles (le reste : des plats pour meal) */
   count?: number; desserts?: number;
   /** Frigia Plus : frigo vide, des plats avec les placards et une petite liste de courses */
@@ -20,8 +23,9 @@ type Body = {
 type RawItem = { name?: unknown; plural?: unknown; qty?: unknown; unit?: unknown; have?: unknown };
 type RawStep = { text?: unknown; timer?: { label?: unknown; min?: unknown } | null } | string;
 
-/** Ingrédients et étapes lisibles d'une recette de l'IA, ou null s'il en manque (moins de 2 de chaque). */
-function parse(r: RawRecipe | null | undefined) {
+/** Ingrédients et étapes lisibles d'une recette de l'IA, ou null s'il en manque (moins de 2 de chaque).
+ *  noShop (« Zéro course ») : null aussi si un ingrédient est à acheter. */
+function parse(r: RawRecipe | null | undefined, noShop = false) {
   if (!r || !str(r.title, 80)) return null;
   const items = (Array.isArray(r.ingredients) ? r.ingredients : [])
     .map(i => (typeof i === "string" ? { name: i } : i))
@@ -39,6 +43,7 @@ function parse(r: RawRecipe | null | undefined) {
       return { text: str(s.text, 400), timer: min ? { label: str(s.timer?.label, 30) || "Minuteur", min: Math.round(min) } : null };
     });
   if (items.length < 2 || steps.length < 2) return null;
+  if (noShop && items.some(i => !i.have)) return null;
   if (missingFromTitle(str(r.title, 80), items.map(i => i.name)).length) return null;
   return { r, title: str(r.title, 80), items, steps };
 }
@@ -118,6 +123,8 @@ export default async function handler(req: Req, res: Res) {
   const plus = isPlus(user);
   if (body.more && !plus) return res.status(403).json({ error: "« D'autres idées » est dans Frigia Plus.", code: "plus" });
   const empty = body.empty === true;
+  // Zéro course : n'a pas de sens frigo vide (on y fait justement une petite liste de courses)
+  const noShop = body.noShop === true && !empty;
   if (empty && !plus) return res.status(403).json({ error: "Les idées frigo vide sont dans Frigia Plus.", code: "plus" });
 
   const list = (Array.isArray(body.ingredients) ? body.ingredients : [])
@@ -183,14 +190,18 @@ export default async function handler(req: Req, res: Res) {
     pantry.length
       ? `Dans les placards : ${pantry.map(i => (i.qty ? `${i.name} (${i.qty})` : i.name)).join(", ")}. Ils comptent comme disponibles.`
       : empty ? "Les placards sont vides aussi." : "",
-    "Sel, poivre et eau sont toujours là. Rien d'autre n'est disponible : tout ingrédient absent des listes (même huile, beurre, ail, épices) est à acheter, avec \"have\" : false.",
+    noShop
+      ? "Sel, poivre, eau et un filet d'huile sont toujours là. Rien d'autre n'est disponible : tout ingrédient absent des listes (même beurre, ail, épices) est interdit."
+      : "Sel, poivre et eau sont toujours là. Rien d'autre n'est disponible : tout ingrédient absent des listes (même huile, beurre, ail, épices) est à acheter, avec \"have\" : false.",
     `Propose EXACTEMENT ${count} recette${count > 1 ? "s" : ""} pour ${MEALS[meal]}.`,
-    meal === "d" ? "" : "Des plats salés (entrée ou plat principal) : jamais de dessert, de gâteau ni de recette sucrée. Les produits sucrés de la liste (biscuits, chocolat, barres, confiture…) sont ignorés. S'il ne reste presque rien de salé, fais des plats simples avec ce qui reste et les 1 ou 2 achats permis.",
+    meal === "d" ? "" : `Des plats salés (entrée ou plat principal) : jamais de dessert, de gâteau ni de recette sucrée. Les produits sucrés de la liste (biscuits, chocolat, barres, confiture…) sont ignorés. S'il ne reste presque rien de salé, fais des plats simples avec ce qui reste${noShop ? "" : " et les 1 ou 2 achats permis"}.`,
     envies.length ? `Envie : des recettes ${envies.join(" ; et ")}${envies.length > 1 ? " (tout à la fois)" : ""}.` : "",
     `Quantités pour ${String(servings).replace(".", ",")} portion${servings > 1 ? "s" : ""} (un enfant compte pour une demi-portion).`,
     empty
       ? `Des plats simples et sans gâchis${pantry.length ? ", faits surtout avec les placards" : ""}. Chaque recette demande au plus ${pantry.length ? 4 : 5} ingrédients à acheter, faciles à trouver au supermarché. Les 3 recettes partagent le plus possible les mêmes achats.`
-      : "Utilise surtout ce qui est disponible. Une recette peut demander 1 ou 2 ingrédients à acheter, pas plus.",
+      : noShop
+        ? "ZÉRO COURSE : n'utilise QUE les ingrédients disponibles. Aucun ingrédient à acheter : chaque ingrédient a \"have\" : true et \"missing\" vaut \"\". Si une recette demande un ingrédient absent, choisis-en une autre ou fais sans."
+        : "Utilise surtout ce qui est disponible. Une recette peut demander 1 ou 2 ingrédients à acheter, pas plus.",
     "Des recettes qui existent vraiment et qu'on a envie de manger : n'associe que des ingrédients qui vont bien ensemble. Mieux vaut laisser un ingrédient de côté qu'inventer un mélange étrange.",
     "N'UTILISE PAS TOUT LE FRIGO : chaque recette prend seulement 3 à 6 ingrédients disponibles qui vont ensemble, pas toute la liste. Les 3 recettes se partagent le frigo : un ingrédient peut n'apparaître dans aucune. Ne mélange jamais sucré et salé (pas de pain au chocolat, viennoiserie, biscuit, yaourt sucré, confiture ou dessert dans un plat salé).",
     "UNE SEULE BASE PAR PLAT : jamais deux féculents principaux ensemble (pas de pâtes avec des gnocchis, pas de riz avec des pommes de terre, pas de pâtes avec du pain). Un produit tout prêt (gnocchis à la sauce, pâtes farcies, raviolis, plat cuisiné) est la base du plat à lui seul : on le complète avec des légumes, une protéine ou une garniture, jamais avec un autre produit tout prêt ni un autre féculent.",
@@ -217,7 +228,7 @@ export default async function handler(req: Req, res: Res) {
     const answer = await askClaude<{ recipes?: RawRecipe[] }>([{ type: "text", text: promptFor(meal, count) }], 6000);
     if (!answer.ok) return null;
     const found = Array.isArray(answer.json?.recipes) ? answer.json.recipes : salvage(answer.text);
-    const valid = found.map(parse).filter(r => r !== null);
+    const valid = found.map(r => parse(r, noShop)).filter(r => r !== null);
     // Visible dans les logs Vercel : ce que l'IA a répondu quand il manque des recettes
     if (valid.length < count) console.warn(`recipes ${meal}: ${valid.length}/${count} valides`, answer.text.slice(0, 1500));
     return valid;
@@ -239,6 +250,7 @@ export default async function handler(req: Req, res: Res) {
   if (!mains && !sweets) return fail(502, "Service IA temporairement indisponible.");
   const raw = [...(mains ?? []).map(r => ({ ...r, dessert: false })), ...(sweets ?? []).map(r => ({ ...r, dessert: true }))];
   if (raw.length === 0) {
+    if (noShop) return fail(422, "Pas assez d'ingrédients pour cuisiner sans courses. Ajoute ce que tu as, ou décoche « Zéro course ».", "none");
     return fail(422, !dishes
       ? "Pas de dessert trouvé avec ces ingrédients. Ajoute-en un ou deux, ou choisis des plats."
       : "Pas de plat trouvé avec ces ingrédients. Ajoute-en un ou deux, ou choisis des desserts.", "none");

@@ -139,6 +139,13 @@ export function Menu({ isPlus, household, avatar, kitchen }: {
                 )}
               </div>
             )}
+            {/* Zéro course : rien à acheter. Frigo vide : sans objet (on y fait une petite liste de courses). */}
+            {!empty && (
+              <div className="toggle-row">
+                <div><b>Zéro course</b><span>Rien à acheter : seulement ton frigo et tes placards.</span></div>
+                <button type="button" className="sw" role="switch" aria-checked={scan.noShop} aria-label="Zéro course" onClick={() => setScan({ noShop: !scan.noShop })} />
+              </div>
+            )}
             {isPlus ? <Who household={household} avatar={avatar} /> : (
               <div className="opt">
                 <div className="forrow"><b>Pour combien ?</b>

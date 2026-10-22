@@ -145,6 +145,8 @@ export async function makeRecipes(o: {
   /** Ce qu'il y a vraiment dans les placards (Ma cuisine et les pastilles de « Dans tes placards ? ») */
   pantry: { name: string; qty: string }[]; envies: Envie[]; meal: Meal; servings: number;
   token: string | null; avoid?: string[]; more?: boolean;
+  /** « Zéro course » : rien à acheter */
+  noShop?: boolean;
   /** Le menu : combien de recettes (3 par défaut), et combien de desserts parmi elles (le reste : des plats pour meal) */
   count?: number; desserts?: number;
   /** Frigia Plus : frigo vide, des plats avec les placards et une petite liste de courses */
@@ -157,7 +159,7 @@ export async function makeRecipes(o: {
   const { response, data } = await post("/api/recipes", {
     ingredients: o.ingredients.map(i => ({ name: i.name, qty: i.qty, finish: i.finish || undefined })),
     pantry: o.pantry, envies: o.envies, meal: o.meal, count: o.count, desserts: o.desserts || undefined, servings: o.servings, token: o.token, avoid: o.avoid, more: o.more, eaters: o.eaters,
-    empty: o.empty || undefined,
+    empty: o.empty || undefined, noShop: o.noShop || undefined,
     prefs: userId ? apiPrefs(getCachedProfile(userId)) : null,
     recentTitles: userId ? recentRecipeTitles(userId) : [],
   });
