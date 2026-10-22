@@ -125,7 +125,7 @@ export function Results({ history, isPlus, household, kitchen, week, onWeek, onN
     const s = getScan();
     const r = await makeRecipes({
       ingredients: entry.ingredients.map(i => ({ name: i.name, qty: i.qty ?? "", finish: i.finish })),
-      pantry: pantryFor(kitchen, { ...s, empty: n === 0 }, entry.ingredients), envie: s.envie, meal, servings: entry.servings, token: null, empty: n === 0,
+      pantry: pantryFor(kitchen, { ...s, empty: n === 0 }, entry.ingredients), envies: s.envies, meal, servings: entry.servings, token: null, empty: n === 0,
       avoid: entry.recipes.map(x => x.title), more: true, eaters: apiEaters(eatersOf(household, s)),
     });
     setBusy(false);

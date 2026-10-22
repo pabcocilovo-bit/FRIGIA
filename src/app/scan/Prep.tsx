@@ -90,7 +90,7 @@ export function Prep({ isPlus, household, kitchen, onReady, onCounted, onOutOfSc
     const eaters = eatersOf(household, scan);
     const servings = portions(isPlus, scan, eaters);
     void makeRecipes({
-      ingredients: scan.ingredients, pantry, envie: scan.envie, meal: scan.meal, count: menu.n, desserts: menu.desserts, servings, token: scan.token, empty,
+      ingredients: scan.ingredients, pantry, envies: scan.envies, meal: scan.meal, count: menu.n, desserts: menu.desserts, servings, token: scan.token, empty,
       eaters: isPlus ? apiEaters(eaters) : undefined,
     }).then(r => {
       if (!alive.current) return;

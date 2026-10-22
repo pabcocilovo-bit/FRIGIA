@@ -7,7 +7,8 @@ import { askClaude, checkIdeasLimit, extractFirstJSON, checkRateLimit, checkScan
 type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
   /** Ce qu'il y a vraiment dans les placards (Ma cuisine), et les pastilles de « Dans tes placards ? » */
-  pantry?: { name?: unknown; qty?: unknown }[]; envie?: string;
+  pantry?: { name?: unknown; qty?: unknown }[]; /** Une ou plusieurs envies (« envie » : une seule, les anciennes versions de l'app) */
+  envie?: string; envies?: unknown;
   /** Le menu : combien de recettes (3 par défaut), et combien de desserts parmi elles (le reste : des plats pour meal) */
   count?: number; desserts?: number;
   /** Frigia Plus : frigo vide, des plats avec les placards et une petite liste de courses */
@@ -128,6 +129,8 @@ export default async function handler(req: Req, res: Res) {
     .map(i => ({ name: str(i?.name, 60), qty: str(i?.qty, 30) }))
     .filter(i => i.name)
     .slice(0, 60);
+  const envies = [...new Set(Array.isArray(body.envies) ? body.envies : [body.envie])]
+    .map(e => (typeof e === "string" && Object.hasOwn(ENVIES, e) ? ENVIES[e] : undefined)).filter((e): e is string => !!e);
 
   // Ingrédients tapés à la main (pas de photo comptée) : c'est un scan, compté dans la limite par heure
   // et, en Gratuit, dans les 15 scans
@@ -183,7 +186,7 @@ export default async function handler(req: Req, res: Res) {
     "Sel, poivre et eau sont toujours là. Rien d'autre n'est disponible : tout ingrédient absent des listes (même huile, beurre, ail, épices) est à acheter, avec \"have\" : false.",
     `Propose EXACTEMENT ${count} recette${count > 1 ? "s" : ""} pour ${MEALS[meal]}.`,
     meal === "d" ? "" : "Des plats salés (entrée ou plat principal) : jamais de dessert, de gâteau ni de recette sucrée. Les produits sucrés de la liste (biscuits, chocolat, barres, confiture…) sont ignorés. S'il ne reste presque rien de salé, fais des plats simples avec ce qui reste et les 1 ou 2 achats permis.",
-    ENVIES[body.envie ?? ""] ? `Envie : des recettes ${ENVIES[body.envie!]}.` : "",
+    envies.length ? `Envie : des recettes ${envies.join(" ; et ")}${envies.length > 1 ? " (tout à la fois)" : ""}.` : "",
     `Quantités pour ${String(servings).replace(".", ",")} portion${servings > 1 ? "s" : ""} (un enfant compte pour une demi-portion).`,
     empty
       ? `Des plats simples et sans gâchis${pantry.length ? ", faits surtout avec les placards" : ""}. Chaque recette demande au plus ${pantry.length ? 4 : 5} ingrédients à acheter, faciles à trouver au supermarché. Les 3 recettes partagent le plus possible les mêmes achats.`

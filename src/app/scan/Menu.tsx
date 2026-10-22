@@ -121,7 +121,10 @@ export function Menu({ isPlus, household, avatar, kitchen }: {
             )}
             <div className="opt">
               <span className="label">Envie de</span>
-              <Chips wrap>{ENVIES.map(([e, label]) => <Chip key={e} className="light" on={scan.envie === e} onClick={() => setScan({ envie: e })}>{label}</Chip>)}</Chips>
+              <Chips wrap>{ENVIES.map(([e, label]) => (
+                <Chip key={e} className="light" on={scan.envies.includes(e)}
+                  onClick={() => setScan({ envies: scan.envies.includes(e) ? scan.envies.filter(x => x !== e) : [...scan.envies, e] })}>{label}</Chip>
+              ))}</Chips>
             </div>
             {/* Dans tes placards ? : les accompagnements (ou de quoi pâtisser) d'un appui, cochés s'ils sont dans Ma cuisine.
                 Un scan des placards les montre déjà ; frigo vide : tous les placards partent. */}

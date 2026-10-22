@@ -44,7 +44,8 @@ export type ScanState = {
   merge: boolean;
   /** « Dans tes placards ? » : les pastilles cochées (null : pas encore touchées, d'après Ma cuisine et la dernière fois) */
   sides: string[] | null;
-  envie: Envie;
+  /** « Envie de » : une ou plusieurs (aucune : pas de contrainte) */
+  envies: Envie[];
   /** Formule Gratuit : « Pour combien ? » */
   servings: number;
   /** Frigia Plus : les invités, comptés comme des adultes */
@@ -64,7 +65,7 @@ const savedServings = () => {
 
 let state: ScanState = {
   meal: "s", menu: "plats", source: "frigo", switched: null, photo: null, pick: null, pending: null, ingredients: [], token: null, problem: "floue", empty: false, merge: false,
-  sides: null, envie: "rapide", servings: savedServings(), guests: 0, away: [], made: null,
+  sides: null, envies: ["rapide"], servings: savedServings(), guests: 0, away: [], made: null,
 };
 const listeners = new Set<() => void>();
 
@@ -85,7 +86,7 @@ export function useScan(): ScanState {
 }
 
 /** Ce qui fait les recettes : mêmes choix, mêmes recettes (made). */
-export const madeKey = (s: ScanState) => JSON.stringify([s.ingredients.map(i => [i.name, i.qty, !!i.finish]), s.menu, s.meal, s.envie,
+export const madeKey = (s: ScanState) => JSON.stringify([s.ingredients.map(i => [i.name, i.qty, !!i.finish]), s.menu, s.meal, s.envies,
   s.sides, s.empty, s.servings, s.guests, s.away]);
 
 /** « Ce midi », « ce soir », « la semaine » dans les phrases. */
