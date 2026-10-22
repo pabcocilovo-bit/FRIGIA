@@ -1,6 +1,6 @@
 // 8 · Planning (prototype V3) : la semaine créée dans « Crée ta semaine ». Chaque repas s'ouvre ou se remplace,
 // une case vide renvoie vers « Crée ta semaine », et les manquants des recettes partent dans la liste de courses.
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Badge, Icon, LockPill, Pill, RoundButton } from "../../ui/components";
 import type { MealKey } from "../../lib/home";
@@ -13,7 +13,7 @@ import { showToast } from "../toast";
 import { recipeLines } from "../scan/portions";
 import { Dish } from "./Dish";
 import type { PlanNewState } from "./PlanNew";
-import { SwapSheet } from "./sheets";
+import { DessertSheet, SwapSheet } from "./sheets";
 import { count, dayOf, dessertKey, doubled, foundOf, MEALS, options, type PlanProps, recipePath, status, toFinish } from "./week";
 import "./plan.css";
 
@@ -26,6 +26,7 @@ export function Planning({ isPlus, week, setWeek, history, favorites, household,
   const openScan = useOpenScan();
   const openPaywall = useOpenPaywall();
   const [swap, setSwap] = useState<{ i: number; meal: MealKey } | null>(null);
+  const [sweetAt, setSweetAt] = useState<{ i: number; meal: MealKey } | null>(null);
   const days = weekDays();
   // Gratuit : un aperçu, sans semaine enregistrée
   const w = isPlus ? week : { midi: true, days: {} };
@@ -79,21 +80,26 @@ export function Planning({ isPlus, week, setWeek, history, favorites, household,
                   {day.off ? <div className="pm off">Pas de repas ce jour-là</div> : MEALS.map(meal => {
                     const sl = day[meal], ds = day[dessertKey(meal)];
                     const name = meal === "m" ? "Midi" : "Soir";
-                    // Le dessert prévu avec ce repas
-                    const sweet = ds && (
-                      <button type="button" className="pm-ds" onClick={() => navigate(recipePath(ds, history), { state: { recipe: ds.recipe, servings: portions, from: "plan" } })}>
-                        <Icon name="sparkle" /><span>Dessert : <b>{ds.recipe.title}</b></span>
+                    // Le dessert, à côté du plat : sa photo, ou « + Dessert » pour en ajouter un
+                    const sweet = (sl || ds) && (
+                      <button type="button" className={"pm-dt" + (ds ? " has" : "")} aria-label={ds ? `Dessert : ${ds.recipe.title}` : `Ajouter un dessert au ${name.toLowerCase()}`}
+                        onClick={() => (isPlus ? setSweetAt({ i, meal }) : openPaywall("planning", "/planning"))}>
+                        {ds ? <Dish recipe={ds.recipe} className="plate" /> : <span className="dt-add"><Icon name="plus" /></span>}
+                        <small>Dessert</small>
                       </button>
                     );
-                    if (!sl) return (<Fragment key={meal}>
-                      <button key={meal} type="button" className="pm empty" aria-label={`Choisir le repas du ${name.toLowerCase()}`} onClick={() => create([i, meal])}>
-                        <span className="tx"><Icon name="plus" />{name} : rien de prévu · choisir</span>
-                      </button>
-                      {sweet}
-                    </Fragment>);
+                    if (!sl) return (
+                      <div key={meal} className="pmrow">
+                        <button type="button" className="pm empty" aria-label={`Choisir le repas du ${name.toLowerCase()}`} onClick={() => create([i, meal])}>
+                          <span className="tx"><Icon name="plus" />{name} : rien de prévu · choisir</span>
+                        </button>
+                        {sweet}
+                      </div>
+                    );
                     const st = status(sl.recipe, foundOf(sl, history));
                     const dbl = meal === "s" && doubled(w, days, i);
-                    return (<Fragment key={meal}>
+                    return (
+                      <div key={meal} className="pmrow">
                       <div className="pmw">
                         <button type="button" className={"pm" + (i === 0 && meal === "s" ? " now" : "")}
                           onClick={() => navigate(recipePath(sl, history), { state: { recipe: sl.recipe, servings: portions, from: "plan" } })}>
@@ -110,7 +116,8 @@ export function Planning({ isPlus, week, setWeek, history, favorites, household,
                           onClick={() => (isPlus ? setSwap({ i, meal }) : openPaywall("planning", "/planning"))}><Icon name="redo" /></button>
                       </div>
                       {sweet}
-                    </Fragment>);
+                      </div>
+                    );
                   })}
                 </div>
               </div>
@@ -125,6 +132,8 @@ export function Planning({ isPlus, week, setWeek, history, favorites, household,
       <AppTabBar active="plan" isPlus={isPlus} />
       <SwapSheet at={swap} week={week} days={days} opts={options(history, favorites)} household={household}
         setWeek={setWeek} onClose={() => setSwap(null)} />
+      <DessertSheet at={sweetAt} week={week} days={days} opts={options(history, favorites)} setWeek={setWeek} onClose={() => setSweetAt(null)}
+        onOpen={ds => navigate(recipePath(ds, history), { state: { recipe: ds.recipe, servings: portions, from: "plan" } })} />
     </div>
   );
 }

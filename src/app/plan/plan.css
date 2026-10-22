@@ -197,3 +197,18 @@
 .fa .pm-ds b,.fa .pn-ds b{font-weight:600}
 .fa .pn-ds button{width:26px;height:26px;margin:-4px -8px -4px 0;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--sage-deep)}
 .fa .pn-ds button .i{width:13px;height:13px}
+
+/* Le dessert à côté du plat (Planning) */
+.fa .pmrow{display:flex;gap:8px;align-items:stretch;min-width:0}
+.fa .pmrow>.pm,.fa .pmrow>.pmw{flex:1;min-width:0}
+.fa .pmrow>.pmw>.pm{height:100%}
+.fa .pm-dt{flex:none;width:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:18px;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--sage-deep);padding:8px 4px}
+.fa .pm-dt.has{background:var(--card);box-shadow:0 1px 0 var(--line)}
+.fa .pm-dt .plate{width:44px;height:44px}
+.fa .pm-dt small{font:700 9.5px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--sage)}
+.fa .pm-dt .dt-add{width:36px;height:36px;border-radius:50%;background:var(--sage-soft);display:grid;place-items:center}
+.fa .pm-dt .dt-add .i{width:16px;height:16px}
+.fa .ds-cur{cursor:default}
+.fa .ds-act{display:flex;gap:8px;margin-top:6px}
+.fa .ds-act button{padding:7px 12px;border-radius:999px;background:var(--sage-soft);color:var(--sage-deep);font-size:12.5px;font-weight:600}
+.fa .ds-or{margin:10px 4px 2px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}

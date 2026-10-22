@@ -21,7 +21,8 @@ export function options(history: HistoryEntry[], favorites: GeneratedRecipe[]): 
   const recent = history.filter(e => daysAgo(e.date) <= 7);
   const found = recent[0]?.ingredients ?? [];
   const all: Option[] = [
-    ...recent.flatMap(e => e.recipes.map((recipe, n) => ({ recipe, scanId: e.id, n, found: e.ingredients, fav: false }))),
+    // Un scan « desserts » d'avant le marquage dessert : ses recettes restent des desserts
+    ...recent.flatMap(e => e.recipes.map((recipe, n) => ({ recipe: e.meal === "d" && !recipe.dessert ? { ...recipe, dessert: true } : recipe, scanId: e.id, n, found: e.ingredients, fav: false }))),
     ...favorites.map(recipe => ({ recipe, scanId: null, n: null, found, fav: true })),
   ];
   return all.filter((o, i) => all.findIndex(x => x.recipe.title === o.recipe.title) === i);

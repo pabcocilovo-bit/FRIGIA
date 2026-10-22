@@ -184,6 +184,57 @@ export function WeekSheet({ option, week, days, setWeek, onClose }: {
   );
 }
 
+/** Le dessert d'un repas (Planning) : à côté du plat, sans le remplacer. Les idées sucrées des scans et des favoris. */
+export function DessertSheet({ at, week, days, opts, setWeek, onOpen, onClose }: {
+  at: { i: number; meal: MealKey } | null;
+  week: Week; days: WeekDay[]; opts: Option[];
+  setWeek: (w: Week) => void; onOpen: (s: Slot) => void; onClose: () => void;
+}) {
+  const [last, setLast] = useState(at);
+  if (at && at !== last) setLast(at);
+  const i = last?.i ?? 0, meal = last?.meal ?? "s";
+  const key = dessertKey(meal);
+  const day = last ? dayOf(week, days[i].key) : undefined;
+  const ds = day?.[key];
+  const list = opts.filter(o => o.recipe.dessert && o.recipe.title !== ds?.recipe.title);
+  const put = (s: Slot | undefined, text: string) => { setWeek(setSlot(week, days, days[i].key, key, s)); onClose(); showToast(text); };
+  return (
+    <Layer open={!!at} onClose={onClose} label="Le dessert de ce repas" className="pn-sheet">
+      <div className="pn-sh-head">
+        <div><small>{days[i].long} {days[i].date.getDate()} · {meal === "m" ? "le midi" : "le soir"}{day?.[meal] ? ` · avec ${lower1(day[meal]!.recipe.title)}` : ""}</small>
+          <h3>{ds ? "Ton dessert" : "Ajoute un dessert"}</h3></div>
+        <button type="button" className="fg-x" aria-label="Fermer" onClick={onClose}><Icon name="x" /></button>
+      </div>
+      <div className="pn-sh-list">
+        {ds && (
+          <div className="pn-opt on ds-cur">
+            <Dish recipe={ds.recipe} />
+            <span className="tx"><span className="kick">Prévu</span><b>{ds.recipe.title}</b><span>{ds.recipe.time}</span>
+              <span className="ds-act">
+                <button type="button" onClick={() => { onClose(); onOpen(ds); }}>Voir la recette</button>
+                <button type="button" onClick={() => put(undefined, "Dessert retiré")}>Retirer</button>
+              </span></span>
+          </div>
+        )}
+        {ds && list.length > 0 && <p className="ds-or">Ou un autre dessert</p>}
+        {list.map(o => {
+          const st = status(o.recipe, o.found);
+          return (
+            <button key={o.recipe.title} type="button" className="pn-opt" onClick={() => put(slotOption(o), `${o.recipe.title} · en dessert, ${when(days, i, meal)}`)}>
+              <Dish recipe={o.recipe} />
+              <span className="tx"><b>{o.recipe.title}</b><span>{o.recipe.time}</span><Badge tone={st.warn ? "warn" : undefined}>{st.text}</Badge></span>
+              <span className="ck"><Icon name="check" /></span>
+            </button>
+          );
+        })}
+        {!list.length && !ds && (
+          <p className="pn-sh-none">Pas encore d'idée de dessert. Au scan, choisis « 2 plats et 1 dessert » ou « 3 desserts » : ils arrivent ici.</p>
+        )}
+      </div>
+    </Layer>
+  );
+}
+
 /** Remplacer un repas : trois idées à la fois, triées selon la pastille. Les restes du lendemain suivent le nouveau plat. */
 export function SwapSheet({ at, week, days, opts, household, setWeek, onClose }: {
   at: { i: number; meal: MealKey } | null;
