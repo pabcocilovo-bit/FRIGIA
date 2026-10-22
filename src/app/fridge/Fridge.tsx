@@ -1,6 +1,7 @@
 // 7 · Ma cuisine (écart maquette, demandé par Hugo les 16 et 19 octobre) : l'onglet « Courses » devient « Ma cuisine », deux pages.
 // Ma cuisine (pour tous) : le frigo et les placards au même endroit, filtrés Tout, Frigo, Placards, À finir.
 // Ce que les scans ont vu, les courses cochées, ce qu'on ajoute. Toucher un nom ou une quantité le change.
+// Les dates (lib/shelf.ts) : estimées d'après le produit, ou la vraie date d'un appui ; proches, le produit passe en « À finir ».
 // La liste de courses (Plus) : Lists.tsx.
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -10,6 +11,7 @@ import { ArtFridge } from "../../ui/art";
 import type { Fridge, FridgeItem, Place } from "../../lib/home";
 import { addItems, placeOf, qtyOf, toIngredients, undoCooked } from "../../lib/fridge";
 import { joinNames, same } from "../../lib/shopping";
+import { atNoon, dayWord, dueText, finishOf } from "../../lib/shelf";
 import type { ScanSource } from "../../lib/scan";
 import { AppTabBar } from "../AppTabBar";
 import { plural } from "../format";
@@ -48,19 +50,46 @@ export function FridgeTabs({ on }: { on: "cuisine" | "courses" }) {
   );
 }
 
-function Row({ it, onFinish, onMove, onRemove, onEdit }: {
+const QUICK: [string, number][] = [["Aujourd'hui", 0], ["Demain", 1], ["Dans 3 jours", 3], ["Dans 1 semaine", 7]];
+const iso = (t: number) => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+
+/** La vraie date d'un produit : quelques choix rapides, ou une date ; « Estimation » revient à la date estimée. */
+function DueEdit({ it, onDate, onClose }: { it: FridgeItem; onDate: (until: number | undefined) => void; onClose: () => void }) {
+  const [today] = useState(() => iso(Date.now()));
+  return (
+    <div className="litem fr-item editing fr-due-ed" role="group" aria-label={`Date limite de ${it.name}`}>
+      <div className="fr-due-h"><b>{it.name}</b><span>Date limite ?</span>
+        <button type="button" className="fr-x" aria-label="Fermer" onClick={onClose}><Icon name="x" /></button>
+      </div>
+      <div className="fr-due-ch">
+        {QUICK.map(([label, d]) => <button key={d} type="button" onClick={() => onDate(atNoon(Date.now() + d * DAY))}>{label}</button>)}
+        <label className="fr-due-in"><span>Autre date</span>
+          <input type="date" min={today} value={it.until ? iso(it.until) : ""}
+            onChange={e => { const [y, m, d] = e.target.value.split("-").map(Number); if (y) onDate(new Date(y, m - 1, d, 12).getTime()); }} />
+        </label>
+        {it.until && <button type="button" className="fr-due-auto" onClick={() => onDate(undefined)}>Sans date</button>}
+      </div>
+    </div>
+  );
+}
+
+function Row({ it, onFinish, onMove, onRemove, onEdit, onDate }: {
   it: FridgeItem; onFinish: () => void; onMove: () => void; onRemove: () => void; onEdit: (name: string, qty: string) => void;
+  onDate: (until: number | undefined) => void;
 }) {
   const place = placeOf(it);
-  const [editing, setEditing] = useState<"name" | "qty" | null>(null);
+  const [editing, setEditing] = useState<"name" | "qty" | "date" | null>(null);
   const qty = qtyOf(it.qty);
+  const fin = finishOf(it);
+  const due = dueText(it);
+  if (editing === "date") return <DueEdit it={it} onDate={u => { onDate(u); setEditing(null); }} onClose={() => setEditing(null)} />;
   if (editing) return (
     <div className="litem fr-item editing">
       <ItemEdit name={it.name} qty={qty} focus={editing} onSave={(n, q) => { onEdit(n, q); setEditing(null); }} onCancel={() => setEditing(null)} />
     </div>
   );
   return (
-    <div className={"litem fr-item" + (it.finish ? " fin" : "")}>
+    <div className={"litem fr-item" + (fin ? " fin" : "")}>
       <span className="nm">
         <button type="button" className="fr-nm" aria-label={`Changer le nom de ${it.name}`} onClick={() => setEditing("name")}><b>{it.name}</b></button>
         <small>
@@ -68,10 +97,15 @@ function Row({ it, onFinish, onMove, onRemove, onEdit }: {
             onClick={() => setEditing("qty")}>{qty || "+ quantité"}</button>
           {" · "}
           <button type="button" className="fr-place" aria-label={`${it.name} : ${PLACE[place]}. Ranger ${place === "frigo" ? "aux placards" : "au frigo"}`} onClick={onMove}>{PLACE[place]}</button>
-          {` · ${FROM[it.from]} ${ago(it.at)}`}
+          {" · "}
+          {/* La date (estimée ou vraie) ; touchée : la vraie date. Sans estimation au frigo : « + date » */}
+          {due ? (
+            <button type="button" className={"fr-due" + (due.soon ? " soon" : "")} aria-label={`${it.name} : ${due.text}. Mettre la date`} onClick={() => setEditing("date")}>{due.text}</button>
+          ) : <>{`${FROM[it.from]} ${ago(it.at)}`}{place === "frigo" && <>{" · "}
+            <button type="button" className="fr-due" aria-label={`Mettre la date de ${it.name}`} onClick={() => setEditing("date")}>+ date</button></>}</>}
         </small>
       </span>
-      <button type="button" className={"fr-fin" + (it.finish ? " on" : "")} aria-pressed={!!it.finish} onClick={onFinish}>À finir</button>
+      <button type="button" className={"fr-fin" + (fin ? " on" : "")} aria-pressed={fin} onClick={onFinish}>À finir</button>
       <button type="button" className="fr-x" aria-label={`Retirer ${it.name}`} onClick={onRemove}><Icon name="x" /></button>
     </div>
   );
@@ -94,11 +128,11 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
   const cooked = fridge.cooked && daysSince(fridge.cooked.at) <= 1 ? fridge.cooked : null;
 
   // « À finir » d'abord, puis le frigo, puis les placards
-  const rank = (x: FridgeItem) => (x.finish ? 0 : placeOf(x) === "frigo" ? 1 : 2);
+  const rank = (x: FridgeItem) => (finishOf(x) ? 0 : placeOf(x) === "frigo" ? 1 : 2);
   const shown = items
-    .filter(x => (filter === "tout" ? true : filter === "finir" ? x.finish : placeOf(x) === filter || moved.includes(x.id)))
+    .filter(x => (filter === "tout" ? true : filter === "finir" ? finishOf(x) : placeOf(x) === filter || moved.includes(x.id)))
     .sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name, "fr"));
-  const count = (f: Filter) => (f === "tout" ? items.length : f === "finir" ? items.filter(x => x.finish).length : items.filter(x => placeOf(x) === f).length);
+  const count = (f: Filter) => (f === "tout" ? items.length : f === "finir" ? items.filter(x => finishOf(x)).length : items.filter(x => placeOf(x) === f).length);
   const basics = BASICS.filter(([n]) => !items.some(x => same(x.name, n)));
   const showBasics = (filter === "tout" || filter === "placard") && items.length > 0 && count("placard") < 4 && basics.length > 0;
 
@@ -172,7 +206,13 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
             <div className="litems">
               {shown.map(it => (
                 <Row key={it.id} it={it}
-                  onFinish={() => set(it.id, { finish: !it.finish || undefined })}
+                  // Décoché à la main : false (il ne se recoche pas tout seul)
+                  onFinish={() => set(it.id, { finish: !finishOf(it) })}
+                  onDate={until => {
+                    // Une nouvelle date : « À finir » suit de nouveau la date
+                    set(it.id, { until, finish: undefined });
+                    showToast(until ? `${it.name} : date notée, ${dayWord(until)}` : `${it.name} : sans date`);
+                  }}
                   onMove={() => {
                     const to: Place = placeOf(it) === "frigo" ? "placard" : "frigo";
                     set(it.id, { place: to });

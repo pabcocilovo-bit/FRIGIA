@@ -6,6 +6,7 @@ import type { DetectedIngredient, GeneratedRecipe } from "./types";
 import type { Fridge, FridgeItem, Place } from "./home";
 import { aisleOf, norm, same, sumQty } from "./shopping";
 import type { ScanSource } from "./scan";
+import { finishOf } from "./shelf";
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const item = (name: string, qty: string, from: FridgeItem["from"], extra: Partial<FridgeItem> = {}): FridgeItem =>
@@ -34,7 +35,8 @@ export function addItems(f: Fridge, add: { name: string; qty: string; finish?: b
     if (!a.name.trim()) continue;
     const i = items.findIndex(x => same(x.name, a.name));
     const next = item(a.name, a.qty, from, { place: guessPlace(a.name), ...extra, ...(a.finish ? { finish: true } : {}) });
-    if (i >= 0) items[i] = { ...next, id: items[i].id, qty: a.qty.trim() || items[i].qty, finish: a.finish || items[i].finish || undefined, place: extra.place ?? items[i].place ?? next.place };
+    if (i >= 0) items[i] = { ...next, id: items[i].id, qty: a.qty.trim() || items[i].qty, finish: a.finish || items[i].finish || undefined, place: extra.place ?? items[i].place ?? next.place,
+      since: items[i].since ?? items[i].at, ...(items[i].until ? { until: items[i].until } : {}) };
     else items.push(next);
   }
   return { ...f, items };
@@ -47,7 +49,13 @@ export function fromScan(f: Fridge, found: DetectedIngredient[], source: ScanSou
   if (source === "ticket") return addItems(f, add, "scan");
   const place: Place = source === "frigo" ? "frigo" : "placard";
   const kept = { ...f, items: f.items.filter(x => placeOf(x) !== place) };
-  const next = addItems(kept, add, "scan", { place });
+  const added = addItems(kept, add, "scan", { place });
+  // Déjà là avant le scan : il garde le jour où il est entré et sa vraie date (pour les dates de péremption)
+  const before = f.items.filter(x => placeOf(x) === place);
+  const next = { ...added, items: added.items.map(x => {
+    const b = before.find(y => same(y.name, x.name));
+    return b && !kept.items.includes(x) ? { ...x, since: b.since ?? b.at, ...(b.until ? { until: b.until } : {}) } : x;
+  }) };
   return place === "frigo" ? { ...next, seen: Date.now() } : { ...next, seenPlacard: Date.now() };
 }
 
@@ -96,4 +104,4 @@ export function undoCooked(f: Fridge): Fridge {
 }
 
 /** Les produits à donner au scan (« Que cuisiner avec ? ») */
-export const toIngredients = (f: Fridge) => f.items.map(x => ({ name: x.name, qty: qtyOf(x.qty), ...(x.finish ? { finish: true } : {}) }));
+export const toIngredients = (f: Fridge) => f.items.map(x => ({ name: x.name, qty: qtyOf(x.qty), ...(finishOf(x) ? { finish: true } : {}) }));

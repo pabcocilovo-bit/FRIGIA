@@ -6,6 +6,7 @@ import { detectIngredients, RATE_TEXT, type ScanIngredient, type ScanSource } fr
 import { openOffline } from "../offline";
 import { showToast } from "../toast";
 import { getScan, setScan, useScan } from "./store";
+import { same } from "../../lib/shopping";
 import { Guide } from "./Guide";
 import { SCAN_GUIDE, setGuideState } from "./guideSteps";
 import "./scan.css";
@@ -29,8 +30,10 @@ function grab(video: HTMLVideoElement): Promise<Blob | null> {
   return new Promise(r => c.toBlob(r, "image/jpeg", 0.9));
 }
 
-export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
+export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans }: {
   userId: string;
+  /** Ma cuisine : ce qui est « À finir » (coché, ou date proche) : retrouvé sur la photo, il est déjà marqué */
+  soon?: string[];
   /** Premier scan guidé : les bulles s'affichent */
   guide: boolean;
   /** Formule Gratuit : le serveur a compté le scan, il en reste left */
@@ -92,9 +95,10 @@ export function ScanCamera({ userId, guide, onCounted, onOutOfScans }: {
     const r = await detectIngredients(photo, getScan().source);
     if (!alive.current) { busy.current = false; return; }
     if (r.status === "ok") {
-      setScan({ photo: url, ingredients: r.ingredients, token: r.token, ticket: r.ticket ?? null, ticketOff: false, guests: 0, empty: false, merge: false,
+      const found = r.ingredients.map(i => (soon.some(n => same(n, i.name)) ? { ...i, finish: true } : i));
+      setScan({ photo: url, ingredients: found, token: r.token, ticket: r.ticket ?? null, ticketOff: false, guests: 0, empty: false, merge: false,
         ...(r.seen ? { source: r.seen, switched: getScan().source } : { switched: null }) });
-      setFound(r.ingredients);
+      setFound(found);
       // Les pastilles apparaissent sur la photo, puis la liste
       setTimeout(() => {
         if (!alive.current) return;

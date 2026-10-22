@@ -25,6 +25,9 @@ export type ShopItem = { id: string; name: string; qty: string; aisle: string; f
  *  place : dans le frigo ou les placards (absent : deviné d'après le nom, voir placeOf). */
 export type Place = "frigo" | "placard";
 export type FridgeItem = { id: string; name: string; qty: string; at: number; from: "scan" | "courses" | "main"; finish?: boolean; shopId?: string; place?: Place;
+  /** Dates de péremption (lib/shelf.ts) : entré dans Ma cuisine (absent : at ; un nouveau scan ne le change pas), et la vraie date si on l'a mise.
+   *  finish === false : « À finir » décoché à la main (sinon il se coche tout seul à 2 jours de la date) */
+  since?: number; until?: number;
   /** Une course cochée s'est ajoutée à ce qu'on avait déjà : la quantité d'avant, remise si on la décoche */
   prev?: { qty: string; from: FridgeItem["from"]; at: number } };
 /** Ma cuisine (colonne fridge) : les produits, la date du dernier scan du frigo (seen) et des placards (seenPlacard),

@@ -18,6 +18,7 @@ import { Courses } from "./app/Lists";
 import { MyKitchen } from "./app/fridge/Fridge";
 import { cookFrom, fromList, fromScan, fromShopping } from "./lib/fridge";
 import { addSpend } from "./lib/budget";
+import { finishOf } from "./lib/shelf";
 import { getScan } from "./app/scan/store";
 import { Planning } from "./app/plan/Planning";
 import { PlanNew } from "./app/plan/PlanNew";
@@ -345,7 +346,8 @@ return (
       <Route path="/resilier" element={<Cancel user={user} saved={totalSaved(cooked.meals).eur} />} />
       {/* Les 15 scans gratuits sont utilisés : « Passe à Plus » à la place du scan */}
       <Route path="/scan" element={noScansLeft ? <Navigate to="/plus" replace state={{ why: "quota" }} /> :
-        <ScanCamera userId={user.id} guide={guide === "" && history.length === 0} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
+        <ScanCamera userId={user.id} guide={guide === "" && history.length === 0} onCounted={onCounted} onOutOfScans={onOutOfScans}
+          soon={home.fridge.items.filter(x => finishOf(x)).map(x => x.name)} />} />
       <Route path="/scan/recadrer" element={<Crop />} />
       <Route path="/scan/rate" element={<ScanFail isPlus={isPlus} />} />
       <Route path="/scan/ajouter" element={<AddIngredient mine={home.fridge.mine ?? []} onMine={names => home.setFridge(f => ({ ...f, mine: rememberMine(f.mine ?? [], names) }))} />} />
