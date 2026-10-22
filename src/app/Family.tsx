@@ -1,4 +1,4 @@
-// 10 · Famille (prototype V3) : le compte, le foyer, les goûts, le parrainage et l'abonnement.
+// 10 · Famille (prototype V3) : le compte, le foyer, le budget courses (Plus), les goûts, le parrainage et l'abonnement.
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Icon, Pill, RoundButton } from "../ui/components";
@@ -10,11 +10,16 @@ import { Avatar } from "./Home";
 import { memberSince, tasteRows } from "./format";
 import { subscriptionText, useOpenPaywall, useSubscription } from "./plus/subscription";
 import { AccountSheet, type AccountMode, type Dish } from "./settings/sheets";
+import type { Budget } from "../lib/budget";
+import type { CookedMeal } from "../lib/cooked";
+import { BudgetCard } from "./family/Budget";
 
-export function Family({ user, name, isPlus, avatar, profile, household, dishes, onAvatar, onName, onEditTastes }: {
+export function Family({ user, name, isPlus, avatar, profile, household, budget, meals, dishes, onAvatar, onName, onEditTastes }: {
   user: User; name: string; isPlus: boolean; avatar: string | null; profile: Profile | null;
   /** Toi, puis tes proches */
   household: Person[];
+  /** Budget courses (Plus) : le budget du mois, et les repas cuisinés pour ce que Frigia a évité de jeter */
+  budget: Budget; meals: CookedMeal[];
   /** La photo de profil (le crayon sur la photo) : changée ici, comme dans Ton compte */
   dishes: Dish[]; onAvatar: (src: string | null) => void; onName: (name: string) => void;
   /** Sans question : les 3 questions (« Modifier ») ; 2 ou 3 : cette question seule (une ligne de « Tes goûts ») */
@@ -70,6 +75,9 @@ export function Family({ user, name, isPlus, avatar, profile, household, dishes,
             <Pill onClick={() => openPaywall("famille")}>Découvrir Plus</Pill>
           </div>
         )}
+
+        <div className="sec"><h3>Budget courses</h3></div>
+        <BudgetCard isPlus={isPlus} budget={budget} meals={meals} />
 
         <div className="sec"><h3>Tes goûts</h3><button type="button" className="link" onClick={() => onEditTastes()}>Modifier</button></div>
         <p className="pintro">Enregistrés sur ton compte : tu les retrouves sur tous tes appareils.</p>

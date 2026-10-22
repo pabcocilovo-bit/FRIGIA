@@ -1,8 +1,9 @@
-// Famille, semaine, courses (étape 10) et frigo : une copie sur le téléphone + la table Supabase home_data (une ligne par compte).
+// Famille, semaine, courses (étape 10), frigo et budget : une copie sur le téléphone + la table Supabase home_data (une ligne par compte).
 // Chaque partie (members, week, shopping) s'enregistre de son côté. Sans la table (migration 20261018000000_home_data.sql
 // pas encore lancée) ou hors ligne, la partie reste sur le téléphone et part sur le compte au prochain chargement qui réussit.
 import { supabase } from "../supabase";
 import type { GeneratedRecipe } from "./types";
+import { type Budget, cleanBudget, EMPTY_BUDGET } from "./budget";
 
 /** Un proche du foyer. Toi : id « me » (ton prénom et tes allergies viennent du compte, on garde ici ce que tu n'aimes pas et ton appétit).
  *  appetite : de 1 (petit appétit) à 5 (gros mangeur) ; absent, il dépend de l'âge (voir appetiteOf). */
@@ -32,9 +33,9 @@ export type FridgeItem = { id: string; name: string; qty: string; at: number; fr
 export type Fridge = { items: FridgeItem[]; seen: number | null; seenPlacard?: number; cooked?: { title: string; items: FridgeItem[]; at: number }; mine?: string[] };
 export const EMPTY_FRIDGE: Fridge = { items: [], seen: null };
 
-export type Home = { members: Member[]; week: Week; shopping: ShopItem[]; fridge: Fridge };
+export type Home = { members: Member[]; week: Week; shopping: ShopItem[]; fridge: Fridge; budget: Budget };
 export type Part = keyof Home;
-export const EMPTY_HOME: Home = { members: [], week: { midi: true, days: {} }, shopping: [], fridge: EMPTY_FRIDGE };
+export const EMPTY_HOME: Home = { members: [], week: { midi: true, days: {} }, shopping: [], fridge: EMPTY_FRIDGE, budget: EMPTY_BUDGET };
 
 type Cached = Home & { pending: Part[] };
 const key = (userId: string) => `frigia_home_${userId}`;
@@ -56,6 +57,7 @@ const clean = (h: Partial<Home>): Home => ({
       ...(typeof h.fridge.seenPlacard === "number" ? { seenPlacard: h.fridge.seenPlacard } : {}), ...(h.fridge.cooked ? { cooked: h.fridge.cooked } : {}),
       ...(Array.isArray(h.fridge.mine) ? { mine: h.fridge.mine.filter((x): x is string => typeof x === "string") } : {}) }
     : EMPTY_FRIDGE,
+  budget: cleanBudget(h.budget),
 });
 
 function getCached(userId: string): Cached {
@@ -92,12 +94,15 @@ export async function loadHome(userId: string, onCached: (h: Home) => void, onLo
   if (error) return;
   // Le frigo à part : sans la colonne (migration 20261023000000_fridge.sql pas encore lancée), il reste sur le téléphone
   const fr = await supabase.from("home_data").select("fridge").eq("user_id", userId).maybeSingle();
-  const remote = data ? clean({ ...(data as Partial<Home>), fridge: (fr.data as Partial<Home> | null)?.fridge }) : EMPTY_HOME;
+  // Le budget aussi (migration 20261027000000_budget.sql)
+  const bu = await supabase.from("home_data").select("budget").eq("user_id", userId).maybeSingle();
+  const remote = data ? clean({ ...(data as Partial<Home>), fridge: (fr.data as Partial<Home> | null)?.fridge, budget: (bu.data as Partial<Home> | null)?.budget }) : EMPTY_HOME;
   const merged: Home = {
     members: cached.pending.includes("members") ? cached.members : remote.members,
     week: cached.pending.includes("week") ? cached.week : remote.week,
     shopping: cached.pending.includes("shopping") ? cached.shopping : remote.shopping,
     fridge: cached.pending.includes("fridge") || fr.error ? cached.fridge : remote.fridge,
+    budget: cached.pending.includes("budget") || bu.error ? cached.budget : remote.budget,
   };
   setCached(userId, { ...merged, pending: cached.pending });
   onLoaded(merged);

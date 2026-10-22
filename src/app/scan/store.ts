@@ -1,7 +1,7 @@
 // Le scan en cours, d'un écran à l'autre : la photo, les ingrédients vérifiés, les envies et les portions.
 // Gardé en mémoire le temps de la visite (un rechargement repart de la caméra).
 import { useSyncExternalStore } from "react";
-import type { Envie, ScanIngredient, ScanSource } from "../../lib/scan";
+import type { Envie, Receipt, ScanIngredient, ScanSource } from "../../lib/scan";
 import type { Meal } from "../../lib/types";
 import type { Fridge } from "../../lib/home";
 import { pantryOf } from "../../lib/fridge";
@@ -38,6 +38,9 @@ export type ScanState = {
   /** Jeton de la photo comptée : ses recettes ne recomptent pas de scan */
   token: string | null;
   problem: "floue" | "sombre" | "vide";
+  /** Un ticket de caisse : son total, pour le budget courses (Plus). ticketOff : « Compter dans mon budget » décoché */
+  ticket: Receipt | null;
+  ticketOff: boolean;
   /** Frigia Plus : frigo vide, des plats quand même (sans ingrédient) */
   empty: boolean;
   /** Pas de photo lue (« Que cuisiner avec ? », ingrédients tapés) : Ma cuisine les ajoute sans rien remplacer */
@@ -66,7 +69,7 @@ const savedServings = () => {
 };
 
 let state: ScanState = {
-  meal: "s", menu: "plats", source: "frigo", switched: null, photo: null, pick: null, pending: null, ingredients: [], token: null, problem: "floue", empty: false, merge: false,
+  meal: "s", menu: "plats", source: "frigo", switched: null, photo: null, pick: null, pending: null, ingredients: [], token: null, ticket: null, ticketOff: false, problem: "floue", empty: false, merge: false,
   sides: null, envies: ["rapide"], noShop: false, servings: savedServings(), guests: 0, away: [], made: null,
 };
 const listeners = new Set<() => void>();

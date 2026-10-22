@@ -32,5 +32,6 @@ export function useHome(userId: string | undefined) {
     setWeek: (u: Update<Home["week"]>) => set("week", u),
     setShopping: (u: Update<Home["shopping"]>) => set("shopping", u),
     setFridge: (u: Update<Home["fridge"]>) => set("fridge", u),
+    setBudget: (u: Update<Home["budget"]>) => set("budget", u),
   };
 }

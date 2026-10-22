@@ -1,14 +1,18 @@
 // « C'est bien ça ? » : les ingrédients trouvés sur la photo. On retire ce qui n'y est plus, on ajoute ce qui manque, on marque ce qui est à finir,
 // Toucher un ingrédient change son nom ou sa quantité.
 // puis « Continuer » : le menu, l'envie, les placards et pour combien se choisissent sur la page suivante (Menu.tsx).
+// Un ticket de caisse : son total part dans le budget courses à « Continuer » (Plus), sauf si on décoche.
 import { useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router";
-import { Icon, RoundButton } from "../../ui/components";
+import { Icon, LockPill, RoundButton } from "../../ui/components";
 import type { ScanSource } from "../../lib/scan";
 import { getScan, setScan, useScan } from "./store";
 import { Guide } from "./Guide";
 import { ItemEdit } from "../fridge/ItemEdit";
 import { qtyOf } from "../../lib/fridge";
+import { eur, ofMonth, type Spend, ticketDay } from "../../lib/budget";
+import { useOpenPaywall } from "../plus/subscription";
+import { showToast } from "../toast";
 import "../fridge/fridge.css";
 import { INGR_GUIDE, setGuideState } from "./guideSteps";
 import "./scan.css";
@@ -21,6 +25,9 @@ const SEEN: Record<ScanSource, string> = {
 };
 const WAS: Record<ScanSource, string> = { frigo: "C'était bien le frigo", placard: "C'était bien un placard", ticket: "C'était bien un ticket" };
 
+/** « 21 oct. » */
+const dayTxt = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+
 export function Stepper({ value, label, min, max, onChange }: { value: number; label: [string, string]; min: number; max: number; onChange: (n: number) => void }) {
   return (
     <div className="stepper">
@@ -31,14 +38,31 @@ export function Stepper({ value, label, min, max, onChange }: { value: number; l
   );
 }
 
-export function Ingredients({ guide, userId }: { guide: boolean; userId: string }) {
+export function Ingredients({ guide, userId, isPlus, onSpend }: {
+  guide: boolean; userId: string; isPlus: boolean;
+  /** Budget courses : le total du ticket */
+  onSpend: (s: Omit<Spend, "id">) => void;
+}) {
   const navigate = useNavigate();
+  const openPaywall = useOpenPaywall();
   const scan = useScan();
   const screen = useRef<HTMLElement>(null);
   const [editing, setEditing] = useState<{ i: number; focus: "name" | "qty" } | null>(null);
   if (!scan.photo && scan.ingredients.length === 0) return <Navigate to="/scan" replace />;
 
   const n = scan.ingredients.length;
+  // Le total d'un ticket de caisse, pas encore compté
+  const receipt = scan.source === "ticket" ? scan.ticket : null;
+  const go = () => {
+    if (receipt && isPlus && !scan.ticketOff) {
+      const at = ticketDay(receipt.date);
+      onSpend({ eur: receipt.eur, at, label: receipt.store || "Ticket de caisse", from: "ticket" });
+      showToast(`${eur(receipt.eur)} ajoutés à ton budget ${ofMonth(new Date(at))}`);
+    }
+    // Compté une fois : revenir sur cette page ne le recompte pas
+    if (scan.ticket) setScan({ ticket: null });
+    navigate("/scan/menu");
+  };
   // Sans jeton, aucune photo n'a été lue : les ingrédients ont été tapés à la main
   const remove = (i: number) => setScan({ ingredients: getScan().ingredients.filter((_, k) => k !== i) });
   // « À finir » : passe en premier dans les recettes, et compte comme sauvé une fois cuisiné
@@ -70,6 +94,18 @@ export function Ingredients({ guide, userId }: { guide: boolean; userId: string 
         </div>
         <div className="scroll">
           <div className="ingr-body">
+            {receipt && (isPlus ? (
+              <div className="toggle-row">
+                <div><b>Compter dans mon budget</b><span>{eur(receipt.eur)}{receipt.store ? ` chez ${receipt.store}` : ""}{receipt.date ? `, le ${dayTxt(receipt.date)}` : ""}</span></div>
+                <button type="button" className="sw" role="switch" aria-checked={!scan.ticketOff} aria-label="Compter dans mon budget"
+                  onClick={() => setScan({ ticketOff: !scan.ticketOff })} />
+              </div>
+            ) : (
+              <button type="button" className="toggle-row" onClick={() => openPaywall("budget")}>
+                <div><b>Suis ton budget courses</b><span>Ce ticket fait {eur(receipt.eur)}. Avec Plus, il s'ajoute tout seul à ton budget du mois.</span></div>
+                <LockPill />
+              </button>
+            ))}
             {n > 0 && (
               <div className="ilist">
                 {scan.ingredients.map((it, i) => { const qty = qtyOf(it.qty); return (
@@ -91,7 +127,7 @@ export function Ingredients({ guide, userId }: { guide: boolean; userId: string 
             <button type="button" className="add" onClick={() => navigate("/scan/ajouter")}><span className="rm"><Icon name="plus" /></span>Ajouter un ingrédient</button>
           </div>
         </div>
-        <button type="button" className="gobar" disabled={n === 0} onClick={() => navigate("/scan/menu")}>
+        <button type="button" className="gobar" disabled={n === 0} onClick={go}>
           <span><b>Continuer</b><small>Puis tu choisis ton menu</small></span>
           <span className="go"><Icon name="arrow" /></span>
         </button>

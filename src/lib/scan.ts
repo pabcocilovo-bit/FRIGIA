@@ -43,8 +43,11 @@ type Failure =
   | { status: "quota" }             // 403 : les 15 scans gratuits sont utilisés
   | { status: "error"; rate?: boolean; /** Pas de recette possible avec ces ingrédients : la phrase à montrer */ message?: string }; // le service ne répond pas (ou trop de scans cette heure-ci)
 
+/** Un ticket de caisse lu : le total payé, la date (« 2026-10-21 ») et l'enseigne, pour le budget courses */
+export type Receipt = { eur: number; date: string | null; store: string };
 export type IngredientsResult =
-  | { status: "ok"; ingredients: ScanIngredient[]; token: string | null; scansLeft: number | null; /** La photo montre autre chose que le mode choisi */ seen?: ScanSource }
+  | { status: "ok"; ingredients: ScanIngredient[]; token: string | null; scansLeft: number | null; /** La photo montre autre chose que le mode choisi */ seen?: ScanSource;
+    ticket?: Receipt }
   | { status: "unclear"; problem: Problem; seen?: ScanSource }   // photo illisible : le scan n'est pas décompté
   | Failure;
 
@@ -81,6 +84,12 @@ async function failure(response: Response | null, data: Record<string, unknown>)
 /** La photo montre autre chose que le mode choisi (un placard pris en mode Frigo…) */
 const seenOf = (v: unknown): { seen?: ScanSource } => (v === "frigo" || v === "placard" || v === "ticket" ? { seen: v } : {});
 
+const receiptOf = (v: unknown): { ticket?: Receipt } => {
+  const t = v as Partial<Receipt> | null;
+  return t && typeof t.eur === "number" && t.eur > 0
+    ? { ticket: { eur: t.eur, date: typeof t.date === "string" ? t.date : null, store: typeof t.store === "string" ? t.store : "" } } : {};
+};
+
 /** Scan, 1re partie : la photo devient une liste d'ingrédients. En Gratuit, c'est là que le scan est compté. */
 export async function detectIngredients(file: Blob, source: ScanSource): Promise<IngredientsResult> {
   const image = await compressImage(file).catch(() => null);
@@ -99,6 +108,7 @@ export async function detectIngredients(file: Blob, source: ScanSource): Promise
     token: typeof data.token === "string" ? data.token : null,
     scansLeft: typeof data.scansLeft === "number" ? data.scansLeft : null,
     ...seenOf(data.seen),
+    ...receiptOf(data.ticket),
   };
 }
 

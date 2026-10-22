@@ -14,6 +14,7 @@ export const WHY = {
   historique: "Tes 50 derniers scans sont dans Frigia Plus.",
   favoris: "En gratuit, tes favoris des 7 derniers jours. Avec Plus, tu les gardes tous.",
   bilan: "Ton bilan d'économies complet est dans Frigia Plus.",
+  budget: "Le budget courses est dans Frigia Plus : tes tickets de caisse s'y ajoutent tout seuls.",
   vide: "Frigo vide ? Avec Plus, Frigia te propose quand même 3 plats, avec la petite liste de courses.",
 };
 export type Why = keyof typeof WHY;

@@ -17,11 +17,13 @@ import { Home } from "./app/Home";
 import { Courses } from "./app/Lists";
 import { MyKitchen } from "./app/fridge/Fridge";
 import { cookFrom, fromList, fromScan, fromShopping } from "./lib/fridge";
+import { addSpend } from "./lib/budget";
 import { getScan } from "./app/scan/store";
 import { Planning } from "./app/plan/Planning";
 import { PlanNew } from "./app/plan/PlanNew";
 import { Family } from "./app/Family";
 import { Member } from "./app/family/Member";
+import { BudgetPage } from "./app/family/Budget";
 import { showToast } from "./app/toast";
 import {
   EMPTY_PROFILE, clearPendingProfile, fetchProfile, hasPendingProfile, fromOldPrefs, getCachedProfile, saveProfile, takePendingProfile, type Profile,
@@ -326,8 +328,11 @@ return (
         }}
         onClearDone={() => home.setShopping(l => l.filter(x => !x.done))} />} />
       <Route path="/famille" element={<Family user={user} name={name} isPlus={isPlus} avatar={avatarSrc} profile={profile} household={household}
+        budget={home.budget} meals={cooked.meals}
         dishes={dishes} onAvatar={onAvatar} onName={onName}
         onEditTastes={q => { resetAnswers(profile ?? EMPTY_PROFILE); navigate(`/questions/${q ?? 1}`, { state: { edit: true, only: !!q } }); }} />} />
+      <Route path="/famille/budget" element={isPlus ? <BudgetPage budget={home.budget} meals={cooked.meals} household={household} onBudget={home.setBudget} />
+        : <Navigate to="/plus" replace state={{ why: "budget" }} />} />
       {["/famille/proche", "/famille/proche/:id"].map(path => (
         <Route key={path} path={path} element={isPlus ? <Member household={household} onSave={saveMember}
           onRemove={id => home.setMembers(list => list.filter(x => x.id !== id))}
@@ -344,7 +349,8 @@ return (
       <Route path="/scan/recadrer" element={<Crop />} />
       <Route path="/scan/rate" element={<ScanFail isPlus={isPlus} />} />
       <Route path="/scan/ajouter" element={<AddIngredient mine={home.fridge.mine ?? []} onMine={names => home.setFridge(f => ({ ...f, mine: rememberMine(f.mine ?? [], names) }))} />} />
-      <Route path="/scan/ingredients" element={<Ingredients guide={guide === "ingr"} userId={user.id} />} />
+      <Route path="/scan/ingredients" element={<Ingredients guide={guide === "ingr"} userId={user.id} isPlus={isPlus}
+        onSpend={s => home.setBudget(b => addSpend(b, s))} />} />
       <Route path="/scan/menu" element={<Menu isPlus={isPlus} household={household} avatar={avatarSrc} kitchen={home.fridge} />} />
       <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} kitchen={home.fridge} onReady={e => {
         library.addScan(e);

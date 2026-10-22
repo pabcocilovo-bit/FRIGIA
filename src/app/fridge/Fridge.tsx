@@ -116,7 +116,7 @@ export function MyKitchen({ isPlus, fridge, onFridge }: {
   const cook = () => {
     const cold = fridge.items.filter(x => placeOf(x) === "frigo");
     setScan({ source: cold.length ? "frigo" : "placard", switched: null, photo: null, ingredients: toIngredients({ ...fridge, items: cold.length ? cold : fridge.items }),
-      token: null, empty: false, merge: true, guests: 0, sides: null, made: null });
+      token: null, ticket: null, empty: false, merge: true, guests: 0, sides: null, made: null });
     navigate("/scan/menu");
   };
   // Rien dedans : des plats quand même (Plus)

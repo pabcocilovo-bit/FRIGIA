@@ -27,3 +27,28 @@
 .fa .mb-del{align-self:center;padding:8px;font:600 14px/1 var(--sans);color:#9A3B26}
 .fa .mb-go[disabled]{background:#B9C3B3;box-shadow:none}
 .fa .mb-go[disabled] .go{color:#8E9A8A}
+
+/* Budget courses (Plus) : la carte de Famille et la page /famille/budget */
+.fa .bud{display:flex;flex-direction:column;gap:10px;width:100%;text-align:left;background:var(--card);border-radius:18px;padding:16px;box-shadow:0 1px 0 var(--line)}
+.fa .bud-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.fa .bud-v{font:400 28px/1 var(--serif);color:var(--sage-deep)}
+.fa .bud-v small{font:500 14px/1 var(--sans);color:var(--muted)}
+.fa .bud-bar{display:block;height:8px;border-radius:999px;background:var(--sage-soft);overflow:hidden}
+.fa .bud-bar i{display:block;height:100%;border-radius:999px;background:var(--sage)}
+.fa .bud-bar.over i{background:#C4553B}
+.fa .bud-sub{font-size:13.5px;color:var(--muted)}
+.fa .bud-save{display:flex;align-items:center;gap:8px;padding-top:10px;border-top:1px solid var(--line);font-size:13.5px;color:var(--sage-deep);font-weight:600}
+.fa .bud-save svg{width:17px;height:17px;flex:none}
+.fa button.refer,.fa button.toggle-row{width:100%;text-align:left}
+.fa .bud-new>svg{width:18px;height:18px;color:var(--muted);flex:none}
+.fa .bud-eur{font-weight:600;color:var(--muted)}
+.fa .bud-sug{text-align:left;padding:2px 4px}
+.fa .bud-sug b{color:var(--sage-deep)}
+.fa .bud-add{display:grid;grid-template-columns:110px 1fr 34px;gap:8px;align-items:center}
+.fa .bud-add .ob-input input{min-width:0;width:100%}
+.fa .bud-add .mb-add{margin:0}
+.fa .bud-add .mb-add svg{width:17px;height:17px}
+.fa .bud-add .mb-add:disabled{opacity:.4}
+.fa .bud-row .bud-amt{font-weight:600;white-space:nowrap}
+.fa .bud-row .mb-x{display:grid;place-items:center;flex:none}
+.fa .bud-row .mb-x svg{color:var(--muted)}
