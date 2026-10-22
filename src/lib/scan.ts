@@ -142,7 +142,7 @@ function toRecipe(r: RawRecipe): GeneratedRecipe {
 /** Scan, 2e partie : la liste vérifiée devient 3 recettes (ou 2 « autres idées » avec more). */
 export async function makeRecipes(o: {
   ingredients: ScanIngredient[];
-  /** Ce qu'il y a vraiment dans les placards (vide : « Inclure mes placards » décoché, ou placards vides) */
+  /** Ce qu'il y a vraiment dans les placards (Ma cuisine et les pastilles de « Dans tes placards ? ») */
   pantry: { name: string; qty: string }[]; envie: Envie; meal: Meal; servings: number;
   token: string | null; avoid?: string[]; more?: boolean;
   /** Le menu : combien de recettes (3 par défaut), et combien de desserts parmi elles (le reste : des plats pour meal) */

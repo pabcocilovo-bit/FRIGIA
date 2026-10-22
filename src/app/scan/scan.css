@@ -85,6 +85,7 @@ body:has(.scan-screen){background:#EFE3D0}
 .fa .rm svg{width:15px;height:15px}
 .fa .add .rm{background:var(--sage);color:var(--on)}
 .fa .opt{display:flex;flex-direction:column;gap:10px}
+.fa .mn-note{font-size:13px;color:var(--muted)}
 .fa .toggle-row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--sage-soft);border-radius:18px;padding:14px 16px}
 .fa .toggle-row b{display:block;font-weight:600}
 .fa .toggle-row span{font-size:13px;color:var(--muted)}

@@ -6,7 +6,7 @@ import { askClaude, checkIdeasLimit, extractFirstJSON, checkRateLimit, checkScan
 
 type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
-  /** Ce qu'il y a vraiment dans les placards (Ma cuisine), quand « Inclure mes placards » est coché */
+  /** Ce qu'il y a vraiment dans les placards (Ma cuisine), et les pastilles de « Dans tes placards ? » */
   pantry?: { name?: unknown; qty?: unknown }[]; envie?: string;
   /** Le menu : combien de recettes (3 par défaut), et combien de desserts parmi elles (le reste : des plats pour meal) */
   count?: number; desserts?: number;

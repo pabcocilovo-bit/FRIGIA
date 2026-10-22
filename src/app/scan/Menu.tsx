@@ -10,7 +10,9 @@ import type { Envie } from "../../lib/scan";
 import type { Fridge } from "../../lib/home";
 import { type Person, whoNote, whoParts } from "../../lib/household";
 import { useOpenPaywall } from "../plus/subscription";
-import { madeKey, MAX_GUESTS, MEAL_WORDS, mealOf, menuOf, MENUS, type MenuId, pantryFor, setScan, useScan } from "./store";
+import { madeKey, MAX_GUESTS, MEAL_WORDS, mealOf, menuOf, MENUS, type MenuId, setScan, sideChoices, sidesOf, toggleSide, useScan } from "./store";
+import { pantryOf } from "../../lib/fridge";
+import { same } from "../../lib/shopping";
 import { Stepper } from "./Ingredients";
 import { eatersOf, portions, srvLabel } from "./portions";
 import "./scan.css";
@@ -71,7 +73,9 @@ export function Menu({ isPlus, household, avatar, kitchen }: {
   if (!n && !empty) return <Navigate to="/scan" replace />;
 
   const menu = menuOf(scan.menu);
-  const cupboard = pantryFor(kitchen, { ...scan, pantry: true });
+  const sides = sideChoices(scan), sidesOn = sidesOf(kitchen, scan);
+  // Le reste des placards de Ma cuisine (hors pastilles) part aussi : on le dit en une ligne
+  const others = pantryOf(kitchen, scan.ingredients).filter(x => !sides.some(([n]) => same(n, x.name))).map(x => x.name);
   const pick = (id: MenuId) => {
     if (menuOf(id).plus && !isPlus) { openPaywall("planning"); return; }
     // Des plats : on garde « ce midi » ou « ce soir » s'il était choisi
@@ -119,14 +123,17 @@ export function Menu({ isPlus, household, avatar, kitchen }: {
               <span className="label">Envie de</span>
               <Chips wrap>{ENVIES.map(([e, label]) => <Chip key={e} className="light" on={scan.envie === e} onClick={() => setScan({ envie: e })}>{label}</Chip>)}</Chips>
             </div>
-            {/* Les placards de Ma cuisine, rien d'inventé. Un scan des placards les montre déjà ; frigo vide : toujours inclus. */}
-            {scan.source !== "placard" && !empty && (
-              <div className={"toggle-row" + (cupboard.length ? "" : " off")}>
-                <div><b>Inclure mes placards</b><span>{cupboard.length
-                  ? cupboard.slice(0, 3).map(c => c.name).join(", ") + (cupboard.length > 3 ? ` et ${cupboard.length - 3} autre${cupboard.length > 4 ? "s" : ""}` : "")
-                  : "Rien dans tes placards pour l'instant. Scanne-les depuis Ma cuisine pour les ajouter ici."}</span></div>
-                <button type="button" className="sw" role="switch" aria-checked={!!cupboard.length && scan.pantry} disabled={!cupboard.length}
-                  aria-label="Inclure mes placards" onClick={() => setScan({ pantry: !scan.pantry })} />
+            {/* Dans tes placards ? : les accompagnements (ou de quoi pâtisser) d'un appui, cochés s'ils sont dans Ma cuisine.
+                Un scan des placards les montre déjà ; frigo vide : tous les placards partent. */}
+            {scan.source !== "placard" && !empty && sides.length > 0 && (
+              <div className="opt">
+                <span className="label">Dans tes placards ?</span>
+                <Chips wrap>{sides.map(([name, label]) => (
+                  <Chip key={name} className="light" on={sidesOn.some(x => same(x, name))} onClick={() => toggleSide(kitchen, scan, name)}>{label}</Chip>
+                ))}</Chips>
+                {others.length > 0 && (
+                  <span className="mn-note">Et le reste de tes placards : {others.slice(0, 3).join(", ")}{others.length > 3 ? ` et ${others.length - 3} autre${others.length > 4 ? "s" : ""}` : ""}.</span>
+                )}
               </div>
             )}
             {isPlus ? <Who household={household} avatar={avatar} /> : (
