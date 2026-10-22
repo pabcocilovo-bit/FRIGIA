@@ -47,7 +47,7 @@ export function Chip({ on, ongreen, className, ...rest }: BtnProps & { on?: bool
   return <button type="button" aria-pressed={on} className={cx("chip", ongreen ? "ongreen" : "light", on && "on", className)} {...rest} />;
 }
 
-/** wrap : les pastilles passent à la ligne au lieu de défiler */
+/** wrap : une grille de pastilles de même taille au lieu de défiler */
 export function Chips({ wrap, children }: { wrap?: boolean; children: ReactNode }) {
   return <div className={cx("chips", wrap && "wrap")}>{children}</div>;
 }
