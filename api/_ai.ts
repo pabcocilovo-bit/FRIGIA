@@ -1,7 +1,6 @@
-// Outils communs au scan : limite par heure, scans gratuits, goûts du compte, appel à l'IA, photos des plats.
+// Outils communs au scan : limite par heure, goûts du compte, appel à l'IA, photos des plats.
 import { createHmac, timingSafeEqual } from "node:crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { notify } from "./_push.js";
 
 // ─── Limite : 5 scans par heure et par compte ───
 // Un scan, c'est une photo (ou des ingrédients tapés à la main). Les recettes d'une photo déjà comptée
@@ -38,29 +37,6 @@ export async function checkRateLimit(admin: SupabaseClient, userId: string, limi
   // Migration not applied yet: fall back to the per-instance counter instead of blocking scans
   console.error("check_scan_rate_limit failed:", error.message);
   return checkMemoryRateLimit(userId, limit);
-}
-
-// ─── Formule Gratuit : 15 scans au total, plus les bonus des codes (colonne bonus_scans) ───
-export const FREE_SCANS = 15;
-
-/** Compte un scan gratuit. Renvoie les scans qui restent, -1 s'il n'en reste plus, null si la base ne répond pas. */
-export async function takeFreeScan(admin: SupabaseClient, userId: string): Promise<number | null> {
-  const { data, error } = await admin.rpc("use_free_scan", { p_user_id: userId, p_limit: FREE_SCANS });
-  if (error) {
-    console.error("use_free_scan failed:", error.message);
-    return null;
-  }
-  if (data === 3) {
-    await notify(admin, userId, {
-      kind: "scans", key: "scans:3", url: "/plus", action: "Voir Plus",
-      title: "Il te reste 3 scans gratuits", body: "Pour continuer ensuite, il y a Frigia Plus.",
-    }, false);
-  }
-  return typeof data === "number" && data >= 0 ? data : -1;
-}
-
-export async function refundFreeScan(admin: SupabaseClient, userId: string) {
-  await admin.rpc("refund_free_scan", { p_user_id: userId });
 }
 
 // ─── Jeton du scan : les recettes d'une photo déjà comptée ne recomptent pas de scan ───

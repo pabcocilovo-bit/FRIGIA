@@ -1,12 +1,12 @@
 // Codes ami et créateur, parrainage (migration 20261020000000_codes.sql).
 // action « check » : le code existe-t-il ? (à l'inscription, avant le compte : sans jeton)
-// action « redeem » : l'utiliser sur ce compte (10 scans en plus ; mois offert d'un créateur au premier abonnement)
+// action « redeem » : l'utiliser sur ce compte (7 jours d'essai en plus ; mois offert d'un créateur au premier abonnement)
 // action « mine » : mon code ami, créé au premier appel, et les amis venus avec lui.
 // Pas de « tu voulais dire » ni de liste : on ne laisse pas deviner les codes des autres. 20 essais par heure.
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { randomInt } from "node:crypto";
 import { notify } from "./_push.js";
-import { adminClient, authUser, preflight, type Req, type Res } from "./_shared.js";
+import { adminClient, authUser, plusWeek, preflight, type Req, type Res } from "./_shared.js";
 
 const ATTEMPTS = 20;
 const WINDOW_S = 3600;
@@ -24,12 +24,13 @@ async function firstName(admin: SupabaseClient, id: string): Promise<string> {
 
 /** Ce que le code donne, en une phrase */
 async function perk(admin: SupabaseClient, c: Code): Promise<string> {
-  const scans = `${c.bonus_scans} scans gratuits en plus`;
+  // Plus de scans offerts (formule gratuite retirée le 23 octobre) : une semaine d'essai en plus
+  const week = "7 jours d'essai en plus";
   if (c.kind === "friend") {
     const n = c.owner ? await firstName(admin, c.owner) : "";
-    return `${n ? `Code de ${n}` : "Code ami"} : ${scans}.`;
+    return `${n ? `Code de ${n}` : "Code ami"} : ${week}.`;
   }
-  return `Code ${c.code} : ${scans}${c.plus_days ? ", et 1 mois de Plus offert : 3 mois pour 13,98 €, puis 6,99 €/mois" : ""}.`;
+  return `Code ${c.code} : ${week}${c.plus_days ? ", et 1 mois offert sur le mensuel : 3 mois pour 13,98 €, puis 6,99 €/mois" : ""}.`;
 }
 
 /** Ce que voit la personne : ok (avec ce que le code donne), introuvable, expiré, le sien, ou déjà un code */
@@ -107,6 +108,10 @@ export default async function handler(req: Req, res: Res) {
   const { data: status, error } = await admin.rpc("redeem_code", { p_user_id: user.id, p_code: code });
   if (error) return res.status(503).json({ error: "Codes indisponibles" });
   if (status !== "ok") return res.json({ status });
+  // La semaine d'essai en plus : Plus jusqu'à cette date (le compte relit sa session pour la voir)
+  const plusUntil = plusWeek(user);
+  const { error: metaError } = await admin.auth.admin.updateUserById(user.id, { app_metadata: { plus_until: plusUntil } });
+  if (metaError) console.error("code: plus_until", metaError.message);
   // Celui qui a invité le voit dans ses notifs
   if (v.c?.kind === "friend" && v.c.owner) {
     const meta = user.user_metadata ?? {};
@@ -117,5 +122,5 @@ export default async function handler(req: Req, res: Res) {
       body: `Ton mois offert arrive dès que ${name || "ton ami"} passe à Plus.`,
     });
   }
-  res.json({ status: "ok", perk: v.perk, bonus: v.c?.bonus_scans ?? 0, offer: (v.c?.plus_days ?? 0) > 0 });
+  res.json({ status: "ok", perk: v.perk, plusUntil, offer: (v.c?.plus_days ?? 0) > 0 });
 }

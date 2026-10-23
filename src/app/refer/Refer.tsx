@@ -1,5 +1,5 @@
 // 25 bis · Parrainage (prototype V3) : ton lien et ton code, le partage, comment ça marche, tes invitations.
-// L'ami a 10 scans en plus ; toi, un mois de Plus à son premier paiement (api/stripe-webhook.ts). Ça se cumule.
+// L'ami a 7 jours d'essai en plus ; toi, un mois de Plus à son premier paiement (api/stripe-webhook.ts). Ça se cumule.
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router";
 import { fetchReferral, inviteLink, setInviteCode, type Referral } from "../../lib/codes";
@@ -32,7 +32,7 @@ export function Refer({ name, avatar, isPlus }: { name: string; avatar: string |
   useEffect(() => { void fetchNow(); }, []);
 
   const link = ref ? inviteLink(ref.code) : "";
-  const text = ref ? `Je trouve quoi cuisiner avec ce qu'il y a dans mon frigo grâce à Frigia. Avec mon code ${ref.code}, tu as 10 scans gratuits en plus : ${link}` : "";
+  const text = ref ? `Je trouve quoi cuisiner avec ce qu'il y a dans mon frigo grâce à Frigia. Avec mon code ${ref.code}, tu as 7 jours d'essai en plus : ${link}` : "";
   const copy = async (what: "link" | "code" = "link") => {
     if (!ref) return;
     try {
@@ -47,7 +47,7 @@ export function Refer({ name, avatar, isPlus }: { name: string; avatar: string |
     const t = encodeURIComponent(text);
     if (app === "WhatsApp") { window.open(`https://wa.me/?text=${t}`, "_blank", "noopener"); return; }
     if (app === "Message") { window.location.assign(`sms:?&body=${t}`); return; }
-    if (app === "Email") { window.location.assign(`mailto:?subject=${encodeURIComponent("10 scans Frigia offerts")}&body=${t}`); return; }
+    if (app === "Email") { window.location.assign(`mailto:?subject=${encodeURIComponent("2 semaines de Frigia offertes")}&body=${t}`); return; }
     if (navigator.share) {
       try { await navigator.share({ title: "Frigia", text, url: link }); } catch { /* fermé */ }
       return;
@@ -71,7 +71,7 @@ export function Refer({ name, avatar, isPlus }: { name: string; avatar: string |
         </div>
         <span className="rf-kick">Parrainage</span>
         <h2>Un mois de Plus <em>par ami abonné</em></h2>
-        <p>Ton ami a 10 scans gratuits en plus. Toi, tu gagnes un mois de Plus dès qu'il s'abonne. 12 amis, c'est un an offert.</p>
+        <p>Ton ami a 7 jours d'essai en plus. Toi, tu gagnes un mois de Plus dès qu'il s'abonne. 12 amis, c'est un an offert.</p>
       </div>
       <div className="rf-body">
         <div className="rf-link">
@@ -92,7 +92,7 @@ export function Refer({ name, avatar, isPlus }: { name: string; avatar: string |
         <span className="st-sec">Comment ça marche</span>
         <ol className="rf-steps">
           <li><i>1</i><div><b>Tu partages ton lien</b><span>Par message, sur WhatsApp, à la sortie de l'école.</span></div></li>
-          <li><i>2</i><div><b>Ton ami s'inscrit avec ton code</b><span>Il a 25 scans gratuits au lieu de 15.</span></div></li>
+          <li><i>2</i><div><b>Ton ami s'inscrit avec ton code</b><span>Il a 14 jours d'essai au lieu de 7.</span></div></li>
           <li><i>3</i><div><b>Il passe à Plus</b><span>Tu gagnes un mois de Plus. Ça se cumule.</span></div></li>
         </ol>
 
@@ -114,7 +114,7 @@ export function Refer({ name, avatar, isPlus }: { name: string; avatar: string |
         </> : (
           <div className="rf-none"><Icon name="users" /><span>Personne pour l'instant. Tes amis apparaissent ici dès qu'ils s'inscrivent avec ton lien.</span></div>
         )}
-        <p className="rf-fine">{isPlus ? "Ton mois offert repousse ta prochaine échéance." : "Tu es en Gratuit : ton mois offert démarre Plus tout seul."} Un seul code par compte. <a href="/infos-legales/cgu" onClick={e => { e.preventDefault(); navigate("/infos-legales/cgu"); }}>Conditions</a></p>
+        <p className="rf-fine">{isPlus ? "Ton mois offert repousse ta prochaine échéance." : "Sans abonnement, ton mois offert démarre Plus tout seul."} Un seul code par compte. <a href="/infos-legales/cgu" onClick={e => { e.preventDefault(); navigate("/infos-legales/cgu"); }}>Conditions</a></p>
       </div>
     </div>
   );

@@ -126,7 +126,7 @@ export function Welcome() {
         </ol>
         <Pill tone="cream" block onClick={() => { resetAnswers(); navigate("/questions/1"); }}>Commencer</Pill>
         <button type="button" className="ob-login" onClick={() => { clearPendingProfile(); navigate("/connexion"); }}>J'ai déjà un compte</button>
-        <p className="ob-free">Gratuit, sans carte bancaire</p>
+        <p className="ob-free">7 jours d'essai, sans carte bancaire</p>
       </div>
     </Screen>
   );
@@ -356,7 +356,7 @@ export function Ready() {
           {lines.map((l, i) => <li key={l} className={cx(i < shown && "in")}><i><Icon name="check" /></i><span>{l}</span></li>)}
         </ul>
       </div>
-      <GoBar plain title="Créer mon compte" sub="Gratuit, sans carte bancaire" onClick={() => { setPendingProfile(a); navigate("/compte"); }} />
+      <GoBar plain title="Créer mon compte" sub="7 jours d'essai, sans carte bancaire" onClick={() => { setPendingProfile(a); navigate("/compte"); }} />
     </Screen>
   );
 }
@@ -400,7 +400,7 @@ export function Signup() {
 
   return (
     <Screen cls="ob" label="Crée ton compte">
-      <ObHead from={60} to={72} label="Dernière étape" title={<>Crée ton compte <em>gratuit</em></>} sub="Pour garder tes réponses et lancer ton premier scan." />
+      <ObHead from={60} to={72} label="Dernière étape" title={<>Crée ton <em>compte</em></>} sub="Pour garder tes réponses et lancer ton premier scan." />
       <div className="scroll"><div className="ob-body" style={{ paddingBottom: 28 }}>
         {!codeOpen
           ? <button type="button" className="ob-codetg" style={{ alignSelf: "center" }} onClick={() => { setCodeOpen(true); setTimeout(() => codeInput.current?.focus(), 50); }}><Icon name="gift" />J'ai un code ami ou créateur</button>
@@ -418,7 +418,7 @@ export function Signup() {
         <div className="ob-or">ou</div>
         <button type="button" className="ob-btn sage" disabled={busy} onClick={() => void start("email")}><Icon name="mail" />Continuer avec un email</button>
         <div className="ob-perks">
-          {["15 scans offerts pour commencer", "Sans carte bancaire", "Tes goûts gardés sur ton compte"].map(p => <div key={p}><i><Icon name="check" /></i>{p}</div>)}
+          {["7 jours pour tout essayer", "Sans carte bancaire", "Tes goûts gardés sur ton compte"].map(p => <div key={p}><i><Icon name="check" /></i>{p}</div>)}
         </div>
         <p className="ob-have">Déjà un compte ? <button type="button" onClick={() => { clearPendingProfile(); navigate("/connexion"); }}>Se connecter</button></p>
         <p className="ob-legal">En continuant, tu acceptes les <a href="/cgu">conditions d'utilisation</a> et la <a href="/confidentialite">politique de confidentialité</a>.</p>
@@ -483,7 +483,7 @@ export function EmailSignup() {
         {widget}
         <button type="submit" hidden />
       </div></form>
-      <GoBar title="Créer mon compte" sub="Gratuit, sans carte bancaire" loading={loading} onClick={submit} />
+      <GoBar title="Créer mon compte" sub="7 jours d'essai, sans carte bancaire" loading={loading} onClick={submit} />
     </Screen>
   );
 }

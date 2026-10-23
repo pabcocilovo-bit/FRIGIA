@@ -17,7 +17,7 @@ type Q = { k: string; q: string; a: string; act?: [string, Act] };
 const FAQ: { title: string; icon: IconName; qs: Q[] }[] = [
   { title: "Le scan", icon: "cam", qs: [
     { k: "photo", q: "Comment réussir la photo du frigo ?", a: "Porte grande ouverte, lumière allumée, et un pas en arrière pour tout faire tenir dans le cadre. Avant les recettes, tu vérifies ce que Frigia a trouvé : tu ajoutes un oubli ou tu retires une erreur." },
-    { k: "free", q: "Combien de scans j'ai sans payer ?", a: "15 scans offerts, sans carte bancaire et sans limite de temps. Avec Frigia Plus, les scans sont illimités." },
+    { k: "free", q: "Est-ce que je peux essayer sans payer ?", a: "Oui : 7 jours pour tout essayer, sans carte bancaire. Avec un code ami ou créateur, 7 jours de plus. Ensuite, Frigia Plus coûte 6,99 € par mois ou 39,99 € par an." },
     { k: "offline", q: "Frigia marche sans réseau ?", a: "Oui pour ta liste de courses, ta semaine et tes favoris : ils sont gardés sur ton téléphone. Le scan, lui, attend le retour du réseau." },
   ] },
   { title: "Les recettes", icon: "utensils", qs: [

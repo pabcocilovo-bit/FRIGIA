@@ -45,13 +45,12 @@ function Card({ recipe, i, done, from }: { recipe?: GeneratedRecipe; i: number; 
   );
 }
 
-export function Prep({ isPlus, household, kitchen, onReady, onCounted, onOutOfScans }: {
+export function Prep({ isPlus, household, kitchen, onReady, onOutOfScans }: {
   isPlus: boolean; household: Person[];
   /** Ma cuisine : ce qu'il y a vraiment dans les placards */
   kitchen: Fridge;
   /** Les recettes sont prêtes : le scan rejoint l'historique */
   onReady: (entry: HistoryEntry) => void;
-  onCounted: (left: number) => void;
   onOutOfScans: () => void;
 }) {
   const navigate = useNavigate();
@@ -95,7 +94,6 @@ export function Prep({ isPlus, household, kitchen, onReady, onCounted, onOutOfSc
     }).then(r => {
       if (!alive.current) return;
       if (r.status === "ok") {
-        if (r.scansLeft != null) onCounted(r.scansLeft);
         entry.current = { id: Date.now().toString(), date: new Date(), ingredients: toDetected(scan.ingredients), recipes: r.recipes, servings, meal: scan.meal };
         setScan({ made: { key: madeKey(scan), id: entry.current.id } });
         setRecipes(r.recipes);

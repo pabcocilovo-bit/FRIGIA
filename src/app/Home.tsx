@@ -1,11 +1,11 @@
 // 1 · Accueil (prototype V3).
 import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { Band, BandFoot, Icon, LockPill, Pill, QuotaBar } from "../ui/components";
+import { Band, BandFoot, Icon, LockPill, Pill } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry, User } from "../lib/types";
 import { type CookedMeal, isMeal, thisMonth, totalSaved } from "../lib/cooked";
 import { euros, kilos } from "./scan/savings";
-import { quotaText, quotaTotal, scansLeft, type ScanQuota } from "../lib/billing";
+import { trialText } from "../lib/billing";
 import { AppTabBar } from "./AppTabBar";
 import { bandLabel, daysAgo, initial, plural, scanWhen } from "./format";
 import { useOpenScan } from "./offline";
@@ -97,8 +97,11 @@ const STEPS = [
 
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 
-export function Home({ user, name, isPlus, quota, avatar, history, favorites, cooked, household, week, onWeek, kitchen, shopping, onOpenRecipe }: {
-  user: User; name: string; isPlus: boolean; quota: ScanQuota | null; avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
+export function Home({ user, name, isPlus, trial, avatar, history, favorites, cooked, household, week, onWeek, kitchen, shopping, onOpenRecipe }: {
+  user: User; name: string; isPlus: boolean;
+  /** En essai : la fin des jours offerts (ms) */
+  trial: number | null;
+  avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
   household: Person[];
   week: Week; onWeek: (w: Week) => void;
   cooked: CookedMeal[];
@@ -171,6 +174,12 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
           </span>
         </div>
       </div>
+      {/* L'essai (7 jours, 14 avec un code) : les jours qui restent, et l'abonnement d'un appui */}
+      {trial && (
+        <button type="button" className="hm-trial" onClick={() => navigate("/plus")}>
+          <Icon name="sparkle" /><span><b>{trialText(trial)}</b> · Choisir ma formule</span><Icon name="next" />
+        </button>
+      )}
       <WeekRecipes kitchen={kitchen} onOpen={onOpenRecipe} />
       <div className={"home-band" + (tonight ? " tn-has" : "")}>
         <Band label={bandLabel(user)} title={nextTitle}>
@@ -187,7 +196,6 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
             </button>
           )}
           <Pill tone="cream" icon="cam" onClick={openScan}>Scanner mon frigo</Pill>
-          {!isPlus && <BandFoot><QuotaBar left={scansLeft(quota)} total={quotaTotal(quota)} />{quotaText(quota)}</BandFoot>}
           {isPlus && (
             <BandFoot>
               <span className="stack">{eaters.map(p => <i key={p.id}>{p.name.charAt(0).toUpperCase()}</i>)}{scan.guests > 0 && <i>+{scan.guests}</i>}</span>

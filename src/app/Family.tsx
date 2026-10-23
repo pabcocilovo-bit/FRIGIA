@@ -9,6 +9,7 @@ import { AppTabBar } from "./AppTabBar";
 import { Avatar } from "./Home";
 import { memberSince, tasteRows } from "./format";
 import { subscriptionText, useOpenPaywall, useSubscription } from "./plus/subscription";
+import { trialText, trialUntil } from "../lib/billing";
 import { AccountSheet, type AccountMode, type Dish } from "./settings/sheets";
 import type { Budget } from "../lib/budget";
 import type { CookedMeal } from "../lib/cooked";
@@ -27,6 +28,8 @@ export function Family({ user, name, isPlus, avatar, profile, household, budget,
 }) {
   const navigate = useNavigate();
   const openPaywall = useOpenPaywall();
+  // En essai : les jours qui restent
+  const [trial] = useState(() => trialUntil(user));
   // L'abonnement Stripe (prix, prochaine date) ; null pour un compte Plus sans abonnement (accès offert)
   const { sub } = useSubscription(user.id, isPlus);
   const tastes = profile && tasteRows(profile);
@@ -46,9 +49,9 @@ export function Family({ user, name, isPlus, avatar, profile, household, budget,
           </div>
           <h2>{name}</h2>
           <p>{memberSince(user)}</p>
-          {isPlus
+          {isPlus && !trial
             ? <span className="plus-tag"><Icon name="sparkle" />Frigia Plus</span>
-            : <span className="plus-tag" style={{ background: "rgba(247,241,230,.18)", color: "var(--on)" }}>Formule Gratuit</span>}
+            : <span className="plus-tag" style={{ background: "rgba(247,241,230,.18)", color: "var(--on)" }}>Essai de Frigia Plus</span>}
         </div>
       </div>
 
@@ -96,12 +99,18 @@ export function Family({ user, name, isPlus, avatar, profile, household, budget,
         <div className="sec"><h3>Parrainage</h3></div>
         <div className="refer">
           <span className="pi"><Icon name="gift" /></span>
-          <div><b>1 mois offert par ami abonné</b><span>Et 10 scans en plus pour ton ami</span></div>
+          <div><b>1 mois offert par ami abonné</b><span>Et 7 jours d'essai en plus pour ton ami</span></div>
           <button type="button" className="pill" style={{ boxShadow: "inset 0 0 0 1px var(--line)" }} onClick={() => navigate("/parrainage")}>Inviter</button>
         </div>
 
         <div className="sec"><h3>Ton abonnement</h3></div>
-        {isPlus ? (
+        {trial ? (
+          <div className="subcard free-sub">
+            <span className="pi"><Icon name="sparkle" /></span>
+            <div><b>Essai de Frigia Plus</b><span>{trialText(trial)}, sans carte bancaire</span></div>
+            <Pill onClick={() => openPaywall("def")}>S'abonner</Pill>
+          </div>
+        ) : isPlus ? (
           <div className="subcard">
             <span className="pi"><Icon name="sparkle" /></span>
             <div><b>Frigia Plus</b>{sub && <span>{subscriptionText(sub)}</span>}</div>
@@ -110,7 +119,7 @@ export function Family({ user, name, isPlus, avatar, profile, household, budget,
         ) : (
           <div className="subcard free-sub">
             <span className="pi"><Icon name="sparkle" /></span>
-            <div><b>Formule Gratuit</b><span>15 scans offerts, sans carte bancaire</span></div>
+            <div><b>Sans abonnement</b><span>Ton essai est terminé</span></div>
             <Pill onClick={() => openPaywall("def")}>Plus</Pill>
           </div>
         )}

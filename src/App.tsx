@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
 import type { GeneratedRecipe, User } from "./lib/types";
-import { fetchScanQuota, quotaText, getCachedQuota, isPlus as hasPlus, paymentFailed, quotaTotal, scansLeft, setCachedQuota, type ScanQuota } from "./lib/billing";
+import { isPlus as hasPlus, paymentFailed, trialUntil } from "./lib/billing";
+import { supabase } from "./supabase";
 import { clearLocalData, deleteAccount, displayName, fetchAvatar, getAvatar, getPrefs, saveAvatar, signOut } from "./lib/account";
 import { useLibrary } from "./hooks/useLibrary";
 import { useCooked } from "./hooks/useCooked";
@@ -70,6 +71,8 @@ const OB_SIGNED_IN = ["/questions/1", "/questions/2", "/questions/3", "/mot-de-p
 const metaFirstName = (u: User): string | null =>
   u.user_metadata?.given_name || (displayName(u).trim().split(/\s+/)[0] || null);
 const Landing = lazy(() => import("./Landing"));
+/** Ouverts quand l'essai est fini : s'abonner, son compte, l'aide, les mentions */
+const WALL_OPEN = ["/plus", "/resilier", "/reglages", "/aide", "/infos-legales"];
 
 export default function Frigia() {
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
@@ -85,8 +88,6 @@ export default function Frigia() {
   const signOutTo = useRef<string | null>(null);
   // Compte tout neuf : on passe par l'accès à la caméra avant l'accueil
   const [goCamera, setGoCamera] = useState(false);
-  // Scans gratuits utilisés (formule Gratuit), comptés par le serveur
-  const [quota, setQuota] = useState<ScanQuota | null>(null);
 
   const [userId, setUserId] = useState<string | undefined>();
   const library = useLibrary(userId);
@@ -117,8 +118,6 @@ export default function Frigia() {
   const { user, ready: sessionReady } = useSession({
     onSignedIn: (u) => {
       if (profileFor.current !== u.id) {
-        setQuota(getCachedQuota(u.id));
-        void fetchScanQuota(u.id).then(q => { if (q && profileFor.current === u.id) setQuota(q); });
         setAvatarSrc(getAvatar(u.id));
         // La photo suit le compte ; une photo d'avant (gardée sur ce téléphone seulement) part sur le compte
         void fetchAvatar(u.id).then(src => {
@@ -140,7 +139,8 @@ export default function Frigia() {
       // La session s'annonce plusieurs fois à l'ouverture : un seul envoi
       if (code && redeeming.current !== code) void redeemCode(redeeming.current = code).then(v => {
         setPendingCode(null);
-        if (v.status === "ok") void fetchScanQuota(u.id).then(q => { if (q && profileFor.current === u.id) setQuota(q); });
+        // La semaine d'essai en plus est écrite sur le compte : la session relue la montre
+        if (v.status === "ok") void supabase.auth.refreshSession();
       }).catch(() => { redeeming.current = null; /* réessayé à la prochaine ouverture */ });
       const oauth = takeOAuthIntent();
       if (oauth === "signup") showToast(code ? "Compte Google relié, ton code est gardé" : "Compte Google relié : pas d'email à confirmer");
@@ -152,7 +152,6 @@ export default function Frigia() {
       setGoCamera(false);
       setProfile(null);
       setProfileMissing(false);
-      setQuota(null);
       // Supabase annonce aussi « personne de connecté » à l'ouverture : on ne sort pas des écrans d'inscription
       // Déconnexion voulue : Bienvenue, une fois la session vidée à l'écran (effet plus bas)
       if (!signOutTo.current && !OB_PATHS.includes(window.location.pathname)) navigate("/", { replace: true });
@@ -243,29 +242,26 @@ if (!user || obPath) {
   );
 }
 
-// Formule Gratuit ou Frigia Plus (plus d'essai de 4 jours ni de mur de paiement à l'entrée)
+// Frigia Plus, les 7 jours d'essai compris (plus de formule gratuite depuis le 23 octobre)
 const isPlus = hasPlus(user);
+// En essai, pas encore abonné : la fin des jours offerts
+const trial = trialUntil(user);
 
 // Compte sans goûts (connexion Google sans passer par les questions…) : les 3 questions d'abord
-if (profileMissing && !isPlus) {
+if (profileMissing && (!isPlus || trial)) {
   return <Navigate to="/questions/1" replace />;
 }
 
+// L'essai est fini, sans abonnement : « Passe à Plus ». Restent ouverts le paiement, le compte, l'aide et les mentions.
+// Renouvellement refusé : « Paiement refusé », pour changer de carte.
+if (!isPlus && !WALL_OPEN.some(p => location.pathname === p || location.pathname.startsWith(p + "/"))) {
+  return <Navigate to={paymentFailed(user) ? "/plus/paiement?refus=1" : "/plus"} replace state={{ why: "fin" }} />;
+}
+
 // ─── NOUVELLE APPLI (prototype V3) ───────────────────────────────────────────
-const noScansLeft = !isPlus && scansLeft(quota) <= 0;
 const name = profile?.first_name || firstName(user);
-/** Le serveur a compté le scan : on suit les scans gratuits qui restent. */
-const onScansLeft = (left: number) => {
-  const q = { used: Math.max(0, quotaTotal(quota) - left), bonus: quota?.bonus ?? 0 };
-  setQuota(q);
-  setCachedQuota(user.id, q);
-};
-/** Formule Gratuit : le scan est compté, on rappelle ceux qui restent (comme le prototype en arrivant sur la liste). */
-const onCounted = (left: number) => {
-  onScansLeft(left);
-  showToast(quotaText({ used: Math.max(0, quotaTotal(quota) - left), bonus: quota?.bonus ?? 0 }));
-};
-const onOutOfScans = () => { onScansLeft(0); navigate("/plus", { replace: true, state: { why: "quota" } }); };
+/** Le serveur refuse le scan : l'essai vient de finir */
+const onOutOfScans = () => { void supabase.auth.refreshSession(); navigate("/plus", { replace: true, state: { why: "fin" } }); };
 const recipeState = location.state as { hello?: boolean } | null;
 // Réglages et compte
 const onAvatar = (src: string | null) => { setAvatarSrc(src); void saveAvatar(user.id, src); };
@@ -309,7 +305,7 @@ return (
   // Retour de la page Stripe : « On attend ta banque » tout de suite, sans l'écran d'ouverture
   <AppFrame splash={location.pathname !== "/plus/paiement"}>
     <Routes>
-      <Route path="/" element={<Home user={user} name={name} isPlus={isPlus} quota={quota} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household}
+      <Route path="/" element={<Home user={user} name={name} isPlus={isPlus} trial={trial} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household}
         week={home.week} onWeek={home.setWeek} kitchen={home.fridge} shopping={home.shopping} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/planning" element={<Planning {...plan} household={household} onAddMissing={addMissingOf} />} />
       <Route path="/planning/creer" element={<PlanNew {...plan} />} />
@@ -346,13 +342,13 @@ return (
           onMyAllergies={allergies => void saveTastes({ ...(profile ?? EMPTY_PROFILE), allergies })} />
           : <Navigate to="/plus" replace state={{ why: "famille" }} />} />
       ))}
-      <Route path="/plus" element={isPlus ? <Navigate to="/" replace /> : <Paywall onCode={() => void fetchScanQuota(user.id).then(q => { if (q) setQuota(q); })} />} />
+      {/* Abonné : rien à choisir. En essai : on peut s'abonner (rien à payer avant la fin de l'essai). Essai fini : le mur. */}
+      <Route path="/plus" element={isPlus && !trial ? <Navigate to="/" replace /> : <Paywall locked={!isPlus} trial={trial} onCode={() => void supabase.auth.refreshSession()} />} />
       <Route path="/plus/paiement" element={<PayReturn />} />
       <Route path="/plus/bienvenue" element={<PlusWelcome user={user} name={name} />} />
       <Route path="/resilier" element={<Cancel user={user} saved={totalSaved(cooked.meals).eur} />} />
-      {/* Les 15 scans gratuits sont utilisés : « Passe à Plus » à la place du scan */}
-      <Route path="/scan" element={noScansLeft ? <Navigate to="/plus" replace state={{ why: "quota" }} /> :
-        <ScanCamera userId={user.id} guide={guide === "" && history.length === 0} onCounted={onCounted} onOutOfScans={onOutOfScans}
+      <Route path="/scan" element={
+        <ScanCamera userId={user.id} guide={guide === "" && history.length === 0} onOutOfScans={onOutOfScans}
           soon={home.fridge.items.filter(x => dueSoon(x)).map(x => x.name)}
           onPlacards={found => {
             // « Scanner mes placards » depuis « Tes placards » : ajoutés aux placards, rien d'autre ne bouge
@@ -372,7 +368,7 @@ return (
         // Sans photo (« Que cuisiner avec ? », ingrédients tapés) : ajoutés, chacun garde sa place.
         const s = getScan();
         if (e.ingredients.length) home.setFridge(f => (s.merge ? fromList(f, e.ingredients) : fromScan(f, e.ingredients, s.source)));
-      }} onCounted={onCounted} onOutOfScans={onOutOfScans} />} />
+      }} onOutOfScans={onOutOfScans} />} />
       <Route path="/recettes/:id" element={waitScan(<Results history={history} isPlus={isPlus} household={household} kitchen={home.fridge} week={home.week} onWeek={home.setWeek} onNewIdeas={updateScanRecipes} />)} />
       <Route path="/recettes/:id/:n" element={waitScan(<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} fridge={home.fridge} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />)} />
       <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} fridge={home.fridge} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
@@ -391,7 +387,7 @@ return (
       <Route path="/infos-legales/:page" element={<Legal />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
-    {recipeState?.hello && location.pathname === "/" && !isPlus && (
+    {recipeState?.hello && location.pathname === "/" && !!trial && (
       <HelloSheet name={name} onScan={openScan} onClose={() => navigate("/", { replace: true })} />
     )}
   </AppFrame>

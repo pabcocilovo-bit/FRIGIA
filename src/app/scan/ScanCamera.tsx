@@ -34,14 +34,13 @@ function grab(video: HTMLVideoElement): Promise<Blob | null> {
 const PLACARD_FAIL = { floue: "Photo floue : reprends-la sans bouger.", sombre: "Trop sombre : allume la lumière et reprends-la.",
   vide: "Frigia ne voit rien sur la photo. Ouvre grand le placard." } as const;
 
-export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans, onPlacards }: {
+export function ScanCamera({ userId, guide, soon = [], onOutOfScans, onPlacards }: {
   userId: string;
   /** Ma cuisine : ce qui arrive à sa date (dueSoon) : retrouvé sur la photo, il est déjà marqué « À finir » */
   soon?: string[];
   /** Premier scan guidé : les bulles s'affichent */
   guide: boolean;
-  /** Formule Gratuit : le serveur a compté le scan, il en reste left */
-  onCounted: (left: number) => void;
+  /** L'essai est fini : le serveur refuse le scan */
   onOutOfScans: () => void;
   /** Depuis « Tes placards » : ce que la photo des placards a vu, à ajouter dans Ma cuisine */
   onPlacards: (found: ScanIngredient[]) => void;
@@ -110,15 +109,13 @@ export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans, 
         busy.current = false;
         setShot(null);
         setAnalyzing(false);
-        if (r.status === "ok" && r.scansLeft != null) onCounted(r.scansLeft);
         showToast(PLACARD_FAIL[r.status === "unclear" ? r.problem : "vide"]);
         return;
       }
       setFound(r.ingredients);
-      // La photo n'a servi qu'aux placards : sans scan déjà compté, elle couvre aussi les recettes
+      // La photo n'a servi qu'aux placards : sans photo avant (« Que cuisiner avec ? »), son jeton sert aussi aux recettes
       setTimeout(() => {
         if (!alive.current) return;
-        if (r.scansLeft != null) onCounted(r.scansLeft);
         onPlacards(r.ingredients);
         setScan({ forPlacards: false, ...(getScan().token ? {} : { token: r.token }) });
         URL.revokeObjectURL(url);
@@ -133,7 +130,6 @@ export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans, 
       setTimeout(() => {
         if (!alive.current) return;
         navigate("/scan/ingredients");
-        if (r.scansLeft != null) onCounted(r.scansLeft);
       }, 1300 + Math.min(r.ingredients.length, 8) * 120);
     } else if (r.status === "unclear") {
       setScan({ photo: url, ingredients: [], token: null, ticket: null, made: null, problem: r.problem, empty: false,

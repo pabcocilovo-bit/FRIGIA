@@ -1,7 +1,7 @@
 // Ancien scan en un seul appel (photo -> ingrédients et 3 recettes). Gardé pour les téléphones qui ont encore
 // l'ancienne appli en mémoire ; la nouvelle appelle /api/ingredients puis /api/recipes.
 import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
-import { askClaude, checkRateLimit, dishPhoto, prefLines, refundFreeScan, SUPPORTED_TYPES, takeFreeScan, type Prefs } from "./_ai.js";
+import { askClaude, checkRateLimit, dishPhoto, prefLines, SUPPORTED_TYPES, type Prefs } from "./_ai.js";
 
 type Body = {
   imageBase64: string; mediaType: string; recentTitles?: string[]; mealType?: string;
@@ -19,18 +19,9 @@ export default async function handler(req: Req, res: Res) {
     return res.status(429).json({ error: "Limite atteinte. Réessayez dans une heure." });
   }
 
-  // Gratuit : un scan est compté avant l'analyse (le 16e est refusé), et rendu si l'analyse échoue
-  const plus = isPlus(user);
-  let scansLeft: number | null = null;
-  if (!plus) {
-    scansLeft = await takeFreeScan(admin, user.id);
-    if (scansLeft === null) return res.status(503).json({ error: "Service temporairement indisponible. Réessayez." });
-    if (scansLeft < 0) return res.status(403).json({ error: "Tes scans gratuits sont utilisés.", code: "quota" });
-  }
-  const fail = async (status: number, error: string) => {
-    if (!plus) await refundFreeScan(admin, user.id);
-    return res.status(status).json({ error });
-  };
+  // Essai fini, sans Plus : refusé
+  if (!isPlus(user)) return res.status(403).json({ error: "Ton essai est terminé.", code: "quota" });
+  const fail = (status: number, error: string) => res.status(status).json({ error });
 
   const { imageBase64, mediaType, prefs, recentTitles, mealType } = (req.body ?? {}) as Body;
   if (!imageBase64) return fail(400, "Missing imageBase64");
@@ -77,5 +68,5 @@ export default async function handler(req: Req, res: Res) {
     return imageUrl ? { ...recipe, imageUrl } : recipe;
   }));
 
-  res.json({ ingredients: parsed.ingredients || [], recipes, scansLeft });
+  res.json({ ingredients: parsed.ingredients || [], recipes });
 }

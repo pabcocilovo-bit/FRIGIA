@@ -104,7 +104,6 @@ export function Scans({ history, cooked, week, isPlus, onDelete }: {
           text="Ouvre ton frigo et prends une photo. Tes scans arrivent ici, avec ce que tu as cuisiné."
           action={<>
             <Pill icon="cam" onClick={openScan}>Scanner mon frigo</Pill>
-            {!isPlus && <small className="es-hint">15 scans offerts pour commencer</small>}
           </>} />
       ) : (
         <div className="hs-list">

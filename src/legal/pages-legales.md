@@ -1,11 +1,11 @@
 ## Conditions d'utilisation et de vente
 
-_Mise à jour le 16 octobre 2026_
+_Mise à jour le 23 octobre 2026_
 
 **L'essentiel**
 
-- 15 scans offerts, sans carte bancaire.
-- Frigia Plus : 6,99 €/mois sans engagement, ou à l'année.
+- 7 jours d'essai, sans carte bancaire (7 de plus avec un code).
+- Ensuite, Frigia Plus : 6,99 €/mois sans engagement, ou à l'année.
 - Tu résilies en 3 clics, Plus reste actif jusqu'à la fin de la période payée.
 - Les recettes viennent d'une IA : vérifie toujours les allergènes.
 
@@ -23,11 +23,12 @@ Il faut avoir au moins 15 ans. Les enfants peuvent figurer dans le profil Famill
 
 Ton compte est personnel. Garde ton mot de passe pour toi.
 
-### 3. La formule Gratuit
+### 3. L'essai de 7 jours
 
-- 15 scans offerts au total, sans carte bancaire et sans limite de temps.
-- Les favoris et les scans de plus de 7 jours restent enregistrés, mais s'affichent floutés.
-- La famille, le planning de la semaine et la liste de courses complète sont réservés à Plus. Ma cuisine (ton frigo et tes placards, d'après tes scans) est ouverte à tous.
+- À la création du compte, tu as 7 jours pour essayer tout Frigia Plus, sans carte bancaire.
+- Un code ami ou créateur ajoute 7 jours d'essai.
+- À la fin de l'essai, rien n'est débité : pour continuer à scanner et à créer des recettes, tu choisis une formule Plus. Tes favoris, tes scans et ta cuisine restent sur ton compte.
+- Si tu t'abonnes pendant l'essai, le premier paiement a lieu à la fin de l'essai.
 
 ### 4. Frigia Plus
 
@@ -43,8 +44,8 @@ L'abonnement se renouvelle tout seul. Pour l'annuel, on t'envoie un email un moi
 
 Tu peux entrer un code en créant ton compte ou en passant à Plus.
 
-- Code créateur : 10 scans gratuits en plus. Pendant le lancement, il donne aussi 1 mois de Plus offert : 3 mois pour 13,98 € payés d'avance, puis 6,99 €/mois. La date de fin est indiquée.
-- Code ami (parrainage) : 10 scans gratuits en plus pour toi. L'ami qui t'a invité gagne un mois de Plus quand tu t'abonnes.
+- Code créateur : 7 jours d'essai en plus. Pendant le lancement, il donne aussi 1 mois de Plus offert : 3 mois pour 13,98 € payés d'avance, puis 6,99 €/mois. La date de fin est indiquée.
+- Code ami (parrainage) : 7 jours d'essai en plus pour toi. L'ami qui t'a invité gagne un mois de Plus quand tu t'abonnes.
 - Un seul code par compte. Les codes ne se cumulent pas, n'ont pas de valeur en argent et peuvent expirer : la date est alors indiquée.
 - En cas d'abus (faux comptes, codes revendus), on peut annuler l'avantage.
 
@@ -54,7 +55,7 @@ Quand tu utilises le code d'un créateur, il touche une commission. On lui donne
 
 Si ta banque refuse le paiement, rien n'est débité et Plus ne s'active pas. Tu peux réessayer ou changer de carte.
 
-Au renouvellement, Stripe réessaie pendant quelques jours et on te prévient par email. Sans nouveau moyen de paiement, ton compte repasse en Gratuit. Tes favoris, tes scans et ta liste ne sont pas supprimés.
+Au renouvellement, Stripe réessaie pendant quelques jours et on te prévient par email. Sans nouveau moyen de paiement, Plus s'arrête. Tes favoris, tes scans et ta liste ne sont pas supprimés.
 
 ### 7. Pause et résiliation
 
@@ -62,7 +63,7 @@ Pause : tu peux mettre Plus en pause un mois, **[À compléter : une fois par an
 
 Résiliation : dans Réglages, puis Abonnement, touche « Oui, résilier » puis « Confirmer la résiliation ». Trois clics, sans justification. Tu reçois un email de confirmation.
 
-Plus reste actif jusqu'à la fin de la période déjà payée, puis ton compte passe en Gratuit. La période entamée n'est pas remboursée. Tu peux changer d'avis jusqu'à cette date.
+Plus reste actif jusqu'à la fin de la période déjà payée, puis s'arrête. La période entamée n'est pas remboursée. Tu peux changer d'avis jusqu'à cette date.
 
 ### 8. Droit de rétractation
 

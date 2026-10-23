@@ -8,6 +8,7 @@ import { Icon, RoundButton, ScreenHeader } from "../../ui/components";
 import { agoText } from "../format";
 import { useBack } from "../nav";
 import { useOpenPaywall, type PaywallState } from "../plus/subscription";
+import { trialText, trialUntil } from "../../lib/billing";
 import { showToast } from "../toast";
 import { authMessage } from "../onboarding/errors";
 import { AccountSheet, ContactSheet, DeleteSheet, ProfileDot, type AccountMode, type Dish, type SendMode } from "./sheets";
@@ -43,6 +44,7 @@ export function Settings({ user, name, avatar, isPlus, onSignOut, onDelete, onGo
   const back = useBack();
   const navigate = useNavigate();
   const openPaywall = useOpenPaywall();
+  const [trial] = useState(() => trialUntil(user));
   const [send, setSend] = useState<SendMode | null>(null);
   const [del, setDel] = useState(false);
   const legal = (page: string) => navigate(`/infos-legales/${page}`);
@@ -58,8 +60,9 @@ export function Settings({ user, name, avatar, isPlus, onSignOut, onDelete, onGo
             <b>{name}<small>{user.email}</small></b>
             <Icon name="next" className="st-chev" />
           </button>
-          <Row icon="sparkle" title="Abonnement" value={isPlus ? "Plus" : "Gratuit"} onClick={() => (isPlus ? navigate("/resilier") : openPaywall("def"))} />
-          {!isPlus && <Row icon="gift" title="Utiliser un code" value="Ami ou créateur" onClick={() => navigate("/plus", { state: { why: "def", code: true } satisfies PaywallState })} />}
+          {/* En essai (ou essai fini) : s'abonner ; abonné : gérer ou résilier */}
+          <Row icon="sparkle" title="Abonnement" value={trial ? trialText(trial) : isPlus ? "Plus" : "Aucun"} onClick={() => (isPlus && !trial ? navigate("/resilier") : openPaywall("def"))} />
+          {(trial || !isPlus) && <Row icon="gift" title="Utiliser un code" value="7 jours en plus" onClick={() => navigate("/plus", { state: { why: "def", code: true } satisfies PaywallState })} />}
         </div>
 
         <span className="st-sec">Notifications</span>
@@ -135,7 +138,7 @@ export function Account({ user, name, avatar, isPlus, onSignOut, onDelete, onGon
             <span className="acM">{user.email}</span>
             <span className="ac-tags">
               <span className="ac-tag">{sinceText}</span>
-              {isPlus ? <span className="ac-tag gold"><Icon name="sparkle" />Plus</span> : <span className="ac-tag">Gratuit</span>}
+              {trialUntil(user) ? <span className="ac-tag">Essai</span> : isPlus ? <span className="ac-tag gold"><Icon name="sparkle" />Plus</span> : <span className="ac-tag">Sans abonnement</span>}
             </span>
           </div>
         </div>

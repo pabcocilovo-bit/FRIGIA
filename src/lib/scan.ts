@@ -40,19 +40,19 @@ type Problem = "floue" | "sombre" | "vide";
 
 type Failure =
   | { status: "signed-out" }        // 401 : la session n'est plus valable, on a déconnecté
-  | { status: "quota" }             // 403 : les 15 scans gratuits sont utilisés
+  | { status: "quota" }             // 403 : l'essai est fini, sans Plus
   | { status: "error"; rate?: boolean; /** Pas de recette possible avec ces ingrédients : la phrase à montrer */ message?: string }; // le service ne répond pas (ou trop de scans cette heure-ci)
 
 /** Un ticket de caisse lu : le total payé, la date (« 2026-10-21 ») et l'enseigne, pour le budget courses */
 export type Receipt = { eur: number; date: string | null; store: string };
 export type IngredientsResult =
-  | { status: "ok"; ingredients: ScanIngredient[]; token: string | null; scansLeft: number | null; /** La photo montre autre chose que le mode choisi */ seen?: ScanSource;
+  | { status: "ok"; ingredients: ScanIngredient[]; token: string | null; /** La photo montre autre chose que le mode choisi */ seen?: ScanSource;
     ticket?: Receipt }
   | { status: "unclear"; problem: Problem; seen?: ScanSource }   // photo illisible : le scan n'est pas décompté
   | Failure;
 
 export type RecipesResult =
-  | { status: "ok"; recipes: GeneratedRecipe[]; scansLeft: number | null }
+  | { status: "ok"; recipes: GeneratedRecipe[] }
   | { status: "plus" }              // « D'autres idées » en formule Gratuit
   | Failure;
 
@@ -90,7 +90,7 @@ const receiptOf = (v: unknown): { ticket?: Receipt } => {
     ? { ticket: { eur: t.eur, date: typeof t.date === "string" ? t.date : null, store: typeof t.store === "string" ? t.store : "" } } : {};
 };
 
-/** Scan, 1re partie : la photo devient une liste d'ingrédients. En Gratuit, c'est là que le scan est compté. */
+/** Scan, 1re partie : la photo devient une liste d'ingrédients (Frigia Plus, essai compris). */
 export async function detectIngredients(file: Blob, source: ScanSource): Promise<IngredientsResult> {
   const image = await compressImage(file).catch(() => null);
   if (!image) return { status: "unclear", problem: "floue" };
@@ -106,7 +106,6 @@ export async function detectIngredients(file: Blob, source: ScanSource): Promise
     status: "ok",
     ingredients: ingredients.map(i => ({ name: String(i.name), qty: String(i.qty ?? ""), x: i.x ?? undefined, y: i.y ?? undefined })),
     token: typeof data.token === "string" ? data.token : null,
-    scansLeft: typeof data.scansLeft === "number" ? data.scansLeft : null,
     ...seenOf(data.seen),
     ...receiptOf(data.ticket),
   };
@@ -176,7 +175,7 @@ export async function makeRecipes(o: {
   if (response?.status === 403 && data.code === "plus") return { status: "plus" };
   if (!response?.ok) return failure(response, data);
   const recipes = (Array.isArray(data.recipes) ? data.recipes : []) as RawRecipe[];
-  return { status: "ok", recipes: recipes.map(toRecipe), scansLeft: typeof data.scansLeft === "number" ? data.scansLeft : null };
+  return { status: "ok", recipes: recipes.map(toRecipe) };
 }
 
 /** Ingrédients du scan gardés dans l'historique. */

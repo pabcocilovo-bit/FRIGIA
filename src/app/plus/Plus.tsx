@@ -1,9 +1,9 @@
-// Gratuit et Plus (prototype V3) : Passe à Plus, On attend ta banque / Paiement refusé, Bienvenue dans Plus,
+// Frigia Plus (prototype V3) : Passe à Plus (pendant l'essai, ou le mur une fois l'essai fini), On attend ta banque / Paiement refusé, Bienvenue dans Plus,
 // Résilier (avec la pause d'un mois), et la feuille « Bienvenue » de l'accueil après l'inscription.
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { supabase } from "../../supabase";
-import { checkoutUrl, expiredCardMonth, fetchOffers, isPlus, subscriptionAction, type PlanChoice, type Subscription } from "../../lib/billing";
+import { checkoutUrl, expiredCardMonth, fetchOffers, isPlus, subscriptionAction, trialText, type PlanChoice, type Subscription } from "../../lib/billing";
 import type { User } from "../../lib/types";
 import { Icon, Pill, RoundButton } from "../../ui/components";
 import { LOGO_SYMBOL } from "../logo";
@@ -31,26 +31,38 @@ async function goToCheckout(plan: PlanChoice, go: string | undefined) {
 
 // ─── Passe à Plus ────────────────────────────────────────────────────────────
 
-const CMP: [string, string, string | null][] = [
-  ["Scans du frigo", "15 en tout", "Illimités"],
-  ["Mode famille", "–", null],
-  ["Planning de la semaine", "–", null],
-  ["Liste de courses", "Oui", "+ la semaine"],
-  ["Économies du mois", "Aperçu", "Complet"],
-  ["Historique", "7 jours", "50 scans"],
-];
+// Ce que Plus comprend (plus de colonne Gratuit : la formule gratuite est retirée depuis le 23 octobre)
+const FEATS = ["Scans illimités du frigo, des placards et des tickets", "Le mode famille : les goûts de chacun, les portions calculées",
+  "Le planning de la semaine et ses courses", "Ton bilan d'économies et ton budget courses", "Tous tes scans et tes favoris gardés"];
 
-export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les scans offerts à relire */ onCode?: () => void }) {
+const DATE = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long" });
+
+export function Paywall({ locked, trial, onCode }: {
+  /** L'essai est fini, sans abonnement : pas de « Fermer », seulement s'abonner (ou son compte) */
+  locked: boolean;
+  /** En essai : la fin des jours offerts (ms) */
+  trial: number | null;
+  /** Un code vient d'être utilisé : la semaine d'essai en plus, à relire sur la session */
+  onCode?: () => void;
+}) {
   const location = useLocation();
+  const navigate = useNavigate();
   const back = useBack();
   const state = (location.state ?? {}) as PaywallState;
-  const why = WHY[state.why as Why] ?? WHY.def;
+  // Pendant l'essai, abonné maintenant : rien à payer avant sa fin (au moins 48 h avant, sinon Stripe débite tout de suite)
+  const [now] = useState(() => Date.now());
+  const later = trial && trial - now > 48 * 3600e3 ? DATE.format(new Date(trial)) : null;
+  const why = locked ? WHY.fin
+    : state.why && state.why !== "def" && state.why !== "fin" ? WHY[state.why as Why] ?? WHY.def
+      : trial ? `${trialText(trial, now)}. ${later ? `Abonne-toi maintenant : rien à payer avant le ${later}.` : "Abonne-toi pour garder Frigia ensuite."}` : WHY.def;
   const [plan, setPlan] = useState<PlanChoice>("year");
   // Prix fondateur tant qu'il reste des places parmi les 500 premiers abonnés annuels
   const [founder, setFounder] = useState(true);
   // Code créateur : le mensuel passe à 3 mois pour 13,98 € payés d'avance, puis 6,99 €/mois
   const [offer, setOffer] = useState(false);
   const [busy, setBusy] = useState(false);
+  // Le mur : la session est peut-être en retard (abonné sur un autre appareil, code utilisé ailleurs)
+  useEffect(() => { if (locked) void supabase.auth.refreshSession(); }, [locked]);
   // Code ami ou créateur
   const [codeOpen, setCodeOpen] = useState(!!state.code);
   const [codeIn, setCodeIn] = useState("");
@@ -92,7 +104,7 @@ export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les s
   return (
     <section className="fa ob-screen scr-paywall" aria-label="Passe à Frigia Plus">
       <div className="pw-top">
-        <RoundButton icon="x" label="Fermer" tone="glass" onClick={back} />
+        {locked ? <span /> : <RoundButton icon="x" label="Fermer" tone="glass" onClick={back} />}
         <span />
       </div>
       <div className="scroll">
@@ -107,12 +119,9 @@ export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les s
             <h2>Frigia <em>Plus</em></h2>
             <p>{why}</p>
           </div>
-          <div className="cmp">
-            <div className="cmp-row cmp-head"><span style={{ textAlign: "left" }} /><span>Gratuit</span><span>Plus</span></div>
-            {CMP.map(([t, free, plus]) => (
-              <div key={t} className="cmp-row">{t}<span className={free === "–" ? "no" : undefined}>{free}</span><span className="p">{plus ?? <Icon name="check" />}</span></div>
-            ))}
-          </div>
+          <ul className="pw-feats">
+            {FEATS.map(t => <li key={t}><Icon name="check" />{t}</li>)}
+          </ul>
           <div className="offers" role="radiogroup" aria-label="Formule">
             <button type="button" role="radio" aria-checked={plan === "year"} className={cx("offer", plan === "year" && "on")} onClick={() => setPlan("year")}>
               <span className="rd" />
@@ -131,7 +140,7 @@ export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les s
             </button>
           </div>
           <div className="code">
-            {!codeOk && <button type="button" className="tg" onClick={() => { setCodeOpen(o => !o); setTimeout(() => codeRef.current?.focus(), 50); }}>J'ai un code ami ou créateur</button>}
+            {!codeOk && <button type="button" className="tg" onClick={() => { setCodeOpen(o => !o); setTimeout(() => codeRef.current?.focus(), 50); }}>J'ai un code : 7 jours d'essai en plus</button>}
             {codeOpen && (
               <div className="row">
                 <input ref={codeRef} placeholder="Ton code, ex. MARIE" aria-label="Code ami ou créateur" autoComplete="off" autoCapitalize="characters"
@@ -145,7 +154,8 @@ export function Paywall({ onCode }: { /** Un code vient d'être utilisé : les s
       </div>
       <div className="pw-foot">
         <Pill tone="cream" disabled={busy} onClick={pay}>Passer à Plus · {plan === "year" ? yearPrice : offer ? "13,98 € pour 3 mois" : "6,99 €/mois"}</Pill>
-        <small>Sans engagement. Paiement sécurisé par Stripe.</small>
+        <small>{later ? `Rien à payer avant le ${later}. ` : ""}Sans engagement. Paiement sécurisé par Stripe.</small>
+        {locked && <button type="button" className="link pw-acct" onClick={() => navigate("/reglages")}>Mon compte</button>}
       </div>
       <CodeSheet problem={problem}
         onFix={() => { setProblem(null); setTimeout(() => { codeRef.current?.focus(); codeRef.current?.select(); }, 350); }}
@@ -230,13 +240,13 @@ export function PayReturn() {
           <div className="pf-ko" role={ko ? "alert" : undefined}>
             <h2>Paiement <em>refusé</em></h2>
             <p>{expired ? `Ta carte bancaire a expiré fin ${expired}.` : "Ta banque n'a pas validé le paiement."} Rien n'a été débité.</p>
-            <p className="pf-keep"><Icon name="check" /><span>Tes scans gratuits et tes favoris restent là.</span></p>
+            <p className="pf-keep"><Icon name="check" /><span>Tes scans, tes favoris et ta cuisine restent sur ton compte.</span></p>
           </div>
         </div>
       </div>
       <div className="sf-foot pf-foot">
         <Pill block disabled={busy} onClick={updateCard}>Mettre à jour ma carte</Pill>
-        <button type="button" className="link" onClick={() => navigate("/", { replace: true })}>Rester en Gratuit pour l'instant</button>
+        <button type="button" className="link" onClick={() => navigate("/", { replace: true })}>Plus tard</button>
         <span className="pf-safe"><Icon name="lock" />Paiement sécurisé par Stripe</span>
       </div>
     </section>
@@ -295,7 +305,7 @@ type Step = "offer" | "why" | "done";
 const isPaused = (sub: Subscription) => !!sub.pauseUntil && !sub.cancelAtPeriodEnd;
 
 function doneText(sub: Subscription): string {
-  if (!isPaused(sub)) return `Plus reste actif jusqu'au ${longDate(sub.periodEnd)}, puis tu passes en Gratuit.`;
+  if (!isPaused(sub)) return `Plus reste actif jusqu'au ${longDate(sub.periodEnd)}. Ensuite, il faudra te réabonner pour scanner.`;
   return isYearly(sub)
     ? `Plus se met en veille un mois. Ton année est prolongée d'autant : renouvelée le ${longDate(sub.periodEnd)}.`
     : `Pas de paiement le ${longDate(sub.pauseFrom ?? sub.periodEnd)}. Plus reprend tout seul le ${longDate(sub.pauseUntil ?? sub.periodEnd)}.`;
@@ -360,7 +370,7 @@ export function Cancel({ user, saved }: { user: User; saved: number }) {
             </div>
             {/* La maquette dit « Continue de sauver 22,60 € par mois » : on montre le vrai total du bilan, et rien sous 1 € */}
             {saved >= 1 ? <h2>Tu as déjà sauvé <em>{euros(saved)}</em></h2> : <h2>Continue avec <em>Plus</em></h2>}
-            <p>{saved >= 1 ? "Avec Frigia, sur ce que tu avais à finir. " : ""}En Gratuit, tu repasses à 15 scans, sans la famille ni ta semaine.{founder ? " Et ton prix fondateur ne reviendra pas." : ""}</p>
+            <p>{saved >= 1 ? "Avec Frigia, sur ce que tu avais à finir. " : ""}Sans Plus, plus de scans ni de recettes, et ta semaine s'arrête.{founder ? " Et ton prix fondateur ne reviendra pas." : ""}</p>
             {sub?.canPause && (
               <button type="button" className="cx-pause" disabled={busy} onClick={() => run("pause", () => setStep("done"))}>
                 <span><Icon name="clock" /></span>
@@ -438,7 +448,7 @@ export function HelloSheet({ name, onScan, onClose }: { name: string | null; onS
           <h2>Bienvenue{name ? <> <em>{name}</em></> : null}&nbsp;!</h2>
         </div>
         <p>Ton Frigia est prêt. Ouvre ton frigo, prends une photo, et trois recettes arrivent.</p>
-        <div className="qd"><span className="qbar"><b /></span><span>15 scans gratuits pour commencer</span></div>
+        <div className="qd"><Icon name="gift" /><span>7 jours pour tout essayer, sans carte bancaire</span></div>
         <Pill block icon="cam" onClick={onScan}>Scanner mon frigo</Pill>
         <button type="button" className="later" onClick={hide}>Plus tard</button>
       </div>

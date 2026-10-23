@@ -6,13 +6,13 @@ import { subscriptionAction, type PlanChoice, type Subscription } from "../../li
 /** Pourquoi « Passe à Plus » s'ouvre : la phrase sous « Frigia Plus ». */
 export const WHY = {
   def: "Fini le « on mange quoi ce soir ? », et moins de courses à la poubelle.",
-  quota: "Tu as utilisé tes 15 scans gratuits. Avec Plus, scanne autant que tu veux.",
+  fin: "Ton essai de 7 jours est terminé. Abonne-toi pour continuer : ta cuisine, ta liste et tes recettes t'attendent.",
   planning: "Le planning de la semaine est dans Frigia Plus.",
   courses: "Les courses de la semaine en un appui sont dans Frigia Plus.",
   famille: "Le mode famille est dans Frigia Plus : les goûts de chacun, les portions calculées.",
   idees: "« D'autres idées » est dans Frigia Plus, sans utiliser de scan.",
   historique: "Tes 50 derniers scans sont dans Frigia Plus.",
-  favoris: "En gratuit, tes favoris des 7 derniers jours. Avec Plus, tu les gardes tous.",
+  favoris: "Tous tes favoris, gardés, sont dans Frigia Plus.",
   bilan: "Ton bilan d'économies complet est dans Frigia Plus.",
   budget: "Le budget courses est dans Frigia Plus : tes tickets de caisse s'y ajoutent tout seuls.",
   vide: "Frigo vide ? Avec Plus, Frigia te propose quand même 3 plats, avec la petite liste de courses.",
@@ -21,7 +21,7 @@ export type Why = keyof typeof WHY;
 /** Ce que « Passe à Plus » reçoit : la raison, et l'écran à ouvrir une fois abonné. */
 export type PaywallState = { why?: Why; go?: string; /** « Utiliser un code » des réglages : le champ code ouvert */ code?: boolean };
 
-/** Ouvre « Passe à Plus » (formule Gratuit) avec sa raison, et l'écran à ouvrir une fois abonné. */
+/** Ouvre « Passe à Plus » avec sa raison, et l'écran à ouvrir une fois abonné. */
 export function useOpenPaywall() {
   const navigate = useNavigate();
   return (why: Why, go?: string) => navigate("/plus", { state: { why, go } satisfies PaywallState });

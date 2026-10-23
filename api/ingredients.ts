@@ -1,9 +1,9 @@
 // Scan, 1re partie : la photo (frigo, placard ou ticket de caisse) devient une liste d'ingrédients.
-// En Gratuit, c'est ici que le scan est compté ; il est rendu si la photo ne passe pas.
+// Réservé à Frigia Plus (et aux 7 jours d'essai) : l'essai fini, le scan est refusé (code « quota »).
 // Un ticket de caisse : son total, sa date et l'enseigne aussi, pour le budget courses (Frigia Plus).
 // Le jeton renvoyé permet de demander les recettes de cette photo (/api/recipes) sans recompter de scan.
 import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
-import { askClaude, checkRateLimit, refundFreeScan, scanToken, SUPPORTED_TYPES, takeFreeScan } from "./_ai.js";
+import { askClaude, checkRateLimit, scanToken, SUPPORTED_TYPES } from "./_ai.js";
 
 type Body = { imageBase64?: string; mediaType?: string; source?: string };
 type RawIngredient = { name?: unknown; qty?: unknown; x?: unknown; y?: unknown };
@@ -32,18 +32,8 @@ export default async function handler(req: Req, res: Res) {
   if (!imageBase64) return res.status(400).json({ error: "Missing imageBase64" });
   if (imageBase64.length > 4 * 1024 * 1024) return res.status(400).json({ error: "Image trop lourde" });
 
-  // Gratuit : un scan est compté avant l'analyse (le 16e est refusé), et rendu si l'analyse échoue
-  const plus = isPlus(user);
-  let scansLeft: number | null = null;
-  if (!plus) {
-    scansLeft = await takeFreeScan(admin, user.id);
-    if (scansLeft === null) return res.status(503).json({ error: "Service temporairement indisponible." });
-    if (scansLeft < 0) return res.status(403).json({ error: "Tes scans gratuits sont utilisés.", code: "quota" });
-  }
-  const fail = async (status: number, body: Record<string, unknown>) => {
-    if (!plus) await refundFreeScan(admin, user.id);
-    return res.status(status).json(body);
-  };
+  // Essai fini, sans Plus : « Passe à Plus »
+  if (!isPlus(user)) return res.status(403).json({ error: "Ton essai est terminé.", code: "quota" });
 
   const chosen = source && source in SOURCES ? source : "frigo";
   const media = SUPPORTED_TYPES.includes(mediaType ?? "") ? mediaType! : "image/jpeg";
@@ -88,13 +78,13 @@ JSON uniquement : {"ingredients":[{"name":"Courgettes","qty":"3"${ticket ? "" : 
   };
 
   let found = await ask(chosen);
-  if (!found) return fail(502, { error: "Service IA temporairement indisponible." });
+  if (!found) return res.status(502).json({ error: "Service IA temporairement indisponible." });
   // La photo ne montre pas ce qui a été choisi (un placard pris en mode Frigo…) : l'appli range au bon endroit.
   // Rien trouvé avec le mauvais mode : on relit la photo avec le bon.
   const seen = found.seen && found.seen !== chosen ? found.seen : undefined;
   if (seen && found.ingredients.length === 0) found = (await ask(seen)) ?? found;
   if (found.ingredients.length === 0) {
-    return fail(422, { error: "Photo illisible", code: "unclear", problem: found.problem, ...(seen ? { seen } : {}) });
+    return res.status(422).json({ error: "Photo illisible", code: "unclear", problem: found.problem, ...(seen ? { seen } : {}) });
   }
-  res.json({ ingredients: found.ingredients, scansLeft, token: scanToken(user.id), ...(seen ? { seen } : {}), ...(found.receipt ? { ticket: found.receipt } : {}) });
+  res.json({ ingredients: found.ingredients, token: scanToken(user.id), ...(seen ? { seen } : {}), ...(found.receipt ? { ticket: found.receipt } : {}) });
 }

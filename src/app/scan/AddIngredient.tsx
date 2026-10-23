@@ -91,7 +91,7 @@ export function AddIngredient({ mine, onMine }: { mine: string[]; onMine: (names
     const n = added.length;
     showToast(`${n} ingrédient${n > 1 ? "s" : ""} ajouté${n > 1 ? "s" : ""}`);
     if (typed) {
-      // Sans photo lue : la liste part de zéro, et les recettes compteront un scan en Gratuit
+      // Sans photo lue : la liste part de zéro
       setScan({ ingredients: added, token: null, guests: 0, merge: true, off: [] });
       navigate("/scan/ingredients", { replace: true });
     } else {

@@ -7,7 +7,6 @@
 // Les GET viennent des crons Vercel (vercel.json) avec « Authorization: Bearer CRON_SECRET ».
 // Vercel ne lance les crons que sur le site en production, pas sur les aperçus.
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { FREE_SCANS } from "./_ai.js";
 import { notifyMany, payloadOf, sendPush, vapidPublicKey, type Notif, type Sub } from "./_push.js";
 import { adminClient, authUser, errorMessage, isPlus, preflight, type Req, type Res } from "./_shared.js";
 
@@ -76,14 +75,10 @@ export function eveningBody(r: Recipe): string {
   return r.minutes && r.minutes > 0 ? `${have} ${Math.round(r.minutes)} minutes, et c'est prêt.` : have;
 }
 
-/** Peut-il scanner ? (Plus, ou des scans gratuits qui restent) */
+/** Peut-il scanner ? (Plus, ou encore dans ses jours d'essai) */
 async function canScan(admin: SupabaseClient, ids: string[]): Promise<Set<string>> {
-  const rows = await byIds<{ id: string; scans_used: number | null; bonus_scans: number | null }>(ids, c => admin.from("profiles").select("id, scans_used, bonus_scans").in("id", c));
-  const p = new Map(rows.map(r => [r.id, r]));
   const ok = new Set<string>();
   for (const id of ids) {
-    const r = p.get(id);
-    if (!r || (r.scans_used ?? 0) < FREE_SCANS + (r.bonus_scans ?? 0)) { ok.add(id); continue; }
     const { data } = await admin.auth.admin.getUserById(id);
     if (data.user && isPlus(data.user)) ok.add(id);
   }

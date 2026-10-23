@@ -106,8 +106,8 @@ export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, 
   const signup = mode === "signup";
   return (
     <Sheet label={signup ? "Crée ton compte" : "Connexion"} onClose={onClose}>
-      <h2>{signup ? <>Crée ton compte <em>gratuit</em></> : <>Content de te <em>revoir</em></>}</h2>
-      <p className="intro">{signup ? "15 scans offerts pour commencer, sans carte bancaire." : "Connecte-toi pour retrouver tes recettes."}</p>
+      <h2>{signup ? <>Crée ton <em>compte</em></> : <>Content de te <em>revoir</em></>}</h2>
+      <p className="intro">{signup ? "7 jours d'essai, sans carte bancaire." : "Connecte-toi pour retrouver tes recettes."}</p>
       <div className="stack">
         <button className="btn btn-google full" onClick={google} disabled={loading}><GoogleIcon />Continuer avec Google</button>
         <div className="or">ou avec ton email</div>
@@ -121,7 +121,7 @@ export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, 
         </form>
         {signup && (
           <div className="perks">
-            <div><i>✓</i>15 scans offerts pour commencer</div>
+            <div><i>✓</i>7 jours pour tout essayer</div>
             <div><i>✓</i>Sans carte bancaire</div>
             <div><i>✓</i>Rien à télécharger</div>
           </div>

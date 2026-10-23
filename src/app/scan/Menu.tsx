@@ -57,8 +57,7 @@ export function CreateBar({ isPlus, household }: { isPlus: boolean; household: P
     <button type="button" className="gobar" onClick={() => navigate(again ? `/recettes/${again}` : "/scan/preparation")}>
       {again ? <span><b>Revoir mes recettes</b><small>Déjà prêtes, sans utiliser de scan</small></span>
         : <span><b>Créer mes {menu.n} recettes</b>
-          {/* Gratuit sans photo comptée (« Que cuisiner avec ? ») : c'est ici que le scan part */}
-          <small>{!isPlus && !scan.token ? "Utilise 1 scan · " : ""}Pour {srvLabel(isPlus, portions(isPlus, scan, eatersOf(household, scan)))}</small></span>}
+          <small>Pour {srvLabel(isPlus, portions(isPlus, scan, eatersOf(household, scan)))}</small></span>}
       <span className="go"><Icon name="arrow" /></span>
     </button>
   );

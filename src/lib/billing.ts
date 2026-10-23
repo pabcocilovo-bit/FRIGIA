@@ -1,53 +1,46 @@
-// Formules Gratuit et Plus : qui a Plus, les scans gratuits qui restent, le paiement Stripe et l'abonnement.
+// Frigia Plus : qui l'a (les 7 jours d'essai compris), le paiement Stripe et l'abonnement.
+// Pas de formule gratuite (Hugo, 23 octobre) : 7 jours d'essai à l'inscription, 7 de plus avec un code, puis Plus.
 import type { User } from "./types";
 import { postApi } from "./api";
-import { supabase } from "../supabase";
 
-const TRIAL_MS = 4 * 24 * 60 * 60 * 1000;
+export const TRIAL_DAYS = 7;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
-/** Frigia Plus. Même règle que le serveur (api/_shared.ts) : seul app_metadata compte, écrit par le webhook Stripe. */
+/** Fin de l'essai offert à l'inscription (ms) */
+const trialEnd = (u: User) => (u.created_at ? new Date(u.created_at).getTime() : 0) + TRIAL_DAYS * DAY_MS;
+
+/** Frigia Plus. Même règle que le serveur (api/_shared.ts) : seul app_metadata compte, écrit par le webhook Stripe
+ *  (et par api/code.ts pour la semaine d'essai d'un code). */
 export function isPlus(u: User | null | undefined, now = Date.now()): boolean {
   if (!u) return false;
   const m = u.app_metadata || {};
   if (m.is_whitelisted) return true;
   // Pause d'un mois : Plus est en veille entre la fin de la période payée et la reprise
   if (m.pause_from && m.pause_until && now >= m.pause_from * 1000 && now < m.pause_until * 1000) return false;
-  // Mois offerts (parrainage) et mois d'essai d'un code créateur : Plus jusqu'à cette date
+  // Les 7 jours d'essai
+  if (now < trialEnd(u)) return true;
+  // Jours d'essai d'un code, mois offerts (parrainage), mois d'un code créateur : Plus jusqu'à cette date
   if (typeof m.plus_until === "number" && now < m.plus_until * 1000) return true;
   if (m.subscription_status === "active") return true;
-  if (m.subscription_status === "trialing") return !!m.pause_until || now < new Date(u.created_at).getTime() + TRIAL_MS;
+  // Abonné pendant l'essai (période d'essai chez Stripe, plus_until la suit) ou en pause
+  if (m.subscription_status === "trialing") return !!m.pause_until;
   return false;
 }
 
-// ─── Scans gratuits ──────────────────────────────────────────────────────────
-
-export const FREE_SCANS = 15;
-export type ScanQuota = { used: number; bonus: number };
-
-const quotaKey = (userId: string) => `frigia_quota_${userId}`;
-export function getCachedQuota(userId: string): ScanQuota | null {
-  try { return JSON.parse(localStorage.getItem(quotaKey(userId)) || "null"); } catch { return null; }
-}
-export const setCachedQuota = (userId: string, q: ScanQuota) => localStorage.setItem(quotaKey(userId), JSON.stringify(q));
-
-/** Scans gratuits utilisés et bonus (codes), comptés par le serveur dans profiles. */
-export async function fetchScanQuota(userId: string): Promise<ScanQuota | null> {
-  const { data, error } = await supabase.from("profiles").select("scans_used, bonus_scans").eq("id", userId).maybeSingle();
-  if (error) return getCachedQuota(userId);
-  const q = { used: data?.scans_used ?? 0, bonus: data?.bonus_scans ?? 0 };
-  setCachedQuota(userId, q);
-  return q;
+/** En essai (pas encore abonné) : la fin des jours offerts (ms), sinon null. */
+export function trialUntil(u: User | null | undefined, now = Date.now()): number | null {
+  if (!u) return null;
+  const m = u.app_metadata || {};
+  if (m.is_whitelisted || ["active", "trialing", "past_due", "unpaid"].includes(m.subscription_status)) return null;
+  const end = Math.max(trialEnd(u), typeof m.plus_until === "number" ? m.plus_until * 1000 : 0);
+  return now < end ? end : null;
 }
 
-export const quotaTotal = (q: ScanQuota | null) => FREE_SCANS + (q?.bonus ?? 0);
-export const scansLeft = (q: ScanQuota | null) => Math.max(0, quotaTotal(q) - (q?.used ?? 0));
-
-/** « 2 scans gratuits restants sur 15 » */
-export function quotaText(q: ScanQuota | null): string {
-  const left = scansLeft(q), total = quotaTotal(q);
-  if (!left) return `Tes ${total} scans gratuits sont utilisés`;
-  const s = left > 1 ? "s" : "";
-  return `${left} scan${s} gratuit${s} restant${s} sur ${total}`;
+/** « Encore 5 jours d'essai », « Dernier jour d'essai » */
+export function trialText(end: number, now = Date.now()): string {
+  // (une marge d'une minute : un « maintenant » lu quelques secondes plus tôt ne compte pas un jour de plus)
+  const days = Math.ceil((end - now - 60e3) / DAY_MS);
+  return days <= 1 ? "Dernier jour d'essai" : `Encore ${days} jours d'essai`;
 }
 
 // ─── Stripe ──────────────────────────────────────────────────────────────────

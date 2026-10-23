@@ -185,3 +185,10 @@
 @keyframes cxStk{from{transform:scale(0) rotate(-30deg)}to{transform:rotate(8deg)}}
 /* La feuille « Bienvenue » couvre l'écran, même quand l'accueil défile */
 .fa .ob-hello{position:fixed;max-width:420px;margin:0 auto}
+/* Passe à Plus : ce que Plus comprend (plus de colonne Gratuit), et « Mon compte » quand l'essai est fini */
+.fa .pw-feats{list-style:none;margin:0;padding:6px 16px;background:rgba(247,241,230,.1);border-radius:20px}
+.fa .pw-feats li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;font-size:14px;line-height:1.35;border-bottom:1px solid rgba(247,241,230,.14)}
+.fa .pw-feats li:last-child{border-bottom:0}
+.fa .pw-feats svg{flex:none;width:16px;height:16px;margin-top:1px}
+.fa .pw-foot .pw-acct{color:var(--on);opacity:.85;font-size:13px}
+.fa .ob-hello .qd svg{flex:none;width:16px;height:16px}

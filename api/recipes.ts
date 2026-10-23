@@ -1,8 +1,8 @@
 // Scan, 2e partie : la liste d'ingrédients (vérifiée par le compte) devient 3 recettes, ou 2 « autres idées ».
-// Avec le jeton d'une photo déjà comptée, rien n'est recompté. Sans jeton (ingrédients tapés à la main),
-// la formule Gratuit compte un scan. « D'autres idées » (2 recettes de plus) est réservé à Frigia Plus.
+// Réservé à Frigia Plus (et aux 7 jours d'essai). Avec le jeton d'une photo, la limite par heure ne recompte pas ;
+// sans jeton (ingrédients tapés à la main), c'est un scan de plus dans la limite.
 import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
-import { askClaude, checkIdeasLimit, extractFirstJSON, checkRateLimit, checkScanToken, dishPhoto, prefLines, refundFreeScan, takeFreeScan, type Prefs } from "./_ai.js";
+import { askClaude, checkIdeasLimit, extractFirstJSON, checkRateLimit, checkScanToken, dishPhoto, prefLines, type Prefs } from "./_ai.js";
 
 type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
@@ -121,11 +121,11 @@ export default async function handler(req: Req, res: Res) {
 
   const body = (req.body ?? {}) as Body;
   const plus = isPlus(user);
-  if (body.more && !plus) return res.status(403).json({ error: "« D'autres idées » est dans Frigia Plus.", code: "plus" });
+  // Essai fini, sans Plus : « Passe à Plus »
+  if (!plus) return res.status(403).json({ error: "Ton essai est terminé.", code: "quota" });
   const empty = body.empty === true;
   // Zéro course : n'a pas de sens frigo vide (on y fait justement une petite liste de courses)
   const noShop = body.noShop === true && !empty;
-  if (empty && !plus) return res.status(403).json({ error: "Les idées frigo vide sont dans Frigia Plus.", code: "plus" });
 
   const list = (Array.isArray(body.ingredients) ? body.ingredients : [])
     .map(i => ({ name: str(i?.name, 60), qty: str(i?.qty, 30), finish: i?.finish === true }))
@@ -139,23 +139,12 @@ export default async function handler(req: Req, res: Res) {
   const envies = [...new Set(Array.isArray(body.envies) ? body.envies : [body.envie])]
     .map(e => (typeof e === "string" && Object.hasOwn(ENVIES, e) ? ENVIES[e] : undefined)).filter((e): e is string => !!e);
 
-  // Ingrédients tapés à la main (pas de photo comptée) : c'est un scan, compté dans la limite par heure
-  // et, en Gratuit, dans les 15 scans
+  // Ingrédients tapés à la main (pas de photo) : c'est un scan, compté dans la limite par heure
   const fromPhoto = checkScanToken(body.token, user.id);
   if (!(fromPhoto || body.more ? checkIdeasLimit(user.id) : await checkRateLimit(admin, user.id))) {
     return res.status(429).json({ error: "Limite atteinte. Réessaie dans une heure.", code: "rate" });
   }
-  const counted = !plus && !fromPhoto;
-  let scansLeft: number | null = null;
-  if (counted) {
-    scansLeft = await takeFreeScan(admin, user.id);
-    if (scansLeft === null) return res.status(503).json({ error: "Service temporairement indisponible." });
-    if (scansLeft < 0) return res.status(403).json({ error: "Tes scans gratuits sont utilisés.", code: "quota" });
-  }
-  const fail = async (status: number, error: string, code?: string) => {
-    if (counted) await refundFreeScan(admin, user.id);
-    return res.status(status).json({ error, ...(code ? { code } : {}) });
-  };
+  const fail = (status: number, error: string, code?: string) => res.status(status).json({ error, ...(code ? { code } : {}) });
 
   const count = body.more ? 2 : Math.min(3, Math.max(1, Math.round(Number(body.count) || 3)));
   // Le menu : des plats (midi, soir ou la semaine) et des desserts, chacun demandé à part, en même temps.
@@ -279,5 +268,5 @@ export default async function handler(req: Req, res: Res) {
     };
   }));
 
-  res.json({ recipes, scansLeft });
+  res.json({ recipes });
 }
