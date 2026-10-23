@@ -468,3 +468,10 @@ body:has(.fa .gd.on) .fa .toast{opacity:0;visibility:hidden}
 /* « Tes placards » : ce qui est coché part avec les recettes */
 .fa .pl-chips{display:flex;flex-wrap:wrap;gap:8px}
 .fa .pl-have .chip svg{width:13px;height:13px;margin-right:5px;vertical-align:-2px}
+/* Mode cuisine : le minuteur d'une autre étape, qui tourne pendant qu'on avance (toucher : revenir à son étape) */
+.fa .ck-other{display:flex;align-items:center;gap:10px;background:rgba(247,241,230,.12);border-radius:16px;padding:11px 14px;color:inherit;text-align:left}
+.fa .ck-other.run{background:var(--hi);color:#2A1D17}
+.fa .ck-other .i{width:18px;height:18px;flex:none}
+.fa .ck-other span{flex:1;min-width:0;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fa .ck-other b{font-weight:600;font-variant-numeric:tabular-nums}
+.fa .ck-other small{font-size:12px;opacity:.75}

@@ -50,6 +50,7 @@ import { Prep } from "./app/scan/Prep";
 import { Results } from "./app/scan/Results";
 import { Recipe, type RecipeState } from "./app/scan/Recipe";
 import { Cook } from "./app/scan/Cook";
+import { CookingLive } from "./app/scan/CookingLive";
 import { ATE, totalSaved } from "./lib/cooked";
 import { Report } from "./app/report/Report";
 import { InviteLink, Refer } from "./app/refer/Refer";
@@ -390,6 +391,8 @@ return (
     {recipeState?.hello && location.pathname === "/" && !!trial && (
       <HelloSheet name={name} onScan={openScan} onClose={() => navigate("/", { replace: true })} />
     )}
+    {/* La recette en cours et son minuteur, sur tous les écrans */}
+    <CookingLive />
   </AppFrame>
 );
 }

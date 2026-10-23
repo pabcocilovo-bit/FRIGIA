@@ -16,33 +16,11 @@ import { shareStory, storyImage } from "./story";
 import { cmFmt, useCommunity } from "../report/community";
 import { notifAsked, pushState } from "../../lib/notify";
 import type { NotifAskState } from "../notifs/NotifAsk";
+import { getCooking, mmss, patchCooking, pauseTimer, setCooking, startTimer, timeLeft, useCooking, useNow } from "./cooking";
 import "../report/report.css";
 import "./scan.css";
 
-const mmss = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
 const MONTHS = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-
-/** Minuteur d'une étape : compte à rebours, juste même quand le téléphone met l'appli en veille. Change d'étape : il repart arrêté. */
-function useTimer(seconds: number, step: number) {
-  type T = { step: number; seconds: number; left: number; end: number | null };
-  const [s, setS] = useState<T>({ step, seconds, left: seconds, end: null });
-  const cur: T = s.step === step && s.seconds === seconds ? s : { step, seconds, left: seconds, end: null };
-  useEffect(() => {
-    if (cur.end == null) return;
-    const t = setInterval(() => setS(p => {
-      if (p.end == null || p.step !== step) return p;
-      const left = Math.max(0, Math.round((p.end - Date.now()) / 1000));
-      if (!left) navigator.vibrate?.([200, 100, 200]);
-      return { ...p, left, end: left ? p.end : null };
-    }), 250);
-    return () => clearInterval(t);
-  }, [cur.end, step]);
-  const toggle = () => {
-    if (cur.end != null) setS({ ...cur, end: null });
-    else if (cur.left > 0) setS({ ...cur, end: Date.now() + cur.left * 1000 });
-  };
-  return { left: cur.left, running: cur.end != null, toggle, stop: () => setS(p => ({ ...p, end: null })) };
-}
 
 /** L'écran reste allumé pendant la cuisine (là où le téléphone le permet). */
 function useWakeLock() {
@@ -69,18 +47,45 @@ export function Cook({ history, isPlus, meals, onCooked, onUsed }: {
   const navigate = useNavigate();
   const openPaywall = useOpenPaywall();
   const { id, n } = useParams();
-  const state = useLocation().state as RecipeState | null;
+  const location = useLocation();
+  const path = location.pathname;
+  // La recette en cours (cooking.ts) : on y revient depuis la bulle ou la notif, à la même étape, minuteur compris
+  const live = useCooking();
+  const mine = live?.path === path ? live : null;
+  const state = (location.state as RecipeState | null) ?? mine?.state ?? null;
   const entry = id ? history.find(e => e.id === id) : undefined;
   const recipe = entry ? entry.recipes[Number(n)] : state?.recipe;
   const servings = state?.servings ?? entry?.servings ?? (isPlus ? 1 : 2);
   const steps = recipe?.steps ?? [];
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(() => (mine && mine.title === recipe?.title ? Math.min(mine.step, Math.max(0, steps.length - 1)) : 0));
   const [done, setDone] = useState(false);
   const [story, setStory] = useState(false);
   const [counted, setCounted] = useState<Counted | null>(null);
   const photo = useRecipePhoto(recipe?.title, recipe?.imageSearch);
   const t = recipe?.timers?.[step] ?? null;
-  const timer = useTimer((t?.min ?? 0) * 60, step);
+  // Le minuteur continue quand on change d'étape (les pâtes cuisent pendant la sauce) : un seul à la fois
+  const timer = mine && mine.title === recipe?.title ? mine.timer : null;
+  const now = useNow(timer?.end != null);
+  const here = timer?.step === step ? timer : null;
+  const full = (t?.min ?? 0) * 60;
+  const left = here ? timeLeft(here, now) : full;
+  const toggle = () => {
+    if (!t) return;
+    if (here?.end != null) pauseTimer();
+    else startTimer({ step, label: t.label, seconds: here?.seconds ?? full, left: left > 0 ? left : full });
+  };
+  // Ouvrir le mode cuisine commence la recette en cours, sauf si c'est déjà elle
+  useEffect(() => {
+    if (!recipe || !steps.length) return;
+    const cur = getCooking();
+    if (cur?.path === path && cur.title === recipe.title) return;
+    setCooking({ path, state: state ? { recipe: state.recipe, servings: state.servings, from: state.from } : null, title: recipe.title, step: 0, steps: steps.length, timer: null, at: Date.now() });
+  }, [path, recipe, steps.length, state]);
+  // Quitter tout de suite (première étape, pas de minuteur) : pas de recette en cours
+  useEffect(() => () => {
+    const cur = getCooking();
+    if (cur?.path === path && cur.step === 0 && !cur.timer) setCooking(null);
+  }, [path]);
   const card = useRef<Promise<Blob | null> | null>(null);
   // Après le premier repas : « On te fait signe au bon moment ? » (une fois, si le téléphone ne sonne pas déjà)
   const askNotif = useRef(false);
@@ -103,9 +108,9 @@ export function Cook({ history, isPlus, meals, onCooked, onUsed }: {
   const used = counted && counted.used.kg > 0 ? counted.used : null;
   const badge = saved ? `${euros(saved.eur)} sauvés ${meal.toLowerCase()}` : "Cuisiné avec mon frigo";
 
-  const go = (i: number) => { timer.stop(); setStep(i); };
+  const go = (i: number) => { setStep(i); patchCooking({ step: i }); };
   const finish = () => {
-    timer.stop();
+    setCooking(null);
     if (!counted) {
       const c = countCooked(recipe, servings, entry?.ingredients);
       setCounted(c);
@@ -146,10 +151,15 @@ export function Cook({ history, isPlus, meals, onCooked, onUsed }: {
         <div className="ck-num" aria-live="polite"><b>{step + 1}</b><span>sur {steps.length}</span></div>
         <p className="ck-text">{steps[step]}</p>
         {chips.length > 0 && <div className="ck-chips">{chips.map((c, i) => <span key={i}>{c.q ? `${c.q} ${c.n}` : c.n}</span>)}</div>}
+        {timer && !here && (
+          <button type="button" className={"ck-other" + (timer.end != null ? " run" : "")} onClick={() => go(timer.step)}>
+            <Icon name="clock" /><span>{timer.label}</span><b>{timer.end != null ? mmss(timeLeft(timer, now)) : "en pause"}</b><small>Étape {timer.step + 1}</small>
+          </button>
+        )}
         {t && (
-          <div className={"tcard" + (timer.running ? " run" : "")}>
-            <div><div className="lbl">{t.label}</div><div className="t" role="timer">{mmss(timer.left)}</div></div>
-            <Pill tone="cream" onClick={timer.toggle}>{timer.running ? "Pause" : "Démarrer"}</Pill>
+          <div className={"tcard" + (here?.end != null ? " run" : "")}>
+            <div><div className="lbl">{t.label}</div><div className="t" role="timer">{mmss(left)}</div></div>
+            <Pill tone="cream" onClick={toggle}>{here?.end != null ? "Pause" : here ? "Reprendre" : "Démarrer"}</Pill>
           </div>
         )}
       </div>
