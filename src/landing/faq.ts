@@ -12,7 +12,7 @@ export const FAQ: Faq[] = [
   {
     id: "prix",
     q: "Combien coûte Frigia ?",
-    a: "Tu essaies 7 jours sans payer et sans carte bancaire, 14 jours avec un code ami ou créateur. Ensuite, Frigia Plus coûte 6,99 € par mois ou 39,99 € par an, et 29,99 € par an au prix fondateur pour les 500 premiers abonnés. Plus est sans engagement.",
+    a: "Tu essaies 7 jours sans payer et sans carte bancaire. Ensuite, Frigia Plus coûte 6,99 € par mois ou 39,99 € par an. Plus est sans engagement.",
   },
   {
     id: "carte",
@@ -38,10 +38,5 @@ export const FAQ: Faq[] = [
     id: "resilier",
     q: "Je peux arrêter Plus quand je veux ?",
     a: "Oui, c'est sans engagement. Tu résilies depuis tes réglages, en quelques gestes, et Plus reste actif jusqu'à la fin de la période payée.",
-  },
-  {
-    id: "code",
-    q: "J'ai un code créateur, je le mets où ?",
-    a: "À l'inscription, avant de choisir Google ou l'email. Tu peux aussi le saisir en passant à Frigia Plus.",
   },
 ];

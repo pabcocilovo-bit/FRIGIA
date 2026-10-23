@@ -12,8 +12,8 @@ Site : https://frigia.fr — en français, pour la France.
 
 ## Prix
 
-- Essai : 7 jours pour tout essayer, sans carte bancaire. 7 jours de plus avec un code ami ou créateur. Pas de formule gratuite après l'essai.
-- Frigia Plus : 6,99 € par mois ou 39,99 € par an, sans engagement. Prix fondateur : 29,99 € par an pour les 500 premiers abonnés.
+- Essai : 7 jours pour tout essayer, sans carte bancaire. Pas de formule gratuite après l'essai.
+- Frigia Plus : 6,99 € par mois ou 39,99 € par an, sans engagement.
 - Plus comprend : scans illimités, mode famille (un profil par personne, enfants compris), planning de la semaine, liste de courses, autres idées sur un même scan, bilan des économies du mois, historique complet.
 - Paiement sécurisé par Stripe. Résiliation depuis les réglages.
 
@@ -22,7 +22,6 @@ Site : https://frigia.fr — en français, pour la France.
 - Faut-il une carte bancaire pour essayer ? Non, l'essai de 7 jours se lance avec un email ou un compte Google.
 - Faut-il télécharger une appli ? Non, Frigia s'ouvre dans le navigateur et s'ajoute à l'écran d'accueil, sans passer par un store.
 - Ça marche avec des enfants et des allergies ? Oui, avec Frigia Plus. Les recettes sont créées par une IA : il faut toujours vérifier les étiquettes en cas d'allergie.
-- Où mettre un code créateur ? À l'inscription, ou en passant à Frigia Plus.
 
 ## Contact
 
