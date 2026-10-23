@@ -55,9 +55,14 @@ export function FridgeTabs({ on }: { on: "cuisine" | "courses" }) {
 const QUICK: [string, number][] = [["Aujourd'hui", 0], ["Demain", 1], ["Dans 3 jours", 3], ["Dans 1 semaine", 7]];
 const iso = (t: number) => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
 
-/** La vraie date d'un produit : quelques choix rapides, ou une date ; « Estimation » revient à la date estimée. */
+/** La vraie date d'un produit : quelques choix rapides, ou une date ; « Sans date » revient à la date estimée.
+ *  « Autre date » montre un vrai champ date et « OK » : l'iPhone ouvrait mal un champ caché, et changeait la date
+ *  (en refermant tout) dès qu'on faisait tourner la roue (signalé par Hugo le 23 octobre). */
 function DueEdit({ it, onDate, onClose }: { it: FridgeItem; onDate: (until: number | undefined) => void; onClose: () => void }) {
   const [today] = useState(() => iso(Date.now()));
+  const [other, setOther] = useState(false);
+  const [val, setVal] = useState(() => iso(it.until ?? Date.now() + 3 * DAY));
+  const pick = () => { const [y, m, d] = val.split("-").map(Number); if (y) onDate(new Date(y, m - 1, d, 12).getTime()); };
   return (
     <div className="litem fr-item editing fr-due-ed" role="group" aria-label={`Date limite de ${it.name}`}>
       <div className="fr-due-h"><b>{it.name}</b><span>Date limite ?</span>
@@ -65,12 +70,15 @@ function DueEdit({ it, onDate, onClose }: { it: FridgeItem; onDate: (until: numb
       </div>
       <div className="fr-due-ch">
         {QUICK.map(([label, d]) => <button key={d} type="button" onClick={() => onDate(atNoon(Date.now() + d * DAY))}>{label}</button>)}
-        <label className="fr-due-in"><span>Autre date</span>
-          <input type="date" min={today} value={it.until ? iso(it.until) : ""}
-            onChange={e => { const [y, m, d] = e.target.value.split("-").map(Number); if (y) onDate(new Date(y, m - 1, d, 12).getTime()); }} />
-        </label>
+        {!other && <button type="button" onClick={() => setOther(true)}>Autre date</button>}
         {it.until && <button type="button" className="fr-due-auto" onClick={() => onDate(undefined)}>Sans date</button>}
       </div>
+      {other && (
+        <div className="fr-due-other">
+          <input type="date" aria-label="Autre date" min={today} value={val} onChange={e => setVal(e.target.value)} />
+          <button type="button" disabled={!val} onClick={pick}>OK</button>
+        </div>
+      )}
     </div>
   );
 }
