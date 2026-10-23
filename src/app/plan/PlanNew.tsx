@@ -1,6 +1,7 @@
 // 8 bis · Crée ta semaine (prototype V3) : midi et soir, du jour même à la semaine suivante. Une case vide ouvre
 // les repas possibles ; « Remplir » complète le reste, en commençant par ce qui se garde le moins. Un jour touché est sauté.
 // En Gratuit, on peut essayer sans valider (rien n'est gardé).
+// Sous chaque repas : son dessert, ou « + Dessert » pour en ajouter un, comme dans Ma semaine (demandé par Hugo le 23 octobre).
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Icon, LockPill, RoundButton } from "../../ui/components";
@@ -10,7 +11,7 @@ import { useOpenPaywall } from "../plus/subscription";
 import { showToast } from "../toast";
 import { weekDays, weekRange } from "../format";
 import { Dish } from "./Dish";
-import { PickSheet } from "./sheets";
+import { DessertSheet, PickSheet } from "./sheets";
 import {
   canFill, count, dayOf, dessertKey, doubled, fill, foundOf, MEALS, options, type PlanProps, recipePath, scannedText, setSlot, status, toggleOff,
 } from "./week";
@@ -30,6 +31,7 @@ export function PlanNew({ isPlus, week, setWeek, history, favorites }: PlanProps
   const setW = (nw: Week) => (isPlus ? setWeek(nw) : setDraft(nw));
   const [pick, setPick] = useState<{ i: number; meal: MealKey } | null>(start ? { i: start[0], meal: start[1] } : null);
   const [menu, setMenu] = useState<string | null>(null);
+  const [sweetAt, setSweetAt] = useState<{ i: number; meal: MealKey } | null>(null);
   const days = weekDays();
   const opts = options(history, favorites);
   const favTitles = favorites.map(f => f.title);
@@ -112,12 +114,17 @@ export function PlanNew({ isPlus, week, setWeek, history, favorites }: PlanProps
                               </div>
                             );
                           })(),
-                        // Le dessert prévu avec ce repas (placé depuis « Ajouter à ma semaine »)
-                        day[dessertKey(meal)] && (
+                        // Le dessert prévu avec ce repas (touché : le changer), ou « + Dessert » sous un repas choisi
+                        day[dessertKey(meal)] ? (
                           <div key={id + "d"} className="pn-ds">
-                            <Icon name="sparkle" /><span>Dessert : <b>{day[dessertKey(meal)]!.recipe.title}</b></span>
+                            <button type="button" className="pn-ds-t" onClick={() => setSweetAt({ i, meal })}>
+                              <Icon name="sparkle" /><span>Dessert : <b>{day[dessertKey(meal)]!.recipe.title}</b></span>
+                            </button>
                             <button type="button" aria-label="Retirer le dessert" onClick={() => setW(setSlot(w, days, d.key, dessertKey(meal), undefined))}><Icon name="x" /></button>
                           </div>
+                        ) : sl && (
+                          <button key={id + "d"} type="button" className="pn-ds add" aria-label={`Ajouter un dessert au ${meal === "m" ? "midi" : "soir"}`}
+                            onClick={() => setSweetAt({ i, meal })}><Icon name="plus" /><span>Dessert</span></button>
                         ),
                       ];
                     })}
@@ -134,6 +141,8 @@ export function PlanNew({ isPlus, week, setWeek, history, favorites }: PlanProps
       <PickSheet at={pick} week={w} days={days} opts={opts} favTitles={favTitles}
         onPick={s => { if (pick) setW(setSlot(w, days, days[pick.i].key, pick.meal, s)); setPick(null); }}
         onClose={() => setPick(null)} />
+      <DessertSheet at={sweetAt} week={w} days={days} opts={opts} setWeek={setW} onClose={() => setSweetAt(null)}
+        onOpen={ds => navigate(recipePath(ds, history), { state: { recipe: ds.recipe, from: "plan" } })} />
     </section>
   );
 }
