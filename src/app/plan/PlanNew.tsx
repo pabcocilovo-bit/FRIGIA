@@ -1,7 +1,7 @@
 // 8 bis · Crée ta semaine (prototype V3) : midi et soir, du jour même à la semaine suivante. Une case vide ouvre
 // les repas possibles ; « Remplir » complète le reste, en commençant par ce qui se garde le moins. Un jour touché est sauté.
 // En Gratuit, on peut essayer sans valider (rien n'est gardé).
-// Sous chaque repas : son dessert, ou « + Dessert » pour en ajouter un, comme dans Ma semaine (demandé par Hugo le 23 octobre).
+// À droite de chaque repas : son dessert, ou « + Dessert » pour en ajouter un, comme dans Ma semaine (demandé par Hugo le 23 octobre).
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Icon, LockPill, RoundButton } from "../../ui/components";
@@ -87,11 +87,19 @@ export function PlanNew({ isPlus, week, setWeek, history, favorites }: PlanProps
                   {day.off
                     ? <button type="button" className="pn-empty skip" onClick={() => setW(toggleOff(w, days, d.key))}>Pas de repas ce jour-là</button>
                     : MEALS.map(meal => {
-                      const sl = day[meal];
+                      const sl = day[meal], ds = day[dessertKey(meal)];
                       const id = d.key + meal;
+                      // Le dessert, à droite du plat (comme Ma semaine) : sa photo, ou « + Dessert » ; touché, la feuille du dessert
+                      const sweet = (sl || ds) && (
+                        <button type="button" className={"pm-dt" + (ds ? " has" : "")} aria-label={ds ? `Dessert : ${ds.recipe.title}` : `Ajouter un dessert au ${meal === "m" ? "midi" : "soir"}`}
+                          onClick={() => setSweetAt({ i, meal })}>
+                          {ds ? <Dish recipe={ds.recipe} className="plate" /> : <span className="dt-add"><Icon name="plus" /></span>}
+                          <small>Dessert</small>
+                        </button>
+                      );
                       return [
                         <span key={id + "l"} className="pn-ml"><Icon name={meal === "m" ? "utensils" : "pot"} />{meal === "m" ? "Midi" : "Soir"}</span>,
-                        !sl
+                        <div key={id} className="pmrow">{!sl
                           ? <button key={id} type="button" className="pn-empty" aria-label={`Choisir le repas du ${meal === "m" ? "midi" : "soir"}`} onClick={() => setPick({ i, meal })}><Icon name="plus" /></button>
                           : (() => {
                             const st = status(sl.recipe, foundOf(sl, history));
@@ -113,19 +121,7 @@ export function PlanNew({ isPlus, week, setWeek, history, favorites }: PlanProps
                                 )}
                               </div>
                             );
-                          })(),
-                        // Le dessert prévu avec ce repas (touché : le changer), ou « + Dessert » sous un repas choisi
-                        day[dessertKey(meal)] ? (
-                          <div key={id + "d"} className="pn-ds">
-                            <button type="button" className="pn-ds-t" onClick={() => setSweetAt({ i, meal })}>
-                              <Icon name="sparkle" /><span>Dessert : <b>{day[dessertKey(meal)]!.recipe.title}</b></span>
-                            </button>
-                            <button type="button" aria-label="Retirer le dessert" onClick={() => setW(setSlot(w, days, d.key, dessertKey(meal), undefined))}><Icon name="x" /></button>
-                          </div>
-                        ) : sl && (
-                          <button key={id + "d"} type="button" className="pn-ds add" aria-label={`Ajouter un dessert au ${meal === "m" ? "midi" : "soir"}`}
-                            onClick={() => setSweetAt({ i, meal })}><Icon name="plus" /><span>Dessert</span></button>
-                        ),
+                          })()}{sweet}</div>,
                       ];
                     })}
                 </div>,

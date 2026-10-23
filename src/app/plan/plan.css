@@ -197,11 +197,8 @@
 .fa .pm-ds b,.fa .pn-ds b{font-weight:600}
 .fa .pn-ds button{width:26px;height:26px;margin:-4px -8px -4px 0;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--sage-deep)}
 .fa .pn-ds button .i{width:13px;height:13px}
-.fa .pn-ds .pn-ds-t{flex:1;min-width:0;width:auto;height:auto;margin:0;border-radius:0;display:flex;align-items:center;gap:8px;text-align:left}
-.fa .pn-ds .pn-ds-t .i{width:15px;height:15px}
-.fa .pn-ds.add{align-self:flex-start;background:none;box-shadow:inset 0 0 0 1.5px var(--sage-soft);font-weight:600;gap:6px;padding:7px 14px}
-.fa .pn-ds.add span{flex:none}
-.fa .pn-ds.add .i{width:13px;height:13px}
+/* Crée ta semaine : le plat (ou la case vide) et son dessert à droite, comme Ma semaine */
+.fa .pn-col .pmrow>.pn-card,.fa .pn-col .pmrow>.pn-empty{flex:1;min-width:0}
 
 /* Le dessert à côté du plat (Planning) */
 .fa .pmrow{display:flex;gap:8px;align-items:stretch;min-width:0}
@@ -217,3 +214,12 @@
 .fa .ds-act{display:flex;gap:8px;margin-top:6px}
 .fa .ds-act button{padding:7px 12px;border-radius:999px;background:var(--sage-soft);color:var(--sage-deep);font-size:12.5px;font-weight:600}
 .fa .ds-or{margin:10px 4px 2px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+/* Petit écran (iPhone SE) : la photo et le dessert plus petits, pour garder la place du titre */
+@media (max-width:380px){
+  .fa .pn-col .pmrow .pn-card .rw img,.fa .pn-col .pmrow .pn-card .rw .ph0{width:54px;height:54px;border-radius:12px}
+  .fa .pn-col .pmrow .pn-card .tx{padding-right:22px}
+  .fa .pn-col .pmrow .pn-card b{font-size:15px}
+  .fa .pn-col .pmrow .pm-dt{width:54px}
+  .fa .pn-col .pmrow .pm-dt .plate{width:38px;height:38px}
+  .fa .pn-col .pmrow .pn-band{font-size:12px;padding:8px 10px}
+}
