@@ -12,17 +12,17 @@ export const FAQ: Faq[] = [
   {
     id: "prix",
     q: "Combien coûte Frigia ?",
-    a: "La formule Gratuit coûte 0 € : 15 scans offerts, sans carte bancaire. Frigia Plus coûte 6,99 € par mois ou 39,99 € par an, et 29,99 € par an au prix fondateur pour les 500 premiers abonnés. Plus est sans engagement.",
+    a: "Tu essaies 7 jours sans payer et sans carte bancaire. Ensuite, Frigia Plus coûte 6,99 € par mois ou 39,99 € par an. Plus est sans engagement.",
   },
   {
     id: "carte",
     q: "Faut-il une carte bancaire pour essayer ?",
-    a: "Non. La formule Gratuit se crée avec ton email ou ton compte Google, sans carte. Tu as 15 scans pour essayer.",
+    a: "Non. L'essai de 7 jours se lance avec ton email ou ton compte Google, sans carte. Tout Frigia Plus est compris.",
   },
   {
-    id: "fin-scans",
-    q: "Et quand j'ai utilisé mes 15 scans ?",
-    a: "Tu peux passer à Frigia Plus pour des scans illimités. Tes recettes et tes favoris restent là.",
+    id: "fin-essai",
+    q: "Et à la fin des 7 jours ?",
+    a: "Rien n'est débité. Pour continuer à scanner, tu choisis Frigia Plus, au mois ou à l'année. Tes recettes, tes favoris et ta cuisine restent sur ton compte.",
   },
   {
     id: "appli",
@@ -38,10 +38,5 @@ export const FAQ: Faq[] = [
     id: "resilier",
     q: "Je peux arrêter Plus quand je veux ?",
     a: "Oui, c'est sans engagement. Tu résilies depuis tes réglages, en quelques gestes, et Plus reste actif jusqu'à la fin de la période payée.",
-  },
-  {
-    id: "code",
-    q: "J'ai un code créateur, je le mets où ?",
-    a: "À l'inscription, avant de choisir Google ou l'email. Tu peux aussi le saisir en passant à Frigia Plus.",
   },
 ];

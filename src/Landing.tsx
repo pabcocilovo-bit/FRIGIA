@@ -13,7 +13,8 @@ import { LEGAL } from "./legal/pages";
 import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./landing/browser";
 
 // Landing V5 (refonte d'octobre 2026). Les textes décrivent les offres de la refonte :
-// 15 scans offerts sans carte, puis Frigia Plus. À mettre en ligne en même temps que la nouvelle appli.
+// 7 jours d'essai sans carte, puis Frigia Plus : plus de formule gratuite depuis le 23 octobre.
+// Ni code ni prix fondateur sur le site (demandé par Hugo le 23 octobre) : ils restent dans les CGV et dans l'appli.
 //
 // onStart / onLogin : branchés par l'appli sur son parcours d'inscription quand il existera.
 // Sans eux, la landing ouvre sa propre feuille de connexion (Supabase), comme l'ancienne version.
@@ -99,22 +100,16 @@ function HowItWorks() {
   );
 }
 
-// ── Prix : les mêmes lignes que l'écran « Passe à Plus » de l'appli ─────────
-// true = inclus (coche), false = non inclus (tiret)
-const PLAN_ROWS: [string, string | boolean, string | boolean][] = [
-  ["Scans du frigo", "15 en tout", "Illimités"],
-  ["Mode famille", false, true],
-  ["Planning de la semaine", false, true],
-  ["Liste de courses", false, true],
-  ["Économies du mois", "Aperçu", "Complet"],
-  ["Historique", "7 jours", "Tout"],
+// ── Prix : une seule carte Frigia Plus. L'essai, c'est tout Plus : plus de colonne à comparer
+// (demandé par Hugo le 23 octobre, à la place des cartes Essai et Plus).
+const FEATURES = [
+  "Scans du frigo illimités",
+  "Mode famille, enfants compris",
+  "Planning de la semaine",
+  "Liste de courses",
+  "Économies du mois",
+  "Tout ton historique",
 ];
-
-function Cell({ v }: { v: string | boolean }) {
-  if (v === true) return <span className="yes" aria-label="Inclus">✓</span>;
-  if (v === false) return <span className="no" aria-label="Non inclus">–</span>;
-  return <span>{v}</span>;
-}
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 export default function Landing({ onStart, onLogin }: Props) {
@@ -177,7 +172,7 @@ export default function Landing({ onStart, onLogin }: Props) {
     <div className="lp">
       {showGbar && <GoogleInAppBar isIos={isIos} onDismiss={() => setGbarClosed(true)} />}
 
-      <div className="promo">Gratuit, sans carte bancaire · 15 scans offerts · <b>Prix fondateur</b> pour les 500 premiers abonnés Plus</div>
+      <div className="promo">7 jours d'essai, sans carte bancaire · Puis <b>Frigia Plus</b>, sans engagement</div>
       <header className="nav">
         <div className="container">
           <a className="home" href="#top" aria-label="Frigia, accueil"><img src={`${IMG}/frigia-logo.svg`} alt="Frigia" width={84} height={30} /></a>
@@ -205,14 +200,14 @@ export default function Landing({ onStart, onLogin }: Props) {
               <span className="k">Pour les soirs de semaine</span>
               <h1>Une photo du frigo, <em>trois idées</em> pour ce soir.</h1>
               <p className="lede">Fini le « on mange quoi ce soir ? ». Frigia repère ce qu'il y a dans ton frigo et te propose trois recettes avec ce que tu as déjà, pour toute la famille.</p>
-              <div className="ctas"><button className="btn btn-fill" onClick={() => start("free", "hero")}>{WAITLIST ? JOIN : "Commencer gratuitement"}</button><a className="link" href="#comment">Voir comment ça marche</a></div>
+              <div className="ctas"><button className="btn btn-fill" onClick={() => start("free", "hero")}>{WAITLIST ? JOIN : "Essayer 7 jours"}</button><a className="link" href="#comment">Voir comment ça marche</a></div>
               {WAITLIST && (
                 <div className="wl-note">
                   <p>Ouverture par petits groupes. Les premiers inscrits passent en premier.</p>
                   <button onClick={login}>Déjà invité ? Se connecter</button>
                 </div>
               )}
-              <div className="reassure"><span className="chip plain">Sans carte bancaire</span><span className="chip plain">15 scans offerts</span><span className="chip plain">Rien à télécharger</span></div>
+              <div className="reassure"><span className="chip plain">Sans carte bancaire</span><span className="chip plain">7 jours d'essai</span><span className="chip plain">Rien à télécharger</span></div>
             </div>
             <HeroArt />
           </div>
@@ -223,7 +218,7 @@ export default function Landing({ onStart, onLogin }: Props) {
 
         <section className="plus" id="plus">
           <div className="container">
-            <div className="sh"><span className="k">Frigia Plus</span><h2>Pensé pour <em>toute la famille.</em></h2><p className="lede">Le scan reste gratuit pour commencer. Plus ajoute ce qui change la semaine d'un foyer : la famille, le planning, la liste de courses et ce que tu économises.</p></div>
+            <div className="sh"><span className="k">Frigia Plus</span><h2>Pensé pour <em>toute la famille.</em></h2><p className="lede">Tout est compris dès l'essai : le scan, et ce qui change la semaine d'un foyer, la famille, le planning, la liste de courses et ce que tu économises.</p></div>
             <div className="feats">
               <div className="feat"><div className="ill" aria-hidden="true"><span className="av">C</span><span className="av">T</span><span className="av">L</span><span className="av guest-av">+1</span></div><h3>Mode <em>famille</em></h3><p>Un profil par personne, enfants compris, avec allergies et « n'aime pas ». Les portions se calculent toutes seules.</p></div>
               <div className="feat"><div className="ill" aria-hidden="true"><div className="days"><span className="p">Lun</span><span className="p">Mar</span><span>Mer</span><span className="p">Jeu</span><span className="p">Ven</span><span>Sam</span><span>Dim</span></div></div><h3>Ta <em>semaine</em></h3><p>À partir d'un scan, les repas de la semaine qui utilisent d'abord ce qui se périme vite. Les restes sont prévus.</p></div>
@@ -254,52 +249,15 @@ export default function Landing({ onStart, onLogin }: Props) {
 
         <section className="price rule" id="prix">
           <div className="container">
-            <div className="sh"><span className="k">{WAITLIST ? "Prix à l'ouverture" : "Prix"}</span><h2>Commence gratuitement, <em>passe à Plus</em> quand tu veux.</h2><p className="lede">Pas de carte bancaire pour essayer. Plus est sans engagement, et un code créateur se saisit à l'inscription.</p></div>
-            <div className="plans">
-              <div className="plan">
-                <div className="top"><span className="k">Gratuit</span></div>
-                <div className="amount">0 €</div>
-                <div className="sub"><span>Sans carte bancaire</span><span>Pour toujours</span></div>
-                <ul>{PLAN_ROWS.map(([label, free]) => <li key={label}><span>{label}</span><Cell v={free} /></li>)}</ul>
-                <div className="foot"><button className="btn btn-line" onClick={() => start("free", "prix")}>{WAITLIST ? JOIN : "Commencer gratuitement"}</button></div>
+            <div className="sh"><span className="k">{WAITLIST ? "Prix à l'ouverture" : "Prix"}</span><h2>Essaie 7 jours, <em>puis passe à Plus.</em></h2><p className="lede">Pas de carte bancaire pour essayer, et rien n'est débité à la fin de l'essai. Plus est sans engagement.</p></div>
+            <div className="offer">
+              <div className="offer-main">
+                <div className="top"><span className="k">Frigia Plus</span><span className="badge">7 jours offerts</span></div>
+                <div className="amount">39,99 €<small>par an</small></div>
+                <div className="sub"><span>Ou 6,99 € par mois</span><span>Résiliable en 3 clics</span></div>
+                <div className="foot"><button className="btn btn-cream" onClick={() => start("free", "prix")}>{WAITLIST ? JOIN : "Essayer 7 jours"}</button><span className="fine">Sans engagement. Paiement sécurisé par Stripe.</span></div>
               </div>
-              <div className="plan pro">
-                <div className="top"><span className="k">Frigia Plus</span><span className="badge">Prix fondateur</span></div>
-                <div className="amount">29,99 €<small>par an</small></div>
-                <div className="sub"><span><s>39,99 €</s> pour les 500 premiers abonnés</span><span>Ou 6,99 € par mois</span></div>
-                <ul>{PLAN_ROWS.map(([label, , plus]) => <li key={label}><span>{label}</span><Cell v={plus} /></li>)}</ul>
-                <div className="foot"><button className="btn btn-cream" onClick={() => start("plus", "prix-plus")}>{WAITLIST ? JOIN : "Passer à Plus"}</button><span className="fine">Sans engagement. Paiement sécurisé par Stripe.</span></div>
-              </div>
-            </div>
-
-            {/* Mobile : Gratuit et Plus côte à côte, comme l'écran « Passe à Plus » de l'appli */}
-            <div className="compare">
-              <table>
-                <thead>
-                  <tr>
-                    <td></td>
-                    <th scope="col"><span className="k">Gratuit</span><b>0 €</b><small>pour toujours</small></th>
-                    <th scope="col" className="plus"><span className="badge">Prix fondateur</span><span className="k">Plus</span><b>29,99 €</b><small>par an</small></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {PLAN_ROWS.map(([label, free, plus]) => (
-                    <tr key={label}><th scope="row">{label}</th><td><Cell v={free} /></td><td className="plus"><Cell v={plus} /></td></tr>
-                  ))}
-                </tbody>
-                {!WAITLIST && (
-                  <tfoot>
-                    <tr>
-                      <td></td>
-                      <td><button className="btn btn-line" onClick={() => start("free")}>Commencer</button></td>
-                      <td className="plus"><button className="btn btn-cream" onClick={() => start("plus")}>Passer à Plus</button></td>
-                    </tr>
-                  </tfoot>
-                )}
-              </table>
-              {/* Liste d'attente : un seul bouton sous le tableau, le libellé est trop long pour les colonnes */}
-              {WAITLIST && <button className="btn btn-fill full compare-join" onClick={() => start("free", "prix")}>{JOIN}</button>}
-              <p className="fine">Plus : 29,99 € par an pour les 500 premiers abonnés au lieu de <s>39,99 €</s>, ou 6,99 € par mois. Sans engagement, paiement sécurisé par Stripe.</p>
+              <ul aria-label="Compris dans Frigia Plus">{FEATURES.map(f => <li key={f}><span className="yes" aria-hidden="true">✓</span>{f}</li>)}</ul>
             </div>
           </div>
         </section>
@@ -324,7 +282,7 @@ export default function Landing({ onStart, onLogin }: Props) {
 
       <footer>
         <div className="container">
-          <div className="big"><h2>Ce soir, commence par <em>ouvrir le frigo.</em></h2><button className="btn btn-cream" onClick={() => start("free", "fin")}>{WAITLIST ? JOIN : "Commencer gratuitement"}</button></div>
+          <div className="big"><h2>Ce soir, commence par <em>ouvrir le frigo.</em></h2><button className="btn btn-cream" onClick={() => start("free", "fin")}>{WAITLIST ? JOIN : "Essayer 7 jours"}</button></div>
           <div className="base">
             <img src={`${IMG}/frigia-logo-inverse.svg`} alt="Frigia" width={78} height={28} />
             <nav className="legal" aria-label="Informations légales">
