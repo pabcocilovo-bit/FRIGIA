@@ -11,8 +11,7 @@ set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb)
   || jsonb_build_object('plus_until', extract(epoch from now() + interval '7 days')::bigint)
 where coalesce((raw_app_meta_data->>'is_whitelisted')::boolean, false) = false
   and coalesce(raw_app_meta_data->>'subscription_status', '') not in ('active', 'trialing', 'past_due', 'unpaid')
-  and coalesce((raw_app_meta_data->>'plus_until')::bigint, 0) < extract(epoch from now() + interval '7 days')::bigint
-  and created_at + interval '7 days' < now() + interval '7 days';
+  and coalesce((raw_app_meta_data->>'plus_until')::bigint, 0) < extract(epoch from now() + interval '7 days')::bigint;
 
 -- Vérifier : combien de comptes ont leurs 7 jours
 select count(*) from auth.users
