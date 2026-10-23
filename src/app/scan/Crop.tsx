@@ -1,4 +1,4 @@
-// Une photo de la galerie : on la recadre sur les étagères, on la tourne si besoin, puis « Analyser ».
+// Une photo prise ou choisie dans la galerie : on la recadre sur les étagères, on la tourne si besoin, puis « Analyser ».
 // La photo s'affiche en entier (la maquette la remplit et coupe les bords : voir le doc des points à traiter).
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Navigate, useNavigate } from "react-router";
@@ -97,7 +97,7 @@ export function Crop() {
 
   return (
     <section className="fa scan-screen scr-crop" aria-label="Recadrer la photo">
-      <div className="cr-head"><b>Recadre ta photo</b><span>Garde toutes les étagères dans le cadre</span></div>
+      <div className="cr-head"><b>Recadre ta photo</b><span>{getScan().source === "ticket" ? "Garde tout le ticket dans le cadre" : "Garde toutes les étagères dans le cadre"}</span></div>
       <div className="cr-stage" ref={stage} onPointerMove={move} onPointerUp={() => { drag.current = null; }} onPointerCancel={() => { drag.current = null; }}>
         <div className="cr-frame" ref={frame} style={fit}>
           <img ref={img} src={url} alt="Photo du frigo à recadrer" style={pic}

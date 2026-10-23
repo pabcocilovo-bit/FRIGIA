@@ -129,11 +129,13 @@ export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Photo prise ou choisie : d'abord le recadrage (demandé par Hugo le 23 octobre), « Analyser » y lance l'analyse
+  const crop = (photo: Blob) => { setScan({ pick: photo }); navigate("/scan/recadrer"); };
   const shoot = async () => {
     if (busy.current) return;
     const v = video.current;
     const photo = live && v ? await grab(v) : null;
-    if (photo) void analyze(photo);
+    if (photo) crop(photo);
     else capture.current?.click();
   };
 
@@ -188,8 +190,8 @@ export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans }
         <b>{found ? `${n} trouvé${n > 1 ? "s" : ""}, je vérifie les quantités…` : "Je repère tes ingrédients…"}</b>
         <div className="bar"><i className={found ? "done" : undefined} /></div>
       </div>
-      <input ref={capture} type="file" accept="image/*" capture="environment" hidden onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; if (f) void analyze(f); }} />
-      <input ref={gallery} type="file" accept="image/*" hidden onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; if (f) { setScan({ pick: f }); navigate("/scan/recadrer"); } }} />
+      <input ref={capture} type="file" accept="image/*" capture="environment" hidden onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; if (f) crop(f); }} />
+      <input ref={gallery} type="file" accept="image/*" hidden onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; if (f) crop(f); }} />
       {guide && !analyzing && (
         <Guide host={screen} steps={SCAN_GUIDE} delay={520}
           onDone={() => { setGuideState(userId, "ingr"); void shoot(); }}

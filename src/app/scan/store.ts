@@ -30,8 +30,8 @@ export type ScanState = {
   switched: ScanSource | null;
   /** La photo analysée (adresse locale), pour le fond de « C'est bien ça ? » et « Ajouter » */
   photo: string | null;
-  /** Photo de la galerie à recadrer */
-  pick: File | null;
+  /** Photo à recadrer (prise ou choisie dans la galerie) */
+  pick: Blob | null;
   /** Photo à analyser en arrivant sur la caméra (après « Analyser » du recadrage) */
   pending: Blob | null;
   ingredients: ScanIngredient[];
