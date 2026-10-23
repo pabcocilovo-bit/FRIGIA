@@ -32,7 +32,7 @@ function grab(video: HTMLVideoElement): Promise<Blob | null> {
 
 export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans }: {
   userId: string;
-  /** Ma cuisine : ce qui est « À finir » (coché, ou date proche) : retrouvé sur la photo, il est déjà marqué */
+  /** Ma cuisine : ce qui arrive à sa date (dueSoon) : retrouvé sur la photo, il est déjà marqué « À finir » */
   soon?: string[];
   /** Premier scan guidé : les bulles s'affichent */
   guide: boolean;

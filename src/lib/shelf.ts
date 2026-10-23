@@ -54,6 +54,13 @@ export function finishOf(x: FridgeItem, now = Date.now()): boolean {
   return !!d && daysTo(d.at, now) <= 2;
 }
 
+/** Proche de sa date (2 jours ou moins), sauf si on l'a décoché. Au scan, seul ceci pré-coche « À finir » : un « À finir »
+ *  coché à la main une fois ne se recoche pas à chaque scan (le beurre restait « À finir » pour toujours, vu par Hugo le 23 octobre). */
+export function dueSoon(x: FridgeItem, now = Date.now()): boolean {
+  const d = dueOf(x);
+  return x.finish !== false && !!d && daysTo(d.at, now) <= 2;
+}
+
 /** « aujourd'hui », « demain », « jeudi », « le 3 nov. » */
 export function dayWord(at: number, now = Date.now()): string {
   const d = daysTo(at, now);
