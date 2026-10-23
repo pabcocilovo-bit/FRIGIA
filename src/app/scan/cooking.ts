@@ -1,6 +1,7 @@
 // La recette en cours, d'un écran à l'autre (demandé par Hugo le 23 octobre) : l'étape où on en est et le minuteur.
 // Gardée sur le téléphone : le minuteur continue si on quitte le mode cuisine, et même si l'appli se ferme.
 // À la fin du minuteur : sonnerie, vibration et « Minuteur terminé » sur n'importe quel écran (CookingLive.tsx).
+// Appli store : notification programmée et Live Activity à brancher ici (notes/appli-store-a-faire.md du projet).
 import { useEffect, useState, useSyncExternalStore } from "react";
 import type { RecipeState } from "./Recipe";
 
