@@ -20,13 +20,19 @@ const HINTS: Record<ScanSource, string> = {
 
 type Torch = MediaTrackCapabilities & { torch?: boolean };
 
-/** Une image de la vidéo, en JPEG. */
+/** Une image de la vidéo, en JPEG : exactement ce que montre l'écran. La caméra filme souvent à l'horizontale
+ *  et l'écran n'en montre que le milieu (object-fit: cover) : la photo garde ce milieu, à la verticale comme
+ *  l'écran (demandé par Hugo le 23 octobre : le recadrage s'ouvrait sur une photo horizontale). */
 function grab(video: HTMLVideoElement): Promise<Blob | null> {
+  const vw = video.videoWidth, vh = video.videoHeight;
+  const { width: ew, height: eh } = video.getBoundingClientRect();
+  if (!vw || !vh) return Promise.resolve(null);
+  const k = ew && eh ? Math.max(ew / vw, eh / vh) : 1;
+  const sw = ew && eh ? Math.min(vw, ew / k) : vw, sh = ew && eh ? Math.min(vh, eh / k) : vh;
   const c = document.createElement("canvas");
-  c.width = video.videoWidth;
-  c.height = video.videoHeight;
-  if (!c.width || !c.height) return Promise.resolve(null);
-  c.getContext("2d")!.drawImage(video, 0, 0);
+  c.width = Math.round(sw);
+  c.height = Math.round(sh);
+  c.getContext("2d")!.drawImage(video, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, c.width, c.height);
   return new Promise(r => c.toBlob(r, "image/jpeg", 0.9));
 }
 
