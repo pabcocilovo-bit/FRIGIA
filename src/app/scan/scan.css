@@ -465,3 +465,6 @@ body:has(.fa .gd.on) .fa .toast{opacity:0;visibility:hidden}
 .fa .mn-dot{width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--line);flex:none;position:relative}
 .fa .mn-card.on .mn-dot{box-shadow:inset 0 0 0 2px var(--sage)}
 .fa .mn-card.on .mn-dot::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--sage)}
+/* « Tes placards » : ce qui est coché part avec les recettes */
+.fa .pl-chips{display:flex;flex-wrap:wrap;gap:8px}
+.fa .pl-have .chip svg{width:13px;height:13px;margin-right:5px;vertical-align:-2px}

@@ -45,8 +45,10 @@ export type ScanState = {
   empty: boolean;
   /** Pas de photo lue (« Que cuisiner avec ? », ingrédients tapés) : Ma cuisine les ajoute sans rien remplacer */
   merge: boolean;
-  /** « Dans tes placards ? » : les pastilles cochées (null : pas encore touchées, d'après Ma cuisine et la dernière fois) */
-  sides: string[] | null;
+  /** « Tes placards » : ce qui est rangé aux placards dans Ma cuisine mais décoché pour ces recettes (fini, ou pas envie) */
+  off: string[];
+  /** « Scanner mes placards » depuis « Tes placards » : la photo s'ajoute aux placards de Ma cuisine, puis on y revient */
+  forPlacards: boolean;
   /** « Envie de » : une ou plusieurs (aucune : pas de contrainte) */
   envies: Envie[];
   /** « Zéro course » : des recettes avec seulement le frigo et les placards, rien à acheter */
@@ -70,7 +72,7 @@ const savedServings = () => {
 
 let state: ScanState = {
   meal: "s", menu: "plats", source: "frigo", switched: null, photo: null, pick: null, pending: null, ingredients: [], token: null, ticket: null, ticketOff: false, problem: "floue", empty: false, merge: false,
-  sides: null, envies: ["rapide"], noShop: false, servings: savedServings(), guests: 0, away: [], made: null,
+  off: [], forPlacards: false, envies: ["rapide"], noShop: false, servings: savedServings(), guests: 0, away: [], made: null,
 };
 const listeners = new Set<() => void>();
 
@@ -92,7 +94,7 @@ export function useScan(): ScanState {
 
 /** Ce qui fait les recettes : mêmes choix, mêmes recettes (made). */
 export const madeKey = (s: ScanState) => JSON.stringify([s.ingredients.map(i => [i.name, i.qty, !!i.finish]), s.menu, s.meal, s.envies, s.noShop,
-  s.sides, s.empty, s.servings, s.guests, s.away]);
+  s.off, s.empty, s.servings, s.guests, s.away]);
 
 /** « Ce midi », « ce soir », « la semaine » dans les phrases. */
 export const MEAL_WORDS: Record<Meal, { pour: string; qui: string; feat: string }> = {
@@ -102,43 +104,26 @@ export const MEAL_WORDS: Record<Meal, { pour: string; qui: string; feat: string 
   d: { pour: "pour le dessert", qui: "Qui prend un dessert ?", feat: "Idéal en dessert" },
 };
 
-/** « Dans tes placards ? » : ce qu'on a presque toujours, en pastilles [nom envoyé, nom affiché]. Les plats : les
- *  accompagnements ; les desserts : de quoi pâtisser. Demandé par Hugo le 22 octobre, à la place de « Inclure mes placards ». */
-const SIDES_PLATS: [string, string][] = [["Pâtes", "Pâtes"], ["Riz", "Riz"], ["Pommes de terre", "Patates"], ["Semoule", "Semoule"],
-  ["Pain", "Pain"], ["Quinoa", "Quinoa"], ["Lentilles", "Lentilles"]];
-const SIDES_DESSERTS: [string, string][] = [["Farine", "Farine"], ["Sucre", "Sucre"], ["Chocolat", "Chocolat"], ["Levure chimique", "Levure"],
-  ["Flocons d'avoine", "Avoine"], ["Poudre d'amande", "Amandes"], ["Miel", "Miel"]];
-const SIDES_KEY = "frigia_sides";
-const savedSides = (): string[] => {
-  try { const v = JSON.parse(localStorage.getItem(SIDES_KEY) || "[]"); return Array.isArray(v) ? v.filter(x => typeof x === "string") : []; } catch { return []; }
-};
-/** Les pastilles du menu : six au plus, sans ce que la liste a déjà */
-export const sideChoices = (s: ScanState): [string, string][] =>
-  (s.menu === "desserts" ? SIDES_DESSERTS : SIDES_PLATS).filter(([n]) => !s.ingredients.some(i => same(i.name, n))).slice(0, 6);
-/** Les pastilles cochées : celles touchées, sinon ce que Ma cuisine range aux placards et ce qui était coché la dernière fois */
-export function sidesOf(kitchen: Fridge, s: ScanState): string[] {
-  const choices = sideChoices(s).map(([n]) => n);
-  if (s.sides) return choices.filter(n => s.sides!.some(x => same(x, n)));
-  const had = [...pantryOf(kitchen).map(x => x.name), ...savedSides()];
-  return choices.filter(n => had.some(x => same(x, n)));
+/** « Tes placards » : ce qu'on a presque toujours, en pastilles « + Riz » [nom rangé dans Ma cuisine, nom affiché]. Les plats :
+ *  les accompagnements ; les desserts : de quoi pâtisser. Demandé par Hugo les 22 et 23 octobre (une étape à part). */
+const IDEAS_PLATS: [string, string][] = [["Pâtes", "Pâtes"], ["Riz", "Riz"], ["Pommes de terre", "Pommes de terre"], ["Semoule", "Semoule"],
+  ["Pain", "Pain"], ["Quinoa", "Quinoa"], ["Lentilles", "Lentilles"], ["Huile d'olive", "Huile d'olive"], ["Tomates en conserve", "Tomates en conserve"]];
+const IDEAS_DESSERTS: [string, string][] = [["Farine", "Farine"], ["Sucre", "Sucre"], ["Chocolat", "Chocolat"], ["Levure chimique", "Levure"],
+  ["Flocons d'avoine", "Flocons d'avoine"], ["Poudre d'amande", "Poudre d'amande"], ["Miel", "Miel"]];
+/** Les pastilles à ajouter : selon le menu (des desserts dedans : de quoi pâtisser aussi), sans ce qui est déjà aux placards ou dans la liste */
+export function placardIdeas(kitchen: Fridge, s: ScanState): [string, string][] {
+  const m = menuOf(s.menu);
+  const list = m.desserts === m.n ? IDEAS_DESSERTS : m.desserts ? [...IDEAS_PLATS.slice(0, 5), ...IDEAS_DESSERTS.slice(0, 4)] : IDEAS_PLATS;
+  const have = [...pantryOf(kitchen).map(x => x.name), ...s.ingredients.map(i => i.name)];
+  return list.filter(([n]) => !have.some(h => same(h, n))).slice(0, 8);
 }
-export function toggleSide(kitchen: Fridge, s: ScanState, name: string) {
-  const on = sidesOf(kitchen, s);
-  const next = on.some(x => same(x, name)) ? on.filter(x => !same(x, name)) : [...on, name];
-  // Hors du menu affiché, les choix d'avant restent (passer aux desserts n'oublie pas le riz)
-  const keep = (s.sides ?? savedSides()).filter(x => !sideChoices(s).some(([n]) => same(n, x)));
-  try { localStorage.setItem(SIDES_KEY, JSON.stringify([...keep, ...next])); } catch { /* navigation privée */ }
-  setScan({ sides: [...keep, ...next] });
-}
+/** L'étape « Tes placards » : pas après un scan des placards (ils sont déjà dans la liste), ni frigo vide (tous partent) */
+export const placardStep = (s: ScanState) => s.source !== "placard" && !(s.empty && !s.ingredients.length);
 
-/** Les placards qui partent avec les ingrédients : Ma cuisine, et les pastilles de « Dans tes placards ? ».
- *  Une pastille décochée retire ce produit, même rangé aux placards. Le reste des placards de Ma cuisine part aussi.
- *  Un scan des placards les montre déjà (et remplace les anciens) : rien de plus. Frigo vide : toujours inclus. */
+/** Les placards qui partent avec les ingrédients : ce que Ma cuisine range aux placards, moins ce qui est décoché
+ *  dans « Tes placards ». Un scan des placards les montre déjà : rien de plus. Frigo vide : tous. */
 export function pantryFor(kitchen: Fridge, s: ScanState, list: { name: string }[] = s.ingredients): { name: string; qty: string }[] {
   if (s.empty) return pantryOf(kitchen, list);
   if (s.source === "placard") return [];
-  const choices = sideChoices(s).map(([n]) => n), on = sidesOf(kitchen, s);
-  const rest = pantryOf(kitchen, list).filter(x => !choices.some(n => same(n, x.name)) || on.some(n => same(n, x.name)));
-  const added = on.filter(n => !rest.some(x => same(x.name, n)) && !list.some(w => same(w.name, n))).map(name => ({ name, qty: "" }));
-  return [...rest, ...added];
+  return pantryOf(kitchen, list).filter(x => !s.off.some(o => same(o, x.name)));
 }

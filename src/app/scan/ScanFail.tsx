@@ -19,7 +19,7 @@ export function ScanFail({ isPlus }: { isPlus: boolean }) {
   const empty = scan.problem === "vide" && scan.source !== "ticket";
   const ideas = () => {
     if (!isPlus) { openPaywall("vide"); return; }
-    setScan({ empty: true, ingredients: [], token: null, made: null });
+    setScan({ empty: true, ingredients: [], token: null, off: [], made: null });
     navigate("/scan/menu", { replace: true });
   };
   return (

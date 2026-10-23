@@ -30,7 +30,11 @@ function grab(video: HTMLVideoElement): Promise<Blob | null> {
   return new Promise(r => c.toBlob(r, "image/jpeg", 0.9));
 }
 
-export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans }: {
+/** Photo des placards ratée, depuis « Tes placards » : on reste sur la caméra avec une phrase */
+const PLACARD_FAIL = { floue: "Photo floue : reprends-la sans bouger.", sombre: "Trop sombre : allume la lumière et reprends-la.",
+  vide: "Frigia ne voit rien sur la photo. Ouvre grand le placard." } as const;
+
+export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans, onPlacards }: {
   userId: string;
   /** Ma cuisine : ce qui arrive à sa date (dueSoon) : retrouvé sur la photo, il est déjà marqué « À finir » */
   soon?: string[];
@@ -39,6 +43,8 @@ export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans }
   /** Formule Gratuit : le serveur a compté le scan, il en reste left */
   onCounted: (left: number) => void;
   onOutOfScans: () => void;
+  /** Depuis « Tes placards » : ce que la photo des placards a vu, à ajouter dans Ma cuisine */
+  onPlacards: (found: ScanIngredient[]) => void;
 }) {
   const navigate = useNavigate();
   const scan = useScan();
@@ -55,6 +61,9 @@ export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans }
   const [analyzing, setAnalyzing] = useState(false);
   const [found, setFound] = useState<ScanIngredient[] | null>(null);
   const busy = useRef(false);
+  // Ouverte depuis « Tes placards » : pas de choix frigo / ticket, et on y revient avec ce qui est vu
+  const forPlacards = scan.forPlacards;
+  const back = () => { setScan({ forPlacards: false }); navigate(-1); };
   const alive = useRef(true);
   useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
 
@@ -92,11 +101,32 @@ export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans }
     setBox(null);
     setFound(null);
     setAnalyzing(true);
-    const r = await detectIngredients(photo, getScan().source);
+    const pl = getScan().forPlacards;
+    const r = await detectIngredients(photo, pl ? "placard" : getScan().source);
     if (!alive.current) { busy.current = false; return; }
-    if (r.status === "ok") {
+    if (pl && (r.status === "ok" || r.status === "unclear")) {
+      if (r.status === "unclear" || !r.ingredients.length) {
+        URL.revokeObjectURL(url);
+        busy.current = false;
+        setShot(null);
+        setAnalyzing(false);
+        if (r.status === "ok" && r.scansLeft != null) onCounted(r.scansLeft);
+        showToast(PLACARD_FAIL[r.status === "unclear" ? r.problem : "vide"]);
+        return;
+      }
+      setFound(r.ingredients);
+      // La photo n'a servi qu'aux placards : sans scan déjà compté, elle couvre aussi les recettes
+      setTimeout(() => {
+        if (!alive.current) return;
+        if (r.scansLeft != null) onCounted(r.scansLeft);
+        onPlacards(r.ingredients);
+        setScan({ forPlacards: false, ...(getScan().token ? {} : { token: r.token }) });
+        URL.revokeObjectURL(url);
+        navigate(-1);
+      }, 1300 + Math.min(r.ingredients.length, 8) * 120);
+    } else if (r.status === "ok") {
       const found = r.ingredients.map(i => (soon.some(n => same(n, i.name)) ? { ...i, finish: true } : i));
-      setScan({ photo: url, ingredients: found, token: r.token, ticket: r.ticket ?? null, ticketOff: false, guests: 0, empty: false, merge: false,
+      setScan({ photo: url, ingredients: found, token: r.token, ticket: r.ticket ?? null, ticketOff: false, guests: 0, empty: false, merge: false, off: [],
         ...(r.seen ? { source: r.seen, switched: getScan().source } : { switched: null }) });
       setFound(found);
       // Les pastilles apparaissent sur la photo, puis la liste
@@ -164,19 +194,19 @@ export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans }
         </div>
       )}
       <div className="cam-top">
-        <RoundButton icon="x" label="Fermer" tone="dark" onClick={() => navigate("/")} />
+        <RoundButton icon="x" label="Fermer" tone="dark" onClick={() => (forPlacards ? back() : navigate("/"))} />
         {torch !== null
           ? <RoundButton icon="flash" label={torch ? "Éteindre le flash" : "Flash"} tone="dark" aria-pressed={torch} onClick={toggleTorch} />
           : <span style={{ width: 40 }} aria-hidden="true" />}
       </div>
-      <div className="hint">{HINTS[scan.source]}</div>
+      <div className="hint">{HINTS[forPlacards ? "placard" : scan.source]}</div>
       <div className="frame"><i className="tl" /><i className="tr" /><i className="bl" /><i className="br" /></div>
       <div className="cam-bot">
-        <div className="modes" role="tablist">
+        {forPlacards ? <div className="modes"><span className="mode on">Placards</span></div> : <div className="modes" role="tablist">
           {MODES.map(([s, label]) => (
             <button key={s} type="button" role="tab" aria-selected={scan.source === s} className={"mode" + (scan.source === s ? " on" : "")} onClick={() => setScan({ source: s })}>{label}</button>
           ))}
-        </div>
+        </div>}
         <div className="controls">
           <button type="button" className="gal" aria-label="Choisir une photo" onClick={() => gallery.current?.click()}>
             {scan.photo ? <img src={scan.photo} alt="" /> : <span style={{ display: "grid", placeItems: "center", width: "100%", height: "100%", background: "rgba(247,241,230,.12)" }}><Icon name="image" /></span>}
@@ -192,7 +222,7 @@ export function ScanCamera({ userId, guide, soon = [], onCounted, onOutOfScans }
       </div>
       <input ref={capture} type="file" accept="image/*" capture="environment" hidden onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; if (f) crop(f); }} />
       <input ref={gallery} type="file" accept="image/*" hidden onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; if (f) crop(f); }} />
-      {guide && !analyzing && (
+      {guide && !forPlacards && !analyzing && (
         <Guide host={screen} steps={SCAN_GUIDE} delay={520}
           onDone={() => { setGuideState(userId, "ingr"); void shoot(); }}
           onSkip={() => setGuideState(userId, "done")} />

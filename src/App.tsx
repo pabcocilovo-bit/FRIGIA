@@ -16,7 +16,7 @@ import { AppFrame } from "./app/AppFrame";
 import { Home } from "./app/Home";
 import { Courses } from "./app/Lists";
 import { MyKitchen } from "./app/fridge/Fridge";
-import { cookFrom, fromList, fromScan, fromShopping } from "./lib/fridge";
+import { addItems, cookFrom, fromList, fromScan, fromShopping, qtyOf } from "./lib/fridge";
 import { addSpend } from "./lib/budget";
 import { dueSoon } from "./lib/shelf";
 import { getScan } from "./app/scan/store";
@@ -38,6 +38,7 @@ import { Scans } from "./app/library/Scans";
 import { Cancel, HelloSheet, Paywall, PayReturn, PlusWelcome } from "./app/plus/Plus";
 import { useOpenScan } from "./app/offline";
 import { ScanCamera } from "./app/scan/ScanCamera";
+import { Placards } from "./app/scan/Placards";
 import { Crop } from "./app/scan/Crop";
 import { ScanFail } from "./app/scan/ScanFail";
 import { AddIngredient } from "./app/scan/AddIngredient";
@@ -352,13 +353,19 @@ return (
       {/* Les 15 scans gratuits sont utilisés : « Passe à Plus » à la place du scan */}
       <Route path="/scan" element={noScansLeft ? <Navigate to="/plus" replace state={{ why: "quota" }} /> :
         <ScanCamera userId={user.id} guide={guide === "" && history.length === 0} onCounted={onCounted} onOutOfScans={onOutOfScans}
-          soon={home.fridge.items.filter(x => dueSoon(x)).map(x => x.name)} />} />
+          soon={home.fridge.items.filter(x => dueSoon(x)).map(x => x.name)}
+          onPlacards={found => {
+            // « Scanner mes placards » depuis « Tes placards » : ajoutés aux placards, rien d'autre ne bouge
+            home.setFridge(f => addItems(f, found.map(i => ({ name: i.name, qty: qtyOf(i.qty) })), "scan", { place: "placard" }));
+            showToast(`${found.length} produit${found.length > 1 ? "s" : ""} vu${found.length > 1 ? "s" : ""}, rangé${found.length > 1 ? "s" : ""} aux placards`);
+          }} />} />
       <Route path="/scan/recadrer" element={<Crop />} />
       <Route path="/scan/rate" element={<ScanFail isPlus={isPlus} />} />
       <Route path="/scan/ajouter" element={<AddIngredient mine={home.fridge.mine ?? []} onMine={names => home.setFridge(f => ({ ...f, mine: rememberMine(f.mine ?? [], names) }))} />} />
       <Route path="/scan/ingredients" element={<Ingredients guide={guide === "ingr"} userId={user.id} isPlus={isPlus}
         onSpend={s => home.setBudget(b => addSpend(b, s))} />} />
-      <Route path="/scan/menu" element={<Menu isPlus={isPlus} household={household} avatar={avatarSrc} kitchen={home.fridge} />} />
+      <Route path="/scan/menu" element={<Menu isPlus={isPlus} household={household} avatar={avatarSrc} />} />
+      <Route path="/scan/placards" element={<Placards isPlus={isPlus} household={household} kitchen={home.fridge} onFridge={home.setFridge} />} />
       <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} kitchen={home.fridge} onReady={e => {
         library.addScan(e);
         // Le frigo prend ce que le scan a vu (pas un scan « frigo vide », qui n'a rien vu).
