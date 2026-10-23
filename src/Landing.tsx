@@ -147,23 +147,16 @@ function Tonight({ onStart }: { onStart: () => void }) {
   );
 }
 
-// ── Prix : les mêmes lignes que l'écran « Passe à Plus » de l'appli ─────────
-// true = inclus (coche), false = non inclus (tiret)
-// L'essai, c'est tout Plus : les mêmes lignes dans les deux colonnes
-const PLAN_ROWS: [string, string | boolean][] = [
-  ["Scans du frigo", "Illimités"],
-  ["Mode famille", true],
-  ["Planning de la semaine", true],
-  ["Liste de courses", true],
-  ["Économies du mois", "Complet"],
-  ["Historique", "Tout"],
+// ── Prix : une seule carte Frigia Plus. L'essai, c'est tout Plus : plus de colonne à comparer
+// (demandé par Hugo le 23 octobre, à la place des cartes Essai et Plus).
+const FEATURES = [
+  "Scans du frigo illimités",
+  "Mode famille, enfants compris",
+  "Planning de la semaine",
+  "Liste de courses",
+  "Économies du mois",
+  "Tout ton historique",
 ];
-
-function Cell({ v }: { v: string | boolean }) {
-  if (v === true) return <span className="yes" aria-label="Inclus">✓</span>;
-  if (v === false) return <span className="no" aria-label="Non inclus">–</span>;
-  return <span>{v}</span>;
-}
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 export default function Landing({ onStart, onLogin }: Props) {
@@ -290,47 +283,14 @@ export default function Landing({ onStart, onLogin }: Props) {
         <section className="price rule" id="prix">
           <div className="container">
             <div className="sh"><span className="k">Prix</span><h2>Essaie 7 jours, <em>puis passe à Plus.</em></h2><p className="lede">Pas de carte bancaire pour essayer, et rien n'est débité à la fin de l'essai. Plus est sans engagement.</p></div>
-            <div className="plans">
-              <div className="plan">
-                <div className="top"><span className="k">Essai</span></div>
-                <div className="amount">0 €<small>pendant 7 jours</small></div>
-                <div className="sub"><span>Sans carte bancaire</span><span>Rien n'est débité à la fin</span></div>
-                <ul>{PLAN_ROWS.map(([label, v]) => <li key={label}><span>{label}</span><Cell v={v} /></li>)}</ul>
-                <div className="foot"><button className="btn btn-line" onClick={() => start("free")}>Commencer l'essai</button></div>
-              </div>
-              <div className="plan pro">
-                <div className="top"><span className="k">Frigia Plus</span></div>
+            <div className="offer">
+              <div className="offer-main">
+                <div className="top"><span className="k">Frigia Plus</span><span className="badge">7 jours offerts</span></div>
                 <div className="amount">39,99 €<small>par an</small></div>
                 <div className="sub"><span>Ou 6,99 € par mois</span><span>Résiliable en 3 clics</span></div>
-                <ul>{PLAN_ROWS.map(([label, v]) => <li key={label}><span>{label}</span><Cell v={v} /></li>)}</ul>
-                <div className="foot"><button className="btn btn-cream" onClick={() => start("plus")}>Passer à Plus</button><span className="fine">Sans engagement. Paiement sécurisé par Stripe.</span></div>
+                <div className="foot"><button className="btn btn-cream" onClick={() => start()}>Essayer 7 jours</button><span className="fine">Sans engagement. Paiement sécurisé par Stripe.</span></div>
               </div>
-            </div>
-
-            {/* Mobile : l'essai et Plus côte à côte (l'essai, c'est tout Plus) */}
-            <div className="compare">
-              <table>
-                <thead>
-                  <tr>
-                    <td></td>
-                    <th scope="col"><span className="k">Essai</span><b>0 €</b><small>7 jours</small></th>
-                    <th scope="col" className="plus"><span className="k">Plus</span><b>39,99 €</b><small>par an</small></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {PLAN_ROWS.map(([label, v]) => (
-                    <tr key={label}><th scope="row">{label}</th><td><Cell v={v} /></td><td className="plus"><Cell v={v} /></td></tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td></td>
-                    <td><button className="btn btn-line" onClick={() => start("free")}>Essayer</button></td>
-                    <td className="plus"><button className="btn btn-cream" onClick={() => start("plus")}>Passer à Plus</button></td>
-                  </tr>
-                </tfoot>
-              </table>
-              <p className="fine">Plus : 39,99 € par an ou 6,99 € par mois. Sans engagement, paiement sécurisé par Stripe.</p>
+              <ul aria-label="Compris dans Frigia Plus">{FEATURES.map(f => <li key={f}><span className="yes" aria-hidden="true">✓</span>{f}</li>)}</ul>
             </div>
           </div>
         </section>
