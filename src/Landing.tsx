@@ -13,7 +13,8 @@ import { LEGAL } from "./legal/pages";
 import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./landing/browser";
 
 // Landing V5 (refonte d'octobre 2026). Les textes décrivent les offres de la refonte :
-// 7 jours d'essai sans carte (7 de plus avec un code), puis Frigia Plus : plus de formule gratuite depuis le 23 octobre.
+// 7 jours d'essai sans carte, puis Frigia Plus : plus de formule gratuite depuis le 23 octobre.
+// Ni code ni prix fondateur sur le site (demandé par Hugo le 23 octobre) : ils restent dans les CGV et dans l'appli.
 //
 // onStart / onLogin : branchés par l'appli sur son parcours d'inscription quand il existera.
 // Sans eux, la landing ouvre sa propre feuille de connexion (Supabase), comme l'ancienne version.
@@ -178,7 +179,7 @@ export default function Landing({ onStart, onLogin }: Props) {
     <div className="lp">
       {showGbar && <GoogleInAppBar isIos={isIos} onDismiss={() => setGbarClosed(true)} />}
 
-      <div className="promo">7 jours d'essai, sans carte bancaire · 7 de plus avec un code · <b>Prix fondateur</b> pour les 500 premiers abonnés Plus</div>
+      <div className="promo">7 jours d'essai, sans carte bancaire · Puis <b>Frigia Plus</b>, sans engagement</div>
       <header className="nav">
         <div className="container">
           <a className="home" href="#top" aria-label="Frigia, accueil"><img src={`${IMG}/frigia-logo.svg`} alt="Frigia" width={84} height={30} /></a>
@@ -255,19 +256,19 @@ export default function Landing({ onStart, onLogin }: Props) {
 
         <section className="price rule" id="prix">
           <div className="container">
-            <div className="sh"><span className="k">{WAITLIST ? "Prix à l'ouverture" : "Prix"}</span><h2>Essaie 7 jours, <em>puis passe à Plus.</em></h2><p className="lede">Pas de carte bancaire pour essayer. Un code ami ou créateur, saisi à l'inscription, ajoute 7 jours. Plus est sans engagement.</p></div>
+            <div className="sh"><span className="k">{WAITLIST ? "Prix à l'ouverture" : "Prix"}</span><h2>Essaie 7 jours, <em>puis passe à Plus.</em></h2><p className="lede">Pas de carte bancaire pour essayer, et rien n'est débité à la fin de l'essai. Plus est sans engagement.</p></div>
             <div className="plans">
               <div className="plan">
                 <div className="top"><span className="k">Essai</span></div>
                 <div className="amount">0 €<small>pendant 7 jours</small></div>
-                <div className="sub"><span>Sans carte bancaire</span><span>14 jours avec un code</span></div>
+                <div className="sub"><span>Sans carte bancaire</span><span>Rien n'est débité à la fin</span></div>
                 <ul>{PLAN_ROWS.map(([label, v]) => <li key={label}><span>{label}</span><Cell v={v} /></li>)}</ul>
                 <div className="foot"><button className="btn btn-line" onClick={() => start("free", "prix")}>{WAITLIST ? JOIN : "Essayer 7 jours"}</button></div>
               </div>
               <div className="plan pro">
-                <div className="top"><span className="k">Frigia Plus</span><span className="badge">Prix fondateur</span></div>
-                <div className="amount">29,99 €<small>par an</small></div>
-                <div className="sub"><span><s>39,99 €</s> pour les 500 premiers abonnés</span><span>Ou 6,99 € par mois</span></div>
+                <div className="top"><span className="k">Frigia Plus</span></div>
+                <div className="amount">39,99 €<small>par an</small></div>
+                <div className="sub"><span>Ou 6,99 € par mois</span><span>Résiliable en 3 clics</span></div>
                 <ul>{PLAN_ROWS.map(([label, v]) => <li key={label}><span>{label}</span><Cell v={v} /></li>)}</ul>
                 <div className="foot"><button className="btn btn-cream" onClick={() => start("plus", "prix-plus")}>{WAITLIST ? JOIN : "Passer à Plus"}</button><span className="fine">Sans engagement. Paiement sécurisé par Stripe.</span></div>
               </div>
@@ -280,7 +281,7 @@ export default function Landing({ onStart, onLogin }: Props) {
                   <tr>
                     <td></td>
                     <th scope="col"><span className="k">Essai</span><b>0 €</b><small>7 jours</small></th>
-                    <th scope="col" className="plus"><span className="badge">Prix fondateur</span><span className="k">Plus</span><b>29,99 €</b><small>par an</small></th>
+                    <th scope="col" className="plus"><span className="k">Plus</span><b>39,99 €</b><small>par an</small></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -300,7 +301,7 @@ export default function Landing({ onStart, onLogin }: Props) {
               </table>
               {/* Liste d'attente : un seul bouton sous le tableau, le libellé est trop long pour les colonnes */}
               {WAITLIST && <button className="btn btn-fill full compare-join" onClick={() => start("free", "prix")}>{JOIN}</button>}
-              <p className="fine">Plus : 29,99 € par an pour les 500 premiers abonnés au lieu de <s>39,99 €</s>, ou 6,99 € par mois. Sans engagement, paiement sécurisé par Stripe.</p>
+              <p className="fine">Plus : 39,99 € par an ou 6,99 € par mois. Sans engagement, paiement sécurisé par Stripe.</p>
             </div>
           </div>
         </section>
