@@ -24,7 +24,7 @@ import { Dish } from "./plan/Dish";
 import { cmFmt, useCommunity } from "./report/community";
 import "./report/report.css";
 import { SwapSheet, TonightSheet } from "./plan/sheets";
-import { count, dayOf, MEAL_NAME, MEALS, mealOfKey, nextUp, options } from "./plan/week";
+import { cookedSlot, count, dayOf, MEAL_NAME, MEALS, mealOfKey, nextUp, options, recipePath } from "./plan/week";
 
 export function Avatar({ user, name, photo, className, onClick, label }: {
   user: User; name?: string; photo: string | null; className: string; onClick?: () => void; label: string;
@@ -132,7 +132,10 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
   // (un produit « Mangé » dans Ma cuisine n'est pas un repas)
   const meals = cooked.filter(isMeal);
   const evening = now.getHours() >= 21 || meals.some(c => c.date.toDateString() === today && c.date.getHours() >= 17);
-  const next = isPlus ? nextUp(week, days, meals.filter(c => c.date.toDateString() === today).map(c => c.title), evening) : null;
+  const cookedToday = meals.filter(c => c.date.toDateString() === today).map(c => c.title);
+  const next = isPlus ? nextUp(week, days, cookedToday, evening) : null;
+  // Le repas prévu aujourd'hui et déjà cuisiné : on peut y revenir (« Revoir ») une fois que l'accueil est passé au suivant
+  const done = isPlus ? cookedSlot(week, days, cookedToday) : null;
   const tonight = next?.slot;
   const nm = next ? MEAL_NAME[mealOfKey(next.key)] : "";
   const sweet = !!next && (next.key === "md" || next.key === "sd");
@@ -178,6 +181,11 @@ export function Home({ user, name, isPlus, quota, avatar, history, favorites, co
               <span className="tn-go" aria-hidden="true"><Icon name="arrow" /></span>
             </button>
           ) : <p>Prends ton frigo en photo, puis choisis ton menu : des plats, un dessert, ou la semaine.</p>}
+          {done && done.slot !== tonight && (
+            <button type="button" className="tn-back" onClick={() => navigate(recipePath(done.slot, history), { state: { recipe: done.slot.recipe, from: "plan" } })}>
+              <Icon name="redo" /><span>Revoir {done.key === "m" || done.key === "md" ? "ce midi" : "ce soir"} : <b>{done.slot.recipe.title}</b></span>
+            </button>
+          )}
           <Pill tone="cream" icon="cam" onClick={openScan}>Scanner mon frigo</Pill>
           {!isPlus && <BandFoot><QuotaBar left={scansLeft(quota)} total={quotaTotal(quota)} />{quotaText(quota)}</BandFoot>}
           {isPlus && (

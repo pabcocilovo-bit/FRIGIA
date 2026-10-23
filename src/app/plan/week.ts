@@ -193,9 +193,21 @@ export type PlanProps = {
 
 /** Le prochain repas prévu, pour l'accueil : ce midi (avant 15 h), puis ce soir. Un repas déjà cuisiné aujourd'hui
  *  laisse la place à son dessert, s'il y en a un, puis au repas d'après. Rien de prévu ce soir : null tant que le soir
- *  n'est pas passé (l'accueil demande « Qu'est-ce qu'on mange ce soir ? »). Demain : le soir d'abord, le midi ensuite
- *  (on peut être au travail). Demandé par Hugo le 22 octobre. */
+ *  n'est pas passé (l'accueil demande « Qu'est-ce qu'on mange ce soir ? »). Demain : le midi s'il est prévu (renseigné,
+ *  c'est qu'il sert), puis le soir. Demandé par Hugo les 22 et 23 octobre. */
 export type NextUp = { slot: Slot; i: number; key: SlotKey; dessert?: Slot };
+
+/** Le repas d'aujourd'hui déjà cuisiné, pour y revenir depuis l'accueil (« Revoir ») : le plat du soir, sinon celui du midi,
+ *  sinon un dessert. null : rien de prévu aujourd'hui n'a été cuisiné. */
+export function cookedSlot(w: Week, days: WeekDay[], cookedToday: string[]): { slot: Slot; key: SlotKey } | null {
+  if (!days.length) return null;
+  const day = dayOf(w, days[0].key);
+  for (const key of ["s", "m", "sd", "md"] as const) {
+    const sl = day[key];
+    if (sl && cookedToday.includes(sl.recipe.title)) return { slot: sl, key };
+  }
+  return null;
+}
 export function nextUp(w: Week, days: WeekDay[], cookedToday: string[], eveningOver: boolean, now = new Date()): NextUp | null {
   const done = (s?: Slot) => !!s && cookedToday.includes(s.recipe.title);
   for (let i = 0; i < Math.min(2, days.length); i++) {
@@ -213,7 +225,7 @@ export function nextUp(w: Week, days: WeekDay[], cookedToday: string[], eveningO
       continue;
     }
     if (day.off) continue;
-    for (const m of ["s", "m"] as const) if (day[m]) return { slot: day[m]!, i, key: m, dessert: day[dessertKey(m)] };
+    for (const m of MEALS) if (day[m]) return { slot: day[m]!, i, key: m, dessert: day[dessertKey(m)] };
   }
   return null;
 }

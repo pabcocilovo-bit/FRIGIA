@@ -167,6 +167,11 @@
 .fa .tn-go{width:42px;height:42px;border-radius:50%;background:var(--sage);color:var(--on);display:grid;place-items:center;flex:none}
 .fa .tn-go .i{width:21px;height:21px}
 .fa .tn-card:active{transform:scale(.98)}
+/* « Revoir » le plat d'aujourd'hui déjà cuisiné */
+.fa .tn-back{display:flex;align-items:center;gap:8px;width:100%;margin:-2px 0 2px;padding:6px 2px;text-align:left;color:var(--on);font-size:13.5px;opacity:.92}
+.fa .tn-back .i{width:15px;height:15px;flex:none}
+.fa .tn-back span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fa .tn-back b{font-weight:600;text-decoration:underline;text-underline-offset:3px}
 .fa .dialog.tn-sheet{align-items:stretch;text-align:left;gap:12px;max-width:400px}
 .fa .tn-top{display:flex;align-items:center;gap:14px}
 .fa .tn-top .plate{width:76px;height:76px}
