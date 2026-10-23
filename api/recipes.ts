@@ -171,6 +171,13 @@ export default async function handler(req: Req, res: Res) {
   ].filter(Boolean) : [];
   const avoid = [...new Set([...(body.avoid ?? []), ...(body.recentTitles ?? [])].filter(t => typeof t === "string").map(t => t.slice(0, 80)))].slice(0, 40);
   const style = STYLES[Math.floor(Math.random() * STYLES.length)];
+  // Les œufs (demandé par Hugo le 23 octobre) : sans consigne, l'IA mettait une omelette ou des œufs brouillés
+  // dans presque chaque menu dès qu'il y avait des œufs. Un plat d'œufs est permis environ une fois sur quatre.
+  const hasEggs = [...list, ...pantry].some(i => /(^|[^a-z])oeuf/.test(norm(i.name).replace(/œ/g, "oe")));
+  const eggDish = Math.random() < 0.25;
+  const eggLine = !hasEggs ? "" : eggDish
+    ? "LES ŒUFS : au plus 1 recette où les œufs sont le plat (omelette, œufs brouillés, frittata, œufs au plat, shakshuka). Les autres s'en servent comme ingrédient, ou pas du tout."
+    : "LES ŒUFS : pas d'omelette, d'œufs brouillés, de frittata, d'œufs au plat ni de shakshuka cette fois, sauf si le frigo n'a presque rien d'autre. Les œufs peuvent servir d'ingrédient dans un autre plat (quiche, gratin, riz sauté, carbonara, croque-madame, salade composée…), ou rester de côté.";
   const promptFor = (meal: string, count: number) => [
     empty && !list.length
       ? "Le frigo est vide : rien de frais à la maison."
@@ -194,7 +201,8 @@ export default async function handler(req: Req, res: Res) {
     "Des recettes qui existent vraiment et qu'on a envie de manger : n'associe que des ingrédients qui vont bien ensemble. Mieux vaut laisser un ingrédient de côté qu'inventer un mélange étrange.",
     "N'UTILISE PAS TOUT LE FRIGO : chaque recette prend seulement 3 à 6 ingrédients disponibles qui vont ensemble, pas toute la liste. Les 3 recettes se partagent le frigo : un ingrédient peut n'apparaître dans aucune. Ne mélange jamais sucré et salé (pas de pain au chocolat, viennoiserie, biscuit, yaourt sucré, confiture ou dessert dans un plat salé).",
     "UNE SEULE BASE PAR PLAT : jamais deux féculents principaux ensemble (pas de pâtes avec des gnocchis, pas de riz avec des pommes de terre, pas de pâtes avec du pain). Un produit tout prêt (gnocchis à la sauce, pâtes farcies, raviolis, plat cuisiné) est la base du plat à lui seul : on le complète avec des légumes, une protéine ou une garniture, jamais avec un autre produit tout prêt ni un autre féculent.",
-    meal === "d" ? `VARIÉTÉ : ${count > 1 ? `${count} desserts de types différents (pas deux gâteaux, pas deux crèmes), ` : ""}des desserts qu'on connaît et qu'on a envie de manger.` : count < 2 ? "" : `VARIÉTÉ : ${count} plats de types différents (pas deux plats de pâtes, pas deux poêlées, pas deux omelettes), avec des bases différentes (pâtes, riz, pommes de terre, pain, légumineuses, œufs…). ${count > 2 ? "Au moins 2 recettes" : "Au moins 1 recette"} sont des plats du quotidien qu'on connaît en France. La dernière peut venir d'ailleurs : aujourd'hui, inspire-toi de la cuisine ${style} si les ingrédients s'y prêtent.`,
+    meal === "d" ? `VARIÉTÉ : ${count > 1 ? `${count} desserts de types différents (pas deux gâteaux, pas deux crèmes), ` : ""}des desserts qu'on connaît et qu'on a envie de manger.` : count < 2 ? "" : `VARIÉTÉ : ${count} plats de types différents (pas deux plats de pâtes, pas deux poêlées, pas deux plats d'œufs), avec des bases différentes (pâtes, riz, pommes de terre, pain, légumineuses…). ${count > 2 ? "Au moins 2 recettes" : "Au moins 1 recette"} sont des plats du quotidien qu'on connaît en France. La dernière peut venir d'ailleurs : aujourd'hui, inspire-toi de la cuisine ${style} si les ingrédients s'y prêtent.`,
+    meal === "d" ? "" : eggLine,
     lines.length ? `PRÉFÉRENCES (à respecter) :\n${lines.join("\n")}` : "",
     familyLines.length ? `LE FOYER :\n${familyLines.join("\n")}` : "",
     avoid.length ? `DÉJÀ PROPOSÉES RÉCEMMENT, À NE PAS REPROPOSER, ni une variante proche (le même plat avec les mêmes ingrédients principaux sous un autre nom) : ${avoid.join(" ; ")}.` : "",
