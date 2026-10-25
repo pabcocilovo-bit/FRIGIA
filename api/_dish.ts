@@ -2,11 +2,12 @@
 // « Tartiflette » : la recette classique, puis 2 variantes qui ont du sens pour ce plat (plus légère, sans crème, végé…).
 // Un ingrédient ou une envie (« saumon », « rapide », « petit budget ») : 3 plats différents.
 // Réservé à Frigia Plus (et aux 7 jours d'essai), dans la limite des « autres idées » (20 par heure).
-import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
+// Appelé par api/recipes.ts quand la demande a un « query » : Vercel Hobby limite le nombre de fonctions (12).
+import type { Req, Res } from "./_shared.js";
 import { askClaude, checkIdeasLimit, prefLines, type Prefs } from "./_ai.js";
 import { parse, type RawRecipe, salvage, shape, str, strs } from "./_recipe.js";
 
-type Body = {
+export type DishBody = {
   query?: unknown;
   /** Ce qu'on a déjà (Ma cuisine) : marqué « have » dans les ingrédients */
   kitchen?: unknown;
@@ -16,17 +17,12 @@ type Body = {
   eaters?: { name?: unknown; allergies?: unknown; dislikes?: unknown }[];
 };
 
-export default async function handler(req: Req, res: Res) {
-  if (preflight(req, res)) return;
-  const admin = adminClient();
-  const user = await authUser(req, admin);
-  if (!user) return res.status(401).json({ error: "Invalid token" });
-  if (!isPlus(user)) return res.status(403).json({ error: "Ton essai est terminé.", code: "quota" });
-
-  const body = (req.body ?? {}) as Body;
+/** L'utilisateur est déjà vérifié (connecté, Plus ou essai) par api/recipes.ts. */
+export async function dish(req: Req, res: Res, userId: string) {
+  const body = (req.body ?? {}) as DishBody;
   const query = str(body.query, 80);
   if (query.length < 2) return res.status(400).json({ error: "Écris le nom d'une recette" });
-  if (!checkIdeasLimit(user.id)) return res.status(429).json({ error: "Limite atteinte. Réessaie dans une heure.", code: "rate" });
+  if (!checkIdeasLimit(userId)) return res.status(429).json({ error: "Limite atteinte. Réessaie dans une heure.", code: "rate" });
 
   const kitchen = strs(body.kitchen, 60, 40);
   const servings = Math.min(60, Math.max(1, Math.round(Number(body.servings) || 2)));

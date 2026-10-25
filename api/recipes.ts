@@ -4,6 +4,7 @@
 import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
 import { askClaude, checkIdeasLimit, checkRateLimit, checkScanToken, prefLines, type Prefs } from "./_ai.js";
 import { norm, parse, type RawRecipe, salvage, shape, str, strs } from "./_recipe.js";
+import { dish } from "./_dish.js";
 
 type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
@@ -48,6 +49,8 @@ export default async function handler(req: Req, res: Res) {
   const plus = isPlus(user);
   // Essai fini, sans Plus : « Passe à Plus »
   if (!plus) return res.status(403).json({ error: "Ton essai est terminé.", code: "quota" });
+  // Explorer : une recette demandée par son nom (api/_dish.ts)
+  if (typeof (req.body as { query?: unknown } | undefined)?.query === "string") return dish(req, res, user.id);
   const empty = body.empty === true;
   // Zéro course : n'a pas de sens frigo vide (on y fait justement une petite liste de courses)
   const noShop = body.noShop === true && !empty;

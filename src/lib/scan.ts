@@ -154,7 +154,8 @@ function toRecipe(r: RawRecipe): GeneratedRecipe {
 export async function searchDish(o: { query: string; kitchen: string[]; servings: number; eaters?: ApiEater[] }): Promise<RecipesResult> {
   const { data: { session } } = await supabase.auth.getSession();
   const userId = session?.user?.id;
-  const { response, data } = await post("/api/dish", {
+  // Même fonction que le scan (api/recipes.ts) : Vercel limite le nombre de fonctions
+  const { response, data } = await post("/api/recipes", {
     query: o.query, kitchen: o.kitchen.slice(0, 60), servings: o.servings, eaters: o.eaters,
     prefs: userId ? apiPrefs(getCachedProfile(userId)) : null,
   });
