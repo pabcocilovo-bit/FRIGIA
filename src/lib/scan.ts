@@ -115,7 +115,7 @@ type RawItem = { name: string; plural: string; qty: number | null; unit: string;
 type RawRecipe = {
   title: string; intro: string; minutes: number; calories: number; difficulty: string; imageSearch: string; imageUrl?: string;
   veg: boolean; oven: boolean; cold: boolean; missing: string; serves: number; items: RawItem[];
-  kids?: boolean; without?: string[]; origin?: string; dessert?: boolean;
+  kids?: boolean; without?: string[]; origin?: string; dessert?: boolean; variant?: string; change?: string;
   steps: { text: string; timer: { label: string; min: number } | null }[];
 };
 
@@ -145,7 +145,22 @@ function toRecipe(r: RawRecipe): GeneratedRecipe {
     ...(r.origin ? { origin: r.origin } : {}),
     ...(r.without?.length ? { without: r.without } : {}),
     ...(r.dessert ? { dessert: true } : {}),
+    ...(r.variant ? { variant: r.variant } : {}),
+    ...(r.change ? { change: r.change } : {}),
   };
+}
+
+/** Explorer : une recette demandée par son nom (la classique et 2 variantes), ou 3 plats pour un ingrédient ou une envie. */
+export async function searchDish(o: { query: string; kitchen: string[]; servings: number; eaters?: ApiEater[] }): Promise<RecipesResult> {
+  const { data: { session } } = await supabase.auth.getSession();
+  const userId = session?.user?.id;
+  const { response, data } = await post("/api/dish", {
+    query: o.query, kitchen: o.kitchen.slice(0, 60), servings: o.servings, eaters: o.eaters,
+    prefs: userId ? apiPrefs(getCachedProfile(userId)) : null,
+  });
+  if (!response?.ok) return failure(response, data);
+  const recipes = (Array.isArray(data.recipes) ? data.recipes : []) as RawRecipe[];
+  return { status: "ok", recipes: recipes.map(toRecipe) };
 }
 
 /** Scan, 2e partie : la liste vérifiée devient 3 recettes (ou 2 « autres idées » avec more). */

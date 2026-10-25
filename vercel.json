@@ -13,11 +13,14 @@
     },
     "api/notify.ts": {
       "maxDuration": 60
+    },
+    "api/dish.ts": {
+      "maxDuration": 60
     }
   },
   "rewrites": [
     {
-      "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera|plus|resilier|recette|aide|bilan|parrainage|notifications)",
+      "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera|plus|resilier|recette|aide|bilan|parrainage|notifications|cuisine|espace|explorer)",
       "destination": "/"
     },
     {
