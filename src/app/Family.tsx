@@ -1,67 +1,103 @@
-// 10 · Famille (prototype V3) : le compte, le foyer, le budget courses (Plus), les goûts, le parrainage et l'abonnement.
-// V3 (25 octobre) : plus d'onglet Famille. On arrive ici par « Mon profil », en haut de l'accueil, et on revient avec la flèche.
+// 10 · Mon profil. V3 (maquette de Hugo, 25 octobre) : plus d'onglet Famille, on arrive ici par « Mon profil », en haut de l'accueil.
+// Une page menu : ta photo et ton nom, le parrainage, puis Mon foyer, Mes préférences, Budget courses, Mon abonnement,
+// Compte et sécurité, Réglages, Aide et contact, Se déconnecter. Le foyer, les goûts et l'abonnement ont chacun leur page (ci-dessous).
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { Icon, Pill, RoundButton } from "../ui/components";
+import { Icon, type IconName, Pill } from "../ui/components";
 import type { User } from "../lib/types";
 import type { Profile } from "../lib/profile";
 import { memberSub, type Person } from "../lib/household";
 import { AppTabBar } from "./AppTabBar";
-import { useBack } from "./nav";
+import { GreenHead } from "./GreenHead";
 import { Avatar } from "./Home";
 import { memberSince, tasteRows } from "./format";
 import { subscriptionText, useOpenPaywall, useSubscription } from "./plus/subscription";
 import { trialText, trialUntil } from "../lib/billing";
 import { AccountSheet, type AccountMode, type Dish } from "./settings/sheets";
-import type { Budget } from "../lib/budget";
-import type { CookedMeal } from "../lib/cooked";
-import { BudgetCard } from "./family/Budget";
 
-export function Family({ user, name, isPlus, avatar, profile, household, budget, meals, dishes, onAvatar, onName, onEditTastes }: {
-  user: User; name: string; isPlus: boolean; avatar: string | null; profile: Profile | null;
-  /** Toi, puis tes proches */
-  household: Person[];
-  /** Budget courses (Plus) : le budget du mois, et les repas cuisinés pour ce que Frigia a évité de jeter */
-  budget: Budget; meals: CookedMeal[];
-  /** La photo de profil (le crayon sur la photo) : changée ici, comme dans Ton compte */
+function MenuRow({ icon, title, sub, onClick, lock }: { icon: IconName; title: string; sub: string; onClick: () => void; lock?: boolean }) {
+  return (
+    <button type="button" className="mp-row" onClick={onClick}>
+      <Icon name={icon} />
+      <span className="tx"><b>{title}</b><span>{sub}</span></span>
+      {lock ? <span className="lockpill">Plus</span> : <Icon name="next" />}
+    </button>
+  );
+}
+
+export function Family({ user, name, isPlus, avatar, dishes, onAvatar, onName, onSignOut }: {
+  user: User; name: string; isPlus: boolean; avatar: string | null;
+  /** La photo de profil (l'appareil photo sur la photo) : changée ici, comme dans Ton compte */
   dishes: Dish[]; onAvatar: (src: string | null) => void; onName: (name: string) => void;
-  /** Sans question : les 3 questions (« Modifier ») ; 2 ou 3 : cette question seule (une ligne de « Tes goûts ») */
-  onEditTastes: (question?: 2 | 3) => void;
+  onSignOut: () => void;
 }) {
   const navigate = useNavigate();
-  const back = useBack();
   const openPaywall = useOpenPaywall();
   // En essai : les jours qui restent
   const [trial] = useState(() => trialUntil(user));
-  // L'abonnement Stripe (prix, prochaine date) ; null pour un compte Plus sans abonnement (accès offert)
-  const { sub } = useSubscription(user.id, isPlus);
-  const tastes = profile && tasteRows(profile);
   const [sheet, setSheet] = useState<AccountMode | null>(null);
 
   return (
     <div className="fa fa-app" aria-label="Mon profil">
-      <div className="phead no-stats">
-        <div className="row">
-          <RoundButton icon="back" label="Retour" tone="glass" onClick={back} />
-          <span className="label">Mon profil</span>
-          <RoundButton icon="gear" label="Réglages" tone="glass" onClick={() => navigate("/reglages")} />
-        </div>
-        <div className="pid">
+      <GreenHead title="Mon profil">
+        <div className="mp-me">
           <div className="pav">
-            <Avatar user={user} name={name} photo={avatar} className="plate pav-av" label="Ta photo de profil" />
+            <Avatar user={user} name={name} photo={avatar} className="plate pav-av mp-av" label="Ta photo de profil" />
             <button type="button" className="pedit" aria-label="Changer ta photo de profil" onClick={() => setSheet("photo")}><Icon name="cam" /></button>
           </div>
-          <h2>{name}</h2>
-          <p>{memberSince(user)}</p>
-          {isPlus && !trial
-            ? <span className="plus-tag"><Icon name="sparkle" />Frigia Plus</span>
-            : <span className="plus-tag" style={{ background: "rgba(247,241,230,.18)", color: "var(--on)" }}>Essai de Frigia Plus</span>}
+          <button type="button" className="mp-id" onClick={() => navigate("/reglages/compte")}>
+            <span className="tx">
+              <b>{name}</b>
+              <span>{memberSince(user)}</span>
+              {isPlus && !trial
+                ? <span className="plus-tag"><Icon name="sparkle" />Frigia Plus</span>
+                : <span className="plus-tag">{trial ? "Essai de Frigia Plus" : "Sans abonnement"}</span>}
+            </span>
+            <Icon name="next" />
+          </button>
         </div>
-      </div>
+      </GreenHead>
 
-      <div className="pbody">
-        <div className="sec"><h3>Ton foyer</h3>{isPlus && <button type="button" className="link" onClick={() => navigate("/famille/proche")}>Ajouter</button>}</div>
-        {isPlus ? (
+      <div className="v3-body mp-body">
+        <button type="button" className="sp-hi mp-refer" onClick={() => navigate("/parrainage")}>
+          <Icon name="gift" />
+          <span className="tx"><b>Invite tes amis, gagne du Plus&nbsp;!</b><span>1 mois de Frigia Plus offert par ami abonné.</span></span>
+          <Icon name="next" />
+        </button>
+
+        <div className="mp-card">
+          <MenuRow icon="users" title="Mon foyer" sub="Membres et profils alimentaires" onClick={() => navigate("/famille/foyer")} />
+          <MenuRow icon="salad" title="Mes préférences" sub="Régime, ustensiles et temps disponible" onClick={() => navigate("/famille/preferences")} />
+          <MenuRow icon="cart" title="Budget courses" sub="Dépenses et budget mensuel" lock={!isPlus}
+            onClick={() => (isPlus ? navigate("/famille/budget") : openPaywall("budget", "/famille/budget"))} />
+          <MenuRow icon="crown" title="Mon abonnement" sub={trial ? trialText(trial) : "Frigia Plus et facturation"} onClick={() => navigate("/famille/abonnement")} />
+        </div>
+
+        <div className="mp-card">
+          <MenuRow icon="user" title="Compte et sécurité" sub="Informations personnelles, connexion" onClick={() => navigate("/reglages/compte")} />
+          <MenuRow icon="gear" title="Réglages de l'application" sub="Notifications, apparence, infos légales" onClick={() => navigate("/reglages")} />
+          <MenuRow icon="help" title="Aide et contact" sub="Questions fréquentes, nous écrire" onClick={() => navigate("/aide")} />
+        </div>
+
+        <button type="button" className="mp-out" onClick={onSignOut}>
+          <Icon name="logout" /><b>Se déconnecter</b><Icon name="next" />
+        </button>
+      </div>
+      <AppTabBar isPlus={isPlus} />
+      <AccountSheet mode={sheet} onClose={() => setSheet(null)} onMode={setSheet} user={user} name={name} avatar={avatar} dishes={dishes} onAvatar={onAvatar} onName={onName} />
+    </div>
+  );
+}
+
+/** Mon foyer : toi et tes proches (Plus). Essai fini : ce que Plus apporte. */
+export function FamilyHousehold({ isPlus, avatar, household }: { isPlus: boolean; avatar: string | null; household: Person[] }) {
+  const navigate = useNavigate();
+  const openPaywall = useOpenPaywall();
+  return (
+    <div className="fa fa-app" aria-label="Mon foyer">
+      <GreenHead title="Mon foyer" sub="Membres et profils alimentaires" />
+      <div className="v3-body pbody">
+        {isPlus ? <>
           <div className="plist">
             {household.map(p => {
               const sub = memberSub(p), pp = p.me && avatar;
@@ -74,7 +110,8 @@ export function Family({ user, name, isPlus, avatar, profile, household, budget,
               );
             })}
           </div>
-        ) : (
+          <Pill icon="plus" block onClick={() => navigate("/famille/proche")}>Ajouter un proche</Pill>
+        </> : (
           <div className="famcta">
             <span className="avs"><span className="ini">C</span><span className="ini">T</span><span className="ini k">L</span><span className="ini k">J</span></span>
             <b>Ajoute ta famille</b>
@@ -82,15 +119,26 @@ export function Family({ user, name, isPlus, avatar, profile, household, budget,
             <Pill onClick={() => openPaywall("famille")}>Découvrir Plus</Pill>
           </div>
         )}
+      </div>
+      <AppTabBar isPlus={isPlus} />
+    </div>
+  );
+}
 
-        <div className="sec"><h3>Budget courses</h3></div>
-        <BudgetCard isPlus={isPlus} budget={budget} meals={meals} />
-
-        <div className="sec"><h3>Tes goûts</h3><button type="button" className="link" onClick={() => onEditTastes()}>Modifier</button></div>
-        <p className="pintro">Enregistrés sur ton compte : tu les retrouves sur tous tes appareils.</p>
+/** Mes préférences : régime, ustensiles et temps en semaine. Une ligne rouvre sa question. */
+export function FamilyTastes({ isPlus, profile, onEditTastes }: {
+  isPlus: boolean; profile: Profile | null;
+  /** Sans question : les 3 questions (« Tout modifier ») ; 2 ou 3 : cette question seule */
+  onEditTastes: (question?: 2 | 3) => void;
+}) {
+  const tastes = profile && tasteRows(profile);
+  return (
+    <div className="fa fa-app" aria-label="Mes préférences">
+      <GreenHead title="Mes préférences" sub="Enregistrées sur ton compte, sur tous tes appareils" />
+      <div className="v3-body pbody">
         {tastes && (
           <div className="plist">
-            {/* Les 3 lignes restent, même vides : la maquette n'a pas d'état vide, on invite à compléter */}
+            {/* Les 3 lignes restent, même vides : on invite à compléter */}
             {([["salad", "Régime", tastes.diet, 2, ""], ["pan", "Ustensiles", tastes.equipment, 3, "Ajoute ton matériel"], ["clock", "Temps en semaine", tastes.time, 3, "Indique ton temps"]] as const)
               .map(([icon, title, value, question, empty]) => (
                 <button key={title} type="button" className="prow" onClick={() => onEditTastes(question)}>
@@ -99,15 +147,24 @@ export function Family({ user, name, isPlus, avatar, profile, household, budget,
               ))}
           </div>
         )}
+        <Pill tone="cream" block onClick={() => onEditTastes()}>Tout modifier</Pill>
+      </div>
+      <AppTabBar isPlus={isPlus} />
+    </div>
+  );
+}
 
-        <div className="sec"><h3>Parrainage</h3></div>
-        <div className="refer">
-          <span className="pi"><Icon name="gift" /></span>
-          <div><b>1 mois offert par ami abonné</b><span>Et 7 jours d'essai en plus pour ton ami</span></div>
-          <button type="button" className="pill" style={{ boxShadow: "inset 0 0 0 1px var(--line)" }} onClick={() => navigate("/parrainage")}>Inviter</button>
-        </div>
-
-        <div className="sec"><h3>Ton abonnement</h3></div>
+/** Mon abonnement : l'essai, Plus (gérer, résilier) ou sans abonnement. */
+export function FamilySubscription({ user, isPlus }: { user: User; isPlus: boolean }) {
+  const navigate = useNavigate();
+  const openPaywall = useOpenPaywall();
+  const [trial] = useState(() => trialUntil(user));
+  // L'abonnement Stripe (prix, prochaine date) ; null pour un compte Plus sans abonnement (accès offert)
+  const { sub } = useSubscription(user.id, isPlus);
+  return (
+    <div className="fa fa-app" aria-label="Mon abonnement">
+      <GreenHead title="Mon abonnement" sub="Frigia Plus et facturation" />
+      <div className="v3-body pbody">
         {trial ? (
           <div className="subcard free-sub">
             <span className="pi"><Icon name="sparkle" /></span>
@@ -127,15 +184,8 @@ export function Family({ user, name, isPlus, avatar, profile, household, budget,
             <Pill onClick={() => openPaywall("def")}>Plus</Pill>
           </div>
         )}
-
-        <div className="plist quiet">
-          <button type="button" className="prow" onClick={() => navigate("/reglages")}>
-            <span className="pi"><Icon name="gear" /></span><span className="tx"><b>Réglages et aide</b><span>Notifications, langue, compte</span></span><Icon name="next" />
-          </button>
-        </div>
       </div>
       <AppTabBar isPlus={isPlus} />
-      <AccountSheet mode={sheet} onClose={() => setSheet(null)} onMode={setSheet} user={user} name={name} avatar={avatar} dishes={dishes} onAvatar={onAvatar} onName={onName} />
     </div>
   );
 }

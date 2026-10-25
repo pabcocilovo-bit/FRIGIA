@@ -400,3 +400,29 @@ body:has(.fa .tabbar) .fa.ck-live-wrap{bottom:calc(90px + env(safe-area-inset-bo
 /* Barre d'onglets V3 : le scan, plus grand, déborde un peu */
 .fa .tab-scan{width:60px;height:60px}
 .fa .tab-scan .i{width:26px;height:26px}
+
+/* Mon profil (Family.tsx) */
+.fa .mp-me{display:flex;align-items:center;gap:16px;margin-top:14px;text-align:left}
+.fa .mp-me .pav{margin:0;flex:none}
+.fa .mp-me .pav .mp-av{width:92px;height:92px;font-size:42px;background:var(--sage);box-shadow:0 0 0 3px var(--on)}
+.fa .mp-me .pedit{width:32px;height:32px;right:-4px;bottom:-2px}
+.fa .mp-id{flex:1;min-width:0;display:flex;align-items:center;gap:8px;color:inherit;text-align:left}
+.fa .mp-id .tx{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.fa .mp-id b{font:400 30px/1.05 var(--serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.fa .mp-id .tx>span:not(.plus-tag){font-size:13.5px;opacity:.85}
+.fa .mp-id .plus-tag{margin-top:4px}
+.fa .mp-id>.i{width:22px;height:22px;flex:none}
+.fa .mp-body{gap:14px}
+.fa .mp-body .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.fa .mp-body .tx b{font:600 15.5px/1.25 var(--sans);color:var(--text)}
+.fa .mp-body .tx span{font-size:13.5px;line-height:1.35;color:var(--muted)}
+.fa .mp-refer>.i:first-child{width:30px;height:30px;flex:none;margin:0 6px 0 4px}
+.fa .mp-refer>.i:last-child{width:20px;height:20px;flex:none}
+.fa .mp-card{display:flex;flex-direction:column;padding:0 16px;border-radius:20px;background:var(--card);box-shadow:0 1px 0 var(--line),0 8px 18px -16px rgba(31,42,34,.4)}
+.fa .mp-row{display:flex;align-items:center;gap:16px;width:100%;padding:14px 0;border-bottom:1px solid var(--line);text-align:left;color:var(--sage-deep)}
+.fa .mp-row:last-child{border-bottom:0}
+.fa .mp-row>.i:first-child{width:26px;height:26px;flex:none}
+.fa .mp-row>.i:last-child{width:20px;height:20px;flex:none;color:var(--muted)}
+.fa .mp-out{display:flex;align-items:center;gap:16px;width:100%;padding:16px;border-radius:20px;background:var(--danger-soft);color:var(--danger);text-align:left}
+.fa .mp-out b{flex:1;font:600 15.5px/1 var(--sans)}
+.fa .mp-out .i{width:22px;height:22px;flex:none}

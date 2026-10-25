@@ -23,7 +23,7 @@ import { dueSoon } from "./lib/shelf";
 import { getScan } from "./app/scan/store";
 import { Planning } from "./app/plan/Planning";
 import { PlanNew } from "./app/plan/PlanNew";
-import { Family } from "./app/Family";
+import { Family, FamilyHousehold, FamilySubscription, FamilyTastes } from "./app/Family";
 import { Member } from "./app/family/Member";
 import { BudgetPage } from "./app/family/Budget";
 import { showToast } from "./app/toast";
@@ -335,10 +335,12 @@ return (
           return list.find(x => !x.done && same(x.name, item.name))?.id ?? null;
         }}
         onClearDone={() => home.setShopping(l => l.filter(x => !x.done))} />} />
-      <Route path="/famille" element={<Family user={user} name={name} isPlus={isPlus} avatar={avatarSrc} profile={profile} household={household}
-        budget={home.budget} meals={cooked.meals}
-        dishes={dishes} onAvatar={onAvatar} onName={onName}
+      <Route path="/famille" element={<Family user={user} name={name} isPlus={isPlus} avatar={avatarSrc}
+        dishes={dishes} onAvatar={onAvatar} onName={onName} onSignOut={account.onSignOut} />} />
+      <Route path="/famille/foyer" element={<FamilyHousehold isPlus={isPlus} avatar={avatarSrc} household={household} />} />
+      <Route path="/famille/preferences" element={<FamilyTastes isPlus={isPlus} profile={profile}
         onEditTastes={q => { resetAnswers(profile ?? EMPTY_PROFILE); navigate(`/questions/${q ?? 1}`, { state: { edit: true, only: !!q } }); }} />} />
+      <Route path="/famille/abonnement" element={<FamilySubscription user={user} isPlus={isPlus} />} />
       <Route path="/famille/budget" element={isPlus ? <BudgetPage budget={home.budget} meals={cooked.meals} household={household} onBudget={home.setBudget} />
         : <Navigate to="/plus" replace state={{ why: "budget" }} />} />
       {["/famille/proche", "/famille/proche/:id"].map(path => (

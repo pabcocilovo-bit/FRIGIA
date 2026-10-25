@@ -322,11 +322,11 @@ export function Cancel({ user, saved }: { user: User; saved: number }) {
   // Déjà résilié ou en pause : on ouvre directement sur « C'est noté » / « Bonne pause »
   const shown: Step = step ?? (sub && (sub.cancelAtPeriodEnd || sub.pauseUntil) ? "done" : "offer");
 
-  const close = () => (location.key === "default" ? navigate("/famille", { replace: true }) : navigate(-1));
+  const close = () => (location.key === "default" ? navigate("/famille/abonnement", { replace: true }) : navigate(-1));
   const keep = () => { showToast("Plus continue, rien ne change"); setTimeout(close, 500); };
 
   useEffect(() => {
-    if (sub === null) navigate("/famille", { replace: true });
+    if (sub === null) navigate("/famille/abonnement", { replace: true });
   }, [sub, navigate]);
   useEffect(() => {
     if (failed && sub === undefined) showToast("Ça n'a pas marché. Réessaie.");

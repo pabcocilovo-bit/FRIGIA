@@ -40,7 +40,7 @@ export function Member({ household, onSave, onRemove, onMyAllergies }: {
   const [appetite, setAppetite] = useState<number | undefined>(edit?.appetite);
   const [no, setNo] = useState("");
   const noRef = useRef<HTMLInputElement>(null);
-  if (id && !edit) return <Navigate to="/famille" replace />;
+  if (id && !edit) return <Navigate to="/famille/foyer" replace />;
 
   const n = name.trim();
   const app = appetiteOf({ kid: !me && kid, age, appetite });
@@ -58,13 +58,13 @@ export function Member({ household, onSave, onRemove, onMyAllergies }: {
     if (me) onMyAllergies(allergies);
     onSave(m);
     const after = edit ? household.map(p => (p.id === m.id ? { ...p, ...m } : p)) : [...household, m];
-    navigate("/famille", { replace: true, state: { added: m.id } });
+    navigate("/famille/foyer", { replace: true, state: { added: m.id } });
     showToast(edit ? `${me ? "Ta fiche" : m.name} est à jour` : `${m.name} rejoint ton foyer : ${portTxt(portionsOf(after, 0))}`);
   };
   const remove = () => {
     if (!edit) return;
     onRemove(edit.id);
-    navigate("/famille", { replace: true });
+    navigate("/famille/foyer", { replace: true });
     showToast(`${edit.name} ne fait plus partie du foyer`);
   };
 

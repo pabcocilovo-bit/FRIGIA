@@ -245,7 +245,7 @@ export function QDiet({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
         <p className="ob-note"><Icon name="users" /><span>Ce sont tes goûts à toi. Avec <b>Frigia Plus</b>, tu pourras régler ceux de chaque membre de la famille.</span></p>
       </div></div>
       {single && onSave
-        ? <SaveBar loading={saving} onClick={async () => { setSaving(true); await onSave(a); navigate("/famille", { replace: true }); }} />
+        ? <SaveBar loading={saving} onClick={async () => { setSaving(true); await onSave(a); navigate("/famille/preferences", { replace: true }); }} />
         : <GoBar title="Continuer" sub={sub} onClick={() => navigate("/questions/3", { state })} />}
     </Screen>
   );
@@ -288,7 +288,7 @@ export function QTime({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
     if (!onSave) { navigate("/pret"); return; }
     setSaving(true);
     await onSave(a);
-    navigate(edit ? "/famille" : "/", { replace: true });
+    navigate(edit ? "/famille/preferences" : "/", { replace: true });
   };
 
   return (
