@@ -50,6 +50,8 @@ import { Prep } from "./app/scan/Prep";
 import { Results } from "./app/scan/Results";
 import { Recipe, type RecipeState } from "./app/scan/Recipe";
 import { Cook } from "./app/scan/Cook";
+import { Space } from "./app/Space";
+import { Explore } from "./app/Explore";
 import { CookingLive } from "./app/scan/CookingLive";
 import { ATE, totalSaved } from "./lib/cooked";
 import { Report } from "./app/report/Report";
@@ -306,8 +308,10 @@ return (
   // Retour de la page Stripe : « On attend ta banque » tout de suite, sans l'écran d'ouverture
   <AppFrame splash={location.pathname !== "/plus/paiement"}>
     <Routes>
-      <Route path="/" element={<Home user={user} name={name} isPlus={isPlus} trial={trial} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household}
+      <Route path="/" element={<Home isPlus={isPlus} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household}
         week={home.week} onWeek={home.setWeek} kitchen={home.fridge} shopping={home.shopping} onOpenRecipe={r => openRecipe(r)} />} />
+      <Route path="/espace" element={<Space isPlus={isPlus} history={history} favorites={favorites} cooked={cooked.meals} shopping={home.shopping} onOpenRecipe={r => openRecipe(r)} />} />
+      <Route path="/explorer" element={<Explore isPlus={isPlus} history={history} favorites={favorites} kitchen={home.fridge} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/planning" element={<Planning {...plan} household={household} onAddMissing={addMissingOf} />} />
       <Route path="/planning/creer" element={<PlanNew {...plan} />} />
       <Route path="/cuisine" element={<MyKitchen isPlus={isPlus} fridge={home.fridge} onFridge={home.setFridge} onGone={(it, ate, v) => {

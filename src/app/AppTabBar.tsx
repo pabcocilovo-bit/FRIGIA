@@ -1,4 +1,4 @@
-// Barre d'onglets branchée sur la navigation : chaque onglet a son adresse (/, /planning, /cuisine, /famille).
+// Barre d'onglets branchée sur la navigation : chaque onglet a son adresse (/, /explorer, /planning, /cuisine).
 // En Gratuit, Planning (cadenas) ouvre « Passe à Plus », comme le prototype. Ma cuisine est ouverte à tous (les courses, dedans, sont en Plus).
 import { useNavigate } from "react-router";
 import { TabBar, type TabId } from "../ui/components";

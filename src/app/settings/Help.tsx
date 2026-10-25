@@ -34,7 +34,7 @@ const FAQ: { title: string; icon: IconName; qs: Q[] }[] = [
   { title: "Ton compte", icon: "user", qs: [
     // La maquette dit que la photo reste dans « Tes scans » : l'appli ne la garde pas
     { k: "photos", q: "Que devient la photo de mon frigo ?", a: "Elle sert seulement à lire tes ingrédients : Frigia ne la garde pas. On ne vend jamais tes données.", act: ["Lire la confidentialité", "privacy"] },
-    { k: "family", q: "Comment ajouter ma famille ?", a: "Avec Plus, dans l'onglet Famille : un prénom, un âge, ses allergies et ce qu'il n'aime pas. Les recettes s'adaptent à toute la tablée." },
+    { k: "family", q: "Comment ajouter ma famille ?", a: "Avec Plus, dans Mon profil, en haut de l'accueil : un prénom, un âge, ses allergies et ce qu'il n'aime pas. Les recettes s'adaptent à toute la tablée." },
     { k: "notifs", q: "Je ne reçois pas les notifications", a: "Sur iPhone, elles n'arrivent que si Frigia est sur ton écran d'accueil (iOS 16.4 ou plus). Vérifie ensuite les réglages du téléphone, puis dans Frigia : Réglages, Notifications.", act: ["Comment l'y mettre", "install"] },
     { k: "install", q: "Comment mettre Frigia sur mon écran d'accueil ?", a: "Sur iPhone, dans Safari : Partager, puis « Sur l'écran d'accueil ». Sur Android, dans Chrome : le menu ⋮, puis « Installer l'application »." },
     // Limite d'iOS pour les sites installés sur l'écran d'accueil ; à retirer quand Frigia sera une vraie appli

@@ -116,13 +116,14 @@ export function ScreenHeader({ title, sub, left, right, children }: {
   );
 }
 
-export type TabId = "home" | "plan" | "list" | "family";
+// V3 (maquette de Hugo, 25 octobre) : Accueil, Explorer, le scan, Planning, Ma cuisine. La famille passe dans « Mon profil », en haut de l'accueil.
+export type TabId = "home" | "explore" | "plan" | "list";
 const TABS: { id: TabId; label: string; icon: IconName; plusOnly?: boolean }[] = [
   { id: "home", label: "Accueil", icon: "home" },
+  { id: "explore", label: "Explorer", icon: "search" },
   { id: "plan", label: "Planning", icon: "cal", plusOnly: true },
   // Écart maquette : « Courses » devient « Ma cuisine » (frigo et placards pour tous, les courses en Plus), demandé par Hugo les 16 et 19 octobre
   { id: "list", label: "Ma cuisine", icon: "fridge" },
-  { id: "family", label: "Famille", icon: "users" },
 ];
 
 /** Barre d'onglets verte, le scan au milieu. Un cadenas doré marque les onglets Plus quand on est en Gratuit. */

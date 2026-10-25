@@ -1,4 +1,5 @@
 // 10 · Famille (prototype V3) : le compte, le foyer, le budget courses (Plus), les goûts, le parrainage et l'abonnement.
+// V3 (25 octobre) : plus d'onglet Famille. On arrive ici par « Mon profil », en haut de l'accueil, et on revient avec la flèche.
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Icon, Pill, RoundButton } from "../ui/components";
@@ -6,6 +7,7 @@ import type { User } from "../lib/types";
 import type { Profile } from "../lib/profile";
 import { memberSub, type Person } from "../lib/household";
 import { AppTabBar } from "./AppTabBar";
+import { useBack } from "./nav";
 import { Avatar } from "./Home";
 import { memberSince, tasteRows } from "./format";
 import { subscriptionText, useOpenPaywall, useSubscription } from "./plus/subscription";
@@ -27,6 +29,7 @@ export function Family({ user, name, isPlus, avatar, profile, household, budget,
   onEditTastes: (question?: 2 | 3) => void;
 }) {
   const navigate = useNavigate();
+  const back = useBack();
   const openPaywall = useOpenPaywall();
   // En essai : les jours qui restent
   const [trial] = useState(() => trialUntil(user));
@@ -36,10 +39,11 @@ export function Family({ user, name, isPlus, avatar, profile, household, budget,
   const [sheet, setSheet] = useState<AccountMode | null>(null);
 
   return (
-    <div className="fa fa-app" aria-label="Ta famille">
+    <div className="fa fa-app" aria-label="Mon profil">
       <div className="phead no-stats">
         <div className="row">
-          <span className="label">Ta famille</span>
+          <RoundButton icon="back" label="Retour" tone="glass" onClick={back} />
+          <span className="label">Mon profil</span>
           <RoundButton icon="gear" label="Réglages" tone="glass" onClick={() => navigate("/reglages")} />
         </div>
         <div className="pid">
@@ -130,7 +134,7 @@ export function Family({ user, name, isPlus, avatar, profile, household, budget,
           </button>
         </div>
       </div>
-      <AppTabBar active="family" isPlus={isPlus} />
+      <AppTabBar isPlus={isPlus} />
       <AccountSheet mode={sheet} onClose={() => setSheet(null)} onMode={setSheet} user={user} name={name} avatar={avatar} dishes={dishes} onAvatar={onAvatar} onName={onName} />
     </div>
   );

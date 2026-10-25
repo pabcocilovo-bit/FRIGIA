@@ -1,16 +1,13 @@
-// 1 · Accueil (prototype V3).
-import { useMemo, useRef, useState } from "react";
+// 1 · Accueil. V3 (maquette de Hugo, 25 octobre) : l'en-tête avec « Mon profil », la carte du scan, la recherche (Explorer),
+// les recettes de la semaine, le prochain repas prévu, puis « Mon espace Frigia » (économies, scans, favoris, courses : Space.tsx).
+import { type FormEvent, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { Band, BandFoot, Icon, LockPill, Pill } from "../ui/components";
+import { Icon } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry, User } from "../lib/types";
-import { type CookedMeal, isMeal, thisMonth, totalSaved } from "../lib/cooked";
-import { euros, kilos } from "./scan/savings";
-import { trialText } from "../lib/billing";
+import { type CookedMeal, isMeal } from "../lib/cooked";
 import { AppTabBar } from "./AppTabBar";
-import { bandLabel, daysAgo, initial, plural, scanWhen } from "./format";
+import { initial } from "./format";
 import { useOpenScan } from "./offline";
-import { useRecipePhoto } from "./photo";
-import { showToast } from "./toast";
 import { useNotifs } from "../lib/notify";
 import "./notifs/notifs.css";
 import { useOpenPaywall } from "./plus/subscription";
@@ -21,10 +18,8 @@ import { useScan } from "./scan/store";
 import { eatersOf } from "./scan/portions";
 import { weekDays } from "./format";
 import { Dish } from "./plan/Dish";
-import { cmFmt, useCommunity } from "./report/community";
-import "./report/report.css";
 import { SwapSheet, TonightSheet } from "./plan/sheets";
-import { cookedSlot, count, dayOf, MEAL_NAME, MEALS, mealOfKey, nextUp, options, recipePath } from "./plan/week";
+import { cookedSlot, MEAL_NAME, mealOfKey, nextUp, options, recipePath } from "./plan/week";
 
 export function Avatar({ user, name, photo, className, onClick, label }: {
   user: User; name?: string; photo: string | null; className: string; onClick?: () => void; label: string;
@@ -36,32 +31,20 @@ export function Avatar({ user, name, photo, className, onClick, label }: {
     : <span className={className + (photo ? " has-pp" : "")} style={style} role="img" aria-label={label}>{letter}</span>;
 }
 
-function ScanRow({ entry, locked, onClick }: { entry: HistoryEntry; locked: boolean; onClick: () => void }) {
-  const first = entry.recipes[0];
-  const photo = useRecipePhoto(first?.title, first?.imageSearch);
-  return (
-    <button type="button" className={"hrow" + (locked ? " old blur" : "")} onClick={onClick}>
-      {photo ? <img src={photo} alt="" /> : <span style={{ width: 46, height: 46, borderRadius: 12, background: "var(--surface)", flex: "none" }} />}
-      <div><b>{scanWhen(entry.date)}</b><span>{entry.ingredients.length ? plural(entry.ingredients.length, "ingrédient") : "Frigo vide"} · {plural(entry.recipes.length, "recette")}</span></div>
-      {locked ? <LockPill /> : <Icon name="next" className="muted" />}
-    </button>
-  );
-}
-
-/** En haut de l'accueil : les recettes de la semaine, qu'on fait défiler. Une carte ouvre sa fiche recette. */
+/** Les recettes de la semaine, qu'on fait défiler. Une carte ouvre sa fiche recette. */
 function WeekRecipes({ kitchen, onOpen }: { kitchen: Fridge; onOpen: (r: GeneratedRecipe) => void }) {
   const list = useMemo(() => weekRecipes(kitchen.items), [kitchen.items]);
   const track = useRef<HTMLDivElement>(null);
   const [at, setAt] = useState(0);
   const go = (i: number) => track.current?.scrollTo({ left: i * track.current.clientWidth, behavior: "smooth" });
   return (
-    <section className="hphoto wk" aria-label="Recettes de la semaine">
+    <section className="hm-wk wk" aria-label="Recettes de la semaine">
       <div className="wk-track" ref={track} onScroll={e => setAt(Math.round(e.currentTarget.scrollLeft / e.currentTarget.clientWidth))}>
-        {list.map(({ recipe: r, alt, kicker }, i) => (
+        {list.map(({ recipe: r, alt }, i) => (
           <button key={r.title} type="button" className="wk-slide" onClick={() => onOpen(r)} aria-label={`${r.title}, ${r.time}. Voir la recette`}>
             <img src={r.imageSearch} alt={alt} loading={i ? "lazy" : undefined} />
             <span className="wk-cap">
-              <small>{kicker}</small>
+              <small>Recette de la semaine</small>
               <b>{r.title}</b>
               <span>{r.time} · {r.diff}{r.veg ? " · Végé" : ""}</span>
             </span>
@@ -75,59 +58,30 @@ function WeekRecipes({ kitchen, onOpen }: { kitchen: Fridge; onOpen: (r: Generat
   );
 }
 
-function FavCard({ recipe, onClick }: { recipe: GeneratedRecipe; onClick: () => void }) {
-  const photo = useRecipePhoto(recipe.title, recipe.imageSearch);
-  return (
-    <button type="button" className="gc" onClick={onClick}>
-      {recipe.diff && <span className="tg">{recipe.diff}</span>}
-      <span className="rw">
-        {photo ? <img className="plate" src={photo} alt="" /> : <span className="plate" style={{ width: 58, background: "var(--surface)" }} />}
-        <span><b>{recipe.title}</b><span className="m">{recipe.time}</span></span>
-      </span>
-    </button>
-  );
-}
-
-// Sans scan : les trois étapes, avec les captures de la page d'accueil du site
-const STEPS = [
-  { img: "app-scan", t: "Tu prends ton frigo en photo", p: "Pour un plat ou un dessert" },
-  { img: "app-ingr", t: "Tu vérifies, tu dis qui mange", p: "Frigia liste ce qu'il a vu" },
-  { img: "app-results", t: "Tu choisis parmi trois recettes", p: "Avec ce que tu as déjà" },
-];
-
-const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-
-export function Home({ user, name, isPlus, trial, avatar, history, favorites, cooked, household, week, onWeek, kitchen, shopping, onOpenRecipe }: {
-  user: User; name: string; isPlus: boolean;
-  /** En essai : la fin des jours offerts (ms) */
-  trial: number | null;
+export function Home({ isPlus, avatar, history, favorites, cooked, household, week, onWeek, kitchen, shopping, onOpenRecipe }: {
+  isPlus: boolean;
   avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
   household: Person[];
   week: Week; onWeek: (w: Week) => void;
   cooked: CookedMeal[];
   /** Ma cuisine : ce qu'on a déjà pour les recettes de la semaine */
   kitchen: Fridge;
-  /** La liste de courses : sa carte, pour qu'on la trouve sans chercher */
+  /** La liste de courses : le panier en haut, avec ce qu'il reste à acheter */
   shopping: ShopItem[];
   onOpenRecipe: (r: GeneratedRecipe) => void;
 }) {
   const navigate = useNavigate();
   const openScan = useOpenScan();
   const openPaywall = useOpenPaywall();
-  const community = useCommunity();
   // Plus : qui mange ce soir (« Qui mange » du scan), avec les invités
   const scan = useScan();
   const eaters = eatersOf(household, scan);
-  // Ce que les repas cuisinés ce mois-ci ont sauvé (le détail : Ton bilan)
-  const month = thisMonth(cooked);
-  const saved = totalSaved(month);
   // Plus : la semaine, et le plat prévu ce soir
   const days = weekDays();
   const notifs = useNotifs();
   const [tn, setTn] = useState(false);
   const [swap, setSwap] = useState<{ i: number; meal: MealKey } | null>(null);
-  const planned = isPlus ? count(week, days) : { n: 0, last: -1 };
-  const plates = isPlus ? days.flatMap(d => MEALS.map(m => dayOf(week, d.key)[m])).filter(x => x && !x.left).slice(0, 3) : [];
+  const [q, setQ] = useState("");
   // Le prochain repas prévu : ce midi, ce soir, le dessert une fois le plat cuisiné, sinon demain ou plus loin
   const today = new Date().toDateString();
   // Le soir est passé : repas du soir cuisiné, ou après 21 h. Avant, rien de prévu ce soir : « Qu'est-ce qu'on mange ce soir ? »
@@ -143,25 +97,27 @@ export function Home({ user, name, isPlus, trial, avatar, history, favorites, co
   const nm = next ? MEAL_NAME[mealOfKey(next.key)] : "";
   const sweet = !!next && (next.key === "md" || next.key === "sd");
   const when = !next ? (evening ? "demain" : "ce soir") : next.i === 0 ? `ce ${nm}` : `demain ${nm}`;
-  const nextTitle = !next ? (evening ? <>Qu'est-ce qu'on mange <em>demain&nbsp;?</em></> : <>Qu'est-ce qu'on mange <em>ce soir&nbsp;?</em></>)
-    : sweet ? <>Le dessert de <em>{when}</em></>
-      : next.i === 0 ? <>{nm === "midi" ? "Ce midi" : "Ce soir"}, c'est <em>prévu</em></>
-        : <>Demain {nm}, c'est <em>prévu</em></>;
+  // Le titre de la carte verte, en capitales comme sur la maquette
+  const nextLabel = !next ? (evening ? "Demain" : "Ce soir")
+    : sweet ? `Le dessert de ${when}`
+      : next.i === 0 ? `${nm === "midi" ? "Ce midi" : "Ce soir"}, c'est prévu`
+        : `Demain ${nm}, c'est prévu`;
+  const openPlanning = () => (isPlus ? navigate("/planning") : openPaywall("planning", "/planning"));
 
   const toBuy = shopping.filter(x => !x.done);
-
-  // Sans favori : deux recettes du dernier scan encore ouvert (moins de 7 jours en gratuit)
-  const recent = history.find(e => e.recipes.length > 0 && (isPlus || daysAgo(e.date) <= 7));
-  const ideas = recent ? recent.recipes.slice(0, 2) : [];
-
   // La cloche : les notifs non lues (« Il te reste 3 scans » ne compte plus en Plus)
   const unread = (notifs ?? []).filter(x => !x.read && !(isPlus && x.kind === "scans")).length;
+  // La recherche ouvre Explorer avec ce qu'on a tapé
+  const search = (e: FormEvent) => { e.preventDefault(); navigate(q.trim() ? `/explorer?q=${encodeURIComponent(q.trim())}` : "/explorer"); };
 
   return (
-    <div className="fa fa-app" aria-label="Accueil">
+    <div className="fa fa-app hm3" aria-label="Accueil">
       <div className="ghead">
         <div className="row hd-row">
-          <Avatar user={user} name={name} photo={avatar} className="avatar" label="Ta famille" onClick={() => navigate("/famille")} />
+          <button type="button" className="hm-me" aria-label="Mon profil" onClick={() => navigate("/famille")}>
+            {avatar ? <span className="hm-pp" style={{ backgroundImage: `url(${avatar})` }} aria-hidden="true" /> : <Icon name="user" />}
+            <span className="hm-me-tx">Mon profil</span>
+          </button>
           <span className="word">Frigia</span>
           <span className="hd-r">
           {/* La liste de courses, toujours à portée : le panier, avec ce qu'il reste à acheter */}
@@ -174,119 +130,51 @@ export function Home({ user, name, isPlus, trial, avatar, history, favorites, co
           </span>
         </div>
       </div>
-      {/* L'essai (7 jours, 14 avec un code) : les jours qui restent, et l'abonnement d'un appui */}
-      {trial && (
-        <button type="button" className="hm-trial" onClick={() => navigate("/plus")}>
-          <Icon name="sparkle" /><span><b>{trialText(trial)}</b> · Choisir ma formule</span><Icon name="next" />
-        </button>
-      )}
-      <WeekRecipes kitchen={kitchen} onOpen={onOpenRecipe} />
-      <div className={"home-band" + (tonight ? " tn-has" : "")}>
-        <Band label={bandLabel(user)} title={nextTitle}>
+      <div className="hm-body">
+        {/* Pas de bandeau d'essai en V3 pour l'instant (Hugo, 25 octobre) : à décider, voir notes/versions.md du projet */}
+        <section className="hm-hero" aria-label="Scanner mon frigo">
+          <img src="/landing/frigo.jpg" alt="" />
+          <h1>Ton frigo a des idées&nbsp;!</h1>
+          <p>Scanne tes aliments et découvre ce que tu peux cuisiner avec ce que tu as déjà.</p>
+          <button type="button" className="hm-scan" onClick={openScan}><Icon name="cam" /><span>Scanner mon frigo</span><Icon name="arrow" /></button>
+        </section>
+
+        <form className="hm-search" role="search" onSubmit={search}>
+          <label><Icon name="search" /><input type="search" enterKeyHint="search" autoComplete="off" placeholder="Ou cherche : saumon, pâtes, burger…"
+            aria-label="Chercher une recette" value={q} onChange={e => setQ(e.target.value)} /></label>
+          <button type="button" className="hm-filter" aria-label="Filtres" onClick={() => navigate("/explorer?filtres=1")}><Icon name="sliders" /></button>
+        </form>
+
+        <WeekRecipes kitchen={kitchen} onOpen={onOpenRecipe} />
+
+        <section className="hm-next" aria-label={nextLabel}>
+          <div className="hm-next-hd"><h2>{nextLabel}</h2><button type="button" onClick={openPlanning}>Voir tout<Icon name="next" /></button></div>
           {tonight ? (
             <button type="button" className="tn-card" onClick={() => setTn(true)}>
               <Dish recipe={tonight.recipe} className="plate" />
               <span className="tn-tx"><b>{tonight.recipe.title}</b><span className="tn-m">{tonight.recipe.time} · pour {portTxt(portionsOf(eaters, scan.guests))}{next?.dessert ? " · et un dessert" : ""}</span></span>
               <span className="tn-go" aria-hidden="true"><Icon name="arrow" /></span>
             </button>
-          ) : <p>Prends ton frigo en photo, puis choisis ton menu : des plats, un dessert, ou la semaine.</p>}
+          ) : (
+            <button type="button" className="tn-card" onClick={openScan}>
+              <span className="hm-q"><Icon name="utensils" /></span>
+              <span className="tn-tx"><b>Qu'est-ce qu'on mange {when}&nbsp;?</b><span className="tn-m">Scanne ton frigo : trois recettes avec ce que tu as</span></span>
+              <span className="tn-go" aria-hidden="true"><Icon name="arrow" /></span>
+            </button>
+          )}
           {done && done.slot !== tonight && (
             <button type="button" className="tn-back" onClick={() => navigate(recipePath(done.slot, history), { state: { recipe: done.slot.recipe, from: "plan" } })}>
               <Icon name="redo" /><span>Revoir {done.key === "m" || done.key === "md" ? "ce midi" : "ce soir"} : <b>{done.slot.recipe.title}</b></span>
             </button>
           )}
-          <Pill tone="cream" icon="cam" onClick={openScan}>Scanner mon frigo</Pill>
-          {isPlus && (
-            <BandFoot>
-              <span className="stack">{eaters.map(p => <i key={p.id}>{p.name.charAt(0).toUpperCase()}</i>)}{scan.guests > 0 && <i>+{scan.guests}</i>}</span>
-              {forTonight(eaters, scan.guests, when)}
-            </BandFoot>
-          )}
-        </Band>
-      </div>
-      <div className="hbody">
-        {(saved.kg > 0 || saved.usedKg > 0) && (
-          <button type="button" className="saved-card" onClick={() => (isPlus ? navigate("/bilan") : openPaywall("bilan"))}>
-            <span className="ico"><Icon name="leaf" /></span>
-            {/* Sauvé : ce qui était « À finir ». Sans rien de marqué, ce qui a été cuisiné de ton frigo. */}
-            {saved.kg > 0
-              ? <div><b>{euros(saved.eur)} sauvés en {MONTHS[new Date().getMonth()]}</b><span>{kilos(saved.kg)} de nourriture en moins à la poubelle</span></div>
-              : <div><b>{kilos(saved.usedKg)} de ton frigo cuisinés en {MONTHS[new Date().getMonth()]}</b><span>Marque « À finir » au scan pour compter ce que tu sauves</span></div>}
-            {isPlus ? <Icon name="next" className="muted" /> : <span className="lockpill">Aperçu</span>}
-          </button>
-        )}
+          {isPlus && <p className="hm-next-ft"><Icon name="pin" /><span>{forTonight(eaters, scan.guests, when)}</span></p>}
+        </section>
 
-        {community && (
-          <button type="button" className="cm-line"
-            onClick={() => (isPlus ? navigate("/bilan") : showToast(`Ensemble, ${cmFmt(community.kg)} kg de nourriture en moins à la poubelle`))}>
-            <span className="cm-ic"><Icon name="users" /></span>
-            <span><b>{cmFmt(community.kg)} kg</b> sauvés par la communauté Frigia</span>
-            <i className="cm-live" aria-hidden="true" />
-          </button>
-        )}
-
-        <div className="sec"><h3>Ta semaine</h3>{!isPlus && <LockPill />}</div>
-        <button type="button" className="week" onClick={() => (isPlus ? navigate("/planning") : openPaywall("planning", "/planning"))}>
-          <span className="pl3">
-            {plates.length ? plates.map(sl => sl && <Dish key={sl.recipe.title} recipe={sl.recipe} className="plate" />) : <>
-              <img className="plate" src="/landing/pasta-legumes.jpg" alt="" />
-              <img className="plate" src="/landing/soupe-detox.jpg" alt="" />
-              <img className="plate" src="/landing/wrap-proteine.jpg" alt="" />
-            </>}
-          </span>
-          <div className="tx"><b>{!isPlus ? "Prévois tes 5 prochains repas" : planned.n
-            ? `${planned.n} repas prêt${planned.n > 1 ? "s" : ""}${planned.last > 0 ? ` jusqu'à ${days[planned.last].long.toLowerCase()}` : ""}`
-            : "Ta semaine est vide"}</b><span className="m">{history.length ? "À partir de ton scan d'hier, sans gâchis" : "À partir de ton premier scan, sans gâchis"}</span></div>
-          <Icon name="next" className="muted" />
+        <button type="button" className="hm-space" onClick={() => navigate("/espace")}>
+          <span className="hm-space-ic"><Icon name="grid" /></span>
+          <span className="tx"><b>Mon espace Frigia</b><span>Mes économies, mes scans, mes favoris et mes courses</span></span>
+          <Icon name="next" />
         </button>
-
-        {/* La liste de courses : cochée au magasin, elle range tout dans Ma cuisine */}
-        <div className="sec"><h3>Tes courses</h3></div>
-        <button type="button" className="week shop" onClick={() => navigate("/courses")}>
-          <span className="shop-ic"><Icon name="cart" /></span>
-          <div className="tx">{toBuy.length
-            ? <><b>{toBuy.length} article{toBuy.length > 1 ? "s" : ""} à acheter</b><span className="m">{toBuy.slice(0, 3).map(x => x.name).join(", ")}{toBuy.length > 3 ? "…" : ""}</span></>
-            : <><b>Ta liste de courses</b><span className="m">Ce qui manque à une recette s'ajoute en un appui. Coché au magasin, c'est rangé dans Ma cuisine.</span></>}</div>
-          <Icon name="next" className="muted" />
-        </button>
-
-        {/* Écart maquette : sans scan ni favori, l'accueil garde ses deux sections (comment ça marche, idées à garder) au lieu de s'arrêter à « Ta semaine » */}
-        {history.length > 0 ? <>
-          <div className="sec"><h3>Tes derniers scans</h3><button type="button" className="link" onClick={() => navigate("/scans")}>Tout voir</button></div>
-          <div className="hist">
-            {history.slice(0, 3).map(e => (
-              <ScanRow key={e.id} entry={e} locked={!isPlus && daysAgo(e.date) > 7} onClick={() => (!isPlus && daysAgo(e.date) > 7 ? openPaywall("historique") : navigate(`/recettes/${e.id}`))} />
-            ))}
-          </div>
-        </> : <>
-          <div className="sec"><h3>Comment ça marche</h3><button type="button" className="link" onClick={openScan}>C'est parti</button></div>
-          <div className="hist">
-            {STEPS.map(st => (
-              <button key={st.img} type="button" className="hrow how" onClick={openScan}>
-                <img src={`/landing/${st.img}.jpg`} alt="" />
-                <div><b>{st.t}</b><span>{st.p}</span></div>
-                <Icon name="next" className="muted" />
-              </button>
-            ))}
-          </div>
-        </>}
-
-        <div className="sec"><h3>Tes favoris</h3>{favorites.length > 0 && <button type="button" className="link" onClick={() => navigate("/favoris")}>Tout voir</button>}</div>
-        {favorites.length > 0 ? (
-          <div className="grid2">
-            {favorites.slice(0, 2).map(r => <FavCard key={r.title} recipe={r} onClick={() => onOpenRecipe(r)} />)}
-          </div>
-        ) : ideas.length > 0 ? <>
-          <p className="fav-hint">Touche <Icon name="heart" /> sur une recette pour la retrouver ici. Celles de ton dernier scan :</p>
-          <div className="grid2">
-            {ideas.map(r => <FavCard key={r.title} recipe={r} onClick={() => onOpenRecipe(r)} />)}
-          </div>
-        </> : (
-          <div className="fav-empty">
-            <span className="ico"><Icon name="heart" /></span>
-            <div><b>Tes recettes préférées arriveront ici</b><span>Touche le cœur sur une recette pour la garder.</span></div>
-          </div>
-        )}
       </div>
       <AppTabBar active="home" isPlus={isPlus} />
       <TonightSheet open={tn} slot={tonight} history={history} household={household} onClose={() => setTn(false)}

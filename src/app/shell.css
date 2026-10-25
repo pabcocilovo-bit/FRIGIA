@@ -298,3 +298,105 @@ body:has(.fa .tabbar) .fa.ck-live-wrap{bottom:calc(90px + env(safe-area-inset-bo
 .fa .ck-ring-more{display:flex;gap:18px;justify-content:center}
 @keyframes ck-shake{0%,60%,100%{transform:rotate(0)}10%,30%,50%{transform:rotate(-10deg)}20%,40%{transform:rotate(10deg)}}
 @media (prefers-reduced-motion:reduce){.fa .ck-live,.fa .ck-ring .dialog-art{animation:none}}
+
+/* ── V3 (maquettes de Hugo, 25 octobre) ─────────────────────────────────────────── */
+/* L'en-tête vert des pages (GreenHead.tsx) et la page qui passe dessous, coins arrondis */
+.fa .v3head{position:sticky;top:0;z-index:5;background:var(--sage);color:var(--on);padding:var(--top) 14px 30px;text-align:center}
+/* Le haut de la page, arrondi, fait partie de l'en-tête : il reste en place quand la page défile dessous */
+.fa .v3head::after,.fa.hm3 .ghead::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:17px;background:var(--bg);border-radius:24px 24px 0 0}
+.fa .v3head-row{display:grid;grid-template-columns:44px 1fr 44px;align-items:center}
+.fa .v3head h1{margin:0;font:400 italic 32px/1.05 var(--serif)}
+.fa .v3head>p{margin:3px 0 0;font-size:13.5px;opacity:.85}
+.fa .v3head-back{width:44px;height:44px;display:grid;place-items:center;color:inherit}
+.fa .v3head-back .i{width:24px;height:24px}
+.fa .v3-body{padding:4px 16px 112px;display:flex;flex-direction:column;gap:12px}
+
+/* Accueil */
+.fa.hm3 .ghead{padding-bottom:30px}
+.fa.hm3 .ghead .hd-row{position:relative;z-index:1}
+.fa .hm-me{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 15px 0 11px;border-radius:999px;background:var(--on);color:var(--sage-deep);font:600 14.5px/1 var(--sans)}
+.fa .hm-me .i{width:20px;height:20px}
+/* Petit écran : l'icône seule, pour laisser « Frigia » au milieu */
+@media (max-width:359px){.fa .hm-me{width:40px;padding:0;justify-content:center}.fa .hm-me-tx{display:none}}
+.fa .hm-pp{width:24px;height:24px;border-radius:50%;background:var(--surface) center/cover}
+.fa .hm-body{padding:4px 16px 112px;display:flex;flex-direction:column;gap:14px}
+.fa .hm-hero{position:relative;overflow:hidden;border-radius:24px;padding:22px 18px 16px;background:color-mix(in srgb,var(--sage-soft) 55%,var(--card));box-shadow:0 1px 0 var(--line)}
+.fa .hm-hero>img{position:absolute;top:0;right:0;width:38%;bottom:36px;object-fit:cover;object-position:50% 30%;border-radius:18px 24px 18px 18px}
+.fa .hm-hero h1{margin:0;max-width:62%;font:400 32px/1.02 var(--serif);color:var(--sage-deep)}
+.fa .hm-hero p{margin:10px 0 0;max-width:60%;font-size:14.5px;line-height:1.4;color:var(--muted)}
+.fa .hm-scan{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:14px;width:100%;height:58px;margin-top:16px;border-radius:999px;background:var(--sage);color:var(--on);font:600 17px/1 var(--sans);box-shadow:0 14px 24px -16px rgba(52,80,59,.9)}
+.fa .hm-scan .i{width:24px;height:24px}
+.fa .hm-scan:active{transform:scale(.98)}
+.fa .hm-search{display:flex;align-items:center;gap:4px;padding:6px 8px 6px 6px;border-radius:999px;background:var(--card);box-shadow:0 1px 0 var(--line),0 8px 18px -16px rgba(31,42,34,.4)}
+.fa .hm-search label{flex:1;min-width:0;display:flex;align-items:center;gap:8px;height:44px;padding:0 12px;border-radius:999px;background:var(--bg);color:var(--sage-deep)}
+.fa .hm-search label .i{width:21px;height:21px;flex:none}
+.fa .hm-search input{flex:1;min-width:0;border:0;background:none;outline:none;font:400 13.5px/1 var(--sans);color:var(--text)}
+.fa .hm-search input::placeholder{color:var(--muted)}
+.fa .hm-filter{width:42px;height:42px;display:grid;place-items:center;flex:none;color:var(--sage-deep)}
+.fa .hm-filter .i{width:23px;height:23px}
+.fa .hm-wk{position:relative;height:290px;border-radius:22px;overflow:hidden;box-shadow:0 14px 26px -20px rgba(31,42,34,.6)}
+.fa .hm-wk img{width:100%;height:100%;object-fit:cover}
+.fa .hm-wk .wk-cap{left:18px;right:110px;bottom:18px}
+.fa .hm-wk .wk-dots{right:12px;bottom:16px}
+.fa .hm-next{display:flex;flex-direction:column;gap:10px;padding:14px 14px 12px;border-radius:22px;background:var(--sage);color:var(--on);box-shadow:0 18px 30px -20px rgba(52,80,59,.8)}
+.fa .hm-next-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 4px 0 6px}
+.fa .hm-next-hd h2{margin:0;font:700 13px/1.2 var(--sans);letter-spacing:.09em;text-transform:uppercase}
+.fa .hm-next-hd button{display:inline-flex;align-items:center;gap:2px;flex:none;color:inherit;font:600 14px/1 var(--sans);text-decoration:underline;text-underline-offset:4px}
+.fa .hm-next-hd button .i{width:16px;height:16px}
+.fa .hm-next .tn-card{margin:0}
+.fa .hm-q{width:62px;height:62px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--sage-soft);color:var(--sage-deep)}
+.fa .hm-q .i{width:28px;height:28px}
+.fa .hm-next-ft{display:flex;align-items:center;gap:8px;margin:0;padding:0 6px 2px;font-size:13.5px;opacity:.92}
+.fa .hm-next-ft .i{width:17px;height:17px;flex:none}
+.fa .hm-space{display:flex;align-items:center;gap:14px;width:100%;padding:14px;border-radius:22px;background:var(--card);text-align:left;color:var(--sage-deep);box-shadow:0 1px 0 var(--line),0 8px 18px -16px rgba(31,42,34,.4)}
+.fa .hm-space-ic{width:64px;height:64px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--surface)}
+.fa .hm-space-ic .i{width:28px;height:28px}
+.fa .hm-space .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.fa .hm-space b{font:400 23px/1.1 var(--serif)}
+.fa .hm-space .tx span{font-size:13.5px;line-height:1.35;color:var(--muted)}
+.fa .hm-space>.i{width:22px;height:22px;flex:none}
+
+/* Mon espace Frigia */
+.fa .sp-hi{display:flex;align-items:center;gap:14px;width:100%;padding:14px;border-radius:20px;background:var(--sage-soft);color:var(--sage-deep);text-align:left}
+.fa .sp-hi-ic{width:54px;height:54px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--sage-deep);color:var(--on)}
+.fa .sp-hi-ic .i{width:23px;height:23px}
+.fa .sp-body .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.fa .sp-body .tx b{font:600 15.5px/1.25 var(--sans);color:var(--text)}
+.fa .sp-body .tx span{font-size:13.5px;line-height:1.35;color:var(--muted)}
+.fa .sp-body .sp-hi>.i,.fa .sp-body .sp-line>.i,.fa .sp-row>.i{width:20px;height:20px;flex:none;color:var(--sage-deep)}
+.fa .sp-sec{margin:8px 2px 0;font:700 17px/1.2 var(--sans);color:var(--text)}
+.fa .sp-hd{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.fa .sp-all{display:inline-flex;align-items:center;gap:2px;font:600 14px/1 var(--sans);color:var(--sage-deep);text-decoration:underline;text-underline-offset:4px}
+.fa .sp-all .i{width:15px;height:15px}
+.fa .sp-card{width:100%;border-radius:20px;background:var(--card);box-shadow:0 1px 0 var(--line),0 8px 18px -16px rgba(31,42,34,.4)}
+.fa .sp-line{display:flex;align-items:center;gap:14px;padding:14px;text-align:left}
+.fa .sp-ic{width:54px;height:54px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--surface);color:var(--sage-deep)}
+.fa .sp-ic .i{width:24px;height:24px}
+.fa .sp-list{display:flex;flex-direction:column;padding:0 14px}
+.fa .sp-row{display:flex;align-items:center;gap:14px;width:100%;padding:12px 0;border-bottom:1px solid var(--line);text-align:left}
+.fa .sp-row:last-child{border-bottom:0}
+.fa .sp-row>img,.fa .sp-row>.sp-ph{width:60px;height:60px;border-radius:14px;object-fit:cover;flex:none;background:var(--surface)}
+.fa .sp-row.blur>img{filter:blur(3px)}
+.fa .sp-favs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.fa .sp-fav{position:relative;display:flex;flex-direction:column;gap:4px;min-width:0;padding:10px 10px 12px;border-radius:18px;background:var(--card);text-align:left;box-shadow:0 1px 0 var(--line),0 8px 18px -16px rgba(31,42,34,.4)}
+.fa .sp-fav>img,.fa .sp-fav>.sp-ph{width:84%;aspect-ratio:1;align-self:center;border-radius:50%;object-fit:cover;background:var(--surface);margin-bottom:6px}
+.fa .sp-fav b{font:600 13px/1.25 var(--sans);color:var(--text);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fa .sp-fav>span:last-child{font-size:12px;color:var(--muted)}
+.fa .sp-heart{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--card);color:var(--danger);box-shadow:0 2px 6px -2px rgba(0,0,0,.2)}
+.fa .sp-heart .i{width:15px;height:15px}
+.fa .sp-hint{margin:0 2px;font-size:13px;line-height:1.4;color:var(--muted)}
+.fa .sp-hint .i{width:14px;height:14px;vertical-align:-2px;color:var(--sage)}
+
+/* Explorer */
+.fa .ex-row{display:flex;gap:12px;overflow-x:auto;margin:0 -16px;padding:2px 16px 8px;scroll-padding:0 16px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.fa .ex-row::-webkit-scrollbar{display:none}
+.fa .ex-card{flex:0 0 158px;scroll-snap-align:start;display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:var(--card);text-align:left;box-shadow:0 1px 0 var(--line),0 8px 18px -16px rgba(31,42,34,.4)}
+.fa .ex-img{position:relative;display:block;aspect-ratio:4/3;background:var(--surface)}
+.fa .ex-img img{width:100%;height:100%;object-fit:cover}
+.fa .ex-card>b{padding:10px 12px 2px;font:600 14px/1.25 var(--sans);color:var(--text)}
+.fa .ex-card>span:last-child{padding:0 12px 12px;font-size:12.5px;color:var(--muted)}
+.fa .ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Barre d'onglets V3 : le scan, plus grand, déborde un peu */
+.fa .tab-scan{width:60px;height:60px}
+.fa .tab-scan .i{width:26px;height:26px}
