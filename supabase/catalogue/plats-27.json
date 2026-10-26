@@ -1,0 +1,112 @@
+[
+ {"q":"Côtes de porc","a":["cote de porc","cotes de porc grillees","cotelettes de porc","cotelette de porc"],"r":[
+  ["Côtes de porc à la moutarde","La classique","","Des côtes de porc poêlées, avec une sauce crème à la moutarde à l'ancienne.","",25,480,"F","pork chops mustard sauce","bf",
+   ["côte de porc|côtes de porc|4|","moutarde à l'ancienne|moutarde à l'ancienne|2|c. à s.","crème fraîche|crème fraîche|20|cl","échalote||1|","beurre||20|g","vin blanc|vin blanc|5|cl"],
+   ["Fais dorer les côtes 5 min de chaque côté dans le beurre.|Poêle|10","Retire-les et fais revenir l'échalote hachée.","Déglace au vin blanc, ajoute la crème et la moutarde, et laisse 2 min.","Remets les côtes dans la sauce 2 min."]],
+  ["Côtes de porc marinées","Marinées","Marinées au miel et à la sauce soja, grillées.","Des côtes de porc laquées, sucrées-salées.","",35,450,"F","glazed pork chops","bf",
+   ["côte de porc|côtes de porc|4|","miel||2|c. à s.","sauce soja|sauce soja|3|c. à s.","ail|ail|2|gousse","paprika|paprika|1|c. à c."],
+   ["Mélange le miel, la sauce soja, l'ail écrasé et le paprika.","Fais mariner les côtes 20 min.|Repos|20","Fais-les griller 5 min de chaque côté.|Poêle|10","Arrose du reste de marinade en fin de cuisson."]],
+  ["Côtes de porc aux pommes","Aux pommes","Avec des quartiers de pommes caramélisés.","Des côtes de porc à la normande, avec des pommes.","Inspiration normande",30,500,"F","pork chops apples","bf",
+   ["côte de porc|côtes de porc|4|","pomme||3|","beurre||30|g","crème fraîche|crème fraîche|10|cl","cidre|cidre|10|cl"],
+   ["Fais dorer les côtes 5 min de chaque côté dans le beurre et retire-les.|Poêle|10","Fais dorer les pommes en quartiers 5 min.|Poêle|5","Déglace au cidre, ajoute la crème.","Remets les côtes 2 min dans la sauce."]]
+ ]},
+ {"q":"Travers de porc","a":["ribs","spare ribs","travers de porc au four","ribs barbecue"],"r":[
+  ["Travers de porc laqués","La classique","","Des travers de porc fondants, laqués au miel et à la sauce barbecue.","",120,620,"F","bbq pork ribs","o",
+   ["travers de porc|travers de porc|1500|g","sauce barbecue|sauce barbecue|10|c. à s.","miel||2|c. à s.","sauce soja|sauce soja|2|c. à s.","ail|ail|2|gousse","paprika|paprika|1|c. à c."],
+   ["Préchauffe le four à 160 °C.","Pose les travers dans un plat, ajoute 10 cl d'eau, couvre de papier aluminium et enfourne 1 h 15.|Four|75","Mélange la sauce barbecue, le miel, la sauce soja, l'ail et le paprika.","Badigeonne les travers de sauce et remets 30 min à 200 °C sans couvrir, en badigeonnant 2 fois.|Four|30"]],
+  ["Travers de porc à la chinoise","À la chinoise","Laqués à la sauce hoisin et aux cinq épices.","Des travers caramélisés à la chinoise.","Inspiration chinoise",120,600,"F","chinese pork ribs","o",
+   ["travers de porc|travers de porc|1500|g","sauce hoisin|sauce hoisin|6|c. à s.","miel||2|c. à s.","sauce soja|sauce soja|3|c. à s.","cinq-épices|cinq-épices|1|c. à c.","gingembre|gingembre|1|c. à c."],
+   ["Fais cuire les travers couverts 1 h 15 à 160 °C avec un peu d'eau.|Four|75","Mélange la sauce hoisin, le miel, la sauce soja et les épices.","Badigeonne les travers.","Remets 30 min à 200 °C en badigeonnant.|Four|30"]],
+  ["Travers de porc à la cocotte","Mijotés","Mijotés à la cocotte avec des pommes de terre.","Des travers mijotés, fondants, avec leurs pommes de terre.","",100,650,"F","braised pork ribs potatoes","b",
+   ["travers de porc|travers de porc|1200|g","pomme de terre|pommes de terre|800|g","oignon||2|","thym|thym||","vin blanc|vin blanc|15|cl"],
+   ["Coupe les travers en morceaux et fais-les dorer dans une cocotte.|Cuisson|10","Ajoute les oignons, le thym, le vin et 20 cl d'eau, et laisse mijoter 45 min.|Cuisson|45","Ajoute les pommes de terre en morceaux.","Laisse 30 min à couvert.|Cuisson|30"]]
+ ]},
+ {"q":"Saucisses purée","a":["saucisse puree","saucisses de toulouse","saucisse a l oignon","saucisses aux oignons"],"r":[
+  ["Saucisses purée","La classique","","Des saucisses de Toulouse dorées avec une purée maison et une sauce aux oignons.","",40,720,"F","sausage mash onion gravy","bf",
+   ["saucisse de Toulouse|saucisses de Toulouse|4|","pomme de terre|pommes de terre|1000|g","lait||20|cl","beurre||40|g","oignon||2|","bouillon de bœuf|bouillon de bœuf|1|"],
+   ["Fais cuire les pommes de terre 20 min à l'eau salée.|Cuisson|20","Fais dorer les saucisses 15 min à la poêle en les retournant.|Poêle|15","Retire-les et fais fondre les oignons émincés dans la poêle, puis ajoute le bouillon et 20 cl d'eau, et laisse réduire.|Cuisson|8","Écrase les pommes de terre avec le lait et le beurre.","Sers les saucisses sur la purée, nappées de sauce."]],
+  ["Saucisses aux oignons et au vin","Au vin","Mijotées au vin rouge avec des oignons.","Des saucisses en sauce au vin rouge, à l'ancienne.","",45,650,"F","sausages red wine onions","b",
+   ["saucisse de Toulouse|saucisses de Toulouse|4|","oignon||3|","vin rouge|vin rouge|20|cl","farine||1|c. à s.","thym|thym||","pomme de terre|pommes de terre|800|g"],
+   ["Fais dorer les saucisses et retire-les.|Poêle|8","Fais fondre les oignons, saupoudre de farine, puis ajoute le vin et 10 cl d'eau.","Remets les saucisses avec le thym et laisse mijoter 25 min.|Cuisson|25","Sers avec des pommes de terre vapeur."]],
+  ["Saucisses de volaille et purée de carottes","Plus léger","Des saucisses de volaille et une purée carottes-pommes de terre.","Une version plus légère et colorée.","",40,480,"F","chicken sausages carrot mash","hbf",
+   ["saucisse de volaille|saucisses de volaille|8|","carotte||4|","pomme de terre|pommes de terre|500|g","lait||15|cl","beurre||15|g"],
+   ["Fais cuire les carottes et les pommes de terre 20 min.|Cuisson|20","Fais dorer les saucisses 10 min.|Poêle|10","Écrase les légumes avec le lait et le beurre.","Sers les saucisses avec la purée."]]
+ ]},
+ {"q":"Rôti de bœuf","a":["roti de boeuf","rosbif","roti de boeuf au four","roastbeef"],"r":[
+  ["Rôti de bœuf","La classique","","Le rôti de bœuf saisi puis rôti au four, rosé à cœur, avec des pommes de terre.","",60,520,"M","roast beef","o",
+   ["rôti de bœuf|rôtis de bœuf|1|","pomme de terre grenaille|pommes de terre grenailles|800|g","ail|ail|4|gousse","thym|thym||","huile d'olive|huile d'olive|3|c. à s.","beurre||20|g"],
+   ["Sors le rôti du frigo 1 h avant. Préchauffe le four à 220 °C.","Mets les pommes de terre dans un plat avec l'huile, l'ail et le thym, et enfourne 15 min.|Four|15","Saisis le rôti sur toutes les faces dans le beurre.|Poêle|5","Pose-le sur les pommes de terre et enfourne 15 min par 500 g pour une viande rosée.|Four|30","Laisse reposer 10 min sous du papier aluminium avant de trancher."]],
+  ["Rôti de bœuf en croûte de moutarde","Croûte de moutarde","Badigeonné de moutarde et d'herbes.","Un rôti parfumé avec une croûte moutarde et herbes.","",60,500,"M","mustard herb crusted roast beef","o",
+   ["rôti de bœuf|rôtis de bœuf|1|","moutarde|moutarde|2|c. à s.","herbes de Provence|herbes de Provence|1|c. à s.","chapelure|chapelure|2|c. à s.","haricot vert|haricots verts|500|g"],
+   ["Préchauffe le four à 220 °C. Saisis le rôti de tous côtés.|Poêle|5","Badigeonne-le de moutarde et roule-le dans les herbes et la chapelure.","Enfourne 30 min.|Four|30","Fais cuire les haricots verts 8 min à l'eau.|Cuisson|8","Laisse reposer le rôti 10 min avant de trancher."]],
+  ["Rôti de bœuf froid","Froid","Servi froid en fines tranches.","Le rosbif froid avec mayonnaise et salade, pour l'été.","",50,420,"M","cold roast beef slices","oc",
+   ["rôti de bœuf|rôtis de bœuf|1|","mayonnaise|mayonnaise|4|c. à s.","cornichon|cornichons|12|","salade verte|salade verte|1|"],
+   ["Préchauffe le four à 220 °C. Saisis le rôti.|Poêle|5","Enfourne 25 min.|Four|25","Laisse-le refroidir complètement, puis au frais.","Coupe-le en tranches fines et sers avec mayonnaise, cornichons et salade."]]
+ ]},
+ {"q":"Paupiettes de veau","a":["paupiette","paupiettes","paupiettes de dinde"],"r":[
+  ["Paupiettes de veau","La classique","","Des paupiettes dorées puis mijotées avec carottes et champignons.","",60,450,"F","veal paupiettes","",
+   ["paupiette de veau|paupiettes de veau|4|","carotte||3|","champignon de Paris|champignons de Paris|200|g","oignon||1|","vin blanc|vin blanc|15|cl","concentré de tomate|concentré de tomate|1|c. à s.","bouquet garni|bouquets garnis|1|"],
+   ["Fais dorer les paupiettes de tous côtés dans une cocotte.|Cuisson|8","Ajoute l'oignon émincé et les carottes en rondelles.","Ajoute le vin, le concentré, le bouquet garni et 20 cl d'eau.","Couvre et laisse mijoter 30 min.|Cuisson|30","Ajoute les champignons et laisse 10 min.|Cuisson|10"]],
+  ["Paupiettes de dinde à la crème","Dinde crème","Des paupiettes de dinde en sauce crème.","Des paupiettes de dinde plus douces, à la crème.","",50,420,"F","turkey paupiettes cream","bf",
+   ["paupiette de dinde|paupiettes de dinde|4|","champignon de Paris|champignons de Paris|200|g","échalote||2|","crème fraîche|crème fraîche|20|cl","vin blanc|vin blanc|10|cl"],
+   ["Fais dorer les paupiettes.|Cuisson|8","Ajoute les échalotes, le vin et 15 cl d'eau, et laisse mijoter 25 min.|Cuisson|25","Ajoute les champignons et la crème.","Laisse 10 min.|Cuisson|10"]],
+  ["Paupiettes à la tomate","À la tomate","Mijotées dans une sauce tomate.","Des paupiettes en sauce tomate, avec des pâtes.","",50,430,"F","paupiettes tomato sauce","b",
+   ["paupiette de veau|paupiettes de veau|4|","tomate concassée|tomates concassées|400|g","oignon||1|","ail|ail|2|gousse","olives vertes|olives vertes|60|g"],
+   ["Fais dorer les paupiettes.|Cuisson|8","Ajoute l'oignon et l'ail, puis les tomates.","Laisse mijoter 30 min.|Cuisson|30","Ajoute les olives 5 min avant la fin."]]
+ ]},
+ {"q":"Tajine d'agneau","a":["tajine agneau","tajine d agneau aux pruneaux","agneau aux pruneaux"],"r":[
+  ["Tajine d'agneau aux pruneaux","La classique","","L'agneau fondant mijoté aux épices, avec pruneaux et amandes grillées.","Recette marocaine",120,620,"M","lamb tagine prunes","",
+   ["épaule d'agneau|épaules d'agneau|1000|g","pruneaux|pruneaux|200|g","oignon||2|","miel||2|c. à s.","cannelle|cannelle|1|c. à c.","ras el-hanout|ras el-hanout|2|c. à c.","amandes|amandes|50|g"],
+   ["Coupe l'agneau en morceaux et fais-le dorer avec les oignons.|Cuisson|10","Ajoute les épices et 40 cl d'eau, couvre et laisse mijoter 1 h 15.|Cuisson|75","Ajoute les pruneaux et le miel, et laisse 20 min.|Cuisson|20","Fais griller les amandes à sec et parsème-les."]],
+  ["Tajine d'agneau aux légumes","Aux légumes","Avec carottes, courgettes et pois chiches.","Un tajine d'agneau complet aux légumes.","",110,560,"M","lamb vegetable tagine","",
+   ["épaule d'agneau|épaules d'agneau|800|g","carotte||3|","courgette||2|","pois chiche|pois chiches|400|g","oignon||2|","ras el-hanout|ras el-hanout|2|c. à c."],
+   ["Fais dorer l'agneau avec les oignons.|Cuisson|10","Ajoute les épices, les carottes et 40 cl d'eau, et laisse mijoter 1 h.|Cuisson|60","Ajoute les courgettes et les pois chiches.","Laisse 25 min.|Cuisson|25"]],
+  ["Tajine d'agneau aux abricots","Abricots","Avec des abricots secs.","Un tajine sucré-salé aux abricots.","",120,600,"M","lamb apricot tagine","",
+   ["épaule d'agneau|épaules d'agneau|1000|g","abricots secs|abricots secs|150|g","oignon||2|","gingembre|gingembre|1|c. à c.","cannelle|cannelle|1|c. à c.","coriandre|coriandre||"],
+   ["Fais dorer l'agneau avec les oignons.|Cuisson|10","Ajoute les épices et 40 cl d'eau, et laisse mijoter 1 h 15.|Cuisson|75","Ajoute les abricots et laisse 20 min.|Cuisson|20","Parsème de coriandre."]]
+ ]},
+ {"q":"Brochettes de poulet","a":["brochette de poulet","brochettes","brochettes barbecue","brochettes de dinde"],"r":[
+  ["Brochettes de poulet marinées","La classique","","Des brochettes de poulet marinées au citron et au paprika, avec poivrons et oignons.","",45,350,"F","grilled chicken skewers","hbf",
+   ["blanc de poulet|blancs de poulet|4|","poivron rouge|poivrons rouges|1|","oignon rouge|oignons rouges|1|","citron||1|","paprika|paprika|2|c. à c.","huile d'olive|huile d'olive|3|c. à s.","ail|ail|1|gousse"],
+   ["Coupe le poulet en cubes et fais-le mariner 20 min avec l'huile, le citron, le paprika et l'ail.|Repos|20","Coupe le poivron et l'oignon en morceaux.","Enfile poulet et légumes en alternant sur des brochettes.","Fais-les griller 12 min en les retournant.|Poêle|12"]],
+  ["Brochettes de poulet au yaourt","Au yaourt","Marinées au yaourt et aux épices, à l'indienne.","Des brochettes tendres et parfumées, avec une sauce yaourt.","",45,320,"F","yogurt marinated chicken skewers","h",
+   ["blanc de poulet|blancs de poulet|4|","yaourt nature|yaourts nature|2|","curry|curry|2|c. à c.","citron||1|","ail|ail|1|gousse","concombre||1|"],
+   ["Mélange 1 yaourt avec le curry, le jus du citron et l'ail.","Fais mariner le poulet en cubes 30 min.|Repos|30","Enfile sur des brochettes et fais griller 12 min.|Poêle|12","Sers avec l'autre yaourt mélangé au concombre râpé."]],
+  ["Brochettes de poulet au miel","Au miel","Laquées au miel et à la sauce soja.","Des brochettes sucrées-salées qui plaisent aux enfants.","",40,360,"F","honey soy chicken skewers","bf",
+   ["blanc de poulet|blancs de poulet|4|","miel||3|c. à s.","sauce soja|sauce soja|3|c. à s.","graines de sésame|graines de sésame|1|c. à s.","riz|riz|250|g"],
+   ["Fais mariner le poulet en cubes 20 min avec le miel et la sauce soja.|Repos|20","Fais cuire le riz.|Cuisson|12","Enfile sur des brochettes et fais griller 12 min en arrosant de marinade.|Poêle|12","Parsème de sésame."]]
+ ]},
+ {"q":"Poulet tandoori","a":["tandoori","poulet tandori","cuisses tandoori"],"r":[
+  ["Poulet tandoori","La classique","","Des cuisses de poulet marinées au yaourt et aux épices tandoori, rôties au four.","Recette indienne",60,420,"F","tandoori chicken","oh",
+   ["cuisse de poulet|cuisses de poulet|4|","yaourt nature|yaourts nature|2|","épices tandoori|épices tandoori|2|c. à s.","citron||1|","ail|ail|2|gousse","gingembre|gingembre|1|c. à c.","riz basmati|riz basmati|250|g"],
+   ["Entaille les cuisses et fais-les mariner au moins 1 h avec le yaourt, les épices, le citron, l'ail et le gingembre.|Repos|60","Préchauffe le four à 220 °C.","Pose les cuisses sur une plaque et enfourne 40 min.|Four|40","Fais cuire le riz.|Cuisson|12"]],
+  ["Brochettes de poulet tandoori","En brochettes","Des cubes de blanc de poulet en brochettes.","Des brochettes tandoori rapides à griller.","",40,360,"F","tandoori chicken skewers","h",
+   ["blanc de poulet|blancs de poulet|4|","yaourt nature|yaourts nature|1|","épices tandoori|épices tandoori|2|c. à s.","citron||1|","oignon rouge|oignons rouges|1|"],
+   ["Fais mariner le poulet en cubes 30 min avec le yaourt, les épices et le citron.|Repos|30","Enfile-le sur des brochettes avec l'oignon en morceaux.","Fais griller 12 min en les retournant.|Poêle|12","Sers avec une salade."]],
+  ["Chou-fleur tandoori","Végétarien","Un chou-fleur rôti à la marinade tandoori.","La marinade tandoori sur un chou-fleur rôti.","",50,220,"F","tandoori cauliflower","voh",
+   ["chou-fleur|choux-fleurs|1|","yaourt nature|yaourts nature|1|","épices tandoori|épices tandoori|2|c. à s.","citron||1|","coriandre|coriandre||"],
+   ["Préchauffe le four à 210 °C.","Coupe le chou-fleur en fleurettes et enrobe-les du yaourt mélangé aux épices et au citron.","Enfourne 35 min.|Four|35","Parsème de coriandre."]]
+ ]},
+ {"q":"Escalope de dinde","a":["escalopes de dinde","dinde a la creme","escalope dinde creme"],"r":[
+  ["Escalopes de dinde à la crème","La classique","","Des escalopes de dinde dorées, nappées d'une sauce crème aux champignons.","",25,380,"F","turkey escalope cream sauce","hbf",
+   ["escalope de dinde|escalopes de dinde|4|","champignon de Paris|champignons de Paris|200|g","crème fraîche|crème fraîche|15|cl","échalote||1|","beurre||15|g"],
+   ["Fais dorer les escalopes 4 min de chaque côté dans le beurre et retire-les.|Poêle|8","Fais revenir l'échalote et les champignons 5 min.|Poêle|5","Ajoute la crème et laisse 2 min.","Remets les escalopes dans la sauce 2 min."]],
+  ["Escalopes de dinde au citron","Citron","Avec une sauce légère au citron et aux câpres.","Des escalopes légères, citron et câpres.","",20,300,"F","turkey piccata lemon capers","hb",
+   ["escalope de dinde|escalopes de dinde|4|","citron||1|","câpres|câpres|1|c. à s.","farine||2|c. à s.","beurre||20|g"],
+   ["Farine légèrement les escalopes.","Fais-les dorer 3 min de chaque côté dans le beurre.|Poêle|6","Ajoute le jus du citron, les câpres et 5 cl d'eau.","Laisse réduire 1 min."]],
+  ["Escalopes de dinde au curry","Au curry","Avec une sauce curry coco.","Des escalopes de dinde en sauce curry douce.","",25,380,"F","turkey curry coconut","bf",
+   ["escalope de dinde|escalopes de dinde|4|","lait de coco|lait de coco|20|cl","curry|curry|2|c. à c.","oignon||1|","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Coupe la dinde en lanières et fais-la dorer avec l'oignon.|Poêle|6","Ajoute le curry et le lait de coco.","Laisse mijoter 8 min.|Cuisson|8"]]
+ ]},
+ {"q":"Poulet au miel","a":["poulet miel","poulet miel soja","poulet au miel et a la sauce soja"],"r":[
+  ["Poulet au miel et à la sauce soja","La classique","","Des morceaux de poulet laqués au miel, à la sauce soja et à l'ail, avec du riz.","",25,450,"F","honey soy chicken","bf",
+   ["blanc de poulet|blancs de poulet|4|","miel||3|c. à s.","sauce soja|sauce soja|4|c. à s.","ail|ail|2|gousse","graines de sésame|graines de sésame|1|c. à s.","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Coupe le poulet en morceaux et fais-le dorer 6 min.|Poêle|6","Ajoute le miel, la sauce soja et l'ail.","Laisse réduire 3 min jusqu'à ce que le poulet soit laqué.|Cuisson|3","Parsème de sésame."]],
+  ["Cuisses de poulet au miel au four","Au four","Des cuisses rôties au four avec miel et moutarde.","Des cuisses de poulet dorées au miel et à la moutarde.","",55,480,"F","honey mustard chicken thighs","obf",
+   ["cuisse de poulet|cuisses de poulet|4|","miel||3|c. à s.","moutarde|moutarde|2|c. à s.","pomme de terre|pommes de terre|600|g","huile d'olive|huile d'olive|2|c. à s."],
+   ["Préchauffe le four à 200 °C.","Mélange le miel et la moutarde et badigeonne-en les cuisses.","Mets-les dans un plat avec les pommes de terre en quartiers et l'huile.","Enfourne 45 min en arrosant.|Four|45"]],
+  ["Poulet au miel et au citron","Citron","Avec une sauce miel-citron.","Un poulet frais et doux au miel et citron.","",25,420,"F","honey lemon chicken","b",
+   ["blanc de poulet|blancs de poulet|4|","miel||3|c. à s.","citron||1|","ail|ail|1|gousse","thym|thym||"],
+   ["Coupe le poulet en morceaux et fais-le dorer.|Poêle|6","Ajoute le miel, le zeste et le jus du citron, l'ail et le thym.","Laisse réduire 3 min.|Cuisson|3","Sers avec du riz ou des légumes."]]
+ ]}
+]
