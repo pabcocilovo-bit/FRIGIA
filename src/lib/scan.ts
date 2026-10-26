@@ -151,12 +151,13 @@ function toRecipe(r: RawRecipe): GeneratedRecipe {
 }
 
 /** Explorer : une recette demandée par son nom (la classique et 2 variantes), ou 3 plats pour un ingrédient ou une envie. */
-export async function searchDish(o: { query: string; eaters?: ApiEater[] }): Promise<RecipesResult> {
+/** catalogOnly : le catalogue seulement, sans l'IA. skip : les titres déjà montrés (« Autres idées »). */
+export async function searchDish(o: { query: string; eaters?: ApiEater[]; catalogOnly?: boolean; skip?: string[] }): Promise<RecipesResult> {
   const { data: { session } } = await supabase.auth.getSession();
   const userId = session?.user?.id;
   // Même fonction que le scan (api/recipes.ts) : Vercel limite le nombre de fonctions
   const { response, data } = await post("/api/recipes", {
-    query: o.query, eaters: o.eaters,
+    query: o.query, eaters: o.eaters, catalogOnly: o.catalogOnly, skip: o.skip,
     prefs: userId ? apiPrefs(getCachedProfile(userId)) : null,
   });
   if (!response?.ok) return failure(response, data);

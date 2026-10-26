@@ -1,9 +1,10 @@
 // Explorer (V3, maquette de Hugo du 25 octobre) : chercher une recette, frigo plein ou vide.
 // Une recette demandée par son nom (« tartiflette ») revient en 3 : la classique et 2 variantes (plus légère, sans crème…),
-// par l'IA (api/_dish.ts) ou le catalogue des recherches déjà faites. Un ingrédient, une catégorie ou un type de plat : 3 plats différents.
+// par l'IA (api/_dish.ts) ou le catalogue des recherches déjà faites. Un ingrédient, une catégorie ou un type de plat : 6 plats différents
+// tirés au sort dans le catalogue (« Autres idées » en tire 6 autres), ou 3 de l'IA pour une recherche nouvelle.
 // Les recettes arrivent pour 4 portions, sans rien savoir de Ma cuisine : ce qu'on a déjà est coché ici.
 // La recherche est dans l'adresse (?q=) : le retour du téléphone revient à Explorer, et les réponses sont gardées 24 h.
-import { type FormEvent, useEffect, useMemo, useState } from "react";
+import { type FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 import { Chip, Icon, Pill } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry } from "../lib/types";
@@ -112,8 +113,12 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
   const [easy, setEasy] = useState(false);
   const [chip, setChip] = useState<string | null>(null);
   const [fetched, setFetched] = useState<Search | null>(null);
-  // « Réessayer » relance la même recherche
-  const [tries, setTries] = useState(0);
+  // « Réessayer » et « Autres idées » relancent la même recherche, sans la réponse gardée ; skip : les titres déjà montrés
+  const [redo, setRedo] = useState({ q: "", n: 0 });
+  const tries = redo.q === q ? redo.n : 0;
+  const skip = useRef<string[]>([]);
+  // Les recettes du catalogue pour l'ingrédient choisi (jamais l'IA) ; undefined tant qu'elles arrivent
+  const [byChip, setByChip] = useState<Record<string, GeneratedRecipe[]>>({});
 
   const week = useMemo(() => weekRecipes(kitchen.items).map(x => x.recipe), [kitchen.items]);
   // Toutes les recettes connues, sans doublon : la semaine, les favoris, puis les scans
@@ -127,15 +132,38 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
   const mine = useMemo(() => [...new Set(kitchen.items.map(i => i.name))].slice(0, 8), [kitchen.items]);
   const picked = chip ?? mine[0] ?? null;
   // « Œufs » trouve « œuf » : sans le s final
-  const withChip = picked ? known.filter(r => norm(words(r)).includes(norm(picked).replace(/s$/, ""))) : [];
+  const fromCatalog = picked ? byChip[picked] : undefined;
+  // Tes recettes d'abord, puis celles du catalogue, avec ce que tu as déjà coché
+  const withChip = useMemo(() => {
+    if (!picked) return [];
+    const seen = new Set<string>();
+    return [...known.filter(r => norm(words(r)).includes(norm(picked).replace(/s$/, ""))), ...(fromCatalog ?? [])]
+      .filter(r => !seen.has(r.title) && !!seen.add(r.title))
+      .map(r => (r.items ? { ...r, items: r.items.map(i => ({ ...i, have: inFridge(i.name, kitchen.items) })) } : r));
+  }, [picked, known, fromCatalog, kitchen.items]);
+  useEffect(() => {
+    if (q || !picked || !isPlus || byChip[picked]) return;
+    const keep = (recipes: GeneratedRecipe[]) => setByChip(m => ({ ...m, [picked]: recipes }));
+    const saved = cached(`+${picked}`);
+    if (saved) { keep(saved); return; }
+    let live = true;
+    void searchDish({ query: picked, catalogOnly: true, eaters: household.length ? apiEaters(household) : undefined }).then(r => {
+      if (!live) return;
+      const recipes = r.status === "ok" ? r.recipes : [];
+      if (r.status === "ok") remember(`+${picked}`, recipes);
+      keep(recipes);
+    });
+    return () => { live = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [q, picked, isPlus]);
 
   // La recherche de l'adresse : gardée 24 h, sinon demandée à l'IA (une fois par adresse, ou par « Réessayer »)
   const key = `${q}#${tries}`;
-  const hit = useMemo(() => (q ? cached(q) : null), [q]);
+  const hit = useMemo(() => (q && !tries ? cached(q) : null), [q, tries]);
   useEffect(() => {
     if (!q || hit) return;
     let live = true;
-    void searchDish({ query: q, eaters: household.length ? apiEaters(household) : undefined }).then(r => {
+    void searchDish({ query: q, eaters: household.length ? apiEaters(household) : undefined, skip: skip.current }).then(r => {
       if (!live) return;
       if (r.status === "ok") { remember(q, r.recipes); setFetched({ key, state: "ok", recipes: r.recipes }); }
       else if (r.status === "quota") openPaywall("def", "/explorer");
@@ -150,9 +178,11 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
   const found = (search?.state === "ok" ? search.recipes : [])
     .map(r => (r.items ? { ...r, items: r.items.map(i => ({ ...i, have: inFridge(i.name, kitchen.items) })) } : r));
 
+  const again = (titles: string[]) => { skip.current = titles; setRedo({ q, n: tries + 1 }); };
   const go = (query: string, c?: string) => {
     const next = query.trim();
     setText(c ? "" : next);
+    skip.current = [];
     if (!next) { setParams({}, { replace: true }); return; }
     setParams(c ? { q: next, c } : { q: next });
   };
@@ -194,14 +224,14 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
             <div className="ex-wait" role="status">
               <span className="ex-dots" aria-hidden="true"><i /><i /><i /></span>
               <b>Frigia prépare tes recettes…</b>
-              <span>{cat ? "Trois idées, rien que pour toi." : "La classique, et des variantes si le plat s'y prête."}</span>
+              <span>{cat ? "Des idées rien que pour toi." : "La classique, et des variantes si le plat s'y prête."}</span>
             </div>
           )}
           {search?.state === "error" && (
             <div className="ex-wait">
               <b>Pas de recette pour l'instant</b>
               <span>{search.message}</span>
-              <Pill tone="cream" onClick={() => setTries(n => n + 1)}>Réessayer</Pill>
+              <Pill tone="cream" onClick={() => again([])}>Réessayer</Pill>
             </div>
           )}
           {search?.state === "ok" && (
@@ -209,6 +239,10 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
             : found.filter(pass).length
               ? <div className="ex-results">{found.filter(pass).map(r => <Result key={r.title} recipe={r} fav={isFav(r)} onOpen={() => onOpenRecipe(r)} />)}</div>
               : <p className="sp-hint">Aucune recette ne passe les filtres. Enlève un filtre pour tout voir.</p>
+          )}
+          {/* Une réserve du catalogue (6 recettes, pas de variante) : on peut en tirer d'autres */}
+          {search?.state === "ok" && found.length >= 6 && found.every(r => !r.variant) && (
+            <div className="ex-more"><Pill tone="line" icon="sparkle" onClick={() => again(found.map(r => r.title))}>Autres idées</Pill></div>
           )}
           {local.filter(pass).length > 0 && <>
             <div className="sp-hd"><h2 className="sp-sec">Dans tes recettes</h2></div>
@@ -219,13 +253,14 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
           <div className="ex-row">{week.filter(pass).map(r => <Card key={r.title} recipe={r} fav={isFav(r)} onOpen={() => onOpenRecipe(r)} />)}</div>
 
           {mine.length > 0 && <>
-            <div className="sp-hd"><h2 className="sp-sec">Des idées selon tes ingrédients</h2></div>
+            <div className="sp-hd"><h2 className="sp-sec">Des idées selon tes ingrédients</h2>
+              {picked && <button type="button" className="sp-all" onClick={() => go(picked)}>Plus d'idées</button>}</div>
             <div className="chips ex-chips">
               {mine.map(n => <Chip key={n} on={n === picked} onClick={() => setChip(n)}>{n}</Chip>)}
             </div>
             {withChip.filter(pass).length > 0
               ? <div className="ex-row">{withChip.filter(pass).map(r => <Card key={r.title} recipe={r} fav={isFav(r)} onOpen={() => onOpenRecipe(r)} />)}</div>
-              : picked && (
+              : picked && (fromCatalog || !isPlus) && (
                 <button type="button" className="sp-card sp-line" onClick={() => go(picked)}>
                   <span className="sp-ic"><Icon name="sparkle" /></span>
                   <span className="tx"><b>Des recettes avec {picked.toLowerCase()}</b><span>Frigia t'en propose trois</span></span>

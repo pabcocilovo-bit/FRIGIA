@@ -47,34 +47,56 @@ function fits(r: CatalogRecipe, constraints: string): boolean {
   return constraints.split("+").every(c => (c === "vegetarien" || c === "pescetarien" ? r.veg === true : c === "sans four" ? r.oven !== true : false));
 }
 
-/** Les 3 recettes à montrer : un plat dans l'ordre (la classique d'abord), une réserve tirée au sort. null : pas assez. */
-function pick(row: CatalogRow, constraints: string): CatalogRecipe[] | null {
+/** Les recettes à montrer : un plat dans l'ordre (la classique, puis 2 variantes), 6 d'une réserve tirée au sort.
+ *  skip : celles qu'on vient de montrer (« Autres idées »), mises en dernier. null : pas assez. */
+function pick(row: CatalogRow, constraints: string, skip: string[] = []): CatalogRecipe[] | null {
   const ok = constraints ? row.recipes.filter(r => fits(r, constraints)) : row.recipes;
   if (ok.length < (row.kind === "dish" ? (constraints ? 2 : 1) : Math.min(3, row.recipes.length))) return null;
   if (row.kind === "dish") return ok.slice(0, 3);
   const pool = [...ok];
   for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
-  return pool.slice(0, 3);
+  const seen = new Set(skip);
+  return [...pool.filter(r => !seen.has(r.title)), ...pool.filter(r => seen.has(r.title))].slice(0, 6);
+}
+
+/** « filet de poulet » : « filet poulet »… puis « poulet ». Les morceaux de la clé, les plus longs d'abord. */
+function parts(base: string): string[] {
+  const w = base.split(" ");
+  const out: string[] = [];
+  for (let n = w.length - 1; n >= 1; n--) for (let i = 0; i + n <= w.length; i++) {
+    const g = w.slice(i, i + n);
+    // « de terre », « poulet de » : pas un morceau
+    if (LEADING.includes(g[0]) || LEADING.includes(g[g.length - 1])) continue;
+    const k = g.join(" ");
+    if (k.length > 2 && !out.includes(k)) out.push(k);
+  }
+  return out.slice(0, 12);
 }
 
 /** Les recettes déjà gardées pour cette recherche, et la clé où garder les nouvelles.
  *  error : la table n'est pas là (migration pas lancée) ou la base ne répond pas : on cherche sans catalogue. */
-export async function findInCatalog(admin: SupabaseClient, query: string, constraints: string):
+/** loose : un ingrédient de Ma cuisine (« filet de poulet ») peut prendre la réserve d'un mot de son nom (« poulet »). */
+export async function findInCatalog(admin: SupabaseClient, query: string, constraints: string, opts: { skip?: string[]; loose?: boolean } = {}):
   Promise<{ key: string; row?: CatalogRow; recipes?: CatalogRecipe[]; error?: boolean }> {
   // La clé n'a que des lettres, des chiffres et des espaces (catalogKey) : rien à échapper dans le filtre
   const base = catalogKey(query);
   const { data, error } = await admin.from("recipe_catalog").select("key, kind, recipes")
     .or(`key.eq."${base}",aliases.cs.{"${base}"}`).limit(1);
   if (error) { console.error("recipe_catalog:", error.message); return { key: constraints ? `${base}|${constraints}` : base, error: true }; }
-  const main = data?.[0] as CatalogRow | undefined;
+  let main = data?.[0] as CatalogRow | undefined;
+  if (!main && opts.loose && base.includes(" ")) {
+    const subs = parts(base);
+    const more = await admin.from("recipe_catalog").select("key, kind, recipes").or(subs.map(k => `key.eq."${k}"`).join(",")).limit(subs.length);
+    main = ((more.data ?? []) as CatalogRow[]).sort((a, b) => subs.indexOf(a.key) - subs.indexOf(b.key))[0];
+  }
   // Une recherche par un autre nom (alias) va sous le nom du plat
   const key = constraints ? `${main?.key ?? base}|${constraints}` : main?.key ?? base;
-  const fromMain = main ? pick(main, constraints) : null;
+  const fromMain = main ? pick(main, constraints, opts.skip) : null;
   if (fromMain) return { key: main!.key, row: main, recipes: fromMain };
   if (!constraints) return { key };
   const own = await admin.from("recipe_catalog").select("key, kind, recipes").eq("key", key).maybeSingle();
   const row = own.data as CatalogRow | null;
-  const recipes = row ? pick(row, "") : null;
+  const recipes = row ? pick(row, "", opts.skip) : null;
   return row && recipes ? { key, row, recipes } : { key };
 }
 

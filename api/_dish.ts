@@ -15,6 +15,10 @@ export type DishBody = {
   prefs?: Prefs;
   /** Frigia Plus : le foyer (les allergies sont obligatoires) */
   eaters?: { name?: unknown; allergies?: unknown }[];
+  /** « Autres idées » : les titres qu'on vient de montrer, à éviter si la réserve en a d'autres */
+  skip?: unknown;
+  /** « Des idées selon tes ingrédients » : le catalogue seulement, jamais l'IA (rien trouvé : une liste vide) */
+  catalogOnly?: unknown;
 };
 
 /** L'utilisateur est déjà vérifié (connecté, Plus ou essai) par api/recipes.ts.
@@ -30,7 +34,8 @@ export async function dish(req: Req, res: Res, userId: string, admin: SupabaseCl
   const constraints = constraintsOf(body.prefs, eaters.flatMap(e => e.allergies));
 
   // Déjà cherché : les recettes du catalogue, avec leur photo (trouvée une fois, puis gardée)
-  const known = await findInCatalog(admin, query, constraints);
+  const catalogOnly = body.catalogOnly === true;
+  const known = await findInCatalog(admin, query, constraints, { skip: strs(body.skip, 30, 120), loose: catalogOnly });
   if (known.row && known.recipes) {
     const found = new Map<string, string>();
     const recipes = await Promise.all(known.recipes.map(async r => {
@@ -43,6 +48,7 @@ export async function dish(req: Req, res: Res, userId: string, admin: SupabaseCl
     return res.json({ recipes });
   }
 
+  if (catalogOnly) return res.json({ recipes: [] });
   if (!checkIdeasLimit(userId)) return res.status(429).json({ error: "Limite atteinte. Réessaie dans une heure.", code: "rate" });
   const servings = CATALOG_SERVES;
   // Seulement ce qui change la recette pour tout le monde : régime, allergies, pas de four (pas les goûts de chacun)
