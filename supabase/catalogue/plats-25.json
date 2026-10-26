@@ -1,0 +1,112 @@
+[
+ {"q":"Sole meunière","a":["sole","sole au beurre","poisson meuniere"],"r":[
+  ["Sole meunière","La classique","","La sole farinée et dorée au beurre, avec du citron et du persil.","Classique français",25,380,"M","sole meuniere","",
+   ["sole|soles|2|","farine||3|c. à s.","beurre||80|g","citron||1|","persil|persil||","pomme de terre|pommes de terre|600|g"],
+   ["Fais cuire les pommes de terre 20 min à l'eau salée.|Cuisson|20","Passe les soles dans la farine et tapote pour retirer l'excédent.","Fais-les dorer 5 min de chaque côté dans 40 g de beurre.|Poêle|10","Ajoute le reste du beurre, laisse-le blondir et ajoute le jus du citron et le persil.","Arrose les soles de ce beurre et sers avec les pommes de terre."]],
+  ["Filets de limande meunière","Filets","Avec des filets de limande, plus faciles et moins chers.","La recette meunière avec des filets, sans arêtes.","",20,320,"F","fish fillet meuniere","b",
+   ["filet de limande|filets de limande|8|","farine||3|c. à s.","beurre||60|g","citron||1|","persil|persil||","riz|riz|200|g"],
+   ["Fais cuire le riz.|Cuisson|12","Farine les filets.","Fais-les dorer 2 min de chaque côté dans le beurre.|Poêle|4","Ajoute le jus du citron et le persil, et arrose les filets."]],
+  ["Sole au four","Au four","Cuite au four avec du vin blanc et des échalotes.","Une sole plus légère, sans friture.","",30,300,"F","baked sole white wine","oh",
+   ["sole|soles|2|","échalote||2|","vin blanc|vin blanc|10|cl","beurre||30|g","citron||1|","persil|persil||"],
+   ["Préchauffe le four à 200 °C.","Parsème un plat d'échalotes hachées et pose les soles dessus.","Arrose de vin blanc, ajoute le beurre en noisettes.","Enfourne 15 min.|Four|15","Arrose de jus de citron et parsème de persil."]]
+ ]},
+ {"q":"Truite aux amandes","a":["truite","truite au four","truite meuniere"],"r":[
+  ["Truite aux amandes","La classique","","Des truites dorées au beurre avec des amandes effilées grillées.","Classique français",25,450,"F","trout almonds","",
+   ["truite|truites|4|","amandes effilées|amandes effilées|60|g","farine||3|c. à s.","beurre||60|g","citron||1|","persil|persil||"],
+   ["Farine légèrement les truites.","Fais-les cuire 5 min de chaque côté dans 40 g de beurre.|Poêle|10","Retire-les et fais dorer les amandes dans le reste du beurre.|Poêle|2","Ajoute le jus du citron et verse sur les truites avec le persil."]],
+  ["Truite en papillote","En papillote","Cuite au four en papillote avec citron et herbes.","Une truite légère et parfumée, en papillote.","",30,320,"F","trout en papillote","oh",
+   ["truite|truites|4|","citron||2|","aneth|aneth||","échalote||2|","huile d'olive|huile d'olive|2|c. à s."],
+   ["Préchauffe le four à 200 °C.","Pose chaque truite sur une feuille de papier cuisson avec des rondelles de citron, l'échalote et l'aneth.","Arrose d'huile, sale, poivre et ferme les papillotes.","Enfourne 20 min.|Four|20"]],
+  ["Filets de truite à la crème","Filets","Des filets de truite avec une sauce crème au citron.","Des filets sans arêtes, nappés d'une sauce crème légère.","",20,380,"F","trout fillet cream sauce","",
+   ["filet de truite|filets de truite|4|","crème fraîche|crème fraîche|15|cl","citron||1|","ciboulette|ciboulette||","beurre||20|g"],
+   ["Fais cuire les filets côté peau 4 min dans le beurre, puis 1 min de l'autre côté.|Poêle|5","Retire-les et verse la crème et le jus du citron dans la poêle.","Laisse réduire 2 min.","Nappe les filets de sauce et parsème de ciboulette."]]
+ ]},
+ {"q":"Calamars à la romaine","a":["calamars","calamar","beignets de calamars","encornets"],"r":[
+  ["Calamars à la romaine","La classique","","Des anneaux de calamars en beignets croustillants, avec du citron.","",30,380,"M","fried calamari rings","e",
+   ["anneaux de calamars|anneaux de calamars|500|g","farine||100|g","œuf|œufs|1|","eau gazeuse|eau gazeuse|15|cl","citron||1|","huile de friture|huile de friture|100|cl"],
+   ["Mélange la farine, l'œuf et l'eau gazeuse bien froide pour une pâte lisse.","Sèche bien les calamars dans du papier absorbant.","Trempe-les dans la pâte.","Fais-les frire 2 à 3 min dans l'huile chaude.|Friture|3","Égoutte, sale et sers avec des quartiers de citron."]],
+  ["Calamars à l'ail et au persil","Sautés","Sautés à la poêle, sans friture.","Des calamars poêlés minute à l'ail et au persil.","",20,220,"F","garlic sauteed calamari","h",
+   ["anneaux de calamars|anneaux de calamars|500|g","ail|ail|3|gousse","persil|persil||","huile d'olive|huile d'olive|3|c. à s.","citron||1|"],
+   ["Sèche bien les calamars.","Fais-les sauter 3 min à feu très vif dans l'huile.|Poêle|3","Ajoute l'ail haché et le persil, et laisse 1 min.","Arrose de jus de citron."]],
+  ["Calamars à la tomate","À la tomate","Mijotés dans une sauce tomate.","Des encornets fondants à la sauce tomate.","",50,280,"F","calamari tomato stew","h",
+   ["anneaux de calamars|anneaux de calamars|600|g","tomate concassée|tomates concassées|400|g","oignon||1|","ail|ail|2|gousse","vin blanc|vin blanc|10|cl","persil|persil||"],
+   ["Fais revenir l'oignon et l'ail.","Ajoute les calamars et fais-les revenir 3 min.","Ajoute le vin et les tomates, et laisse mijoter 35 min.|Cuisson|35","Parsème de persil et sers avec du riz ou des pâtes."]]
+ ]},
+ {"q":"Saint-Jacques poêlées","a":["saint jacques","coquilles saint jacques","noix de saint jacques","st jacques"],"r":[
+  ["Saint-Jacques poêlées","La classique","","Des noix de Saint-Jacques saisies au beurre, dorées dehors et nacrées dedans.","",15,250,"M","seared scallops","h",
+   ["noix de Saint-Jacques|noix de Saint-Jacques|16|","beurre||30|g","citron||1|","persil|persil||","sel|||"],
+   ["Sèche bien les noix sur du papier absorbant.","Fais chauffer le beurre jusqu'à ce qu'il mousse.","Saisis les noix 1 min 30 de chaque côté sans les bouger.|Poêle|3","Arrose de jus de citron, sale et parsème de persil."]],
+  ["Saint-Jacques à la crème","À la crème","Avec une sauce crème aux échalotes.","Des Saint-Jacques nappées d'une sauce crème délicate.","",20,350,"M","scallops cream sauce","",
+   ["noix de Saint-Jacques|noix de Saint-Jacques|16|","échalote||2|","crème fraîche|crème fraîche|20|cl","vin blanc|vin blanc|5|cl","beurre||20|g"],
+   ["Saisis les noix 1 min 30 de chaque côté dans le beurre et retire-les.|Poêle|3","Fais revenir les échalotes, puis déglace au vin blanc.","Ajoute la crème et laisse réduire 3 min.|Cuisson|3","Remets les noix 30 secondes dans la sauce."]],
+  ["Coquilles Saint-Jacques gratinées","Gratinées","En coquilles, avec une sauce et de la chapelure.","Les coquilles gratinées des repas de fête.","",40,380,"M","coquilles saint jacques gratinees","o",
+   ["noix de Saint-Jacques|noix de Saint-Jacques|12|","champignon de Paris|champignons de Paris|150|g","échalote||1|","crème fraîche|crème fraîche|20|cl","chapelure|chapelure|2|c. à s.","beurre||30|g"],
+   ["Préchauffe le four en position gril.","Fais revenir l'échalote et les champignons émincés 5 min.|Poêle|5","Ajoute la crème et laisse réduire 3 min.","Répartis les noix coupées en deux dans 4 coquilles et nappe de sauce.","Parsème de chapelure et de beurre, et fais gratiner 6 min.|Four|6"]]
+ ]},
+ {"q":"Curry de poisson","a":["curry poisson","poisson au curry","poisson coco"],"r":[
+  ["Curry de poisson au lait de coco","La classique","","Du poisson blanc mijoté dans une sauce coco au curry, avec du riz.","",30,420,"F","fish coconut curry","h",
+   ["filets de poisson blanc|filets de poisson blanc|600|g","lait de coco|lait de coco|40|cl","tomate||2|","oignon||1|","curry|curry|2|c. à c.","gingembre|gingembre|1|c. à c.","riz|riz|250|g","coriandre|coriandre||"],
+   ["Fais cuire le riz.|Cuisson|12","Fais revenir l'oignon avec le curry et le gingembre.","Ajoute les tomates en dés et le lait de coco, et laisse 10 min.|Cuisson|10","Ajoute le poisson en gros morceaux et laisse 6 min sans trop remuer.|Cuisson|6","Parsème de coriandre."]],
+  ["Curry de poisson et crevettes","Avec crevettes","Avec des crevettes en plus.","Un curry de la mer plus généreux.","",30,450,"F","fish shrimp curry","",
+   ["filets de poisson blanc|filets de poisson blanc|400|g","crevette décortiquée|crevettes décortiquées|200|g","lait de coco|lait de coco|40|cl","oignon||1|","curry|curry|2|c. à c.","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais revenir l'oignon avec le curry, puis ajoute le lait de coco.","Ajoute le poisson et les crevettes, et laisse 6 min.|Cuisson|6","Sers avec le riz."]],
+  ["Curry de poisson à la tomate","Sans coco","Une sauce tomate épicée, sans lait de coco.","Un curry de poisson plus léger à la tomate.","",30,320,"F","fish tomato curry","hb",
+   ["filets de poisson blanc|filets de poisson blanc|600|g","tomate concassée|tomates concassées|400|g","oignon||1|","ail|ail|2|gousse","curry|curry|2|c. à c.","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais revenir l'oignon, l'ail et le curry.","Ajoute les tomates et laisse 10 min.|Cuisson|10","Ajoute le poisson et laisse 6 min.|Cuisson|6"]]
+ ]},
+ {"q":"Rillettes de thon","a":["rillettes de poisson","rillettes de sardines","rillettes de saumon","tartinade de thon"],"r":[
+  ["Rillettes de thon","La classique","","Le thon écrasé au fromage frais et au citron, à tartiner pour l'apéritif.","",10,180,"F","tuna rillettes","cbe",
+   ["thon au naturel|thon au naturel|280|g","fromage frais|fromage frais|150|g","citron||1|","ciboulette|ciboulette||","poivre|||"],
+   ["Égoutte le thon.","Écrase-le à la fourchette avec le fromage frais.","Ajoute le jus du citron, la ciboulette ciselée et du poivre.","Garde au frais et sers avec du pain grillé."]],
+  ["Rillettes de sardines","Sardines","Avec des sardines à l'huile.","Des rillettes de sardines au beurre et citron.","",10,220,"F","sardine rillettes","cbe",
+   ["sardines à l'huile|sardines à l'huile|2|","fromage frais|fromage frais|100|g","citron||1|","échalote||1|","persil|persil||"],
+   ["Égoutte les sardines et retire l'arête centrale.","Écrase-les avec le fromage frais.","Ajoute le jus du citron, l'échalote hachée et le persil.","Garde au frais."]],
+  ["Rillettes de saumon","Saumon","Avec du saumon frais et du saumon fumé.","Les rillettes de saumon des apéritifs de fête.","",25,220,"F","salmon rillettes","ce",
+   ["pavé de saumon|pavés de saumon|1|","saumon fumé|saumon fumé|2|tranches","fromage frais|fromage frais|150|g","citron||1|","aneth|aneth||"],
+   ["Fais cuire le saumon 8 min à la vapeur et laisse refroidir.|Cuisson|8","Émiette-le et coupe le saumon fumé en petits morceaux.","Mélange avec le fromage frais, le jus du citron et l'aneth.","Garde au frais 1 h."]]
+ ]},
+ {"q":"Steak de thon","a":["thon mi cuit","pave de thon","thon grille","thon frais"],"r":[
+  ["Steak de thon mi-cuit","La classique","","Le thon rouge saisi au sésame, rosé à cœur, avec une sauce soja.","",15,320,"M","seared tuna steak sesame","h",
+   ["steak de thon|steaks de thon|4|","graines de sésame|graines de sésame|4|c. à s.","sauce soja|sauce soja|3|c. à s.","citron vert|citrons verts|1|","huile|huile|1|c. à s."],
+   ["Enrobe les steaks de graines de sésame.","Saisis-les 1 min de chaque côté à feu très vif.|Poêle|2","Coupe-les en tranches.","Sers avec la sauce soja mélangée au jus du citron vert."]],
+  ["Thon à la provençale","À la tomate","Cuit dans une sauce tomate aux olives.","Le thon mijoté à la tomate, aux olives et aux câpres.","",30,350,"F","tuna provencal tomato","h",
+   ["steak de thon|steaks de thon|4|","tomate concassée|tomates concassées|400|g","oignon||1|","olives noires|olives noires|60|g","câpres|câpres|1|c. à s.","ail|ail|2|gousse"],
+   ["Fais revenir l'oignon et l'ail.","Ajoute les tomates, les olives et les câpres, et laisse 10 min.|Cuisson|10","Saisis le thon 1 min de chaque côté, puis mets-le dans la sauce.","Laisse 5 min à couvert.|Cuisson|5"]],
+  ["Thon grillé à la mangue","Mangue","Avec une salsa de mangue et d'avocat.","Un thon grillé frais et exotique.","",20,380,"F","grilled tuna mango salsa","h",
+   ["steak de thon|steaks de thon|4|","mangue||1|","avocat||1|","oignon rouge|oignons rouges|0.5|","citron vert|citrons verts|1|","coriandre|coriandre||"],
+   ["Coupe la mangue, l'avocat et l'oignon en petits dés.","Mélange avec le jus du citron vert et la coriandre.","Grille le thon 2 min de chaque côté.|Poêle|4","Sers avec la salsa."]]
+ ]},
+ {"q":"Lotte à l'armoricaine","a":["lotte","lotte armoricaine","sauce armoricaine"],"r":[
+  ["Lotte à l'armoricaine","La classique","","La lotte en sauce tomate au vin blanc et au cognac, à la bretonne.","Spécialité bretonne",45,380,"M","monkfish armoricaine","",
+   ["lotte|lottes|800|g","tomate concassée|tomates concassées|400|g","échalote||3|","ail|ail|2|gousse","vin blanc|vin blanc|20|cl","cognac|cognac|3|c. à s.","crème fraîche|crème fraîche|10|cl","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Coupe la lotte en médaillons et fais-les dorer 3 min. Flambe au cognac.|Poêle|3","Retire la lotte et fais revenir les échalotes et l'ail.","Ajoute le vin et les tomates, et laisse réduire 15 min.|Cuisson|15","Ajoute la crème, remets la lotte et laisse 8 min.|Cuisson|8"]],
+  ["Lotte à la crème et au safran","Safran","Une sauce crème au safran, sans tomate.","Des médaillons de lotte dans une sauce dorée au safran.","",35,400,"M","monkfish saffron cream","",
+   ["lotte|lottes|800|g","échalote||2|","vin blanc|vin blanc|10|cl","crème fraîche|crème fraîche|20|cl","safran|safran||","beurre||20|g"],
+   ["Fais dorer la lotte en médaillons dans le beurre et retire-la.|Poêle|4","Fais revenir les échalotes, déglace au vin blanc.","Ajoute la crème et le safran, et laisse réduire 5 min.|Cuisson|5","Remets la lotte et laisse 6 min.|Cuisson|6"]],
+  ["Cabillaud à l'armoricaine","Cabillaud","Le cabillaud remplace la lotte.","La sauce armoricaine avec du cabillaud, moins cher.","",35,340,"F","cod tomato wine sauce","b",
+   ["dos de cabillaud|dos de cabillaud|4|","tomate concassée|tomates concassées|400|g","échalote||2|","vin blanc|vin blanc|15|cl","crème fraîche|crème fraîche|10|cl"],
+   ["Fais revenir les échalotes, ajoute le vin et les tomates.","Laisse réduire 15 min.|Cuisson|15","Ajoute la crème.","Pose le cabillaud dans la sauce, couvre et laisse 8 min.|Cuisson|8"]]
+ ]},
+ {"q":"Sardines grillées","a":["sardine","sardines","sardines au four","sardines a la plancha"],"r":[
+  ["Sardines grillées","La classique","","Des sardines fraîches grillées à la plancha, avec du citron et du gros sel.","",20,320,"F","grilled sardines","hb",
+   ["sardine fraîche|sardines fraîches|16|","citron||2|","huile d'olive|huile d'olive|2|c. à s.","gros sel|gros sel||","persil|persil||"],
+   ["Vide et rince les sardines, ou demande-le au poissonnier.","Badigeonne-les d'huile.","Fais-les griller 3 min de chaque côté sur une plancha ou une poêle très chaude.|Poêle|6","Sers avec le gros sel, le persil et des quartiers de citron."]],
+  ["Sardines au four","Au four","Cuites au four sur des tomates et oignons.","Des sardines rôties au four sur un lit de légumes.","",30,350,"F","baked sardines tomatoes","ohb",
+   ["sardine fraîche|sardines fraîches|16|","tomate||4|","oignon||1|","ail|ail|2|gousse","huile d'olive|huile d'olive|3|c. à s.","thym|thym||"],
+   ["Préchauffe le four à 200 °C.","Étale les tomates en rondelles, l'oignon et l'ail dans un plat.","Pose les sardines dessus, arrose d'huile et parsème de thym.","Enfourne 15 min.|Four|15"]],
+  ["Filets de sardines marinés","Marinés","Des filets crus marinés au citron.","Des sardines marinées à servir en entrée fraîche.","",20,240,"M","marinated sardine fillets","che",
+   ["filet de sardine|filets de sardines|16|","citron||3|","huile d'olive|huile d'olive|4|c. à s.","échalote||1|","persil|persil||"],
+   ["Pose les filets dans un plat, côté peau dessous.","Arrose du jus des citrons et laisse 1 h au frais.","Égoutte, arrose d'huile d'olive.","Parsème d'échalote hachée et de persil."]]
+ ]},
+ {"q":"Filet de colin","a":["colin","colin au four","merlu","colin a la creme"],"r":[
+  ["Colin à la crème","La classique","","Des filets de colin cuits doucement dans une sauce crème au citron.","",25,320,"F","hake fillet cream sauce","hbf",
+   ["filet de colin|filets de colin|4|","crème fraîche|crème fraîche|20|cl","citron||1|","échalote||1|","persil|persil||","riz|riz|200|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais revenir l'échalote, ajoute la crème et le zeste du citron.","Pose les filets dans la sauce, couvre et laisse 8 min à feu doux.|Cuisson|8","Arrose de jus de citron et parsème de persil."]],
+  ["Colin au four et légumes","Au four","Cuit au four avec des légumes.","Un plat complet de colin rôti avec courgettes et tomates.","",35,280,"F","baked hake vegetables","ohb",
+   ["filet de colin|filets de colin|4|","courgette||2|","tomate cerise|tomates cerises|250|g","citron||1|","huile d'olive|huile d'olive|3|c. à s.","herbes de Provence|herbes de Provence|1|c. à c."],
+   ["Préchauffe le four à 200 °C.","Mets les courgettes en rondelles et les tomates dans un plat avec l'huile et les herbes.","Enfourne 15 min.|Four|15","Ajoute le colin, arrose de citron et remets 12 min.|Four|12"]],
+  ["Colin pané","Pané","Des filets panés et dorés à la poêle.","Du poisson pané maison, que les enfants adorent.","",25,380,"F","breaded hake fillet","bf",
+   ["filet de colin|filets de colin|4|","œuf|œufs|1|","chapelure|chapelure|80|g","farine||3|c. à s.","huile|huile|4|c. à s.","citron||1|"],
+   ["Passe les filets dans la farine, l'œuf battu, puis la chapelure.","Fais-les dorer 4 min de chaque côté dans l'huile.|Poêle|8","Égoutte sur du papier absorbant.","Sers avec des quartiers de citron."]]
+ ]}
+]
