@@ -1,4 +1,6 @@
 // Explorer (V3, maquette de Hugo du 25 octobre) : chercher une recette, frigo plein ou vide.
+// L'accueil, à la Netflix (Hugo, 26 octobre) : la recette du jour, le Top 10 et des rangées qui défilent au doigt,
+// tirées du catalogue (api/_browse.ts, jamais l'IA), gardées pour la journée. « Tout voir » ouvre la rangée en grille (?rang=).
 // Une recette demandée par son nom (« tartiflette ») revient en 3 : la classique et 2 variantes (plus légère, sans crème…),
 // par l'IA (api/_dish.ts) ou le catalogue des recherches déjà faites. Un ingrédient, une catégorie ou un type de plat : 6 plats différents
 // tirés au sort dans le catalogue (« Autres idées » en tire 6 autres), ou 3 de l'IA pour une recherche nouvelle.
@@ -10,7 +12,7 @@ import { Chip, Icon, Pill } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry } from "../lib/types";
 import type { Fridge } from "../lib/home";
 import { apiEaters, type Person } from "../lib/household";
-import { searchDish } from "../lib/scan";
+import { type Browse, type BrowseDish, type BrowseRow, browseExplore, searchDish } from "../lib/scan";
 import { AppTabBar } from "./AppTabBar";
 import { GreenHead } from "./GreenHead";
 import { weekRecipes } from "./featured";
@@ -94,6 +96,66 @@ function Result({ recipe, fav, onOpen }: { recipe: GeneratedRecipe; fav: boolean
   );
 }
 
+// Les rangées du jour, gardées sur le téléphone : revenir sur Explorer ne recharge rien
+const ROWS = "frigia.explorer.rows";
+const localDay = () => new Date().toLocaleDateString("fr-FR");
+function readRows(sig: string): Browse | null {
+  try {
+    const e = JSON.parse(localStorage.getItem(ROWS) ?? "null") as { day: string; sig: string; data: Browse } | null;
+    return e && e.day === localDay() && e.sig === sig ? e.data : null;
+  } catch { return null; }
+}
+function keepRows(sig: string, data: Browse) {
+  try { localStorage.setItem(ROWS, JSON.stringify({ day: localDay(), sig, data })); } catch { /* plein ou navigation privée */ }
+}
+
+/** La photo seulement quand la carte arrive à l'écran : une rangée de 12 ne cherche pas 12 photos d'un coup */
+function useSeen<T extends Element>() {
+  const ref = useRef<T>(null);
+  const [seen, setSeen] = useState(() => typeof IntersectionObserver === "undefined");
+  useEffect(() => {
+    const el = ref.current;
+    if (seen || !el) return;
+    const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) setSeen(true); }, { rootMargin: "200px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [seen]);
+  return [ref, seen] as const;
+}
+
+/** Une affiche : la photo en hauteur, le nom dessus */
+function Poster({ title, sub, image, fav, onOpen }: { title: string; sub: string; image: string; fav?: boolean; onOpen: () => void }) {
+  const [ref, seen] = useSeen<HTMLButtonElement>();
+  const photo = useRecipePhoto(seen ? title : undefined, seen ? image : undefined);
+  return (
+    <button ref={ref} type="button" className="ex-poster" onClick={onOpen}>
+      {photo ? <img src={photo} alt="" loading="lazy" /> : null}
+      {fav && <span className="sp-heart" aria-label="Favori"><Icon name="heart-f" /></span>}
+      <span className="ex-pt"><b>{title}</b><small>{sub}</small></span>
+    </button>
+  );
+}
+const dishSub = (d: BrowseDish) => `${d.minutes ? `${d.minutes} min` : ""}${d.minutes && d.difficulty ? " · " : ""}${d.difficulty}`;
+const recipeSub = (r: GeneratedRecipe) => `${r.time}${r.diff ? ` · ${r.diff}` : ""}`;
+
+/** La recette du jour, en grand */
+function Hero({ dish, onOpen }: { dish: BrowseDish; onOpen: () => void }) {
+  const photo = useRecipePhoto(dish.title, dish.imageUrl ?? dish.imageSearch);
+  return (
+    <button type="button" className="ex-hero" onClick={onOpen}>
+      {photo ? <img src={photo} alt="" /> : null}
+      <span className="ex-hero-tx">
+        <small>La recette du jour</small>
+        <b>{dish.title}</b>
+        <span>{dishSub(dish)} · et ses variantes</span>
+        <span className="ex-hero-go">Voir la recette <Icon name="next" /></span>
+      </span>
+    </button>
+  );
+}
+
+const cxRow = (row: BrowseRow) => "ex-row ex-posters" + (row.top ? " ex-tops" : "");
+
 type Search = { key: string; state: "loading" | "ok" | "error"; recipes: GeneratedRecipe[]; message?: string };
 
 export function Explore({ isPlus, history, favorites, kitchen, household, onOpenRecipe }: {
@@ -120,6 +182,9 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
   // Les recettes du catalogue pour l'ingrédient choisi (jamais l'IA) ; undefined tant qu'elles arrivent
   const [byChip, setByChip] = useState<Record<string, GeneratedRecipe[]>>({});
 
+  const rang = params.get("rang");
+  // « Tout voir » : la grille s'ouvre en haut de la page
+  const top = useRef<HTMLFormElement>(null);
   const week = useMemo(() => weekRecipes(kitchen.items).map(x => x.recipe), [kitchen.items]);
   // Toutes les recettes connues, sans doublon : la semaine, les favoris, puis les scans
   const known = useMemo(() => {
@@ -160,6 +225,46 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, picked, isPlus]);
 
+  // Les rangées du jour (Plus) : selon Ma cuisine et les allergies du foyer
+  const allergies = household.length ? apiEaters(household) : undefined;
+  const sig = JSON.stringify([mine, allergies?.map(e => e.allergies)]);
+  const saved = useMemo(() => readRows(sig), [sig]);
+  const [rows, setRows] = useState<{ sig: string; data: Browse | null } | null>(null);
+  // undefined : en chargement ; null : pas de rangées (pas Plus, ou le serveur n'a pas répondu)
+  const browse = saved ?? (rows?.sig === sig ? rows.data : isPlus ? undefined : null);
+  useEffect(() => {
+    if (!isPlus || saved) return;
+    let live = true;
+    void browseExplore({ ingredients: mine, eaters: allergies }).then(data => {
+      if (!live) return;
+      if (data) keepRows(sig, data);
+      setRows({ sig, data });
+    });
+    return () => { live = false; };
+    // Une fois par jour, ou quand Ma cuisine change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sig, isPlus]);
+  const passDish = (d: BrowseDish) => (!quick || (d.minutes > 0 && d.minutes <= 30)) && (!veg || d.veg) && (!easy || d.difficulty === "Facile");
+  const withHave = (r: GeneratedRecipe) => (r.items ? { ...r, items: r.items.map(i => ({ ...i, have: inFridge(i.name, kitchen.items) })) } : r);
+  // Les rangées de l'appli glissées entre celles du catalogue : la semaine, tes favoris, tes dernières recettes
+  const allRows = useMemo<BrowseRow[]>(() => {
+    if (!browse) return [];
+    const list = [...browse.rows];
+    const at = (i: number, row: BrowseRow) => { if (row.recipes?.length) list.splice(Math.min(i, list.length), 0, row); };
+    const mineCount = list.filter(r => r.id.startsWith("ing-")).length;
+    at(1 + mineCount, { id: "semaine", title: "Recettes de la semaine", recipes: week });
+    at(5 + mineCount, { id: "favoris", title: "Tes favoris", recipes: favorites.slice(0, 12) });
+    const seen = new Set<string>();
+    at(9 + mineCount, { id: "historique", title: "Tes dernières recettes",
+      recipes: history.flatMap(e => e.recipes).filter(r => !seen.has(r.title) && !!seen.add(r.title)).slice(0, 12) });
+    return list;
+  }, [browse, week, favorites, history]);
+  const shown = (row: BrowseRow) => row.dishes ? row.dishes.filter(passDish) : (row.recipes ?? []).filter(pass);
+  const tile = (x: BrowseDish | GeneratedRecipe) => ("q" in x
+    ? <Poster key={x.q} title={x.title} sub={dishSub(x)} image={x.imageUrl ?? x.imageSearch} onOpen={() => go(x.q)} />
+    : <Poster key={x.title} title={x.title} sub={recipeSub(x)} image={x.imageSearch ?? x.title} fav={isFav(x)} onOpen={() => onOpenRecipe(withHave(x))} />);
+  const openRow = rang ? allRows.find(r => r.id === rang) : undefined;
+
   // La recherche de l'adresse : gardée 24 h, sinon demandée à l'IA (une fois par adresse, ou par « Réessayer »)
   const key = `${q}#${tries}`;
   const hit = useMemo(() => (q && !tries ? cached(q) : null), [q, tries]);
@@ -196,7 +301,7 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
     <div className="fa fa-app" aria-label="Explorer">
       <GreenHead title="Explorer" sub="Des idées pour tous les goûts" back={false} />
       <div className="v3-body ex-body">
-        <form className="hm-search" role="search" onSubmit={submit}>
+        <form ref={top} className="hm-search" role="search" onSubmit={submit}>
           <label><Icon name="search" /><input type="search" enterKeyHint="search" autoComplete="off" placeholder="Rechercher une recette ou un ingrédient…"
             aria-label="Rechercher une recette" value={text} onChange={e => setText(e.target.value)} /></label>
           <button type="button" className={"hm-filter" + (filters || quick || veg || easy ? " on" : "")} aria-label="Filtres" aria-expanded={filters} onClick={() => setFilters(f => !f)}><Icon name="sliders" /></button>
@@ -251,7 +356,36 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
             <div className="sp-hd"><h2 className="sp-sec">Dans tes recettes</h2></div>
             <div className="ex-row">{local.filter(pass).map(r => <Card key={r.title} recipe={r} fav={isFav(r)} onOpen={() => onOpenRecipe(r)} />)}</div>
           </>}
-        </> : <>
+        </> : openRow ? <>
+          <div className="sp-hd"><h2 className="sp-sec">{openRow.title}</h2><button type="button" className="sp-all" onClick={() => setParams({}, { replace: true })}>Fermer</button></div>
+          {shown(openRow).length
+            ? <div className="ex-grid">{shown(openRow).map(x => tile(x))}</div>
+            : <p className="sp-hint">Aucune recette ne passe les filtres. Enlève un filtre pour tout voir.</p>}
+          {openRow.q && <div className="ex-more"><Pill tone="line" icon="sparkle" onClick={() => go(openRow.q!, openRow.title)}>Autres idées</Pill></div>}
+        </> : browse ? <>
+          {browse.hero && <Hero dish={browse.hero} onOpen={() => go(browse.hero!.q)} />}
+          {allRows.map(row => {
+            const items = shown(row);
+            if (!items.length) return null;
+            return (
+              <section key={row.id} className="ex-sec" aria-label={row.title}>
+                <div className="sp-hd"><h2 className="sp-sec">{row.title}</h2>
+                  {!row.top && items.length > 3 && <button type="button" className="sp-all" onClick={() => { setParams({ rang: row.id }); top.current?.scrollIntoView({ block: "start" }); }}>Tout voir</button>}</div>
+                <div className={cxRow(row)}>
+                  {row.top
+                    ? (items as BrowseDish[]).map((d, i) => (
+                      <span key={d.q} className="ex-top"><span className="ex-num" aria-hidden="true">{i + 1}</span>{tile(d)}</span>))
+                    : items.map(x => tile(x))}
+                </div>
+              </section>
+            );
+          })}
+        </> : isPlus && browse === undefined ? (
+          <div className="ex-skel" role="status" aria-label="Chargement des recettes">
+            <span className="ex-skel-hero" />
+            {[0, 1].map(i => <span key={i} className="ex-skel-row"><i /><i /><i /></span>)}
+          </div>
+        ) : <>
           <div className="sp-hd"><h2 className="sp-sec">Recettes de la semaine</h2></div>
           <div className="ex-row">{week.filter(pass).map(r => <Card key={r.title} recipe={r} fav={isFav(r)} onOpen={() => onOpenRecipe(r)} />)}</div>
 

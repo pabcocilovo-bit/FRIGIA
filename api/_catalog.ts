@@ -43,7 +43,7 @@ export function constraintsOf(prefs: Prefs | null | undefined, eaterAllergies: s
 
 /** Une recette de la réserve commune convient-elle quand même ? Seuls végé et « sans four » se vérifient sur la recette ;
  *  une allergie ou un « sans gluten » demande toujours une recette faite pour. */
-function fits(r: CatalogRecipe, constraints: string): boolean {
+export function fits(r: CatalogRecipe, constraints: string): boolean {
   return constraints.split("+").every(c => (c === "vegetarien" || c === "pescetarien" ? r.veg === true : c === "sans four" ? r.oven !== true : false));
 }
 
@@ -60,7 +60,7 @@ function pick(row: CatalogRow, constraints: string, skip: string[] = []): Catalo
 }
 
 /** « filet de poulet » : « filet poulet »… puis « poulet ». Les morceaux de la clé, les plus longs d'abord. */
-function parts(base: string): string[] {
+export function parts(base: string): string[] {
   const w = base.split(" ");
   const out: string[] = [];
   for (let n = w.length - 1; n >= 1; n--) for (let i = 0; i + n <= w.length; i++) {

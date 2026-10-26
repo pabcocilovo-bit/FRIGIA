@@ -165,6 +165,25 @@ export async function searchDish(o: { query: string; eaters?: ApiEater[]; catalo
   return { status: "ok", recipes: recipes.map(toRecipe) };
 }
 
+/** Explorer, la page d'accueil en rangées (api/_browse.ts) : un plat est une carte légère (le toucher lance la recherche),
+ *  une recette d'une réserve arrive entière. */
+export type BrowseDish = { q: string; title: string; minutes: number; difficulty: string; imageUrl?: string; imageSearch: string; veg: boolean };
+export type BrowseRow = { id: string; title: string; top?: boolean; q?: string; dishes?: BrowseDish[]; recipes?: GeneratedRecipe[] };
+export type Browse = { day: number; hero: BrowseDish | null; rows: BrowseRow[] };
+
+export async function browseExplore(o: { ingredients: string[]; eaters?: ApiEater[] }): Promise<Browse | null> {
+  const { data: { session } } = await supabase.auth.getSession();
+  const userId = session?.user?.id;
+  const { response, data } = await post("/api/recipes", {
+    browse: true, ingredients: o.ingredients, eaters: o.eaters,
+    prefs: userId ? apiPrefs(getCachedProfile(userId)) : null,
+  });
+  if (!response?.ok || !Array.isArray(data.rows)) return null;
+  const rows = (data.rows as (Omit<BrowseRow, "recipes"> & { recipes?: RawRecipe[] })[])
+    .map(r => (r.recipes ? { ...r, recipes: r.recipes.map(toRecipe) } : r) as BrowseRow);
+  return { day: Number(data.day) || 0, hero: (data.hero ?? null) as BrowseDish | null, rows };
+}
+
 /** Scan, 2e partie : la liste vérifiée devient 3 recettes (ou 2 « autres idées » avec more). */
 export async function makeRecipes(o: {
   ingredients: ScanIngredient[];

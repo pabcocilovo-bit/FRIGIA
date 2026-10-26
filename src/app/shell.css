@@ -399,6 +399,34 @@ body:has(.fa .tabbar) .fa.ck-live-wrap{bottom:calc(90px + env(safe-area-inset-bo
 .fa .ex-card>b{padding:10px 12px 2px;font:600 14px/1.25 var(--sans);color:var(--text)}
 .fa .ex-card>span:last-child{padding:0 12px 12px;font-size:12.5px;color:var(--muted)}
 .fa .ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* Explorer à la Netflix : la recette du jour, des affiches qui défilent, le Top 10 avec ses gros chiffres */
+.fa .ex-sec{display:flex;flex-direction:column;gap:10px}
+.fa .ex-hero{position:relative;display:block;width:100%;aspect-ratio:5/4;border-radius:24px;overflow:hidden;background:var(--surface);text-align:left;box-shadow:0 14px 30px -22px rgba(31,42,34,.7)}
+.fa .ex-hero img{width:100%;height:100%;object-fit:cover}
+.fa .ex-hero::after,.fa .ex-poster::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 38%,rgba(16,22,18,.78))}
+.fa .ex-hero-tx{position:absolute;left:18px;right:18px;bottom:16px;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:5px;color:#fff}
+.fa .ex-hero-tx small{font:700 11.5px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;opacity:.9}
+.fa .ex-hero-tx b{font:400 36px/1 var(--serif)}
+.fa .ex-hero-tx>span{font-size:13px;opacity:.9}
+.fa .ex-hero .ex-hero-go{display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:10px 16px;border-radius:999px;background:var(--card);color:var(--sage-deep);font:600 14px/1 var(--sans);opacity:1}
+.fa .ex-hero-go .i{width:15px;height:15px}
+.fa .ex-posters{gap:10px}
+.fa .ex-poster{position:relative;flex:0 0 132px;aspect-ratio:3/4;scroll-snap-align:start;border-radius:16px;overflow:hidden;background:var(--surface);text-align:left;box-shadow:0 10px 20px -16px rgba(31,42,34,.6)}
+.fa .ex-grid .ex-poster{flex:none;width:auto}
+.fa .ex-poster img{width:100%;height:100%;object-fit:cover}
+.fa .ex-pt{position:absolute;left:10px;right:10px;bottom:9px;z-index:1;display:flex;flex-direction:column;gap:3px;color:#fff}
+.fa .ex-pt b{font:400 19px/1.02 var(--serif);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.fa .ex-pt small{font:600 11px/1.2 var(--sans);opacity:.85}
+.fa .ex-poster .sp-heart{z-index:2}
+.fa .ex-top{flex:0 0 auto;display:flex;align-items:flex-end;scroll-snap-align:start}
+.fa .ex-top .ex-poster{flex:0 0 112px;z-index:1}
+.fa .ex-num{margin-right:-16px;font:400 132px/.74 var(--serif);color:transparent;-webkit-text-stroke:2.5px var(--sage-deep);letter-spacing:-.04em}
+.fa .ex-skel{display:flex;flex-direction:column;gap:18px}
+.fa .ex-skel-hero{display:block;aspect-ratio:5/4;border-radius:24px;background:var(--surface);animation:ex-pulse 1.4s ease-in-out infinite}
+.fa .ex-skel-row{display:flex;gap:10px;overflow:hidden}
+.fa .ex-skel-row i{flex:0 0 132px;aspect-ratio:3/4;border-radius:16px;background:var(--surface);animation:ex-pulse 1.4s ease-in-out infinite}
+@keyframes ex-pulse{50%{opacity:.55}}
+@media (prefers-reduced-motion:reduce){.fa .ex-skel-hero,.fa .ex-skel-row i{animation:none}}
 
 /* Barre d'onglets V3 : le scan, plus grand, déborde un peu */
 .fa .tab-scan{width:60px;height:60px}
