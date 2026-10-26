@@ -1,0 +1,112 @@
+[
+ {"q":"Porridge","a":["porridge flocons d avoine","bouillie d avoine","overnight oats","flocons d avoine"],"r":[
+  ["Porridge","La classique","","Des flocons d'avoine cuits dans le lait, crémeux, avec banane et miel.","Petit-déjeuner britannique",10,320,"F","oatmeal porridge banana","vdhbf",
+   ["flocons d'avoine|flocons d'avoine|200|g","lait||80|cl","banane||2|","miel||2|c. à s.","cannelle|cannelle|1|c. à c."],
+   ["Verse les flocons et le lait dans une casserole.","Fais cuire 5 min à feu doux en remuant jusqu'à ce que ce soit crémeux.|Cuisson|5","Ajoute la cannelle.","Sers dans des bols avec la banane en rondelles et un filet de miel."]],
+  ["Overnight oats","Sans cuisson","Les flocons gonflent toute la nuit au frais.","Le porridge froid préparé la veille, prêt au réveil.","",10,330,"F","overnight oats jar","vcdhbf",
+   ["flocons d'avoine|flocons d'avoine|200|g","lait||40|cl","yaourt nature|yaourts nature|2|","graines de chia|graines de chia|2|c. à s.","fruits rouges|fruits rouges|200|g","miel||2|c. à s."],
+   ["Mélange les flocons, le lait, les yaourts, le chia et le miel.","Répartis dans 4 bocaux.","Ferme et laisse une nuit au frais.","Ajoute les fruits rouges au moment de servir."]],
+  ["Porridge pomme-cannelle","Pomme","Avec des pommes poêlées à la cannelle.","Un porridge d'hiver aux pommes caramélisées.","",15,340,"F","apple cinnamon oatmeal","vdhbf",
+   ["flocons d'avoine|flocons d'avoine|200|g","lait||80|cl","pomme||2|","cannelle|cannelle|1|c. à c.","sucre roux|sucre roux|2|c. à s.","beurre||10|g"],
+   ["Fais cuire les flocons dans le lait 5 min en remuant.|Cuisson|5","Coupe les pommes en dés.","Fais-les dorer 5 min dans le beurre avec le sucre et la cannelle.|Poêle|5","Sers le porridge avec les pommes dessus."]]
+ ]},
+ {"q":"Granola","a":["granola maison","muesli croustillant","muesli maison"],"r":[
+  ["Granola maison","La classique","","Des flocons d'avoine, des noix et du miel rôtis au four, en grappes croustillantes.","",40,250,"F","homemade granola","vodh",
+   ["flocons d'avoine|flocons d'avoine|300|g","amandes|amandes|80|g","noisette|noisettes|50|g","miel||5|c. à s.","huile de coco|huile de coco|4|c. à s.","cannelle|cannelle|1|c. à c."],
+   ["Préchauffe le four à 160 °C.","Mélange les flocons, les amandes et les noisettes concassées, et la cannelle.","Ajoute le miel et l'huile fondue et mélange bien.","Étale sur une plaque et enfourne 25 min en remuant toutes les 10 min.|Four|25","Laisse refroidir avant de mettre en bocal."]],
+  ["Granola au chocolat","Chocolat","Avec du cacao et des pépites de chocolat.","Un granola chocolaté pour les gourmands.","",40,280,"F","chocolate granola","vodf",
+   ["flocons d'avoine|flocons d'avoine|300|g","noisette|noisettes|80|g","cacao en poudre|cacao en poudre|3|c. à s.","miel||5|c. à s.","huile de coco|huile de coco|4|c. à s.","pépites de chocolat|pépites de chocolat|60|g"],
+   ["Préchauffe le four à 160 °C.","Mélange les flocons, les noisettes concassées et le cacao, puis le miel et l'huile fondue.","Étale sur une plaque et enfourne 25 min en remuant.|Four|25","Laisse refroidir et ajoute les pépites de chocolat."]],
+  ["Granola coco et fruits secs","Coco","Avec de la noix de coco et des fruits secs.","Un granola exotique à la coco et aux abricots secs.","",40,260,"F","coconut granola","vodh",
+   ["flocons d'avoine|flocons d'avoine|300|g","noix de coco râpée|noix de coco râpée|50|g","amandes|amandes|60|g","abricots secs|abricots secs|80|g","sirop d'érable|sirop d'érable|5|c. à s.","huile de coco|huile de coco|3|c. à s."],
+   ["Préchauffe le four à 160 °C.","Mélange les flocons, la coco et les amandes, puis le sirop d'érable et l'huile fondue.","Étale sur une plaque et enfourne 25 min en remuant.|Four|25","Laisse refroidir et ajoute les abricots coupés."]]
+ ]},
+ {"q":"Smoothie","a":["smoothie maison","smoothie bowl","milkshake aux fruits"],"r":[
+  ["Smoothie banane-fraise","La classique","","Le smoothie tout doux à la banane et aux fraises, avec un yaourt.","",5,180,"F","strawberry banana smoothie","vcdhf",
+   ["banane||2|","fraise||300|g","yaourt nature|yaourts nature|2|","lait||30|cl","miel||1|c. à s."],
+   ["Équeute les fraises et coupe les bananes en morceaux.","Mets tout dans le blender avec le yaourt, le lait et le miel.","Mixe jusqu'à ce que ce soit bien lisse.","Sers aussitôt, bien frais."]],
+  ["Smoothie vert","Vert","Avec des épinards, du kiwi et de la pomme.","Un smoothie vitaminé et frais, tout vert.","",5,140,"F","green smoothie","vcdh",
+   ["pousses d'épinard|pousses d'épinard|60|g","kiwi||2|","pomme||1|","banane||1|","jus d'orange|jus d'orange|30|cl"],
+   ["Épluche les kiwis et la banane, coupe la pomme.","Mets tout dans le blender avec les épinards et le jus d'orange.","Mixe jusqu'à ce que ce soit lisse.","Sers aussitôt."]],
+  ["Smoothie bowl","Bowl","Plus épais, servi dans un bol avec des toppings.","Le smoothie à manger à la cuillère, garni de fruits et de granola.","",10,320,"F","acai smoothie bowl","vcdh",
+   ["banane congelée|bananes congelées|2|","fruits rouges surgelés|fruits rouges surgelés|300|g","yaourt grec|yaourts grecs|2|","granola|granola|60|g","kiwi||1|"],
+   ["Mixe les bananes congelées, les fruits rouges et le yaourt sans liquide, pour une texture épaisse.","Verse dans des bols.","Garnis de granola et de kiwi en rondelles.","Sers tout de suite."]]
+ ]},
+ {"q":"Bowl cake","a":["bowlcake","bowl cake micro onde","mug cake"],"r":[
+  ["Bowl cake","La classique","","Le gâteau du petit-déj aux flocons d'avoine et à la banane, cuit en 2 minutes au micro-ondes.","",5,300,"F","oatmeal bowl cake","vdhb",
+   ["flocons d'avoine|flocons d'avoine|160|g","banane||2|","œuf|œufs|4|","lait||20|cl","levure chimique|levure chimique|1|c. à c."],
+   ["Écrase les bananes dans 4 bols.","Ajoute dans chaque bol 40 g de flocons, 1 œuf, 5 cl de lait et une pincée de levure.","Mélange bien.","Fais cuire chaque bol 2 min au micro-ondes.|Micro-ondes|2"]],
+  ["Bowl cake au chocolat","Chocolat","Avec du cacao et un carré de chocolat au centre.","Un bowl cake au cœur coulant de chocolat.","",5,350,"F","chocolate bowl cake","vdbf",
+   ["flocons d'avoine|flocons d'avoine|160|g","banane||2|","œuf|œufs|4|","lait||20|cl","cacao en poudre|cacao en poudre|2|c. à s.","chocolat noir|chocolat noir|40|g"],
+   ["Écrase les bananes dans 4 bols et ajoute les flocons, les œufs, le lait et le cacao.","Mélange bien.","Enfonce un carré de chocolat au centre de chaque bol.","Fais cuire chaque bol 2 min au micro-ondes.|Micro-ondes|2"]],
+  ["Mug cake au cacao","Mug cake","Un vrai petit gâteau au chocolat, cuit dans une tasse.","Le gâteau express pour une envie de chocolat.","",5,380,"F","chocolate mug cake","vdbf",
+   ["farine||100|g","sucre|sucre|80|g","cacao en poudre|cacao en poudre|4|c. à s.","œuf|œufs|2|","lait||12|cl","huile de tournesol|huile de tournesol|6|c. à s."],
+   ["Mélange la farine, le sucre et le cacao.","Ajoute les œufs, le lait et l'huile et mélange.","Répartis dans 4 tasses.","Fais cuire chaque tasse 1 min 30 au micro-ondes.|Micro-ondes|2"]]
+ ]},
+ {"q":"Chia pudding","a":["pudding de chia","graines de chia","pudding chia"],"r":[
+  ["Chia pudding","La classique","","Des graines de chia gonflées dans du lait de coco, avec des fruits frais.","",10,250,"F","chia pudding","vcdh",
+   ["graines de chia|graines de chia|80|g","lait de coco|lait de coco|40|cl","sirop d'érable|sirop d'érable|2|c. à s.","mangue||1|"],
+   ["Mélange les graines de chia, le lait de coco et le sirop d'érable.","Remue de nouveau après 10 min pour éviter les grumeaux.","Laisse prendre au moins 4 h au frais.","Sers avec la mangue en dés."]],
+  ["Chia pudding au cacao","Cacao","Avec du cacao dans le lait.","Un pudding de chia au goût de crème au chocolat.","",10,260,"F","chocolate chia pudding","vcdh",
+   ["graines de chia|graines de chia|80|g","lait d'amande|lait d'amande|40|cl","cacao en poudre|cacao en poudre|2|c. à s.","sirop d'érable|sirop d'érable|3|c. à s.","banane||1|"],
+   ["Mélange le lait, le cacao et le sirop, puis les graines de chia.","Remue de nouveau après 10 min.","Laisse prendre au moins 4 h au frais.","Sers avec la banane en rondelles."]],
+  ["Chia pudding aux fruits rouges","Fruits rouges","Avec un coulis de fruits rouges.","Un chia pudding frais et acidulé.","",10,220,"F","berry chia pudding","vcdh",
+   ["graines de chia|graines de chia|80|g","lait||40|cl","miel||2|c. à s.","fruits rouges|fruits rouges|250|g"],
+   ["Mélange le chia, le lait et le miel, et remue après 10 min.","Laisse prendre au moins 4 h au frais.","Écrase la moitié des fruits rouges en coulis.","Sers le pudding avec le coulis et le reste des fruits."]]
+ ]},
+ {"q":"Œufs Bénédicte","a":["oeuf benedicte","oeufs benedict","eggs benedict"],"r":[
+  ["Œufs Bénédicte","La classique","","Des œufs pochés sur des muffins grillés et du bacon, nappés de sauce hollandaise.","Brunch américain",30,520,"D","eggs benedict","",
+   ["œuf|œufs|7|","muffins anglais|muffins anglais|2|","bacon|bacon|4|tranches","beurre||100|g","citron||0.5|","vinaigre blanc|vinaigre blanc|2|c. à s."],
+   ["Fais fondre le beurre. Fouette 3 jaunes d'œufs avec 2 c. à s. d'eau au bain-marie jusqu'à ce qu'ils épaississent.","Ajoute le beurre fondu petit à petit en fouettant, puis le jus du citron : c'est la hollandaise.","Fais griller les muffins coupés en deux et dorer le bacon.|Poêle|4","Poche les 4 œufs 3 min dans de l'eau frémissante vinaigrée.|Cuisson|3","Monte : muffin, bacon, œuf poché, puis la sauce."]],
+  ["Œufs Bénédicte au saumon","Au saumon","Avec du saumon fumé à la place du bacon.","La version royale, au saumon fumé.","",30,500,"D","eggs royale salmon","",
+   ["œuf|œufs|7|","muffins anglais|muffins anglais|2|","saumon fumé|saumon fumé|4|tranches","beurre||100|g","citron||0.5|","vinaigre blanc|vinaigre blanc|2|c. à s."],
+   ["Prépare la hollandaise au bain-marie avec 3 jaunes, le beurre fondu et le citron.","Fais griller les muffins coupés en deux.","Poche les 4 œufs 3 min dans de l'eau vinaigrée.|Cuisson|3","Monte : muffin, saumon, œuf poché, puis la sauce."]],
+  ["Œufs Bénédicte aux épinards","Végétariens","Avec des épinards fondus.","La version florentine, aux épinards.","",30,450,"D","eggs florentine spinach","v",
+   ["œuf|œufs|7|","muffins anglais|muffins anglais|2|","pousses d'épinard|pousses d'épinard|200|g","beurre||100|g","citron||0.5|","vinaigre blanc|vinaigre blanc|2|c. à s."],
+   ["Prépare la hollandaise au bain-marie avec 3 jaunes, le beurre fondu et le citron.","Fais fondre les épinards 2 min à la poêle.|Poêle|2","Fais griller les muffins et poche les 4 œufs 3 min.|Cuisson|3","Monte : muffin, épinards, œuf poché, puis la sauce."]]
+ ]},
+ {"q":"Œufs cocotte","a":["oeuf cocotte","oeufs en cocotte"],"r":[
+  ["Œufs cocotte à la crème","La classique","","Des œufs cuits au four dans des ramequins, avec de la crème et de la ciboulette.","",20,200,"F","baked eggs ramekin cream","vobf",
+   ["œuf|œufs|4|","crème fraîche|crème fraîche|8|c. à s.","ciboulette|ciboulette||","beurre||10|g","sel|||","poivre|||"],
+   ["Préchauffe le four à 180 °C. Beurre 4 ramequins.","Mets 1 c. à s. de crème au fond, casse un œuf, puis encore 1 c. à s. de crème.","Pose les ramequins dans un plat avec de l'eau chaude à mi-hauteur.","Enfourne 10 min : le blanc doit être pris et le jaune coulant.|Four|10","Parsème de ciboulette, sale et poivre."]],
+  ["Œufs cocotte au jambon","Au jambon","Avec du jambon et du fromage.","Des œufs cocotte gourmands au jambon et à l'emmental.","",20,260,"F","baked eggs ham cheese","obf",
+   ["œuf|œufs|4|","jambon blanc|jambon blanc|2|tranches","crème fraîche|crème fraîche|4|c. à s.","emmental râpé|emmental râpé|40|g"],
+   ["Préchauffe le four à 180 °C.","Mets le jambon en dés et la crème dans 4 ramequins beurrés.","Casse un œuf dans chacun et parsème d'emmental.","Enfourne 12 min au bain-marie.|Four|12"]],
+  ["Œufs cocotte aux champignons","Aux champignons","Avec une poêlée de champignons.","Des œufs cocotte forestiers, aux champignons.","",25,220,"F","baked eggs mushrooms","vobf",
+   ["œuf|œufs|4|","champignon de Paris|champignons de Paris|200|g","échalote||1|","crème fraîche|crème fraîche|4|c. à s.","persil|persil||"],
+   ["Préchauffe le four à 180 °C.","Fais revenir les champignons émincés et l'échalote 5 min.|Poêle|5","Répartis-les dans 4 ramequins avec la crème et casse un œuf dans chacun.","Enfourne 12 min au bain-marie et parsème de persil.|Four|12"]]
+ ]},
+ {"q":"Pain maison","a":["pain","faire son pain","pain fait maison","pain sans machine"],"r":[
+  ["Pain maison","La classique","","Un pain croustillant fait à la main, sans machine, cuit dans une cocotte.","",210,250,"M","homemade bread loaf","vob",
+   ["farine||500|g","levure de boulanger|levure de boulanger|5|g","sel|sel|10|g"],
+   ["Délaye la levure dans 35 cl d'eau tiède.","Mélange avec la farine et le sel, et pétris 10 min.|Pétrissage|10","Laisse lever 2 h sous un torchon.|Levée|120","Préchauffe le four à 240 °C avec une cocotte en fonte dedans.","Façonne une boule, mets-la dans la cocotte chaude et enfourne 30 min à couvert, puis 15 min sans couvercle.|Four|45"]],
+  ["Pain sans pétrissage","Sans pétrir","La pâte lève toute une nuit et ne se pétrit pas.","Le pain le plus simple, qui se prépare la veille.","",60,250,"F","no knead bread","vob",
+   ["farine||500|g","levure de boulanger|levure de boulanger|2|g","sel|sel|10|g"],
+   ["Mélange la farine, le sel, la levure et 38 cl d'eau tiède, sans pétrir.","Couvre et laisse lever 12 à 18 h à température ambiante.","Préchauffe le four à 240 °C avec une cocotte en fonte dedans.","Verse la pâte dans la cocotte chaude et enfourne 30 min à couvert, puis 15 min sans couvercle.|Four|45"]],
+  ["Pain complet aux graines","Complet","Avec de la farine complète et des graines.","Un pain complet riche en graines, pour le petit-déjeuner.","",210,270,"M","whole wheat seeded bread","vohb",
+   ["farine complète|farine complète|300|g","farine||200|g","levure de boulanger|levure de boulanger|5|g","graines mélangées|graines mélangées|80|g","sel|sel|10|g"],
+   ["Délaye la levure dans 37 cl d'eau tiède.","Mélange avec les farines, le sel et les graines, et pétris 10 min.|Pétrissage|10","Laisse lever 2 h.|Levée|120","Façonne et mets dans un moule à cake. Laisse lever 45 min.|Levée|45","Enfourne 40 min à 220 °C.|Four|40"]]
+ ]},
+ {"q":"Frittata","a":["omelette italienne","tortilla espagnole","tortilla de patatas"],"r":[
+  ["Frittata aux légumes","La classique","","L'omelette épaisse à l'italienne, garnie de légumes et finie au four.","Plat italien",30,280,"F","vegetable frittata","vohbf",
+   ["œuf|œufs|8|","courgette||1|","poivron rouge|poivrons rouges|1|","oignon||1|","parmesan||40|g","huile d'olive|huile d'olive|2|c. à s."],
+   ["Préchauffe le four à 180 °C.","Fais revenir l'oignon, le poivron et la courgette en dés 8 min dans une poêle qui va au four.|Poêle|8","Bats les œufs avec le parmesan, sale et poivre, et verse sur les légumes.","Laisse cuire 3 min sur le feu, puis enfourne 12 min.|Four|12"]],
+  ["Tortilla espagnole","Tortilla","Avec des pommes de terre et de l'oignon.","L'omelette espagnole épaisse aux pommes de terre.","Recette espagnole",45,350,"M","spanish tortilla","vbf",
+   ["œuf|œufs|6|","pomme de terre|pommes de terre|600|g","oignon||1|","huile d'olive|huile d'olive|10|cl","sel|||"],
+   ["Coupe les pommes de terre en fines lamelles et l'oignon en lamelles.","Fais-les cuire 20 min à feu doux dans l'huile, sans les dorer.|Poêle|20","Égoutte-les et mélange-les aux œufs battus salés.","Remets dans la poêle et cuis 5 min, puis retourne avec une assiette et cuis 3 min.|Poêle|8"]],
+  ["Frittata épinards et feta","Épinards et feta","Avec des épinards et de la feta.","Une frittata verte et fondante.","",25,290,"F","spinach feta frittata","vohb",
+   ["œuf|œufs|8|","pousses d'épinard|pousses d'épinard|200|g","feta||150|g","oignon nouveau|oignons nouveaux|2|","huile d'olive|huile d'olive|2|c. à s."],
+   ["Préchauffe le four à 180 °C.","Fais fondre les épinards avec l'oignon 3 min.|Poêle|3","Verse les œufs battus et la feta émiettée.","Laisse cuire 3 min puis enfourne 12 min.|Four|12"]]
+ ]},
+ {"q":"Croque-madame","a":["croque madame"],"r":[
+  ["Croque-madame","La classique","","Le croque-monsieur coiffé d'un œuf au plat.","Bistrot français",25,520,"F","croque madame","obf",
+   ["pain de mie|pains de mie|8|tranches","jambon blanc|jambon blanc|4|tranches","emmental râpé|emmental râpé|120|g","beurre||40|g","œuf|œufs|4|","crème fraîche|crème fraîche|4|c. à s."],
+   ["Préchauffe le four à 200 °C.","Beurre le pain, garnis de jambon et d'emmental et referme.","Couvre de crème et du reste d'emmental, et enfourne 12 min.|Four|12","Fais cuire les œufs au plat.|Poêle|4","Pose un œuf sur chaque croque."]],
+  ["Croque-madame à la béchamel","Béchamel","Nappé de béchamel avant de gratiner.","Le croque-madame du bistrot, crémeux à la béchamel.","",35,580,"M","croque madame bechamel","o",
+   ["pain de mie|pains de mie|8|tranches","jambon blanc|jambon blanc|4|tranches","emmental râpé|emmental râpé|120|g","lait||25|cl","farine||20|g","beurre||40|g","œuf|œufs|4|"],
+   ["Prépare une béchamel avec 20 g de beurre, la farine et le lait.","Garnis le pain de jambon et d'emmental, referme et nappe de béchamel.","Parsème d'emmental et enfourne 12 min à 200 °C.|Four|12","Fais cuire les œufs au plat et pose-les dessus."]],
+  ["Croque-madame végétarien","Végétarien","Avec des tomates et des épinards à la place du jambon.","Un croque-madame sans viande, tomate et épinards.","",25,450,"F","vegetarian croque madame","vobf",
+   ["pain de mie|pains de mie|8|tranches","tomate||2|","pousses d'épinard|pousses d'épinard|80|g","emmental râpé|emmental râpé|120|g","beurre||30|g","œuf|œufs|4|"],
+   ["Préchauffe le four à 200 °C.","Garnis le pain beurré de tomates en rondelles, d'épinards et d'emmental, et referme.","Parsème d'emmental et enfourne 12 min.|Four|12","Pose un œuf au plat sur chaque croque."]]
+ ]}
+]
