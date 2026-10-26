@@ -1,0 +1,112 @@
+[
+ {"q":"Pizza","a":["pizza maison","pizza margherita","pizza margarita","pate a pizza"],"r":[
+  ["Pizza margherita maison","La classique","","Une pâte maison, une sauce tomate, de la mozzarella et du basilic.","Plat italien",100,620,"M","pizza margherita","vobf",
+   ["farine||300|g","levure de boulanger|levure de boulanger|7|g","huile d'olive|huile d'olive|3|c. à s.","coulis de tomate|coulis de tomate|20|cl","mozzarella||2|","basilic|basilic||","origan|origan||","sel|||"],
+   ["Mélange la farine, la levure, 1 c. à c. de sel, 2 c. à s. d'huile et 18 cl d'eau tiède. Pétris 5 min.","Laisse lever 1 h sous un torchon.|Levée|60","Préchauffe le four à 250 °C. Étale la pâte finement sur une plaque huilée.","Étale le coulis assaisonné d'origan, ajoute la mozzarella en morceaux.","Enfourne 12 min, puis ajoute le basilic.|Four|12"]],
+  ["Pizza reine","Reine","Avec du jambon et des champignons.","La pizza jambon-champignons, la préférée des enfants.","",100,680,"M","ham mushroom pizza","obf",
+   ["farine||300|g","levure de boulanger|levure de boulanger|7|g","huile d'olive|huile d'olive|3|c. à s.","coulis de tomate|coulis de tomate|20|cl","mozzarella||2|","jambon blanc|jambon blanc|3|tranches","champignon de Paris|champignons de Paris|150|g","sel|||"],
+   ["Prépare la pâte et laisse-la lever 1 h.|Levée|60","Préchauffe le four à 250 °C et étale la pâte.","Garnis de coulis, de mozzarella, de jambon et de champignons émincés.","Enfourne 12 min.|Four|12"]],
+  ["Pizza express sans levée","Express","Une pâte au yaourt, sans temps de levée.","Une pizza maison en 30 minutes, sans attendre que la pâte lève.","",30,600,"F","quick yogurt dough pizza","vobf",
+   ["farine||250|g","yaourt nature|yaourts nature|1|","levure chimique|levure chimique|1|c. à c.","huile d'olive|huile d'olive|2|c. à s.","coulis de tomate|coulis de tomate|15|cl","mozzarella||1|","tomate cerise|tomates cerises|150|g","sel|||"],
+   ["Préchauffe le four à 240 °C.","Mélange la farine, le yaourt, la levure, l'huile et le sel jusqu'à obtenir une boule.","Étale la pâte, garnis de coulis, de mozzarella et de tomates cerises.","Enfourne 15 min.|Four|15"]]
+ ]},
+ {"q":"Calzone","a":["pizza calzone"],"r":[
+  ["Calzone","La classique","","La pizza pliée en chausson, garnie de jambon, mozzarella, champignons et œuf.","Plat italien",100,700,"M","calzone","of",
+   ["farine||300|g","levure de boulanger|levure de boulanger|7|g","huile d'olive|huile d'olive|3|c. à s.","coulis de tomate|coulis de tomate|15|cl","mozzarella||2|","jambon blanc|jambon blanc|3|tranches","champignon de Paris|champignons de Paris|150|g","œuf|œufs|2|","sel|||"],
+   ["Prépare la pâte à pizza et laisse-la lever 1 h.|Levée|60","Préchauffe le four à 240 °C. Partage la pâte en 2 disques.","Garnis une moitié de chaque disque de coulis, de jambon, de champignons et de mozzarella, et casse un œuf.","Replie et soude les bords.","Enfourne 18 min.|Four|18"]],
+  ["Calzone végétarienne","Végétarienne","Épinards, ricotta et mozzarella.","Une calzone fondante aux épinards et à la ricotta.","Plat italien",100,640,"M","spinach ricotta calzone","vo",
+   ["farine||300|g","levure de boulanger|levure de boulanger|7|g","huile d'olive|huile d'olive|3|c. à s.","épinard|épinards|200|g","ricotta|ricotta|200|g","mozzarella||1|","ail||1|gousse","sel|||"],
+   ["Prépare la pâte et laisse-la lever 1 h.|Levée|60","Fais tomber les épinards avec l'ail, mélange-les avec la ricotta.","Garnis la moitié des disques, ajoute la mozzarella et replie.","Enfourne 18 min à 240 °C.|Four|18"]],
+  ["Chaussons express à la pâte feuilletée","Express","Avec de la pâte feuilletée toute prête.","Des petits chaussons façon calzone, prêts en 25 minutes.","",25,560,"F","puff pastry turnovers ham cheese","obf",
+   ["pâte feuilletée|pâtes feuilletées|2|","coulis de tomate|coulis de tomate|10|cl","jambon blanc|jambon blanc|3|tranches","mozzarella||1|","œuf|œufs|1|"],
+   ["Préchauffe le four à 200 °C.","Découpe des disques de pâte, garnis-en la moitié de coulis, jambon et mozzarella.","Replie, soude les bords et dore à l'œuf battu.","Enfourne 18 min.|Four|18"]]
+ ]},
+ {"q":"Focaccia","a":["focaccia maison","fougasse"],"r":[
+  ["Focaccia au romarin","La classique","","Le pain italien moelleux, à l'huile d'olive, au romarin et à la fleur de sel.","Plat italien",150,320,"M","rosemary focaccia","vob",
+   ["farine||500|g","levure de boulanger|levure de boulanger|7|g","huile d'olive|huile d'olive|8|cl","romarin|romarin||","fleur de sel|fleur de sel||","sel|||"],
+   ["Mélange la farine, la levure, 2 c. à c. de sel, 3 c. à s. d'huile et 35 cl d'eau tiède. Pétris 5 min.","Laisse lever 1 h 30.|Levée|90","Étale la pâte dans un plat huilé, enfonce les doigts pour faire des creux et arrose du reste d'huile.","Parsème de romarin et de fleur de sel, et laisse lever encore 20 min.|Levée|20","Enfourne 25 min à 220 °C.|Four|25"]],
+  ["Focaccia tomates cerises et olives","Tomates et olives","Garnie de tomates cerises et d'olives.","Une focaccia colorée, aux tomates et aux olives.","Plat italien",150,340,"M","tomato olive focaccia","vo",
+   ["farine||500|g","levure de boulanger|levure de boulanger|7|g","huile d'olive|huile d'olive|8|cl","tomate cerise|tomates cerises|200|g","olive noire|olives noires|60|g","origan|origan||","sel|||"],
+   ["Prépare la pâte et laisse-la lever 1 h 30.|Levée|90","Étale-la dans un plat huilé et enfonce les tomates et les olives.","Arrose d'huile, parsème d'origan et laisse lever 20 min.|Levée|20","Enfourne 25 min à 220 °C.|Four|25"]],
+  ["Fougasse aux lardons","Fougasse","La fougasse provençale aux lardons.","La fougasse dorée aux lardons, pour l'apéro.","Spécialité provençale",120,360,"M","bacon fougasse bread","o",
+   ["farine||500|g","levure de boulanger|levure de boulanger|7|g","huile d'olive|huile d'olive|4|c. à s.","lardon||150|g","sel|||"],
+   ["Fais griller les lardons 5 min.|Poêle|5","Mélange la farine, la levure, le sel, l'huile, 30 cl d'eau tiède et les lardons. Pétris.","Laisse lever 1 h.|Levée|60","Étale en forme de feuille, fais des entailles et enfourne 20 min à 220 °C.|Four|20"]]
+ ]},
+ {"q":"Bruschetta","a":["bruschettas","tartines tomate"],"r":[
+  ["Bruschetta tomate basilic","La classique","","Du pain grillé frotté à l'ail, garni de tomates fraîches au basilic.","Plat italien",15,220,"F","tomato bruschetta","vbhe",
+   ["pain de campagne|pains de campagne|8|tranches","tomate||4|","ail||1|gousse","basilic|basilic||","huile d'olive|huile d'olive|4|c. à s.","sel|||","poivre|||"],
+   ["Coupe les tomates en petits dés et mélange-les avec le basilic, 3 c. à s. d'huile, sel et poivre.","Fais griller le pain et frotte-le avec l'ail.","Garnis de tomates et arrose d'un filet d'huile."]],
+  ["Bruschetta mozzarella et jambon cru","Mozzarella et jambon cru","De la mozzarella et du jambon cru sur le pain grillé.","Des tartines italiennes gourmandes.","Plat italien",15,320,"F","bruschetta prosciutto mozzarella","e",
+   ["pain de campagne|pains de campagne|8|tranches","mozzarella||1|","jambon cru|jambon cru|4|tranches","tomate cerise|tomates cerises|150|g","huile d'olive|huile d'olive|3|c. à s.","basilic|basilic||"],
+   ["Fais griller le pain.","Garnis de mozzarella, de tomates cerises coupées et de jambon cru.","Arrose d'huile et ajoute le basilic."]],
+  ["Bruschetta avocat et œuf","Avocat et œuf","Une version brunch, avocat écrasé et œuf poché.","Les tartines avocat-œuf, parfaites au brunch.","",20,320,"F","avocado egg toast","vh",
+   ["pain de campagne|pains de campagne|4|tranches","avocat||2|","œuf|œufs|4|","citron||0.5|","piment d'Espelette|piment d'Espelette||","sel|||"],
+   ["Fais griller le pain.","Écrase les avocats avec le jus du citron et le sel.","Fais pocher les œufs 3 min dans l'eau frémissante vinaigrée.|Cuisson|3","Tartine l'avocat, pose l'œuf et saupoudre de piment."]]
+ ]},
+ {"q":"Tarte à la tomate","a":["tarte tomate moutarde","tarte aux tomates"],"r":[
+  ["Tarte à la tomate et à la moutarde","La classique","","Une pâte croustillante, de la moutarde, des tomates et du fromage, au four.","",45,380,"F","tomato mustard tart","vob",
+   ["pâte brisée|pâtes brisées|1|","tomate||5|","moutarde|moutarde|3|c. à s.","emmental râpé|emmental râpé|80|g","huile d'olive|huile d'olive|2|c. à s.","herbes de Provence|herbes de Provence|1|c. à c.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C. Étale la pâte dans un moule.","Tartine le fond de moutarde et parsème d'emmental.","Dispose les tomates en rondelles, arrose d'huile, ajoute les herbes, sel et poivre.","Enfourne 35 min.|Four|35"]],
+  ["Tarte fine tomate et chèvre","Au chèvre","Une pâte feuilletée, du chèvre et du miel.","Une tarte fine sucrée-salée, tomate, chèvre et miel.","",30,360,"F","tomato goat cheese tart","vo",
+   ["pâte feuilletée|pâtes feuilletées|1|","tomate||4|","bûche de chèvre|bûches de chèvre|1|","miel|miel|1|c. à s.","thym|thym||","huile d'olive|huile d'olive|1|c. à s."],
+   ["Préchauffe le four à 210 °C. Étale la pâte sur une plaque.","Dispose les tomates et le chèvre en rondelles.","Arrose d'huile et de miel, parsème de thym.","Enfourne 25 min.|Four|25"]],
+  ["Tarte tomate et thon","Au thon","Du thon sous les tomates.","La tarte à la tomate en plat complet, au thon.","",45,420,"F","tomato tuna tart","ob",
+   ["pâte brisée|pâtes brisées|1|","tomate||4|","thon au naturel|thon au naturel|200|g","moutarde|moutarde|2|c. à s.","crème fraîche||10|cl","œuf|œufs|2|","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C. Étale la pâte et tartine-la de moutarde.","Mélange le thon émietté, les œufs et la crème, sale et poivre, et étale sur la pâte.","Dispose les tomates en rondelles.","Enfourne 35 min.|Four|35"]]
+ ]},
+ {"q":"Quiche aux légumes","a":["quiche legumes","quiche vegetarienne","quiche saumon epinards","quiche saumon"],"r":[
+  ["Quiche aux légumes","La classique","","Une quiche colorée aux courgettes, poivrons et tomates.","",55,420,"F","vegetable quiche","vobh",
+   ["pâte brisée|pâtes brisées|1|","courgette||1|","poivron rouge|poivrons rouges|1|","tomate cerise|tomates cerises|100|g","œuf|œufs|3|","crème fraîche||20|cl","lait||10|cl","emmental râpé|emmental râpé|50|g","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C. Étale la pâte dans un moule.","Fais revenir la courgette et le poivron en dés 8 min.|Poêle|8","Bats les œufs, la crème, le lait, l'emmental, sel et poivre.","Répartis les légumes et les tomates sur la pâte, verse l'appareil.","Enfourne 35 min.|Four|35"]],
+  ["Quiche saumon et épinards","Saumon épinards","Du saumon et des épinards remplacent les légumes du soleil.","Une quiche gourmande et complète, saumon et épinards.","",55,480,"F","salmon spinach quiche","o",
+   ["pâte brisée|pâtes brisées|1|","pavé de saumon|pavés de saumon|2|","épinard|épinards|200|g","œuf|œufs|3|","crème fraîche||20|cl","lait||10|cl","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C. Étale la pâte.","Fais tomber les épinards 3 min et égoutte-les bien.|Poêle|3","Répartis les épinards et le saumon cru en dés sur la pâte.","Verse les œufs battus avec la crème et le lait, sale et poivre.","Enfourne 35 min.|Four|35"]],
+  ["Quiche sans pâte aux légumes","Sans pâte","Sans pâte, plus légère.","Une quiche légère, cuite directement dans le plat.","",45,260,"F","crustless vegetable quiche","voh",
+   ["courgette||2|","poivron rouge|poivrons rouges|1|","œuf|œufs|4|","lait||25|cl","farine||40|g","emmental râpé|emmental râpé|40|g","sel|||","poivre|||"],
+   ["Préchauffe le four à 180 °C.","Fais revenir les légumes en dés 8 min.|Poêle|8","Bats les œufs avec la farine, le lait, l'emmental, sel et poivre, et ajoute les légumes.","Verse dans un plat huilé et enfourne 35 min.|Four|35"]]
+ ]},
+ {"q":"Cake salé","a":["cake jambon olives","cake sale jambon olive"],"r":[
+  ["Cake jambon olives","La classique","","Le cake salé de l'apéro et des pique-niques, au jambon et aux olives.","",60,320,"F","savory ham olive loaf cake","obcf",
+   ["farine||200|g","œuf|œufs|3|","lait||10|cl","huile d'olive|huile d'olive|10|cl","dés de jambon||150|g","olive verte|olives vertes|100|g","emmental râpé|emmental râpé|80|g","levure chimique|levure chimique|1|c. à c.","sel|||","poivre|||"],
+   ["Préchauffe le four à 180 °C.","Mélange la farine, la levure, les œufs, le lait et l'huile.","Ajoute le jambon, les olives coupées, l'emmental, sel et poivre.","Verse dans un moule à cake et enfourne 45 min.|Four|45"]],
+  ["Cake feta, tomates séchées et basilic","Végétarien","La feta et les tomates séchées remplacent le jambon et les olives.","Un cake salé méditerranéen.","",60,320,"F","feta sundried tomato loaf","voc",
+   ["farine||200|g","œuf|œufs|3|","lait||10|cl","huile d'olive|huile d'olive|10|cl","feta|feta|150|g","tomate séchée|tomates séchées|80|g","basilic|basilic||","levure chimique|levure chimique|1|c. à c.","sel|||"],
+   ["Préchauffe le four à 180 °C.","Prépare la pâte avec la farine, la levure, les œufs, le lait et l'huile.","Ajoute la feta en dés, les tomates séchées et le basilic.","Enfourne 45 min.|Four|45"]],
+  ["Cake au thon et à la tomate","Au thon","Du thon et du coulis de tomate.","Un cake salé au thon, moelleux et économique.","",60,330,"F","tuna tomato loaf","obc",
+   ["farine||200|g","œuf|œufs|3|","lait||10|cl","huile d'olive|huile d'olive|8|cl","thon au naturel|thon au naturel|200|g","concentré de tomate|concentré de tomate|2|c. à s.","emmental râpé|emmental râpé|60|g","levure chimique|levure chimique|1|c. à c.","sel|||"],
+   ["Préchauffe le four à 180 °C.","Prépare la pâte et ajoute le concentré de tomate.","Ajoute le thon émietté et l'emmental.","Enfourne 45 min.|Four|45"]]
+ ]},
+ {"q":"Wrap au poulet","a":["wrap","wraps","wrap poulet crudites"],"r":[
+  ["Wrap au poulet","La classique","","Une galette garnie de poulet, crudités et sauce au yaourt, roulée bien serrée.","",20,450,"F","chicken wrap","cfh",
+   ["galette de blé|galettes de blé|4|","blanc de poulet|blancs de poulet|2|","salade|salades|4|feuilles","tomate||2|","carotte||1|","yaourt grec|yaourts grecs|1|","citron||0.5|","paprika|paprika|1|c. à c.","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Coupe le poulet en lanières et fais-le dorer avec le paprika 8 min.|Poêle|8","Mélange le yaourt, le jus du citron et le sel.","Garnis les galettes de salade, tomate, carotte râpée, poulet et sauce.","Roule-les bien serré et coupe-les en deux."]],
+  ["Wrap au thon","Au thon","Du thon et de la mayonnaise légère remplacent le poulet.","Un wrap rapide au thon, sans cuisson.","",10,420,"F","tuna wrap","cb",
+   ["galette de blé|galettes de blé|4|","thon au naturel|thon au naturel|200|g","maïs|maïs|100|g","salade|salades|4|feuilles","tomate||2|","mayonnaise|mayonnaise|2|c. à s.","fromage blanc||2|c. à s."],
+   ["Mélange le thon avec le maïs, la mayonnaise et le fromage blanc.","Garnis les galettes de salade, de tomate et de thon.","Roule-les et coupe-les en deux."]],
+  ["Wrap végétarien houmous et légumes","Végétarien","Houmous et légumes grillés remplacent le poulet.","Un wrap coloré et rassasiant, au houmous.","",20,400,"F","hummus veggie wrap","vch",
+   ["galette de blé|galettes de blé|4|","houmous|houmous|8|c. à s.","courgette||1|","poivron rouge|poivrons rouges|1|","pousse d'épinard|pousses d'épinard|60|g","feta|feta|80|g","huile d'olive|huile d'olive|1|c. à s."],
+   ["Fais griller la courgette et le poivron en lanières dans l'huile 8 min.|Poêle|8","Tartine les galettes de houmous.","Ajoute les épinards, les légumes grillés et la feta, puis roule."]]
+ ]},
+ {"q":"Club sandwich","a":["sandwich","club sandwich poulet"],"r":[
+  ["Club sandwich","La classique","","Le sandwich à étages : poulet, bacon, œuf, tomate et salade.","Plat américain",25,620,"F","club sandwich","c",
+   ["pain de mie|pains de mie|12|tranches","blanc de poulet|blancs de poulet|2|","bacon|bacon|8|tranches","œuf|œufs|2|","tomate||2|","salade|salades|4|feuilles","mayonnaise|mayonnaise|3|c. à s.","sel|||"],
+   ["Fais cuire le poulet 10 min et tranche-le. Fais griller le bacon 4 min.|Poêle|14","Fais cuire les œufs durs 10 min et coupe-les en rondelles.|Œufs|10","Toaste le pain et tartine-le de mayonnaise.","Monte 3 étages : poulet et salade, puis bacon, tomate et œuf.","Coupe en triangles et pique avec un cure-dent."]],
+  ["Club sandwich au thon","Au thon","Du thon remplace le poulet et le bacon.","Le club sandwich en version thon-crudités.","",15,520,"F","tuna club sandwich","cb",
+   ["pain de mie|pains de mie|12|tranches","thon au naturel|thon au naturel|200|g","œuf|œufs|2|","tomate||2|","concombre||0.5|","salade|salades|4|feuilles","mayonnaise|mayonnaise|3|c. à s."],
+   ["Fais cuire les œufs durs 10 min.|Œufs|10","Mélange le thon avec la mayonnaise.","Toaste le pain et monte les étages avec le thon, les crudités et l'œuf."]],
+  ["Club sandwich végétarien","Végétarien","Œuf, avocat et fromage remplacent la viande.","Un club végé, à l'avocat et au cheddar.","",15,500,"F","vegetarian club sandwich avocado","vc",
+   ["pain de mie|pains de mie|12|tranches","avocat||2|","œuf|œufs|2|","cheddar|cheddar|4|tranches","tomate||2|","salade|salades|4|feuilles","mayonnaise|mayonnaise|2|c. à s."],
+   ["Fais cuire les œufs durs 10 min.|Œufs|10","Écrase les avocats.","Toaste le pain et monte les étages avec l'avocat, le cheddar, l'œuf et les crudités."]]
+ ]},
+ {"q":"Avocado toast","a":["toast avocat","tartine avocat","avocat toast"],"r":[
+  ["Avocado toast","La classique","","Du pain grillé, de l'avocat écrasé au citron et une pointe de piment.","",10,280,"F","avocado toast","vch",
+   ["pain complet|pains complets|4|tranches","avocat||2|","citron||0.5|","piment d'Espelette|piment d'Espelette||","graines de sésame|graines de sésame|1|c. à c.","sel|||"],
+   ["Fais griller le pain.","Écrase les avocats avec le jus du citron et le sel.","Tartine et parsème de piment et de sésame."]],
+  ["Avocado toast œuf poché","Avec un œuf","Un œuf poché sur l'avocat.","Le brunch parfait : avocat et œuf poché coulant.","",15,360,"F","avocado toast poached egg","vh",
+   ["pain complet|pains complets|4|tranches","avocat||2|","œuf|œufs|4|","citron||0.5|","vinaigre|vinaigre|1|c. à s.","sel|||","poivre|||"],
+   ["Fais griller le pain et tartine-le d'avocat écrasé au citron.","Fais pocher les œufs 3 min dans l'eau frémissante vinaigrée.|Cuisson|3","Pose un œuf sur chaque tartine, sale et poivre."]],
+  ["Avocado toast saumon fumé","Au saumon fumé","Du saumon fumé et de l'aneth.","L'avocado toast chic, au saumon fumé.","",10,340,"F","avocado toast smoked salmon","ch",
+   ["pain complet|pains complets|4|tranches","avocat||2|","saumon fumé|saumon fumé|100|g","citron||0.5|","aneth|aneth||","poivre|||"],
+   ["Fais griller le pain.","Écrase les avocats avec le jus du citron et tartine-les sur le pain.","Ajoute le saumon fumé et l'aneth, puis poivre."]]
+ ]}
+]
