@@ -98,15 +98,15 @@
    ["œuf|œufs|8|","pousses d'épinard|pousses d'épinard|200|g","feta||150|g","oignon nouveau|oignons nouveaux|2|","huile d'olive|huile d'olive|2|c. à s."],
    ["Préchauffe le four à 180 °C.","Fais fondre les épinards avec l'oignon 3 min.|Poêle|3","Verse les œufs battus et la feta émiettée.","Laisse cuire 3 min puis enfourne 12 min.|Four|12"]]
  ]},
- {"q":"Croque-madame","a":["croque madame"],"r":[
-  ["Croque-madame","La classique","","Le croque-monsieur coiffé d'un œuf au plat.","Bistrot français",25,520,"F","croque madame","obf",
-   ["pain de mie|pains de mie|8|tranches","jambon blanc|jambon blanc|4|tranches","emmental râpé|emmental râpé|120|g","beurre||40|g","œuf|œufs|4|","crème fraîche|crème fraîche|4|c. à s."],
-   ["Préchauffe le four à 200 °C.","Beurre le pain, garnis de jambon et d'emmental et referme.","Couvre de crème et du reste d'emmental, et enfourne 12 min.|Four|12","Fais cuire les œufs au plat.|Poêle|4","Pose un œuf sur chaque croque."]],
-  ["Croque-madame à la béchamel","Béchamel","Nappé de béchamel avant de gratiner.","Le croque-madame du bistrot, crémeux à la béchamel.","",35,580,"M","croque madame bechamel","o",
-   ["pain de mie|pains de mie|8|tranches","jambon blanc|jambon blanc|4|tranches","emmental râpé|emmental râpé|120|g","lait||25|cl","farine||20|g","beurre||40|g","œuf|œufs|4|"],
-   ["Prépare une béchamel avec 20 g de beurre, la farine et le lait.","Garnis le pain de jambon et d'emmental, referme et nappe de béchamel.","Parsème d'emmental et enfourne 12 min à 200 °C.|Four|12","Fais cuire les œufs au plat et pose-les dessus."]],
-  ["Croque-madame végétarien","Végétarien","Avec des tomates et des épinards à la place du jambon.","Un croque-madame sans viande, tomate et épinards.","",25,450,"F","vegetarian croque madame","vobf",
-   ["pain de mie|pains de mie|8|tranches","tomate||2|","pousses d'épinard|pousses d'épinard|80|g","emmental râpé|emmental râpé|120|g","beurre||30|g","œuf|œufs|4|"],
-   ["Préchauffe le four à 200 °C.","Garnis le pain beurré de tomates en rondelles, d'épinards et d'emmental, et referme.","Parsème d'emmental et enfourne 12 min.|Four|12","Pose un œuf au plat sur chaque croque."]]
+ {"q":"Welsh","a":["welsh rarebit","welsh ch ti","welsh lillois"],"r":[
+  ["Welsh","La classique","","Le plat du Nord : pain et jambon nappés de cheddar fondu à la bière, avec un œuf.","Spécialité du Nord",30,850,"F","welsh rarebit","o",
+   ["cheddar|cheddar|500|g","bière blonde|bière blonde|20|cl","moutarde|moutarde|1|c. à s.","pain de campagne|pains de campagne|4|tranches","jambon blanc|jambon blanc|4|tranches","œuf|œufs|4|"],
+   ["Préchauffe le four en position gril.","Fais fondre le cheddar en morceaux avec la bière et la moutarde à feu doux, en remuant.","Pose une tranche de pain dans chaque plat individuel et ajoute le jambon.","Nappe de cheddar fondu et fais gratiner 8 min.|Four|8","Pose un œuf au plat sur chaque welsh."]],
+  ["Welsh sans bière","Sans alcool","La bière est remplacée par du lait.","Un welsh plus doux, pour toute la famille.","",30,800,"F","cheddar toast melted cheese","of",
+   ["cheddar|cheddar|500|g","lait||15|cl","moutarde|moutarde|1|c. à c.","pain de campagne|pains de campagne|4|tranches","jambon blanc|jambon blanc|4|tranches","œuf|œufs|4|"],
+   ["Fais fondre le cheddar avec le lait et la moutarde à feu doux.","Pose le pain et le jambon dans des plats individuels.","Nappe de cheddar et fais gratiner 8 min.|Four|8","Ajoute un œuf au plat."]],
+  ["Welsh végétarien","Végétarien","Sans jambon, avec des champignons.","Un welsh sans viande, aux champignons poêlés.","",30,760,"F","vegetarian welsh rarebit mushrooms","vo",
+   ["cheddar|cheddar|500|g","bière blonde|bière blonde|20|cl","moutarde|moutarde|1|c. à s.","pain de campagne|pains de campagne|4|tranches","champignon de Paris|champignons de Paris|250|g","œuf|œufs|4|"],
+   ["Fais revenir les champignons émincés 8 min.|Poêle|8","Fais fondre le cheddar avec la bière et la moutarde.","Pose le pain et les champignons dans des plats, nappe de cheddar.","Fais gratiner 8 min et ajoute un œuf au plat.|Four|8"]]
  ]}
 ]
