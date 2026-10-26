@@ -1,4 +1,5 @@
--- Fin de la formule gratuite (23 octobre 2026) : 7 jours d'essai offerts aux comptes déjà inscrits.
+-- Fin de la formule gratuite (23 octobre 2026) : 7 jours d'essai offerts aux comptes déjà inscrits,
+-- 1 mois pour ceux de la liste d'attente.
 -- À lancer UNE FOIS, le jour où la nouvelle appli part en ligne (pas avant : les 7 jours partent de maintenant).
 -- Ce n'est pas une migration : à coller dans l'éditeur SQL de Supabase.
 --
@@ -12,6 +13,16 @@ set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb)
 where coalesce((raw_app_meta_data->>'is_whitelisted')::boolean, false) = false
   and coalesce(raw_app_meta_data->>'subscription_status', '') not in ('active', 'trialing', 'past_due', 'unpaid')
   and coalesce((raw_app_meta_data->>'plus_until')::bigint, 0) < extract(epoch from now() + interval '7 days')::bigint;
+
+-- Inscrits de la liste d'attente qui ont déjà un compte : 1 mois au lieu de 7 jours.
+-- Les nouveaux comptes de la liste d'attente l'ont tout seuls (migration 20261028000000_waitlist_mois_offert.sql).
+update auth.users u
+set raw_app_meta_data = coalesce(u.raw_app_meta_data, '{}'::jsonb)
+  || jsonb_build_object('plus_until', extract(epoch from now() + interval '1 month')::bigint)
+where exists (select 1 from public.waitlist w where w.email = lower(u.email))
+  and coalesce((u.raw_app_meta_data->>'is_whitelisted')::boolean, false) = false
+  and coalesce(u.raw_app_meta_data->>'subscription_status', '') not in ('active', 'trialing', 'past_due', 'unpaid')
+  and coalesce((u.raw_app_meta_data->>'plus_until')::bigint, 0) < extract(epoch from now() + interval '1 month')::bigint;
 
 -- Vérifier : combien de comptes ont leurs 7 jours
 select count(*) from auth.users
