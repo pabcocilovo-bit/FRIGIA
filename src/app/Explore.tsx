@@ -97,7 +97,7 @@ function Result({ recipe, fav, onOpen }: { recipe: GeneratedRecipe; fav: boolean
 }
 
 // Les rangées du jour, gardées sur le téléphone : revenir sur Explorer ne recharge rien
-const ROWS = "frigia.explorer.rows.v2";
+const ROWS = "frigia.explorer.rows.v3";
 const localDay = () => new Date().toLocaleDateString("fr-FR");
 function readRows(sig: string): Browse | null {
   try {

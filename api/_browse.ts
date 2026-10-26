@@ -26,6 +26,10 @@ const POOLS: [string, string][] = [
   ["végétarien", "100 % végé"],
   ["entrées", "Pour commencer"],
 ];
+// Les placards de tout le monde : une rangée chacun, tous les jours (Hugo, 26 octobre)
+const STAPLES: [string, string][] = [
+  ["pâtes", "Avec des pâtes"], ["riz", "Avec du riz"], ["pomme de terre", "Avec des pommes de terre"], ["oeuf", "Avec des œufs"],
+];
 // « Envie de … ? » : deux par jour
 const ENVIES: [string, string][] = [
   ["poulet", "poulet"], ["saumon", "saumon"], ["pâtes", "pâtes"], ["chocolat", "chocolat"], ["courgette", "courgettes"],
@@ -139,7 +143,7 @@ export async function browse(req: Req, res: Res, admin: SupabaseClient) {
   const day = today();
 
   const kitchenKeys = kitchen.flatMap(k => [k.key, ...parts(k.key)]);
-  const poolKeys = [...new Set([...POOLS.map(p => catalogKey(p[0])), ...ENVIES.map(e => catalogKey(e[0])), ...kitchenKeys])];
+  const poolKeys = [...new Set([...POOLS.map(p => catalogKey(p[0])), ...STAPLES.map(e => catalogKey(e[0])), ...ENVIES.map(e => catalogKey(e[0])), ...kitchenKeys])];
   const [dishRes, poolRes] = await Promise.all([
     admin.from("recipe_catalog")
       .select("key, query, hits, title:recipes->0->>title, minutes:recipes->0->minutes, difficulty:recipes->0->>difficulty, imageUrl:recipes->0->>imageUrl, imageSearch:recipes->0->>imageSearch, veg:recipes->0->veg")
@@ -190,13 +194,16 @@ export async function browse(req: Req, res: Res, admin: SupabaseClient) {
     for (const l of lists) if (l[i] && mixed.length < 12 && !seenTitles.has(l[i].title)) { seenTitles.add(l[i].title); mixed.push(l[i]); }
   }
   const mine: Row[] = mixed.length >= 4 ? [{ id: "ing-cuisine", title: "Avec ce que tu as", recipes: mixed }] : [];
-  const envies = shuffle(ENVIES.filter(e => !used.has(catalogKey(e[0]))), day + 11).slice(0, 2)
+  const staples = STAPLES.map(([k, title]) => poolRow(`base-${catalogKey(k)}`, title, catalogKey(k))).filter((r): r is Row => !!r);
+  const envies = shuffle(ENVIES.filter(e => !STAPLES.some(b => b[0] === e[0])), day + 11).slice(0, 2)
     .map(([k, label]) => poolRow(`envie-${catalogKey(k)}`, `Envie de ${label} ?`, catalogKey(k)));
   const themes: Row[] = THEMES.map(([id, title, names]) => ({
     id, title, dishes: shuffle(names.map(card).filter(c => !!c), day + hash(id)).slice(0, 12),
   })).filter(r => r.dishes.length >= 4);
   const rest = shuffle([...POOLS.map(([k, title]) => poolRow(`liste-${catalogKey(k)}`, title, catalogKey(k))), ...envies, ...themes]
     .filter((r): r is Row => !!r), day + 3);
+  // Les placards, une rangée sur trois parmi les premières
+  staples.forEach((r, i) => rest.splice(i * 3, 0, r));
   const rows = [top, ...mine, ...rest].filter(r => (r.dishes ?? r.recipes ?? []).length);
 
   await fillPhotos(admin, hero, rows.slice(0, 5));
