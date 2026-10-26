@@ -19,13 +19,15 @@ const GoogleIcon = () => (
 const errorText = (e: unknown) => (e instanceof Error && e.message) || "Une erreur est survenue. Réessaie.";
 
 // onWaitlist : en mode liste d'attente, la connexion ne mène plus à l'inscription mais à la liste
-export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, onClose, onWaitlist }: {
+// invited : arrivé par le lien d'invitation envoyé par email (frigia.fr/?invitation), Google reste proposé
+export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, onClose, onWaitlist, invited }: {
   initialMode: AuthMode;
   captchaToken: string | null;
   onResetCaptcha: () => void;
   onLegal: (k: LegalKey) => void;
   onClose: () => void;
   onWaitlist?: () => void;
+  invited?: boolean;
 }) {
   const [mode, setMode] = useState<AuthMode>(initialMode);
   const [email, setEmail] = useState("");
@@ -111,8 +113,11 @@ export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, 
       <h2>{signup ? <>Crée ton <em>compte</em></> : <>Content de te <em>revoir</em></>}</h2>
       <p className="intro">{signup ? "7 jours d'essai, sans carte bancaire." : "Connecte-toi pour retrouver tes recettes."}</p>
       <div className="stack">
-        <button className="btn btn-google full" onClick={google} disabled={loading}><GoogleIcon />Continuer avec Google</button>
-        <div className="or">ou avec ton email</div>
+        {/* Liste d'attente : pas de Google, il crée un compte à n'importe qui. Sauf par le lien d'invitation. */}
+        {(!onWaitlist || invited) && <>
+          <button className="btn btn-google full" onClick={google} disabled={loading}><GoogleIcon />Continuer avec Google</button>
+          <div className="or">ou avec ton email</div>
+        </>}
         <form className="stack" onSubmit={submit} noValidate>
           <label>Email<input type="email" autoComplete="email" inputMode="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="camille@email.fr" /></label>
           <label>Mot de passe<input type="password" autoComplete={signup ? "new-password" : "current-password"} value={pw} onChange={e => setPw(e.target.value)} placeholder={signup ? "8 caractères minimum" : "Ton mot de passe"} /></label>
