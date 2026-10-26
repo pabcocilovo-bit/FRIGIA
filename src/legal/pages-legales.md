@@ -13,7 +13,7 @@ _Mise à jour le 23 octobre 2026_
 
 Frigia est une application web (installable sur ton téléphone) qui te propose des recettes à partir d'une photo de ton frigo. Une intelligence artificielle lit la photo, repère les ingrédients et propose trois recettes.
 
-Frigia est édité par **[À compléter : l'éditeur indiqué dans les mentions légales]**. En créant un compte, tu acceptes ces conditions.
+Frigia est édité par Pablo Cocilovo et Hugo Broutin (voir les mentions légales). En créant un compte, tu acceptes ces conditions.
 
 ### 2. Ton compte
 
@@ -59,7 +59,7 @@ Au renouvellement, Stripe réessaie pendant quelques jours et on te prévient pa
 
 ### 7. Pause et résiliation
 
-Pause : tu peux mettre Plus en pause un mois, **[À compléter : une fois par an]**. En mensuel, le paiement suivant est sauté. En annuel, ton année est prolongée d'un mois.
+Pause : tu peux mettre Plus en pause un mois, une fois par an. En mensuel, le paiement suivant est sauté. En annuel, ton année est prolongée d'un mois.
 
 Résiliation : dans Réglages, puis Abonnement, touche « Oui, résilier » puis « Confirmer la résiliation ». Trois clics, sans justification. Tu reçois un email de confirmation.
 
@@ -110,7 +110,7 @@ Si ces conditions ou les prix changent, on te prévient par email au moins 30 jo
 
 ### 15. Litiges
 
-Ces conditions relèvent du droit français. En cas de souci, écris-nous d'abord : on répond sous 48 heures. Si on ne trouve pas d'accord, tu peux saisir gratuitement le médiateur de la consommation : **[À compléter : nom et site du médiateur à désigner]**.
+Ces conditions relèvent du droit français. En cas de souci, écris-nous d'abord : on répond sous 48 heures. Si on ne trouve pas d'accord, tu peux saisir gratuitement un médiateur de la consommation : son nom et son site seront indiqués ici avant l'ouverture des abonnements payants.
 
 ### Contact
 
@@ -120,7 +120,7 @@ contact@frigia.fr
 
 ## Politique de confidentialité
 
-_Mise à jour le 16 octobre 2026_
+_Mise à jour le 21 octobre 2026_
 
 **L'essentiel**
 
@@ -131,7 +131,7 @@ _Mise à jour le 16 octobre 2026_
 
 ### Qui s'occupe de tes données
 
-**[À compléter : L'éditeur indiqué dans les mentions légales]** est responsable du traitement. Contact : contact@frigia.fr.
+Pablo Cocilovo et Hugo Broutin, éditeurs de Frigia (voir les mentions légales), sont responsables du traitement. Contact : contact@frigia.fr.
 
 ### Ce qu'on enregistre
 
@@ -144,6 +144,7 @@ _Mise à jour le 16 octobre 2026_
 - Tes notifications : celles que tu as reçues (la cloche de l'accueil), tes choix dans Réglages et le fuseau horaire de ton téléphone, pour t'écrire à la bonne heure.
 - Si tu actives les notifications : l'adresse d'abonnement de ton téléphone, donnée par ton navigateur. Elle ne contient ni ton nom ni ton email, et sert seulement à t'envoyer les notifications.
 - Des données techniques : connexions, type d'appareil, langue.
+- Si tu rejoins la liste d'attente : ton prénom, ton email, le lien ou la page d'où tu viens, et la date. Ça sert seulement à te prévenir quand c'est ton tour.
 
 ### Les allergies, un cas à part
 
@@ -151,7 +152,7 @@ Une allergie est une donnée de santé. On ne l'enregistre que si tu l'ajoutes t
 
 ### La photo du frigo
 
-Elle est envoyée à l'IA pour lire les ingrédients, puis gardée dans « Tes scans » pour que tu retrouves tes recettes. Elle part quand tu supprimes le scan ou ton compte. **[À compléter : Garder la photo entière ou une miniature : à décider côté code.]**
+Elle est envoyée à l'IA pour lire les ingrédients, puis gardée dans « Tes scans » pour que tu retrouves tes recettes. Elle part quand tu supprimes le scan ou ton compte.
 
 ### Pourquoi, et sur quelle base
 
@@ -163,14 +164,14 @@ Elle est envoyée à l'IA pour lire les ingrédients, puis gardée dans « Tes s
 
 ### Qui y a accès
 
-- Supabase : comptes et base de données (**[À compléter : région à vérifier : UE]**).
+- Supabase : comptes et base de données.
 - Vercel : hébergement de l'application (États-Unis).
 - Anthropic : lecture de la photo et création des recettes (États-Unis). Ne reçoit que la photo, les ingrédients et les contraintes (allergies, âges, goûts), jamais ton nom ni ton email. Selon ses conditions, il n'entraîne pas ses modèles avec ces données.
 - Stripe : paiement.
 - Google : connexion avec Google, si tu la choisis.
 - Le service de notifications de ton navigateur (Apple, Google ou Mozilla) : il transmet les notifications à ton téléphone, sans pouvoir lire leur contenu, qui est chiffré.
 - Cloudflare (Turnstile) : protection contre les robots à l'inscription.
-- Resend : envoi des emails (confirmation de résiliation, paiement refusé, renouvellement, fin de pause, suppression du compte, réponses à tes messages). Reçoit ton email et le contenu du message, envoyés depuis l'Union européenne (Irlande).
+- Resend : envoi des emails (confirmation d'inscription à la liste d'attente, confirmation de résiliation, paiement refusé, renouvellement, fin de pause, suppression du compte, réponses à tes messages). Reçoit ton email et le contenu du message, envoyés depuis l'Union européenne (Irlande).
 - Pexels ne reçoit que le nom de la recette pour trouver une photo.
 
 Les créateurs ne voient que le nombre d'abonnés venus par leur code. On ne vend ni ne loue jamais tes données.
@@ -186,6 +187,7 @@ Certains de ces services sont aux États-Unis. Les transferts sont encadrés par
 - Après suppression du compte : effacement sous 30 jours.
 - Les factures sont gardées 10 ans, comme la loi l'impose.
 - Les données techniques de connexion : 12 mois.
+- La liste d'attente : jusqu'à ce que tu crées ton compte, ou que tu demandes à en être retiré en écrivant à contact@frigia.fr.
 - Les notifications reçues : tant que ton compte existe, ou jusqu'à ce que tu les supprimes (glisse vers la gauche dans la cloche).
 - L'adresse d'abonnement d'un téléphone : effacée dès qu'il ne la reconnaît plus, par exemple si tu bloques les notifications, et avec ton compte.
 
@@ -211,7 +213,7 @@ Mots de passe chiffrés, connexions sécurisées, accès limité aux personnes q
 
 ## Mentions légales
 
-_Mise à jour le 9 octobre 2026_
+_Mise à jour le 21 octobre 2026_
 
 **L'essentiel**
 
@@ -220,9 +222,9 @@ _Mise à jour le 9 octobre 2026_
 
 ### Éditeur
 
-Frigia est édité par **[À compléter : Pablo Cocilovo, statut à préciser (micro-entreprise au minimum), SIRET, adresse]**.
+Frigia est édité par Pablo Cocilovo et Hugo Broutin, à titre de particuliers.
 
-Directeur de la publication : **[À compléter : Pablo Cocilovo]**.
+Directeurs de la publication : Pablo Cocilovo et Hugo Broutin.
 
 Contact : contact@frigia.fr.
 
@@ -230,7 +232,7 @@ Contact : contact@frigia.fr.
 
 Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis (vercel.com).
 
-Données : Supabase (**[À compléter : région à vérifier]**).
+Données : Supabase (supabase.com).
 
 ### Propriété intellectuelle
 
@@ -246,7 +248,7 @@ Les recettes sont créées par une IA et données à titre indicatif. Vérifie l
 
 ## Cookies et stockage
 
-_Mise à jour le 9 octobre 2026_
+_Mise à jour le 21 octobre 2026_
 
 **L'essentiel**
 
@@ -266,7 +268,9 @@ La page de paiement Stripe utilise ses propres cookies, nécessaires pour sécur
 
 ### Pas de pub, pas de suivi
 
-Frigia n'utilise aucun cookie publicitaire ni de suivi. Ces éléments sont tous nécessaires ou pratiques : aucun bandeau d'accord n'est donc demandé. **[À compléter : Si un outil de mesure d'audience est ajouté, il faudra le configurer sans cookie ou demander ton accord.]**
+Frigia n'utilise aucun cookie publicitaire ni de suivi. Ces éléments sont tous nécessaires ou pratiques : aucun bandeau d'accord n'est donc demandé.
+
+Pour compter les visites du site, Frigia utilise Vercel Web Analytics : sans cookie, et sans rien garder qui permette de te reconnaître d'un jour à l'autre.
 
 ### Les effacer
 

@@ -6,6 +6,9 @@ import { LegalSheet, type LegalKey } from "./landing/legal";
 import { GoogleInAppBar, InstallSheet, SocialInAppScreen } from "./landing/InApp";
 import { InstallSection } from "./landing/InstallSection";
 import { FAQ } from "./landing/faq";
+import { Tonight } from "./landing/Tonight";
+import { WaitlistSheet } from "./landing/Waitlist";
+import { RECIPES, fridgeScore } from "./landing/recipes";
 import { LEGAL } from "./legal/pages";
 import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./landing/browser";
 
@@ -16,6 +19,16 @@ import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./lan
 // onStart / onLogin : branchés par l'appli sur son parcours d'inscription quand il existera.
 // Sans eux, la landing ouvre sa propre feuille de connexion (Supabase), comme l'ancienne version.
 export type Plan = "free" | "plus";
+
+// Liste d'attente tant que l'appli n'est pas ouverte à tous.
+// true : tous les boutons d'inscription ouvrent la liste d'attente (seule la connexion reste, pour les invités).
+// false : la landing redevient comme avant, avec l'inscription.
+const WAITLIST_ON = true;
+// Le lien d'invitation envoyé par email aux inscrits (frigia.fr/?invitation) rend la landing normale :
+// « Essayer » mène à l'inscription, et le compte créé avec un email de la liste a son mois offert (migration 20261028000000).
+const INVITED = typeof window !== "undefined" && new URLSearchParams(window.location.search).has("invitation");
+const WAITLIST = WAITLIST_ON && !INVITED;
+const JOIN = "Rejoindre la liste d'attente";
 type Props = { onStart?: (plan: Plan) => void; onLogin?: () => void };
 
 const IMG = "/landing";
@@ -31,11 +44,11 @@ const PINS: { name: string; x: number; y: number; up?: boolean }[] = [
   { name: "Courgettes", x: 64, y: 61, up: true },
   { name: "Œufs", x: 21, y: 63 },
 ];
-const HERO_IDEAS = [
-  ["pasta-legumes", "Penne aux légumes rôtis", "25 min · 6/8 dans ton frigo"],
-  ["gratin-courgettes", "Gratin de courgettes", "35 min · 5/6 dans ton frigo"],
-  ["omelette-tomates", "Omelette aux tomates", "15 min · 4/4 dans ton frigo"],
-];
+// Les mêmes recettes que la section « Avec ce frigo-là » plus bas
+const HERO_IDEAS = ["penne", "gratin", "omelette"].map(id => {
+  const r = RECIPES[id], s = fridgeScore(r);
+  return [r.photo, r.name, `${r.minutes} min · ${s.inFridge}/${s.total} dans ton frigo${s.missing ? ` · manque ${s.missing}` : ""}`];
+});
 
 function HeroArt() {
   return (
@@ -91,62 +104,6 @@ function HowItWorks() {
   );
 }
 
-// ── Essai : avec ce frigo-là, on mange quoi ? ────────────────────────────────
-type Envie = "rapide" | "enfants" | "gaspi" | "vege";
-const ENVIES: [Envie, string][] = [["rapide", "Rapide"], ["enfants", "Les enfants adorent"], ["gaspi", "Anti-gaspi"], ["vege", "Végé"]];
-const PEOPLE = ["2", "3", "4", "5"];
-const PHOTO = { omelette: "omelette-tomates", gratin: "gratin-courgettes", pates: "pasta-legumes", salade: "salade-caprese", soupe: "soupe-detox", wrap: "wrap-proteine" };
-// [photo, nom, minutes, ingrédients du frigo utilisés / total]
-const IDEAS: Record<Envie, [keyof typeof PHOTO, string, number, string][]> = {
-  rapide: [["omelette", "Omelette tomates et poivrons", 15, "5/6"], ["wrap", "Wraps œufs et crudités", 15, "5/7"], ["salade", "Salade tomates-mozzarella", 10, "3/5"]],
-  enfants: [["pates", "Penne aux légumes rôtis", 25, "6/8"], ["gratin", "Gratin de courgettes", 35, "5/6"], ["wrap", "Wraps croustillants maison", 20, "5/7"]],
-  gaspi: [["soupe", "Soupe verte courgette-brocoli", 25, "5/5"], ["pates", "Pâtes du fond du frigo", 20, "7/8"], ["omelette", "Omelette aux restes de légumes", 15, "6/6"]],
-  vege: [["gratin", "Gratin de courgettes", 35, "5/6"], ["soupe", "Soupe verte courgette-brocoli", 25, "5/5"], ["salade", "Salade tomates-mozzarella", 10, "3/5"]],
-};
-
-function Tonight({ onStart }: { onStart: () => void }) {
-  const [envie, setEnvie] = useState<Envie>("rapide");
-  const [pers, setPers] = useState("4");
-  return (
-    <section className="tonight" id="essai">
-      <div className="container">
-        <div className="sh"><span className="k">Essaie, ici</span><h2>Avec ce frigo-là, <em>on mange quoi ?</em></h2><p className="lede">Choisis une envie et le nombre de personnes. Voici le genre d'idées que Frigia te proposerait avec les 8 ingrédients du scan.</p></div>
-        <form className="controls" onSubmit={e => e.preventDefault()}>
-          <fieldset>
-            <legend>Ce soir, plutôt</legend>
-            <div className="opts">
-              {ENVIES.map(([v, label]) => (
-                <label key={v}><input type="radio" name="envie" value={v} checked={envie === v} onChange={() => setEnvie(v)} /><span>{label}</span></label>
-              ))}
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend>Pour combien</legend>
-            <div className="opts">
-              {PEOPLE.map(p => (
-                <label key={p}><input type="radio" name="pers" value={p} checked={pers === p} onChange={() => setPers(p)} aria-label={`${p} personnes`} /><span>{p}</span></label>
-              ))}
-            </div>
-          </fieldset>
-        </form>
-        <div className="cards" aria-live="polite">
-          {IDEAS[envie].map(([img, name, min, used], i) => (
-            <article className="card" key={envie + i}>
-              <div className="img"><img src={`${IMG}/${PHOTO[img]}.jpg`} alt="" width={560} height={373} loading="lazy" /></div>
-              <div className="body">
-                <span className="k">Idée {i + 1} sur 3</span>
-                <h3>{name}</h3>
-                <div className="meta"><span>{min} min</span><span>Pour {pers}</span><span className="in">{used} dans ton frigo</span></div>
-              </div>
-            </article>
-          ))}
-        </div>
-        <div className="end"><span className="note">Exemple. Avec ton frigo, les idées seront les tiennes.</span><button className="btn btn-cream" onClick={onStart}>Essayer avec mon frigo</button></div>
-      </div>
-    </section>
-  );
-}
-
 // ── Prix : une seule carte Frigia Plus. L'essai, c'est tout Plus : plus de colonne à comparer
 // (demandé par Hugo le 23 octobre, à la place des cartes Essai et Plus).
 const FEATURES = [
@@ -167,6 +124,8 @@ export default function Landing({ onStart, onLogin }: Props) {
   const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
   const [gbarClosed, setGbarClosed] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  // Liste d'attente ouverte, avec le bouton d'où elle vient (« hero », « prix »…)
+  const [waitlist, setWaitlist] = useState<string | null>(null);
   const turnstile = useRef<TurnstileInstance>(null);
   const resetCaptcha = () => { turnstile.current?.reset(); setCaptchaToken(null); };
 
@@ -196,8 +155,12 @@ export default function Landing({ onStart, onLogin }: Props) {
     return <div className="lp"><SocialInAppScreen /></div>;
   }
 
-  const start = (plan: Plan = "free") => (onStart ? onStart(plan) : setAuth("signup"));
-  const login = () => (onLogin ? onLogin() : setAuth("login"));
+  // source : quel bouton a été touché, envoyé avec l'inscription à la liste d'attente
+  const start = (plan: Plan = "free", source = "hero") => {
+    if (WAITLIST) { setAuth(null); setWaitlist(source); return; }
+    if (onStart) onStart(plan); else setAuth("signup");
+  };
+  const login = () => { setWaitlist(null); if (onLogin) onLogin(); else setAuth("login"); };
   const internalAuth = !onStart || !onLogin;
   const showGbar = isGoogleApp && (isIos || isAndroid) && !gbarClosed;
   const canInstall = !isStandalone();
@@ -225,9 +188,11 @@ export default function Landing({ onStart, onLogin }: Props) {
                 <span>Télécharger l'app</span>
               </button>
             )}
-            <button className="login-short" onClick={login}>Connexion</button>
-            <button className="btn btn-line" onClick={login}>J'ai déjà un compte</button>
-            <button className="btn btn-fill" onClick={() => start()}>Commencer</button>
+            {!WAITLIST && <button className="login-short" onClick={login}>Connexion</button>}
+            <button className="btn btn-line" onClick={login}>{WAITLIST ? "Se connecter" : "J'ai déjà un compte"}</button>
+            {WAITLIST
+              ? <button className="btn btn-fill" onClick={() => start("free", "menu")} aria-label={JOIN}><span className="join-long">{JOIN}</span><span className="join-short">Liste d'attente</span></button>
+              : <button className="btn btn-fill" onClick={() => start()}>Commencer</button>}
           </div>
         </div>
       </header>
@@ -239,7 +204,13 @@ export default function Landing({ onStart, onLogin }: Props) {
               <span className="k">Pour les soirs de semaine</span>
               <h1>Une photo du frigo, <em>trois idées</em> pour ce soir.</h1>
               <p className="lede">Fini le « on mange quoi ce soir ? ». Frigia repère ce qu'il y a dans ton frigo et te propose trois recettes avec ce que tu as déjà, pour toute la famille.</p>
-              <div className="ctas"><button className="btn btn-fill" onClick={() => start()}>Essayer 7 jours</button><a className="link" href="#comment">Voir comment ça marche</a></div>
+              <div className="ctas"><button className="btn btn-fill" onClick={() => start("free", "hero")}>{WAITLIST ? JOIN : "Essayer 7 jours"}</button><a className="link" href="#comment">Voir comment ça marche</a></div>
+              {WAITLIST && (
+                <div className="wl-note">
+                  <p>Ouverture par petits groupes. Les premiers inscrits passent en premier.</p>
+                  <button onClick={login}>Déjà invité ? Se connecter</button>
+                </div>
+              )}
               <div className="reassure"><span className="chip plain">Sans carte bancaire</span><span className="chip plain">7 jours d'essai</span><span className="chip plain">Rien à télécharger</span></div>
             </div>
             <HeroArt />
@@ -247,7 +218,7 @@ export default function Landing({ onStart, onLogin }: Props) {
         </section>
 
         <HowItWorks />
-        <Tonight onStart={() => start()} />
+        <Tonight onStart={source => start("free", source)} cta={WAITLIST ? JOIN : undefined} />
 
         <section className="plus" id="plus">
           <div className="container">
@@ -282,13 +253,13 @@ export default function Landing({ onStart, onLogin }: Props) {
 
         <section className="price rule" id="prix">
           <div className="container">
-            <div className="sh"><span className="k">Prix</span><h2>Essaie 7 jours, <em>puis passe à Plus.</em></h2><p className="lede">Pas de carte bancaire pour essayer, et rien n'est débité à la fin de l'essai. Plus est sans engagement.</p></div>
+            <div className="sh"><span className="k">{WAITLIST ? "Prix à l'ouverture" : "Prix"}</span><h2>Essaie 7 jours, <em>puis passe à Plus.</em></h2><p className="lede">Pas de carte bancaire pour essayer, et rien n'est débité à la fin de l'essai. Plus est sans engagement.</p></div>
             <div className="offer">
               <div className="offer-main">
                 <div className="top"><span className="k">Frigia Plus</span><span className="badge">7 jours offerts</span></div>
                 <div className="amount">39,99 €<small>par an</small></div>
                 <div className="sub"><span>Ou 6,99 € par mois</span><span>Résiliable en 3 clics</span></div>
-                <div className="foot"><button className="btn btn-cream" onClick={() => start()}>Essayer 7 jours</button><span className="fine">Sans engagement. Paiement sécurisé par Stripe.</span></div>
+                <div className="foot"><button className="btn btn-cream" onClick={() => start("free", "prix")}>{WAITLIST ? JOIN : "Essayer 7 jours"}</button><span className="fine">Sans engagement. Paiement sécurisé par Stripe.</span></div>
               </div>
               <ul aria-label="Compris dans Frigia Plus">{FEATURES.map(f => <li key={f}><span className="yes" aria-hidden="true">✓</span>{f}</li>)}</ul>
             </div>
@@ -315,7 +286,7 @@ export default function Landing({ onStart, onLogin }: Props) {
 
       <footer>
         <div className="container">
-          <div className="big"><h2>Ce soir, commence par <em>ouvrir le frigo.</em></h2><button className="btn btn-cream" onClick={() => start()}>Essayer 7 jours</button></div>
+          <div className="big"><h2>Ce soir, commence par <em>ouvrir le frigo.</em></h2><button className="btn btn-cream" onClick={() => start("free", "fin")}>{WAITLIST ? JOIN : "Essayer 7 jours"}</button></div>
           <div className="base">
             <img src={`${IMG}/frigia-logo-inverse.svg`} alt="Frigia" width={78} height={28} />
             <nav className="legal" aria-label="Informations légales">
@@ -326,7 +297,9 @@ export default function Landing({ onStart, onLogin }: Props) {
         </div>
       </footer>
 
-      {auth && <AuthSheet initialMode={auth} captchaToken={captchaToken} onResetCaptcha={resetCaptcha} onLegal={setLegal} onClose={() => setAuth(null)} />}
+      {auth && <AuthSheet initialMode={auth} captchaToken={captchaToken} onResetCaptcha={resetCaptcha} onLegal={setLegal} onClose={() => setAuth(null)}
+        onWaitlist={WAITLIST ? () => { setAuth(null); setWaitlist("connexion"); } : undefined} />}
+      {waitlist && <WaitlistSheet source={waitlist} onLogin={login} onClose={() => setWaitlist(null)} />}
       {legal && <LegalSheet initial={legal} onClose={() => setLegal(null)} />}
       {installHint && <InstallSheet onClose={() => setInstallHint(false)} />}
       {internalAuth && (
