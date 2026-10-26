@@ -22,7 +22,7 @@ const FEATURES: [string, string, string][] = [
   ["foyer", "Mon foyer, les profils de la famille", "Mon foyer"],
 ];
 const NOTHING = "Rien pour l'instant";
-const USAGE = ["Simple, sans souci", "Simple, avec un petit bug", "Parfois compliqué", "Bloqué par un bug"];
+const USAGE = ["Simple, sans souci", "Simple, avec un petit bug", "Parfois compliqué", "Un bug m'a empêché d'avancer"];
 
 type Step =
   | { id: string; kind: "one"; q: string; opts: string[] }
