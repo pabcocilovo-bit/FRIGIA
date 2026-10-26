@@ -24,6 +24,8 @@ export type Plan = "free" | "plus";
 // true : tous les boutons d'inscription ouvrent la liste d'attente (seule la connexion reste, pour les invités).
 // false : la landing redevient comme avant, avec l'inscription.
 const WAITLIST = true;
+// Lien d'invitation envoyé par email aux invités (frigia.fr/?invitation) : la connexion s'ouvre, avec Google
+const INVITED = typeof window !== "undefined" && new URLSearchParams(window.location.search).has("invitation");
 const JOIN = "Rejoindre la liste d'attente";
 type Props = { onStart?: (plan: Plan) => void; onLogin?: () => void };
 
@@ -114,7 +116,7 @@ const FEATURES = [
 // ── Page ─────────────────────────────────────────────────────────────────────
 export default function Landing({ onStart, onLogin }: Props) {
   const { isGoogleApp, isSocialApp, isIos, isAndroid } = detectInAppBrowser();
-  const [auth, setAuth] = useState<AuthMode | null>(null);
+  const [auth, setAuth] = useState<AuthMode | null>(WAITLIST && INVITED ? "login" : null);
   const [legal, setLegal] = useState<LegalKey | null>(null);
   const [installHint, setInstallHint] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
@@ -294,7 +296,7 @@ export default function Landing({ onStart, onLogin }: Props) {
       </footer>
 
       {auth && <AuthSheet initialMode={auth} captchaToken={captchaToken} onResetCaptcha={resetCaptcha} onLegal={setLegal} onClose={() => setAuth(null)}
-        onWaitlist={WAITLIST ? () => { setAuth(null); setWaitlist("connexion"); } : undefined} />}
+        onWaitlist={WAITLIST ? () => { setAuth(null); setWaitlist("connexion"); } : undefined} invited={INVITED} />}
       {waitlist && <WaitlistSheet source={waitlist} onLogin={login} onClose={() => setWaitlist(null)} />}
       {legal && <LegalSheet initial={legal} onClose={() => setLegal(null)} />}
       {installHint && <InstallSheet onClose={() => setInstallHint(false)} />}
