@@ -1,0 +1,112 @@
+[
+ {"q":"Steak frites","a":["steak","entrecote frites","steak frites maison","entrecote"],"r":[
+  ["Steak frites","La classique","","Un steak saisi à point avec des frites maison croustillantes.","",40,750,"F","steak frites","f",
+   ["steak de bœuf|steaks de bœuf|4|","pomme de terre||1000|g","huile de friture|huile de friture|100|cl","beurre||20|g","sel|||","poivre|||"],
+   ["Coupe les pommes de terre en frites, rince-les et sèche-les bien.","Fais-les frire 6 min à 160 °C, égoutte.|Friture|6","Fais cuire les steaks dans le beurre 2 à 3 min de chaque côté selon la cuisson voulue.|Poêle|5","Refais frire les frites 3 min à 180 °C, sale et sers.|Friture|3"]],
+  ["Steak au poivre","Au poivre","Une sauce au poivre et à la crème nappe le steak.","Le classique des bistrots, avec sa sauce au poivre crémeuse.","",30,680,"F","pepper steak sauce","",
+   ["steak de bœuf|steaks de bœuf|4|","poivre concassé|poivre concassé|2|c. à s.","crème fraîche||20|cl","échalote||1|","cognac|cognac|3|c. à s.","beurre||20|g","sel|||"],
+   ["Enrobe les steaks de poivre concassé.","Fais-les cuire dans le beurre 2 à 3 min de chaque côté. Réserve au chaud.|Poêle|5","Fais revenir l'échalote, verse le cognac puis la crème, et laisse réduire 3 min.|Sauce|3","Sale et nappe les steaks."]],
+  ["Steak et frites au four","Frites au four","Les frites cuisent au four avec un filet d'huile.","Le steak frites sans friteuse.","",45,600,"F","steak oven fries","fh",
+   ["steak de bœuf|steaks de bœuf|4|","pomme de terre||1000|g","huile d'olive|huile d'olive|3|c. à s.","paprika|paprika|1|c. à c.","sel|||","poivre|||"],
+   ["Préchauffe le four à 220 °C.","Coupe les pommes de terre en frites, mélange-les avec l'huile, le paprika et le sel, et étale-les sur une plaque.","Enfourne 35 min en les retournant à mi-cuisson.|Four|35","Fais cuire les steaks à la poêle 2 à 3 min de chaque côté.|Poêle|5"]]
+ ]},
+ {"q":"Bœuf sauté aux légumes","a":["boeuf aux oignons","wok de boeuf","boeuf saute","boeuf aux brocolis"],"r":[
+  ["Bœuf sauté aux oignons","La classique","","Des lanières de bœuf saisies au wok avec des oignons et une sauce soja.","Plat chinois",20,480,"F","beef onion stir fry","",
+   ["bœuf à griller|bœuf à griller|500|g","oignon||3|","sauce soja|sauce soja|4|c. à s.","sucre|sucre|1|c. à c.","fécule de maïs|fécule de maïs|1|c. à c.","ail||2|gousse","huile d'olive|huile d'olive|2|c. à s."],
+   ["Coupe le bœuf en fines lanières et mélange-le avec la fécule et 1 c. à s. de sauce soja.","Fais-le saisir 2 min à feu très vif dans l'huile. Réserve.|Wok|2","Fais sauter les oignons émincés et l'ail 4 min.|Wok|4","Remets le bœuf avec le reste de sauce soja et le sucre 1 min. Sers avec du riz.|Wok|1"]],
+  ["Bœuf aux brocolis","Aux brocolis","Les brocolis remplacent une partie des oignons.","Le bœuf sauté du traiteur, aux brocolis croquants.","Plat chinois",20,420,"F","beef broccoli stir fry","h",
+   ["bœuf à griller|bœuf à griller|500|g","brocoli|brocolis|1|","sauce soja|sauce soja|4|c. à s.","gingembre|gingembre|1|c. à c.","ail||2|gousse","fécule de maïs|fécule de maïs|1|c. à c.","huile d'olive|huile d'olive|2|c. à s."],
+   ["Fais blanchir le brocoli en bouquets 2 min.|Cuisson|2","Saisis le bœuf en lanières 2 min. Réserve.|Wok|2","Fais sauter l'ail, le gingembre et le brocoli 3 min.|Wok|3","Remets le bœuf avec la sauce soja mélangée à la fécule et à 5 cl d'eau, 1 min.|Wok|1"]],
+  ["Bœuf sauté aux poivrons","Aux poivrons","Des poivrons colorés et une sauce aux haricots noirs.","Un sauté coloré, poivrons et bœuf.","Plat chinois",20,440,"F","beef pepper stir fry","",
+   ["bœuf à griller|bœuf à griller|500|g","poivron rouge|poivrons rouges|1|","poivron vert|poivrons verts|1|","oignon||1|","sauce soja|sauce soja|3|c. à s.","sauce huître|sauce huître|1|c. à s.","huile d'olive|huile d'olive|2|c. à s."],
+   ["Saisis le bœuf en lanières 2 min. Réserve.|Wok|2","Fais sauter les poivrons et l'oignon 4 min.|Wok|4","Remets le bœuf avec les sauces 1 min.|Wok|1"]]
+ ]},
+ {"q":"Filet mignon de porc","a":["filet mignon","filet mignon a la moutarde","filet mignon en croute"],"r":[
+  ["Filet mignon à la moutarde","La classique","","Un filet mignon tendre en médaillons, dans une sauce crème-moutarde.","",30,480,"F","pork tenderloin mustard sauce","",
+   ["filet mignon de porc|filets mignons de porc|2|","moutarde|moutarde|2|c. à s.","crème fraîche||20|cl","échalote||2|","vin blanc||10|cl","beurre||20|g","sel|||","poivre|||"],
+   ["Coupe le filet en médaillons épais et fais-les dorer dans le beurre 3 min de chaque côté.|Poêle|6","Ajoute les échalotes, puis le vin, et laisse réduire 2 min.|Cuisson|2","Ajoute la crème et la moutarde, couvre et cuis 8 min.|Cuisson|8"]],
+  ["Filet mignon au miel et au romarin","Miel et romarin","Rôti entier au four, laqué au miel.","Un filet mignon laqué au miel, juteux et parfumé.","",40,460,"F","honey roasted pork tenderloin","o",
+   ["filet mignon de porc|filets mignons de porc|2|","miel|miel|2|c. à s.","romarin|romarin||","ail||2|gousse","huile d'olive|huile d'olive|2|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Fais dorer les filets entiers dans l'huile sur toutes les faces.","Badigeonne-les de miel, ajoute l'ail et le romarin, sale et poivre.","Enfourne 20 min, puis laisse reposer 5 min avant de trancher.|Four|20"]],
+  ["Filet mignon aux champignons","Aux champignons","Une sauce aux champignons remplace la moutarde.","Le filet mignon en sauce crémeuse aux champignons.","",30,480,"F","pork tenderloin mushroom sauce","",
+   ["filet mignon de porc|filets mignons de porc|2|","champignon de Paris|champignons de Paris|300|g","crème fraîche||20|cl","échalote||1|","beurre||20|g","sel|||","poivre|||"],
+   ["Fais dorer les médaillons dans le beurre 3 min de chaque côté. Réserve.|Poêle|6","Fais revenir l'échalote et les champignons 6 min.|Poêle|6","Ajoute la crème et la viande, et laisse mijoter 6 min.|Mijotage|6"]]
+ ]},
+ {"q":"Gigot d'agneau","a":["gigot","agneau au four","epaule d agneau"],"r":[
+  ["Gigot d'agneau rôti","La classique","","Le gigot de Pâques : rosé à cœur, piqué d'ail et parfumé au romarin.","",90,620,"M","roast leg of lamb","o",
+   ["gigot d'agneau|gigots d'agneau|1|","ail||6|gousse","romarin|romarin||","huile d'olive|huile d'olive|3|c. à s.","pomme de terre||1000|g","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C. Sors le gigot 1 h avant.","Pique-le de gousses d'ail, frotte-le d'huile, de sel, de poivre et de romarin.","Pose-le sur les pommes de terre en morceaux et enfourne 1 h 10 pour un gigot rosé.|Four|70","Laisse reposer 10 min sous une feuille d'alu avant de découper.|Repos|10"]],
+  ["Épaule d'agneau confite","Confite","Une épaule cuite lentement, 4 h, pour une viande qui se défait.","De l'agneau fondant qui se mange à la cuillère.","",270,680,"F","slow roasted lamb shoulder","o",
+   ["épaule d'agneau|épaules d'agneau|1|","ail||8|gousse","oignon||2|","thym|thym||","vin blanc||20|cl","huile d'olive|huile d'olive|3|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 150 °C.","Fais dorer l'épaule dans une cocotte avec l'huile.","Ajoute les oignons, l'ail en chemise, le thym, le vin, sel et poivre.","Couvre et enfourne 4 h, en arrosant de temps en temps.|Four|240"]],
+  ["Navarin d'agneau","Navarin","De l'agneau mijoté avec des petits légumes de printemps.","Le ragoût d'agneau aux carottes, navets et petits pois.","",120,580,"M","lamb navarin stew","",
+   ["épaule d'agneau en morceaux|épaule d'agneau en morceaux|1000|g","carotte||4|","navet||4|","petits pois|petits pois|200|g","pomme de terre||6|","oignon||2|","tomate concassée|tomates concassées|200|g","farine||1|c. à s.","huile d'olive|huile d'olive|2|c. à s.","bouquet garni|bouquets garnis|1|","sel|||","poivre|||"],
+   ["Fais dorer l'agneau dans l'huile avec les oignons, saupoudre de farine.","Ajoute les tomates, le bouquet garni et de l'eau à hauteur. Laisse mijoter 1 h.|Mijotage|60","Ajoute les carottes, les navets et les pommes de terre, et cuis 30 min.|Cuisson|30","Ajoute les petits pois 10 min avant la fin.|Cuisson|10"]]
+ ]},
+ {"q":"Carbonade flamande","a":["carbonade","carbonnade flamande","boeuf a la biere"],"r":[
+  ["Carbonade flamande","La classique","","Du bœuf mijoté à la bière brune avec du pain d'épices et de la cassonade.","Spécialité flamande",180,620,"M","flemish beef beer stew","",
+   ["bœuf à braiser|bœuf à braiser|1200|g","bière brune|bière brune|75|cl","oignon||4|","pain d'épices|pains d'épices|3|tranches","moutarde|moutarde|2|c. à s.","cassonade|cassonade|1|c. à s.","beurre||40|g","thym|thym||","sel|||","poivre|||"],
+   ["Fais dorer le bœuf en cubes dans le beurre. Réserve.","Fais fondre les oignons émincés 10 min.|Cuisson|10","Remets la viande, verse la bière, ajoute le thym, la cassonade, sel et poivre.","Tartine le pain d'épices de moutarde et pose-le dessus.","Laisse mijoter 2 h 30 à couvert. Sers avec des frites.|Mijotage|150"]],
+  ["Carbonade express","Express","À l'autocuiseur : 1 h au lieu de 3.","La carbonade pour un soir de semaine.","Spécialité flamande",70,600,"F","quick beef beer stew","",
+   ["bœuf à braiser|bœuf à braiser|1000|g","bière brune|bière brune|50|cl","oignon||3|","pain d'épices|pains d'épices|2|tranches","moutarde|moutarde|1|c. à s.","beurre||30|g","sel|||","poivre|||"],
+   ["Fais dorer le bœuf et les oignons dans l'autocuiseur.","Ajoute la bière, le pain d'épices tartiné de moutarde, sel et poivre.","Ferme et compte 45 min après le chuchotement.|Autocuiseur|45"]],
+  ["Carbonade de poulet","Au poulet","Des cuisses de poulet remplacent le bœuf.","La sauce de la carbonade, avec du poulet.","Spécialité flamande",70,540,"F","chicken beer stew","",
+   ["cuisse de poulet|cuisses de poulet|4|","bière brune|bière brune|33|cl","oignon||3|","pain d'épices|pains d'épices|2|tranches","moutarde|moutarde|1|c. à s.","beurre||30|g","sel|||","poivre|||"],
+   ["Fais dorer le poulet et les oignons dans le beurre.","Ajoute la bière, le pain d'épices tartiné de moutarde, sel et poivre.","Laisse mijoter 50 min à couvert.|Mijotage|50"]]
+ ]},
+ {"q":"Cordon bleu","a":["cordons bleus","cordon bleu maison"],"r":[
+  ["Cordon bleu maison","La classique","","Une escalope de dinde farcie au jambon et au fromage, panée et dorée.","",30,520,"F","homemade cordon bleu","bf",
+   ["escalope de dinde|escalopes de dinde|4|","jambon blanc|jambon blanc|4|tranches","emmental|emmental|4|tranches","œuf|œufs|2|","farine||4|c. à s.","chapelure|chapelure|100|g","huile d'olive|huile d'olive|4|c. à s.","sel|||"],
+   ["Aplatis les escalopes et coupe-les en deux dans l'épaisseur sans les séparer.","Garnis de jambon et d'emmental, puis referme.","Passe-les dans la farine, l'œuf battu puis la chapelure.","Fais-les dorer dans l'huile 5 min de chaque côté.|Poêle|10"]],
+  ["Cordon bleu au four","Au four","Cuits au four, sans friture.","Les cordons bleus plus légers, cuits au four.","",35,440,"F","baked cordon bleu","obfh",
+   ["escalope de dinde|escalopes de dinde|4|","jambon blanc|jambon blanc|4|tranches","emmental|emmental|4|tranches","œuf|œufs|1|","chapelure|chapelure|80|g","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Préchauffe le four à 200 °C.","Garnis et referme les escalopes, puis passe-les dans l'œuf et la chapelure.","Pose-les sur une plaque, arrose d'huile et enfourne 25 min.|Four|25"]],
+  ["Cordon bleu de poulet","Au poulet","Le poulet remplace la dinde, avec de la mozzarella.","Un cordon bleu au poulet, fondant à la mozzarella.","",30,520,"F","chicken cordon bleu","f",
+   ["blanc de poulet|blancs de poulet|4|","jambon blanc|jambon blanc|4|tranches","mozzarella||1|","œuf|œufs|2|","chapelure|chapelure|100|g","farine||3|c. à s.","huile d'olive|huile d'olive|4|c. à s.","sel|||"],
+   ["Ouvre les blancs en portefeuille et garnis-les de jambon et de mozzarella.","Pane-les : farine, œuf, chapelure.","Fais-les dorer 6 min de chaque côté à feu moyen.|Poêle|12"]]
+ ]},
+ {"q":"Escalope milanaise","a":["escalope panee","escalope a la milanaise","escalope de veau panee","schnitzel"],"r":[
+  ["Escalope milanaise","La classique","","Une escalope de veau panée et dorée, servie avec du citron et des spaghetti à la tomate.","Plat italien",30,560,"F","veal milanese cutlet","f",
+   ["escalope de veau|escalopes de veau|4|","œuf|œufs|2|","chapelure|chapelure|100|g","parmesan râpé|parmesan râpé|40|g","farine||4|c. à s.","beurre||40|g","citron||1|","sel|||"],
+   ["Aplatis les escalopes.","Mélange la chapelure et le parmesan.","Passe les escalopes dans la farine, l'œuf battu puis la chapelure.","Fais-les dorer dans le beurre 3 min de chaque côté et sers avec du citron.|Poêle|6"]],
+  ["Escalope de poulet panée","Au poulet","Le poulet remplace le veau.","L'escalope panée au poulet, croustillante et économique.","",25,480,"F","breaded chicken cutlet","bf",
+   ["blanc de poulet|blancs de poulet|4|","œuf|œufs|2|","chapelure|chapelure|100|g","farine||4|c. à s.","huile d'olive|huile d'olive|4|c. à s.","citron||1|","sel|||"],
+   ["Coupe les blancs en deux dans l'épaisseur et aplatis-les.","Pane-les : farine, œuf, chapelure.","Fais-les dorer 4 min de chaque côté.|Poêle|8"]],
+  ["Escalope à la crème","À la crème","Une escalope poêlée nappée d'une sauce à la crème et aux champignons.","L'escalope normande, à la crème et aux champignons.","Spécialité normande",25,520,"F","veal escalope cream mushroom","",
+   ["escalope de veau|escalopes de veau|4|","champignon de Paris|champignons de Paris|200|g","crème fraîche||20|cl","beurre||30|g","farine||2|c. à s.","sel|||","poivre|||"],
+   ["Farine légèrement les escalopes et fais-les dorer dans le beurre 2 min de chaque côté. Réserve.|Poêle|4","Fais revenir les champignons 5 min.|Poêle|5","Ajoute la crème, sale, poivre, remets les escalopes et laisse mijoter 3 min.|Mijotage|3"]]
+ ]},
+ {"q":"Petit salé aux lentilles","a":["petit sale","saucisses aux lentilles","saucisse lentilles","lentilles saucisses"],"r":[
+  ["Petit salé aux lentilles","La classique","","Du petit salé et des saucisses mijotés avec des lentilles vertes et des carottes.","",90,680,"F","pork lentils stew","b",
+   ["petit salé|petit salé|800|g","saucisse de Morteau|saucisses de Morteau|1|","lentille verte|lentilles vertes|400|g","carotte||3|","oignon||1|","clou de girofle|clous de girofle|2|","bouquet garni|bouquets garnis|1|","poivre|||"],
+   ["Fais dessaler le petit salé 1 h dans l'eau froide, ou blanchis-le 10 min.|Cuisson|10","Mets-le dans une cocotte avec l'oignon piqué des clous, le bouquet garni, couvre d'eau et cuis 45 min.|Cuisson|45","Ajoute les lentilles, les carottes en rondelles et la saucisse piquée, et cuis 30 min.|Cuisson|30","Poivre et sers bien chaud."]],
+  ["Saucisses aux lentilles","Aux saucisses","Seulement des saucisses, plus rapide.","Les lentilles mijotées avec des saucisses fumées.","",45,620,"F","sausages lentils","bf",
+   ["saucisse fumée|saucisses fumées|4|","lentille verte|lentilles vertes|300|g","carotte||2|","oignon||1|","lardon||100|g","bouillon de volaille|bouillons de volaille|1|","thym|thym||"],
+   ["Fais revenir les lardons et l'oignon dans une cocotte.","Ajoute les lentilles, les carottes, le bouillon, le thym et 80 cl d'eau.","Ajoute les saucisses et cuis 30 min.|Cuisson|30"]],
+  ["Lentilles mijotées végétariennes","Végétarienne","Sans viande, avec plus de légumes et du paprika fumé.","Des lentilles fondantes aux légumes, fumées au paprika.","",40,380,"F","vegetarian lentil stew","vbh",
+   ["lentille verte|lentilles vertes|300|g","carotte||3|","poireau||1|","oignon||1|","tomate concassée|tomates concassées|200|g","paprika fumé|paprika fumé|1|c. à c.","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Fais revenir l'oignon, le poireau et les carottes dans l'huile 5 min.|Cuisson|5","Ajoute les lentilles, les tomates, le paprika et 80 cl d'eau.","Laisse mijoter 30 min et sale à la fin.|Mijotage|30"]]
+ ]},
+ {"q":"Kebab maison","a":["kebab","doner kebab","gyros","sandwich grec"],"r":[
+  ["Kebab maison","La classique","","Du poulet mariné aux épices, grillé et glissé dans un pain pita avec crudités et sauce blanche.","Plat turc",35,620,"F","chicken kebab pita","f",
+   ["haut de cuisse de poulet|hauts de cuisse de poulet|6|","pain pita|pains pita|4|","yaourt grec|yaourts grecs|2|","paprika|paprika|1|c. à c.","cumin|cumin|1|c. à c.","ail||2|gousse","tomate||2|","oignon rouge|oignons rouges|1|","salade|salades|4|feuilles","citron||1|","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Mélange un yaourt avec les épices, l'ail, le jus de citron et le sel, et fais mariner le poulet 15 min.|Marinade|15","Fais griller le poulet dans l'huile 10 min, puis coupe-le en fines lamelles.|Poêle|10","Mélange l'autre yaourt avec un peu d'ail et de sel pour la sauce blanche.","Garnis les pains chauds de poulet, salade, tomate, oignon et sauce."]],
+  ["Gyros","Gyros grec","Du porc mariné à l'origan, avec du tzatziki.","Le sandwich grec, au porc et au tzatziki.","Plat grec",35,640,"F","pork gyros pita tzatziki","",
+   ["échine de porc|échine de porc|600|g","pain pita|pains pita|4|","origan|origan|1|c. à c.","paprika|paprika|1|c. à c.","concombre||0.5|","yaourt grec|yaourts grecs|2|","ail||2|gousse","tomate||2|","oignon rouge|oignons rouges|1|","huile d'olive|huile d'olive|3|c. à s.","sel|||"],
+   ["Coupe le porc en fines lanières et mélange-le avec l'huile, l'origan, le paprika et le sel.","Fais-le griller 8 min à feu vif.|Poêle|8","Râpe le concombre, presse-le et mélange-le avec le yaourt et l'ail.","Garnis les pitas de viande, de tomate, d'oignon et de tzatziki."]],
+  ["Kebab végétarien aux falafels","Végétarienne","Des falafels remplacent la viande.","Le kebab végé, aux falafels et houmous.","",25,560,"F","falafel pita","vb",
+   ["falafel|falafels|16|","pain pita|pains pita|4|","houmous|houmous|4|c. à s.","tomate||2|","concombre||0.5|","salade|salades|4|feuilles","yaourt grec|yaourts grecs|1|","citron||0.5|"],
+   ["Réchauffe les falafels 10 min au four.|Four|10","Mélange le yaourt avec le jus de citron.","Tartine les pitas de houmous et garnis-les de légumes, de falafels et de sauce."]]
+ ]},
+ {"q":"Poulet pané","a":["nuggets","nuggets maison","tenders","aiguillettes de poulet panees","poulet croustillant"],"r":[
+  ["Nuggets de poulet maison","La classique","","Des morceaux de poulet panés et croustillants, bien meilleurs que ceux du commerce.","",25,450,"F","homemade chicken nuggets","bf",
+   ["blanc de poulet|blancs de poulet|4|","chapelure|chapelure|100|g","corn flakes|corn flakes|50|g","œuf|œufs|2|","farine||4|c. à s.","paprika|paprika|1|c. à c.","huile d'olive|huile d'olive|4|c. à s.","sel|||"],
+   ["Coupe le poulet en morceaux.","Écrase les corn flakes et mélange-les avec la chapelure et le paprika.","Passe le poulet dans la farine salée, l'œuf battu puis la panure.","Fais-les dorer dans l'huile 3 min de chaque côté.|Poêle|6"]],
+  ["Nuggets de poulet au four","Au four","Cuits au four avec un filet d'huile.","Les nuggets plus légers, sans friture.","",30,360,"F","baked chicken nuggets","obfh",
+   ["blanc de poulet|blancs de poulet|4|","chapelure|chapelure|100|g","œuf|œufs|1|","parmesan râpé|parmesan râpé|30|g","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Préchauffe le four à 210 °C.","Coupe le poulet en morceaux, passe-les dans l'œuf battu puis dans la chapelure mélangée au parmesan.","Étale-les sur une plaque, arrose d'huile et enfourne 18 min en les retournant.|Four|18"]],
+  ["Tenders de poulet épicés","Épicés","La panure est relevée au piment et à l'ail.","Des aiguillettes croustillantes et relevées, façon fast-food.","Plat américain",25,480,"F","spicy chicken tenders","",
+   ["aiguillette de poulet|aiguillettes de poulet|600|g","farine||100|g","œuf|œufs|2|","chapelure|chapelure|80|g","paprika fumé|paprika fumé|1|c. à c.","piment en poudre|piment en poudre|0.5|c. à c.","ail en poudre|ail en poudre|1|c. à c.","huile d'olive|huile d'olive|5|c. à s.","sel|||"],
+   ["Mélange la farine avec les épices et le sel.","Passe les aiguillettes dans la farine, l'œuf, puis la chapelure.","Fais-les dorer dans l'huile 3 min de chaque côté.|Poêle|6"]]
+ ]}
+]

@@ -128,7 +128,8 @@ const lists: [string, string[], (r: CatalogRecipe & { tags: string }) => boolean
 ];
 for (const [q, alias, test] of lists) {
   const key = catalogKey(q);
-  if (taken.has(key)) continue;
+  // Un plat porte déjà ce nom : sa recherche montre ce plat (à vérifier si c'est voulu)
+  if (taken.has(key)) { console.log(`« ${q} » : déjà un plat`); continue; }
   // Les classiques d'abord, puis les variantes, mélangées de façon stable d'un lancement à l'autre (pas toujours les premiers plats écrits)
   const mix = (r: CatalogRecipe) => [...`${key}${r.title}`].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
   const found = all.filter(test)

@@ -1,0 +1,101 @@
+[
+ {"q":"Omelette","a":["omelette aux champignons","omelette fromage","omelette nature"],"r":[
+  ["Omelette baveuse aux fines herbes","La classique","","Une omelette moelleuse et baveuse, aux fines herbes.","",10,260,"F","french omelette herbs","vbfh",
+   ["œuf|œufs|8|","beurre||20|g","ciboulette|ciboulette||","persil|persil||","sel|||","poivre|||"],
+   ["Bats les œufs avec les herbes ciselées, sel et poivre.","Fais fondre le beurre dans une poêle à feu moyen.","Verse les œufs et ramène les bords vers le centre avec une spatule pendant 2 min.|Poêle|2","Plie l'omelette quand le dessus est encore baveux."]],
+  ["Omelette aux champignons et au fromage","Champignons et fromage","Des champignons poêlés et du gruyère.","Une omelette garnie, parfaite pour un dîner rapide.","",15,340,"F","mushroom cheese omelette","vbf",
+   ["œuf|œufs|8|","champignon de Paris|champignons de Paris|200|g","gruyère râpé|gruyère râpé|60|g","beurre||20|g","sel|||","poivre|||"],
+   ["Fais dorer les champignons émincés dans le beurre 5 min.|Poêle|5","Verse les œufs battus salés et poivrés.","Ajoute le gruyère et cuis 3 min, puis plie l'omelette.|Poêle|3"]],
+  ["Omelette espagnole","Tortilla","Des pommes de terre et des oignons fondants, cuite des deux côtés.","La tortilla espagnole, épaisse et fondante.","Plat espagnol",40,380,"F","spanish tortilla potato omelette","vbfc",
+   ["œuf|œufs|6|","pomme de terre||4|","oignon||1|","huile d'olive|huile d'olive|10|cl","sel|||"],
+   ["Coupe les pommes de terre en fines lamelles et l'oignon en rondelles.","Fais-les cuire doucement dans l'huile 20 min, sans les dorer, puis égoutte.|Poêle|20","Mélange avec les œufs battus et le sel.","Verse dans une poêle huilée et cuis 5 min, retourne sur une assiette et cuis encore 4 min.|Poêle|9"]]
+ ]},
+ {"q":"Œufs brouillés","a":["oeufs brouilles","oeufs brouilles cremeux"],"r":[
+  ["Œufs brouillés crémeux","La classique","","Des œufs brouillés doucement, crémeux et fondants.","",10,240,"F","creamy scrambled eggs","vbfh",
+   ["œuf|œufs|8|","beurre||20|g","crème fraîche||2|c. à s.","ciboulette|ciboulette||","sel|||","poivre|||"],
+   ["Bats légèrement les œufs.","Fais-les cuire à feu doux avec le beurre en remuant sans arrêt 4 min.|Poêle|4","Retire du feu quand ils sont encore un peu coulants et ajoute la crème, sel, poivre et ciboulette."]],
+  ["Œufs brouillés au saumon fumé","Au saumon fumé","Du saumon fumé et de l'aneth, sur des tartines.","Le brunch chic : œufs brouillés et saumon fumé.","",10,320,"F","scrambled eggs smoked salmon toast","",
+   ["œuf|œufs|8|","saumon fumé|saumon fumé|120|g","beurre||20|g","aneth|aneth||","pain de campagne|pains de campagne|4|tranches","sel|||","poivre|||"],
+   ["Fais griller le pain.","Brouille les œufs à feu doux avec le beurre 4 min.|Poêle|4","Sers sur le pain avec le saumon en lanières et l'aneth."]],
+  ["Œufs brouillés à la mexicaine","À la mexicaine","Tomate, oignon et piment, servis avec des tortillas.","Les huevos a la mexicana, colorés et un peu relevés.","Plat mexicain",15,300,"F","mexican scrambled eggs","vb",
+   ["œuf|œufs|8|","tomate||2|","oignon||1|","piment vert|piments verts|1|","huile d'olive|huile d'olive|1|c. à s.","tortilla|tortillas|4|","sel|||"],
+   ["Fais revenir l'oignon, la tomate et le piment en dés dans l'huile 5 min.|Poêle|5","Ajoute les œufs battus et remue doucement 3 min.|Poêle|3","Sale et sers avec les tortillas chaudes."]]
+ ]},
+ {"q":"Œufs mimosa","a":["oeufs mimosa","oeufs durs mayonnaise","oeufs mayo"],"r":[
+  ["Œufs mimosa","La classique","","L'entrée de toujours : des œufs durs garnis d'une farce à la mayonnaise.","",25,220,"F","deviled eggs mimosa","vcbfe",
+   ["œuf|œufs|8|","mayonnaise|mayonnaise|4|c. à s.","moutarde|moutarde|1|c. à c.","ciboulette|ciboulette||","sel|||","poivre|||"],
+   ["Fais cuire les œufs 10 min dans l'eau bouillante, puis refroidis-les.|Œufs|10","Écale-les et coupe-les en deux. Retire les jaunes.","Écrase les jaunes avec la mayonnaise, la moutarde, sel et poivre.","Garnis les blancs et parsème de ciboulette."]],
+  ["Œufs mimosa au thon","Au thon","Du thon dans la farce, pour une entrée plus copieuse.","Les œufs mimosa garnis au thon.","",25,260,"F","tuna stuffed eggs","cbe",
+   ["œuf|œufs|8|","thon au naturel|thon au naturel|100|g","mayonnaise|mayonnaise|3|c. à s.","ciboulette|ciboulette||","sel|||","poivre|||"],
+   ["Fais cuire les œufs 10 min, refroidis et écale-les.|Œufs|10","Écrase les jaunes avec le thon, la mayonnaise, sel et poivre.","Garnis les blancs et ajoute la ciboulette."]],
+  ["Œufs mimosa légers","Plus légers","La mayonnaise est remplacée par du fromage blanc.","Les œufs mimosa en version légère.","",25,160,"F","light deviled eggs","vchbe",
+   ["œuf|œufs|8|","fromage blanc||100|g","moutarde|moutarde|1|c. à c.","paprika|paprika||","sel|||","poivre|||"],
+   ["Fais cuire les œufs 10 min, refroidis et écale-les.|Œufs|10","Écrase les jaunes avec le fromage blanc et la moutarde, sale et poivre.","Garnis les blancs et saupoudre de paprika."]]
+ ]},
+ {"q":"Buddha bowl","a":["bowl vegetarien","bol complet","bowl"],"r":[
+  ["Buddha bowl","La classique","","Un bol complet et coloré : quinoa, pois chiches rôtis, légumes, avocat et sauce au tahin.","",35,560,"F","buddha bowl","vch",
+   ["quinoa|quinoa|200|g","pois chiche|pois chiches|250|g","patate douce|patates douces|1|","avocat||1|","chou rouge|choux rouges|0.25|","carotte||2|","tahin|tahin|3|c. à s.","citron||1|","huile d'olive|huile d'olive|2|c. à s.","paprika|paprika|1|c. à c.","sel|||"],
+   ["Préchauffe le four à 200 °C. Mets la patate douce en cubes et les pois chiches sur une plaque avec l'huile, le paprika et le sel. Enfourne 25 min.|Four|25","Fais cuire le quinoa 12 min.|Cuisson|12","Mélange le tahin, le jus du citron et un peu d'eau pour la sauce.","Monte les bols avec le quinoa, les légumes râpés, l'avocat, les pois chiches et la patate douce, puis la sauce."]],
+  ["Buddha bowl au poulet","Au poulet","Du poulet grillé remplace les pois chiches.","Un bowl complet et protéiné, au poulet.","",30,580,"F","chicken buddha bowl","ch",
+   ["riz complet|riz complet|200|g","blanc de poulet|blancs de poulet|2|","brocoli|brocolis|1|","avocat||1|","edamame|edamame|100|g","sauce soja|sauce soja|2|c. à s.","graines de sésame|graines de sésame|1|c. à s.","huile d'olive|huile d'olive|1|c. à s."],
+   ["Fais cuire le riz.|Cuisson|25","Fais griller le poulet en tranches 10 min.|Poêle|10","Fais cuire le brocoli à la vapeur 6 min.|Vapeur|6","Monte les bols et arrose de sauce soja et de sésame."]],
+  ["Buddha bowl au saumon","Au saumon","Du saumon cuit remplace les pois chiches.","Un bowl frais au saumon, avocat et concombre.","",30,600,"F","salmon buddha bowl","ch",
+   ["riz|riz|200|g","pavé de saumon|pavés de saumon|2|","avocat||1|","concombre||0.5|","carotte||1|","edamame|edamame|100|g","sauce soja|sauce soja|2|c. à s.","graines de sésame|graines de sésame|1|c. à s."],
+   ["Fais cuire le riz.|Cuisson|12","Fais cuire le saumon 8 min à la poêle et émiette-le.|Poêle|8","Coupe les légumes.","Monte les bols et assaisonne de sauce soja et de sésame."]]
+ ]},
+ {"q":"Gratin de chou-fleur","a":["chou fleur gratine","gratin chou fleur"],"r":[
+  ["Gratin de chou-fleur","La classique","","Du chou-fleur fondant sous une béchamel gratinée à l'emmental.","",45,320,"F","cauliflower cheese gratin","vobf",
+   ["chou-fleur|choux-fleurs|1|","beurre||30|g","farine||30|g","lait||50|cl","emmental râpé|emmental râpé|80|g","noix de muscade|noix de muscade||","sel|||","poivre|||"],
+   ["Fais cuire le chou-fleur en bouquets 10 min dans l'eau salée.|Cuisson|10","Prépare une béchamel avec le beurre, la farine et le lait, ajoute la muscade, sel et poivre.","Préchauffe le four à 200 °C. Mets le chou-fleur dans un plat et nappe de béchamel.","Parsème d'emmental et enfourne 20 min.|Four|20"]],
+  ["Gratin de chou-fleur et brocoli","Avec brocoli","Moitié chou-fleur, moitié brocoli.","Un gratin vert et blanc, chou-fleur et brocoli.","",45,320,"F","cauliflower broccoli gratin","vobf",
+   ["chou-fleur|choux-fleurs|0.5|","brocoli|brocolis|1|","crème fraîche||20|cl","œuf|œufs|2|","emmental râpé|emmental râpé|80|g","sel|||","poivre|||"],
+   ["Fais cuire les légumes en bouquets 8 min.|Cuisson|8","Préchauffe le four à 200 °C. Bats les œufs avec la crème, sel et poivre.","Mets les légumes dans un plat, verse l'appareil et l'emmental.","Enfourne 20 min.|Four|20"]],
+  ["Chou-fleur rôti aux épices","Rôti","Le chou-fleur rôtit au four avec des épices, sans béchamel.","Un chou-fleur doré et croquant, aux épices.","",35,180,"F","roasted spiced cauliflower","vobh",
+   ["chou-fleur|choux-fleurs|1|","huile d'olive|huile d'olive|3|c. à s.","cumin|cumin|1|c. à c.","curcuma|curcuma|1|c. à c.","yaourt grec|yaourts grecs|1|","citron||0.5|","sel|||"],
+   ["Préchauffe le four à 220 °C.","Mélange le chou-fleur en bouquets avec l'huile, les épices et le sel.","Enfourne 25 min, jusqu'à ce qu'il soit doré.|Four|25","Sers avec le yaourt citronné."]]
+ ]},
+ {"q":"Légumes rôtis","a":["legumes au four","poelee de legumes","legumes grilles"],"r":[
+  ["Légumes rôtis au four","La classique","","Des légumes de saison rôtis au four, dorés et caramélisés.","",45,200,"F","roasted vegetables tray","vobh",
+   ["carotte||3|","courgette||2|","poivron rouge|poivrons rouges|1|","oignon rouge|oignons rouges|2|","pomme de terre||3|","huile d'olive|huile d'olive|4|c. à s.","herbes de Provence|herbes de Provence|1|c. à c.","sel|||","poivre|||"],
+   ["Préchauffe le four à 210 °C.","Coupe les légumes en morceaux de même taille.","Mélange-les avec l'huile, les herbes, sel et poivre sur une plaque.","Enfourne 35 min en remuant à mi-cuisson.|Four|35"]],
+  ["Poêlée de légumes","À la poêle","Les légumes sont sautés à la poêle.","Une poêlée colorée, prête en 20 minutes.","",20,160,"F","sauteed vegetables","vbh",
+   ["courgette||2|","poivron rouge|poivrons rouges|1|","champignon|champignons|200|g","oignon||1|","ail||1|gousse","huile d'olive|huile d'olive|3|c. à s.","sel|||","poivre|||"],
+   ["Coupe les légumes en dés.","Fais revenir l'oignon et le poivron dans l'huile 5 min.|Poêle|5","Ajoute les courgettes et les champignons, et cuis 10 min à feu vif.|Poêle|10","Ajoute l'ail, sale et poivre."]],
+  ["Légumes d'hiver rôtis au miel","Légumes d'hiver","Courge, panais et carottes laqués au miel.","Des légumes racines rôtis, sucrés-salés.","",50,230,"F","honey roasted root vegetables","vobh",
+   ["butternut|butternuts|1|","panais||3|","carotte||3|","oignon rouge|oignons rouges|1|","miel|miel|2|c. à s.","huile d'olive|huile d'olive|3|c. à s.","thym|thym||","sel|||"],
+   ["Préchauffe le four à 200 °C.","Coupe les légumes en morceaux et mélange-les avec l'huile, le miel, le thym et le sel.","Enfourne 40 min.|Four|40"]]
+ ]},
+ {"q":"Tomates farcies","a":["legumes farcis","tomate farcie","petits farcis"],"r":[
+  ["Tomates farcies","La classique","","Des tomates garnies d'une farce à la viande et aux herbes, cuites au four avec du riz.","",75,480,"F","stuffed tomatoes","obf",
+   ["tomate||8|","chair à saucisse|chair à saucisse|400|g","oignon||1|","ail||2|gousse","persil|persil||","chapelure|chapelure|2|c. à s.","riz|riz|120|g","huile d'olive|huile d'olive|2|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 180 °C. Coupe le chapeau des tomates, vide-les et garde la pulpe.","Mélange la chair à saucisse avec l'oignon, l'ail, le persil et la chapelure.","Remplis les tomates et remets les chapeaux.","Mets le riz cru au fond du plat avec la pulpe et 20 cl d'eau, pose les tomates dessus et arrose d'huile.","Enfourne 1 h.|Four|60"]],
+  ["Légumes farcis à la provençale","Petits farcis","Tomates, courgettes et poivrons farcis.","Les petits farcis niçois, avec tous les légumes du soleil.","Spécialité niçoise",75,460,"M","provencal stuffed vegetables","o",
+   ["tomate||4|","courgette ronde|courgettes rondes|4|","poivron rouge|poivrons rouges|2|","bœuf haché|bœuf haché|400|g","oignon||1|","ail||2|gousse","parmesan râpé|parmesan râpé|40|g","chapelure|chapelure|3|c. à s.","huile d'olive|huile d'olive|3|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 180 °C. Vide les légumes.","Fais revenir l'oignon, l'ail et la chair des légumes hachée, puis mélange avec la viande, le parmesan et la chapelure.","Remplis les légumes, arrose d'huile.","Enfourne 1 h.|Four|60"]],
+  ["Tomates farcies végétariennes","Végétarienne","Une farce au riz, à la feta et aux herbes remplace la viande.","Des tomates farcies au riz et à la feta, à la grecque.","Inspiration grecque",60,360,"F","vegetarian stuffed tomatoes rice feta","voh",
+   ["tomate||8|","riz|riz|150|g","feta|feta|100|g","oignon||1|","menthe|menthe||","persil|persil||","huile d'olive|huile d'olive|3|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 180 °C. Vide les tomates et hache la pulpe.","Mélange le riz cru avec la pulpe, l'oignon haché, la feta, les herbes et l'huile.","Remplis les tomates aux trois quarts et range-les dans un plat avec 10 cl d'eau.","Enfourne 50 min.|Four|50"]]
+ ]},
+ {"q":"Courgettes farcies","a":["courgette farcie","courgettes farcies au four"],"r":[
+  ["Courgettes farcies à la viande","La classique","","Des courgettes garnies de viande hachée parfumée, gratinées au fromage.","",50,420,"F","stuffed zucchini meat","obf",
+   ["courgette||4|","bœuf haché|bœuf haché|400|g","oignon||1|","tomate concassée|tomates concassées|200|g","emmental râpé|emmental râpé|60|g","ail||1|gousse","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C. Coupe les courgettes en deux et creuse-les.","Fais revenir l'oignon, l'ail, la chair des courgettes hachée et la viande 8 min, ajoute les tomates.|Poêle|8","Remplis les courgettes et parsème d'emmental.","Enfourne 30 min.|Four|30"]],
+  ["Courgettes farcies au chèvre","Au chèvre","Une farce au chèvre et aux herbes, végétarienne.","Des courgettes fondantes au chèvre et au thym.","",45,320,"F","zucchini stuffed goat cheese","vo",
+   ["courgette||4|","chèvre frais|chèvres frais|200|g","œuf|œufs|1|","chapelure|chapelure|3|c. à s.","thym|thym||","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C. Coupe les courgettes en deux et creuse-les.","Mélange la chair hachée avec le chèvre, l'œuf, le thym, sel et poivre.","Remplis les courgettes, saupoudre de chapelure et arrose d'huile.","Enfourne 30 min.|Four|30"]],
+  ["Courgettes farcies au thon","Au thon","Une farce au thon et à la tomate.","Des courgettes farcies économiques, au thon.","",45,340,"F","zucchini stuffed tuna","ob",
+   ["courgette||4|","thon au naturel|thon au naturel|200|g","tomate||2|","oignon||1|","œuf|œufs|1|","emmental râpé|emmental râpé|50|g","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C. Coupe les courgettes en deux et creuse-les.","Mélange la chair hachée, le thon, les tomates et l'oignon en dés, et l'œuf.","Remplis les courgettes et parsème d'emmental.","Enfourne 30 min.|Four|30"]]
+ ]},
+ {"q":"Purée maison","a":["puree","puree de pommes de terre","puree mousseline","ecrase de pommes de terre"],"r":[
+  ["Purée maison","La classique","","Une purée lisse et onctueuse, au beurre et au lait.","",30,280,"F","mashed potatoes","vbf",
+   ["pomme de terre||1000|g","lait||25|cl","beurre||60|g","noix de muscade|noix de muscade||","sel|||","poivre|||"],
+   ["Épluche les pommes de terre et fais-les cuire 20 min dans l'eau salée.|Cuisson|20","Égoutte-les et écrase-les au presse-purée.","Ajoute le beurre puis le lait chaud petit à petit, en mélangeant.","Sale, poivre et ajoute un peu de muscade."]],
+  ["Écrasé de pommes de terre à l'huile d'olive","Écrasé","Écrasées grossièrement, avec de l'huile d'olive et des herbes.","Un écrasé rustique à l'huile d'olive et à la ciboulette.","",30,240,"F","crushed potatoes olive oil","vbh",
+   ["pomme de terre||1000|g","huile d'olive|huile d'olive|6|c. à s.","ciboulette|ciboulette||","fleur de sel|fleur de sel||","poivre|||"],
+   ["Fais cuire les pommes de terre avec la peau 25 min.|Cuisson|25","Écrase-les grossièrement à la fourchette avec l'huile.","Ajoute la ciboulette, la fleur de sel et le poivre."]],
+  ["Purée de patate douce","Patate douce","Moitié patate douce pour une purée orangée.","Une purée douce et colorée.","",30,250,"F","sweet potato mash","vbfh",
+   ["patate douce|patates douces|600|g","pomme de terre||400|g","lait||15|cl","beurre||30|g","sel|||"],
+   ["Fais cuire les légumes épluchés 20 min.|Cuisson|20","Écrase-les avec le beurre et le lait chaud.","Sale."]]
+ ]}
+]
