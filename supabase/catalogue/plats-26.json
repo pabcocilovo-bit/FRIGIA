@@ -1,0 +1,112 @@
+[
+ {"q":"Tofu sauté","a":["tofu croustillant","tofu poele","tofu grille","tofu saute aux legumes"],"r":[
+  ["Tofu sauté aux légumes","La classique","","Du tofu doré et croustillant, sauté avec des légumes et une sauce soja-gingembre.","Inspiration asiatique",25,350,"F","crispy tofu stir fry","vhb",
+   ["tofu ferme|tofu ferme|400|g","fécule de maïs|fécule de maïs|2|c. à s.","brocoli|brocolis|1|","poivron rouge|poivrons rouges|1|","sauce soja|sauce soja|4|c. à s.","gingembre|gingembre|1|c. à c.","huile|huile|3|c. à s.","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Coupe le tofu en cubes, sèche-le et roule-le dans la fécule.","Fais-le dorer 8 min dans l'huile chaude, puis retire-le.|Poêle|8","Fais sauter le brocoli et le poivron 5 min.|Poêle|5","Remets le tofu avec la sauce soja et le gingembre, et mélange 1 min."]],
+  ["Tofu au caramel","Au caramel","Laqué dans une sauce caramel au soja.","Le tofu à la vietnamienne, sucré-salé.","Inspiration vietnamienne",25,380,"F","caramelized tofu","vb",
+   ["tofu ferme|tofu ferme|400|g","sucre|sucre|3|c. à s.","sauce soja|sauce soja|4|c. à s.","ail|ail|2|gousse","oignon nouveau|oignons nouveaux|3|","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais dorer le tofu en cubes à la poêle.|Poêle|8","Fais un caramel avec le sucre, puis ajoute la sauce soja, l'ail et 5 cl d'eau.","Ajoute le tofu et laisse réduire jusqu'à ce qu'il soit laqué. Parsème d'oignon."]],
+  ["Tofu au curry","Au curry","Mijoté dans une sauce curry coco.","Un curry de tofu doux au lait de coco.","",25,420,"F","tofu coconut curry","vb",
+   ["tofu ferme|tofu ferme|400|g","lait de coco|lait de coco|40|cl","curry|curry|2|c. à c.","oignon||1|","pousses d'épinard|pousses d'épinard|100|g","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais dorer le tofu en cubes et retire-le.|Poêle|8","Fais revenir l'oignon avec le curry, ajoute le lait de coco et laisse 5 min.|Cuisson|5","Ajoute le tofu et les épinards, et laisse 3 min."]]
+ ]},
+ {"q":"Épinards à la crème","a":["epinards creme","epinards a la creme fraiche","creme d epinards"],"r":[
+  ["Épinards à la crème","La classique","","Des épinards fondus à la crème et à la muscade, en accompagnement.","",15,150,"F","creamed spinach","vbf",
+   ["pousses d'épinard|pousses d'épinard|600|g","crème fraîche|crème fraîche|15|cl","beurre||15|g","ail|ail|1|gousse","muscade|muscade||"],
+   ["Fais fondre l'ail haché dans le beurre.","Ajoute les épinards par poignées et laisse-les tomber 3 min.|Poêle|3","Ajoute la crème et la muscade.","Laisse réduire 3 min, sale et poivre.|Cuisson|3"]],
+  ["Épinards à la crème et œufs","Avec des œufs","Des œufs cuits au milieu des épinards.","Un plat complet d'épinards à la crème et œufs mollets.","",20,280,"F","creamed spinach eggs","vhb",
+   ["épinards surgelés|épinards surgelés|600|g","crème fraîche|crème fraîche|15|cl","œuf|œufs|4|","ail|ail|1|gousse","muscade|muscade||"],
+   ["Fais réchauffer les épinards avec l'ail.|Poêle|8","Ajoute la crème et la muscade.","Creuse 4 puits et casse un œuf dans chacun.","Couvre et laisse 5 min.|Cuisson|5"]],
+  ["Gratin d'épinards","Gratiné","Gratinés au four au fromage.","Des épinards à la crème gratinés à l'emmental.","",30,240,"F","spinach gratin","vobf",
+   ["épinards surgelés|épinards surgelés|600|g","crème fraîche|crème fraîche|20|cl","œuf|œufs|1|","emmental râpé|emmental râpé|80|g","muscade|muscade||"],
+   ["Préchauffe le four à 200 °C.","Fais décongeler les épinards et presse-les.","Mélange avec la crème, l'œuf et la muscade, et verse dans un plat.","Couvre d'emmental et enfourne 20 min.|Four|20"]]
+ ]},
+ {"q":"Haricots verts à l'ail","a":["haricots verts sautes","haricots verts persillade","haricots verts poeles"],"r":[
+  ["Haricots verts à l'ail","La classique","","Des haricots verts croquants, sautés au beurre avec ail et persil.","",20,100,"F","garlic green beans","vhbf",
+   ["haricot vert|haricots verts|600|g","beurre||20|g","ail|ail|2|gousse","persil|persil||","sel|||"],
+   ["Équeute les haricots et fais-les cuire 8 min à l'eau bouillante salée.|Cuisson|8","Égoutte-les et rafraîchis-les à l'eau froide.","Fais-les sauter 3 min dans le beurre avec l'ail haché.|Poêle|3","Parsème de persil."]],
+  ["Haricots verts aux lardons","Aux lardons","Avec des lardons et des oignons.","Des haricots verts plus gourmands, aux lardons.","",25,200,"F","green beans bacon","bf",
+   ["haricot vert|haricots verts|600|g","lardon|lardons|125|g","oignon||1|"],
+   ["Fais cuire les haricots 8 min à l'eau salée.|Cuisson|8","Fais dorer les lardons et l'oignon émincé.|Poêle|6","Ajoute les haricots égouttés.","Fais sauter 3 min."]],
+  ["Haricots verts aux amandes","Aux amandes","Avec des amandes effilées grillées.","Des haricots verts croquants aux amandes.","",20,150,"F","green beans almondine","vhb",
+   ["haricot vert|haricots verts|600|g","amandes effilées|amandes effilées|40|g","beurre||20|g","citron||0.5|"],
+   ["Fais cuire les haricots 8 min à l'eau salée.|Cuisson|8","Fais dorer les amandes à sec dans une poêle.|Poêle|2","Ajoute le beurre et les haricots, et fais sauter 3 min.","Arrose d'un peu de jus de citron."]]
+ ]},
+ {"q":"Petits pois carottes","a":["petit pois carotte","jardiniere de legumes","petits pois a la francaise"],"r":[
+  ["Petits pois carottes","La classique","","Les petits pois et carottes fondants, à l'oignon et au beurre.","",30,150,"F","peas and carrots","vhbf",
+   ["petits pois surgelés|petits pois surgelés|500|g","carotte||4|","oignon||1|","beurre||20|g","sucre|sucre|1|c. à c."],
+   ["Fais fondre l'oignon émincé dans le beurre.","Ajoute les carottes en rondelles, le sucre et 15 cl d'eau, et laisse 10 min.|Cuisson|10","Ajoute les petits pois et laisse 10 min à couvert.|Cuisson|10","Sale et poivre."]],
+  ["Petits pois à la française","À la française","Avec de la laitue et des petits oignons.","Les petits pois braisés à la laitue, à l'ancienne.","",30,170,"F","french style peas lettuce","vhb",
+   ["petits pois surgelés|petits pois surgelés|500|g","laitue|laitues|1|","oignon blanc|oignons blancs|8|","beurre||30|g","sucre|sucre|1|c. à c."],
+   ["Fais revenir les petits oignons dans le beurre.","Ajoute la laitue en lanières, les petits pois, le sucre et 10 cl d'eau.","Couvre et laisse 15 min.|Cuisson|15","Sale et poivre."]],
+  ["Petits pois aux lardons","Aux lardons","Avec des lardons.","Des petits pois carottes aux lardons, plus gourmands.","",30,240,"F","peas carrots bacon","bf",
+   ["petits pois surgelés|petits pois surgelés|500|g","carotte||3|","lardon|lardons|125|g","oignon||1|"],
+   ["Fais dorer les lardons et l'oignon.|Poêle|5","Ajoute les carottes et 15 cl d'eau, et laisse 10 min.|Cuisson|10","Ajoute les petits pois et laisse 10 min.|Cuisson|10","Poivre et sers."]]
+ ]},
+ {"q":"Butternut rôtie","a":["courge butternut au four","butternut au four","courge rotie","courge butternut rotie"],"r":[
+  ["Butternut rôtie","La classique","","De la courge butternut rôtie au four avec du miel, du thym et de l'huile d'olive.","",50,180,"F","roasted butternut squash","vohb",
+   ["butternut|butternuts|1|","huile d'olive|huile d'olive|3|c. à s.","miel||1|c. à s.","thym|thym||","sel|||"],
+   ["Préchauffe le four à 200 °C.","Épluche la courge, retire les graines et coupe-la en cubes.","Mélange avec l'huile, le miel, le thym et le sel.","Enfourne 40 min en remuant à mi-cuisson.|Four|40"]],
+  ["Butternut farcie","Farcie","Coupée en deux et farcie au fromage.","Des demi-butternuts gratinées, farcies au chèvre et aux noix.","",70,350,"F","stuffed butternut squash","vo",
+   ["butternut|butternuts|2|","bûche de chèvre|bûches de chèvre|1|","cerneaux de noix|cerneaux de noix|40|g","miel||2|c. à s.","thym|thym||"],
+   ["Préchauffe le four à 200 °C. Coupe les courges en deux et retire les graines.","Enfourne-les 40 min, face coupée en haut.|Four|40","Garnis de chèvre en rondelles, de noix et de thym.","Arrose de miel et remets 15 min.|Four|15"]],
+  ["Butternut rôtie aux épices","Aux épices","Avec du cumin, du paprika et des pois chiches.","Une butternut épicée en plat complet avec des pois chiches.","",50,320,"F","spiced roasted squash chickpeas","vohb",
+   ["butternut|butternuts|1|","pois chiche|pois chiches|400|g","cumin|cumin|1|c. à c.","paprika|paprika|1|c. à c.","huile d'olive|huile d'olive|3|c. à s.","yaourt grec|yaourts grecs|1|"],
+   ["Préchauffe le four à 200 °C.","Coupe la courge en cubes et mélange avec les pois chiches, les épices et l'huile.","Enfourne 40 min.|Four|40","Sers avec le yaourt."]]
+ ]},
+ {"q":"Champignons farcis","a":["champignon farci","champignons farcis au four"],"r":[
+  ["Champignons farcis","La classique","","Des gros champignons farcis à l'ail, au persil et au fromage frais, gratinés.","",30,180,"F","stuffed mushrooms","voe",
+   ["champignon de Paris|champignons de Paris|12|","fromage frais ail et fines herbes|fromage frais ail et fines herbes|150|g","chapelure|chapelure|2|c. à s.","persil|persil||","huile d'olive|huile d'olive|1|c. à s."],
+   ["Préchauffe le four à 200 °C.","Retire les pieds des champignons.","Remplis les chapeaux de fromage frais et parsème de chapelure.","Arrose d'huile et enfourne 15 min.|Four|15","Parsème de persil."]],
+  ["Champignons farcis à la chair à saucisse","À la viande","Farcis de chair à saucisse.","Des champignons farcis gourmands à la viande.","",35,280,"F","sausage stuffed mushrooms","o",
+   ["champignon de Paris|champignons de Paris|12|","chair à saucisse|chair à saucisse|250|g","échalote||1|","persil|persil||","chapelure|chapelure|2|c. à s."],
+   ["Préchauffe le four à 200 °C.","Hache les pieds des champignons et mélange-les à la chair à saucisse, à l'échalote et au persil.","Farcis les chapeaux et parsème de chapelure.","Enfourne 20 min.|Four|20"]],
+  ["Champignons farcis au chèvre","Au chèvre","Avec du chèvre et du miel.","Des champignons farcis au chèvre fondant.","",25,200,"F","goat cheese stuffed mushrooms","voe",
+   ["champignon de Paris|champignons de Paris|12|","bûche de chèvre|bûches de chèvre|1|","miel||1|c. à s.","thym|thym||"],
+   ["Préchauffe le four à 200 °C.","Retire les pieds des champignons.","Pose une rondelle de chèvre dans chaque chapeau, un peu de thym et de miel.","Enfourne 15 min.|Four|15"]]
+ ]},
+ {"q":"Poireaux vinaigrette","a":["poireau vinaigrette","poireaux a la vinaigrette"],"r":[
+  ["Poireaux vinaigrette","La classique","","Des poireaux fondants à la vinaigrette moutardée, avec des œufs mimosa.","Bistrot français",30,200,"F","leeks vinaigrette","vchbe",
+   ["poireau|poireaux|6|","œuf|œufs|2|","moutarde|moutarde|1|c. à s.","vinaigre|vinaigre|2|c. à s.","huile|huile|5|c. à s.","échalote||1|"],
+   ["Coupe les poireaux en tronçons et fais-les cuire 15 min à l'eau salée.|Cuisson|15","Fais cuire les œufs 10 min.|Cuisson|10","Prépare la vinaigrette avec la moutarde, le vinaigre, l'huile et l'échalote hachée.","Égoutte les poireaux, arrose de vinaigrette et râpe les œufs dessus."]],
+  ["Poireaux vinaigrette aux noisettes","Noisettes","Avec des noisettes grillées.","Des poireaux vinaigrette croquants aux noisettes.","",25,230,"F","leeks hazelnut dressing","vche",
+   ["poireau|poireaux|6|","noisette|noisettes|40|g","moutarde|moutarde|1|c. à s.","vinaigre balsamique|vinaigre balsamique|2|c. à s.","huile d'olive|huile d'olive|4|c. à s."],
+   ["Fais cuire les poireaux en tronçons 15 min.|Cuisson|15","Fais griller les noisettes à sec et concasse-les.|Poêle|3","Prépare la vinaigrette.","Arrose les poireaux et parsème de noisettes."]],
+  ["Poireaux grillés","Grillés","Grillés à la poêle après cuisson.","Des poireaux grillés et caramélisés, à la vinaigrette.","",30,180,"F","grilled leeks","vhbe",
+   ["poireau|poireaux|6|","huile d'olive|huile d'olive|4|c. à s.","citron||1|","moutarde|moutarde|1|c. à c.","persil|persil||"],
+   ["Fais cuire les poireaux coupés en deux 10 min à l'eau.|Cuisson|10","Égoutte et fais-les griller 5 min à la poêle.|Poêle|5","Mélange l'huile, le jus du citron et la moutarde.","Arrose les poireaux et parsème de persil."]]
+ ]},
+ {"q":"Asperges","a":["asperges vertes","asperges blanches","asperges sauce mousseline"],"r":[
+  ["Asperges sauce mousseline","La classique","","Des asperges blanches cuites à point, avec une sauce mousseline légère.","",30,250,"M","white asparagus hollandaise","vh",
+   ["asperge blanche|asperges blanches|1000|g","œuf|œufs|2|","beurre||80|g","crème liquide|crème liquide|10|cl","citron||0.5|"],
+   ["Épluche les asperges et fais-les cuire 15 min à l'eau salée.|Cuisson|15","Fouette les jaunes avec 2 c. à s. d'eau au bain-marie jusqu'à ce qu'ils épaississent.","Ajoute le beurre fondu petit à petit, puis le jus du citron.","Fouette la crème en chantilly et mélange-la à la sauce.","Sers les asperges tièdes avec la sauce."]],
+  ["Asperges vertes rôties","Vertes rôties","Rôties au four avec du parmesan.","Des asperges vertes croquantes, rôties au parmesan.","",20,150,"F","roasted green asparagus parmesan","voh",
+   ["asperge verte|asperges vertes|500|g","parmesan||40|g","huile d'olive|huile d'olive|2|c. à s.","citron||1|"],
+   ["Préchauffe le four à 200 °C.","Coupe la base dure des asperges.","Arrose-les d'huile et enfourne 12 min.|Four|12","Parsème de parmesan et arrose de citron."]],
+  ["Asperges et œuf mollet","Œuf mollet","Avec un œuf mollet et du jambon cru.","Une entrée de printemps : asperges, œuf mollet et jambon cru.","",20,280,"F","asparagus soft boiled egg","h",
+   ["asperge verte|asperges vertes|500|g","œuf|œufs|4|","jambon cru|jambon cru|4|tranches","huile d'olive|huile d'olive|2|c. à s."],
+   ["Fais cuire les asperges 6 min à l'eau salée.|Cuisson|6","Fais cuire les œufs 6 min et écale-les.|Cuisson|6","Dispose asperges, jambon et œuf dans chaque assiette.","Arrose d'huile, sale et poivre."]]
+ ]},
+ {"q":"Pois chiches rôtis","a":["pois chiches grilles","pois chiches croustillants","pois chiches au four"],"r":[
+  ["Pois chiches rôtis","La classique","","Des pois chiches croustillants au paprika, pour l'apéritif ou sur une salade.","",40,180,"F","roasted chickpeas","vohbe",
+   ["pois chiche|pois chiches|400|g","huile d'olive|huile d'olive|2|c. à s.","paprika|paprika|1|c. à c.","cumin|cumin|1|c. à c.","sel|||"],
+   ["Préchauffe le four à 200 °C.","Rince les pois chiches et sèche-les bien dans un torchon.","Mélange-les avec l'huile, les épices et le sel.","Étale-les sur une plaque et enfourne 30 min en remuant.|Four|30"]],
+  ["Pois chiches rôtis au miel","Sucrés","Au miel et à la cannelle.","Des pois chiches croquants sucrés pour le goûter.","",40,200,"F","honey roasted chickpeas","vodhb",
+   ["pois chiche|pois chiches|400|g","huile de coco|huile de coco|1|c. à s.","miel||2|c. à s.","cannelle|cannelle|1|c. à c."],
+   ["Préchauffe le four à 200 °C.","Sèche les pois chiches et enfourne-les 20 min avec l'huile.|Four|20","Mélange-les avec le miel et la cannelle.","Remets 10 min au four.|Four|10"]],
+  ["Pois chiches sautés aux épinards","Sautés","Sautés à la poêle avec épinards et ail.","Un plat rapide de pois chiches aux épinards.","",15,280,"F","chickpeas spinach skillet","vhb",
+   ["pois chiche|pois chiches|800|g","pousses d'épinard|pousses d'épinard|200|g","ail|ail|2|gousse","cumin|cumin|1|c. à c.","citron||1|","huile d'olive|huile d'olive|2|c. à s."],
+   ["Fais revenir l'ail et le cumin dans l'huile.","Ajoute les pois chiches et fais-les dorer 5 min.|Poêle|5","Ajoute les épinards et laisse-les tomber.","Arrose de jus de citron."]]
+ ]},
+ {"q":"Velouté de champignons","a":["soupe de champignons","creme de champignons","veloute champignon"],"r":[
+  ["Velouté de champignons","La classique","","Un velouté crémeux aux champignons de Paris et à l'échalote.","",30,180,"F","mushroom soup","vbf",
+   ["champignon de Paris|champignons de Paris|500|g","échalote||2|","pomme de terre|pommes de terre|1|","bouillon de légumes|bouillon de légumes|1|","crème fraîche|crème fraîche|10|cl","beurre||20|g"],
+   ["Fais revenir les échalotes et les champignons émincés dans le beurre 5 min.|Poêle|5","Ajoute la pomme de terre en dés, le bouillon et 70 cl d'eau.","Laisse cuire 20 min.|Cuisson|20","Mixe avec la crème, sale et poivre."]],
+  ["Velouté de champignons et châtaignes","Châtaignes","Avec des châtaignes cuites.","Un velouté d'automne aux champignons et châtaignes.","",30,250,"F","mushroom chestnut soup","v",
+   ["champignon de Paris|champignons de Paris|400|g","châtaignes cuites|châtaignes cuites|200|g","oignon||1|","bouillon de légumes|bouillon de légumes|1|","crème fraîche|crème fraîche|10|cl"],
+   ["Fais revenir l'oignon et les champignons 5 min.|Poêle|5","Ajoute les châtaignes, le bouillon et 80 cl d'eau.","Laisse cuire 20 min.|Cuisson|20","Mixe avec la crème."]],
+  ["Velouté de champignons léger","Plus léger","Sans crème, avec du lait.","Un velouté de champignons plus léger.","",30,110,"F","light mushroom soup","vhb",
+   ["champignon de Paris|champignons de Paris|500|g","oignon||1|","bouillon de légumes|bouillon de légumes|1|","lait demi-écrémé|lait demi-écrémé|20|cl","persil|persil||"],
+   ["Fais revenir l'oignon et les champignons dans un peu d'eau 5 min.|Cuisson|5","Ajoute le bouillon et 60 cl d'eau, et laisse 20 min.|Cuisson|20","Mixe avec le lait.","Parsème de persil."]]
+ ]}
+]
