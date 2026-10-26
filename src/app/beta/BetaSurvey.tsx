@@ -22,6 +22,8 @@ const FEATURES: [string, string, string][] = [
   ["foyer", "Mon foyer, les profils de la famille", "Mon foyer"],
 ];
 const NOTHING = "Rien pour l'instant";
+// Les 8 questions dans l'ordre, pour le numéro affiché
+const ALL = ["manque", "utilise", "scan", "recettes", "usage", "revenir", "prix", "ameliorer"];
 const USAGE = ["Simple, sans souci", "Simple, avec un petit bug", "Parfois compliqué", "Un bug m'a empêché d'avancer"];
 
 type Step =
@@ -83,12 +85,12 @@ export function BetaSurvey({ user }: { user: User }) {
   };
   const next = () => { if (!ok || busy) return; if (last) void send(); else setI(i + 1); };
 
-  // Avant la question 2, on ne sait pas encore ce qui sautera : on annonce le maximum
-  const total = i <= 1 ? 8 : steps.length;
-  const pct = done ? 100 : Math.round(((i + 1) / total) * 100);
+  // Toujours « sur 8 » : une question qui saute fait avancer le numéro d'autant
+  const n = ALL.indexOf(step.id) + 1;
+  const pct = done ? 100 : Math.round((n / ALL.length) * 100);
   return (
     <div className="fa fa-app" aria-label="Ton avis compte">
-      <GreenHead title="Ton avis compte" sub={done ? "Terminé" : `Question ${i + 1} sur ${total} · environ 2 minutes`}>
+      <GreenHead title="Ton avis compte" sub={done ? "Terminé" : `Question ${n} sur ${ALL.length} · environ 2 minutes`}>
         <div className="av-bar" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Avancement"><i style={{ width: `${pct}%` }} /></div>
       </GreenHead>
 
