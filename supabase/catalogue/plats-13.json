@@ -54,11 +54,11 @@
    ["chou-fleur|choux-fleurs|1|","huile d'olive|huile d'olive|3|c. à s.","cumin|cumin|1|c. à c.","curcuma|curcuma|1|c. à c.","yaourt grec|yaourts grecs|1|","citron||0.5|","sel|||"],
    ["Préchauffe le four à 220 °C.","Mélange le chou-fleur en bouquets avec l'huile, les épices et le sel.","Enfourne 25 min, jusqu'à ce qu'il soit doré.|Four|25","Sers avec le yaourt citronné."]]
  ]},
- {"q":"Légumes rôtis","a":["legumes au four","poelee de legumes","legumes grilles"],"r":[
+ {"q":"Légumes rôtis","a":["legumes au four","legumes grilles"],"r":[
   ["Légumes rôtis au four","La classique","","Des légumes de saison rôtis au four, dorés et caramélisés.","",45,200,"F","roasted vegetables tray","vobh",
    ["carotte||3|","courgette||2|","poivron rouge|poivrons rouges|1|","oignon rouge|oignons rouges|2|","pomme de terre||3|","huile d'olive|huile d'olive|4|c. à s.","herbes de Provence|herbes de Provence|1|c. à c.","sel|||","poivre|||"],
    ["Préchauffe le four à 210 °C.","Coupe les légumes en morceaux de même taille.","Mélange-les avec l'huile, les herbes, sel et poivre sur une plaque.","Enfourne 35 min en remuant à mi-cuisson.|Four|35"]],
-  ["Poêlée de légumes","À la poêle","Les légumes sont sautés à la poêle.","Une poêlée colorée, prête en 20 minutes.","",20,160,"F","sauteed vegetables","vbh",
+  ["Légumes sautés à la poêle","À la poêle","Les légumes sont sautés à la poêle.","Une poêlée colorée, prête en 20 minutes.","",20,160,"F","sauteed vegetables","vbh",
    ["courgette||2|","poivron rouge|poivrons rouges|1|","champignon|champignons|200|g","oignon||1|","ail||1|gousse","huile d'olive|huile d'olive|3|c. à s.","sel|||","poivre|||"],
    ["Coupe les légumes en dés.","Fais revenir l'oignon et le poivron dans l'huile 5 min.|Poêle|5","Ajoute les courgettes et les champignons, et cuis 10 min à feu vif.|Poêle|10","Ajoute l'ail, sale et poivre."]],
   ["Légumes d'hiver rôtis au miel","Légumes d'hiver","Courge, panais et carottes laqués au miel.","Des légumes racines rôtis, sucrés-salés.","",50,230,"F","honey roasted root vegetables","vobh",

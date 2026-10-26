@@ -1,0 +1,112 @@
+[
+ {"q":"Frites maison","a":["frite","frites","frites au four"],"r":[
+  ["Frites maison","La classique","","Des frites croustillantes, cuites en deux fois comme au restaurant.","",50,380,"M","homemade french fries","vbf",
+   ["pomme de terre|pommes de terre|1000|g","huile de friture|huile de friture|100|cl","sel|||"],
+   ["Épluche les pommes de terre et coupe-les en bâtonnets de 1 cm.","Rince-les et sèche-les bien dans un torchon.","Fais-les cuire 6 min dans l'huile à 160 °C, puis égoutte-les.|Friture|6","Repasse-les 3 min dans l'huile à 180 °C pour les dorer.|Friture|3","Égoutte sur du papier absorbant et sale."]],
+  ["Frites au four","Sans friture","Cuites au four avec un peu d'huile.","Des frites plus légères, croustillantes, sans friteuse.","",45,220,"F","oven baked fries","vohbf",
+   ["pomme de terre|pommes de terre|1000|g","huile d'olive|huile d'olive|3|c. à s.","paprika|paprika|1|c. à c.","sel|||"],
+   ["Préchauffe le four à 220 °C.","Coupe les pommes de terre en bâtonnets, rince-les et sèche-les.","Mélange-les avec l'huile, le paprika et le sel, et étale-les sur une plaque.","Enfourne 35 min en les retournant à mi-cuisson.|Four|35"]],
+  ["Frites de patate douce","Patate douce","Avec des patates douces, au four.","Des frites orange, sucrées et croustillantes.","",40,230,"F","sweet potato fries","vohf",
+   ["patate douce|patates douces|3|","huile d'olive|huile d'olive|3|c. à s.","fécule de maïs|fécule de maïs|1|c. à s.","paprika|paprika|1|c. à c.","sel|||"],
+   ["Préchauffe le four à 220 °C.","Coupe les patates douces en bâtonnets et enrobe-les de fécule, d'huile et de paprika.","Étale-les sans qu'elles se touchent sur une plaque.","Enfourne 30 min en les retournant à mi-cuisson.|Four|30"]]
+ ]},
+ {"q":"Pommes de terre sautées","a":["pomme de terre sautee","patates sautees","pommes sautees","pommes de terre sarladaises","sarladaises"],"r":[
+  ["Pommes de terre sautées","La classique","","Des pommes de terre dorées à la poêle, avec de l'ail et du persil.","",35,280,"F","pan fried potatoes","vhbf",
+   ["pomme de terre|pommes de terre|1000|g","huile|huile|3|c. à s.","beurre||20|g","ail|ail|2|gousse","persil|persil||","sel|||"],
+   ["Épluche les pommes de terre et coupe-les en dés.","Fais-les dorer 25 min dans l'huile et le beurre à feu moyen, en remuant souvent.|Poêle|25","Ajoute l'ail et le persil hachés en fin de cuisson.","Sale et poivre."]],
+  ["Pommes de terre sarladaises","Sarladaises","Sautées dans la graisse de canard.","Les pommes de terre du Périgord, à la graisse de canard et à l'ail.","Spécialité du Périgord",40,380,"F","sarladaise potatoes duck fat","bf",
+   ["pomme de terre|pommes de terre|1000|g","graisse de canard|graisse de canard|3|c. à s.","ail|ail|3|gousse","persil|persil||","sel|||"],
+   ["Épluche les pommes de terre et coupe-les en rondelles.","Fais-les dorer 30 min dans la graisse de canard, en les retournant.|Poêle|30","Ajoute l'ail et le persil hachés 5 min avant la fin.","Sale et poivre."]],
+  ["Pommes de terre sautées aux lardons","Aux lardons","Avec des lardons et des oignons.","Une poêlée de pommes de terre complète, aux lardons.","",35,420,"F","potatoes bacon onions skillet","bf",
+   ["pomme de terre|pommes de terre|1000|g","lardon|lardons|200|g","oignon||2|","huile|huile|2|c. à s.","persil|persil||"],
+   ["Coupe les pommes de terre en dés.","Fais-les dorer 20 min dans l'huile.|Poêle|20","Ajoute les lardons et les oignons émincés et laisse 10 min.|Poêle|10","Parsème de persil."]]
+ ]},
+ {"q":"Pommes de terre au four","a":["pomme de terre au four","patates au four","pommes de terre rissolees au four","smashed potatoes"],"r":[
+  ["Pommes de terre rôties au four","La classique","","Des quartiers de pommes de terre rôtis au thym et à l'ail, croustillants dehors.","",50,250,"F","roasted potato wedges","vohbf",
+   ["pomme de terre|pommes de terre|1000|g","huile d'olive|huile d'olive|3|c. à s.","ail|ail|4|gousse","thym|thym||","sel|||"],
+   ["Préchauffe le four à 210 °C.","Coupe les pommes de terre en quartiers sans les éplucher.","Mélange-les avec l'huile, le thym, l'ail en chemise et le sel.","Enfourne 40 min en remuant à mi-cuisson.|Four|40"]],
+  ["Smashed potatoes","Écrasées","Des grenailles cuites, écrasées puis rôties.","Les pommes de terre écrasées et croustillantes, très à la mode.","",55,260,"F","smashed potatoes","vobf",
+   ["pomme de terre grenaille|pommes de terre grenailles|800|g","huile d'olive|huile d'olive|4|c. à s.","parmesan||30|g","ail en poudre|ail en poudre|1|c. à c.","sel|||"],
+   ["Fais cuire les pommes de terre 20 min à l'eau salée.|Cuisson|20","Préchauffe le four à 220 °C. Pose-les sur une plaque et écrase-les avec un verre.","Arrose d'huile, saupoudre d'ail et de parmesan.","Enfourne 25 min.|Four|25"]],
+  ["Pommes de terre en robe des champs","Farcies","Cuites entières, garnies de crème à la ciboulette.","Des pommes de terre au four avec une crème à la ciboulette.","",70,300,"F","baked potato sour cream chives","vobf",
+   ["pomme de terre|pommes de terre|4|","crème fraîche|crème fraîche|20|cl","ciboulette|ciboulette||","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Pique les pommes de terre et enveloppe-les de papier aluminium.","Enfourne 1 h.|Four|60","Mélange la crème avec la ciboulette, le sel et le poivre.","Fends les pommes de terre et garnis-les de crème."]]
+ ]},
+ {"q":"Aligot","a":["aligot aubrac","aligot saucisse","truffade"],"r":[
+  ["Aligot","La classique","","La purée filante de l'Aubrac, à la tomme fraîche et à l'ail.","Spécialité de l'Aubrac",45,580,"M","aligot cheesy mashed potatoes","vf",
+   ["pomme de terre|pommes de terre|1000|g","tomme fraîche|tomme fraîche|400|g","crème fraîche|crème fraîche|20|cl","beurre||50|g","ail|ail|2|gousse","sel|||"],
+   ["Fais cuire les pommes de terre 25 min à l'eau salée.|Cuisson|25","Écrase-les en purée avec le beurre, la crème et l'ail écrasé, sur feu doux.","Ajoute la tomme en lamelles petit à petit.","Remue énergiquement en soulevant jusqu'à ce que l'aligot file."]],
+  ["Aligot et saucisse","Avec saucisse","Servi avec des saucisses de Toulouse grillées.","L'aligot en plat complet, avec ses saucisses.","Spécialité de l'Aubrac",50,820,"M","aligot sausage","f",
+   ["pomme de terre|pommes de terre|1000|g","tomme fraîche|tomme fraîche|400|g","crème fraîche|crème fraîche|20|cl","beurre||50|g","ail|ail|2|gousse","saucisse de Toulouse|saucisses de Toulouse|4|"],
+   ["Fais cuire les pommes de terre 25 min.|Cuisson|25","Pendant ce temps, fais griller les saucisses 15 min à la poêle.|Poêle|15","Écrase les pommes de terre avec le beurre, la crème et l'ail sur feu doux.","Ajoute la tomme et remue jusqu'à ce que ça file."]],
+  ["Truffade","Truffade","Des pommes de terre sautées à la tomme, sans purée.","Le plat auvergnat : pommes de terre sautées et tomme fondue.","Spécialité auvergnate",45,620,"F","truffade potatoes cheese","",
+   ["pomme de terre|pommes de terre|1000|g","tomme fraîche|tomme fraîche|300|g","lardon|lardons|100|g","ail|ail|2|gousse","persil|persil||"],
+   ["Coupe les pommes de terre en fines rondelles.","Fais-les dorer 25 min avec les lardons.|Poêle|25","Ajoute l'ail haché et la tomme en lamelles.","Mélange jusqu'à ce que le fromage fonde et parsème de persil."]]
+ ]},
+ {"q":"Gratin de pâtes","a":["pates gratinees","gratin de macaronis","macaroni au fromage","mac and cheese"],"r":[
+  ["Gratin de pâtes au jambon","La classique","","Des pâtes en béchamel avec du jambon, gratinées à l'emmental.","",45,580,"F","pasta bake ham cheese","obf",
+   ["pâtes courtes|pâtes courtes|400|g","jambon blanc|jambon blanc|4|tranches","lait||50|cl","beurre||40|g","farine||40|g","emmental râpé|emmental râpé|120|g","muscade|muscade||"],
+   ["Préchauffe le four à 200 °C. Fais cuire les pâtes 2 min de moins que le paquet.|Cuisson|8","Fais fondre le beurre, ajoute la farine, puis le lait en fouettant jusqu'à ce que ça épaississe.","Sale, poivre et ajoute un peu de muscade.","Mélange les pâtes, le jambon en dés et la béchamel dans un plat.","Couvre d'emmental et enfourne 20 min.|Four|20"]],
+  ["Mac and cheese","Mac and cheese","Des macaronis dans une sauce au cheddar.","Le plat américain ultra fondant au cheddar.","Recette américaine",40,620,"F","mac and cheese","vobf",
+   ["macaronis|macaronis|400|g","cheddar râpé|cheddar râpé|200|g","lait||50|cl","beurre||40|g","farine||40|g","chapelure|chapelure|3|c. à s."],
+   ["Préchauffe le four à 200 °C. Fais cuire les macaronis.|Cuisson|8","Fais une béchamel avec le beurre, la farine et le lait.","Ajoute les trois quarts du cheddar et remue jusqu'à ce qu'il fonde.","Mélange avec les pâtes, verse dans un plat, couvre du reste de cheddar et de chapelure.","Enfourne 15 min.|Four|15"]],
+  ["Gratin de pâtes aux légumes","Végétarien","Avec courgette, poivron et tomates.","Un gratin de pâtes végétarien, plein de légumes.","",45,480,"F","vegetable pasta bake","vobf",
+   ["pâtes courtes|pâtes courtes|350|g","courgette||1|","poivron rouge|poivrons rouges|1|","tomate concassée|tomates concassées|400|g","mozzarella||1|","emmental râpé|emmental râpé|80|g"],
+   ["Préchauffe le four à 200 °C. Fais cuire les pâtes.|Cuisson|8","Fais revenir la courgette et le poivron en dés 8 min, puis ajoute les tomates.|Poêle|8","Mélange avec les pâtes dans un plat.","Couvre de mozzarella et d'emmental, et enfourne 20 min.|Four|20"]]
+ ]},
+ {"q":"Röstis","a":["rosti","galette de pomme de terre","galettes de pommes de terre","paillasson"],"r":[
+  ["Röstis","La classique","","Des galettes de pommes de terre râpées, dorées et croustillantes.","Spécialité suisse",35,250,"F","rosti potato pancakes","vbf",
+   ["pomme de terre|pommes de terre|800|g","oignon||1|","œuf|œufs|1|","farine||2|c. à s.","huile|huile|4|c. à s.","sel|||"],
+   ["Râpe les pommes de terre et l'oignon, et presse-les dans un torchon pour retirer l'eau.","Mélange avec l'œuf, la farine, du sel et du poivre.","Forme des galettes et fais-les dorer 5 min de chaque côté dans l'huile chaude.|Poêle|10","Égoutte sur du papier absorbant."]],
+  ["Röstis au fromage","Au fromage","Avec du fromage râpé dans les galettes.","Des röstis fondants au fromage, qui plaisent aux enfants.","",35,320,"F","cheese potato rosti","vbf",
+   ["pomme de terre|pommes de terre|800|g","emmental râpé|emmental râpé|100|g","œuf|œufs|1|","farine||2|c. à s.","huile|huile|4|c. à s."],
+   ["Râpe les pommes de terre et presse-les pour retirer l'eau.","Mélange avec l'emmental, l'œuf et la farine, sale et poivre.","Fais dorer les galettes 5 min de chaque côté.|Poêle|10","Sers avec une salade verte."]],
+  ["Galettes de courgettes","Courgettes","Avec des courgettes râpées et de la feta.","Des galettes de légumes légères, courgette et feta.","",30,200,"F","zucchini fritters","vhb",
+   ["courgette||3|","feta||100|g","œuf|œufs|2|","farine||4|c. à s.","menthe fraîche|menthe fraîche||","huile|huile|3|c. à s."],
+   ["Râpe les courgettes, sale-les et presse-les pour retirer l'eau.","Mélange avec la feta émiettée, les œufs, la farine et la menthe.","Fais dorer des petites galettes 3 min de chaque côté.|Poêle|6","Sers avec un yaourt citronné."]]
+ ]},
+ {"q":"Patates douces rôties","a":["patate douce au four","patates douces au four","patate douce rotie"],"r":[
+  ["Patates douces rôties","La classique","","Des patates douces rôties au paprika et au cumin, fondantes et caramélisées.","",45,220,"F","roasted sweet potatoes","vohbf",
+   ["patate douce|patates douces|3|","huile d'olive|huile d'olive|3|c. à s.","paprika|paprika|1|c. à c.","cumin|cumin|1|c. à c.","sel|||"],
+   ["Préchauffe le four à 210 °C.","Coupe les patates douces en cubes sans les éplucher.","Mélange-les avec l'huile, le paprika, le cumin et le sel.","Enfourne 35 min en remuant à mi-cuisson.|Four|35"]],
+  ["Patates douces farcies","Farcies","Cuites entières et garnies de haricots, avocat et fromage frais.","Des patates douces au four en plat complet végétarien.","",60,400,"F","stuffed sweet potatoes","voh",
+   ["patate douce|patates douces|4|","haricots rouges|haricots rouges|250|g","avocat||1|","fromage frais|fromage frais|100|g","citron vert|citrons verts|1|","coriandre|coriandre||"],
+   ["Préchauffe le four à 200 °C. Pique les patates douces et enfourne-les 50 min.|Four|50","Réchauffe les haricots rouges égouttés.","Coupe l'avocat en dés et arrose-le de jus de citron vert.","Fends les patates douces et garnis-les de haricots, d'avocat, de fromage frais et de coriandre."]],
+  ["Purée de patates douces","Purée","En purée, au lait de coco.","Une purée orange douce et veloutée.","",30,240,"F","sweet potato mash","vhf",
+   ["patate douce|patates douces|4|","lait de coco|lait de coco|10|cl","beurre||20|g","muscade|muscade||","sel|||"],
+   ["Épluche les patates douces et coupe-les en morceaux.","Fais-les cuire 20 min à l'eau salée.|Cuisson|20","Égoutte et écrase avec le lait de coco et le beurre.","Assaisonne de sel et de muscade."]]
+ ]},
+ {"q":"Gratin de légumes","a":["legumes gratines","gratin de legume"],"r":[
+  ["Gratin de légumes","La classique","","Courgettes, poivrons et pommes de terre en béchamel légère, gratinés au fromage.","",60,320,"F","vegetable gratin","vohbf",
+   ["courgette||2|","pomme de terre|pommes de terre|3|","poivron rouge|poivrons rouges|1|","lait||40|cl","farine||30|g","beurre||30|g","emmental râpé|emmental râpé|100|g"],
+   ["Préchauffe le four à 200 °C.","Coupe les légumes en rondelles et fais cuire les pommes de terre 10 min à l'eau.|Cuisson|10","Fais une béchamel avec le beurre, la farine et le lait.","Range les légumes dans un plat, nappe de béchamel et couvre d'emmental.","Enfourne 35 min.|Four|35"]],
+  ["Gratin de poireaux","Poireaux","Avec des poireaux fondus en béchamel.","Un gratin doux et crémeux, tout en poireaux.","",50,300,"F","leek gratin","vobf",
+   ["poireau|poireaux|5|","lait||40|cl","farine||30|g","beurre||30|g","emmental râpé|emmental râpé|100|g","muscade|muscade||"],
+   ["Préchauffe le four à 200 °C.","Coupe les poireaux en tronçons et fais-les fondre 10 min à la poêle avec un peu de beurre.|Poêle|10","Fais une béchamel avec le reste du beurre, la farine et le lait, puis ajoute la muscade.","Mets les poireaux dans un plat, nappe de béchamel et couvre d'emmental.","Enfourne 25 min.|Four|25"]],
+  ["Gratin de légumes d'hiver","D'hiver","Avec potiron, carottes et poireaux.","Un gratin réconfortant aux légumes d'hiver.","",60,330,"F","winter vegetable gratin","vobf",
+   ["potiron|potiron|600|g","carotte||3|","poireau|poireaux|2|","crème fraîche|crème fraîche|20|cl","emmental râpé|emmental râpé|100|g","muscade|muscade||"],
+   ["Préchauffe le four à 200 °C.","Coupe le potiron en dés, les carottes en rondelles et les poireaux en tronçons.","Fais-les cuire 10 min à la vapeur.|Cuisson|10","Range-les dans un plat avec la crème, la muscade, le sel et le poivre, puis l'emmental.","Enfourne 30 min.|Four|30"]]
+ ]},
+ {"q":"Poêlée de légumes","a":["legumes sautes","poelee legumes","legumes a la poele","wok de legumes"],"r":[
+  ["Poêlée de légumes","La classique","","Des légumes de saison sautés à la poêle, encore croquants, avec de l'ail et des herbes.","",25,150,"F","sauteed vegetables","vhb",
+   ["courgette||1|","poivron rouge|poivrons rouges|1|","carotte||2|","oignon||1|","champignon de Paris|champignons de Paris|200|g","huile d'olive|huile d'olive|3|c. à s.","herbes de Provence|herbes de Provence|1|c. à c."],
+   ["Coupe tous les légumes en morceaux de même taille.","Fais revenir l'oignon et les carottes 5 min dans l'huile.|Poêle|5","Ajoute le poivron, la courgette et les champignons et laisse 10 min à feu vif.|Poêle|10","Assaisonne d'herbes de Provence, de sel et de poivre."]],
+  ["Wok de légumes","Au wok","Sautés au wok avec sauce soja et gingembre.","Une poêlée de légumes à l'asiatique, rapide et croquante.","Inspiration asiatique",20,160,"F","vegetable stir fry","vhb",
+   ["brocoli|brocolis|1|","carotte||2|","poivron rouge|poivrons rouges|1|","pois gourmands|pois gourmands|150|g","sauce soja|sauce soja|3|c. à s.","gingembre|gingembre|1|c. à c.","huile de sésame|huile de sésame|1|c. à s."],
+   ["Coupe les légumes en fines lamelles et le brocoli en petites fleurettes.","Fais sauter les carottes et le brocoli 4 min à feu très vif.|Poêle|4","Ajoute le poivron, les pois gourmands et le gingembre, et laisse 3 min.|Poêle|3","Arrose de sauce soja et d'huile de sésame."]],
+  ["Poêlée de légumes aux œufs","Avec des œufs","Des œufs cuits au milieu des légumes.","Une poêlée complète, avec des œufs au plat dessus.","",25,260,"F","vegetable skillet eggs","vhb",
+   ["courgette||1|","poivron rouge|poivrons rouges|1|","oignon||1|","tomate||2|","œuf|œufs|4|","huile d'olive|huile d'olive|2|c. à s."],
+   ["Fais revenir l'oignon, le poivron et la courgette 10 min.|Poêle|10","Ajoute les tomates en dés et laisse 5 min.|Poêle|5","Creuse 4 puits et casse un œuf dans chacun.","Couvre et laisse cuire 5 min.|Poêle|5"]]
+ ]},
+ {"q":"Riz pilaf","a":["riz pilaw","pilaf","riz au four"],"r":[
+  ["Riz pilaf","La classique","","Du riz nacré à l'oignon puis cuit dans un bouillon, aux grains bien détachés.","",30,280,"F","rice pilaf","vbf",
+   ["riz|riz|300|g","oignon||1|","beurre||30|g","bouillon de légumes|bouillon de légumes|1|","thym|thym||"],
+   ["Fais fondre l'oignon émincé dans le beurre.","Ajoute le riz et remue 2 min jusqu'à ce qu'il soit nacré.","Verse 60 cl de bouillon chaud et ajoute le thym.","Couvre et laisse cuire 17 min à feu doux sans remuer.|Cuisson|17"]],
+  ["Riz pilaf aux légumes","Aux légumes","Avec des carottes, des petits pois et du poivron.","Un riz pilaf coloré, complet avec ses légumes.","",30,300,"F","vegetable rice pilaf","vhbf",
+   ["riz|riz|300|g","oignon||1|","carotte||1|","petits pois surgelés|petits pois surgelés|100|g","poivron rouge|poivrons rouges|1|","bouillon de légumes|bouillon de légumes|1|","huile d'olive|huile d'olive|2|c. à s."],
+   ["Fais revenir l'oignon, la carotte et le poivron en dés dans l'huile.","Ajoute le riz et remue 2 min.","Verse 60 cl de bouillon chaud et laisse cuire 12 min à couvert.|Cuisson|12","Ajoute les petits pois et laisse 5 min.|Cuisson|5"]],
+  ["Riz pilaf aux épices","Aux épices","Parfumé au curcuma, à la cannelle et aux raisins secs.","Un riz pilaf doré à l'orientale.","Inspiration orientale",30,310,"F","spiced rice pilaf","vb",
+   ["riz basmati|riz basmati|300|g","oignon||1|","curcuma|curcuma|1|c. à c.","bâton de cannelle|bâtons de cannelle|1|","raisins secs|raisins secs|40|g","amandes effilées|amandes effilées|30|g","bouillon de légumes|bouillon de légumes|1|"],
+   ["Fais revenir l'oignon avec le curcuma et la cannelle.","Ajoute le riz et remue 2 min.","Verse 55 cl de bouillon chaud, ajoute les raisins et laisse cuire 15 min à couvert.|Cuisson|15","Parsème d'amandes grillées."]]
+ ]}
+]
