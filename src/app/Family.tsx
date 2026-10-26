@@ -11,7 +11,7 @@ import { AppTabBar } from "./AppTabBar";
 import { GreenHead } from "./GreenHead";
 import { Avatar } from "./Home";
 import { memberSince, tasteRows } from "./format";
-import { subscriptionText, useOpenPaywall, useSubscription } from "./plus/subscription";
+import { longDate, subscriptionText, useOpenPaywall, useSubscription } from "./plus/subscription";
 import { trialText, trialUntil } from "../lib/billing";
 import { AccountSheet, type AccountMode, type Dish } from "./settings/sheets";
 import { BETA } from "./beta/survey";
@@ -162,7 +162,10 @@ export function FamilySubscription({ user, isPlus }: { user: User; isPlus: boole
   const openPaywall = useOpenPaywall();
   const [trial] = useState(() => trialUntil(user));
   // L'abonnement Stripe (prix, prochaine date) ; null pour un compte Plus sans abonnement (accès offert)
-  const { sub } = useSubscription(user.id, isPlus);
+  const { sub, failed } = useSubscription(user.id, isPlus);
+  // Plus sans abonnement Stripe (accès offert, mois offerts) : rien à gérer, donc pas de « Gérer »
+  const until = user.app_metadata?.plus_until;
+  const offered = typeof until === "number" && !user.app_metadata?.is_whitelisted ? `Offert jusqu'au ${longDate(until)}` : "Accès offert, rien à payer";
   return (
     <div className="fa fa-app" aria-label="Mon abonnement">
       <GreenHead title="Mon abonnement" sub="Frigia Plus et facturation" />
@@ -176,8 +179,9 @@ export function FamilySubscription({ user, isPlus }: { user: User; isPlus: boole
         ) : isPlus ? (
           <div className="subcard">
             <span className="pi"><Icon name="sparkle" /></span>
-            <div><b>Frigia Plus</b>{sub && <span>{subscriptionText(sub)}</span>}</div>
-            {sub !== null && <button type="button" className="pill" style={{ boxShadow: "inset 0 0 0 1px var(--line)" }} onClick={() => navigate("/resilier")}>Gérer</button>}
+            <div><b>Frigia Plus</b>{sub ? <span>{subscriptionText(sub)}</span> : sub === null ? <span>{offered}</span> : null}</div>
+            {/* Seulement quand l'abonnement est là (ou n'a pas pu se charger : Résilier réessaie) ; sinon Résilier renverrait ici */}
+            {(sub || (sub === undefined && failed)) && <button type="button" className="pill" style={{ boxShadow: "inset 0 0 0 1px var(--line)" }} onClick={() => navigate("/resilier")}>Gérer</button>}
           </div>
         ) : (
           <div className="subcard free-sub">
