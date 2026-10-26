@@ -1,0 +1,112 @@
+[
+ {"q":"Spaghetti bolognaise","a":["spaghettis bolognaise","pates bolognaise","bolognaise","sauce bolognaise","spaghetti bolo"],"r":[
+  ["Spaghetti bolognaise","La classique","","Une sauce tomate à la viande mijotée tranquillement, sur des spaghetti al dente.","Plat italien",50,620,"F","spaghetti bolognese","bf",
+   ["spaghetti|spaghetti|400|g","bœuf haché|bœuf haché|400|g","tomate concassée|tomates concassées|800|g","oignon||1|","carotte||1|","ail||2|gousse","huile d'olive|huile d'olive|2|c. à s.","origan|origan||","parmesan râpé|parmesan râpé|40|g","sel|||","poivre|||"],
+   ["Fais revenir l'oignon, la carotte en petits dés et l'ail dans l'huile 5 min.|Cuisson|5","Ajoute la viande et fais-la dorer 5 min en l'émiettant.|Cuisson|5","Verse les tomates, ajoute l'origan, sale et poivre, et laisse mijoter 30 min.|Mijotage|30","Fais cuire les spaghetti dans l'eau bouillante salée selon le paquet.|Pâtes|10","Sers la sauce sur les pâtes avec le parmesan."]],
+  ["Spaghetti bolognaise aux lentilles","Végétarienne","La viande est remplacée par des lentilles corail.","Une bolognaise végé bien nourrissante, aux lentilles corail.","",40,520,"F","lentil bolognese pasta","vbfh",
+   ["spaghetti|spaghetti|400|g","lentille corail|lentilles corail|150|g","tomate concassée|tomates concassées|800|g","oignon||1|","carotte||1|","ail||2|gousse","huile d'olive|huile d'olive|2|c. à s.","origan|origan||","sel|||","poivre|||"],
+   ["Fais revenir l'oignon, la carotte et l'ail dans l'huile 5 min.|Cuisson|5","Ajoute les lentilles rincées, les tomates, 30 cl d'eau, l'origan, sel et poivre.","Laisse mijoter 20 min en remuant.|Mijotage|20","Fais cuire les spaghetti et sers avec la sauce.|Pâtes|10"]],
+  ["Spaghetti bolognaise légère","Plus légère","Avec du bœuf à 5 % et plus de légumes.","La bolo de toujours, avec plus de légumes et moins de gras.","",45,480,"F","light bolognese vegetables","bfh",
+   ["spaghetti|spaghetti|350|g","bœuf haché 5 %|bœuf haché 5 %|350|g","tomate concassée|tomates concassées|800|g","courgette||1|","carotte||2|","oignon||1|","ail||1|gousse","huile d'olive|huile d'olive|1|c. à s.","basilic|basilic||","sel|||","poivre|||"],
+   ["Fais revenir l'oignon, les carottes et la courgette en petits dés 8 min dans l'huile.|Cuisson|8","Ajoute la viande et fais-la dorer 5 min.|Cuisson|5","Ajoute les tomates et l'ail, sale, poivre et laisse mijoter 25 min.|Mijotage|25","Fais cuire les spaghetti et sers avec le basilic.|Pâtes|10"]]
+ ]},
+ {"q":"Pâtes carbonara","a":["carbonara","spaghetti carbonara","spaghettis carbonara"],"r":[
+  ["Spaghetti carbonara","La classique","","La vraie carbonara : des œufs, du pecorino et du guanciale, sans crème.","Plat italien",20,650,"F","spaghetti carbonara","",
+   ["spaghetti|spaghetti|400|g","guanciale|guanciale|150|g","jaune d'œuf|jaunes d'œufs|4|","œuf|œufs|1|","pecorino râpé|pecorino râpé|60|g","poivre|||"],
+   ["Fais cuire les spaghetti dans l'eau bouillante salée.|Pâtes|10","Fais dorer le guanciale en lamelles 5 min à la poêle, sans matière grasse.|Poêle|5","Bats les jaunes, l'œuf entier, le pecorino et beaucoup de poivre.","Égoutte les pâtes en gardant un peu d'eau de cuisson, et mets-les dans la poêle hors du feu.","Verse les œufs en mélangeant vite, avec un peu d'eau de cuisson pour obtenir une sauce crémeuse."]],
+  ["Pâtes carbonara à la française","À la française","Avec des lardons et de la crème, comme on la fait souvent en France.","La carbo crémeuse de chez nous, aux lardons et à la crème.","",20,700,"F","creamy carbonara bacon","bf",
+   ["spaghetti|spaghetti|400|g","lardon||200|g","crème fraîche||20|cl","jaune d'œuf|jaunes d'œufs|2|","parmesan râpé|parmesan râpé|50|g","oignon||1|","poivre|||"],
+   ["Fais cuire les pâtes.|Pâtes|10","Fais revenir les lardons et l'oignon émincé 6 min.|Poêle|6","Ajoute la crème et laisse chauffer 2 min.|Cuisson|2","Mélange les pâtes égouttées avec la sauce, puis hors du feu avec les jaunes et le parmesan."]],
+  ["Carbonara aux courgettes","Végétarienne","Les lardons sont remplacés par des courgettes bien dorées.","Une carbonara toute verte et crémeuse, sans viande.","",20,560,"F","zucchini carbonara pasta","vh",
+   ["spaghetti|spaghetti|400|g","courgette||2|","jaune d'œuf|jaunes d'œufs|3|","œuf|œufs|1|","parmesan râpé|parmesan râpé|60|g","huile d'olive|huile d'olive|2|c. à s.","ail||1|gousse","poivre|||"],
+   ["Fais cuire les spaghetti.|Pâtes|10","Fais dorer les courgettes en petits dés avec l'ail dans l'huile 8 min.|Poêle|8","Bats les jaunes, l'œuf, le parmesan et le poivre.","Mélange les pâtes avec les courgettes hors du feu, puis avec les œufs et un peu d'eau de cuisson."]]
+ ]},
+ {"q":"Lasagnes","a":["lasagnes bolognaise","lasagne","lasagnes a la bolognaise"],"r":[
+  ["Lasagnes à la bolognaise","La classique","","Des couches de pâtes, de bolognaise et de béchamel, gratinées au parmesan.","Plat italien",90,680,"M","beef lasagna","obf",
+   ["feuille de lasagne|feuilles de lasagne|12|","bœuf haché|bœuf haché|500|g","tomate concassée|tomates concassées|800|g","oignon||1|","ail||2|gousse","beurre||50|g","farine||50|g","lait||70|cl","parmesan râpé|parmesan râpé|60|g","huile d'olive|huile d'olive|2|c. à s.","sel|||","poivre|||"],
+   ["Fais revenir l'oignon et l'ail dans l'huile, ajoute la viande puis les tomates. Laisse mijoter 25 min.|Mijotage|25","Fais une béchamel : beurre fondu, farine, puis lait en fouettant 5 min. Sale et poivre.|Béchamel|5","Préchauffe le four à 180 °C. Dans un plat, alterne bolognaise, feuilles de lasagne et béchamel, sur 3 couches.","Termine par de la béchamel et le parmesan.","Enfourne 40 min.|Four|40"]],
+  ["Lasagnes aux légumes","Végétarienne","La viande est remplacée par des courgettes, des aubergines et des poivrons.","Des lasagnes fondantes aux légumes du soleil.","",80,520,"M","vegetable lasagna","voh",
+   ["feuille de lasagne|feuilles de lasagne|12|","courgette||2|","aubergine||1|","poivron rouge|poivrons rouges|1|","tomate concassée|tomates concassées|800|g","mozzarella||2|","beurre||40|g","farine||40|g","lait||60|cl","huile d'olive|huile d'olive|2|c. à s.","sel|||","poivre|||"],
+   ["Fais revenir les légumes en petits dés dans l'huile 15 min, ajoute les tomates et cuis 10 min.|Cuisson|25","Prépare une béchamel avec le beurre, la farine et le lait.","Préchauffe le four à 180 °C. Alterne légumes, lasagnes et béchamel dans un plat.","Termine par la mozzarella en tranches et enfourne 40 min.|Four|40"]],
+  ["Lasagnes saumon et épinards","Saumon épinards","Le bœuf est remplacé par du saumon et des épinards.","Des lasagnes crémeuses au saumon et aux épinards.","",70,600,"M","salmon spinach lasagna","o",
+   ["feuille de lasagne|feuilles de lasagne|12|","pavé de saumon|pavés de saumon|3|","épinard|épinards|400|g","crème fraîche||20|cl","beurre||40|g","farine||40|g","lait||60|cl","parmesan râpé|parmesan râpé|50|g","sel|||","poivre|||"],
+   ["Fais tomber les épinards 5 min à la poêle.|Poêle|5","Prépare une béchamel, ajoute la crème, sel et poivre.","Préchauffe le four à 180 °C. Coupe le saumon cru en petits dés.","Alterne lasagnes, épinards, saumon et béchamel dans un plat, puis parsème de parmesan.","Enfourne 35 min.|Four|35"]]
+ ]},
+ {"q":"Pâtes au pesto","a":["pates pesto","pesto","pesto maison"],"r":[
+  ["Pâtes au pesto","La classique","","Un pesto maison au basilic, pignons et parmesan, sur des pâtes chaudes.","Plat italien",15,560,"F","pasta basil pesto","vbf",
+   ["pâtes|pâtes|400|g","basilic|basilic|50|g","pignons de pin|pignons de pin|30|g","parmesan râpé|parmesan râpé|50|g","ail||1|gousse","huile d'olive|huile d'olive|10|cl","sel|||"],
+   ["Fais cuire les pâtes dans l'eau bouillante salée.|Pâtes|10","Mixe le basilic, les pignons, l'ail, le parmesan et l'huile, et sale.","Égoutte les pâtes en gardant un peu d'eau, et mélange avec le pesto et un peu d'eau de cuisson."]],
+  ["Pâtes au pesto rouge","Pesto rouge","Le basilic est remplacé par des tomates séchées.","Un pesto rouge aux tomates séchées, plein de soleil.","Plat italien",15,580,"F","red pesto pasta","vbf",
+   ["pâtes|pâtes|400|g","tomate séchée|tomates séchées|100|g","amande|amandes|30|g","parmesan râpé|parmesan râpé|40|g","ail||1|gousse","huile d'olive|huile d'olive|8|cl","sel|||"],
+   ["Fais cuire les pâtes.|Pâtes|10","Mixe les tomates séchées égouttées, les amandes, l'ail, le parmesan et l'huile.","Mélange avec les pâtes et un peu d'eau de cuisson."]],
+  ["Pâtes au pesto, poulet et tomates cerises","Avec du poulet","Du poulet poêlé et des tomates cerises complètent les pâtes.","Un plat complet et coloré, au pesto et au poulet.","",25,620,"F","pesto chicken pasta tomatoes","f",
+   ["pâtes|pâtes|350|g","blanc de poulet|blancs de poulet|2|","tomate cerise|tomates cerises|200|g","pesto|pesto|4|c. à s.","huile d'olive|huile d'olive|1|c. à s.","parmesan râpé|parmesan râpé|30|g","sel|||","poivre|||"],
+   ["Fais cuire les pâtes.|Pâtes|10","Fais dorer le poulet en dés 8 min dans l'huile.|Poêle|8","Ajoute les tomates cerises coupées en deux 2 min.|Poêle|2","Mélange avec les pâtes, le pesto et le parmesan."]]
+ ]},
+ {"q":"Pâtes au saumon","a":["pates saumon","tagliatelles au saumon","pates au saumon fume"],"r":[
+  ["Tagliatelles au saumon","La classique","","Des tagliatelles dans une sauce crémeuse au saumon, citron et aneth.","",20,620,"F","salmon cream tagliatelle","f",
+   ["tagliatelles|tagliatelles|400|g","pavé de saumon|pavés de saumon|2|","crème fraîche||20|cl","citron||1|","aneth|aneth||","échalote||1|","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Fais cuire les tagliatelles.|Pâtes|10","Fais revenir l'échalote dans l'huile, ajoute le saumon en dés et cuis 4 min.|Poêle|4","Ajoute la crème, le zeste et un peu de jus de citron, l'aneth, sel et poivre.","Mélange avec les pâtes égouttées."]],
+  ["Pâtes au saumon fumé","Au saumon fumé","Le saumon fumé remplace le saumon frais : rien à cuire.","Encore plus rapide, avec du saumon fumé et de la crème.","",15,600,"F","smoked salmon pasta","",
+   ["pâtes|pâtes|400|g","saumon fumé|saumon fumé|200|g","crème fraîche||20|cl","citron||1|","ciboulette|ciboulette||","poivre|||"],
+   ["Fais cuire les pâtes.|Pâtes|10","Fais chauffer la crème avec le zeste de citron et du poivre.","Mélange les pâtes avec la crème, puis le saumon fumé en lanières et la ciboulette."]],
+  ["Pâtes au saumon légères","Plus légères","La crème est remplacée par du fromage frais léger et des épinards.","Une version légère et verte, saumon et épinards.","",20,480,"F","light salmon spinach pasta","h",
+   ["pâtes complètes|pâtes complètes|350|g","pavé de saumon|pavés de saumon|2|","pousse d'épinard|pousses d'épinard|100|g","fromage frais léger|fromage frais léger|100|g","citron||1|","sel|||","poivre|||"],
+   ["Fais cuire les pâtes.|Pâtes|10","Fais cuire le saumon en dés 4 min à la poêle, ajoute les épinards 1 min.|Poêle|5","Mélange avec les pâtes, le fromage frais, un peu d'eau de cuisson et le jus du citron."]]
+ ]},
+ {"q":"One pot pasta","a":["one pot","pates one pot"],"r":[
+  ["One pot pasta tomate basilic","La classique","","Tout cuit dans une seule casserole : les pâtes, la tomate et le basilic, en 15 minutes.","Plat italien",15,480,"F","one pot pasta tomato basil","vbf",
+   ["spaghetti|spaghetti|400|g","tomate cerise|tomates cerises|300|g","oignon||1|","ail||2|gousse","basilic|basilic||","huile d'olive|huile d'olive|2|c. à s.","parmesan râpé|parmesan râpé|40|g","sel|||","poivre|||"],
+   ["Mets les spaghetti crus, les tomates coupées en deux, l'oignon émincé, l'ail, l'huile et le basilic dans une grande casserole.","Verse 1 l d'eau, sale et poivre.","Porte à ébullition et cuis 12 min en remuant souvent, jusqu'à ce que l'eau soit absorbée.|Cuisson|12","Sers avec le parmesan."]],
+  ["One pot pasta chorizo","Au chorizo","Du chorizo parfume les pâtes et la sauce.","La version relevée du one pot, au chorizo et aux poivrons.","",15,600,"F","one pot pasta chorizo","bf",
+   ["penne|penne|400|g","chorizo|chorizo|120|g","tomate concassée|tomates concassées|400|g","poivron rouge|poivrons rouges|1|","oignon||1|","sel|||"],
+   ["Mets les pâtes, le chorizo en rondelles, les tomates, le poivron et l'oignon émincés dans une casserole.","Verse 80 cl d'eau et sale légèrement.","Cuis 12 min à frémissement en remuant souvent.|Cuisson|12"]],
+  ["One pot pasta crémeux aux champignons","Champignons et crème","Des champignons et un peu de crème rendent les pâtes crémeuses.","Un one pot tout doux, aux champignons.","",15,560,"F","creamy mushroom one pot pasta","vf",
+   ["tagliatelles|tagliatelles|400|g","champignon de Paris|champignons de Paris|250|g","oignon||1|","ail||1|gousse","crème fraîche||10|cl","bouillon de légumes|bouillons de légumes|1|","parmesan râpé|parmesan râpé|40|g","sel|||","poivre|||"],
+   ["Mets les pâtes, les champignons émincés, l'oignon, l'ail et le bouillon émietté dans une casserole.","Verse 90 cl d'eau et cuis 12 min en remuant.|Cuisson|12","Ajoute la crème et le parmesan, poivre et sers."]]
+ ]},
+ {"q":"Pâtes aux champignons","a":["pates a la creme","pates champignons creme"],"r":[
+  ["Pâtes à la crème et aux champignons","La classique","","Des pâtes dans une sauce crémeuse aux champignons et à l'ail.","",20,580,"F","creamy mushroom pasta","vbf",
+   ["pâtes|pâtes|400|g","champignon de Paris|champignons de Paris|400|g","crème fraîche||20|cl","ail||2|gousse","beurre||20|g","persil|persil||","parmesan râpé|parmesan râpé|40|g","sel|||","poivre|||"],
+   ["Fais cuire les pâtes.|Pâtes|10","Fais dorer les champignons émincés dans le beurre avec l'ail 8 min.|Poêle|8","Ajoute la crème, sale et poivre, et laisse épaissir 2 min.|Cuisson|2","Mélange avec les pâtes, le persil et le parmesan."]],
+  ["Pâtes aux champignons et au jambon","Au jambon","Des dés de jambon s'ajoutent à la sauce.","Le classique crémeux, avec du jambon en plus.","",20,620,"F","pasta ham mushroom cream","bf",
+   ["pâtes|pâtes|400|g","champignon de Paris|champignons de Paris|250|g","dés de jambon||150|g","crème fraîche||20|cl","beurre||20|g","sel|||","poivre|||"],
+   ["Fais cuire les pâtes.|Pâtes|10","Fais dorer les champignons dans le beurre 6 min, ajoute le jambon 2 min.|Poêle|8","Verse la crème et mélange avec les pâtes."]],
+  ["Pâtes aux champignons sans crème","Sans crème","La crème est remplacée par de l'huile d'olive et du parmesan.","Des pâtes aux champignons poêlés, à l'ail et au persil, plus légères.","",20,460,"F","garlic mushroom pasta","vbh",
+   ["pâtes|pâtes|400|g","champignon|champignons|400|g","ail||3|gousse","huile d'olive|huile d'olive|4|c. à s.","persil|persil||","parmesan râpé|parmesan râpé|30|g","sel|||","poivre|||"],
+   ["Fais cuire les pâtes.|Pâtes|10","Fais dorer les champignons dans l'huile à feu vif 8 min, ajoute l'ail et le persil.|Poêle|8","Mélange avec les pâtes, un peu d'eau de cuisson et le parmesan."]]
+ ]},
+ {"q":"Penne all'arrabbiata","a":["arrabbiata","pates arrabbiata","penne arrabiata"],"r":[
+  ["Penne all'arrabbiata","La classique","","Une sauce tomate relevée au piment et à l'ail, simple et pleine de goût.","Plat italien",20,450,"F","penne arrabbiata","vbh",
+   ["penne|penne|400|g","tomate concassée|tomates concassées|400|g","ail||3|gousse","piment séché|piments séchés|1|","huile d'olive|huile d'olive|3|c. à s.","persil|persil||","sel|||"],
+   ["Fais cuire les penne.|Pâtes|10","Fais revenir l'ail émincé et le piment émietté dans l'huile 1 min.","Ajoute les tomates, sale et laisse réduire 10 min.|Cuisson|10","Mélange avec les penne et le persil."]],
+  ["Penne arrabbiata au thon","Au thon","Du thon s'ajoute à la sauce tomate pimentée.","L'arrabbiata, avec du thon pour un plat plus complet.","",20,520,"F","tuna arrabbiata pasta","b",
+   ["penne|penne|400|g","thon au naturel|thon au naturel|200|g","tomate concassée|tomates concassées|400|g","ail||2|gousse","piment séché|piments séchés|1|","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Fais cuire les penne.|Pâtes|10","Fais revenir l'ail et le piment dans l'huile, ajoute les tomates et cuis 10 min.|Cuisson|10","Ajoute le thon émietté, puis les pâtes."]],
+  ["Penne arrabbiata douce","Version enfants","Sans piment, avec une touche de crème et de parmesan.","La sauce tomate à l'ail, sans piquant, pour toute la famille.","",20,500,"F","tomato pasta kids","vbf",
+   ["penne|penne|400|g","tomate concassée|tomates concassées|400|g","ail||1|gousse","crème fraîche||5|cl","parmesan râpé|parmesan râpé|40|g","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Fais cuire les penne.|Pâtes|10","Fais revenir l'ail dans l'huile, ajoute les tomates et cuis 10 min.|Cuisson|10","Ajoute la crème, puis mélange avec les pâtes et le parmesan."]]
+ ]},
+ {"q":"Risotto aux champignons","a":["risotto champignons","risotto"],"r":[
+  ["Risotto aux champignons","La classique","","Un riz crémeux cuit doucement dans le bouillon, avec des champignons et du parmesan.","Plat italien",35,560,"M","mushroom risotto","v",
+   ["riz arborio|riz arborio|320|g","champignon de Paris|champignons de Paris|300|g","échalote||2|","vin blanc||10|cl","bouillon de légumes|bouillons de légumes|2|","parmesan râpé|parmesan râpé|60|g","beurre||40|g","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Fais chauffer 1 l d'eau avec les bouillons et garde-le frémissant.","Fais dorer les champignons émincés dans la moitié du beurre 6 min. Réserve.|Poêle|6","Fais revenir l'échalote dans l'huile, ajoute le riz et nacre-le 2 min, puis verse le vin.","Ajoute le bouillon louche par louche, en remuant, pendant 18 min.|Cuisson|18","Hors du feu, ajoute les champignons, le reste du beurre et le parmesan."]],
+  ["Risotto poulet et champignons","Au poulet","Du poulet poêlé rend le risotto plus complet.","Un risotto crémeux et complet, au poulet et aux champignons.","Plat italien",35,620,"M","chicken mushroom risotto","f",
+   ["riz arborio|riz arborio|320|g","blanc de poulet|blancs de poulet|2|","champignon de Paris|champignons de Paris|250|g","oignon||1|","bouillon de volaille|bouillons de volaille|2|","parmesan râpé|parmesan râpé|50|g","beurre||30|g","sel|||","poivre|||"],
+   ["Garde 1 l de bouillon frémissant.","Fais dorer le poulet en dés et les champignons 8 min. Réserve.|Poêle|8","Fais revenir l'oignon, ajoute le riz 2 min, puis le bouillon louche par louche pendant 18 min.|Cuisson|18","Ajoute le poulet, les champignons, le beurre et le parmesan."]],
+  ["Risotto aux champignons au four","Au four","Le risotto cuit au four, sans remuer.","Le risotto crémeux, sans rester devant la casserole.","",40,540,"F","baked mushroom risotto","vo",
+   ["riz arborio|riz arborio|300|g","champignon de Paris|champignons de Paris|300|g","oignon||1|","bouillon de légumes|bouillons de légumes|2|","parmesan râpé|parmesan râpé|60|g","beurre||30|g","sel|||","poivre|||"],
+   ["Préchauffe le four à 180 °C.","Dans une cocotte qui va au four, fais revenir l'oignon et les champignons dans le beurre, puis ajoute le riz.","Verse 90 cl d'eau bouillante avec les bouillons, couvre et enfourne 25 min.|Four|25","Ajoute le parmesan, mélange vivement et sers."]]
+ ]},
+ {"q":"Gnocchis","a":["gnocchi","gnocchis a la poele","gnocchis poeles"],"r":[
+  ["Gnocchis poêlés, sauce tomate et mozzarella","La classique","","Des gnocchis dorés à la poêle, dans une sauce tomate avec de la mozzarella fondante.","Plat italien",20,520,"F","gnocchi tomato mozzarella","vbf",
+   ["gnocchi|gnocchis|800|g","tomate concassée|tomates concassées|400|g","mozzarella||1|","ail||1|gousse","basilic|basilic||","huile d'olive|huile d'olive|2|c. à s.","sel|||","poivre|||"],
+   ["Fais dorer les gnocchis dans l'huile 6 min à la poêle.|Poêle|6","Ajoute l'ail et les tomates, sale, poivre et cuis 5 min.|Cuisson|5","Ajoute la mozzarella en morceaux et le basilic, couvre 2 min pour qu'elle fonde.|Cuisson|2"]],
+  ["Gnocchis à la crème et au gorgonzola","Au gorgonzola","Une sauce crémeuse au gorgonzola remplace la tomate.","Des gnocchis fondants dans une sauce au bleu italien.","Plat italien",15,620,"F","gnocchi gorgonzola cream","v",
+   ["gnocchi|gnocchis|800|g","gorgonzola|gorgonzola|120|g","crème fraîche||15|cl","noix|noix|30|g","poivre|||"],
+   ["Fais cuire les gnocchis dans l'eau bouillante 2 min, jusqu'à ce qu'ils remontent.|Cuisson|2","Fais fondre le gorgonzola dans la crème à feu doux.","Mélange avec les gnocchis, ajoute les noix concassées et du poivre."]],
+  ["Gnocchis poêlés aux légumes","Aux légumes","Des courgettes et des tomates cerises poêlées avec les gnocchis.","Un plat léger et coloré, prêt en 20 minutes.","",20,440,"F","gnocchi vegetables pan","vbh",
+   ["gnocchi|gnocchis|800|g","courgette||2|","tomate cerise|tomates cerises|200|g","ail||1|gousse","huile d'olive|huile d'olive|3|c. à s.","parmesan râpé|parmesan râpé|30|g","sel|||","poivre|||"],
+   ["Fais dorer les gnocchis dans 2 c. à s. d'huile 6 min. Réserve.|Poêle|6","Fais revenir les courgettes en dés avec l'ail 6 min.|Poêle|6","Ajoute les tomates cerises et les gnocchis 2 min, puis le parmesan.|Poêle|2"]]
+ ]}
+]

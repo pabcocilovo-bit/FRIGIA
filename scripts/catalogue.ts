@@ -99,20 +99,28 @@ const LISTS: [string, string[], (r: CatalogRecipe & { tags: string }) => boolean
   ["plats", ["plat", "plat principal"], r => !isDessert(r) && !r.tags.includes("e")],
   ["végétarien", ["vege", "veggie", "vegetarienne", "sans viande"], r => r.veg === true && !isDessert(r)],
 ];
-// Les ingrédients qu'on cherche souvent : les recettes qui en ont
+// Les ingrédients qu'on cherche souvent : les recettes qui en ont. Certains se cherchent par famille (« pâtes », « fromage »).
+const FAMILIES: Record<string, string[]> = {
+  "pâtes": ["pates", "spaghetti", "penne", "tagliatelle", "fusilli", "coquillette", "macaroni", "linguine", "farfalle", "feuille de lasagne", "pates complete"],
+  fromage: ["fromage", "emmental", "comte", "gruyere", "mozzarella", "parmesan", "chevre", "feta", "reblochon", "raclette", "camembert",
+    "roquefort", "gorgonzola", "ricotta", "maroille", "cheddar", "pecorino", "burrata", "halloumi"],
+  "poisson": ["saumon", "cabillaud", "thon", "colin", "merlu", "dorade", "lieu", "truite", "sardine", "maquereau", "lotte", "sole", "bar"],
+};
 const INGREDIENTS = ["poulet", "saumon", "thon", "cabillaud", "crevette", "boeuf", "steak haché", "porc", "jambon", "lardon", "chorizo",
   "saucisse", "dinde", "oeuf", "pâtes", "riz", "pomme de terre", "patate douce", "courgette", "aubergine", "tomate", "poivron",
   "carotte", "brocoli", "chou-fleur", "épinard", "champignon", "poireau", "potiron", "butternut", "lentille", "pois chiche",
-  "haricot vert", "avocat", "fromage", "mozzarella", "chèvre", "feta", "parmesan", "tofu", "quinoa", "semoule", "chocolat",
-  "pomme", "banane", "citron", "fraise", "poire", "noix de coco", "crème", "lait de coco", "épices", "curry"];
+  "haricot vert", "avocat", "fromage", "poisson", "mozzarella", "chèvre", "feta", "parmesan", "tofu", "quinoa", "semoule", "chocolat",
+  "pomme", "banane", "citron", "fraise", "poire", "noix de coco", "crème", "lait de coco", "curry"];
 const words = (s: string) => catalogKey(s).split(" ");
-// Pas les bouillons ni les concentrés (« bouillon de bœuf » n'est pas une recette au bœuf), ni la pomme de terre pour la pomme
-const SKIP = /^(bouillon|concentre|fond) /;
+// Pas les bouillons ni les concentrés (« bouillon de bœuf » n'est pas une recette au bœuf), ni la pâte brisée ou à pizza
+// pour les pâtes, ni la pomme de terre pour la pomme
 const contains = (r: CatalogRecipe & { tags: string }, ing: string) => {
-  const w = words(ing);
+  const family = FAMILIES[ing] ?? [ing];
   return (r.items as { name: string }[]).some(i => {
     const k = catalogKey(i.name), n = k.split(" ");
-    return !SKIP.test(k) && !(ing === "pomme" && k.includes("pomme de terre")) && w.every(x => n.includes(x));
+    if (/^(bouillon|concentre|fond) /.test(k) || (/^pate /.test(k) && !/^pate complete/.test(k))) return false;
+    if (ing === "pomme" && k.includes("pomme de terre")) return false;
+    return family.some(f => words(f).every(x => n.includes(x)));
   });
 };
 const lists: [string, string[], (r: CatalogRecipe & { tags: string }) => boolean][] = [
@@ -121,8 +129,10 @@ const lists: [string, string[], (r: CatalogRecipe & { tags: string }) => boolean
 for (const [q, alias, test] of lists) {
   const key = catalogKey(q);
   if (taken.has(key)) continue;
-  // La classique d'abord, puis les variantes, mélangées de façon stable d'un lancement à l'autre
-  const found = all.filter(test).sort((a, b) => Number(b.variant === "La classique") - Number(a.variant === "La classique")).slice(0, MAX);
+  // Les classiques d'abord, puis les variantes, mélangées de façon stable d'un lancement à l'autre (pas toujours les premiers plats écrits)
+  const mix = (r: CatalogRecipe) => [...`${key}${r.title}`].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+  const found = all.filter(test)
+    .sort((a, b) => Number(b.variant === "La classique") - Number(a.variant === "La classique") || mix(a) - mix(b)).slice(0, MAX);
   if (found.length < 3) continue;
   const aliases = [...new Set(alias.map(catalogKey))].filter(a => a !== key && !taken.has(a));
   for (const k of [key, ...aliases]) taken.add(k);
