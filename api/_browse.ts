@@ -173,16 +173,23 @@ export async function browse(req: Req, res: Res, admin: SupabaseClient) {
   const heroPool = withPhoto.length >= 5 ? withPhoto : themed;
   const hero = heroPool.length ? heroPool[Math.floor(seeded(day)() * heroPool.length)] : null;
 
-  // Ma cuisine : deux rangées au plus, avec la réserve du nom (« pâtes ») ou d'un mot du nom (« filet de poulet » : poulet)
+  // Ma cuisine : une seule rangée « Avec ce que tu as », les recettes des réserves de ses ingrédients mêlées
+  // (la réserve du nom, « pâtes », ou d'un mot du nom, « filet de poulet » : poulet). Hugo, 26 octobre : pas de nom d'ingrédient dans le titre.
   const used = new Set<string>();
-  const mine: Row[] = [];
+  const lists: CatalogRecipe[][] = [];
   for (const k of kitchen) {
-    if (mine.length >= 2) break;
-    const key = [k.key, ...parts(k.key)].find(x => pools.has(x) && !used.has(x));
+    if (lists.length >= 4) break;
+    const key = [k.key, ...parts(k.key)].find(x => pools.has(x) && !used.has(x) && !POOLS.some(p => catalogKey(p[0]) === x));
     if (!key) continue;
-    const row = poolRow(`ing-${key}`, `Avec ce que tu as : ${k.name.toLowerCase()}`, key);
-    if (row) { used.add(key); mine.push(row); }
+    const found = shuffle(pools.get(key)!.recipes.filter(r => safe(r, constraints)), day + hash(key));
+    if (found.length) { used.add(key); lists.push(found); }
   }
+  const seenTitles = new Set<string>();
+  const mixed: CatalogRecipe[] = [];
+  for (let i = 0; mixed.length < 12 && lists.some(l => i < l.length); i++) {
+    for (const l of lists) if (l[i] && mixed.length < 12 && !seenTitles.has(l[i].title)) { seenTitles.add(l[i].title); mixed.push(l[i]); }
+  }
+  const mine: Row[] = mixed.length >= 4 ? [{ id: "ing-cuisine", title: "Avec ce que tu as", recipes: mixed }] : [];
   const envies = shuffle(ENVIES.filter(e => !used.has(catalogKey(e[0]))), day + 11).slice(0, 2)
     .map(([k, label]) => poolRow(`envie-${catalogKey(k)}`, `Envie de ${label} ?`, catalogKey(k)));
   const themes: Row[] = THEMES.map(([id, title, names]) => ({
