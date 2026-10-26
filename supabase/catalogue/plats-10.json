@@ -1,0 +1,112 @@
+[
+ {"q":"Tarte aux pommes","a":["tarte pomme","tarte aux pommes maison"],"r":[
+  ["Tarte aux pommes","La classique","","Une pâte croustillante, une compote maison et des lamelles de pommes dorées.","",60,320,"F","french apple tart","vodbf",
+   ["pâte brisée|pâtes brisées|1|","pomme||6|","sucre|sucre|60|g","beurre||30|g","sucre vanillé|sucres vanillés|1|"],
+   ["Préchauffe le four à 200 °C. Étale la pâte dans un moule.","Fais une compote rapide avec 3 pommes en dés, la moitié du sucre et un peu d'eau, 10 min.|Cuisson|10","Étale la compote sur la pâte et dispose les 3 autres pommes en fines lamelles.","Parsème du reste de sucre et de beurre en petits morceaux.","Enfourne 35 min.|Four|35"]],
+  ["Tarte fine aux pommes","Tarte fine","Une pâte feuilletée fine, sans compote.","Une tarte légère et croustillante, prête en 30 minutes.","",30,280,"F","thin apple tart puff pastry","vod",
+   ["pâte feuilletée|pâtes feuilletées|1|","pomme||4|","sucre|sucre|40|g","beurre||20|g"],
+   ["Préchauffe le four à 200 °C. Pose la pâte sur une plaque et pique-la.","Coupe les pommes en lamelles très fines et dispose-les en rosace.","Saupoudre de sucre et parsème de beurre.","Enfourne 25 min.|Four|25"]],
+  ["Tarte normande","Normande","Un appareil à la crème et aux œufs recouvre les pommes.","La tarte aux pommes à la normande, avec sa crème dorée.","Spécialité normande",60,380,"F","normandy apple tart cream","vod",
+   ["pâte brisée|pâtes brisées|1|","pomme||4|","œuf|œufs|2|","crème fraîche||20|cl","sucre|sucre|80|g","sucre vanillé|sucres vanillés|1|"],
+   ["Préchauffe le four à 200 °C. Étale la pâte dans un moule.","Dispose les pommes en quartiers fins.","Enfourne 15 min.|Four|15","Bats les œufs, la crème et les sucres, verse sur les pommes et enfourne encore 25 min.|Four|25"]]
+ ]},
+ {"q":"Tarte tatin","a":["tatin"],"r":[
+  ["Tarte tatin","La classique","","La tarte renversée : des pommes caramélisées sous une pâte croustillante.","",70,380,"M","tarte tatin","vod",
+   ["pâte brisée|pâtes brisées|1|","pomme||7|","sucre|sucre|120|g","beurre||60|g"],
+   ["Préchauffe le four à 190 °C.","Fais un caramel ambré avec le sucre dans un moule qui va sur le feu, ajoute le beurre.|Caramel|6","Range les pommes en quartiers serrés dans le caramel et laisse cuire 10 min.|Cuisson|10","Couvre de pâte en rentrant les bords et enfourne 30 min.|Four|30","Laisse tiédir 10 min puis retourne sur un plat.|Repos|10"]],
+  ["Tatin de poires","Aux poires","Les poires remplacent les pommes.","La tatin revisitée, aux poires caramélisées.","",60,370,"M","pear tarte tatin","vod",
+   ["pâte feuilletée|pâtes feuilletées|1|","poire||6|","sucre|sucre|100|g","beurre||50|g"],
+   ["Préchauffe le four à 190 °C.","Fais un caramel avec le sucre, ajoute le beurre.|Caramel|6","Range les poires en quartiers dans le caramel, couvre de pâte.","Enfourne 30 min, puis retourne.|Four|30"]],
+  ["Tatin de tomates","Salée","Version salée, aux tomates confites et au parmesan.","Une tatin salée, sucrée-salée, à la tomate.","",50,320,"F","tomato tarte tatin","vo",
+   ["pâte feuilletée|pâtes feuilletées|1|","tomate||6|","oignon||1|","sucre|sucre|1|c. à s.","huile d'olive|huile d'olive|2|c. à s.","parmesan râpé|parmesan râpé|30|g","thym|thym||","sel|||"],
+   ["Préchauffe le four à 200 °C.","Fais caraméliser l'oignon émincé avec l'huile et le sucre dans un moule qui va sur le feu 5 min.|Cuisson|5","Range les tomates coupées en deux, côté peau en dessous, ajoute thym, parmesan et sel.","Couvre de pâte et enfourne 30 min, puis retourne.|Four|30"]]
+ ]},
+ {"q":"Tarte au citron","a":["tarte au citron meringuee","tarte citron"],"r":[
+  ["Tarte au citron meringuée","La classique","","Une crème au citron acidulée, sous une meringue légère et dorée.","",80,380,"M","lemon meringue tart","vod",
+   ["pâte sablée|pâtes sablées|1|","citron||4|","œuf|œufs|3|","sucre|sucre|200|g","beurre||80|g","fécule de maïs|fécule de maïs|1|c. à s."],
+   ["Préchauffe le four à 180 °C. Fais cuire la pâte à blanc 20 min.|Four|20","Fais chauffer le jus et le zeste des citrons avec 100 g de sucre, les jaunes, la fécule et le beurre, en remuant jusqu'à épaississement.|Crème|5","Verse sur la pâte.","Monte les blancs en neige ferme avec le reste du sucre et étale-les sur la crème.","Fais dorer 5 min sous le gril du four.|Gril|5"]],
+  ["Tarte au citron","Sans meringue","Sans meringue : juste la crème au citron.","La tarte au citron toute simple, acidulée et fondante.","",60,340,"F","lemon tart","vod",
+   ["pâte sablée|pâtes sablées|1|","citron||4|","œuf|œufs|3|","sucre|sucre|150|g","beurre||100|g"],
+   ["Fais cuire la pâte à blanc 20 min à 180 °C.|Four|20","Fais épaissir le jus et le zeste des citrons avec le sucre et les œufs, en remuant à feu doux.|Crème|5","Ajoute le beurre en morceaux hors du feu.","Verse sur la pâte et laisse prendre 2 h au frais.|Frais|120"]],
+  ["Tarte au citron vert","Citron vert","Le citron vert remplace le citron jaune, avec une base biscuit.","Une tarte fraîche au citron vert, façon key lime pie.","Plat américain",40,400,"F","key lime pie","vod",
+   ["biscuit sec|biscuits secs|200|g","beurre fondu|beurre fondu|80|g","citron vert|citrons verts|4|","lait concentré sucré|lait concentré sucré|400|g","jaune d'œuf|jaunes d'œufs|3|"],
+   ["Préchauffe le four à 170 °C.","Écrase les biscuits, mélange-les au beurre fondu et tasse-les dans un moule.","Mélange le lait concentré, les jaunes, le jus et le zeste des citrons verts, et verse sur la base.","Enfourne 15 min, puis laisse prendre 3 h au frais.|Four|15"]]
+ ]},
+ {"q":"Clafoutis","a":["clafoutis aux cerises","clafouti"],"r":[
+  ["Clafoutis aux cerises","La classique","","Le dessert du Limousin : des cerises dans un flan moelleux.","Spécialité du Limousin",50,280,"F","cherry clafoutis","vodf",
+   ["cerise|cerises|500|g","œuf|œufs|3|","farine||80|g","sucre|sucre|80|g","lait||30|cl","beurre||20|g","sucre vanillé|sucres vanillés|1|"],
+   ["Préchauffe le four à 180 °C. Beurre un plat et répartis-y les cerises.","Fouette les œufs avec les sucres, ajoute la farine puis le lait.","Verse sur les cerises.","Enfourne 35 min.|Four|35"]],
+  ["Clafoutis aux abricots","Aux abricots","Les abricots remplacent les cerises, avec de la poudre d'amande.","Le clafoutis d'été, aux abricots et aux amandes.","",50,300,"F","apricot clafoutis","vodf",
+   ["abricot|abricots|600|g","œuf|œufs|3|","farine||50|g","poudre d'amande|poudre d'amande|40|g","sucre|sucre|80|g","lait||30|cl","beurre||20|g"],
+   ["Préchauffe le four à 180 °C. Range les abricots coupés en deux dans un plat beurré.","Mélange les œufs, le sucre, la farine, la poudre d'amande et le lait.","Verse et enfourne 35 min.|Four|35"]],
+  ["Clafoutis salé","Salé","Version salée aux tomates cerises et au chèvre.","Un clafoutis du soir, aux tomates cerises et au chèvre.","",45,320,"F","savory clafoutis tomato goat cheese","vo",
+   ["tomate cerise|tomates cerises|300|g","chèvre frais|chèvres frais|100|g","œuf|œufs|3|","farine||60|g","lait||30|cl","basilic|basilic||","sel|||","poivre|||"],
+   ["Préchauffe le four à 180 °C. Mets les tomates dans un plat huilé.","Fouette les œufs, la farine et le lait, ajoute le chèvre émietté, le basilic, sel et poivre.","Verse et enfourne 30 min.|Four|30"]]
+ ]},
+ {"q":"Crumble","a":["crumble aux pommes","crumble pomme"],"r":[
+  ["Crumble aux pommes","La classique","","Des pommes fondantes sous une pâte sablée croustillante.","",45,340,"F","apple crumble","vodbf",
+   ["pomme||6|","farine||120|g","beurre froid|beurre froid|100|g","sucre roux|sucre roux|100|g","cannelle|cannelle|1|c. à c."],
+   ["Préchauffe le four à 180 °C.","Coupe les pommes en morceaux, mets-les dans un plat avec la cannelle et 20 g de sucre.","Sable du bout des doigts la farine, le reste du sucre et le beurre en dés.","Répartis sur les pommes et enfourne 30 min.|Four|30"]],
+  ["Crumble pommes et fruits rouges","Aux fruits rouges","Des fruits rouges s'ajoutent aux pommes.","Un crumble acidulé, pommes et fruits rouges.","",45,330,"F","apple berry crumble","vod",
+   ["pomme||3|","fruits rouges|fruits rouges|300|g","farine||120|g","beurre froid|beurre froid|100|g","sucre roux|sucre roux|100|g"],
+   ["Préchauffe le four à 180 °C.","Mélange les pommes en dés et les fruits rouges dans un plat.","Sable la farine, le sucre et le beurre, et répartis sur les fruits.","Enfourne 30 min.|Four|30"]],
+  ["Crumble healthy à l'avoine","Healthy","Des flocons d'avoine et moins de beurre et de sucre.","Un crumble croustillant et plus léger, aux flocons d'avoine.","",45,260,"F","oat crumble healthy","vodh",
+   ["pomme||4|","poire||2|","flocons d'avoine|flocons d'avoine|80|g","poudre d'amande|poudre d'amande|40|g","beurre||50|g","miel|miel|2|c. à s.","cannelle|cannelle|1|c. à c."],
+   ["Préchauffe le four à 180 °C.","Mets les fruits en morceaux dans un plat avec la cannelle.","Mélange les flocons, la poudre d'amande, le beurre fondu et le miel, et répartis sur les fruits.","Enfourne 30 min.|Four|30"]]
+ ]},
+ {"q":"Mousse au chocolat","a":["mousse chocolat","mousse au chocolat maison"],"r":[
+  ["Mousse au chocolat","La classique","","La mousse aérienne au chocolat noir, avec seulement des œufs et du chocolat.","",20,300,"F","chocolate mousse","vdf",
+   ["chocolat noir|chocolat noir|200|g","œuf|œufs|6|","sucre|sucre|30|g","sel|||"],
+   ["Fais fondre le chocolat au bain-marie et laisse-le tiédir.","Sépare les blancs des jaunes, et mélange les jaunes au chocolat.","Monte les blancs en neige ferme avec une pincée de sel, puis ajoute le sucre.","Incorpore délicatement les blancs au chocolat.","Mets au frais au moins 3 h.|Frais|180"]],
+  ["Mousse au chocolat au lait","Au chocolat au lait","Le chocolat au lait la rend plus douce.","Une mousse douce et gourmande, que les enfants adorent.","",20,320,"F","milk chocolate mousse","vdf",
+   ["chocolat au lait|chocolat au lait|200|g","œuf|œufs|5|","crème fraîche liquide||10|cl"],
+   ["Fais fondre le chocolat avec la crème.","Ajoute les jaunes d'œufs.","Monte les blancs en neige et incorpore-les.","Mets au frais 3 h.|Frais|180"]],
+  ["Mousse au chocolat vegan","Vegan","Le jus de pois chiches remplace les blancs d'œufs.","Une mousse au chocolat légère, sans œufs.","",20,220,"F","vegan aquafaba chocolate mousse","vdh",
+   ["chocolat noir|chocolat noir|150|g","jus de pois chiches|jus de pois chiches|15|cl","sucre|sucre|20|g"],
+   ["Fais fondre le chocolat et laisse-le tiédir.","Monte le jus de pois chiches en neige ferme, ajoute le sucre.","Incorpore délicatement le chocolat.","Mets au frais 3 h.|Frais|180"]]
+ ]},
+ {"q":"Tiramisu","a":["tiramisu maison","tiramisu cafe"],"r":[
+  ["Tiramisu","La classique","","Des biscuits imbibés de café, une crème au mascarpone et un voile de cacao.","Dessert italien",30,450,"F","tiramisu","vd",
+   ["mascarpone|mascarpone|250|g","œuf|œufs|3|","sucre|sucre|80|g","biscuit à la cuillère|biscuits à la cuillère|20|","café fort|café fort|30|cl","cacao en poudre|cacao en poudre|2|c. à s."],
+   ["Fouette les jaunes avec le sucre, puis ajoute le mascarpone.","Monte les blancs en neige et incorpore-les.","Trempe rapidement les biscuits dans le café froid et tapisse-en un plat.","Alterne crème et biscuits, termine par la crème.","Mets au frais 6 h, puis saupoudre de cacao.|Frais|360"]],
+  ["Tiramisu aux fraises","Aux fraises","Les fraises remplacent le café et le cacao.","Le tiramisu de printemps, aux fraises.","",30,400,"F","strawberry tiramisu","vdf",
+   ["mascarpone|mascarpone|250|g","œuf|œufs|3|","sucre|sucre|80|g","biscuit à la cuillère|biscuits à la cuillère|20|","fraise|fraises|400|g","jus d'orange|jus d'orange|20|cl"],
+   ["Prépare la crème au mascarpone comme pour le tiramisu.","Trempe les biscuits dans le jus d'orange.","Alterne biscuits, fraises en morceaux et crème.","Mets au frais 4 h.|Frais|240"]],
+  ["Tiramisu à la crème fouettée","Sans œufs crus","La crème est faite avec de la crème fouettée.","Un tiramisu sans œufs crus, parfait pour les femmes enceintes.","",25,460,"F","eggless tiramisu","vd",
+   ["mascarpone|mascarpone|250|g","crème fraîche liquide||20|cl","sucre|sucre|60|g","biscuit à la cuillère|biscuits à la cuillère|20|","café fort|café fort|30|cl","cacao en poudre|cacao en poudre|2|c. à s."],
+   ["Fouette la crème liquide bien froide avec le mascarpone et le sucre jusqu'à ce qu'elle soit ferme.","Trempe les biscuits dans le café et alterne avec la crème.","Mets au frais 6 h, puis saupoudre de cacao.|Frais|360"]]
+ ]},
+ {"q":"Crème brûlée","a":["creme brulee"],"r":[
+  ["Crème brûlée","La classique","","Une crème vanillée onctueuse sous une fine couche de sucre caramélisé.","",70,380,"M","creme brulee","vod",
+   ["crème fraîche liquide||50|cl","jaune d'œuf|jaunes d'œufs|5|","sucre|sucre|80|g","gousse de vanille|gousses de vanille|1|","sucre roux|sucre roux|4|c. à s."],
+   ["Préchauffe le four à 100 °C.","Fais chauffer la crème avec la vanille fendue.","Fouette les jaunes et le sucre, puis verse la crème chaude en remuant.","Répartis dans des ramequins et enfourne 1 h.|Four|60","Laisse refroidir au frais 3 h, saupoudre de sucre roux et caramélise au chalumeau ou sous le gril.|Frais|180"]],
+  ["Crème brûlée au café","Au café","Du café parfume la crème.","La crème brûlée, au café.","",70,380,"M","coffee creme brulee","vod",
+   ["crème fraîche liquide||50|cl","jaune d'œuf|jaunes d'œufs|5|","sucre|sucre|80|g","café soluble|café soluble|2|c. à c.","sucre roux|sucre roux|4|c. à s."],
+   ["Préchauffe le four à 100 °C.","Fais chauffer la crème avec le café.","Mélange avec les jaunes battus et le sucre, et verse dans des ramequins.","Enfourne 1 h, laisse refroidir et caramélise le dessus.|Four|60"]],
+  ["Crème brûlée à la pistache","À la pistache","De la pâte de pistache parfume la crème.","Une crème brûlée verte et gourmande, à la pistache.","",70,420,"M","pistachio creme brulee","vod",
+   ["crème fraîche liquide||50|cl","jaune d'œuf|jaunes d'œufs|5|","sucre|sucre|70|g","pâte de pistache|pâte de pistache|40|g","sucre roux|sucre roux|4|c. à s."],
+   ["Préchauffe le four à 100 °C.","Fais chauffer la crème et ajoute la pâte de pistache.","Mélange avec les jaunes et le sucre, verse dans des ramequins.","Enfourne 1 h, laisse refroidir et caramélise.|Four|60"]]
+ ]},
+ {"q":"Riz au lait","a":["riz au lait maison"],"r":[
+  ["Riz au lait","La classique","","Le riz au lait crémeux et vanillé de notre enfance.","",45,320,"F","rice pudding","vdbf",
+   ["riz rond|riz rond|120|g","lait entier|lait entier|1000|ml","sucre|sucre|80|g","gousse de vanille|gousses de vanille|1|"],
+   ["Rince le riz et fais-le blanchir 2 min dans l'eau bouillante.|Cuisson|2","Fais chauffer le lait avec la vanille fendue.","Ajoute le riz égoutté et cuis 35 min à feu doux en remuant souvent.|Cuisson|35","Ajoute le sucre à la fin et laisse tiédir."]],
+  ["Riz au lait de coco","Au lait de coco","Le lait de coco remplace une partie du lait.","Un riz au lait exotique, à la coco et à la mangue.","",45,360,"F","coconut rice pudding mango","vd",
+   ["riz rond|riz rond|120|g","lait de coco|lait de coco|40|cl","lait||60|cl","sucre|sucre|60|g","mangue|mangues|1|"],
+   ["Fais chauffer le lait et le lait de coco.","Ajoute le riz rincé et cuis 35 min à feu doux en remuant.|Cuisson|35","Ajoute le sucre, laisse tiédir et sers avec la mangue en dés."]],
+  ["Riz au lait caramel","Au caramel","Un caramel au beurre salé nappe le riz au lait.","Le riz au lait, avec un caramel au beurre salé.","",50,400,"F","rice pudding salted caramel","vdf",
+   ["riz rond|riz rond|120|g","lait entier|lait entier|1000|ml","sucre|sucre|120|g","beurre demi-sel|beurre demi-sel|30|g","crème fraîche liquide||10|cl"],
+   ["Fais cuire le riz dans le lait 35 min à feu doux avec 40 g de sucre.|Cuisson|35","Fais un caramel avec le reste du sucre, ajoute le beurre puis la crème.|Caramel|5","Sers le riz au lait nappé de caramel."]]
+ ]},
+ {"q":"Flan pâtissier","a":["flan","flan patissier maison"],"r":[
+  ["Flan pâtissier","La classique","","Le flan de boulangerie : une crème vanillée ferme sur une pâte croustillante.","",80,340,"M","french custard flan","vodf",
+   ["pâte brisée|pâtes brisées|1|","lait entier|lait entier|750|ml","œuf|œufs|3|","sucre|sucre|150|g","fécule de maïs|fécule de maïs|70|g","gousse de vanille|gousses de vanille|1|"],
+   ["Préchauffe le four à 180 °C. Étale la pâte dans un moule haut.","Fais chauffer le lait avec la vanille.","Fouette les œufs, le sucre et la fécule, verse le lait chaud et remets sur le feu en remuant jusqu'à épaississement.|Crème|4","Verse sur la pâte et enfourne 45 min.|Four|45","Laisse refroidir puis 4 h au frais.|Frais|240"]],
+  ["Flan sans pâte","Sans pâte","Sans pâte, plus léger.","Le flan crémeux, cuit directement dans le plat.","",60,240,"F","crustless custard flan","vodh",
+   ["lait||750|ml","œuf|œufs|3|","sucre|sucre|100|g","fécule de maïs|fécule de maïs|60|g","sucre vanillé|sucres vanillés|2|"],
+   ["Préchauffe le four à 180 °C.","Prépare la crème épaisse comme pour le flan pâtissier.","Verse dans un plat beurré et enfourne 40 min.|Four|40","Laisse refroidir puis au frais.|Frais|180"]],
+  ["Flan coco","À la noix de coco","De la noix de coco et du lait de coco parfument le flan.","Un flan coco, comme aux Antilles.","",60,360,"F","coconut flan","vod",
+   ["lait||50|cl","lait de coco|lait de coco|25|cl","œuf|œufs|3|","sucre|sucre|120|g","noix de coco râpée|noix de coco râpée|60|g","fécule de maïs|fécule de maïs|60|g"],
+   ["Préchauffe le four à 180 °C.","Fais chauffer les laits, ajoute les œufs battus avec le sucre et la fécule, et fais épaissir.|Crème|4","Ajoute la noix de coco, verse dans un plat et enfourne 40 min.|Four|40"]]
+ ]}
+]
