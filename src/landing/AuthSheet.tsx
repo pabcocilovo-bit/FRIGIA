@@ -111,8 +111,11 @@ export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, 
       <h2>{signup ? <>Crée ton <em>compte</em></> : <>Content de te <em>revoir</em></>}</h2>
       <p className="intro">{signup ? "7 jours d'essai, sans carte bancaire." : "Connecte-toi pour retrouver tes recettes."}</p>
       <div className="stack">
-        <button className="btn btn-google full" onClick={google} disabled={loading}><GoogleIcon />Continuer avec Google</button>
-        <div className="or">ou avec ton email</div>
+        {/* Liste d'attente : pas de Google, il crée un compte à n'importe qui. Les invités se connectent par email. */}
+        {!onWaitlist && <>
+          <button className="btn btn-google full" onClick={google} disabled={loading}><GoogleIcon />Continuer avec Google</button>
+          <div className="or">ou avec ton email</div>
+        </>}
         <form className="stack" onSubmit={submit} noValidate>
           <label>Email<input type="email" autoComplete="email" inputMode="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="camille@email.fr" /></label>
           <label>Mot de passe<input type="password" autoComplete={signup ? "new-password" : "current-password"} value={pw} onChange={e => setPw(e.target.value)} placeholder={signup ? "8 caractères minimum" : "Ton mot de passe"} /></label>
