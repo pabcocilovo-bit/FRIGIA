@@ -1,0 +1,112 @@
+[
+ {"q":"Empanadas","a":["empanada","chaussons argentins","empanadas au boeuf"],"r":[
+  ["Empanadas au bœuf","La classique","","Des chaussons argentins dorés, farcis au bœuf, aux oignons et au paprika.","Recette argentine",60,380,"M","beef empanadas","oe",
+   ["pâte brisée|pâtes brisées|2|","bœuf haché|bœuf haché|400|g","oignon||2|","poivron rouge|poivrons rouges|1|","paprika|paprika|2|c. à c.","cumin|cumin|1|c. à c.","œuf|œufs|2|"],
+   ["Fais revenir les oignons et le poivron en dés, puis le bœuf et les épices 8 min.|Poêle|8","Fais durcir un œuf 10 min, hache-le et ajoute-le à la farce.|Cuisson|10","Préchauffe le four à 200 °C. Découpe des disques de 12 cm dans les pâtes.","Garnis la moitié de chaque disque, replie et soude les bords à la fourchette.","Dore au second œuf battu et enfourne 20 min.|Four|20"]],
+  ["Empanadas au poulet","Au poulet","Farcies de poulet, maïs et poivron.","Des empanadas plus douces au poulet.","",60,350,"M","chicken empanadas","oe",
+   ["pâte brisée|pâtes brisées|2|","blanc de poulet|blancs de poulet|2|","maïs|maïs|140|g","poivron rouge|poivrons rouges|1|","oignon||1|","paprika|paprika|1|c. à c.","œuf|œufs|1|"],
+   ["Fais revenir l'oignon, le poivron, puis le poulet en petits dés avec le paprika.|Poêle|8","Ajoute le maïs.","Garnis des disques de pâte, replie et soude.","Dore à l'œuf et enfourne 20 min à 200 °C.|Four|20"]],
+  ["Empanadas au fromage","Végétariennes","Farcies au fromage et aux épinards.","Des empanadas végétariennes fondantes.","",50,340,"M","cheese spinach empanadas","voe",
+   ["pâte brisée|pâtes brisées|2|","pousses d'épinard|pousses d'épinard|200|g","mozzarella||1|","feta||100|g","oignon||1|","œuf|œufs|1|"],
+   ["Fais fondre l'oignon et les épinards.|Poêle|5","Mélange avec la mozzarella en dés et la feta émiettée.","Garnis des disques de pâte, replie et soude.","Dore à l'œuf et enfourne 20 min à 200 °C.|Four|20"]]
+ ]},
+ {"q":"Quesadillas","a":["quesadilla","quesadillas poulet","quesadillas fromage"],"r":[
+  ["Quesadillas au poulet","La classique","","Des tortillas dorées à la poêle, garnies de poulet, poivrons et fromage fondu.","Recette mexicaine",25,480,"F","chicken quesadillas","bf",
+   ["tortilla de blé|tortillas de blé|8|","blanc de poulet|blancs de poulet|2|","poivron rouge|poivrons rouges|1|","cheddar râpé|cheddar râpé|150|g","paprika|paprika|1|c. à c.","crème fraîche|crème fraîche|4|c. à s."],
+   ["Fais revenir le poulet en lamelles avec le poivron et le paprika 8 min.|Poêle|8","Garnis 4 tortillas de fromage, de poulet et encore de fromage.","Couvre d'une deuxième tortilla.","Fais dorer 2 min de chaque côté dans une poêle sèche.|Poêle|4","Coupe en parts et sers avec la crème."]],
+  ["Quesadillas au fromage et haricots","Végétariennes","Avec des haricots rouges et du maïs.","Des quesadillas végétariennes et fondantes.","",20,450,"F","bean cheese quesadillas","vbf",
+   ["tortilla de blé|tortillas de blé|8|","haricots rouges|haricots rouges|250|g","maïs|maïs|140|g","cheddar râpé|cheddar râpé|150|g","cumin|cumin|1|c. à c."],
+   ["Écrase grossièrement les haricots avec le cumin.","Étale-les sur 4 tortillas, ajoute le maïs et le fromage.","Couvre d'une deuxième tortilla.","Fais dorer 2 min de chaque côté.|Poêle|4"]],
+  ["Quesadillas au jambon","Jambon fromage","Avec du jambon et du fromage, comme un croque.","La quesadilla jambon-fromage préférée des enfants.","",15,420,"F","ham cheese quesadilla","bf",
+   ["tortilla de blé|tortillas de blé|8|","jambon blanc|jambon blanc|4|tranches","emmental râpé|emmental râpé|150|g","tomate||1|"],
+   ["Garnis 4 tortillas de fromage, de jambon et de tomate en dés.","Couvre d'une deuxième tortilla.","Fais dorer 2 min de chaque côté.|Poêle|4","Coupe en parts."]]
+ ]},
+ {"q":"Enchiladas","a":["enchilada","enchiladas poulet","enchiladas au poulet"],"r":[
+  ["Enchiladas au poulet","La classique","","Des tortillas roulées autour du poulet, nappées de sauce tomate épicée et gratinées.","Recette mexicaine",50,560,"F","chicken enchiladas","o",
+   ["tortilla de blé|tortillas de blé|8|","blanc de poulet|blancs de poulet|3|","tomate concassée|tomates concassées|600|g","oignon||1|","cumin|cumin|1|c. à c.","piment|piments|1|","cheddar râpé|cheddar râpé|150|g"],
+   ["Fais cuire le poulet 15 min à l'eau frémissante et effiloche-le.|Cuisson|15","Fais revenir l'oignon, ajoute les tomates, le cumin et le piment, et laisse 10 min.|Cuisson|10","Préchauffe le four à 200 °C. Mélange le poulet avec un tiers de la sauce.","Roule le poulet dans les tortillas et range-les dans un plat.","Nappe du reste de sauce, couvre de cheddar et enfourne 20 min.|Four|20"]],
+  ["Enchiladas au bœuf","Au bœuf","Farcies au bœuf haché et aux haricots.","Des enchiladas généreuses au bœuf.","",50,620,"F","beef enchiladas","o",
+   ["tortilla de blé|tortillas de blé|8|","bœuf haché|bœuf haché|400|g","haricots rouges|haricots rouges|250|g","tomate concassée|tomates concassées|600|g","cumin|cumin|1|c. à c.","cheddar râpé|cheddar râpé|150|g"],
+   ["Fais revenir le bœuf avec le cumin, puis ajoute les haricots.|Poêle|8","Fais chauffer les tomates 10 min.|Cuisson|10","Roule la farce dans les tortillas et range-les dans un plat.","Nappe de sauce, couvre de cheddar et enfourne 20 min à 200 °C.|Four|20"]],
+  ["Enchiladas végétariennes","Végétariennes","Farcies de patate douce et de haricots noirs.","Des enchiladas végétariennes douces et épicées.","",55,500,"F","vegetarian enchiladas sweet potato","vo",
+   ["tortilla de blé|tortillas de blé|8|","patate douce|patates douces|2|","haricots noirs|haricots noirs|250|g","tomate concassée|tomates concassées|600|g","cumin|cumin|1|c. à c.","cheddar râpé|cheddar râpé|120|g"],
+   ["Fais cuire la patate douce en dés 12 min à l'eau.|Cuisson|12","Mélange-la avec les haricots et le cumin.","Roule dans les tortillas et range-les dans un plat.","Nappe de tomates, couvre de cheddar et enfourne 20 min à 200 °C.|Four|20"]]
+ ]},
+ {"q":"Nachos","a":["nachos au fromage","nachos gratines","tortilla chips"],"r":[
+  ["Nachos gratinés","La classique","","Des chips de maïs gratinées au cheddar, avec guacamole, salsa et crème.","Inspiration tex-mex",20,520,"F","loaded nachos","voe",
+   ["chips de maïs|chips de maïs|200|g","cheddar râpé|cheddar râpé|150|g","tomate||2|","oignon rouge|oignons rouges|0.5|","avocat||1|","crème fraîche|crème fraîche|4|c. à s.","piment jalapeño|piments jalapeños|1|"],
+   ["Préchauffe le four à 200 °C.","Étale les chips dans un plat et couvre de cheddar.","Enfourne 8 min.|Four|8","Mélange les tomates en dés avec l'oignon pour la salsa, et écrase l'avocat.","Garnis les nachos de salsa, d'avocat, de crème et de jalapeño."]],
+  ["Nachos au chili","Au chili","Avec du bœuf haché épicé.","Des nachos en plat complet, au chili de bœuf.","",30,650,"F","beef chili nachos","oe",
+   ["chips de maïs|chips de maïs|200|g","bœuf haché|bœuf haché|300|g","haricots rouges|haricots rouges|250|g","tomate concassée|tomates concassées|200|g","cumin|cumin|1|c. à c.","cheddar râpé|cheddar râpé|150|g"],
+   ["Fais revenir le bœuf avec le cumin, ajoute les haricots et les tomates, et laisse 10 min.|Cuisson|10","Préchauffe le four à 200 °C.","Étale les chips, couvre de chili et de cheddar.","Enfourne 8 min.|Four|8"]],
+  ["Nachos au poulet","Au poulet","Avec du poulet effiloché.","Des nachos gratinés au poulet et au maïs.","",30,560,"F","chicken nachos","oe",
+   ["chips de maïs|chips de maïs|200|g","blanc de poulet|blancs de poulet|2|","maïs|maïs|140|g","cheddar râpé|cheddar râpé|150|g","paprika|paprika|1|c. à c.","crème fraîche|crème fraîche|4|c. à s."],
+   ["Fais cuire le poulet en lamelles avec le paprika.|Poêle|8","Préchauffe le four à 200 °C.","Étale les chips, ajoute le poulet, le maïs et le cheddar.","Enfourne 8 min et sers avec la crème.|Four|8"]]
+ ]},
+ {"q":"Hot dog","a":["hot dogs","hot dog maison","hotdog"],"r":[
+  ["Hot dog maison","La classique","","Des saucisses dans des pains moelleux, avec oignons frits, ketchup et moutarde.","Recette américaine",20,480,"F","hot dog","bf",
+   ["pain à hot dog|pains à hot dog|4|","saucisse de Francfort|saucisses de Francfort|4|","oignon||2|","ketchup|ketchup|4|c. à s.","moutarde|moutarde|4|c. à c.","huile|huile|1|c. à s."],
+   ["Fais dorer les oignons émincés dans l'huile 10 min.|Poêle|10","Fais chauffer les saucisses 5 min dans l'eau frémissante.|Cuisson|5","Fais tiédir les pains au four.","Garnis chaque pain d'une saucisse, d'oignons, de ketchup et de moutarde."]],
+  ["Hot dog gratiné","Gratiné","Gratiné au four avec du fromage.","Le hot dog à la française, gratiné à l'emmental.","",20,560,"F","cheese hot dog","obf",
+   ["pain à hot dog|pains à hot dog|4|","saucisse de Strasbourg|saucisses de Strasbourg|4|","emmental râpé|emmental râpé|100|g","moutarde|moutarde|4|c. à c."],
+   ["Préchauffe le four à 200 °C.","Tartine les pains de moutarde et pose une saucisse dans chacun.","Couvre d'emmental.","Enfourne 10 min.|Four|10"]],
+  ["Hot dog végétarien","Végétarien","Avec des saucisses végétales.","Le hot dog sans viande, avec crudités.","",15,420,"F","veggie hot dog","vbf",
+   ["pain à hot dog|pains à hot dog|4|","saucisse végétale|saucisses végétales|4|","oignon rouge|oignons rouges|1|","cornichon|cornichons|4|","ketchup|ketchup|4|c. à s."],
+   ["Fais dorer les saucisses végétales 6 min à la poêle.|Poêle|6","Coupe l'oignon et les cornichons en petits dés.","Garnis les pains tièdes.","Ajoute le ketchup."]]
+ ]},
+ {"q":"Bagels","a":["bagel","bagel saumon","bagels maison"],"r":[
+  ["Bagel saumon et fromage frais","La classique","","Le bagel new-yorkais au fromage frais, saumon fumé, oignon rouge et aneth.","Recette new-yorkaise",10,420,"F","salmon cream cheese bagel","c",
+   ["bagel|bagels|4|","fromage frais|fromage frais|150|g","saumon fumé|saumon fumé|4|tranches","oignon rouge|oignons rouges|0.5|","aneth|aneth||","citron||0.5|"],
+   ["Coupe les bagels en deux et fais-les griller.","Tartine de fromage frais.","Ajoute le saumon, l'oignon émincé et l'aneth.","Arrose d'un peu de jus de citron et referme."]],
+  ["Bagel poulet et crudités","Au poulet","Avec du poulet, de la salade et une sauce au yaourt.","Un bagel complet au poulet pour le déjeuner.","",15,450,"F","chicken bagel sandwich","c",
+   ["bagel|bagels|4|","blanc de poulet cuit|blancs de poulet cuits|2|","salade verte|salade verte|1|","tomate||2|","yaourt grec|yaourts grecs|1|","moutarde|moutarde|1|c. à c."],
+   ["Mélange le yaourt et la moutarde.","Coupe les bagels en deux et tartine-les de sauce.","Ajoute la salade, la tomate en rondelles et le poulet en tranches.","Referme."]],
+  ["Bagel végétarien","Végétarien","Avec avocat, œuf et fromage frais.","Un bagel végétarien à l'avocat et à l'œuf.","",15,430,"F","avocado egg bagel","vc",
+   ["bagel|bagels|4|","avocat||2|","œuf|œufs|4|","fromage frais|fromage frais|100|g","roquette|roquette|40|g"],
+   ["Fais cuire les œufs 9 min et coupe-les en rondelles.|Cuisson|9","Tartine les bagels grillés de fromage frais.","Ajoute l'avocat en lamelles, l'œuf et la roquette.","Sale, poivre et referme."]]
+ ]},
+ {"q":"Poutine","a":["poutine quebecoise","frites sauce fromage"],"r":[
+  ["Poutine","La classique","","Le plat québécois : frites, fromage en grains et sauce brune bien chaude.","Recette québécoise",50,750,"F","poutine","f",
+   ["pomme de terre|pommes de terre|1000|g","huile de friture|huile de friture|100|cl","cheddar|cheddar|200|g","bouillon de bœuf|bouillons de bœuf|2|","fécule de maïs|fécule de maïs|2|c. à s.","beurre||20|g"],
+   ["Coupe les pommes de terre en frites et fais-les frire deux fois : 6 min à 160 °C, puis 3 min à 180 °C.|Friture|9","Chauffe 40 cl d'eau avec les bouillons et le beurre.","Ajoute la fécule délayée et laisse épaissir.|Cuisson|3","Coupe le cheddar en petits morceaux.","Mets les frites dans les assiettes, ajoute le fromage et nappe de sauce bouillante."]],
+  ["Poutine au four","Frites au four","Avec des frites au four.","Une poutine un peu plus légère, aux frites cuites au four.","",50,620,"F","oven fries poutine","of",
+   ["pomme de terre|pommes de terre|1000|g","huile d'olive|huile d'olive|3|c. à s.","cheddar|cheddar|200|g","bouillon de bœuf|bouillons de bœuf|2|","fécule de maïs|fécule de maïs|2|c. à s."],
+   ["Préchauffe le four à 220 °C. Coupe les pommes de terre en frites et mélange-les avec l'huile.","Enfourne 35 min en les retournant.|Four|35","Prépare la sauce avec le bouillon et la fécule.|Cuisson|3","Garnis les frites de fromage et nappe de sauce."]],
+  ["Poutine au poulet","Au poulet","Avec du poulet effiloché.","La poutine en plat complet, au poulet.","",55,800,"F","chicken poutine","",
+   ["pomme de terre|pommes de terre|1000|g","huile de friture|huile de friture|100|cl","blanc de poulet|blancs de poulet|2|","cheddar|cheddar|200|g","bouillon de volaille|bouillons de volaille|2|","fécule de maïs|fécule de maïs|2|c. à s."],
+   ["Fais cuire le poulet 15 min dans le bouillon avec 40 cl d'eau, puis effiloche-le.|Cuisson|15","Épaissis le bouillon avec la fécule.|Cuisson|3","Fais frire les frites en deux fois.|Friture|9","Garnis les frites de poulet et de fromage, et nappe de sauce."]]
+ ]},
+ {"q":"Goulash","a":["goulasch","goulache","boeuf au paprika"],"r":[
+  ["Goulash","La classique","","Le ragoût hongrois de bœuf au paprika, aux oignons et aux poivrons.","Recette hongroise",150,520,"F","hungarian goulash","b",
+   ["bœuf à braiser|bœuf à braiser|1000|g","oignon||3|","poivron rouge|poivrons rouges|2|","tomate concassée|tomates concassées|400|g","paprika|paprika|3|c. à s.","cumin|cumin|1|c. à c.","pomme de terre|pommes de terre|4|"],
+   ["Coupe le bœuf en cubes et fais-le dorer dans une cocotte.|Cuisson|10","Ajoute les oignons émincés et laisse fondre 5 min.","Ajoute le paprika, le cumin, les tomates et 50 cl d'eau.","Couvre et laisse mijoter 1 h 30.|Cuisson|90","Ajoute les poivrons et les pommes de terre en dés, et laisse 30 min.|Cuisson|30"]],
+  ["Goulash de porc","Au porc","Avec de l'échine de porc.","Un goulash plus tendre, à l'échine de porc.","",90,540,"F","pork goulash","b",
+   ["échine de porc|échines de porc|800|g","oignon||3|","poivron rouge|poivrons rouges|2|","tomate concassée|tomates concassées|400|g","paprika|paprika|3|c. à s.","crème fraîche|crème fraîche|10|cl"],
+   ["Fais dorer le porc en cubes avec les oignons.|Cuisson|10","Ajoute le paprika, les tomates et 30 cl d'eau.","Laisse mijoter 50 min.|Cuisson|50","Ajoute les poivrons et laisse 20 min, puis la crème.|Cuisson|20"]],
+  ["Goulash végétarien","Végétarien","Avec des pommes de terre et des haricots rouges.","Un goulash végétarien réconfortant.","",50,380,"F","vegetarian goulash","vhb",
+   ["pomme de terre|pommes de terre|6|","haricots rouges|haricots rouges|400|g","oignon||2|","poivron rouge|poivrons rouges|2|","tomate concassée|tomates concassées|400|g","paprika|paprika|3|c. à s."],
+   ["Fais revenir les oignons et les poivrons.","Ajoute le paprika, les pommes de terre en dés, les tomates et 40 cl d'eau.","Laisse mijoter 30 min.|Cuisson|30","Ajoute les haricots et laisse 5 min.|Cuisson|5"]]
+ ]},
+ {"q":"Bœuf Stroganoff","a":["stroganoff","boeuf strogonoff","strogonoff"],"r":[
+  ["Bœuf Stroganoff","La classique","","Des lanières de bœuf saisies dans une sauce crème aux champignons et au paprika.","Recette russe",30,560,"F","beef stroganoff","",
+   ["bœuf à fondue|bœuf à fondue|600|g","champignon de Paris|champignons de Paris|250|g","oignon||1|","crème fraîche|crème fraîche|20|cl","moutarde|moutarde|1|c. à c.","paprika|paprika|1|c. à c.","tagliatelles|tagliatelles|300|g"],
+   ["Fais cuire les tagliatelles.|Cuisson|10","Coupe le bœuf en lanières et saisis-le 2 min à feu vif. Retire-le.|Poêle|2","Fais revenir l'oignon et les champignons émincés 6 min.|Poêle|6","Ajoute la crème, la moutarde et le paprika.","Remets le bœuf 1 min et sers avec les tagliatelles."]],
+  ["Poulet Stroganoff","Au poulet","Le poulet remplace le bœuf.","Le Stroganoff au poulet, plus doux et moins cher.","",30,500,"F","chicken stroganoff","bf",
+   ["blanc de poulet|blancs de poulet|4|","champignon de Paris|champignons de Paris|250|g","oignon||1|","crème fraîche|crème fraîche|20|cl","paprika|paprika|1|c. à c.","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais dorer le poulet en lanières 6 min.|Poêle|6","Ajoute l'oignon et les champignons, et laisse 6 min.|Poêle|6","Ajoute la crème et le paprika, et laisse 2 min."]],
+  ["Stroganoff de champignons","Végétarien","Seulement des champignons.","Un Stroganoff végétarien très gourmand.","",25,400,"F","mushroom stroganoff","vb",
+   ["champignon de Paris|champignons de Paris|600|g","oignon||1|","crème fraîche|crème fraîche|20|cl","moutarde|moutarde|1|c. à c.","paprika|paprika|1|c. à c.","tagliatelles|tagliatelles|300|g"],
+   ["Fais cuire les tagliatelles.|Cuisson|10","Fais dorer les champignons en quartiers 8 min à feu vif.|Poêle|8","Ajoute l'oignon, puis la crème, la moutarde et le paprika.","Laisse 2 min et sers sur les pâtes."]]
+ ]},
+ {"q":"Shawarma","a":["chawarma","shawarma poulet","shawarma de poulet"],"r":[
+  ["Shawarma de poulet","La classique","","Du poulet mariné aux épices orientales, roulé dans un pain pita avec une sauce à l'ail.","Inspiration libanaise",50,520,"F","chicken shawarma wrap","",
+   ["cuisse de poulet désossée|cuisses de poulet désossées|6|","pain pita|pains pita|4|","yaourt grec|yaourts grecs|2|","ail|ail|3|gousse","cumin|cumin|1|c. à c.","paprika|paprika|1|c. à c.","citron||1|","tomate||2|","salade verte|salade verte|1|"],
+   ["Fais mariner le poulet 30 min avec 1 yaourt, 2 gousses d'ail, les épices et le jus du citron.|Repos|30","Fais-le dorer 10 min à la poêle, puis coupe-le en lamelles.|Poêle|10","Mélange l'autre yaourt avec l'ail restant écrasé.","Garnis les pitas chaudes de poulet, de salade, de tomates et de sauce."]],
+  ["Shawarma de poulet en assiette","En assiette","Servi avec du riz et des crudités.","Le shawarma en assiette, avec riz et houmous.","",50,560,"F","chicken shawarma plate","",
+   ["cuisse de poulet désossée|cuisses de poulet désossées|6|","riz|riz|250|g","houmous|houmous|200|g","cumin|cumin|1|c. à c.","paprika|paprika|1|c. à c.","citron||1|","concombre||1|"],
+   ["Fais mariner le poulet avec les épices et le citron 30 min.|Repos|30","Fais cuire le riz.|Cuisson|12","Fais dorer le poulet 10 min et coupe-le.|Poêle|10","Sers avec le riz, le houmous et le concombre."]],
+  ["Shawarma de chou-fleur","Végétarien","Du chou-fleur rôti aux épices shawarma.","Le shawarma végétarien au chou-fleur rôti.","",45,380,"F","cauliflower shawarma","voh",
+   ["chou-fleur|choux-fleurs|1|","pain pita|pains pita|4|","yaourt grec|yaourts grecs|1|","cumin|cumin|1|c. à c.","paprika|paprika|1|c. à c.","huile d'olive|huile d'olive|3|c. à s.","ail|ail|1|gousse"],
+   ["Préchauffe le four à 210 °C.","Mélange le chou-fleur en fleurettes avec l'huile et les épices, et enfourne 30 min.|Four|30","Mélange le yaourt avec l'ail écrasé.","Garnis les pitas de chou-fleur et de sauce."]]
+ ]}
+]
