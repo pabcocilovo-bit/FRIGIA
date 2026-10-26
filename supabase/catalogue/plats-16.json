@@ -1,0 +1,112 @@
+[
+ {"q":"Panna cotta","a":["pannacotta","panna cotta coulis"],"r":[
+  ["Panna cotta au coulis de fruits rouges","La classique","","La crème italienne tremblotante, à la vanille, avec un coulis de fruits rouges.","Dessert italien",20,330,"F","panna cotta berry coulis","vcd",
+   ["crème liquide entière|crème liquide entière|50|cl","sucre|sucre|80|g","gélatine|feuilles de gélatine|3|feuilles","gousse de vanille|gousses de vanille|1|","fruits rouges surgelés|fruits rouges surgelés|250|g"],
+   ["Fais ramollir la gélatine dans de l'eau froide.","Chauffe la crème avec 60 g de sucre et la vanille fendue, sans faire bouillir.|Cuisson|5","Hors du feu, ajoute la gélatine essorée et mélange.","Verse dans des verrines et laisse prendre 4 h au frais.","Mixe les fruits rouges avec le reste du sucre et nappe au moment de servir."]],
+  ["Panna cotta à la mangue","Mangue","Avec un coulis de mangue fraîche.","Une panna cotta toute douce, sous un coulis de mangue exotique.","",20,320,"F","mango panna cotta","vcd",
+   ["crème liquide entière|crème liquide entière|50|cl","sucre|sucre|60|g","gélatine|feuilles de gélatine|3|feuilles","mangue||1|","citron vert|citrons verts|1|"],
+   ["Fais ramollir la gélatine dans de l'eau froide.","Chauffe la crème avec le sucre sans faire bouillir, puis ajoute la gélatine essorée.|Cuisson|5","Verse dans des verrines et laisse prendre 4 h au frais.","Mixe la mangue avec le jus du citron vert et verse sur les panna cotta."]],
+  ["Panna cotta au lait de coco","Au lait de coco","Le lait de coco remplace une partie de la crème.","Une panna cotta plus légère, au parfum de coco.","",20,260,"F","coconut panna cotta","vcd",
+   ["lait de coco|lait de coco|40|cl","crème liquide entière|crème liquide entière|10|cl","sucre|sucre|60|g","gélatine|feuilles de gélatine|3|feuilles","ananas||1|"],
+   ["Fais ramollir la gélatine dans de l'eau froide.","Chauffe le lait de coco, la crème et le sucre, puis ajoute la gélatine essorée.|Cuisson|5","Verse dans des verrines et laisse prendre 4 h au frais.","Sers avec l'ananas coupé en petits dés."]]
+ ]},
+ {"q":"Île flottante","a":["iles flottantes","oeufs a la neige","oeuf a la neige"],"r":[
+  ["Île flottante","La classique","","Des blancs en neige pochés sur une crème anglaise, avec un filet de caramel.","Dessert français",45,300,"M","floating island dessert","vcd",
+   ["œuf|œufs|6|","lait||75|cl","sucre|sucre|180|g","gousse de vanille|gousses de vanille|1|","sel|||"],
+   ["Chauffe le lait avec la vanille fendue. Fouette les jaunes avec 80 g de sucre.","Verse le lait chaud sur les jaunes, puis fais épaissir à feu doux sans bouillir, en remuant : c'est prêt quand la crème nappe la cuillère.|Cuisson|10","Monte les blancs en neige avec une pincée de sel et 40 g de sucre.","Poche des boules de blancs 1 min de chaque côté dans de l'eau frémissante.|Cuisson|2","Fais un caramel avec le reste du sucre et 2 c. à s. d'eau.","Pose les blancs sur la crème froide et arrose de caramel."]],
+  ["Îles flottantes au micro-ondes","Express","Les blancs cuisent au micro-ondes, en quelques secondes.","La version rapide, avec une crème anglaise du commerce.","",15,250,"F","floating island bowl","vcdbf",
+   ["blanc d'œuf|blancs d'œufs|4|","sucre|sucre|60|g","crème anglaise|crème anglaise|50|cl","caramel liquide|caramel liquide|4|c. à s."],
+   ["Monte les blancs en neige ferme en ajoutant le sucre à la fin.","Forme 4 tas de blancs dans des tasses légèrement huilées.","Fais-les cuire 30 secondes au micro-ondes.","Démoule sur la crème anglaise et arrose de caramel."]],
+  ["Île flottante aux pralines roses","Pralines roses","Parsemée de pralines roses concassées.","L'île flottante lyonnaise, croquante et rose.","Inspiration lyonnaise",45,330,"M","floating island pink pralines","vcd",
+   ["œuf|œufs|6|","lait||75|cl","sucre|sucre|130|g","gousse de vanille|gousses de vanille|1|","pralines roses|pralines roses|60|g"],
+   ["Prépare la crème anglaise : lait chaud vanillé versé sur les jaunes fouettés avec 80 g de sucre, puis épaissie à feu doux.|Cuisson|10","Laisse refroidir au frais.","Monte les blancs en neige avec le reste du sucre.","Poche les blancs 1 min de chaque côté dans de l'eau frémissante.|Cuisson|2","Pose-les sur la crème et parsème de pralines concassées."]]
+ ]},
+ {"q":"Profiteroles","a":["profiterole","choux a la creme","pate a choux"],"r":[
+  ["Profiteroles au chocolat","La classique","","Des choux garnis de glace vanille, nappés de sauce chocolat chaude.","Dessert français",75,450,"D","profiteroles chocolate sauce","vod",
+   ["farine||75|g","beurre||60|g","œuf|œufs|2|","glace vanille|glace vanille|50|cl","chocolat noir|chocolat noir|150|g","crème liquide|crème liquide|15|cl","sel|||"],
+   ["Préchauffe le four à 200 °C. Porte à ébullition 12 cl d'eau, le beurre et une pincée de sel.","Verse la farine d'un coup et remue jusqu'à ce que la pâte se détache de la casserole.","Hors du feu, ajoute les œufs un à un.","Forme des petits tas sur une plaque et enfourne 25 min sans ouvrir le four.|Four|25","Fais fondre le chocolat dans la crème chaude.","Ouvre les choux froids, garnis-les de glace et nappe de sauce chaude."]],
+  ["Choux à la chantilly","Chantilly","Garnis de chantilly, sans glace.","Des choux légers remplis de chantilly maison.","",70,350,"D","cream puffs","vod",
+   ["farine||75|g","beurre||60|g","œuf|œufs|2|","crème liquide entière|crème liquide entière|30|cl","sucre glace|sucre glace|40|g","sel|||"],
+   ["Prépare la pâte à choux : eau, beurre et sel à ébullition, la farine d'un coup, puis les œufs un à un.","Forme des petits tas sur une plaque et enfourne 25 min à 200 °C.|Four|25","Fouette la crème bien froide avec le sucre glace en chantilly.","Garnis les choux froids et saupoudre de sucre glace."]],
+  ["Profiteroles caramel","Caramel","Nappées d'une sauce caramel au beurre salé.","Les profiteroles, avec un caramel au beurre salé à la place du chocolat.","",75,470,"D","caramel profiteroles","vod",
+   ["farine||75|g","beurre||60|g","œuf|œufs|2|","glace vanille|glace vanille|50|cl","sucre|sucre|100|g","crème liquide|crème liquide|10|cl","beurre demi-sel|beurre demi-sel|30|g"],
+   ["Prépare la pâte à choux et fais cuire les choux 25 min à 200 °C.|Four|25","Fais fondre le sucre à sec jusqu'à un caramel blond.","Hors du feu, ajoute la crème chaude, puis le beurre demi-sel.","Garnis les choux de glace et nappe de caramel tiède."]]
+ ]},
+ {"q":"Salade de fruits","a":["salade de fruit","salade de fruits frais","macedoine de fruits"],"r":[
+  ["Salade de fruits frais","La classique","","Des fruits de saison coupés, avec un sirop léger au citron.","",20,150,"F","fresh fruit salad","vcdhbf",
+   ["pomme||2|","poire||2|","banane||2|","orange||2|","raisin|raisin|200|g","citron||1|","sucre|sucre|2|c. à s."],
+   ["Presse le citron et mélange son jus avec le sucre.","Épluche les oranges à vif et coupe-les en morceaux.","Coupe les pommes, les poires et les bananes en dés.","Mélange tous les fruits avec le raisin et le jus sucré.","Laisse 30 min au frais avant de servir."]],
+  ["Salade de fruits exotiques","Exotique","Mangue, ananas et fruit de la passion.","Une salade de fruits ensoleillée, aux fruits exotiques.","",20,160,"F","tropical fruit salad","vcdhf",
+   ["mangue||1|","ananas||1|","kiwi||3|","banane||2|","fruit de la passion|fruits de la passion|2|","citron vert|citrons verts|1|"],
+   ["Épluche la mangue, l'ananas et les kiwis, et coupe-les en dés.","Ajoute les bananes en rondelles.","Arrose du jus du citron vert et de la pulpe des fruits de la passion.","Mélange et laisse 30 min au frais."]],
+  ["Salade de fruits rouges à la menthe","Fruits rouges","Des fruits rouges avec de la menthe fraîche.","Une salade d'été aux fraises, framboises et menthe.","",15,120,"F","berry salad mint","vcdhf",
+   ["fraise||500|g","framboise||125|g","myrtille||125|g","menthe fraîche|menthe fraîche||","citron||1|","sucre|sucre|1|c. à s."],
+   ["Lave et équeute les fraises, puis coupe-les en deux.","Mélange-les avec les framboises et les myrtilles.","Arrose du jus du citron mélangé au sucre.","Ajoute la menthe ciselée et laisse 15 min au frais."]]
+ ]},
+ {"q":"Compote de pommes","a":["compote","compote maison","compote pomme"],"r":[
+  ["Compote de pommes","La classique","","La compote maison toute simple, avec juste des pommes et un peu de cannelle.","",30,120,"F","applesauce bowl","vcdhbf",
+   ["pomme||8|","sucre|sucre|2|c. à s.","cannelle|cannelle|1|c. à c."],
+   ["Épluche les pommes, retire le cœur et coupe-les en morceaux.","Mets-les dans une casserole avec 10 cl d'eau, le sucre et la cannelle.","Fais cuire 20 min à couvert en remuant de temps en temps.|Cuisson|20","Écrase à la fourchette ou mixe, selon la texture que tu aimes."]],
+  ["Compote pommes-poires","Pommes et poires","Moitié pommes, moitié poires, sans sucre ajouté.","Une compote douce, sucrée seulement par les fruits.","",30,100,"F","apple pear compote","vcdhbf",
+   ["pomme||4|","poire||4|","cannelle|cannelle|1|c. à c."],
+   ["Épluche les fruits, retire le cœur et coupe-les en morceaux.","Mets-les dans une casserole avec 5 cl d'eau et la cannelle.","Fais cuire 20 min à couvert.|Cuisson|20","Écrase ou mixe, puis laisse refroidir."]],
+  ["Compote pommes-fraises","Pommes et fraises","Avec des fraises ajoutées en fin de cuisson.","Une compote rose et fruitée qui plaît aux enfants.","",30,110,"F","apple strawberry compote","vcdhbf",
+   ["pomme||6|","fraise||250|g","sucre|sucre|1|c. à s."],
+   ["Épluche les pommes et coupe-les en morceaux.","Fais-les cuire 15 min à couvert avec 5 cl d'eau et le sucre.|Cuisson|15","Ajoute les fraises équeutées et laisse cuire 5 min.|Cuisson|5","Mixe et laisse refroidir."]]
+ ]},
+ {"q":"Crème caramel","a":["creme renversee","creme caramel maison","flan caramel"],"r":[
+  ["Crème caramel","La classique","","La crème renversée vanillée, nappée de son caramel blond.","Dessert français",70,250,"M","creme caramel","vodbf",
+   ["lait||50|cl","œuf|œufs|4|","sucre|sucre|180|g","gousse de vanille|gousses de vanille|1|"],
+   ["Préchauffe le four à 160 °C.","Fais un caramel avec 100 g de sucre et 3 c. à s. d'eau, et verse-le au fond des ramequins.","Chauffe le lait avec la vanille fendue.","Fouette les œufs et le reste du sucre, puis verse le lait chaud dessus.","Remplis les ramequins et enfourne 40 min au bain-marie.|Four|40","Laisse refroidir puis 2 h au frais avant de démouler."]],
+  ["Crème caramel au lait de coco","Coco","Le lait de coco remplace une partie du lait.","Une crème renversée au parfum des îles.","",70,280,"M","coconut flan","vodbf",
+   ["lait de coco|lait de coco|40|cl","lait||10|cl","œuf|œufs|4|","sucre|sucre|170|g"],
+   ["Préchauffe le four à 160 °C et fais un caramel avec 100 g de sucre et un peu d'eau.","Verse-le au fond des ramequins.","Fouette les œufs avec le reste du sucre, puis le lait de coco et le lait.","Remplis les ramequins et enfourne 40 min au bain-marie.|Four|40","Laisse 2 h au frais avant de démouler."]],
+  ["Crème caramel à la cocotte-minute","Sans four","Cuite à la vapeur dans une cocotte-minute.","La crème caramel sans allumer le four.","",40,250,"M","creme caramel ramekin","vcdbf",
+   ["lait||50|cl","œuf|œufs|4|","sucre|sucre|180|g","sucre vanillé|sucres vanillés|1|"],
+   ["Fais un caramel avec 100 g de sucre et un peu d'eau, et verse-le dans des ramequins.","Fouette les œufs, le reste du sucre et le sucre vanillé, puis ajoute le lait chaud.","Remplis les ramequins et couvre-les de papier aluminium.","Pose-les dans la cocotte avec 2 cm d'eau et compte 6 min après le sifflement.|Cuisson|6","Laisse refroidir puis 2 h au frais."]]
+ ]},
+ {"q":"Poires belle-Hélène","a":["poire belle helene","poires au chocolat","poires pochees"],"r":[
+  ["Poires belle-Hélène","La classique","","Des poires pochées au sirop vanillé, nappées de chocolat chaud.","Dessert français",40,330,"F","poire belle helene","vcd",
+   ["poire||4|","sucre|sucre|150|g","gousse de vanille|gousses de vanille|1|","chocolat noir|chocolat noir|150|g","crème liquide|crème liquide|15|cl","glace vanille|glace vanille|50|cl"],
+   ["Porte à ébullition 1 litre d'eau avec le sucre et la vanille fendue.","Épluche les poires en gardant la queue et poche-les 20 min dans le sirop.|Cuisson|20","Laisse-les refroidir dans le sirop.","Fais fondre le chocolat dans la crème chaude.","Sers chaque poire avec une boule de glace et la sauce chocolat."]],
+  ["Poires pochées au vin rouge","Au vin","Pochées dans un vin rouge aux épices.","Des poires rouges et parfumées, pour un dessert d'hiver.","",50,250,"F","poached pears red wine","vcd",
+   ["poire||4|","vin rouge|vin rouge|75|cl","sucre|sucre|120|g","bâton de cannelle|bâtons de cannelle|1|","orange||1|"],
+   ["Porte à ébullition le vin avec le sucre, la cannelle et le zeste de l'orange.","Épluche les poires en gardant la queue.","Poche-les 30 min dans le vin frémissant en les retournant.|Cuisson|30","Retire les poires et fais réduire le vin en sirop.|Cuisson|10","Sers tiède ou froid, nappé de sirop."]],
+  ["Poires rôties au miel","Rôties","Rôties au four avec du miel, sans sirop.","Des poires fondantes et caramélisées au miel.","",35,180,"F","roasted pears honey","vodhbf",
+   ["poire||4|","miel||3|c. à s.","beurre||20|g","cannelle|cannelle|1|c. à c."],
+   ["Préchauffe le four à 200 °C.","Coupe les poires en deux et retire le cœur.","Pose-les dans un plat, arrose de miel, parsème de beurre et de cannelle.","Enfourne 25 min en arrosant à mi-cuisson.|Four|25"]]
+ ]},
+ {"q":"Charlotte aux fraises","a":["charlotte","charlotte fraise"],"r":[
+  ["Charlotte aux fraises","La classique","","Des biscuits à la cuillère autour d'une mousse légère aux fraises.","",40,350,"M","strawberry charlotte","vcd",
+   ["biscuits à la cuillère|biscuits à la cuillère|24|","fraise||500|g","crème liquide entière|crème liquide entière|30|cl","fromage blanc|fromage blanc|250|g","sucre|sucre|80|g","gélatine|feuilles de gélatine|4|feuilles"],
+   ["Fais ramollir la gélatine dans l'eau froide. Mixe la moitié des fraises avec le sucre.","Chauffe un peu de ce coulis et fais-y fondre la gélatine, puis mélange au reste.","Fouette la crème en chantilly et mélange-la au fromage blanc et au coulis.","Trempe rapidement les biscuits dans de l'eau sucrée et tapisse un moule.","Alterne mousse et fraises coupées, puis couvre de biscuits.","Laisse prendre 6 h au frais avant de démouler."]],
+  ["Charlotte aux framboises","Framboises","Avec des framboises à la place des fraises.","La charlotte acidulée aux framboises.","",40,350,"M","raspberry charlotte","vcd",
+   ["biscuits à la cuillère|biscuits à la cuillère|24|","framboise||400|g","crème liquide entière|crème liquide entière|30|cl","fromage blanc|fromage blanc|250|g","sucre|sucre|80|g","gélatine|feuilles de gélatine|4|feuilles"],
+   ["Fais ramollir la gélatine. Mixe la moitié des framboises avec le sucre et fais fondre la gélatine dans un peu de coulis chaud.","Fouette la crème en chantilly et mélange-la au fromage blanc et au coulis.","Tapisse un moule de biscuits trempés dans de l'eau sucrée.","Alterne mousse et framboises entières, puis couvre de biscuits.","Laisse prendre 6 h au frais."]],
+  ["Charlotte au chocolat","Chocolat","Avec une mousse au chocolat.","La charlotte des gourmands, garnie de mousse au chocolat.","",40,420,"M","chocolate charlotte","vcd",
+   ["biscuits à la cuillère|biscuits à la cuillère|24|","chocolat noir|chocolat noir|200|g","œuf|œufs|5|","sucre|sucre|40|g","lait||10|cl"],
+   ["Fais fondre le chocolat et laisse tiédir, puis ajoute les jaunes d'œufs.","Monte les blancs en neige avec le sucre et incorpore-les délicatement au chocolat.","Trempe rapidement les biscuits dans le lait et tapisse un moule.","Verse la mousse et couvre de biscuits.","Laisse prendre 6 h au frais avant de démouler."]]
+ ]},
+ {"q":"Pavlova","a":["pavlova aux fruits","meringue aux fruits"],"r":[
+  ["Pavlova aux fruits rouges","La classique","","Une meringue croustillante et moelleuse, avec chantilly et fruits rouges.","Dessert australien",150,300,"M","berry pavlova","vod",
+   ["blanc d'œuf|blancs d'œufs|4|","sucre|sucre|200|g","fécule de maïs|fécule de maïs|1|c. à c.","vinaigre blanc|vinaigre blanc|1|c. à c.","crème liquide entière|crème liquide entière|30|cl","fruits rouges|fruits rouges|300|g"],
+   ["Préchauffe le four à 120 °C.","Monte les blancs en neige, puis ajoute le sucre petit à petit jusqu'à une meringue brillante.","Ajoute la fécule et le vinaigre, et forme un grand disque sur une plaque.","Enfourne 1 h 30, puis laisse refroidir dans le four éteint.|Four|90","Fouette la crème en chantilly, étale-la sur la meringue et garnis de fruits."]],
+  ["Pavlova exotique","Exotique","Avec mangue, kiwi et fruit de la passion.","La pavlova aux fruits exotiques, fraîche et acidulée.","",150,300,"M","tropical pavlova","vod",
+   ["blanc d'œuf|blancs d'œufs|4|","sucre|sucre|200|g","fécule de maïs|fécule de maïs|1|c. à c.","crème liquide entière|crème liquide entière|30|cl","mangue||1|","kiwi||2|","fruit de la passion|fruits de la passion|2|"],
+   ["Préchauffe le four à 120 °C. Monte les blancs avec le sucre en meringue brillante, puis ajoute la fécule.","Forme un disque sur une plaque et enfourne 1 h 30.|Four|90","Laisse refroidir dans le four éteint.","Couvre de chantilly, de mangue et de kiwi en dés, puis de pulpe de passion."]],
+  ["Mini pavlovas aux fraises","Individuelles","En petites meringues individuelles.","Des petites pavlovas aux fraises, à servir à l'assiette.","",110,280,"M","mini strawberry pavlovas","vod",
+   ["blanc d'œuf|blancs d'œufs|3|","sucre|sucre|150|g","fécule de maïs|fécule de maïs|1|c. à c.","crème liquide entière|crème liquide entière|25|cl","fraise||300|g"],
+   ["Préchauffe le four à 120 °C. Monte les blancs avec le sucre en meringue, puis ajoute la fécule.","Forme 6 petits nids sur une plaque.","Enfourne 1 h et laisse refroidir dans le four.|Four|60","Garnis de chantilly et de fraises coupées."]]
+ ]},
+ {"q":"Galette des rois","a":["galette frangipane","galette des rois frangipane","frangipane"],"r":[
+  ["Galette des rois à la frangipane","La classique","","La galette feuilletée à la frangipane, sans oublier la fève.","Tradition française",60,480,"M","galette des rois","vod",
+   ["pâte feuilletée|pâtes feuilletées|2|","poudre d'amande|poudre d'amande|125|g","sucre|sucre|100|g","beurre mou|beurre mou|80|g","œuf|œufs|3|"],
+   ["Préchauffe le four à 200 °C.","Mélange la poudre d'amande, le sucre, le beurre mou et 2 œufs.","Étale une pâte sur une plaque, garnis de frangipane en laissant 2 cm au bord, et pose la fève.","Couvre de la seconde pâte et soude bien les bords.","Dore au dernier œuf battu et dessine des motifs à la pointe d'un couteau.","Enfourne 30 min.|Four|30"]],
+  ["Galette des rois aux pommes","Aux pommes","Une compote et des pommes à la place de la frangipane.","Une galette plus légère, garnie de pommes.","",60,380,"M","apple galette des rois","vodb",
+   ["pâte feuilletée|pâtes feuilletées|2|","pomme||3|","compote de pommes|compote de pommes|200|g","œuf|œufs|1|","sucre|sucre|30|g"],
+   ["Préchauffe le four à 200 °C.","Étale une pâte, garnis de compote, puis de pommes en lamelles saupoudrées de sucre, et pose la fève.","Couvre de la seconde pâte et soude les bords.","Dore à l'œuf battu et enfourne 30 min.|Four|30"]],
+  ["Galette des rois chocolat-poire","Chocolat et poire","Frangipane au chocolat et morceaux de poire.","Le duo poire chocolat, dans une galette des rois.","",60,520,"M","chocolate pear galette","vod",
+   ["pâte feuilletée|pâtes feuilletées|2|","poudre d'amande|poudre d'amande|100|g","sucre|sucre|80|g","beurre mou|beurre mou|80|g","œuf|œufs|3|","chocolat noir|chocolat noir|80|g","poire||2|"],
+   ["Préchauffe le four à 200 °C. Fais fondre le chocolat.","Mélange la poudre d'amande, le sucre, le beurre, 2 œufs et le chocolat fondu.","Étale une pâte, garnis de frangipane et de poires en dés, et pose la fève.","Couvre de la seconde pâte, soude les bords et dore au dernier œuf.","Enfourne 30 min.|Four|30"]]
+ ]}
+]
