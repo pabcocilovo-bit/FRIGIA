@@ -20,6 +20,7 @@ import { weekDays } from "./format";
 import { Dish } from "./plan/Dish";
 import { SwapSheet, TonightSheet } from "./plan/sheets";
 import { cookedSlot, MEAL_NAME, mealOfKey, nextUp, options, recipePath } from "./plan/week";
+import { BetaCard } from "./beta/BetaCard";
 
 export function Avatar({ user, name, photo, className, onClick, label }: {
   user: User; name?: string; photo: string | null; className: string; onClick?: () => void; label: string;
@@ -58,8 +59,8 @@ function WeekRecipes({ kitchen, onOpen }: { kitchen: Fridge; onOpen: (r: Generat
   );
 }
 
-export function Home({ isPlus, avatar, history, favorites, cooked, household, week, onWeek, kitchen, shopping, onOpenRecipe }: {
-  isPlus: boolean;
+export function Home({ user, isPlus, avatar, history, favorites, cooked, household, week, onWeek, kitchen, shopping, onOpenRecipe }: {
+  user: User | null; isPlus: boolean;
   avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
   household: Person[];
   week: Week; onWeek: (w: Week) => void;
@@ -144,6 +145,9 @@ export function Home({ isPlus, avatar, history, favorites, cooked, household, we
             aria-label="Chercher une recette" value={q} onChange={e => setQ(e.target.value)} /></label>
           <button type="button" className="hm-filter" aria-label="Filtres" onClick={() => navigate("/explorer?filtres=1")}><Icon name="sliders" /></button>
         </form>
+
+        {/* Bêta : le questionnaire, proposé à partir du 5e jour */}
+        <BetaCard user={user} uses={history.length + cooked.length} />
 
         <WeekRecipes kitchen={kitchen} onOpen={onOpenRecipe} />
 

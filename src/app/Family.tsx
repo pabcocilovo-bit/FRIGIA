@@ -14,6 +14,7 @@ import { memberSince, tasteRows } from "./format";
 import { subscriptionText, useOpenPaywall, useSubscription } from "./plus/subscription";
 import { trialText, trialUntil } from "../lib/billing";
 import { AccountSheet, type AccountMode, type Dish } from "./settings/sheets";
+import { BETA } from "./beta/survey";
 
 function MenuRow({ icon, title, sub, onClick, lock }: { icon: IconName; title: string; sub: string; onClick: () => void; lock?: boolean }) {
   return (
@@ -76,6 +77,7 @@ export function Family({ user, name, isPlus, avatar, dishes, onAvatar, onName, o
         <div className="mp-card">
           <MenuRow icon="user" title="Compte et sécurité" sub="Informations personnelles, connexion" onClick={() => navigate("/reglages/compte")} />
           <MenuRow icon="gear" title="Réglages de l'application" sub="Notifications, apparence, infos légales" onClick={() => navigate("/reglages")} />
+          {BETA && <MenuRow icon="msg" title="Donner mon avis" sub="Le questionnaire de la bêta, 2 minutes" onClick={() => navigate("/avis")} />}
           <MenuRow icon="help" title="Aide et contact" sub="Questions fréquentes, nous écrire" onClick={() => navigate("/aide")} />
         </div>
 

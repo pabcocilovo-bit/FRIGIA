@@ -63,6 +63,7 @@ import { Help } from "./app/settings/Help";
 import { Legal } from "./app/settings/Legal";
 import { Inbox } from "./app/notifs/Inbox";
 import { NotifAsk } from "./app/notifs/NotifAsk";
+import { BetaSurvey } from "./app/beta/BetaSurvey";
 import { useNotifSync } from "./app/notifs/sync";
 
 // Écrans de l'inscription et de la connexion (étape 4). Connecté, seuls les questions, la caméra
@@ -308,7 +309,7 @@ return (
   // Retour de la page Stripe : « On attend ta banque » tout de suite, sans l'écran d'ouverture
   <AppFrame splash={location.pathname !== "/plus/paiement"}>
     <Routes>
-      <Route path="/" element={<Home isPlus={isPlus} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household}
+      <Route path="/" element={<Home user={user} isPlus={isPlus} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household}
         week={home.week} onWeek={home.setWeek} kitchen={home.fridge} shopping={home.shopping} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/espace" element={<Space isPlus={isPlus} history={history} favorites={favorites} cooked={cooked.meals} shopping={home.shopping} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/explorer" element={<Explore isPlus={isPlus} history={history} favorites={favorites} kitchen={home.fridge} household={household} onOpenRecipe={r => openRecipe(r)} />} />
@@ -381,6 +382,7 @@ return (
       <Route path="/recette" element={<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} fridge={home.fridge} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />} />
       <Route path="/recettes/:id/:n/cuisine" element={waitScan(<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} onUsed={r => home.setFridge(f => cookFrom(f, r))} />)} />
       <Route path="/recette/cuisine" element={<Cook history={history} isPlus={isPlus} meals={cooked.meals} onCooked={cooked.add} onUsed={r => home.setFridge(f => cookFrom(f, r))} />} />
+      <Route path="/avis" element={<BetaSurvey user={user} />} />
       <Route path="/parrainage" element={<Refer name={name} avatar={avatarSrc} isPlus={isPlus} />} />
       <Route path="/i/:code" element={<Navigate to="/" replace />} />
       <Route path="/bilan" element={isPlus ? <Report meals={cooked.meals} budget={home.budget} /> : <Navigate to="/" replace />} />

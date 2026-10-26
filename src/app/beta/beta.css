@@ -1,0 +1,38 @@
+/* « Ton avis compte » : le questionnaire de la bêta, et sa carte sur l'accueil */
+.fa .av-bar{height:6px;margin:14px 10px 0;border-radius:99px;background:rgba(247,241,230,.28);overflow:hidden}
+.fa .av-bar i{display:block;height:100%;border-radius:inherit;background:var(--on);transition:width .3s}
+.fa .av-body{padding-top:14px}
+.fa .av-q{margin:0;font:400 27px/1.15 var(--serif);color:var(--sage-deep)}
+.fa .av-hint{margin:-4px 2px 0;font-size:13.5px;color:var(--muted)}
+.fa .av-opts{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.fa .av-opt{display:flex;align-items:center;gap:13px;width:100%;padding:15px 16px;border-radius:18px;background:var(--card);text-align:left;font:500 15.5px/1.3 var(--sans);color:var(--text);box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .15s}
+.fa .av-opt.on{box-shadow:inset 0 0 0 2px var(--sage-deep)}
+.fa .av-dot,.fa .av-box{width:22px;height:22px;flex:none;display:grid;place-items:center;border:2px solid var(--line);background:var(--bg)}
+.fa .av-dot{border-radius:50%}
+.fa .av-box{border-radius:7px;color:var(--on)}
+.fa .av-box .i{width:15px;height:15px}
+.fa .av-opt.on .av-dot{border:7px solid var(--sage-deep);background:var(--on)}
+.fa .av-opt.on .av-box{border-color:var(--sage-deep);background:var(--sage-deep)}
+.fa .av-more{display:flex;flex-direction:column;gap:8px;font:600 14.5px/1.3 var(--sans);color:var(--text)}
+.fa .av-text,.fa .av-more textarea{width:100%;padding:14px 16px;border-radius:18px;border:0;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);font:400 15px/1.45 var(--sans);color:var(--text);resize:vertical}
+.fa .av-text{min-height:140px}
+.fa .av-text:focus,.fa .av-more textarea:focus{outline:none;box-shadow:inset 0 0 0 2px var(--sage-deep)}
+.fa .av-nav{display:flex;justify-content:space-between;gap:12px;margin-top:10px}
+.fa .av-nav .pill:last-child{flex:1;max-width:220px}
+.fa .av-done{align-items:center;text-align:center;padding-top:40px}
+.fa .av-ok{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:var(--sage-soft);color:var(--sage-deep)}
+.fa .av-ok .i{width:34px;height:34px}
+.fa .av-done h2{margin:6px 0 0;font:400 30px/1.1 var(--serif);color:var(--sage-deep)}
+.fa .av-done p{margin:0 0 10px;font-size:15px;line-height:1.45;color:var(--muted);max-width:330px}
+
+/* La carte de l'accueil, à partir du 5e jour */
+.fa .av-card{display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:22px;background:var(--sage-soft);color:var(--sage-deep)}
+.fa .av-card-hd{display:flex;align-items:center;gap:13px}
+.fa .av-card-ic{width:48px;height:48px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--sage-deep);color:var(--on)}
+.fa .av-card-ic .i{width:22px;height:22px}
+.fa .av-card .tx{display:flex;flex-direction:column;gap:3px}
+.fa .av-card b{font:400 22px/1.1 var(--serif)}
+.fa .av-card .tx span{font-size:13.5px;line-height:1.35;color:var(--muted)}
+.fa .av-card-ft{display:flex;align-items:center;gap:14px}
+.fa .av-card-ft .pill{padding:12px 18px}
+.fa .av-later{font:600 14px/1 var(--sans);color:var(--sage-deep);text-decoration:underline;text-underline-offset:4px}
