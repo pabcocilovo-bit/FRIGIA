@@ -1,0 +1,112 @@
+[
+ {"q":"Guacamole","a":["guacamole maison","guaca"],"r":[
+  ["Guacamole","La classique","","L'avocat écrasé au citron vert, avec tomate, oignon et coriandre.","Recette mexicaine",10,180,"F","guacamole","vche",
+   ["avocat||3|","citron vert|citrons verts|1|","tomate||1|","oignon rouge|oignons rouges|0.5|","coriandre|coriandre||","piment|piments|1|","sel|||"],
+   ["Écrase la chair des avocats à la fourchette avec le jus du citron vert.","Ajoute la tomate en petits dés et l'oignon haché fin.","Ajoute la coriandre ciselée et un peu de piment.","Sale, mélange et sers tout de suite avec des chips de maïs."]],
+  ["Guacamole à la mangue","Mangue","Avec de la mangue en dés.","Un guacamole sucré-salé, frais et coloré.","",10,190,"F","mango guacamole","vche",
+   ["avocat||2|","mangue||1|","citron vert|citrons verts|1|","oignon rouge|oignons rouges|0.5|","coriandre|coriandre||","sel|||"],
+   ["Écrase les avocats avec le jus du citron vert.","Ajoute la mangue en petits dés et l'oignon haché.","Ajoute la coriandre ciselée et sale.","Mélange et sers frais."]],
+  ["Guacamole aux petits pois","Plus léger","La moitié des avocats est remplacée par des petits pois.","Un guacamole plus léger et tout aussi vert.","",15,120,"F","pea guacamole","vchbe",
+   ["avocat||1|","petits pois surgelés|petits pois surgelés|200|g","citron vert|citrons verts|1|","oignon rouge|oignons rouges|0.5|","coriandre|coriandre||","sel|||"],
+   ["Fais cuire les petits pois 5 min et rafraîchis-les.|Cuisson|5","Mixe-les grossièrement avec l'avocat et le jus du citron vert.","Ajoute l'oignon haché et la coriandre.","Sale et sers frais."]]
+ ]},
+ {"q":"Tzatziki","a":["tzaziki","sauce concombre yaourt","concombre au yaourt"],"r":[
+  ["Tzatziki","La classique","","Le yaourt grec au concombre, à l'ail et à l'aneth, pour l'apéritif ou les grillades.","Recette grecque",15,110,"F","tzatziki","vche",
+   ["yaourt grec|yaourts grecs|2|","concombre||1|","ail|ail|1|gousse","aneth|aneth||","huile d'olive|huile d'olive|1|c. à s.","citron||0.5|","sel|||"],
+   ["Râpe le concombre, sale-le et laisse-le dégorger 10 min.","Presse-le bien dans tes mains pour retirer l'eau.","Mélange-le avec le yaourt, l'ail écrasé, l'aneth et le jus du citron.","Arrose d'un filet d'huile d'olive et garde au frais."]],
+  ["Tzatziki à la menthe","Menthe","La menthe remplace l'aneth.","Un tzatziki tout frais à la menthe.","",15,110,"F","mint tzatziki","vche",
+   ["yaourt grec|yaourts grecs|2|","concombre||1|","ail|ail|1|gousse","menthe fraîche|menthe fraîche||","citron||0.5|","sel|||"],
+   ["Râpe le concombre, sale-le et presse-le pour retirer l'eau.","Mélange-le avec le yaourt et l'ail écrasé.","Ajoute la menthe ciselée et le jus du citron.","Garde au frais jusqu'au service."]],
+  ["Tzatziki de betterave","Betterave","Avec de la betterave râpée, tout rose.","Une version colorée du tzatziki, à la betterave.","",15,120,"F","beet tzatziki","vche",
+   ["yaourt grec|yaourts grecs|2|","betterave cuite|betteraves cuites|1|","ail|ail|1|gousse","aneth|aneth||","citron||0.5|","sel|||"],
+   ["Râpe la betterave.","Mélange-la au yaourt avec l'ail écrasé.","Ajoute l'aneth ciselé et le jus du citron, puis sale.","Garde au frais."]]
+ ]},
+ {"q":"Nems","a":["nem","nems au porc","nems maison"],"r":[
+  ["Nems au porc","La classique","","Les rouleaux frits croustillants farcis au porc, aux vermicelles et aux champignons noirs.","Recette vietnamienne",60,350,"D","vietnamese spring rolls nem","e",
+   ["galettes de riz|galettes de riz|16|","porc haché|porc haché|300|g","vermicelles de riz|vermicelles de riz|50|g","champignons noirs séchés|champignons noirs séchés|10|g","carotte||1|","œuf|œufs|1|","sauce nuoc-mâm|sauce nuoc-mâm|2|c. à s.","huile de friture|huile de friture|100|cl","salade verte|salade verte|1|"],
+   ["Fais tremper les vermicelles et les champignons 10 min dans l'eau chaude, puis coupe-les.","Mélange le porc, les vermicelles, les champignons, la carotte râpée, l'œuf et le nuoc-mâm.","Humidifie une galette, pose une cuillerée de farce, replie les bords et roule serré.","Fais frire les nems 6 min dans l'huile chaude, jusqu'à ce qu'ils soient dorés.|Friture|6","Sers avec des feuilles de salade, de la menthe et de la sauce nuoc-mâm."]],
+  ["Nems au poulet","Au poulet","Le poulet remplace le porc.","Des nems croustillants farcis au poulet.","",60,330,"D","chicken spring rolls","e",
+   ["galettes de riz|galettes de riz|16|","poulet haché|poulet haché|300|g","vermicelles de riz|vermicelles de riz|50|g","carotte||1|","oignon||1|","œuf|œufs|1|","sauce soja|sauce soja|2|c. à s.","huile de friture|huile de friture|100|cl"],
+   ["Fais tremper les vermicelles 10 min dans l'eau chaude, puis coupe-les.","Mélange le poulet, les vermicelles, la carotte râpée, l'oignon haché, l'œuf et la sauce soja.","Roule la farce dans les galettes humidifiées.","Fais frire 6 min dans l'huile chaude.|Friture|6"]],
+  ["Nems aux légumes au four","Végétariens au four","Farcis aux légumes et cuits au four.","Des nems plus légers, aux légumes et sans friture.","",50,220,"M","baked vegetable spring rolls","voe",
+   ["galettes de riz|galettes de riz|16|","vermicelles de riz|vermicelles de riz|50|g","carotte||2|","chou chinois|choux chinois|0.25|","champignon de Paris|champignons de Paris|150|g","sauce soja|sauce soja|3|c. à s.","huile|huile|2|c. à s."],
+   ["Préchauffe le four à 200 °C. Fais tremper les vermicelles et coupe-les.","Fais revenir les carottes râpées, le chou et les champignons émincés 5 min avec la sauce soja.|Poêle|5","Mélange avec les vermicelles et roule la farce dans les galettes humidifiées.","Badigeonne d'huile et enfourne 20 min en les retournant.|Four|20"]]
+ ]},
+ {"q":"Rouleaux de printemps","a":["rouleau de printemps","rouleaux printemps","spring rolls"],"r":[
+  ["Rouleaux de printemps aux crevettes","La classique","","Des galettes de riz roulées avec crevettes, vermicelles, salade et menthe, sans cuisson.","Recette vietnamienne",30,220,"M","fresh spring rolls shrimp","che",
+   ["galettes de riz|galettes de riz|8|","crevette cuite|crevettes cuites|16|","vermicelles de riz|vermicelles de riz|80|g","salade verte|salade verte|1|","carotte||1|","menthe fraîche|menthe fraîche||","sauce hoisin|sauce hoisin|4|c. à s."],
+   ["Fais tremper les vermicelles 5 min dans l'eau chaude et égoutte-les.","Râpe la carotte et décortique les crevettes.","Trempe une galette quelques secondes dans l'eau tiède et pose-la à plat.","Garnis de salade, vermicelles, carotte et menthe, puis de 2 crevettes coupées en deux.","Replie les côtés et roule serré. Sers avec la sauce hoisin."]],
+  ["Rouleaux de printemps au tofu","Végétariens","Avec du tofu grillé à la place des crevettes.","Des rouleaux frais végétariens, au tofu doré.","",30,210,"M","tofu fresh spring rolls","vche",
+   ["galettes de riz|galettes de riz|8|","tofu ferme|tofu ferme|200|g","vermicelles de riz|vermicelles de riz|80|g","salade verte|salade verte|1|","concombre||1|","menthe fraîche|menthe fraîche||","sauce soja|sauce soja|3|c. à s."],
+   ["Coupe le tofu en bâtonnets et fais-le dorer avec 1 c. à s. de sauce soja.|Poêle|6","Fais tremper les vermicelles et coupe le concombre en bâtonnets.","Trempe une galette dans l'eau tiède, garnis de salade, vermicelles, concombre, menthe et tofu.","Roule serré et sers avec le reste de la sauce soja."]],
+  ["Rouleaux de printemps au poulet","Au poulet","Avec du poulet et une sauce aux cacahuètes.","Des rouleaux frais au poulet, avec une sauce cacahuète.","",35,280,"M","chicken fresh spring rolls peanut sauce","ce",
+   ["galettes de riz|galettes de riz|8|","blanc de poulet|blancs de poulet|2|","vermicelles de riz|vermicelles de riz|80|g","salade verte|salade verte|1|","carotte||1|","beurre de cacahuète|beurre de cacahuète|3|c. à s.","sauce soja|sauce soja|2|c. à s."],
+   ["Fais cuire le poulet 10 min à la poêle et coupe-le en lamelles.|Poêle|10","Fais tremper les vermicelles et râpe la carotte.","Roule salade, vermicelles, carotte et poulet dans les galettes humidifiées.","Mélange le beurre de cacahuète, la sauce soja et 3 c. à s. d'eau chaude pour la sauce."]]
+ ]},
+ {"q":"Samoussas","a":["samoussa","samosa","samosas"],"r":[
+  ["Samoussas au bœuf","La classique","","Des triangles croustillants farcis au bœuf haché épicé et aux petits pois.","Inspiration indienne et réunionnaise",50,300,"M","beef samosas","oe",
+   ["feuilles de brick|feuilles de brick|8|","bœuf haché|bœuf haché|300|g","oignon||1|","petits pois surgelés|petits pois surgelés|100|g","curry|curry|2|c. à c.","coriandre|coriandre||","huile|huile|3|c. à s."],
+   ["Préchauffe le four à 200 °C.","Fais revenir l'oignon, puis le bœuf et le curry 8 min. Ajoute les petits pois et la coriandre.|Poêle|8","Coupe les feuilles de brick en deux et plie chaque bande en triangle autour d'une cuillerée de farce.","Badigeonne d'huile et enfourne 15 min.|Four|15"]],
+  ["Samoussas aux légumes","Végétariens","Farcis de pommes de terre et de petits pois au curry.","Des samoussas végétariens, à la farce épicée.","",50,240,"M","vegetable samosas","voeb",
+   ["feuilles de brick|feuilles de brick|8|","pomme de terre|pommes de terre|3|","petits pois surgelés|petits pois surgelés|150|g","oignon||1|","curry|curry|2|c. à c.","huile|huile|3|c. à s."],
+   ["Fais cuire les pommes de terre en dés 10 min à l'eau.|Cuisson|10","Fais revenir l'oignon avec le curry, puis ajoute les pommes de terre et les petits pois.","Plie la farce en triangles dans les bandes de brick.","Badigeonne d'huile et enfourne 15 min à 200 °C.|Four|15"]],
+  ["Samoussas au thon","Au thon","Farcis au thon, à l'oignon et au fromage frais.","Des samoussas faciles au thon, pour l'apéritif.","",35,260,"F","tuna samosas","oeb",
+   ["feuilles de brick|feuilles de brick|8|","thon au naturel|thon au naturel|200|g","fromage frais|fromage frais|100|g","oignon||1|","persil|persil||","huile|huile|3|c. à s."],
+   ["Préchauffe le four à 200 °C.","Mélange le thon émietté, le fromage frais, l'oignon haché et le persil.","Plie la farce en triangles dans les bandes de brick.","Badigeonne d'huile et enfourne 12 min.|Four|12"]]
+ ]},
+ {"q":"Accras de morue","a":["accras","accra","acras de morue"],"r":[
+  ["Accras de morue","La classique","","Les beignets antillais à la morue, relevés au piment et à la cive.","Recette antillaise",120,280,"M","salt cod fritters accras","e",
+   ["morue salée|morue salée|250|g","farine||200|g","œuf|œufs|1|","oignon nouveau|oignons nouveaux|2|","ail|ail|2|gousse","piment|piments|1|","levure chimique|levure chimique|1|c. à c.","huile de friture|huile de friture|100|cl"],
+   ["Fais dessaler la morue 1 nuit dans l'eau froide en changeant l'eau.","Poche-la 10 min dans de l'eau frémissante, puis émiette-la.|Cuisson|10","Mélange la farine, la levure, l'œuf et 20 cl d'eau, puis ajoute la morue, l'oignon, l'ail et le piment hachés.","Laisse reposer 1 h.|Repos|60","Fais frire des petites cuillerées de pâte 3 min dans l'huile chaude.|Friture|3"]],
+  ["Accras de crevettes","Crevettes","Les crevettes remplacent la morue.","Des accras plus rapides, aux crevettes.","",45,270,"M","shrimp fritters","e",
+   ["crevette décortiquée|crevettes décortiquées|250|g","farine||200|g","œuf|œufs|1|","oignon nouveau|oignons nouveaux|2|","ail|ail|1|gousse","piment|piments|1|","levure chimique|levure chimique|1|c. à c.","huile de friture|huile de friture|100|cl"],
+   ["Coupe les crevettes en petits morceaux.","Mélange la farine, la levure, l'œuf et 20 cl d'eau.","Ajoute les crevettes, l'oignon, l'ail et le piment hachés. Laisse reposer 30 min.|Repos|30","Fais frire des petites cuillerées de pâte 3 min.|Friture|3"]],
+  ["Accras de légumes","Végétariens","Avec des légumes râpés à la place du poisson.","Des accras végétariens à la courgette et à la carotte.","",40,230,"F","vegetable fritters","veb",
+   ["courgette||1|","carotte||1|","farine||150|g","œuf|œufs|1|","oignon nouveau|oignons nouveaux|2|","levure chimique|levure chimique|1|c. à c.","huile de friture|huile de friture|100|cl"],
+   ["Râpe la courgette et la carotte, et presse-les pour retirer l'eau.","Mélange la farine, la levure, l'œuf et 15 cl d'eau, puis les légumes et l'oignon haché.","Sale et poivre.","Fais frire des petites cuillerées de pâte 3 min.|Friture|3"]]
+ ]},
+ {"q":"Gougères","a":["gougere","gougeres au fromage","choux au fromage"],"r":[
+  ["Gougères au comté","La classique","","Des petits choux au fromage, dorés et moelleux, pour l'apéritif.","Spécialité bourguignonne",50,180,"M","gougeres cheese puffs","voe",
+   ["farine||100|g","beurre||70|g","œuf|œufs|3|","comté râpé|comté râpé|100|g","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Porte à ébullition 15 cl d'eau, le beurre et une pincée de sel.","Verse la farine d'un coup et remue jusqu'à ce que la pâte se détache.","Hors du feu, ajoute les œufs un à un, puis les trois quarts du comté et du poivre.","Forme des petits tas sur une plaque, parsème du reste de comté.","Enfourne 20 min sans ouvrir le four.|Four|20"]],
+  ["Gougères au jambon","Au jambon","Avec du jambon en petits dés dans la pâte.","Des gougères plus gourmandes, au fromage et au jambon.","",50,200,"M","ham cheese puffs","oe",
+   ["farine||100|g","beurre||70|g","œuf|œufs|3|","emmental râpé|emmental râpé|80|g","jambon blanc|jambon blanc|2|tranches","sel|||"],
+   ["Préchauffe le four à 200 °C et prépare la pâte à choux : eau, beurre et sel à ébullition, puis la farine et les œufs un à un.","Ajoute l'emmental et le jambon en petits dés.","Forme des petits tas sur une plaque.","Enfourne 20 min.|Four|20"]],
+  ["Gougères aux herbes","Aux herbes","Avec de la ciboulette et du parmesan.","Des gougères parfumées aux herbes fraîches.","",50,175,"M","herb cheese puffs","voe",
+   ["farine||100|g","beurre||70|g","œuf|œufs|3|","parmesan||60|g","ciboulette|ciboulette||","sel|||"],
+   ["Préchauffe le four à 200 °C et prépare la pâte à choux.","Ajoute le parmesan râpé et la ciboulette ciselée.","Forme des petits tas sur une plaque.","Enfourne 20 min.|Four|20"]]
+ ]},
+ {"q":"Soupe miso","a":["miso","soupe au miso","miso soup"],"r":[
+  ["Soupe miso au tofu","La classique","","Le bouillon japonais au miso, avec tofu, algues et oignon nouveau.","Recette japonaise",15,120,"F","miso soup tofu","vh",
+   ["pâte de miso|pâte de miso|4|c. à s.","tofu soyeux|tofu soyeux|200|g","algues wakamé|algues wakamé|5|g","oignon nouveau|oignons nouveaux|2|"],
+   ["Fais tremper les algues 5 min dans l'eau froide.","Porte 1 litre d'eau à frémissement, sans faire bouillir.","Délaye le miso dans une louche d'eau chaude et verse-le dans la casserole.","Ajoute le tofu en dés, les algues égouttées et l'oignon émincé.","Sers tout de suite, sans faire bouillir le miso."]],
+  ["Soupe miso aux nouilles","Aux nouilles","Avec des nouilles et des champignons pour en faire un repas.","Une soupe miso complète, avec des nouilles udon.","",20,350,"F","miso noodle soup","vh",
+   ["pâte de miso|pâte de miso|4|c. à s.","nouilles udon|nouilles udon|400|g","champignon de Paris|champignons de Paris|150|g","pousses d'épinard|pousses d'épinard|100|g","oignon nouveau|oignons nouveaux|2|"],
+   ["Porte 1,2 litre d'eau à frémissement avec les champignons émincés.|Cuisson|5","Ajoute les nouilles et laisse cuire selon le paquet.","Délaye le miso dans une louche de bouillon et ajoute-le.","Ajoute les épinards et l'oignon émincé, et sers aussitôt."]],
+  ["Soupe miso au saumon","Au saumon","Avec des dés de saumon pochés dans le bouillon.","Une soupe miso plus consistante, au saumon.","",20,230,"F","salmon miso soup","h",
+   ["pâte de miso|pâte de miso|4|c. à s.","pavé de saumon|pavés de saumon|2|","tofu soyeux|tofu soyeux|150|g","oignon nouveau|oignons nouveaux|2|","algues wakamé|algues wakamé|5|g"],
+   ["Fais tremper les algues 5 min.","Porte 1 litre d'eau à frémissement et poche le saumon en dés 4 min.|Cuisson|4","Délaye le miso dans une louche de bouillon et ajoute-le.","Ajoute le tofu, les algues et l'oignon, puis sers."]]
+ ]},
+ {"q":"Velouté de brocoli","a":["soupe de brocoli","veloute brocolis","creme de brocoli"],"r":[
+  ["Velouté de brocoli","La classique","","Un velouté tout vert et doux, avec une pomme de terre pour l'onctuosité.","",30,150,"F","broccoli soup","vhbf",
+   ["brocoli|brocolis|1|","pomme de terre|pommes de terre|1|","oignon||1|","bouillon de légumes|bouillon de légumes|1|","crème fraîche|crème fraîche|2|c. à s."],
+   ["Fais revenir l'oignon émincé dans une casserole.","Ajoute le brocoli en fleurettes, la pomme de terre en dés, le bouillon et 80 cl d'eau.","Laisse cuire 20 min.|Cuisson|20","Mixe avec la crème, sale et poivre."]],
+  ["Velouté de brocoli au fromage","Au fromage","Avec du cheddar fondu.","Le velouté de brocoli crémeux au cheddar, qui plaît aux enfants.","",30,250,"F","broccoli cheddar soup","vbf",
+   ["brocoli|brocolis|1|","pomme de terre|pommes de terre|1|","oignon||1|","bouillon de légumes|bouillon de légumes|1|","cheddar râpé|cheddar râpé|100|g","lait||20|cl"],
+   ["Fais revenir l'oignon, ajoute le brocoli, la pomme de terre, le bouillon et 60 cl d'eau.","Laisse cuire 20 min.|Cuisson|20","Mixe avec le lait.","Ajoute le cheddar et remue jusqu'à ce qu'il fonde."]],
+  ["Velouté brocoli et lait de coco","Coco","Avec du lait de coco et du gingembre.","Un velouté vegan parfumé au gingembre et au lait de coco.","",30,200,"F","broccoli coconut soup","vhb",
+   ["brocoli|brocolis|1|","oignon||1|","gingembre|gingembre|1|c. à c.","lait de coco|lait de coco|20|cl","bouillon de légumes|bouillon de légumes|1|"],
+   ["Fais revenir l'oignon et le gingembre.","Ajoute le brocoli, le bouillon et 70 cl d'eau, et laisse cuire 20 min.|Cuisson|20","Mixe avec le lait de coco.","Sale et poivre."]]
+ ]},
+ {"q":"Soupe de pois cassés","a":["pois casses","veloute de pois casses","puree de pois casses"],"r":[
+  ["Soupe de pois cassés","La classique","","La soupe d'hiver épaisse et réconfortante, avec des lardons dorés.","",70,380,"F","split pea soup","b",
+   ["pois cassés|pois cassés|300|g","carotte||2|","oignon||1|","lardon|lardons|150|g","bouillon de légumes|bouillon de légumes|1|","crème fraîche|crème fraîche|2|c. à s."],
+   ["Rince les pois cassés.","Fais revenir l'oignon et les carottes en rondelles.","Ajoute les pois, le bouillon et 1,2 litre d'eau, et laisse cuire 50 min.|Cuisson|50","Mixe avec la crème.","Fais dorer les lardons et parsème-les sur la soupe.|Poêle|5"]],
+  ["Soupe de pois cassés végétarienne","Végétarienne","Sans lardons, avec du cumin.","Une soupe de pois cassés vegan, parfumée au cumin.","",65,300,"F","vegan split pea soup","vhb",
+   ["pois cassés|pois cassés|300|g","carotte||2|","oignon||1|","cumin|cumin|1|c. à c.","bouillon de légumes|bouillon de légumes|1|","huile d'olive|huile d'olive|2|c. à s."],
+   ["Fais revenir l'oignon et les carottes dans l'huile avec le cumin.","Ajoute les pois cassés rincés, le bouillon et 1,2 litre d'eau.","Laisse cuire 50 min.|Cuisson|50","Mixe, sale et poivre."]],
+  ["Soupe de pois cassés au jambon","Au jambon","Avec du jambon en dés et des croûtons.","La soupe de pois cassés en plat complet.","",70,400,"F","split pea ham soup","b",
+   ["pois cassés|pois cassés|300|g","jambon blanc|jambon blanc|4|tranches","carotte||2|","oignon||1|","bouillon de légumes|bouillon de légumes|1|","pain de mie|pains de mie|2|tranches"],
+   ["Fais revenir l'oignon et les carottes, ajoute les pois rincés, le bouillon et 1,2 litre d'eau.","Laisse cuire 50 min, puis mixe.|Cuisson|50","Fais griller le pain de mie en petits croûtons.","Sers avec le jambon en dés et les croûtons."]]
+ ]}
+]
