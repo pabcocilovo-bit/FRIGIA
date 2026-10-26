@@ -50,7 +50,7 @@ export default async function handler(req: Req, res: Res) {
   // Essai fini, sans Plus : « Passe à Plus »
   if (!plus) return res.status(403).json({ error: "Ton essai est terminé.", code: "quota" });
   // Explorer : une recette demandée par son nom (api/_dish.ts)
-  if (typeof (req.body as { query?: unknown } | undefined)?.query === "string") return dish(req, res, user.id);
+  if (typeof (req.body as { query?: unknown } | undefined)?.query === "string") return dish(req, res, user.id, admin);
   const empty = body.empty === true;
   // Zéro course : n'a pas de sens frigo vide (on y fait justement une petite liste de courses)
   const noShop = body.noShop === true && !empty;

@@ -1,20 +1,21 @@
 // Explorer (V3, maquette de Hugo du 25 octobre) : chercher une recette, frigo plein ou vide.
 // Une recette demandée par son nom (« tartiflette ») revient en 3 : la classique et 2 variantes (plus légère, sans crème…),
-// par l'IA (api/dish.ts). Un ingrédient, une catégorie ou un type de plat : 3 plats différents.
+// par l'IA (api/_dish.ts) ou le catalogue des recherches déjà faites. Un ingrédient, une catégorie ou un type de plat : 3 plats différents.
+// Les recettes arrivent pour 4 portions, sans rien savoir de Ma cuisine : ce qu'on a déjà est coché ici.
 // La recherche est dans l'adresse (?q=) : le retour du téléphone revient à Explorer, et les réponses sont gardées 24 h.
 import { type FormEvent, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import { Chip, Icon, Pill } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry } from "../lib/types";
 import type { Fridge } from "../lib/home";
-import { apiEaters, type Person, portionsOf } from "../lib/household";
+import { apiEaters, type Person } from "../lib/household";
 import { searchDish } from "../lib/scan";
 import { AppTabBar } from "./AppTabBar";
 import { GreenHead } from "./GreenHead";
 import { weekRecipes } from "./featured";
 import { useRecipePhoto } from "./photo";
 import { useOpenPaywall } from "./plus/subscription";
-import { minutesOf } from "./scan/portions";
+import { inFridge, minutesOf } from "./scan/portions";
 import { plural } from "./format";
 
 const norm = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/œ/g, "oe").trim();
@@ -134,22 +135,20 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
   useEffect(() => {
     if (!q || hit) return;
     let live = true;
-    const people = household;
-    void searchDish({
-      query: q, kitchen: kitchen.items.map(i => i.name),
-      servings: people.length ? Math.max(1, Math.round(portionsOf(people, 0))) : 2,
-      eaters: people.length ? apiEaters(people) : undefined,
-    }).then(r => {
+    void searchDish({ query: q, eaters: household.length ? apiEaters(household) : undefined }).then(r => {
       if (!live) return;
       if (r.status === "ok") { remember(q, r.recipes); setFetched({ key, state: "ok", recipes: r.recipes }); }
       else if (r.status === "quota") openPaywall("def", "/explorer");
       else setFetched({ key, state: "error", recipes: [], message: r.status === "error" ? (r.message ?? (r.rate ? "Beaucoup de recherches cette heure-ci. Réessaie un peu plus tard." : "La recherche n'a pas marché. Vérifie ta connexion et réessaie.")) : undefined });
     });
     return () => { live = false; };
-    // Une recherche par adresse : le reste (cuisine, foyer) est lu au moment de chercher
+    // Une recherche par adresse : le foyer est lu au moment de chercher
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, hit]);
   const search: Search | null = !q ? null : hit ? { key, state: "ok", recipes: hit } : fetched?.key === key ? fetched : { key, state: "loading", recipes: [] };
+  // Ce qu'il y a dans Ma cuisine, coché sur les recettes trouvées
+  const found = (search?.state === "ok" ? search.recipes : [])
+    .map(r => (r.items ? { ...r, items: r.items.map(i => ({ ...i, have: inFridge(i.name, kitchen.items) })) } : r));
 
   const go = (query: string, c?: string) => {
     const next = query.trim();
@@ -206,9 +205,9 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
             </div>
           )}
           {search?.state === "ok" && (
-            !search.recipes.length ? <p className="sp-hint">Pas de recette trouvée. Essaie un autre nom.</p>
-            : search.recipes.filter(pass).length
-              ? <div className="ex-results">{search.recipes.filter(pass).map(r => <Result key={r.title} recipe={r} fav={isFav(r)} onOpen={() => onOpenRecipe(r)} />)}</div>
+            !found.length ? <p className="sp-hint">Pas de recette trouvée. Essaie un autre nom.</p>
+            : found.filter(pass).length
+              ? <div className="ex-results">{found.filter(pass).map(r => <Result key={r.title} recipe={r} fav={isFav(r)} onOpen={() => onOpenRecipe(r)} />)}</div>
               : <p className="sp-hint">Aucune recette ne passe les filtres. Enlève un filtre pour tout voir.</p>
           )}
           {local.filter(pass).length > 0 && <>
