@@ -11,7 +11,7 @@ import { useOpenScan } from "./offline";
 import { useNotifs } from "../lib/notify";
 import "./notifs/notifs.css";
 import { useOpenPaywall } from "./plus/subscription";
-import { forTonight, type Person, portionsOf, portTxt } from "../lib/household";
+import { type Person, portionsOf, portTxt } from "../lib/household";
 import type { Fridge, MealKey, ShopItem, Week } from "../lib/home";
 import { weekRecipes } from "./featured";
 import { useScan } from "./scan/store";
@@ -171,12 +171,11 @@ export function Home({ user, isPlus, avatar, history, favorites, cooked, househo
               <Icon name="redo" /><span>Revoir {done.key === "m" || done.key === "md" ? "ce midi" : "ce soir"} : <b>{done.slot.recipe.title}</b></span>
             </button>
           )}
-          {isPlus && <p className="hm-next-ft"><Icon name="pin" /><span>{forTonight(eaters, scan.guests, when)}</span></p>}
         </section>
 
         <button type="button" className="hm-space" onClick={() => navigate("/espace")}>
           <span className="hm-space-ic"><Icon name="grid" /></span>
-          <span className="tx"><b>Mon espace Frigia</b><span>Mes économies, mes scans, mes favoris et mes courses</span></span>
+          <span className="tx"><b>Mon espace Frigia</b></span>
           <Icon name="next" />
         </button>
       </div>

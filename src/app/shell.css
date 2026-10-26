@@ -313,18 +313,22 @@ body:has(.fa .tabbar) .fa.ck-live-wrap{bottom:calc(90px + env(safe-area-inset-bo
 
 /* Accueil */
 .fa.hm3 .ghead{padding-bottom:30px}
+/* Tout l'accueil tient en un écran, jusqu'au menu (Hugo, 26 octobre) : la recette de la semaine prend la place qui reste.
+   Avec la carte « Ton avis », elle rétrécit. Sur un petit téléphone, elle garde une hauteur minimale et la page défile un peu. */
+.fa.fa-app.hm3{display:flex;flex-direction:column}
+.fa.hm3 .hm-body{flex:1}
 .fa.hm3 .ghead .hd-row{position:relative;z-index:1}
 .fa .hm-me{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 15px 0 11px;border-radius:999px;background:var(--on);color:var(--sage-deep);font:600 14.5px/1 var(--sans)}
 .fa .hm-me .i{width:20px;height:20px}
 /* Petit écran : l'icône seule, pour laisser « Frigia » au milieu */
 @media (max-width:359px){.fa .hm-me{width:40px;padding:0;justify-content:center}.fa .hm-me-tx{display:none}}
 .fa .hm-pp{width:24px;height:24px;border-radius:50%;background:var(--surface) center/cover}
-.fa .hm-body{padding:4px 16px 112px;display:flex;flex-direction:column;gap:14px}
-.fa .hm-hero{position:relative;overflow:hidden;border-radius:24px;padding:22px 18px 16px;background:color-mix(in srgb,var(--sage-soft) 55%,var(--card));box-shadow:0 1px 0 var(--line)}
-.fa .hm-hero>img{position:absolute;top:0;right:0;width:38%;bottom:36px;object-fit:cover;object-position:50% 30%;border-radius:18px 24px 18px 18px}
-.fa .hm-hero h1{margin:0;max-width:62%;font:400 32px/1.02 var(--serif);color:var(--sage-deep)}
-.fa .hm-hero p{margin:10px 0 0;max-width:60%;font-size:14.5px;line-height:1.4;color:var(--muted)}
-.fa .hm-scan{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:14px;width:100%;height:58px;margin-top:16px;border-radius:999px;background:var(--sage);color:var(--on);font:600 17px/1 var(--sans);box-shadow:0 14px 24px -16px rgba(52,80,59,.9)}
+.fa .hm-body{padding:4px 16px calc(92px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px}
+.fa .hm-hero{position:relative;overflow:hidden;border-radius:24px;padding:14px 14px 12px;background:color-mix(in srgb,var(--sage-soft) 55%,var(--card));box-shadow:0 1px 0 var(--line)}
+.fa .hm-hero>img{position:absolute;top:0;right:0;width:36%;bottom:30px;object-fit:cover;object-position:50% 30%;border-radius:18px 24px 18px 18px}
+.fa .hm-hero h1{margin:0;max-width:60%;font:400 26px/1.02 var(--serif);color:var(--sage-deep)}
+.fa .hm-hero p{margin:6px 0 0;max-width:58%;font-size:13px;line-height:1.4;color:var(--muted)}
+.fa .hm-scan{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:14px;width:100%;height:48px;margin-top:12px;border-radius:999px;background:var(--sage);color:var(--on);font:600 16px/1 var(--sans);box-shadow:0 14px 24px -16px rgba(52,80,59,.9)}
 .fa .hm-scan .i{width:24px;height:24px}
 .fa .hm-scan:active{transform:scale(.98)}
 .fa .hm-search{display:flex;align-items:center;gap:4px;padding:6px 8px 6px 6px;border-radius:999px;background:var(--card);box-shadow:0 1px 0 var(--line),0 8px 18px -16px rgba(31,42,34,.4)}
@@ -334,11 +338,13 @@ body:has(.fa .tabbar) .fa.ck-live-wrap{bottom:calc(90px + env(safe-area-inset-bo
 .fa .hm-search input::placeholder{color:var(--muted)}
 .fa .hm-filter{width:42px;height:42px;display:grid;place-items:center;flex:none;color:var(--sage-deep)}
 .fa .hm-filter .i{width:23px;height:23px}
-.fa .hm-wk{position:relative;height:290px;border-radius:22px;overflow:hidden;box-shadow:0 14px 26px -20px rgba(31,42,34,.6)}
+.fa .hm-wk{position:relative;flex:1 1 0;min-height:150px;border-radius:22px;overflow:hidden;box-shadow:0 14px 26px -20px rgba(31,42,34,.6)}
 .fa .hm-wk img{width:100%;height:100%;object-fit:cover}
-.fa .hm-wk .wk-cap{left:18px;right:110px;bottom:18px}
-.fa .hm-wk .wk-dots{right:12px;bottom:16px}
-.fa .hm-next{display:flex;flex-direction:column;gap:10px;padding:14px 14px 12px;border-radius:22px;background:var(--sage);color:var(--on);box-shadow:0 18px 30px -20px rgba(52,80,59,.8)}
+.fa .hm-wk .wk-track{position:absolute;inset:0;height:auto}
+.fa .hm-body:has(.av-card) .hm-wk{min-height:100px}
+.fa .hm-wk .wk-cap{left:18px;right:110px;bottom:14px}
+.fa .hm-wk .wk-dots{right:12px;bottom:12px}
+.fa .hm-next{display:flex;flex-direction:column;gap:8px;padding:10px;border-radius:22px;background:var(--sage);color:var(--on);box-shadow:0 18px 30px -20px rgba(52,80,59,.8)}
 .fa .hm-next-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 4px 0 6px}
 .fa .hm-next-hd h2{margin:0;font:700 13px/1.2 var(--sans);letter-spacing:.09em;text-transform:uppercase}
 .fa .hm-next-hd button{display:inline-flex;align-items:center;gap:2px;flex:none;color:inherit;font:600 14px/1 var(--sans);text-decoration:underline;text-underline-offset:4px}
@@ -346,14 +352,11 @@ body:has(.fa .tabbar) .fa.ck-live-wrap{bottom:calc(90px + env(safe-area-inset-bo
 .fa .hm-next .tn-card{margin:0}
 .fa .hm-q{width:62px;height:62px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--sage-soft);color:var(--sage-deep)}
 .fa .hm-q .i{width:28px;height:28px}
-.fa .hm-next-ft{display:flex;align-items:center;gap:8px;margin:0;padding:0 6px 2px;font-size:13.5px;opacity:.92}
-.fa .hm-next-ft .i{width:17px;height:17px;flex:none}
-.fa .hm-space{display:flex;align-items:center;gap:14px;width:100%;padding:14px;border-radius:22px;background:var(--card);text-align:left;color:var(--sage-deep);box-shadow:0 1px 0 var(--line),0 8px 18px -16px rgba(31,42,34,.4)}
-.fa .hm-space-ic{width:64px;height:64px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--surface)}
-.fa .hm-space-ic .i{width:28px;height:28px}
+.fa .hm-space{display:flex;align-items:center;gap:14px;width:100%;padding:10px;border-radius:18px;background:var(--card);text-align:left;color:var(--sage-deep);box-shadow:0 1px 0 var(--line),0 8px 18px -16px rgba(31,42,34,.4)}
+.fa .hm-space-ic{width:42px;height:42px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--surface)}
+.fa .hm-space-ic .i{width:22px;height:22px}
 .fa .hm-space .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
-.fa .hm-space b{font:400 23px/1.1 var(--serif)}
-.fa .hm-space .tx span{font-size:13.5px;line-height:1.35;color:var(--muted)}
+.fa .hm-space b{font:400 19px/1.1 var(--serif)}
 .fa .hm-space>.i{width:22px;height:22px;flex:none}
 
 /* Mon espace Frigia */
