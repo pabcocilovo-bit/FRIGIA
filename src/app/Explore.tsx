@@ -36,11 +36,11 @@ const TYPES = [
   { label: "Desserts", q: "desserts", img: "/featured/brownie-banane.jpg" },
 ];
 // Recettes tendances : des plats qu'on cherche souvent. Toucher lance la recherche (la classique et ses variantes).
-const TRENDS = [
+const TRENDS: { label: string; img: string; time: string; q?: string }[] = [
   { label: "Gratin de courgettes", img: "/landing/gratin-courgettes.jpg", time: "40 min" },
   { label: "Wrap au poulet", img: "/landing/wrap-proteine.jpg", time: "15 min" },
   { label: "Soupe de légumes", img: "/landing/soupe-detox.jpg", time: "30 min" },
-  { label: "Pommes de terre smashées", img: "/featured/pommes-de-terre-smashees.jpg", time: "35 min" },
+  { label: "Pommes de terre smashées", q: "smashed potatoes", img: "/featured/pommes-de-terre-smashees.jpg", time: "35 min" },
   { label: "Salade caprese", img: "/landing/salade-caprese.jpg", time: "10 min" },
 ];
 
@@ -246,7 +246,7 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
           <div className="sp-hd"><h2 className="sp-sec">Recettes tendances</h2></div>
           <div className="ex-row">
             {TRENDS.map(t => (
-              <button key={t.label} type="button" className="ex-card" onClick={() => go(t.label)}>
+              <button key={t.label} type="button" className="ex-card" onClick={() => go(t.q ?? t.label)}>
                 <span className="ex-img"><img src={t.img} alt="" loading="lazy" /></span>
                 <b>{t.label}</b>
                 <span>{t.time} · et ses variantes</span>
