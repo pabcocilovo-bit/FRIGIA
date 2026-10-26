@@ -133,16 +133,19 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
   const picked = chip ?? mine[0] ?? null;
   // « Œufs » trouve « œuf » : sans le s final
   const fromCatalog = picked ? byChip[picked] : undefined;
-  // Tes recettes d'abord, puis celles du catalogue, avec ce que tu as déjà coché
+  // Tes recettes d'abord, puis ta dernière recherche de ce mot (« pêches »), puis le catalogue, avec ce que tu as déjà coché
   const withChip = useMemo(() => {
     if (!picked) return [];
     const seen = new Set<string>();
-    return [...known.filter(r => norm(words(r)).includes(norm(picked).replace(/s$/, ""))), ...(fromCatalog ?? [])]
+    return [...known.filter(r => norm(words(r)).includes(norm(picked).replace(/s$/, ""))), ...(cached(picked) ?? []), ...(fromCatalog ?? [])]
       .filter(r => !seen.has(r.title) && !!seen.add(r.title))
       .map(r => (r.items ? { ...r, items: r.items.map(i => ({ ...i, have: inFridge(i.name, kitchen.items) })) } : r));
-  }, [picked, known, fromCatalog, kitchen.items]);
+    // q : revenir d'une recherche relit les réponses gardées
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [picked, known, fromCatalog, kitchen.items, q]);
   useEffect(() => {
-    if (q || !picked || !isPlus || byChip[picked]) return;
+    // Rien trouvé : on redemande au retour d'une recherche (elle a pu ajouter ce mot au catalogue)
+    if (q || !picked || !isPlus || byChip[picked]?.length) return;
     const keep = (recipes: GeneratedRecipe[]) => setByChip(m => ({ ...m, [picked]: recipes }));
     const saved = cached(`+${picked}`);
     if (saved) { keep(saved); return; }
@@ -150,7 +153,7 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
     void searchDish({ query: picked, catalogOnly: true, eaters: household.length ? apiEaters(household) : undefined }).then(r => {
       if (!live) return;
       const recipes = r.status === "ok" ? r.recipes : [];
-      if (r.status === "ok") remember(`+${picked}`, recipes);
+      if (recipes.length) remember(`+${picked}`, recipes);
       keep(recipes);
     });
     return () => { live = false; };
