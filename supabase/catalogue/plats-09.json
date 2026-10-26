@@ -1,0 +1,112 @@
+[
+ {"q":"Crêpes","a":["pate a crepes","crepe","crepes sucrees","crepes maison"],"r":[
+  ["Crêpes","La classique","","La pâte à crêpes inratable, fine et légère, pour le goûter ou la Chandeleur.","",40,220,"F","french crepes","vdbf",
+   ["farine||250|g","œuf|œufs|4|","lait||50|cl","beurre fondu|beurre fondu|30|g","sucre|sucre|1|c. à s.","sel|||"],
+   ["Mets la farine, le sucre et une pincée de sel dans un saladier, et creuse un puits.","Ajoute les œufs, puis le lait petit à petit en fouettant pour éviter les grumeaux.","Ajoute le beurre fondu et laisse reposer 30 min si tu peux.|Repos|30","Fais cuire les crêpes dans une poêle chaude légèrement beurrée, 1 min de chaque côté."]],
+  ["Crêpes sans lactose","Sans lait","Le lait de vache est remplacé par du lait d'avoine et le beurre par de l'huile.","Des crêpes aussi fines, sans produits laitiers.","",40,200,"F","dairy free crepes","vdbf",
+   ["farine||250|g","œuf|œufs|3|","lait d'avoine|lait d'avoine|50|cl","huile de tournesol|huile de tournesol|2|c. à s.","sucre|sucre|1|c. à s.","sel|||"],
+   ["Mélange la farine, le sucre et le sel, puis ajoute les œufs.","Verse le lait d'avoine petit à petit en fouettant, puis l'huile.","Laisse reposer 30 min.|Repos|30","Fais cuire les crêpes dans une poêle chaude huilée."]],
+  ["Galettes de sarrasin complètes","Galettes salées","Farine de sarrasin, avec jambon, œuf et fromage.","Les galettes bretonnes complètes : jambon, œuf et emmental.","Spécialité bretonne",40,420,"F","buckwheat galette ham egg cheese","bf",
+   ["farine de sarrasin|farine de sarrasin|250|g","œuf|œufs|5|","jambon blanc|jambon blanc|4|tranches","emmental râpé|emmental râpé|100|g","beurre||30|g","sel|||"],
+   ["Mélange la farine, 1 œuf, une pincée de sel et 60 cl d'eau froide. Laisse reposer 1 h.|Repos|60","Fais cuire une galette dans une poêle beurrée 2 min.|Poêle|2","Retourne-la, ajoute emmental, jambon et casse un œuf au centre.","Replie les bords en carré et laisse cuire jusqu'à ce que le blanc soit pris.|Poêle|3"]]
+ ]},
+ {"q":"Gaufres","a":["gaufre","pate a gaufres"],"r":[
+  ["Gaufres","La classique","","Des gaufres croustillantes dehors et moelleuses dedans.","",40,300,"F","waffles","vdbf",
+   ["farine||250|g","œuf|œufs|3|","lait||50|cl","beurre fondu|beurre fondu|80|g","sucre|sucre|30|g","levure chimique|levure chimique|1|c. à c.","sucre vanillé|sucres vanillés|1|","sel|||"],
+   ["Mélange la farine, la levure, les sucres et le sel.","Ajoute les jaunes d'œufs, puis le lait et le beurre fondu.","Monte les blancs en neige et incorpore-les délicatement.","Fais cuire dans le gaufrier chaud 3 à 4 min.|Gaufrier|4"]],
+  ["Gaufres de Liège","De Liège","Une pâte levée avec du sucre perlé qui caramélise.","Les gaufres belges épaisses, au sucre perlé caramélisé.","Spécialité belge",120,380,"M","liege waffles pearl sugar","vd",
+   ["farine||400|g","œuf|œufs|3|","lait tiède|lait tiède|15|cl","beurre mou|beurre mou|200|g","levure de boulanger|levure de boulanger|10|g","sucre perlé|sucre perlé|150|g","sel|||"],
+   ["Délaye la levure dans le lait tiède.","Mélange la farine, les œufs, le lait et le sel, puis incorpore le beurre mou.","Laisse lever 1 h dans un endroit tiède.|Levée|60","Ajoute le sucre perlé, forme des boules et fais-les cuire 4 min dans le gaufrier.|Gaufrier|4"]],
+  ["Gaufres légères","Plus légères","Moins de beurre, et du fromage blanc dans la pâte.","Des gaufres moelleuses et plus légères.","",35,220,"F","light waffles","vdhf",
+   ["farine||200|g","œuf|œufs|2|","lait demi-écrémé||30|cl","fromage blanc||100|g","beurre fondu|beurre fondu|30|g","sucre|sucre|20|g","levure chimique|levure chimique|1|c. à c."],
+   ["Mélange la farine, la levure et le sucre.","Ajoute les œufs, le fromage blanc, le lait et le beurre fondu.","Fais cuire 4 min dans le gaufrier chaud.|Gaufrier|4"]]
+ ]},
+ {"q":"Pancakes","a":["pancake","pancakes americains"],"r":[
+  ["Pancakes","La classique","","Des pancakes épais et moelleux, à servir avec du sirop d'érable.","Plat américain",25,280,"F","fluffy pancakes","vdbf",
+   ["farine||250|g","œuf|œufs|2|","lait||30|cl","beurre fondu|beurre fondu|40|g","sucre|sucre|30|g","levure chimique|levure chimique|2|c. à c.","sel|||","sirop d'érable|sirop d'érable||"],
+   ["Mélange la farine, la levure, le sucre et une pincée de sel.","Ajoute les œufs, le lait et le beurre fondu, et mélange juste ce qu'il faut.","Verse une petite louche de pâte dans une poêle chaude beurrée.","Retourne quand des bulles apparaissent, après 2 min, et cuis 1 min de l'autre côté.|Poêle|3","Sers avec le sirop d'érable."]],
+  ["Pancakes à la banane","À la banane","Une banane écrasée remplace une partie du sucre.","Des pancakes moelleux à la banane.","",25,270,"F","banana pancakes","vdbfh",
+   ["farine||200|g","banane||2|","œuf|œufs|2|","lait||25|cl","levure chimique|levure chimique|2|c. à c.","beurre||10|g"],
+   ["Écrase les bananes et mélange-les avec les œufs et le lait.","Ajoute la farine et la levure.","Fais cuire des petits pancakes 2 min de chaque côté dans une poêle beurrée.|Poêle|4"]],
+  ["Pancakes healthy à l'avoine","Healthy","La farine est remplacée par des flocons d'avoine mixés.","Des pancakes complets et rassasiants, sans sucre ajouté.","",20,240,"F","oat pancakes healthy","vdhf",
+   ["flocons d'avoine|flocons d'avoine|150|g","banane||1|","œuf|œufs|2|","lait||20|cl","levure chimique|levure chimique|1|c. à c.","myrtille|myrtilles|100|g"],
+   ["Mixe les flocons d'avoine avec la banane, les œufs, le lait et la levure.","Ajoute les myrtilles.","Fais cuire 2 min de chaque côté dans une poêle antiadhésive.|Poêle|4"]]
+ ]},
+ {"q":"Pain perdu","a":["pain perdu brioche","french toast"],"r":[
+  ["Pain perdu","La classique","","Le dessert anti-gaspi : du pain rassis trempé dans du lait sucré et des œufs, doré au beurre.","",15,320,"F","french toast pain perdu","vdbf",
+   ["pain rassis|pains rassis|8|tranches","œuf|œufs|2|","lait||25|cl","sucre|sucre|40|g","sucre vanillé|sucres vanillés|1|","beurre||30|g","cannelle|cannelle||"],
+   ["Mélange le lait, les œufs, les sucres et un peu de cannelle.","Trempe les tranches de pain des deux côtés.","Fais-les dorer dans le beurre 2 min de chaque côté.|Poêle|4","Saupoudre d'un peu de sucre et sers chaud."]],
+  ["Pain perdu brioché","Brioché","La brioche remplace le pain, avec une touche de caramel.","Une version encore plus gourmande, à la brioche caramélisée.","",15,420,"F","brioche french toast","vdf",
+   ["brioche|brioches|8|tranches","œuf|œufs|2|","lait||20|cl","sucre|sucre|50|g","beurre||30|g"],
+   ["Mélange le lait, les œufs et la moitié du sucre.","Trempe rapidement les tranches de brioche.","Fais-les dorer dans le beurre, saupoudre du reste de sucre et laisse caraméliser 1 min de chaque côté.|Poêle|5"]],
+  ["Pain perdu salé","Salé","Version salée au fromage et au jambon.","Le pain perdu en plat du soir, gratiné au fromage.","",20,420,"F","savory french toast ham cheese","bf",
+   ["pain rassis|pains rassis|8|tranches","œuf|œufs|3|","lait||20|cl","jambon blanc|jambon blanc|4|tranches","emmental râpé|emmental râpé|80|g","beurre||20|g","sel|||","poivre|||"],
+   ["Bats les œufs avec le lait, sel et poivre.","Trempe le pain et fais-le dorer dans le beurre 2 min d'un côté.|Poêle|2","Retourne, ajoute le jambon et l'emmental, couvre et cuis 3 min.|Poêle|3"]]
+ ]},
+ {"q":"Gâteau au chocolat","a":["fondant au chocolat","moelleux au chocolat","gateau chocolat"],"r":[
+  ["Gâteau au chocolat","La classique","","Le gâteau au chocolat fondant au cœur, le dessert préféré de tous.","",40,420,"F","chocolate cake","vodf",
+   ["chocolat noir|chocolat noir|200|g","beurre||150|g","sucre|sucre|120|g","œuf|œufs|4|","farine||60|g"],
+   ["Préchauffe le four à 180 °C.","Fais fondre le chocolat et le beurre ensemble.","Fouette les œufs avec le sucre, puis ajoute le chocolat et la farine.","Verse dans un moule beurré et enfourne 22 min : le centre doit rester tremblotant.|Four|22"]],
+  ["Gâteau au chocolat sans beurre","Plus léger","Le beurre est remplacé par de la compote de pommes.","Le fondant, en version plus légère.","",40,280,"F","light chocolate cake applesauce","vodh",
+   ["chocolat noir|chocolat noir|150|g","compote de pommes|compote de pommes|150|g","sucre|sucre|60|g","œuf|œufs|3|","farine||50|g"],
+   ["Préchauffe le four à 180 °C.","Fais fondre le chocolat et mélange-le avec la compote.","Ajoute les œufs battus avec le sucre, puis la farine.","Enfourne 25 min.|Four|25"]],
+  ["Gâteau au chocolat sans gluten","Sans gluten","La farine est remplacée par de la poudre d'amande.","Un fondant au chocolat et aux amandes, sans gluten.","",40,460,"F","flourless chocolate almond cake","vod",
+   ["chocolat noir|chocolat noir|200|g","beurre||120|g","sucre|sucre|100|g","œuf|œufs|4|","poudre d'amande|poudre d'amande|80|g"],
+   ["Préchauffe le four à 170 °C.","Fais fondre le chocolat et le beurre.","Fouette les œufs avec le sucre, ajoute le chocolat puis la poudre d'amande.","Enfourne 25 min.|Four|25"]]
+ ]},
+ {"q":"Brownie","a":["brownies","brownie aux noix"],"r":[
+  ["Brownie aux noix","La classique","","Un brownie dense et fondant, avec des noix croquantes.","Plat américain",35,450,"F","chocolate brownie walnuts","vodf",
+   ["chocolat noir|chocolat noir|200|g","beurre||150|g","sucre roux|sucre roux|150|g","œuf|œufs|3|","farine||80|g","noix|noix|80|g","sel|||"],
+   ["Préchauffe le four à 180 °C.","Fais fondre le chocolat et le beurre.","Fouette les œufs avec le sucre, ajoute le chocolat, la farine, une pincée de sel et les noix concassées.","Verse dans un moule carré et enfourne 20 min.|Four|20","Laisse refroidir avant de couper en carrés."]],
+  ["Brownie à la banane","À la banane","De la banane remplace une partie du beurre et du sucre.","Un brownie moelleux et anti-gaspi, avec des bananes bien mûres.","",35,330,"F","banana brownie","vodfh",
+   ["chocolat noir|chocolat noir|150|g","banane||2|","beurre||60|g","sucre roux|sucre roux|60|g","œuf|œufs|2|","farine||60|g"],
+   ["Préchauffe le four à 180 °C.","Fais fondre le chocolat avec le beurre.","Écrase les bananes et mélange avec les œufs, le sucre, le chocolat et la farine.","Enfourne 22 min.|Four|22"]],
+  ["Brownie sans gluten","Sans gluten","La farine est remplacée par de la poudre d'amande.","Un brownie fondant aux amandes, sans gluten.","",35,480,"F","gluten free brownie","vod",
+   ["chocolat noir|chocolat noir|200|g","beurre||120|g","sucre roux|sucre roux|120|g","œuf|œufs|3|","poudre d'amande|poudre d'amande|80|g","noisette|noisettes|50|g"],
+   ["Préchauffe le four à 180 °C.","Fais fondre le chocolat et le beurre.","Ajoute les œufs battus avec le sucre, la poudre d'amande et les noisettes concassées.","Enfourne 20 min.|Four|20"]]
+ ]},
+ {"q":"Cookies","a":["cookie","cookies pepites de chocolat","cookies maison"],"r":[
+  ["Cookies aux pépites de chocolat","La classique","","Des cookies croustillants sur les bords et moelleux au centre.","Plat américain",25,220,"F","chocolate chip cookies","vodf",
+   ["farine||200|g","beurre mou|beurre mou|100|g","sucre roux|sucre roux|100|g","œuf|œufs|1|","pépites de chocolat|pépites de chocolat|120|g","levure chimique|levure chimique|0.5|c. à c.","sel|||"],
+   ["Préchauffe le four à 180 °C.","Mélange le beurre mou et le sucre, puis ajoute l'œuf.","Ajoute la farine, la levure, une pincée de sel et les pépites.","Forme des boules et pose-les espacées sur une plaque.","Enfourne 10 min : ils doivent rester mous au centre.|Four|10"]],
+  ["Cookies à l'avoine","À l'avoine","Des flocons d'avoine et des raisins secs remplacent une partie de la farine.","Des cookies rustiques, à l'avoine et aux raisins.","",25,200,"F","oatmeal raisin cookies","vodh",
+   ["flocons d'avoine|flocons d'avoine|120|g","farine||100|g","beurre mou|beurre mou|90|g","sucre roux|sucre roux|80|g","œuf|œufs|1|","raisin sec|raisins secs|60|g","cannelle|cannelle|0.5|c. à c."],
+   ["Préchauffe le four à 180 °C.","Mélange le beurre et le sucre, ajoute l'œuf.","Ajoute la farine, les flocons, la cannelle et les raisins.","Forme des petits tas sur une plaque et enfourne 12 min.|Four|12"]],
+  ["Cookies tout chocolat","Double chocolat","Du cacao dans la pâte et des pépites de chocolat blanc.","Des cookies au cacao, avec du chocolat blanc fondant.","",25,240,"F","double chocolate cookies","vodf",
+   ["farine||170|g","cacao en poudre|cacao en poudre|30|g","beurre mou|beurre mou|100|g","sucre roux|sucre roux|110|g","œuf|œufs|1|","chocolat blanc|chocolat blanc|100|g","levure chimique|levure chimique|0.5|c. à c."],
+   ["Préchauffe le four à 180 °C.","Mélange le beurre, le sucre puis l'œuf.","Ajoute la farine, le cacao, la levure et le chocolat blanc en morceaux.","Forme des boules et enfourne 10 min.|Four|10"]]
+ ]},
+ {"q":"Muffins","a":["muffin","muffins myrtilles","muffins chocolat"],"r":[
+  ["Muffins aux myrtilles","La classique","","Des muffins bien gonflés, moelleux et pleins de myrtilles.","Plat américain",35,280,"F","blueberry muffins","vodf",
+   ["farine||250|g","sucre|sucre|120|g","œuf|œufs|2|","lait||15|cl","beurre fondu|beurre fondu|80|g","myrtille|myrtilles|150|g","levure chimique|levure chimique|2|c. à c."],
+   ["Préchauffe le four à 190 °C.","Mélange la farine, le sucre et la levure dans un saladier, et les œufs, le lait et le beurre dans un autre.","Verse le liquide sur la farine et mélange à peine, puis ajoute les myrtilles.","Remplis des caissettes aux trois quarts et enfourne 20 min.|Four|20"]],
+  ["Muffins au chocolat","Au chocolat","Du cacao et des pépites remplacent les myrtilles.","Des muffins tout chocolat, comme à la boulangerie.","",35,320,"F","chocolate muffins","vodf",
+   ["farine||220|g","cacao en poudre|cacao en poudre|30|g","sucre|sucre|120|g","œuf|œufs|2|","lait||15|cl","beurre fondu|beurre fondu|80|g","pépites de chocolat|pépites de chocolat|100|g","levure chimique|levure chimique|2|c. à c."],
+   ["Préchauffe le four à 190 °C.","Mélange les ingrédients secs, puis les liquides à part.","Réunis les deux sans trop mélanger, ajoute les pépites.","Remplis les caissettes et enfourne 20 min.|Four|20"]],
+  ["Muffins salés courgette et feta","Salés","Version salée, pour l'apéro ou la lunch box.","Des muffins salés à la courgette et à la feta.","",35,220,"F","savory zucchini feta muffins","voc",
+   ["farine||200|g","courgette||1|","feta|feta|100|g","œuf|œufs|2|","lait||15|cl","huile d'olive|huile d'olive|6|c. à s.","levure chimique|levure chimique|2|c. à c.","sel|||","poivre|||"],
+   ["Préchauffe le four à 190 °C. Râpe la courgette et presse-la pour enlever l'eau.","Mélange la farine, la levure, sel et poivre, puis les œufs, le lait et l'huile.","Ajoute la courgette et la feta en dés.","Remplis les caissettes et enfourne 22 min.|Four|22"]]
+ ]},
+ {"q":"Cake au citron","a":["gateau au citron","cake citron"],"r":[
+  ["Cake au citron","La classique","","Un cake moelleux et parfumé, nappé d'un glaçage au citron.","",60,320,"F","lemon loaf cake","vod",
+   ["farine||200|g","sucre|sucre|180|g","œuf|œufs|3|","beurre fondu|beurre fondu|120|g","citron||2|","levure chimique|levure chimique|2|c. à c.","sucre glace|sucre glace|80|g"],
+   ["Préchauffe le four à 180 °C.","Fouette les œufs et le sucre, ajoute le beurre fondu, le zeste et le jus d'un citron.","Ajoute la farine et la levure, et verse dans un moule à cake.","Enfourne 40 min.|Four|40","Mélange le sucre glace avec le jus de l'autre citron et nappe le cake refroidi."]],
+  ["Cake au citron et pavot","Au pavot","Des graines de pavot ajoutent du croquant.","Le cake au citron, avec des graines de pavot.","",60,330,"F","lemon poppy seed cake","vod",
+   ["farine||200|g","sucre|sucre|160|g","œuf|œufs|3|","beurre fondu|beurre fondu|120|g","citron||2|","graines de pavot|graines de pavot|2|c. à s.","levure chimique|levure chimique|2|c. à c."],
+   ["Préchauffe le four à 180 °C.","Mélange les œufs et le sucre, puis le beurre, le zeste et le jus des citrons.","Ajoute la farine, la levure et le pavot.","Enfourne 40 min dans un moule à cake.|Four|40"]],
+  ["Cake au citron léger","Plus léger","Le beurre est remplacé par du yaourt.","Le cake au citron, moelleux et plus léger.","",55,240,"F","light lemon yogurt cake","vodh",
+   ["farine||200|g","sucre|sucre|120|g","œuf|œufs|3|","yaourt nature|yaourts nature|1|","huile de tournesol|huile de tournesol|4|c. à s.","citron||2|","levure chimique|levure chimique|2|c. à c."],
+   ["Préchauffe le four à 180 °C.","Mélange les œufs, le sucre, le yaourt, l'huile, le zeste et le jus des citrons.","Ajoute la farine et la levure.","Enfourne 40 min.|Four|40"]]
+ ]},
+ {"q":"Gâteau au yaourt","a":["gateau yaourt","gateau au yaourt facile"],"r":[
+  ["Gâteau au yaourt","La classique","","Le premier gâteau qu'on apprend, moelleux et inratable.","",45,280,"F","yogurt cake","vodbf",
+   ["yaourt nature|yaourts nature|1|","farine||210|g","sucre|sucre|180|g","œuf|œufs|3|","huile de tournesol|huile de tournesol|6|cl","levure chimique|levure chimique|1|c. à c.","sucre vanillé|sucres vanillés|1|"],
+   ["Préchauffe le four à 180 °C.","Verse le yaourt dans un saladier.","Ajoute les œufs, le sucre, la farine, la levure, le sucre vanillé et l'huile, en mélangeant.","Verse dans un moule beurré et enfourne 35 min.|Four|35"]],
+  ["Gâteau au yaourt et aux pommes","Aux pommes","Des pommes en lamelles sont ajoutées dans la pâte.","Le gâteau au yaourt, avec des pommes fondantes.","",50,280,"F","apple yogurt cake","vodbf",
+   ["yaourt nature|yaourts nature|1|","farine||210|g","sucre|sucre|180|g","œuf|œufs|3|","huile de tournesol|huile de tournesol|6|cl","pomme||2|","levure chimique|levure chimique|1|c. à c."],
+   ["Préchauffe le four à 180 °C.","Prépare la pâte du gâteau au yaourt.","Ajoute les pommes épluchées en petits morceaux.","Enfourne 40 min.|Four|40"]],
+  ["Gâteau au yaourt marbré","Marbré","La moitié de la pâte est parfumée au cacao.","Le gâteau au yaourt, marbré au chocolat.","",45,300,"F","marble yogurt cake","vodbf",
+   ["yaourt nature|yaourts nature|1|","farine||210|g","sucre|sucre|180|g","œuf|œufs|3|","huile de tournesol|huile de tournesol|6|cl","cacao en poudre|cacao en poudre|2|c. à s.","levure chimique|levure chimique|1|c. à c."],
+   ["Préchauffe le four à 180 °C.","Prépare la pâte du gâteau au yaourt et partage-la en deux.","Ajoute le cacao dans une moitié.","Verse les deux pâtes en les alternant dans un moule et enfourne 35 min.|Four|35"]]
+ ]}
+]
