@@ -6,9 +6,8 @@ body:has(.fa-app){background:#EFE3D0}
 .fa.fa-app{position:relative;max-width:420px;min-height:100svh;margin:0 auto;overflow-x:clip}
 @media (min-width:460px){.fa.fa-app{box-shadow:0 0 0 1px #E0D6C3}}
 .fa.fa-app .tabbar{max-width:392px}
-/* Sous la barre du menu : du vert plein jusqu'aux 3/4 de sa hauteur, la barre posée dessus (Hugo, 27 octobre : le fondu faisait un halo) */
-.fa.fa-app:has(.tabbar)::after{content:"";position:fixed;left:0;right:0;bottom:0;max-width:420px;margin:0 auto;height:calc(64px + env(safe-area-inset-bottom,0px));background:var(--sage);z-index:19;pointer-events:none}
-.fa.fa-app .tabbar{box-shadow:none}
+/* La barre du menu posée en bas, collée au bord, coins arrondis en haut : la page ne se voit plus dessous (Hugo, 27 octobre : le fondu faisait un halo, la bande verte faisait bizarre) */
+.fa.fa-app .tabbar{left:0;right:0;bottom:0;max-width:420px;height:calc(70px + env(safe-area-inset-bottom,0px));padding:0 12px env(safe-area-inset-bottom,0px);border-radius:26px 26px 0 0;box-shadow:0 -10px 24px -18px rgba(31,42,34,.45)}
 /* Les bandeaux verts du haut restent en place quand la page défile */
 .fa .ghead,.fa .rhead{position:sticky;top:0;z-index:5}
 
