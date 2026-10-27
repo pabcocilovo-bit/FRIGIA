@@ -31,23 +31,32 @@ function prompt(r: Dish): string {
   const items = (Array.isArray(r.items) ? r.items as { name?: unknown }[] : [])
     .map(i => String(i?.name ?? "")).filter(n => n && !/^(sel|poivre|eau|huile)/.test(n)).slice(0, 6);
   return [
-    `Professional food photograph of ${r.imageSearch}, a home-cooked dish called "${r.title}".`,
-    items.length ? `Main ingredients (French names): ${items.join(", ")}.` : "",
+    // Pas le nom français entre guillemets : Z-Image l'écrivait sur la photo (« Tartifette au reblochon », 27 octobre)
+    `Professional food photograph of ${r.imageSearch}, a home-cooked dish.`,
+    items.length ? `Visible ingredients: ${items.join(", ")}.` : "",
     STYLE,
   ].filter(Boolean).join(" ");
 }
 
+// v2 : la version sans texte sur la photo (les images de la v1 restent dans le stockage, plus utilisées)
+const DIR = "catalog/v2";
 const slug = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80);
 
 /** fal.ai → l'image, puis Supabase Storage → son adresse publique */
 async function make(admin: SupabaseClient, r: Dish): Promise<string | null> {
+  const path = `${DIR}/${slug(r.title)}.jpg`;
+  const publicUrl = admin.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+  // Déjà faite (le catalogue n'a pas suivi) : on la reprend sans repayer
+  const known = await fetch(publicUrl, { method: "HEAD", signal: AbortSignal.timeout(5_000) }).catch(() => null);
+  if (known?.ok) return publicUrl;
   const res = await fetch(`https://fal.run/${MODEL}`, {
     method: "POST",
     headers: { Authorization: `Key ${process.env.FAL_KEY}`, "Content-Type": "application/json" },
     // Les modèles Nano Banana prennent un format (aspect_ratio), les autres une taille (image_size)
     body: JSON.stringify(MODEL.includes("nano-banana")
       ? { prompt: prompt(r), num_images: 1, aspect_ratio: "1:1", output_format: "jpeg" }
-      : { prompt: prompt(r), image_size: "square_hd", num_images: 1, enable_safety_checker: true, output_format: "jpeg" }),
+      // 768 px : assez pour la recette du jour sur un téléphone, et ~2 fois plus léger que 1024 (1 Mo l'image en 1024)
+      : { prompt: prompt(r), image_size: { width: 768, height: 768 }, num_images: 1, enable_safety_checker: true, output_format: "jpeg" }),
     signal: AbortSignal.timeout(45_000),
   });
   if (!res.ok) { console.error("fal:", res.status, (await res.text()).slice(0, 300)); return null; }
@@ -55,15 +64,15 @@ async function make(admin: SupabaseClient, r: Dish): Promise<string | null> {
   if (!url) return null;
   const img = await fetch(url, { signal: AbortSignal.timeout(20_000) });
   if (!img.ok) return null;
-  const path = `catalog/${slug(r.title)}.jpg`;
   const { error } = await admin.storage.from(BUCKET).upload(path, await img.arrayBuffer(), { contentType: "image/jpeg", upsert: true, cacheControl: "31536000" });
   if (error) { console.error("recipe-images:", error.message); return null; }
-  return admin.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+  return publicUrl;
 }
 
 /** La photo sur toutes les lignes du catalogue qui ont cette recette (le plat et les réserves) */
 async function keep(admin: SupabaseClient, title: string, imageUrl: string) {
-  const { data, error } = await admin.from("recipe_catalog").select("key, recipes").contains("recipes", [{ title }]);
+  // jsonb @> [{"title": …}] : contains() de supabase-js écrirait un tableau Postgres ({…}), pas du JSON
+  const { data, error } = await admin.from("recipe_catalog").select("key, recipes").filter("recipes", "cs", JSON.stringify([{ title }]));
   if (error) { console.error("recipe_catalog:", error.message); return; }
   for (const row of (data ?? []) as { key: string; recipes: CatalogRecipe[] }[]) {
     const recipes = row.recipes.map(r => (r.title === title ? { ...r, imageUrl } : r));
