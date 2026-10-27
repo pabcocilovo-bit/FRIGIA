@@ -44,7 +44,7 @@ const slug = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,
 
 /** fal.ai → l'image, puis Supabase Storage → son adresse publique */
 async function make(admin: SupabaseClient, r: Dish): Promise<string | null> {
-  const path = `${DIR}/${slug(r.title)}.jpg`;
+  const path = `${DIR}/${slug(r.title)}.webp`;
   const publicUrl = admin.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
   // Déjà faite (le catalogue n'a pas suivi) : on la reprend sans repayer
   const known = await fetch(publicUrl, { method: "HEAD", signal: AbortSignal.timeout(5_000) }).catch(() => null);
@@ -55,8 +55,8 @@ async function make(admin: SupabaseClient, r: Dish): Promise<string | null> {
     // Les modèles Nano Banana prennent un format (aspect_ratio), les autres une taille (image_size)
     body: JSON.stringify(MODEL.includes("nano-banana")
       ? { prompt: prompt(r), num_images: 1, aspect_ratio: "1:1", output_format: "jpeg" }
-      // 768 px : assez pour la recette du jour sur un téléphone, et ~2 fois plus léger que 1024 (1 Mo l'image en 1024)
-      : { prompt: prompt(r), image_size: { width: 768, height: 768 }, num_images: 1, enable_safety_checker: true, output_format: "jpeg" }),
+      // 768 px en WebP : assez pour la recette du jour sur un téléphone, et bien plus léger (1 Mo l'image en JPEG 1024)
+      : { prompt: prompt(r), image_size: { width: 768, height: 768 }, num_images: 1, enable_safety_checker: true, output_format: "webp" }),
     signal: AbortSignal.timeout(45_000),
   });
   if (!res.ok) { console.error("fal:", res.status, (await res.text()).slice(0, 300)); return null; }
@@ -64,7 +64,7 @@ async function make(admin: SupabaseClient, r: Dish): Promise<string | null> {
   if (!url) return null;
   const img = await fetch(url, { signal: AbortSignal.timeout(20_000) });
   if (!img.ok) return null;
-  const { error } = await admin.storage.from(BUCKET).upload(path, await img.arrayBuffer(), { contentType: "image/jpeg", upsert: true, cacheControl: "31536000" });
+  const { error } = await admin.storage.from(BUCKET).upload(path, await img.arrayBuffer(), { contentType: MODEL.includes("nano-banana") ? "image/jpeg" : "image/webp", upsert: true, cacheControl: "31536000" });
   if (error) { console.error("recipe-images:", error.message); return null; }
   return publicUrl;
 }

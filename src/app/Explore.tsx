@@ -98,7 +98,7 @@ function Result({ recipe, fav, onOpen }: { recipe: GeneratedRecipe; fav: boolean
 
 // Les rangées du jour, gardées 30 min sur le téléphone : revenir sur Explorer ne recharge rien,
 // mais les photos faites entre-temps (api/_images.ts) arrivent vite
-const ROWS = "frigia.explorer.rows.v5";
+const ROWS = "frigia.explorer.rows.v6";
 const KEEP_MS = 30 * 60 * 1000;
 const localDay = () => new Date().toLocaleDateString("fr-FR");
 function readRows(sig: string): Browse | null {
