@@ -187,13 +187,49 @@ export async function backfill(admin: SupabaseClient, max: number): Promise<{ do
   return { done, left: todo.length - done, total: all.size };
 }
 
+/** Le fichier d'une recette du scan : comme au catalogue, mais sous scan/ */
+const scanPath = (r: Dish) => `scan/${pathOf({ ...r, path: undefined }).slice(DIR.length + 1)}`;
+
+// Les photos refaites pour les anciens scans, par personne et par heure (sur cette instance) : le coût reste borné
+const restyled = new Map<string, { at: number; n: number }>();
+
+/**
+ * Les anciens scans et favoris, faits avant les photos IA (Hugo, 27 octobre : « dans tes dernières recettes, encore Pexels »).
+ * La recette du catalogue reprend sa photo (ou la fait) ; une recette de l'IA a la sienne sous scan/, faite d'après son titre
+ * (le nom anglais n'a pas été gardé dans l'historique). 6 au plus par appel. Rend { titre: adresse de la photo }.
+ */
+export async function restyle(admin: SupabaseClient, userId: string, list: { title: string; items: string[] }[]): Promise<Record<string, string>> {
+  const now = Date.now();
+  const used = restyled.get(userId);
+  const n = used && now - used.at < 3_600_000 ? used.n : 0;
+  const todo = list.slice(0, Math.max(0, Math.min(6, 60 - n)));
+  restyled.set(userId, { at: used && now - used.at < 3_600_000 ? used.at : now, n: n + todo.length });
+  const out: Record<string, string> = {};
+  await Promise.all(todo.map(async x => {
+    try {
+      const { data } = await admin.from("recipe_catalog").select("recipes").filter("recipes", "cs", JSON.stringify([{ title: x.title }])).limit(1);
+      const known = ((data?.[0] as { recipes: CatalogRecipe[] } | undefined)?.recipes ?? []).find(r => r.title === x.title);
+      if (known && current(known)) { out[x.title] = String(known.imageUrl); return; }
+      if (known) {
+        const url = await make(admin, known);
+        if (url) { await keep(admin, known.title, url); out[x.title] = url; }
+        return;
+      }
+      const dish: Dish = { title: x.title, imageSearch: x.title.toLowerCase(), items: x.items.map(name => ({ name })) };
+      const url = await make(admin, { ...dish, path: scanPath(dish) });
+      if (url) out[x.title] = url;
+    } catch (e) { console.error("fal:", e instanceof Error ? e.message : e); }
+  }));
+  return out;
+}
+
 /**
  * La photo IA d'une recette du scan, tout de suite (api/recipes.ts) : rangée sous scan/, reprise si le même titre revient.
  * null sans FAL_KEY, en cas d'erreur, ou après `ms` : l'appli garde alors la photo de Pexels.
  */
 export async function photoNow(admin: SupabaseClient, r: Dish, ms = 12_000): Promise<string | null> {
   if (!canGenerate() || !r.title || !r.imageSearch) return null;
-  const job = make(admin, { ...r, path: `scan/${pathOf({ ...r, path: undefined }).slice(DIR.length + 1)}` })
+  const job = make(admin, { ...r, path: scanPath(r) })
     .catch(e => { console.error("fal:", e instanceof Error ? e.message : e); return null; });
   // Trop long : la photo se finit quand même (elle servira la prochaine fois), la réponse ne l'attend pas
   waitUntil(job);

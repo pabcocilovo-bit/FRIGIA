@@ -6,7 +6,7 @@ import { askClaude, checkIdeasLimit, checkRateLimit, checkScanToken, prefLines, 
 import { norm, parse, type RawRecipe, salvage, shape, str, strs } from "./_recipe.js";
 import { dish } from "./_dish.js";
 import { browse } from "./_browse.js";
-import { backfill, canGenerate, photograph, photoNow } from "./_images.js";
+import { backfill, canGenerate, photograph, photoNow, restyle } from "./_images.js";
 import { catalogForFridge } from "./_fridge.js";
 import { constraintsOf } from "./_catalog.js";
 
@@ -57,6 +57,13 @@ export default async function handler(req: Req, res: Res) {
   if (typeof (req.body as { query?: unknown } | undefined)?.query === "string") return dish(req, res, user.id, admin);
   // Explorer, la page d'accueil en rangées (api/_browse.ts) : le catalogue seulement, jamais l'IA
   if ((req.body as { browse?: unknown } | undefined)?.browse === true) return browse(req, res, admin);
+  // Les photos IA des anciens scans et favoris (api/_images.ts, restyle)
+  const old = (req.body as { restyle?: unknown } | undefined)?.restyle;
+  if (Array.isArray(old)) {
+    if (!canGenerate()) return res.status(200).json({ photos: {} });
+    const list = old.map(o => ({ title: str((o as { title?: unknown })?.title, 80), items: strs((o as { items?: unknown })?.items, 8, 40) })).filter(o => o.title);
+    return restyle(admin, user.id, list).then(photos => res.status(200).json({ photos }), () => res.status(200).json({ photos: {} }));
+  }
   // Les photos IA de tout le catalogue, un paquet par appel (explorer?photos=1, api/_images.ts)
   if ((req.body as { photos?: unknown } | undefined)?.photos === true) {
     if (!canGenerate()) return res.status(503).json({ error: "FAL_KEY manquante" });

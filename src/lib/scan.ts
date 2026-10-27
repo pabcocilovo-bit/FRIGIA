@@ -184,6 +184,12 @@ export async function browseExplore(o: { ingredients: string[]; eaters?: ApiEate
   return { day: Number(data.day) || 0, hero: (data.hero ?? null) as BrowseDish | null, rows };
 }
 
+/** Les photos IA des anciens scans et favoris (faits avant le 27 octobre, photos Pexels) : { titre: adresse }, 6 au plus. */
+export async function restylePhotos(list: { title: string; items: string[] }[]): Promise<Record<string, string>> {
+  const { response, data } = await post("/api/recipes", { restyle: list });
+  return response?.ok && data.photos && typeof data.photos === "object" ? data.photos as Record<string, string> : {};
+}
+
 /** Les photos IA du catalogue, un paquet de plus (explorer?photos=1). null : erreur. */
 export async function fillCatalogPhotos(): Promise<{ done: number; left: number; total: number } | null> {
   const { response, data } = await post("/api/recipes", { photos: true });
