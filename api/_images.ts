@@ -12,8 +12,10 @@ const BUCKET = "recipe-images";
 // FAL_MODEL sur Vercel pour en essayer un autre : fal-ai/nano-banana (~0,04 $), fal-ai/nano-banana-2 (~0,08 $), fal-ai/flux/schnell…
 const MODEL = process.env.FAL_MODEL || "fal-ai/z-image/turbo";
 
-/** Une photo déjà générée (les autres, de Pexels, seront remplacées) */
-export const generated = (url: unknown) => typeof url === "string" && url.includes(`/object/public/${BUCKET}/`);
+// v3 : sans la liste « Visible ingredients » (la v2 posait des ingrédients crus sur le plat). Les anciennes restent dans le stockage, plus utilisées.
+const DIR = "catalog/v3";
+/** Une photo déjà générée dans la version en cours (les autres, de Pexels ou d'une ancienne version, seront remplacées) */
+export const generated = (url: unknown) => typeof url === "string" && url.includes(`/object/public/${BUCKET}/${DIR}/`);
 export const canGenerate = () => !!process.env.FAL_KEY;
 
 type Dish = Pick<CatalogRecipe, "title" | "imageSearch" | "imageUrl"> & { items?: unknown };
@@ -29,18 +31,18 @@ const STYLE = "Shot at a 60-degree angle, the dish centered and filling most of 
   + "only the dish and these props on the table, no text, no logo, no people, no hands.";
 
 function prompt(r: Dish): string {
+  // Les ingrédients qui font la différence entre les variantes (lardons ou champignons…), pas ceux qui lient le plat :
+  // « Visible ingredients: … œuf, crème » posait un œuf au plat sur la quiche et une cuillère de crème sur le hachis (27 octobre)
   const items = (Array.isArray(r.items) ? r.items as { name?: unknown }[] : [])
-    .map(i => String(i?.name ?? "")).filter(n => n && !/^(sel|poivre|eau|huile)/.test(n)).slice(0, 6);
+    .map(i => String(i?.name ?? "")).filter(n => n && !/^(sel|poivre|eau|huile|beurre|cr[èe]me|lait|farine|sucre|levure|fromage blanc|[œo]euf|bouillon|vin|ail|herbes)/i.test(n)).slice(0, 4);
   return [
     // Pas le nom français entre guillemets : Z-Image l'écrivait sur la photo (« Tartifette au reblochon », 27 octobre)
-    `Professional food photograph of ${r.imageSearch}, a home-cooked dish.`,
-    items.length ? `Visible ingredients: ${items.join(", ")}.` : "",
+    `Professional food photograph of ${r.imageSearch}, a home-cooked dish, fully cooked and served as it comes out of the kitchen`
+      + (items.length ? `, made with ${items.join(", ")} cooked into the dish, nothing raw placed on top.` : "."),
     STYLE,
-  ].filter(Boolean).join(" ");
+  ].join(" ");
 }
 
-// v2 : la version sans texte sur la photo (les images de la v1 restent dans le stockage, plus utilisées)
-const DIR = "catalog/v2";
 const slug = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80);
 
 /** fal.ai → l'image, puis Supabase Storage → son adresse publique */
