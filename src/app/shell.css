@@ -418,9 +418,11 @@ body:has(.fa .tabbar) .fa.ck-live-wrap{bottom:calc(90px + env(safe-area-inset-bo
 .fa .ex-pt b{font:400 19px/1.02 var(--serif);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .fa .ex-pt small{font:600 11px/1.2 var(--sans);opacity:.85}
 .fa .ex-poster .sp-heart{z-index:2}
-.fa .ex-top{flex:0 0 auto;display:flex;align-items:flex-end;scroll-snap-align:start}
-.fa .ex-top .ex-poster{flex:0 0 112px;z-index:1}
-.fa .ex-num{margin-right:-16px;font:400 132px/.74 var(--serif);color:transparent;-webkit-text-stroke:2.5px var(--sage-deep);letter-spacing:-.04em}
+/* Tailles fixes : sur iPhone, la carte calculée par aspect-ratio dans un flex se repliait (une seule affiche visible) */
+.fa .ex-top{position:relative;flex:0 0 176px;height:150px;scroll-snap-align:start}
+.fa .ex-top.two{flex-basis:214px}
+.fa .ex-top .ex-poster{position:absolute;right:0;bottom:0;width:112px;height:150px;aspect-ratio:auto;z-index:1}
+.fa .ex-num{position:absolute;left:0;bottom:-6px;font:400 132px/1 var(--serif);color:transparent;-webkit-text-stroke:2.5px var(--sage-deep);letter-spacing:-.04em}
 .fa .ex-skel{display:flex;flex-direction:column;gap:18px}
 .fa .ex-skel-hero{display:block;aspect-ratio:5/4;border-radius:24px;background:var(--surface);animation:ex-pulse 1.4s ease-in-out infinite}
 .fa .ex-skel-row{display:flex;gap:10px;overflow:hidden}

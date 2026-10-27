@@ -97,7 +97,7 @@ function Result({ recipe, fav, onOpen }: { recipe: GeneratedRecipe; fav: boolean
 }
 
 // Les rangées du jour, gardées sur le téléphone : revenir sur Explorer ne recharge rien
-const ROWS = "frigia.explorer.rows.v3";
+const ROWS = "frigia.explorer.rows.v4";
 const localDay = () => new Date().toLocaleDateString("fr-FR");
 function readRows(sig: string): Browse | null {
   try {
@@ -374,7 +374,7 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
                 <div className={cxRow(row)}>
                   {row.top
                     ? (items as BrowseDish[]).map((d, i) => (
-                      <span key={d.q} className="ex-top"><span className="ex-num" aria-hidden="true">{i + 1}</span>{tile(d)}</span>))
+                      <span key={d.q} className={"ex-top" + (i >= 9 ? " two" : "")}><span className="ex-num" aria-hidden="true">{i + 1}</span>{tile(d)}</span>))
                     : items.map(x => tile(x))}
                 </div>
               </section>

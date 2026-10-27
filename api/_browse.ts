@@ -169,7 +169,10 @@ export async function browse(req: Req, res: Res, admin: SupabaseClient) {
   // Le Top 10 : les plats les plus cherchés, complétés par les préférés des Français
   const searched = [...dishes.values()].filter(d => d.hits > 0).sort((a, b) => b.hits - a.hits).map(d => d.key);
   const topKeys = [...new Set([...searched, ...POPULAR.map(catalogKey)])].slice(0, 10);
-  const top: Row = { id: "top", title: "Top 10 du moment", top: true, dishes: topKeys.map(k => dishes.get(k)).map(d => (d ? dishCard(d) : null)).filter(c => !!c) };
+  const topCards = topKeys.map(k => dishes.get(k)).map(d => (d ? dishCard(d) : null)).filter(c => !!c);
+  // Toujours 10 : complété par les grands classiques si un plat manque
+  for (const name of THEMES[0][2]) if (topCards.length < 10 && !topCards.some(c => catalogKey(c.q) === catalogKey(name))) { const c = card(name); if (c) topCards.push(c); }
+  const top: Row = { id: "top", title: "Top 10 du moment", top: true, dishes: topCards.slice(0, 10) };
 
   // La recette du jour : un plat des thèmes, de préférence avec sa photo
   const themed = [...new Set(THEMES.flatMap(t => t[2]))].map(card).filter(c => !!c);
