@@ -4,6 +4,7 @@
 // Sans la table (migration 20261016000000_cooked_meals.sql pas encore lancée), les repas restent sur le téléphone
 // et partent sur le compte au prochain chargement qui réussit.
 import { supabase } from "../supabase";
+import { promoteRecipe } from "./scan";
 
 export type SavedItem = { name: string; kg: number; eur: number };
 
@@ -64,6 +65,7 @@ async function fetchCooked(userId: string): Promise<CookedMeal[] | undefined> {
 
 /** true : le repas est sur le compte. */
 export async function dbInsertCooked(userId: string, m: CookedMeal): Promise<boolean> {
+  if (isMeal(m)) promoteRecipe(m.title);
   const row = {
     id: m.id, user_id: userId, scan_id: m.scanId, recipe_title: m.title, recipe_image: m.image,
     servings: m.servings, kg: m.kg, eur: m.eur, cooked_at: m.date.toISOString(),

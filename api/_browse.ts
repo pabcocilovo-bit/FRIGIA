@@ -149,7 +149,8 @@ export async function browse(req: Req, res: Res, admin: SupabaseClient) {
   const [dishRes, poolRes] = await Promise.all([
     admin.from("recipe_catalog")
       .select("key, query, hits, title:recipes->0->>title, minutes:recipes->0->minutes, difficulty:recipes->0->>difficulty, imageUrl:recipes->0->>imageUrl, imageSearch:recipes->0->>imageSearch, veg:recipes->0->veg")
-      .eq("kind", "dish").limit(3000),
+      // Pas la réserve du scan (clés « frigo … », api/_fridge.ts) : Explorer garde ses plats
+      .eq("kind", "dish").not("key", "like", "frigo %").limit(3000),
     // Les clés n'ont que des lettres, des chiffres et des espaces (catalogKey) : rien à échapper
     admin.from("recipe_catalog").select("key, query, recipes").eq("kind", "list").or(poolKeys.map(k => `key.eq."${k}"`).join(",")),
   ]);

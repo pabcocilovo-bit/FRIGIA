@@ -7,7 +7,8 @@ import { norm, parse, type RawRecipe, salvage, shape, str, strs } from "./_recip
 import { dish } from "./_dish.js";
 import { browse } from "./_browse.js";
 import { backfill, canGenerate, photograph, photoNow, restyle } from "./_images.js";
-import { catalogForFridge } from "./_fridge.js";
+import { catalogForFridge, keepScanRecipes, promoteScanRecipe, type Scanned } from "./_fridge.js";
+import { waitUntil } from "@vercel/functions";
 import { constraintsOf } from "./_catalog.js";
 
 type Body = {
@@ -57,6 +58,12 @@ export default async function handler(req: Req, res: Res) {
   if (typeof (req.body as { query?: unknown } | undefined)?.query === "string") return dish(req, res, user.id, admin);
   // Explorer, la page d'accueil en rangées (api/_browse.ts) : le catalogue seulement, jamais l'IA
   if ((req.body as { browse?: unknown } | undefined)?.browse === true) return browse(req, res, admin);
+  // Une recette du scan mise en favori ou cuisinée (api/_fridge.ts)
+  const promote = (req.body as { promote?: unknown } | undefined)?.promote;
+  if (typeof promote === "string") {
+    await promoteScanRecipe(admin, str(promote, 80));
+    return res.status(200).json({ ok: true });
+  }
   // Les photos IA des anciens scans et favoris (api/_images.ts, restyle)
   const old = (req.body as { restyle?: unknown } | undefined)?.restyle;
   if (Array.isArray(old)) {
@@ -229,5 +236,7 @@ export default async function handler(req: Req, res: Res) {
     photograph(admin, [known], 1);
   }
 
+  // Les recettes nouvelles rejoignent la réserve du scan, après la réponse
+  waitUntil(keepScanRecipes(admin, recipes as unknown as Scanned[], eaters.map(e => e.name)).catch(e => console.error("recipe_catalog (scan):", e instanceof Error ? e.message : e)));
   res.json({ recipes });
 }

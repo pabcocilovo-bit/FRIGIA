@@ -5,7 +5,7 @@ import {
   MAX_FAVORITES, MAX_HISTORY, dbDeleteFavorite, dbDeleteHistoryEntry, dbInsertFavorite, dbInsertHistoryEntry, dbUpdateHistoryRecipes,
   loadLibrary, setCachedFavorites, setCachedHistory,
 } from "../lib/library";
-import { restylePhotos } from "../lib/scan";
+import { promoteRecipe, restylePhotos } from "../lib/scan";
 
 // Une photo IA (bucket recipe-images) ou une photo de l'appli (/featured) : rien à refaire
 const styled = (r: GeneratedRecipe) => !r.imageSearch?.startsWith("http") || r.imageSearch.includes("/recipe-images/");
@@ -41,6 +41,7 @@ export function useLibrary(userId: string | undefined) {
       if (userId) {
         setCachedFavorites(userId, next);
         dbInsertFavorite(userId, full[0]);
+        promoteRecipe(recipe.title);
         evicted.forEach(e => dbDeleteFavorite(userId, e.title));
       }
       return next;

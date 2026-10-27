@@ -184,6 +184,11 @@ export async function browseExplore(o: { ingredients: string[]; eaters?: ApiEate
   return { day: Number(data.day) || 0, hero: (data.hero ?? null) as BrowseDish | null, rows };
 }
 
+/** Une recette mise en favori ou cuisinée : si elle vient d'un scan, d'autres pourront l'avoir (api/_fridge.ts). Sans réponse attendue. */
+export function promoteRecipe(title: string) {
+  void post("/api/recipes", { promote: title });
+}
+
 /** Les photos IA des anciens scans et favoris (faits avant le 27 octobre, photos Pexels) : { titre: adresse }, 6 au plus. */
 export async function restylePhotos(list: { title: string; items: string[] }[]): Promise<Record<string, string>> {
   const { response, data } = await post("/api/recipes", { restyle: list });
