@@ -51,6 +51,15 @@ const FIXES: { re: RegExp; add: string; v: string }[] = [
   // Carbonara et pad thaï : un jaune d'œuf posé au milieu (Hugo, 27 octobre : « j'aime pas trop »)
   { re: /carbonara/i, add: "pasta tossed in a glossy, creamy carbonara sauce that coats every strand, the egg fully mixed into the sauce, grated cheese on top", v: "c2" },
   { re: /pad tha/i, add: "stir-fried rice noodles with the egg scrambled and mixed through, crushed peanuts, bean sprouts and a lime wedge", v: "p2" },
+  // Galettes, crêpes, tortillas (Hugo, 27 octobre : « fajitas, il y a une tortilla souvent ») : des fajitas sans tortilla,
+  // des wraps ouverts comme des pizzas, un œuf au plat sur les crêpes et la galette des rois
+  { re: /galette des rois|galette chocolat-poire/i, add: "a golden French king cake (galette des rois) of flaky puff pastry with a scored leaf pattern on top, one slice cut out", v: "g2" },
+  { re: /fajita/i, add: "sizzling strips with sliced peppers and onions in a cast iron skillet, a stack of warm flour tortillas beside it and one rolled fajita on a plate", v: "f2" },
+  { re: /burrito/i, add: "a large rolled flour tortilla burrito cut in half on a plate, the filling visible inside", v: "f2" },
+  { re: /wrap/i, add: "a rolled flour tortilla wrap cut in half on a plate, the filling visible inside", v: "f2" },
+  { re: /kebab|gyros|falafel pita/i, add: "a warm pita bread sandwich generously filled, with lettuce, tomato and a white yogurt sauce", v: "f2" },
+  { re: /french crepes|dairy free crepes/i, add: "thin golden French crêpes folded into triangles on a plate, lightly dusted with sugar, a small pot of jam", v: "f2" },
+  { re: /galette saucisse/i, add: "a Breton buckwheat galette rolled around a grilled sausage", v: "f2" },
   // Raclette : des morceaux brûlés en vrac dans un plat (Hugo, 27 octobre : « mal faite »)
   { re: /raclette au four/i, add: "a baking dish of sliced boiled potatoes generously covered with melted, bubbling raclette cheese", v: "r2" },
   { re: /raclette dinner/i, add: "a plate of boiled baby potatoes with creamy melted raclette cheese poured over them, a few slices of cured ham and small pickled gherkins on the side", v: "r2" },
