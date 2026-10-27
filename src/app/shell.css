@@ -9,7 +9,10 @@ body:has(.fa-app){background:#EFE3D0}
 /* La barre du menu posée en bas, collée au bord, coins arrondis en haut : la page ne se voit plus dessous (Hugo, 27 octobre : le fondu faisait un halo, la bande verte faisait bizarre) */
 .fa.fa-app .tabbar{left:0;right:0;bottom:0;max-width:420px;height:calc(70px + env(safe-area-inset-bottom,0px));padding:0 12px env(safe-area-inset-bottom,0px);border-radius:26px 26px 0 0;box-shadow:0 -10px 24px -18px rgba(31,42,34,.45)}
 /* L'appareil photo dépasse un peu de la barre, pastille crème sans contour : c'est le geste principal de l'appli (Hugo, 27 octobre ; le contour ne l'a pas convaincu) */
-.fa.fa-app .tab-scan{position:relative;top:-12px;width:60px;height:60px;box-shadow:0 10px 20px -8px rgba(31,42,34,.5)}
+.fa.fa-app .tab-scan{position:relative;top:-12px;width:60px;height:60px;box-shadow:none}
+/* Le vert de la barre monte autour du bouton, seulement en haut, avec des arrondis où il rejoint la barre (Hugo, 27 octobre).
+   Forme calculée : pastille de 60 px qui dépasse de 7 px, 8 px de vert autour, raccords de 22 px de rayon ; #527659 = --sage */
+.fa.fa-app .tab-scan::before{content:"";position:absolute;z-index:-1;left:50%;top:-8px;width:79.37px;height:17px;transform:translateX(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-39.69 -15 79.37 17'%3E%3Cpath fill='%23527659' d='M-39.69,2 L-39.69,0 A22,22 0 0 0 -25.13,-5.50 A38.0,38.0 0 0 1 25.13,-5.50 A22,22 0 0 0 39.69,0 L39.69,2 Z'/%3E%3C/svg%3E") no-repeat;filter:drop-shadow(0 -5px 6px rgba(31,42,34,.10))}
 /* Les bandeaux verts du haut restent en place quand la page défile */
 .fa .ghead,.fa .rhead{position:sticky;top:0;z-index:5}
 
