@@ -18,17 +18,31 @@ const DIR = "catalog/v3";
 export const generated = (url: unknown) => typeof url === "string" && url.includes(`/object/public/${BUCKET}/${DIR}/`);
 export const canGenerate = () => !!process.env.FAL_KEY;
 
-type Dish = Pick<CatalogRecipe, "title" | "imageSearch" | "imageUrl"> & { items?: unknown };
+type Dish = Pick<CatalogRecipe, "title" | "imageSearch" | "imageUrl"> & { items?: unknown; /** Un nom de fichier imposé (recettes de la semaine) */ path?: string };
 
 // Le même style pour toutes : on reconnaît Frigia d'une rangée à l'autre
 // Le style A, choisi par Hugo le 27 octobre après ses essais dans Gemini (une tartiflette), vue à 60° : le plat se lit mieux en petite carte.
 // La vaisselle artisanale, le lin beige,
 // une serviette vert sauge, une fourchette ancienne. Rien d'autre sur la table : l'appli est faite pour les familles.
-const STYLE = "Shot at a 60-degree angle, the dish centered and filling most of the frame, served in a simple speckled handmade ceramic dish on a warm beige linen tablecloth, "
+const style = (vessel: string) => `Shot at a 60-degree angle, the dish centered and filling most of the frame, ${vessel} on a warm beige linen tablecloth, `
   + "a sage green linen napkin, a small ceramic bowl and a vintage fork as discreet props, soft natural window light, "
   + "muted warm tones, shallow depth of field, editorial cookbook photography, realistic and appetizing, "
   // Pas de « no wine glass » : nommer le verre le faisait apparaître (tartiflette du 27 octobre)
   + "only the dish and these props on the table, no text, no logo, no people, no hands.";
+
+// La vaisselle selon le plat (Hugo, 27 octobre : les soupes dans des bols, certains plats à l'assiette).
+// Le reste (gratins, pâtes, salades…) garde le plat en céramique. v : la photo est refaite sous un autre nom.
+const BAKED = /galette des rois|gratin|lasagne|hachis|parmentier|tartiflette|quiche|tarte|clafoutis|cake|g[âa]teau|moussaka|cassoulet|crumble|flan|cannelloni|tian|brownie|pudding|fondant|au four|souffl|pizza|enchilada|brandade|baked/i;
+const VESSELS: { re: RegExp; text: string; v: string }[] = [
+  { re: /soupe|velout|potage|bouillon|minestrone|gaspacho|ramen|\bpho\b|harira|chorba|garbure|soup|curry|chili|dahl|dhal|moules|bowl/i,
+    text: "served in a deep speckled handmade ceramic bowl", v: "b1" },
+  { re: /steak|escalope|filet|pav[ée]|magret|r[ôo]ti|cuisse|brochette|burger|truite|cabillaud|limande|sardine|saint-jacques|calamar|omelette|croque|galette|cr[êe]pe|blanquette|bourguignon|coq au vin|pur[ée]e|gigot|c[ôo]te de|saumon|poisson/i,
+    text: "served on a flat speckled handmade ceramic dinner plate", v: "a1" },
+];
+const vessel = (r: Dish) => {
+  const t = `${r.title} ${r.imageSearch}`;
+  return BAKED.test(t) || /salade|salad|rillettes/i.test(t) ? undefined : VESSELS.find(x => x.re.test(t));
+};
 
 // Les plats que le modèle dessine mal : une précision, et un nouveau nom de fichier pour refaire leur photo
 // Quiches : un œuf au plat posé dessus, même sans œuf dans la consigne (27 octobre)
@@ -53,12 +67,12 @@ function prompt(r: Dish): string {
     // Pas le nom français entre guillemets : Z-Image l'écrivait sur la photo (« Tartifette au reblochon », 27 octobre)
     `Professional food photograph of ${r.imageSearch}, ${fix(r)?.add ?? "a home-cooked dish"}, fully cooked and served as it comes out of the kitchen`
       + (items.length ? `, made with ${items.join(", ")} cooked into the dish, nothing raw placed on top.` : "."),
-    STYLE,
+    style(vessel(r)?.text ?? "served in a simple speckled handmade ceramic dish"),
   ].join(" ");
 }
 
 const slug = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80);
-const pathOf = (r: Dish) => `${DIR}/${slug(r.title)}${fix(r) ? `-${fix(r)!.v}` : ""}.webp`;
+const pathOf = (r: Dish) => r.path ?? `${DIR}/${[slug(r.title), fix(r)?.v, vessel(r)?.v].filter(Boolean).join("-")}.webp`;
 /** La photo de cette recette est celle de la consigne en cours (sinon, on la refait) */
 const current = (r: Dish) => generated(r.imageUrl) && String(r.imageUrl).endsWith(`/${pathOf(r)}`);
 
@@ -119,6 +133,17 @@ export function photograph(admin: SupabaseClient, recipes: Dish[], max: number) 
   })());
 }
 
+// Les 6 recettes de la semaine (src/app/featured.ts), dans le même style que le catalogue (Hugo, 27 octobre).
+// Leur photo : recipe-images/featured/<photo>.webp, lue par featured.ts une fois faite.
+const FEATURED: Dish[] = [
+  ["pancakes-banane", "Pancakes moelleux à la banane", "a stack of fluffy banana oat pancakes on a plate, banana slices and a drizzle of honey"],
+  ["burger-poulet-avocat", "Burger healthy au poulet et à l'avocat", "a healthy chicken burger with avocado, tomato and lettuce in a wholemeal bun"],
+  ["pizza-tortilla", "Pizza tortilla croustillante", "a thin crispy tortilla pizza with mozzarella, cherry tomatoes and fresh basil, on a flat plate"],
+  ["pommes-de-terre-smashees", "Pommes de terre smashées au parmesan", "crispy golden smashed baby potatoes with parmesan and herbs"],
+  ["one-pot-pasta", "One-pot pasta aux tomates et épinards", "one-pot spaghetti with cherry tomatoes and baby spinach"],
+  ["brownie-banane", "Brownie fondant sans farine", "squares of fudgy flourless chocolate brownie"],
+].map(([photo, title, imageSearch]) => ({ title, imageSearch, path: `featured/${photo}.webp` }) as Dish);
+
 /**
  * Tout le catalogue d'un coup (Hugo, 27 octobre : « on peut tout remplacer »). Appelé en boucle par explorer?photos=1 :
  * chaque appel fait les photos qui manquent, par paquet de `max`, et dit combien il en reste.
@@ -137,13 +162,16 @@ export async function backfill(admin: SupabaseClient, max: number): Promise<{ do
     }
   }
   const todo = [...all.values()].filter(r => !current(r) && !busy.has(r.title));
+  // Les recettes de la semaine : pas dans le catalogue, on regarde si leur fichier existe
+  const known = await Promise.all(FEATURED.map(r => fetch(admin.storage.from(BUCKET).getPublicUrl(r.path!).data.publicUrl, { method: "HEAD", signal: AbortSignal.timeout(5_000) }).then(x => x.ok, () => false)));
+  todo.unshift(...FEATURED.filter((r, i) => !known[i] && !busy.has(r.title)));
   const batch = todo.slice(0, max);
   for (const r of batch) busy.add(r.title);
   let done = 0;
   try {
     // Toutes en même temps chez fal.ai : le paquet tient dans la minute de la fonction (vercel.json)
     const urls = await Promise.all(batch.map(r => make(admin, r).catch(e => { console.error("fal:", e instanceof Error ? e.message : e); return null; })));
-    for (const [i, r] of batch.entries()) if (urls[i]) { await keep(admin, r.title, urls[i]!); done++; }
+    for (const [i, r] of batch.entries()) if (urls[i]) { if (!r.path) await keep(admin, r.title, urls[i]!); done++; }
   } finally {
     for (const r of batch) busy.delete(r.title);
   }
