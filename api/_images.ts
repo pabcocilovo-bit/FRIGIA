@@ -30,6 +30,13 @@ const STYLE = "Shot at a 60-degree angle, the dish centered and filling most of 
   // Pas de « no wine glass » : nommer le verre le faisait apparaître (tartiflette du 27 octobre)
   + "only the dish and these props on the table, no text, no logo, no people, no hands.";
 
+// Les plats que le modèle dessine mal : une précision, et un nouveau nom de fichier pour refaire leur photo
+// Quiches : un œuf au plat posé dessus, même sans œuf dans la consigne (27 octobre)
+const FIXES: { re: RegExp; add: string; v: string }[] = [
+  { re: /quiche/i, add: "a savory tart with a smooth, set, golden custard filling, the egg fully baked into the custard", v: "t2" },
+];
+const fix = (r: Dish) => FIXES.find(f => f.re.test(`${r.title} ${r.imageSearch}`));
+
 function prompt(r: Dish): string {
   // Les ingrédients qui font la différence entre les variantes (lardons ou champignons…), pas ceux qui lient le plat :
   // « Visible ingredients: … œuf, crème » posait un œuf au plat sur la quiche et une cuillère de crème sur le hachis (27 octobre)
@@ -37,17 +44,20 @@ function prompt(r: Dish): string {
     .map(i => String(i?.name ?? "")).filter(n => n && !/^(sel|poivre|eau|huile|beurre|cr[èe]me|lait|farine|sucre|levure|fromage blanc|[œo]euf|bouillon|vin|ail|herbes)/i.test(n)).slice(0, 4);
   return [
     // Pas le nom français entre guillemets : Z-Image l'écrivait sur la photo (« Tartifette au reblochon », 27 octobre)
-    `Professional food photograph of ${r.imageSearch}, a home-cooked dish, fully cooked and served as it comes out of the kitchen`
+    `Professional food photograph of ${r.imageSearch}, ${fix(r)?.add ?? "a home-cooked dish"}, fully cooked and served as it comes out of the kitchen`
       + (items.length ? `, made with ${items.join(", ")} cooked into the dish, nothing raw placed on top.` : "."),
     STYLE,
   ].join(" ");
 }
 
 const slug = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80);
+const pathOf = (r: Dish) => `${DIR}/${slug(r.title)}${fix(r) ? `-${fix(r)!.v}` : ""}.webp`;
+/** La photo de cette recette est celle de la consigne en cours (sinon, on la refait) */
+const current = (r: Dish) => generated(r.imageUrl) && String(r.imageUrl).endsWith(`/${pathOf(r)}`);
 
 /** fal.ai → l'image, puis Supabase Storage → son adresse publique */
 async function make(admin: SupabaseClient, r: Dish): Promise<string | null> {
-  const path = `${DIR}/${slug(r.title)}.webp`;
+  const path = pathOf(r);
   const publicUrl = admin.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
   // Déjà faite (le catalogue n'a pas suivi) : on la reprend sans repayer
   const known = await fetch(publicUrl, { method: "HEAD", signal: AbortSignal.timeout(5_000) }).catch(() => null);
@@ -91,7 +101,7 @@ const busy = new Set<string>();
 export function photograph(admin: SupabaseClient, recipes: Dish[], max: number) {
   if (!canGenerate()) return;
   const seen = new Set<string>();
-  const todo = recipes.filter(r => r.title && r.imageSearch && !generated(r.imageUrl) && !busy.has(r.title) && !seen.has(r.title) && !!seen.add(r.title)).slice(0, max);
+  const todo = recipes.filter(r => r.title && r.imageSearch && !current(r) && !busy.has(r.title) && !seen.has(r.title) && !!seen.add(r.title)).slice(0, max);
   if (!todo.length) return;
   for (const r of todo) busy.add(r.title);
   waitUntil((async () => {
@@ -115,11 +125,11 @@ export async function backfill(admin: SupabaseClient, max: number): Promise<{ do
     for (const r of row.recipes ?? []) {
       if (!r?.title || !r.imageSearch) continue;
       // Une copie de la recette a déjà sa photo : c'est fait (keep() les met toutes à jour)
-      if (generated(r.imageUrl)) all.set(r.title, r);
+      if (current(r)) all.set(r.title, r);
       else if (!all.has(r.title)) all.set(r.title, r);
     }
   }
-  const todo = [...all.values()].filter(r => !generated(r.imageUrl) && !busy.has(r.title));
+  const todo = [...all.values()].filter(r => !current(r) && !busy.has(r.title));
   const batch = todo.slice(0, max);
   for (const r of batch) busy.add(r.title);
   let done = 0;
