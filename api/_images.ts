@@ -19,9 +19,12 @@ export const canGenerate = () => !!process.env.FAL_KEY;
 type Dish = Pick<CatalogRecipe, "title" | "imageSearch" | "imageUrl"> & { items?: unknown };
 
 // Le même style pour toutes : on reconnaît Frigia d'une rangée à l'autre
-const STYLE = "Shot at a 45-degree angle, served in a simple handmade ceramic dish on a warm beige linen tablecloth, soft natural window light, "
-  + "muted warm tones with a hint of sage green, shallow depth of field, editorial cookbook photography, realistic and appetizing, "
-  + "no text, no logo, no people, no hands.";
+// Le style A, choisi par Hugo le 27 octobre après ses essais dans Gemini (une tartiflette) : la vaisselle artisanale, le lin beige,
+// une serviette vert sauge, une fourchette ancienne. Pas de verre de vin : l'appli est faite pour les familles.
+const STYLE = "Shot at a 45-degree angle, served in a simple speckled handmade ceramic dish on a warm beige linen tablecloth, "
+  + "a sage green linen napkin, a small ceramic bowl and a vintage fork as discreet props, soft natural window light, "
+  + "muted warm tones, shallow depth of field, editorial cookbook photography, realistic and appetizing, "
+  + "no text, no logo, no people, no hands, no wine glass.";
 
 function prompt(r: Dish): string {
   const items = (Array.isArray(r.items) ? r.items as { name?: unknown }[] : [])
