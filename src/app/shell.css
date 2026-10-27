@@ -8,9 +8,8 @@ body:has(.fa-app){background:#EFE3D0}
 .fa.fa-app .tabbar{max-width:392px}
 /* La barre du menu posée en bas, collée au bord, coins arrondis en haut : la page ne se voit plus dessous (Hugo, 27 octobre : le fondu faisait un halo, la bande verte faisait bizarre) */
 .fa.fa-app .tabbar{left:0;right:0;bottom:0;max-width:420px;height:calc(70px + env(safe-area-inset-bottom,0px));padding:0 12px env(safe-area-inset-bottom,0px);border-radius:26px 26px 0 0;box-shadow:0 -10px 24px -18px rgba(31,42,34,.45)}
-/* L'appareil photo sort de la barre : pastille crème, contour du vert de la barre. C'est le geste principal de l'appli (Hugo, 27 octobre) */
-.fa.fa-app .tab-scan{position:relative;top:-20px;width:64px;height:64px;background:var(--on);color:var(--sage-deep);box-shadow:0 0 0 6px var(--sage),0 10px 18px -8px rgba(31,42,34,.55)}
-.fa.fa-app .tab-scan .i{width:27px;height:27px}
+/* L'appareil photo dépasse un peu de la barre, pastille crème sans contour : c'est le geste principal de l'appli (Hugo, 27 octobre ; le contour ne l'a pas convaincu) */
+.fa.fa-app .tab-scan{position:relative;top:-12px;width:60px;height:60px;box-shadow:0 10px 20px -8px rgba(31,42,34,.5)}
 /* Les bandeaux verts du haut restent en place quand la page défile */
 .fa .ghead,.fa .rhead{position:sticky;top:0;z-index:5}
 
