@@ -39,8 +39,15 @@ const VESSELS: { re: RegExp; text: string; v: string }[] = [
   { re: /steak|escalope|filet|pav[ée]|magret|r[ôo]ti|cuisse|brochette|burger|truite|cabillaud|limande|sardine|saint-jacques|calamar|omelette|croque|galette|cr[êe]pe|blanquette|bourguignon|coq au vin|pur[ée]e|gigot|c[ôo]te de|saumon|poisson/i,
     text: "served on a flat speckled handmade ceramic dinner plate", v: "a1" },
 ];
+// Yaourts, desserts à la cuillère et petits-déjeuners : un petit bol (Hugo, 27 octobre), avant la règle des plats au four
+// (« chia pudding », « bowl cake ») ; un smoothie : un verre
+const SPOON = { re: /^(yaourt|fromage blanc|skyr)|yogurt bowl|porridge|oatmeal|overnight|granola|muesli|chia|smoothie bowl|mousse (au|aux|de)|riz au lait|rice pudding|compote|panna cotta|cr[èe]me dessert|[îi]les? flottantes?|bowl cake/i,
+  text: "served in a small speckled handmade ceramic bowl", v: "y1" };
+const GLASS = { re: /smoothie|milkshake|lassi/i, text: "served in a tall clear glass", v: "y1" };
 const vessel = (r: Dish) => {
   const t = `${r.title} ${r.imageSearch}`;
+  if (SPOON.re.test(t) && !/cookie|biscuit|cake slice|loaf/i.test(t)) return SPOON;
+  if (GLASS.re.test(t) && !/bowl/i.test(t)) return GLASS;
   return BAKED.test(t) || /salade|salad|rillettes/i.test(t) ? undefined : VESSELS.find(x => x.re.test(t));
 };
 
