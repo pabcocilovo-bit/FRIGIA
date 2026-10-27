@@ -6,7 +6,7 @@ import { askClaude, checkIdeasLimit, checkRateLimit, checkScanToken, prefLines, 
 import { norm, parse, type RawRecipe, salvage, shape, str, strs } from "./_recipe.js";
 import { dish } from "./_dish.js";
 import { browse } from "./_browse.js";
-import { backfill, canGenerate } from "./_images.js";
+import { backfill, canGenerate, photoNow } from "./_images.js";
 
 type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
@@ -190,12 +190,15 @@ export default async function handler(req: Req, res: Res) {
       : "Pas de plat trouvé avec ces ingrédients. Ajoute-en un ou deux, ou choisis des desserts.", "none");
   }
 
+  // Les photos IA, en même temps que Pexels (shape) : même style que le catalogue (Hugo, 27 octobre). Pexels reste si l'IA tarde.
+  const ai = raw.map(({ r, items }) => photoNow(admin, { title: String(r.title ?? ""), imageSearch: String(r.imageSearch ?? r.title ?? ""), items }));
   const recipes = await Promise.all(raw.map(({ r, items, steps, dessert }) => shape(r, items, steps, servings, {
     // « Les enfants adorent » seulement avec des enfants à table ; « Sans champignons » vérifié sur les ingrédients
     kids: kids.length > 0 && r.kids === true,
     without: dislikes.filter(d => !items.some(i => norm(i.name).includes(norm(d)) || norm(d).includes(norm(i.name)))),
     ...(dessert ? { dessert: true } : {}),
   })));
+  for (const [i, url] of (await Promise.all(ai)).entries()) if (url) recipes[i].imageUrl = url;
 
   res.json({ recipes });
 }

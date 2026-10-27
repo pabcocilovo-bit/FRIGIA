@@ -177,3 +177,16 @@ export async function backfill(admin: SupabaseClient, max: number): Promise<{ do
   }
   return { done, left: todo.length - done, total: all.size };
 }
+
+/**
+ * La photo IA d'une recette du scan, tout de suite (api/recipes.ts) : rangée sous scan/, reprise si le même titre revient.
+ * null sans FAL_KEY, en cas d'erreur, ou après `ms` : l'appli garde alors la photo de Pexels.
+ */
+export async function photoNow(admin: SupabaseClient, r: Dish, ms = 12_000): Promise<string | null> {
+  if (!canGenerate() || !r.title || !r.imageSearch) return null;
+  const job = make(admin, { ...r, path: `scan/${pathOf({ ...r, path: undefined }).slice(DIR.length + 1)}` })
+    .catch(e => { console.error("fal:", e instanceof Error ? e.message : e); return null; });
+  // Trop long : la photo se finit quand même (elle servira la prochaine fois), la réponse ne l'attend pas
+  waitUntil(job);
+  return Promise.race([job, new Promise<null>(ok => setTimeout(() => ok(null), ms))]);
+}
