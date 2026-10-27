@@ -36,7 +36,8 @@ const FIXES: { re: RegExp; add: string; v: string }[] = [
   { re: /quiche/i, add: "a savory tart with a smooth, set, golden custard filling, the egg fully baked into the custard", v: "t2" },
   // Raclette : des morceaux brûlés en vrac dans un plat (Hugo, 27 octobre : « mal faite »)
   { re: /raclette au four/i, add: "a baking dish of sliced boiled potatoes generously covered with melted, bubbling raclette cheese", v: "r2" },
-  { re: /raclette/i, add: "a plate of boiled baby potatoes with creamy melted raclette cheese poured over them, a few slices of cured ham and small pickled gherkins on the side", v: "r2" },
+  { re: /raclette dinner/i, add: "a plate of boiled baby potatoes with creamy melted raclette cheese poured over them, a few slices of cured ham and small pickled gherkins on the side", v: "r2" },
+  { re: /raclette/i, add: "a plate of boiled baby potatoes with creamy melted raclette cheese poured over them, small pickled gherkins on the side", v: "r2" },
 ];
 const fix = (r: Dish) => FIXES.find(f => f.re.test(`${r.title} ${r.imageSearch}`));
 
