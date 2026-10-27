@@ -1,5 +1,5 @@
 // Les photos des recettes du catalogue, générées par l'IA (Hugo, 27 octobre : les photos de Pexels étaient trop approximatives).
-// Une image par recette, toutes dans le même style, faite une fois par fal.ai (Flux), gardée dans Supabase Storage
+// Une image par recette, toutes dans le même style, faite une fois par fal.ai, gardée dans Supabase Storage
 // (bucket recipe-images, migration 20261031000000_images_recettes.sql) puis dans le catalogue, sur toutes les copies de la recette.
 // Faite après la réponse (waitUntil) : la page ne l'attend pas, la photo arrive à la visite suivante.
 // Sans FAL_KEY (Vercel), rien ne change : les photos de Pexels restent.
@@ -8,7 +8,9 @@ import { waitUntil } from "@vercel/functions";
 import type { CatalogRecipe } from "./_catalog.js";
 
 const BUCKET = "recipe-images";
-const MODEL = process.env.FAL_MODEL || "fal-ai/flux/dev";
+// Z-Image Turbo : photoréaliste et le moins cher (~0,005 $ l'image, ~5 $ pour le catalogue, tarifs fal.ai montrés par Hugo le 27 octobre).
+// FAL_MODEL sur Vercel pour en essayer un autre : fal-ai/nano-banana (~0,04 $), fal-ai/nano-banana-2 (~0,08 $), fal-ai/flux/schnell…
+const MODEL = process.env.FAL_MODEL || "fal-ai/z-image/turbo";
 
 /** Une photo déjà générée (les autres, de Pexels, seront remplacées) */
 export const generated = (url: unknown) => typeof url === "string" && url.includes(`/object/public/${BUCKET}/`);
@@ -38,7 +40,10 @@ async function make(admin: SupabaseClient, r: Dish): Promise<string | null> {
   const res = await fetch(`https://fal.run/${MODEL}`, {
     method: "POST",
     headers: { Authorization: `Key ${process.env.FAL_KEY}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt: prompt(r), image_size: "square_hd", num_images: 1, enable_safety_checker: true, output_format: "jpeg" }),
+    // Les modèles Nano Banana prennent un format (aspect_ratio), les autres une taille (image_size)
+    body: JSON.stringify(MODEL.includes("nano-banana")
+      ? { prompt: prompt(r), num_images: 1, aspect_ratio: "1:1", output_format: "jpeg" }
+      : { prompt: prompt(r), image_size: "square_hd", num_images: 1, enable_safety_checker: true, output_format: "jpeg" }),
     signal: AbortSignal.timeout(45_000),
   });
   if (!res.ok) { console.error("fal:", res.status, (await res.text()).slice(0, 300)); return null; }
