@@ -9,6 +9,7 @@ import type { Req, Res } from "./_shared.js";
 import { askClaude, checkIdeasLimit, dishPhoto, prefLines, type Prefs } from "./_ai.js";
 import { CATALOG_SERVES, type CatalogRecipe, catalogServed, constraintsOf, findInCatalog, keepInCatalog } from "./_catalog.js";
 import { parse, type RawRecipe, salvage, shape, str, strs } from "./_recipe.js";
+import { photograph } from "./_images.js";
 
 export type DishBody = {
   query?: unknown;
@@ -45,6 +46,7 @@ export async function dish(req: Req, res: Res, userId: string, admin: SupabaseCl
       return { ...r, imageUrl };
     }));
     await catalogServed(admin, known.row, found);
+    photograph(admin, known.recipes, 3);
     return res.json({ recipes });
   }
 
@@ -94,6 +96,9 @@ Si c'est un ingrédient, une envie ou une catégorie (« saumon », « healthy �
     change: str(raw.change, 160),
     ...(raw.dessert === true ? { dessert: true } : {}),
   })));
-  if (!known.error) await keepInCatalog(admin, known.key, query, recipes as CatalogRecipe[]);
+  if (!known.error) {
+    await keepInCatalog(admin, known.key, query, recipes as CatalogRecipe[]);
+    photograph(admin, recipes as CatalogRecipe[], 3);
+  }
   res.json({ recipes });
 }

@@ -9,9 +9,11 @@ import type { Req, Res } from "./_shared.js";
 import { dishPhoto, type Prefs } from "./_ai.js";
 import { type CatalogRecipe, catalogKey, constraintsOf, fits, parts } from "./_catalog.js";
 import { str, strs } from "./_recipe.js";
+import { canGenerate, photograph } from "./_images.js";
 
 /** Un plat : la carte de sa recette classique */
-type DishCard = { q: string; title: string; minutes: number; difficulty: string; imageUrl?: string; imageSearch: string; veg: boolean };
+/** recipe : le titre de sa recette classique (la photo du plat est la sienne) */
+type DishCard = { q: string; title: string; recipe: string; minutes: number; difficulty: string; imageUrl?: string; imageSearch: string; veg: boolean };
 type Row = { id: string; title: string; top?: boolean; q?: string; dishes?: DishCard[]; recipes?: CatalogRecipe[] };
 type DishRow = { key: string; query: string; hits: number; title: string | null; minutes: number | null; difficulty: string | null;
   imageUrl: string | null; imageSearch: string | null; veg: boolean | null };
@@ -130,7 +132,7 @@ function safe(r: CatalogRecipe, constraints: string): boolean {
 }
 
 const dishCard = (d: DishRow): DishCard | null => (d.title ? {
-  q: d.query, title: d.query, minutes: Number(d.minutes) || 0, difficulty: d.difficulty ?? "",
+  q: d.query, title: d.query, recipe: d.title, minutes: Number(d.minutes) || 0, difficulty: d.difficulty ?? "",
   ...(d.imageUrl ? { imageUrl: d.imageUrl } : {}), imageSearch: d.imageSearch ?? d.title, veg: d.veg === true,
 } : null);
 
@@ -209,7 +211,14 @@ export async function browse(req: Req, res: Res, admin: SupabaseClient) {
   staples.forEach((r, i) => rest.splice(i * 3, 0, r));
   const rows = [top, ...mine, ...rest].filter(r => (r.dishes ?? r.recipes ?? []).length);
 
-  await fillPhotos(admin, hero, rows.slice(0, 5));
+  // Les photos générées par l'IA (api/_images.ts) si FAL_KEY est là, après la réponse ; sinon Pexels, tout de suite
+  if (canGenerate()) {
+    const first = rows.slice(0, 6);
+    photograph(admin, [
+      ...[hero, ...first.flatMap(r => r.dishes ?? [])].filter((c): c is DishCard => !!c).map(c => ({ title: c.recipe, imageSearch: c.imageSearch, imageUrl: c.imageUrl })),
+      ...first.flatMap(r => r.recipes ?? []),
+    ], 8);
+  } else await fillPhotos(admin, hero, rows.slice(0, 5));
   res.json({ day, hero, rows });
 }
 

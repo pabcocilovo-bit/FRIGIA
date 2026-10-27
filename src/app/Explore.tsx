@@ -96,17 +96,19 @@ function Result({ recipe, fav, onOpen }: { recipe: GeneratedRecipe; fav: boolean
   );
 }
 
-// Les rangées du jour, gardées sur le téléphone : revenir sur Explorer ne recharge rien
-const ROWS = "frigia.explorer.rows.v4";
+// Les rangées du jour, gardées 30 min sur le téléphone : revenir sur Explorer ne recharge rien,
+// mais les photos faites entre-temps (api/_images.ts) arrivent vite
+const ROWS = "frigia.explorer.rows.v5";
+const KEEP_MS = 30 * 60 * 1000;
 const localDay = () => new Date().toLocaleDateString("fr-FR");
 function readRows(sig: string): Browse | null {
   try {
-    const e = JSON.parse(localStorage.getItem(ROWS) ?? "null") as { day: string; sig: string; data: Browse } | null;
-    return e && e.day === localDay() && e.sig === sig ? e.data : null;
+    const e = JSON.parse(localStorage.getItem(ROWS) ?? "null") as { day: string; at?: number; sig: string; data: Browse } | null;
+    return e && e.day === localDay() && e.sig === sig && Date.now() - (e.at ?? 0) < KEEP_MS ? e.data : null;
   } catch { return null; }
 }
 function keepRows(sig: string, data: Browse) {
-  try { localStorage.setItem(ROWS, JSON.stringify({ day: localDay(), sig, data })); } catch { /* plein ou navigation privée */ }
+  try { localStorage.setItem(ROWS, JSON.stringify({ day: localDay(), at: Date.now(), sig, data })); } catch { /* plein ou navigation privée */ }
 }
 
 /** La photo seulement quand la carte arrive à l'écran : une rangée de 12 ne cherche pas 12 photos d'un coup */
