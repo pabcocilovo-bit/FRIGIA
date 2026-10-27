@@ -99,3 +99,34 @@ export function photograph(admin: SupabaseClient, recipes: Dish[], max: number) 
     for (const r of todo) busy.delete(r.title);
   })());
 }
+
+/**
+ * Tout le catalogue d'un coup (Hugo, 27 octobre : « on peut tout remplacer »). Appelé en boucle par explorer?photos=1 :
+ * chaque appel fait les photos qui manquent, par paquet de `max`, et dit combien il en reste.
+ * Le coût a une fin : une recette qui a sa photo ne repasse plus, et une image déjà stockée est reprise sans repayer.
+ */
+export async function backfill(admin: SupabaseClient, max: number): Promise<{ done: number; left: number; total: number }> {
+  const { data, error } = await admin.from("recipe_catalog").select("recipes");
+  if (error) throw new Error(error.message);
+  const all = new Map<string, Dish>();
+  for (const row of (data ?? []) as { recipes: CatalogRecipe[] }[]) {
+    for (const r of row.recipes ?? []) {
+      if (!r?.title || !r.imageSearch) continue;
+      // Une copie de la recette a déjà sa photo : c'est fait (keep() les met toutes à jour)
+      if (generated(r.imageUrl)) all.set(r.title, r);
+      else if (!all.has(r.title)) all.set(r.title, r);
+    }
+  }
+  const todo = [...all.values()].filter(r => !generated(r.imageUrl) && !busy.has(r.title));
+  const batch = todo.slice(0, max);
+  for (const r of batch) busy.add(r.title);
+  let done = 0;
+  try {
+    // Toutes en même temps chez fal.ai : le paquet tient dans la minute de la fonction (vercel.json)
+    const urls = await Promise.all(batch.map(r => make(admin, r).catch(e => { console.error("fal:", e instanceof Error ? e.message : e); return null; })));
+    for (const [i, r] of batch.entries()) if (urls[i]) { await keep(admin, r.title, urls[i]!); done++; }
+  } finally {
+    for (const r of batch) busy.delete(r.title);
+  }
+  return { done, left: todo.length - done, total: all.size };
+}

@@ -12,7 +12,7 @@ import { Chip, Icon, Pill } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry } from "../lib/types";
 import type { Fridge } from "../lib/home";
 import { apiEaters, type Person } from "../lib/household";
-import { type Browse, type BrowseDish, type BrowseRow, browseExplore, searchDish } from "../lib/scan";
+import { type Browse, type BrowseDish, type BrowseRow, browseExplore, fillCatalogPhotos, searchDish } from "../lib/scan";
 import { AppTabBar } from "./AppTabBar";
 import { GreenHead } from "./GreenHead";
 import { weekRecipes } from "./featured";
@@ -126,6 +126,38 @@ function useSeen<T extends Element>() {
 }
 
 /** Une affiche : la photo en hauteur, le nom dessus */
+/** explorer?photos=1 : les photos IA de tout le catalogue, paquet après paquet, tant que la page reste ouverte (Hugo, 27 octobre) */
+function PhotoFill() {
+  const [st, setSt] = useState<{ done: number; left: number | null; stop: boolean }>({ done: 0, left: null, stop: false });
+  useEffect(() => {
+    let live = true;
+    (async () => {
+      let done = 0, failed = 0;
+      while (live) {
+        const r = await fillCatalogPhotos();
+        if (!live) return;
+        failed = r ? 0 : failed + 1;
+        if (r) done += r.done;
+        // On s'arrête : plus rien à faire, 3 erreurs d'affilée (clé, crédit fal.ai…), ou un paquet sans aucune photo réussie
+        const stop = failed >= 3 || (!!r && (r.left === 0 || r.done === 0));
+        setSt(p => ({ done, left: r ? r.left : p.left, stop }));
+        if (stop) break;
+      }
+      // Les rangées gardées sur le téléphone repartent du serveur, avec les nouvelles photos
+      try { localStorage.removeItem(ROWS); } catch { /* navigation privée */ }
+    })();
+    return () => { live = false; };
+  }, []);
+  return (
+    <p className="ex-photofill" role="status">
+      {st.stop && st.left === 0 ? `Terminé : ${st.done} photos faites.`
+        : st.stop ? `Arrêté après ${st.done} photos (il en reste ${st.left ?? "?"}). Recharge la page pour reprendre.`
+        : st.left === null ? "Photos du catalogue : ça démarre…"
+        : `Photos du catalogue : ${st.done} faites, encore ${st.left}. Garde la page ouverte.`}
+    </p>
+  );
+}
+
 function Poster({ title, sub, image, fav, onOpen }: { title: string; sub: string; image: string; fav?: boolean; onOpen: () => void }) {
   const [ref, seen] = useSeen<HTMLButtonElement>();
   const photo = useRecipePhoto(seen ? title : undefined, seen ? image : undefined);
@@ -303,6 +335,7 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
     <div className="fa fa-app" aria-label="Explorer">
       <GreenHead title="Explorer" sub="Des idées pour tous les goûts" back={false} />
       <div className="v3-body ex-body">
+        {params.get("photos") === "1" && <PhotoFill />}
         <form ref={top} className="hm-search" role="search" onSubmit={submit}>
           <label><Icon name="search" /><input type="search" enterKeyHint="search" autoComplete="off" placeholder="Rechercher une recette ou un ingrédient…"
             aria-label="Rechercher une recette" value={text} onChange={e => setText(e.target.value)} /></label>

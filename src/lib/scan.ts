@@ -184,6 +184,13 @@ export async function browseExplore(o: { ingredients: string[]; eaters?: ApiEate
   return { day: Number(data.day) || 0, hero: (data.hero ?? null) as BrowseDish | null, rows };
 }
 
+/** Les photos IA du catalogue, un paquet de plus (explorer?photos=1). null : erreur. */
+export async function fillCatalogPhotos(): Promise<{ done: number; left: number; total: number } | null> {
+  const { response, data } = await post("/api/recipes", { photos: true });
+  if (!response?.ok || typeof data.left !== "number") return null;
+  return { done: Number(data.done) || 0, left: data.left, total: Number(data.total) || 0 };
+}
+
 /** Scan, 2e partie : la liste vérifiée devient 3 recettes (ou 2 « autres idées » avec more). */
 export async function makeRecipes(o: {
   ingredients: ScanIngredient[];

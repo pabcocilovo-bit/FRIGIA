@@ -6,6 +6,7 @@ import { askClaude, checkIdeasLimit, checkRateLimit, checkScanToken, prefLines, 
 import { norm, parse, type RawRecipe, salvage, shape, str, strs } from "./_recipe.js";
 import { dish } from "./_dish.js";
 import { browse } from "./_browse.js";
+import { backfill, canGenerate } from "./_images.js";
 
 type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
@@ -54,6 +55,11 @@ export default async function handler(req: Req, res: Res) {
   if (typeof (req.body as { query?: unknown } | undefined)?.query === "string") return dish(req, res, user.id, admin);
   // Explorer, la page d'accueil en rangées (api/_browse.ts) : le catalogue seulement, jamais l'IA
   if ((req.body as { browse?: unknown } | undefined)?.browse === true) return browse(req, res, admin);
+  // Les photos IA de tout le catalogue, un paquet par appel (explorer?photos=1, api/_images.ts)
+  if ((req.body as { photos?: unknown } | undefined)?.photos === true) {
+    if (!canGenerate()) return res.status(503).json({ error: "FAL_KEY manquante" });
+    return backfill(admin, 8).then(r => res.status(200).json(r), (e: unknown) => res.status(500).json({ error: e instanceof Error ? e.message : "Erreur" }));
+  }
   const empty = body.empty === true;
   // Zéro course : n'a pas de sens frigo vide (on y fait justement une petite liste de courses)
   const noShop = body.noShop === true && !empty;
