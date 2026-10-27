@@ -6,7 +6,9 @@ import { askClaude, checkIdeasLimit, checkRateLimit, checkScanToken, prefLines, 
 import { norm, parse, type RawRecipe, salvage, shape, str, strs } from "./_recipe.js";
 import { dish } from "./_dish.js";
 import { browse } from "./_browse.js";
-import { backfill, canGenerate, photoNow } from "./_images.js";
+import { backfill, canGenerate, photograph, photoNow } from "./_images.js";
+import { catalogForFridge } from "./_fridge.js";
+import { constraintsOf } from "./_catalog.js";
 
 type Body = {
   ingredients?: { name?: unknown; qty?: unknown; finish?: unknown }[];
@@ -180,10 +182,22 @@ export default async function handler(req: Req, res: Res) {
     }
     return raw;
   };
-  const [mains, sweets] = await Promise.all([gen(meal === "d" ? "s" : meal, dishes), gen("d", desserts)]);
-  if (!mains && !sweets) return fail(502, "Service IA temporairement indisponible.");
+  // Une place pour le catalogue quand une recette colle au frigo (api/_fridge.ts). Pas frigo vide, pas les desserts,
+  // ni l'envie « protéines » que le catalogue ne sait pas vérifier.
+  const asked = (Array.isArray(body.envies) ? body.envies : [body.envie]).filter((e): e is string => typeof e === "string");
+  const known = !empty && dishes > 0 && !asked.includes("proteine")
+    ? await catalogForFridge(admin, {
+      fridge: list, pantry: pantry.map(i => i.name), dislikes, avoid,
+      constraints: constraintsOf(body.prefs, eaters.flatMap(e => e.allergies)),
+      noShop, quick: asked.includes("rapide"), light: asked.includes("healthy"), kids: asked.includes("enfants"),
+    }).catch(e => { console.error("catalogue du frigo:", e instanceof Error ? e.message : e); return null; })
+    : null;
+  // L'IA ne refait pas le même plat
+  if (known) avoid.push(known.title);
+  const [mains, sweets] = await Promise.all([gen(meal === "d" ? "s" : meal, dishes - (known ? 1 : 0)), gen("d", desserts)]);
+  if (!mains && !sweets && !known) return fail(502, "Service IA temporairement indisponible.");
   const raw = [...(mains ?? []).map(r => ({ ...r, dessert: false })), ...(sweets ?? []).map(r => ({ ...r, dessert: true }))];
-  if (raw.length === 0) {
+  if (raw.length === 0 && !known) {
     if (noShop) return fail(422, "Pas assez d'ingrédients pour cuisiner sans courses. Ajoute ce que tu as, ou décoche « Zéro course ».", "none");
     return fail(422, !dishes
       ? "Pas de dessert trouvé avec ces ingrédients. Ajoute-en un ou deux, ou choisis des plats."
@@ -199,6 +213,14 @@ export default async function handler(req: Req, res: Res) {
     ...(dessert ? { dessert: true } : {}),
   })));
   for (const [i, url] of (await Promise.all(ai)).entries()) if (url) recipes[i].imageUrl = url;
+  if (known) {
+    // En 2e position (la 1re reste la plus faite pour ce frigo), ou seule s'il n'y a qu'elle
+    const items = (known.items ?? []) as { name: string }[];
+    const kept = { ...known, kids: false, without: dislikes.filter(d => !items.some(i => norm(i.name).includes(norm(d)) || norm(d).includes(norm(i.name)))) };
+    (recipes as unknown[]).splice(Math.min(1, recipes.length), 0, kept);
+    // Pas encore sa photo IA : faite pour la prochaine fois
+    photograph(admin, [known], 1);
+  }
 
   res.json({ recipes });
 }
