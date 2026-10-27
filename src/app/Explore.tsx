@@ -15,7 +15,7 @@ import { apiEaters, type Person } from "../lib/household";
 import { type Browse, type BrowseDish, type BrowseRow, browseExplore, fillCatalogPhotos, searchDish } from "../lib/scan";
 import { AppTabBar } from "./AppTabBar";
 import { GreenHead } from "./GreenHead";
-import { weekRecipes } from "./featured";
+import { featuredPhoto, weekRecipes } from "./featured";
 import { useRecipePhoto } from "./photo";
 import { useOpenPaywall } from "./plus/subscription";
 import { inFridge, minutesOf } from "./scan/portions";
@@ -27,23 +27,23 @@ const words = (r: GeneratedRecipe) => [r.title, ...(r.items?.map(i => i.name) ??
 // Les catégories en haut : une recherche toute faite. Photos de l'appli.
 const CATS: { label: string; q: string; img: string }[] = [
   { label: "Toutes", q: "", img: "/landing/pasta-legumes.jpg" },
-  { label: "Rapides", q: "recettes rapides", img: "/featured/one-pot-pasta.jpg" },
+  { label: "Rapides", q: "recettes rapides", img: featuredPhoto("one-pot-pasta") },
   { label: "Healthy", q: "recettes healthy", img: "/landing/salade-caprese.jpg" },
   { label: "Petit budget", q: "recettes petit budget", img: "/landing/soupe-detox.jpg" },
-  { label: "Famille", q: "plats en famille qui plaisent aux enfants", img: "/featured/pizza-tortilla.jpg" },
-  { label: "Desserts", q: "desserts", img: "/featured/brownie-banane.jpg" },
+  { label: "Famille", q: "plats en famille qui plaisent aux enfants", img: featuredPhoto("pizza-tortilla") },
+  { label: "Desserts", q: "desserts", img: featuredPhoto("brownie-banane") },
 ];
 const TYPES = [
   { label: "Entrées", q: "entrées", img: "/landing/salade-caprese.jpg" },
   { label: "Plats", q: "plats", img: "/landing/gratin-courgettes.jpg" },
-  { label: "Desserts", q: "desserts", img: "/featured/brownie-banane.jpg" },
+  { label: "Desserts", q: "desserts", img: featuredPhoto("brownie-banane") },
 ];
 // Recettes tendances : des plats qu'on cherche souvent. Toucher lance la recherche (la classique et ses variantes).
 const TRENDS: { label: string; img: string; time: string; q?: string }[] = [
   { label: "Gratin de courgettes", img: "/landing/gratin-courgettes.jpg", time: "40 min" },
   { label: "Wrap au poulet", img: "/landing/wrap-proteine.jpg", time: "15 min" },
   { label: "Soupe de légumes", img: "/landing/soupe-detox.jpg", time: "30 min" },
-  { label: "Pommes de terre smashées", q: "smashed potatoes", img: "/featured/pommes-de-terre-smashees.jpg", time: "35 min" },
+  { label: "Pommes de terre smashées", q: "smashed potatoes", img: featuredPhoto("pommes-de-terre-smashees"), time: "35 min" },
   { label: "Salade caprese", img: "/landing/salade-caprese.jpg", time: "10 min" },
 ];
 

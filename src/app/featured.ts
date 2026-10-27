@@ -11,11 +11,16 @@ type Base = { title: string; photo: string; alt: string; /** L'accroche du carro
   intro: string; minutes: number; cal: number; diff: string; serves: number;
   veg?: boolean; oven?: boolean; cold?: boolean; origin?: string; items: Item[]; steps: Step[] };
 
+/** La photo d'une recette de la semaine : faite par l'IA dans le style du catalogue (api/_images.ts, FEATURED), le 27 octobre.
+ *  Les photos du document de Hugo restent dans public/featured. */
+export const featuredPhoto = (photo: string) =>
+  `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/recipe-images/featured/${photo}.webp`;
+
 // Les 6 recettes choisies par Hugo le 21 octobre (« FRIGIA_6_recettes_avec_photos »), pour l'instant.
 // Photos : public/featured, recadrées sans les textes du document.
 const BASE: Base[] = [
   {
-    title: "Pancakes moelleux à la banane", photo: "pancakes-banane", alt: "Pile de pancakes, rondelles de banane et pot de miel",
+    title: "Pancakes moelleux à la banane", photo: "pancakes-banane", alt: "Pile de pancakes, rondelles de banane et filet de miel",
     kicker: "Seulement 3 ingrédients",
     intro: "Une banane, deux œufs et des flocons d'avoine : c'est tout. À servir avec des fruits frais.",
     minutes: 10, cal: 215, diff: "Facile", serves: 2, veg: true,
@@ -53,7 +58,7 @@ const BASE: Base[] = [
       ["Ajoute le basilic juste avant de servir."]],
   },
   {
-    title: "Pommes de terre smashées au parmesan", photo: "pommes-de-terre-smashees", alt: "Pommes de terre dorées aux herbes dans une poêle",
+    title: "Pommes de terre smashées au parmesan", photo: "pommes-de-terre-smashees", alt: "Pommes de terre dorées au parmesan et aux herbes",
     kicker: "L'astuce anti-gaspi",
     intro: "Des pommes de terre écrasées puis rôties : fondantes dedans, croustillantes dehors. Avec des pommes de terre déjà cuites, c'est encore plus rapide.",
     minutes: 35, cal: 260, diff: "Facile", serves: 2, veg: true, oven: true,
@@ -79,7 +84,7 @@ const BASE: Base[] = [
       ["Termine avec le parmesan et du poivre."]],
   },
   {
-    title: "Brownie fondant sans farine", photo: "brownie-banane", alt: "Brownies fondants au chocolat empilés",
+    title: "Brownie fondant sans farine", photo: "brownie-banane", alt: "Brownies fondants au chocolat",
     kicker: "Le dessert malin",
     intro: "Banane, purée de cacahuète et cacao : un brownie fondant, sans sucre ajouté. Attention, il contient des arachides.",
     minutes: 25, cal: 160, diff: "Facile", serves: 6, veg: true, oven: true,
@@ -101,7 +106,7 @@ export function weekRecipes(kitchen: Pick<FridgeItem, "name">[]): { recipe: Gene
     const recipe: GeneratedRecipe = {
       emoji: recipeIcon(b.title), title: b.title,
       time: `${b.minutes} min`, minutes: b.minutes, cal: b.cal, diff: b.diff,
-      imageSearch: `/featured/${b.photo}.jpg`,
+      imageSearch: featuredPhoto(b.photo),
       intro: b.intro, veg: !!b.veg, oven: !!b.oven, cold: !!b.cold, ...(b.origin ? { origin: b.origin } : {}),
       serves: b.serves, items,
       recipeIngredients: items.map(i => ({ name: i.qty != null && i.qty > 1 && !i.unit ? i.plural : i.name, qty: qtyLabel(i) })),
