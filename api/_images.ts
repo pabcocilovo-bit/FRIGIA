@@ -34,6 +34,9 @@ const STYLE = "Shot at a 60-degree angle, the dish centered and filling most of 
 // Quiches : un œuf au plat posé dessus, même sans œuf dans la consigne (27 octobre)
 const FIXES: { re: RegExp; add: string; v: string }[] = [
   { re: /quiche/i, add: "a savory tart with a smooth, set, golden custard filling, the egg fully baked into the custard", v: "t2" },
+  // Carbonara et pad thaï : un jaune d'œuf posé au milieu (Hugo, 27 octobre : « j'aime pas trop »)
+  { re: /carbonara/i, add: "pasta tossed in a glossy, creamy carbonara sauce that coats every strand, the egg fully mixed into the sauce, grated cheese on top", v: "c2" },
+  { re: /pad tha/i, add: "stir-fried rice noodles with the egg scrambled and mixed through, crushed peanuts, bean sprouts and a lime wedge", v: "p2" },
   // Raclette : des morceaux brûlés en vrac dans un plat (Hugo, 27 octobre : « mal faite »)
   { re: /raclette au four/i, add: "a baking dish of sliced boiled potatoes generously covered with melted, bubbling raclette cheese", v: "r2" },
   { re: /raclette dinner/i, add: "a plate of boiled baby potatoes with creamy melted raclette cheese poured over them, a few slices of cured ham and small pickled gherkins on the side", v: "r2" },
