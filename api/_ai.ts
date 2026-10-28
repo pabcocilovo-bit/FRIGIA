@@ -23,8 +23,17 @@ function checkMemoryRateLimit(userId: string, limit: number): boolean {
   return true;
 }
 
-/** Recettes d'une photo déjà comptée, « D'autres idées » : 20 demandes par heure (compteur de l'instance). */
-export const checkIdeasLimit = (userId: string) => checkMemoryRateLimit(`idees:${userId}`, IDEAS_LIMIT);
+/** Un compteur par heure partagé entre les instances (table code_attempts, rangée par clé).
+ *  Sans la table (migration pas lancée) : le compteur de l'instance. */
+export async function checkKeyLimit(admin: SupabaseClient, key: string, limit: number): Promise<boolean> {
+  const { data, error } = await admin.rpc("check_code_attempt", { p_key: key, p_limit: limit, p_window_seconds: RATE_WINDOW_MS / 1000 });
+  if (!error) return data === true;
+  console.error("check_code_attempt failed:", error.message);
+  return checkMemoryRateLimit(key, limit);
+}
+
+/** Recettes d'une photo déjà comptée, « D'autres idées », Explorer : 20 demandes par heure et par compte. */
+export const checkIdeasLimit = (admin: SupabaseClient, userId: string) => checkKeyLimit(admin, `idees:${userId}`, IDEAS_LIMIT);
 
 // Shared counter in Supabase (see supabase/migrations), so it holds across serverless instances
 export async function checkRateLimit(admin: SupabaseClient, userId: string, limit = RATE_LIMIT): Promise<boolean> {

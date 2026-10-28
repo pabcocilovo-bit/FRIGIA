@@ -2,7 +2,7 @@
 // Réservé à Frigia Plus (et aux 7 jours d'essai). Avec le jeton d'une photo, la limite par heure ne recompte pas ;
 // sans jeton (ingrédients tapés à la main), c'est un scan de plus dans la limite.
 import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
-import { askClaude, checkIdeasLimit, checkRateLimit, checkScanToken, prefLines, type Prefs } from "./_ai.js";
+import { askClaude, checkIdeasLimit, checkKeyLimit, checkRateLimit, checkScanToken, prefLines, type Prefs } from "./_ai.js";
 import { norm, parse, type RawRecipe, salvage, shape, str, strs } from "./_recipe.js";
 import { dish } from "./_dish.js";
 import { browse } from "./_browse.js";
@@ -68,11 +68,15 @@ export default async function handler(req: Req, res: Res) {
   const old = (req.body as { restyle?: unknown } | undefined)?.restyle;
   if (Array.isArray(old)) {
     if (!canGenerate()) return res.status(200).json({ photos: {} });
+    // 6 photos au plus par appel, 10 appels par heure et par compte (compteur partagé entre les instances)
+    if (!(await checkKeyLimit(admin, `restyle:${user.id}`, 10))) return res.status(200).json({ photos: {} });
     const list = old.map(o => ({ title: str((o as { title?: unknown })?.title, 80), items: strs((o as { items?: unknown })?.items, 8, 40) })).filter(o => o.title);
     return restyle(admin, user.id, list).then(photos => res.status(200).json({ photos }), () => res.status(200).json({ photos: {} }));
   }
   // Les photos IA de tout le catalogue, un paquet par appel (explorer?photos=1, api/_images.ts)
   if ((req.body as { photos?: unknown } | undefined)?.photos === true) {
+    // Tâche d'admin (elle paie fal.ai pour tout le catalogue) : seulement les comptes avec app_metadata.admin (posé à la main dans Supabase)
+    if (user.app_metadata?.admin !== true) return res.status(403).json({ error: "Réservé à l'admin" });
     if (!canGenerate()) return res.status(503).json({ error: "FAL_KEY manquante" });
     return backfill(admin, 8).then(r => res.status(200).json(r), (e: unknown) => res.status(500).json({ error: e instanceof Error ? e.message : "Erreur" }));
   }
@@ -94,7 +98,7 @@ export default async function handler(req: Req, res: Res) {
 
   // Ingrédients tapés à la main (pas de photo) : c'est un scan, compté dans la limite par heure
   const fromPhoto = checkScanToken(body.token, user.id);
-  if (!(fromPhoto || body.more ? checkIdeasLimit(user.id) : await checkRateLimit(admin, user.id))) {
+  if (!(fromPhoto || body.more ? await checkIdeasLimit(admin, user.id) : await checkRateLimit(admin, user.id))) {
     return res.status(429).json({ error: "Limite atteinte. Réessaie dans une heure.", code: "rate" });
   }
   const fail = (status: number, error: string, code?: string) => res.status(status).json({ error, ...(code ? { code } : {}) });

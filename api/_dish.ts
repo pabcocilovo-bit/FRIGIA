@@ -51,7 +51,7 @@ export async function dish(req: Req, res: Res, userId: string, admin: SupabaseCl
   }
 
   if (catalogOnly) return res.json({ recipes: [] });
-  if (!checkIdeasLimit(userId)) return res.status(429).json({ error: "Limite atteinte. Réessaie dans une heure.", code: "rate" });
+  if (!(await checkIdeasLimit(admin, userId))) return res.status(429).json({ error: "Limite atteinte. Réessaie dans une heure.", code: "rate" });
   const servings = CATALOG_SERVES;
   // Seulement ce qui change la recette pour tout le monde : régime, allergies, pas de four (pas les goûts de chacun)
   const lines = prefLines(body.prefs).filter(l => /^(ALIMENTATION|ALLERGIES|PAS DE FOUR)/.test(l));
