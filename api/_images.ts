@@ -67,7 +67,10 @@ const FIXES: { re: RegExp; add: string; v: string }[] = [
   { re: /kebab|gyros|falafel pita/i, add: "a warm pita bread sandwich generously filled, with lettuce, tomato and a white yogurt sauce", v: "f2" },
   // Crêpes sucrées : une garniture jaune (des œufs brouillés) dans les crêpes pliées (Hugo, 28 octobre) : une pile, sans rien dedans
   { re: /french crepes|dairy free crepes/i, add: "a neat stack of thin, plain golden French crêpes on a plate, empty with no filling at all, the top one folded into quarters, lightly dusted with sugar, a small pot of jam beside", v: "f3" },
-  { re: /galette saucisse/i, add: "a Breton buckwheat galette rolled around a grilled sausage", v: "f2" },
+  // Galettes bretonnes : des tartes épaisses, un œuf au plat sur la galette saucisse (28 octobre). Une crêpe de sarrasin fine, pliée en carré
+  { re: /galette saucisse/i, add: "a grilled sausage rolled tightly in a thin, lacy, dark brown Breton buckwheat crêpe, wrapped like a hot dog, no egg", v: "f3" },
+  { re: /galette compl|buckwheat galette ham/i, add: "a thin, lacy, dark brown Breton buckwheat crêpe with its edges folded in to make a square, ham and melted grated cheese inside and one sunny-side-up egg in the center", v: "k2" },
+  { re: /goat cheese spinach galette/i, add: "a thin, lacy, dark brown Breton buckwheat crêpe with its edges folded in to make a square, wilted spinach and melted goat cheese in the center, no egg", v: "k2" },
   // Gratins aux œufs : un œuf au plat posé dessus (vu sur le gratin de courgettes, 28 octobre)
   { re: /gratin de courgettes|gratin de chou-fleur et brocoli|gratin d'épinards/i, add: "a baking dish of vegetables baked in a creamy sauce under a golden, bubbling cheese crust, the eggs fully baked into the sauce, nothing on top", v: "z2" },
   // Raclette : des morceaux brûlés en vrac dans un plat (Hugo, 27 octobre : « mal faite »)
