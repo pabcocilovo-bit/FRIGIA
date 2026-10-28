@@ -31,7 +31,7 @@ export function parse(r: RawRecipe | null | undefined, noShop = false) {
 }
 export type RawRecipe = {
   title?: unknown; intro?: unknown; minutes?: unknown; time?: unknown; calories?: unknown; kcal?: unknown; difficulty?: unknown; imageSearch?: unknown;
-  veg?: unknown; oven?: unknown; cold?: unknown; kids?: unknown; missing?: unknown; origin?: unknown; ingredients?: (RawItem | string)[]; steps?: RawStep[];
+  veg?: unknown; oven?: unknown; cold?: unknown; kids?: unknown; missing?: unknown; origin?: unknown; makes?: { n?: unknown; one?: unknown; many?: unknown } | null; ingredients?: (RawItem | string)[]; steps?: RawStep[];
 };
 
 export const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
@@ -104,7 +104,14 @@ export async function shape(r: RawRecipe, items: Parsed["items"], steps: Parsed[
     serves: servings,
     items,
     steps,
+    ...makesOf(r.makes),
     ...extra,
   };
 }
 type Parsed = NonNullable<ReturnType<typeof parse>>;
+
+/** Une recette qui se fait en pièces (crêpes, cookies, nems…) : combien, pour les quantités données. Sinon rien. */
+export function makesOf(m: RawRecipe["makes"]): { makes?: { n: number; one: string; many: string } } {
+  const n = num(m?.n), one = str(m?.one, 30), many = str(m?.many, 30) || one;
+  return n && n <= 200 && one ? { makes: { n: Math.round(n), one, many } } : {};
+}

@@ -1,6 +1,6 @@
 // Scan du frigo en deux temps : la photo devient des ingrédients (/api/ingredients), puis des recettes (/api/recipes).
 import { supabase } from "../supabase";
-import type { DetectedIngredient, GeneratedRecipe, Meal } from "./types";
+import type { DetectedIngredient, GeneratedRecipe, Meal, RecipeMakes } from "./types";
 import type { ApiEater } from "./household";
 import { apiPrefs, getCachedProfile } from "./profile";
 import { recentRecipeTitles } from "./library";
@@ -115,7 +115,7 @@ type RawItem = { name: string; plural: string; qty: number | null; unit: string;
 type RawRecipe = {
   title: string; intro: string; minutes: number; calories: number; difficulty: string; imageSearch: string; imageUrl?: string;
   veg: boolean; oven: boolean; cold: boolean; missing: string; serves: number; items: RawItem[];
-  kids?: boolean; without?: string[]; origin?: string; dessert?: boolean; variant?: string; change?: string;
+  kids?: boolean; without?: string[]; origin?: string; dessert?: boolean; variant?: string; change?: string; makes?: RecipeMakes;
   steps: { text: string; timer: { label: string; min: number } | null }[];
 };
 
@@ -147,6 +147,7 @@ function toRecipe(r: RawRecipe): GeneratedRecipe {
     ...(r.dessert ? { dessert: true } : {}),
     ...(r.variant ? { variant: r.variant } : {}),
     ...(r.change ? { change: r.change } : {}),
+    ...(r.makes ? { makes: r.makes } : {}),
   };
 }
 

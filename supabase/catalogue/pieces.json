@@ -1,0 +1,807 @@
+{
+"Crêpes": [
+15,
+"crêpe",
+"crêpes"
+],
+"Crêpes sans lactose": [
+15,
+"crêpe",
+"crêpes"
+],
+"Galettes de sarrasin complètes": [
+8,
+"galette",
+"galettes"
+],
+"Galette complète": [
+8,
+"galette",
+"galettes"
+],
+"Galette saucisse": [
+8,
+"galette",
+"galettes"
+],
+"Galette chèvre et épinards": [
+8,
+"galette",
+"galettes"
+],
+"Gaufres": [
+10,
+"gaufre",
+"gaufres"
+],
+"Gaufres de Liège": [
+14,
+"gaufre",
+"gaufres"
+],
+"Gaufres légères": [
+8,
+"gaufre",
+"gaufres"
+],
+"Pancakes": [
+16,
+"pancake",
+"pancakes"
+],
+"Pancakes à la banane": [
+12,
+"pancake",
+"pancakes"
+],
+"Pancakes healthy à l'avoine": [
+10,
+"pancake",
+"pancakes"
+],
+"Pain perdu": [
+8,
+"tranche",
+"tranches"
+],
+"Pain perdu brioché": [
+8,
+"tranche",
+"tranches"
+],
+"Pain perdu salé": [
+8,
+"tranche",
+"tranches"
+],
+"Cookies aux pépites de chocolat": [
+16,
+"cookie",
+"cookies"
+],
+"Cookies à l'avoine": [
+16,
+"cookie",
+"cookies"
+],
+"Cookies tout chocolat": [
+16,
+"cookie",
+"cookies"
+],
+"Muffins aux myrtilles": [
+12,
+"muffin",
+"muffins"
+],
+"Muffins au chocolat": [
+12,
+"muffin",
+"muffins"
+],
+"Muffins salés courgette et feta": [
+12,
+"muffin",
+"muffins"
+],
+"Muffins salés jambon-fromage": [
+12,
+"muffin",
+"muffins"
+],
+"Muffins salés aux légumes": [
+12,
+"muffin",
+"muffins"
+],
+"Muffins salés chorizo-poivron": [
+12,
+"muffin",
+"muffins"
+],
+"Madeleines": [
+24,
+"madeleine",
+"madeleines"
+],
+"Madeleines au chocolat": [
+24,
+"madeleine",
+"madeleines"
+],
+"Madeleines au miel": [
+24,
+"madeleine",
+"madeleines"
+],
+"Financiers aux amandes": [
+12,
+"financier",
+"financiers"
+],
+"Financiers aux framboises": [
+12,
+"financier",
+"financiers"
+],
+"Financiers au chocolat": [
+12,
+"financier",
+"financiers"
+],
+"Sablés au beurre": [
+25,
+"sablé",
+"sablés"
+],
+"Sablés au citron": [
+25,
+"sablé",
+"sablés"
+],
+"Sablés au chocolat": [
+25,
+"sablé",
+"sablés"
+],
+"Cupcakes à la vanille": [
+12,
+"cupcake",
+"cupcakes"
+],
+"Cupcakes au chocolat": [
+12,
+"cupcake",
+"cupcakes"
+],
+"Cupcakes au citron": [
+12,
+"cupcake",
+"cupcakes"
+],
+"Donuts glacés": [
+12,
+"donut",
+"donuts"
+],
+"Donuts au chocolat": [
+12,
+"donut",
+"donuts"
+],
+"Donuts au four": [
+8,
+"donut",
+"donuts"
+],
+"Beignets au sucre": [
+16,
+"beignet",
+"beignets"
+],
+"Beignets à la banane": [
+16,
+"beignet",
+"beignets"
+],
+"Beignets aux pommes": [
+24,
+"beignet",
+"beignets"
+],
+"Churros": [
+24,
+"churro",
+"churros"
+],
+"Churros et sauce chocolat": [
+24,
+"churro",
+"churros"
+],
+"Churros au four": [
+20,
+"churro",
+"churros"
+],
+"Profiteroles au chocolat": [
+20,
+"chou",
+"choux"
+],
+"Choux à la chantilly": [
+20,
+"chou",
+"choux"
+],
+"Profiteroles caramel": [
+20,
+"chou",
+"choux"
+],
+"Éclairs au chocolat": [
+12,
+"éclair",
+"éclairs"
+],
+"Éclairs au café": [
+12,
+"éclair",
+"éclairs"
+],
+"Éclairs à la chantilly": [
+12,
+"éclair",
+"éclairs"
+],
+"Gougères au comté": [
+30,
+"gougère",
+"gougères"
+],
+"Gougères au jambon": [
+30,
+"gougère",
+"gougères"
+],
+"Gougères aux herbes": [
+30,
+"gougère",
+"gougères"
+],
+"Blinis maison": [
+24,
+"blini",
+"blinis"
+],
+"Blinis à la crème de chèvre": [
+24,
+"blini",
+"blinis"
+],
+"Blinis au sarrasin": [
+24,
+"blini",
+"blinis"
+],
+"Nems au porc": [
+16,
+"nem",
+"nems"
+],
+"Nems au poulet": [
+16,
+"nem",
+"nems"
+],
+"Nems aux légumes au four": [
+16,
+"nem",
+"nems"
+],
+"Rouleaux de printemps aux crevettes": [
+8,
+"rouleau",
+"rouleaux"
+],
+"Rouleaux de printemps au tofu": [
+8,
+"rouleau",
+"rouleaux"
+],
+"Rouleaux de printemps au poulet": [
+8,
+"rouleau",
+"rouleaux"
+],
+"Samoussas au bœuf": [
+16,
+"samoussa",
+"samoussas"
+],
+"Samoussas aux légumes": [
+16,
+"samoussa",
+"samoussas"
+],
+"Samoussas au thon": [
+16,
+"samoussa",
+"samoussas"
+],
+"Gyozas au porc": [
+30,
+"gyoza",
+"gyozas"
+],
+"Gyozas aux légumes": [
+30,
+"gyoza",
+"gyozas"
+],
+"Gyozas aux crevettes": [
+30,
+"gyoza",
+"gyozas"
+],
+"Accras de morue": [
+30,
+"accra",
+"accras"
+],
+"Accras de crevettes": [
+30,
+"accra",
+"accras"
+],
+"Accras de légumes": [
+20,
+"accra",
+"accras"
+],
+"Falafels": [
+20,
+"falafel",
+"falafels"
+],
+"Falafels au four": [
+20,
+"falafel",
+"falafels"
+],
+"Boulettes de bœuf à la sauce tomate": [
+20,
+"boulette",
+"boulettes"
+],
+"Boulettes de poulet": [
+20,
+"boulette",
+"boulettes"
+],
+"Keftas à l'orientale": [
+16,
+"kefta",
+"keftas"
+],
+"Nuggets de poulet maison": [
+24,
+"nugget",
+"nuggets"
+],
+"Nuggets de poulet au four": [
+24,
+"nugget",
+"nuggets"
+],
+"Tacos au bœuf": [
+12,
+"taco",
+"tacos"
+],
+"Tacos au poulet": [
+12,
+"taco",
+"tacos"
+],
+"Tacos au poisson": [
+12,
+"taco",
+"tacos"
+],
+"Fajitas au poulet": [
+8,
+"fajita",
+"fajitas"
+],
+"Fajitas au bœuf": [
+8,
+"fajita",
+"fajitas"
+],
+"Fajitas végétariennes": [
+8,
+"fajita",
+"fajitas"
+],
+"Quesadillas au poulet": [
+4,
+"quesadilla",
+"quesadillas"
+],
+"Quesadillas au fromage et haricots": [
+4,
+"quesadilla",
+"quesadillas"
+],
+"Quesadillas au jambon": [
+4,
+"quesadilla",
+"quesadillas"
+],
+"Burritos au bœuf": [
+4,
+"burrito",
+"burritos"
+],
+"Burritos au poulet": [
+4,
+"burrito",
+"burritos"
+],
+"Burritos végétariens": [
+4,
+"burrito",
+"burritos"
+],
+"Wrap au poulet": [
+4,
+"wrap",
+"wraps"
+],
+"Wrap au thon": [
+4,
+"wrap",
+"wraps"
+],
+"Wrap végétarien houmous et légumes": [
+4,
+"wrap",
+"wraps"
+],
+"Wrap de falafels": [
+4,
+"wrap",
+"wraps"
+],
+"Burger maison": [
+4,
+"burger",
+"burgers"
+],
+"Burger au poulet croustillant": [
+4,
+"burger",
+"burgers"
+],
+"Burger végétarien": [
+4,
+"burger",
+"burgers"
+],
+"Hot dog maison": [
+4,
+"hot dog",
+"hot dogs"
+],
+"Hot dog gratiné": [
+4,
+"hot dog",
+"hot dogs"
+],
+"Hot dog végétarien": [
+4,
+"hot dog",
+"hot dogs"
+],
+"Bagel saumon et fromage frais": [
+4,
+"bagel",
+"bagels"
+],
+"Bagel poulet et crudités": [
+4,
+"bagel",
+"bagels"
+],
+"Bagel végétarien": [
+4,
+"bagel",
+"bagels"
+],
+"Kebab maison": [
+4,
+"pita",
+"pitas"
+],
+"Gyros": [
+4,
+"pita",
+"pitas"
+],
+"Kebab végétarien aux falafels": [
+4,
+"pita",
+"pitas"
+],
+"Shawarma de poulet": [
+4,
+"pita",
+"pitas"
+],
+"Shawarma de chou-fleur": [
+4,
+"pita",
+"pitas"
+],
+"Naans nature": [
+8,
+"naan",
+"naans"
+],
+"Cheese naans": [
+8,
+"naan",
+"naans"
+],
+"Naans à l'ail": [
+8,
+"naan",
+"naans"
+],
+"Empanadas au bœuf": [
+12,
+"empanada",
+"empanadas"
+],
+"Empanadas au poulet": [
+12,
+"empanada",
+"empanadas"
+],
+"Empanadas au fromage": [
+12,
+"empanada",
+"empanadas"
+],
+"Arancini": [
+16,
+"arancini",
+"arancini"
+],
+"Arancini à la bolognaise": [
+16,
+"arancini",
+"arancini"
+],
+"Arancini au four": [
+16,
+"arancini",
+"arancini"
+],
+"Cannellonis ricotta-épinards": [
+16,
+"cannelloni",
+"cannellonis"
+],
+"Cannellonis à la viande": [
+16,
+"cannelloni",
+"cannellonis"
+],
+"Cannellonis au saumon": [
+16,
+"cannelloni",
+"cannellonis"
+],
+"Makis au saumon": [
+40,
+"maki",
+"makis"
+],
+"Makis végétariens": [
+40,
+"maki",
+"makis"
+],
+"California rolls": [
+32,
+"maki",
+"makis"
+],
+"Tomates farcies": [
+8,
+"tomate farcie",
+"tomates farcies"
+],
+"Tomates farcies végétariennes": [
+8,
+"tomate farcie",
+"tomates farcies"
+],
+"Champignons farcis": [
+12,
+"champignon farci",
+"champignons farcis"
+],
+"Champignons farcis à la chair à saucisse": [
+12,
+"champignon farci",
+"champignons farcis"
+],
+"Champignons farcis au chèvre": [
+12,
+"champignon farci",
+"champignons farcis"
+],
+"Œufs mimosa": [
+16,
+"œuf mimosa",
+"œufs mimosa"
+],
+"Œufs mimosa au thon": [
+16,
+"œuf mimosa",
+"œufs mimosa"
+],
+"Œufs mimosa légers": [
+16,
+"œuf mimosa",
+"œufs mimosa"
+],
+"Croque-monsieur": [
+4,
+"croque",
+"croques"
+],
+"Croque-madame": [
+4,
+"croque",
+"croques"
+],
+"Croque-monsieur végétarien": [
+4,
+"croque",
+"croques"
+],
+"Club sandwich": [
+4,
+"club sandwich",
+"club sandwichs"
+],
+"Club sandwich au thon": [
+4,
+"club sandwich",
+"club sandwichs"
+],
+"Club sandwich végétarien": [
+4,
+"club sandwich",
+"club sandwichs"
+],
+"Bruschetta tomate basilic": [
+8,
+"bruschetta",
+"bruschettas"
+],
+"Bruschetta mozzarella et jambon cru": [
+8,
+"bruschetta",
+"bruschettas"
+],
+"Bruschetta avocat et œuf": [
+4,
+"bruschetta",
+"bruschettas"
+],
+"Avocado toast": [
+4,
+"tartine",
+"tartines"
+],
+"Avocado toast œuf poché": [
+4,
+"tartine",
+"tartines"
+],
+"Avocado toast saumon fumé": [
+4,
+"tartine",
+"tartines"
+],
+"Feuilletés à la saucisse": [
+24,
+"feuilleté",
+"feuilletés"
+],
+"Feuilletés au fromage": [
+20,
+"feuilleté",
+"feuilletés"
+],
+"Friands à la viande": [
+8,
+"friand",
+"friands"
+],
+"Chaussons express à la pâte feuilletée": [
+8,
+"chausson",
+"chaussons"
+],
+"Pizza margherita maison": [
+2,
+"pizza",
+"pizzas"
+],
+"Pizza reine": [
+2,
+"pizza",
+"pizzas"
+],
+"Pizza express sans levée": [
+1,
+"pizza",
+"pizzas"
+],
+"Mini pavlovas aux fraises": [
+8,
+"mini pavlova",
+"mini pavlovas"
+],
+"Mug cake au cacao": [
+4,
+"mug cake",
+"mug cakes"
+],
+"Brochettes de poulet satay": [
+8,
+"brochette",
+"brochettes"
+],
+"Brochettes de poulet marinées": [
+8,
+"brochette",
+"brochettes"
+],
+"Brochettes de poulet au yaourt": [
+8,
+"brochette",
+"brochettes"
+],
+"Brochettes de poulet au miel": [
+8,
+"brochette",
+"brochettes"
+],
+"Brochettes de poulet tandoori": [
+8,
+"brochette",
+"brochettes"
+],
+"Ailes de poulet marinées au four": [
+20,
+"aile",
+"ailes"
+],
+"Ailes de poulet buffalo": [
+20,
+"aile",
+"ailes"
+],
+"Ailes de poulet au caramel": [
+20,
+"aile",
+"ailes"
+]
+}

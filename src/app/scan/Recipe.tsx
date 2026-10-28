@@ -10,7 +10,7 @@ import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
 import { showToast } from "../toast";
 import { Stepper } from "./Ingredients";
-import { eatersOf, haveCount, recipeLines, srvLabel } from "./portions";
+import { eatersOf, haveCount, piecesText, recipeLines, srvLabel } from "./portions";
 import { recipeBadges, type Person, portionsOf } from "../../lib/household";
 import type { Fridge, ShopItem, Week } from "../../lib/home";
 import { weekDays } from "../format";
@@ -66,6 +66,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
   const linesFor = (srv: number) => recipeLines(recipe, srv, entry?.ingredients)
     .map(l => ({ ...l, check: l.have && l.q ? checkQty(l.q, l.n, stocks) : null }));
   const lines = linesFor(servings);
+  const pieces = piecesText(recipe, servings);
   const { have, total } = haveCount(recipe, entry?.ingredients);
   const missing = total - have;
   const steps = recipe.steps ?? [];
@@ -167,6 +168,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
                   <Stepper value={servings} min={1} max={MAX_GUESTS} label={["Moins", "Plus"]} onChange={setServings} />
                 </div>
               )}
+              {pieces && <p className="rc-makes">{pieces}</p>}
               <div className="ingbox">
                 <ul className="ings">
                   {lines.map((l, i) => (

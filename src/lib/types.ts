@@ -8,6 +8,8 @@ export type DetectedIngredient = { name: string; icon: string; conf: number; qty
 /** Ingrédient d'une recette du nouveau scan : la quantité est un nombre, recalculé selon les portions. */
 export type RecipeItem = { name: string; plural: string; qty: number | null; unit: string; have: boolean };
 export type StepTimer = { label: string; min: number };
+export type RecipeMakes = { n: number; one: string; many: string };
+
 export type GeneratedRecipe = {
   emoji: string;
   title: string;
@@ -27,6 +29,8 @@ export type GeneratedRecipe = {
   missing?: string;
   /** Portions pour lesquelles les quantités de items sont données */
   serves?: number;
+  /** Une recette en pièces : combien elle en fait pour serves portions (« 15 crêpes ») */
+  makes?: RecipeMakes;
   items?: RecipeItem[];
   /** Minuteur de chaque étape (même ordre que steps), null s'il n'y en a pas */
   timers?: (StepTimer | null)[];

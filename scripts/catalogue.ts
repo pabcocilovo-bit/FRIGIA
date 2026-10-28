@@ -19,6 +19,8 @@ type Dish = { q: string; a?: string[]; r: Compact[] };
 type Row = { key: string; query: string; aliases: string[]; kind: "dish" | "list"; recipes: CatalogRecipe[] };
 
 const DIR = "supabase/catalogue";
+// Ce que fait une recette en pièces, pour 4 portions (Hugo, 28 octobre) : « Crêpes » → 15 crêpes. Titre → [nombre, une, plusieurs]
+const PIECES = JSON.parse(readFileSync(join(DIR, "pieces.json"), "utf8")) as Record<string, [number, string, string]>;
 const UNITS = ["g", "ml", "cl", "c. à s.", "c. à c.", "gousse", "feuilles", "tranches", ""];
 const DIFF = { F: "Facile", M: "Moyen", D: "Difficile" } as const;
 const errors: string[] = [];
@@ -57,6 +59,7 @@ function recipe(c: Compact, where: string): (CatalogRecipe & { tags: string }) |
     veg: has("v"), oven: has("o"), cold: has("c"), missing: "", origin, serves: CATALOG_SERVES,
     items: p.items, steps: p.steps,
     ...(has("f") ? { kids: true } : {}), ...(has("d") ? { dessert: true } : {}),
+    ...(PIECES[title] ? { makes: { n: PIECES[title][0], one: PIECES[title][1], many: PIECES[title][2] } } : {}),
     variant, change,
     tags: flags,
   };

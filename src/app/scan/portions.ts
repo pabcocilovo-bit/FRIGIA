@@ -62,6 +62,13 @@ export function recipeLines(r: GeneratedRecipe, servings: number, found?: Detect
   return (r.recipeIngredients ?? []).map(i => ({ q: i.qty, n: i.name, have: !found?.length || inFridge(i.name, found) }));
 }
 
+/** Une recette en pièces : « Environ 15 crêpes » pour ces portions (Hugo, 28 octobre), sinon null. */
+export function piecesText(r: GeneratedRecipe, servings: number): string | null {
+  if (!r.makes) return null;
+  const n = Math.max(1, Math.round(r.makes.n * servings / (r.serves || servings || 1)));
+  return `Environ ${n} ${n > 1 ? r.makes.many : r.makes.one}`;
+}
+
 /** « 6 sur 8 » : ce que tu as déjà, sur le total (0 sur 0 quand on ne sait pas). */
 export function haveCount(r: GeneratedRecipe, found?: DetectedIngredient[]): { have: number; total: number } {
   if (r.items?.length) return { have: r.items.filter(i => i.have).length, total: r.items.length };

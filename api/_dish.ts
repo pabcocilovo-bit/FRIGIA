@@ -79,6 +79,7 @@ Si c'est un ingrédient, une envie ou une catégorie (« saumon », « healthy �
 - "imageSearch" : le plat EN ANGLAIS, 2 à 4 mots, le dernier mot est le type de plat ("tartiflette potato gratin", "salmon poke bowl").
 - "veg" : true si sans viande ni poisson. "oven" : true si elle passe au four. "cold" : true si elle se mange froide. "dessert" : true pour un dessert.
 - "ingredients" : chaque ingrédient avec "name" (minuscules, singulier), "plural", "qty" (nombre, ou null pour « un peu »), "unit" ("g", "ml", "cl", "c. à s.", "c. à c.", "gousse", "feuilles", "tranches", ou "" pour un nombre de pièces), "have".
+- "makes" : pour une recette qui se fait en pièces (crêpes, galettes, pancakes, cookies, muffins, nems, tacos, wraps, burgers, brochettes…), combien elle en fait avec ces quantités : {"n": 12, "one": "crêpe", "many": "crêpes"}. Sinon null.
 - "steps" : 3 à 8 étapes au tutoiement, phrases courtes, avec quantités, températures et durées. Une étape qui attend (four, cuisson, repos) a un "timer" : {"label":"Four","min":25}, sinon null.`,
     `JSON uniquement : {"recipes":[{"title":"Tartiflette au reblochon","variant":"La classique","change":"","intro":"…","origin":"Spécialité savoyarde","minutes":60,"calories":750,"difficulty":"Facile","imageSearch":"tartiflette potato gratin","veg":false,"oven":true,"cold":false,"dessert":false,"ingredients":[{"name":"pomme de terre","plural":"pommes de terre","qty":800,"unit":"g","have":false}],"steps":[{"text":"…","timer":null}]}]}`,
   ].filter(Boolean).join("\n");
