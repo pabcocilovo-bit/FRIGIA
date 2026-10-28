@@ -8,6 +8,7 @@ import { InstallSection } from "./landing/InstallSection";
 import { FAQ } from "./landing/faq";
 import { Tonight } from "./landing/Tonight";
 import { WaitlistSheet } from "./landing/Waitlist";
+import { SIGNUP_OPEN } from "./lib/launch";
 import { RECIPES, fridgeScore } from "./landing/recipes";
 import { LEGAL } from "./legal/pages";
 import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./landing/browser";
@@ -20,14 +21,12 @@ import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./lan
 // Sans eux, la landing ouvre sa propre feuille de connexion (Supabase), comme l'ancienne version.
 export type Plan = "free" | "plus";
 
-// Liste d'attente tant que l'appli n'est pas ouverte à tous.
-// true : tous les boutons d'inscription ouvrent la liste d'attente (seule la connexion reste, pour les invités).
-// false : la landing redevient comme avant, avec l'inscription.
-const WAITLIST_ON = true;
-// Le lien d'invitation envoyé par email aux inscrits (frigia.fr/?invitation) rend la landing normale :
-// « Essayer » mène à l'inscription, et le compte créé avec un email de la liste a son mois offert (migration 20261028000000).
-const INVITED = typeof window !== "undefined" && new URLSearchParams(window.location.search).has("invitation");
-const WAITLIST = WAITLIST_ON && !INVITED;
+// Liste d'attente tant que l'appli n'est pas ouverte à tous (src/lib/launch.ts) : tous les boutons d'inscription
+// l'ouvrent, seule la connexion reste. Le lien ?invitation, que tout le monde pouvait taper, ne rouvre plus l'inscription :
+// les invitations par email viendront avec un vrai lien (Hugo, 28 octobre).
+const WAITLIST = !SIGNUP_OPEN;
+// /?liste (WAITLIST_URL) : la liste d'attente s'ouvre tout de suite (depuis la connexion ou l'appli installée)
+const openList = () => WAITLIST && typeof window !== "undefined" && new URLSearchParams(window.location.search).has("liste");
 const JOIN = "Rejoindre la liste d'attente";
 type Props = { onStart?: (plan: Plan) => void; onLogin?: () => void };
 
@@ -125,7 +124,7 @@ export default function Landing({ onStart, onLogin }: Props) {
   const [gbarClosed, setGbarClosed] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   // Liste d'attente ouverte, avec le bouton d'où elle vient (« hero », « prix »…)
-  const [waitlist, setWaitlist] = useState<string | null>(null);
+  const [waitlist, setWaitlist] = useState<string | null>(() => (openList() ? "connexion" : null));
   const turnstile = useRef<TurnstileInstance>(null);
   const resetCaptcha = () => { turnstile.current?.reset(); setCaptchaToken(null); };
 

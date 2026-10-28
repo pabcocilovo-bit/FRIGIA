@@ -11,6 +11,7 @@ import { addToList, BY_HAND, same } from "./lib/shopping";
 import type { Member as HomeMember } from "./lib/home";
 import { useSession } from "./hooks/useSession";
 import { isStandalone } from "./landing/browser";
+import { SIGNUP_OPEN, WAITLIST_URL } from "./lib/launch";
 import { Analytics } from "@vercel/analytics/react";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router";
 import { AppFrame } from "./app/AppFrame";
@@ -69,6 +70,8 @@ import { useNotifSync } from "./app/notifs/sync";
 // Écrans de l'inscription et de la connexion (étape 4). Connecté, seuls les questions, la caméra
 // et le mot de passe oublié (le code connecte avant le nouveau mot de passe) restent ouverts.
 const OB_PATHS = ["/bienvenue", "/questions/1", "/questions/2", "/questions/3", "/pret", "/compte", "/compte/email", "/compte/code", "/connexion", "/mot-de-passe", "/camera"];
+// Les écrans qui créent un compte (Bienvenue y mène aussi, dans l'appli installée)
+const SIGNUP_PATHS = ["/bienvenue", "/questions/1", "/questions/2", "/questions/3", "/pret", "/compte", "/compte/email"];
 const OB_SIGNED_IN = ["/questions/1", "/questions/2", "/questions/3", "/mot-de-passe", "/camera"];
 
 /** Prénom donné à Google (ou à l'inscription), pour le profil. */
@@ -213,6 +216,8 @@ if (user && goCamera && location.pathname !== "/camera") {
 // Pas connecté, ou en plein parcours d'inscription : la landing (ou Bienvenue dans l'appli installée) et les écrans du compte
 if (!user || obPath) {
   const open = (path: string) => !user || OB_SIGNED_IN.includes(path);
+  // Inscriptions fermées (src/lib/launch.ts) : sans compte, les écrans d'inscription mènent à la liste d'attente
+  const closed = (path: string) => !user && !SIGNUP_OPEN && SIGNUP_PATHS.includes(path);
   const screens: [string, React.ReactNode][] = [
     ["/bienvenue", <Welcome />],
     ["/questions/1", <QGoal />],
@@ -231,9 +236,9 @@ if (!user || obPath) {
   return (
     <AppFrame splash={sessionReady ? !!user || isStandalone() : undefined} guest={!user}>
       <Routes>
-        {screens.map(([path, el]) => <Route key={path} path={path} element={open(path) ? el : <Navigate to="/" replace />} />)}
+        {screens.map(([path, el]) => <Route key={path} path={path} element={closed(path) ? <Navigate to={WAITLIST_URL} replace /> : open(path) ? el : <Navigate to="/" replace />} />)}
         <Route path="/i/:code" element={<InviteLink />} />
-        <Route path="/" element={isStandalone()
+        <Route path="/" element={isStandalone() && SIGNUP_OPEN
           ? <Navigate to="/bienvenue" replace />
           : <><Analytics /><Suspense fallback={null}><Landing
               onStart={() => { resetAnswers(); navigate("/questions/1"); }}
