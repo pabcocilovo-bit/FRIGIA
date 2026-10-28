@@ -90,7 +90,8 @@ export function restock<T extends { name: string; have: boolean }>(items: T[], s
 
 export type Scanned = CatalogRecipe & { serves?: number; intro?: string; steps?: { text: string }[]; items?: Item[]; dessert?: boolean;
   makes?: { n: number; one: string; many: string } };
-const round = (q: number, unit: string) => (unit ? (q >= 20 ? Math.round(q / 5) * 5 : Math.round(q * 2) / 2) : Math.max(0.5, Math.round(q * 2) / 2));
+const round = (q: number, unit: string) => (unit === "cl" ? (q >= 10 ? Math.round(q / 5) * 5 : Math.max(1, Math.round(q)))
+  : unit ? (q >= 20 ? Math.round(q / 5) * 5 : Math.round(q * 2) / 2) : Math.max(0.5, Math.round(q * 2) / 2));
 
 /**
  * Les recettes que l'IA vient d'écrire pour un scan, gardées pour tout le monde : ramenées à 4 portions, sans rien du foyer

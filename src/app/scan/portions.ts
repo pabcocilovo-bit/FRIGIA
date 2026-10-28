@@ -25,6 +25,11 @@ export function itemText(it: RecipeItem, factor: number): { q: string; n: string
     v = Math.max(5, Math.round(v / 5) * 5);
     return { q: `${v} ${it.unit}`, n: it.name };
   }
+  // Pas de « 12½ cl » (Hugo, 28 octobre) : des cl entiers, de 5 en 5 à partir de 10 cl
+  if (it.unit === "cl") {
+    v = v >= 10 ? Math.round(v / 5) * 5 : Math.max(1, Math.round(v));
+    return { q: `${v} cl`, n: it.name };
+  }
   if (COUNTED.includes(it.unit)) v = Math.max(1, Math.round(v));
   const r = Math.round(v * 2) / 2, whole = Math.floor(r), half = r - whole > 0;
   const s = (whole ? String(whole) : "") + (half ? "½" : "") || "½";
