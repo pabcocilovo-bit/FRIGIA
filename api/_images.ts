@@ -73,6 +73,11 @@ const FIXES: { re: RegExp; add: string; v: string }[] = [
   { re: /goat cheese spinach galette/i, add: "a thin, lacy, dark brown Breton buckwheat crêpe with its edges folded in to make a square, wilted spinach and melted goat cheese in the center", v: "k2" },
   // Gratins aux œufs : un œuf au plat posé dessus (vu sur le gratin de courgettes, 28 octobre)
   { re: /gratin de courgettes|gratin de chou-fleur et brocoli|gratin d'épinards/i, add: "a baking dish of vegetables baked in a creamy sauce under a golden, bubbling cheese crust", v: "z2" },
+  // Revue du 28 octobre : des cordons bleus et des muffins salés en gratin, des gougères en plat, l'île flottante en tarte
+  { re: /cordon bleu/i, add: "two golden, crispy breaded cutlets on a plate, one cut in half showing the ham and melted cheese inside", v: "q2" },
+  { re: /muffins? sal|savou?ry muffin/i, add: "several golden savory muffins baked in paper cases, one broken open", v: "m2" },
+  { re: /goug[èe]re/i, add: "a pile of small, round, puffed golden cheese choux pastry balls", v: "g3" },
+  { re: /[îi]les? flottantes?|floating island/i, add: "soft white poached meringue clouds floating on pale vanilla custard, drizzled with golden caramel", v: "i2" },
   // Raclette : des morceaux brûlés en vrac dans un plat (Hugo, 27 octobre : « mal faite »)
   { re: /raclette au four/i, add: "a baking dish of sliced boiled potatoes generously covered with melted, bubbling raclette cheese", v: "r2" },
   { re: /raclette dinner/i, add: "a plate of boiled baby potatoes with creamy melted raclette cheese poured over them, a few slices of cured ham and small pickled gherkins on the side", v: "r2" },
