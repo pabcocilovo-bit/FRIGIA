@@ -10,6 +10,11 @@ export const FAQ: Faq[] = [
     a: "Frigia est une application web française qui te propose trois recettes à partir d'une photo de ton frigo. Elle repère tes ingrédients, tient compte de qui mange (âges, allergies, goûts) et commence par ce qui se périme, pour moins gaspiller. Elle marche dans le navigateur et s'ajoute à l'écran d'accueil, sur iPhone comme sur Android.",
   },
   {
+    id: "frigo-vide",
+    q: "Et si mon frigo est presque vide ?",
+    a: "Frigia sert aussi sans scan. Dans l'onglet Explorer, tu cherches une recette ou un ingrédient, ou tu parcours la recette du jour, le Top 10 et des catégories : rapides, healthy, petit budget, famille, desserts. Un plat précis, comme une tartiflette, arrive en trois versions : la classique et deux variantes. Sur chaque recette, tu vois ce qu'il te manque. Explorer est compris dans Frigia Plus et dans l'essai de 7 jours.",
+  },
+  {
     id: "prix",
     q: "Combien coûte Frigia ?",
     a: "Tu essaies 7 jours sans payer et sans carte bancaire. Ensuite, Frigia Plus coûte 6,99 € par mois ou 39,99 € par an. Plus est sans engagement.",

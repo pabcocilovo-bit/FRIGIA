@@ -10,11 +10,13 @@ Site : https://frigia.fr — en français, pour la France.
 2. Frigia liste les ingrédients trouvés avec leurs quantités. Tu corriges et tu choisis qui mange ce soir, allergies comprises.
 3. Frigia propose trois recettes avec ce que tu as déjà. Le mode cuisine guide pas à pas.
 
+Frigo vide ou envie d'un plat précis : l'onglet Explorer permet de chercher une recette ou un ingrédient, avec la recette du jour, un Top 10 et des catégories (rapides, healthy, petit budget, famille, desserts). Un plat cherché par son nom arrive en trois versions : la classique et deux variantes (plus légère, végétarienne…). Chaque recette indique ce qu'il reste à acheter.
+
 ## Prix
 
 - Essai : 7 jours pour tout essayer, sans carte bancaire. Pas de formule gratuite après l'essai.
 - Frigia Plus : 6,99 € par mois ou 39,99 € par an, sans engagement.
-- Plus comprend : scans illimités, mode famille (un profil par personne, enfants compris), planning de la semaine, liste de courses, autres idées sur un même scan, bilan des économies du mois, historique complet.
+- Plus comprend : scans illimités, mode famille (un profil par personne, enfants compris), planning de la semaine, liste de courses, autres idées sur un même scan, Explorer (recherche de recettes), bilan des économies du mois, historique complet.
 - Paiement sécurisé par Stripe. Résiliation depuis les réglages.
 
 ## Questions fréquentes
