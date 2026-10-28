@@ -67,6 +67,8 @@ const FIXES: { re: RegExp; add: string; v: string }[] = [
   { re: /kebab|gyros|falafel pita/i, add: "a warm pita bread sandwich generously filled, with lettuce, tomato and a white yogurt sauce", v: "f2" },
   { re: /french crepes|dairy free crepes/i, add: "thin golden French crêpes folded into triangles on a plate, lightly dusted with sugar, a small pot of jam", v: "f2" },
   { re: /galette saucisse/i, add: "a Breton buckwheat galette rolled around a grilled sausage", v: "f2" },
+  // Gratins aux œufs : un œuf au plat posé dessus (vu sur le gratin de courgettes, 28 octobre)
+  { re: /gratin de courgettes|gratin de chou-fleur et brocoli|gratin d'épinards/i, add: "a baking dish of vegetables baked in a creamy sauce under a golden, bubbling cheese crust, the eggs fully baked into the sauce, nothing on top", v: "z2" },
   // Raclette : des morceaux brûlés en vrac dans un plat (Hugo, 27 octobre : « mal faite »)
   { re: /raclette au four/i, add: "a baking dish of sliced boiled potatoes generously covered with melted, bubbling raclette cheese", v: "r2" },
   { re: /raclette dinner/i, add: "a plate of boiled baby potatoes with creamy melted raclette cheese poured over them, a few slices of cured ham and small pickled gherkins on the side", v: "r2" },
