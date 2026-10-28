@@ -9,7 +9,7 @@ import type { Req, Res } from "./_shared.js";
 import { askClaude, checkIdeasLimit, dishPhoto, prefLines, type Prefs } from "./_ai.js";
 import { CATALOG_SERVES, type CatalogRecipe, catalogServed, constraintsOf, findInCatalog, keepInCatalog } from "./_catalog.js";
 import { parse, type RawRecipe, salvage, shape, str, strs } from "./_recipe.js";
-import { photograph } from "./_images.js";
+import { photosNow } from "./_images.js";
 
 export type DishBody = {
   query?: unknown;
@@ -38,15 +38,20 @@ export async function dish(req: Req, res: Res, userId: string, admin: SupabaseCl
   const catalogOnly = body.catalogOnly === true;
   const known = await findInCatalog(admin, query, constraints, { skip: strs(body.skip, 30, 120), loose: catalogOnly });
   if (known.row && known.recipes) {
+    // La photo IA tout de suite (12 s au plus, Hugo, 28 octobre), Pexels en attendant si elle tarde
+    const ai = photosNow(admin, known.recipes);
+    const pexels = known.recipes.map(r => (r.imageUrl ? Promise.resolve(null) : dishPhoto(r.imageSearch)));
+    const urls = await ai.urls;
     const found = new Map<string, string>();
-    const recipes = await Promise.all(known.recipes.map(async r => {
+    const recipes = await Promise.all(known.recipes.map(async (r, i) => {
+      if (urls[i]) return { ...r, imageUrl: urls[i]! };
       if (r.imageUrl) return r;
-      const imageUrl = await dishPhoto(r.imageSearch);
+      const imageUrl = await pexels[i];
       if (imageUrl) found.set(r.title, imageUrl);
       return { ...r, imageUrl };
     }));
     await catalogServed(admin, known.row, found);
-    photograph(admin, known.recipes, 3);
+    ai.save();
     return res.json({ recipes });
   }
 
@@ -99,9 +104,9 @@ Si c'est un ingrédient, une envie ou une catégorie (« saumon », « healthy �
     change: str(raw.change, 160),
     ...(raw.dessert === true ? { dessert: true } : {}),
   })));
-  if (!known.error) {
-    await keepInCatalog(admin, known.key, query, recipes as CatalogRecipe[]);
-    photograph(admin, recipes as CatalogRecipe[], 3);
-  }
+  const ai = photosNow(admin, recipes as CatalogRecipe[]);
+  if (!known.error) await keepInCatalog(admin, known.key, query, recipes as CatalogRecipe[]);
+  for (const [i, url] of (await ai.urls).entries()) if (url) recipes[i].imageUrl = url;
+  ai.save();
   res.json({ recipes });
 }

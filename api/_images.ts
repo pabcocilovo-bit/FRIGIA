@@ -169,6 +169,34 @@ export function photograph(admin: SupabaseClient, recipes: Dish[], max: number) 
   })());
 }
 
+/**
+ * La recherche d'Explorer (api/_dish.ts) attend la photo IA, `ms` au plus, comme le scan (Hugo, 28 octobre).
+ * urls : la photo de chaque recette (null si elle tarde ou échoue : Pexels reste).
+ * save() une fois le catalogue écrit : les photos y vont pour tout le monde, même celles qui ont dépassé `ms`.
+ */
+export function photosNow(admin: SupabaseClient, recipes: Dish[], ms = 12_000) {
+  const mine = new Set<string>();
+  const jobs = recipes.map(r => {
+    if (current(r)) return Promise.resolve(String(r.imageUrl));
+    if (!canGenerate() || !r.title || !r.imageSearch || busy.has(r.title)) return Promise.resolve(null);
+    busy.add(r.title);
+    mine.add(r.title);
+    return make(admin, r).catch(e => { console.error("fal:", e instanceof Error ? e.message : e); return null; });
+  });
+  return {
+    urls: Promise.all(jobs.map(j => Promise.race([j, new Promise<null>(ok => setTimeout(() => ok(null), ms))]))),
+    save() {
+      if (!mine.size) return;
+      waitUntil((async () => {
+        const urls = await Promise.all(jobs);
+        // L'une après l'autre : deux recettes de la même ligne ne s'écrasent pas
+        for (const [i, r] of recipes.entries()) if (mine.has(r.title) && urls[i]) await keep(admin, r.title, urls[i]!);
+        for (const t of mine) busy.delete(t);
+      })());
+    },
+  };
+}
+
 // Les 6 recettes de la semaine (src/app/featured.ts), dans le même style que le catalogue (Hugo, 27 octobre).
 // Leur photo : recipe-images/featured/<photo>.webp, lue par featured.ts une fois faite.
 const FEATURED: Dish[] = [
