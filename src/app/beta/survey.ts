@@ -36,3 +36,12 @@ export async function sendFeedback(userId: string, answers: Answers, source: str
   if (error) throw error;
   write(userId, { ...read(userId), done: true });
 }
+
+/** Déjà répondu, d'après la base : la réponse gardée sur le téléphone se perd (app réinstallée, autre appareil,
+ *  Safari et l'app sur l'écran d'accueil). Le questionnaire revenait après avoir répondu (Hugo, 28 octobre). */
+export async function answeredFeedback(userId: string): Promise<boolean> {
+  const { data, error } = await supabase.from("beta_feedback").select("id").eq("user_id", userId).limit(1);
+  if (error || !data?.length) return false;
+  write(userId, { ...read(userId), done: true });
+  return true;
+}
