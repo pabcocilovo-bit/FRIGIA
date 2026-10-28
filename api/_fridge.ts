@@ -81,6 +81,13 @@ export async function catalogForFridge(admin: SupabaseClient, o: {
   return { ...r, items, missing: toBuy.join(", "), fromCatalog: true };
 }
 
+/** Les recettes de l'IA cochées comme celles du catalogue : sel, poivre, eau, huile et ce qui est au frigo ou aux placards sont là ;
+ *  sans « Zéro course », les condiments de base (ail, beurre, épices…) aussi. L'IA les mettait « à acheter » :
+ *  2 ingrédients sur 5 pour la 1re recette (Hugo, 28 octobre). */
+export function restock<T extends { name: string; have: boolean }>(items: T[], stock: string[], noShop: boolean): T[] {
+  return items.map(i => (!i.have && (basic(i.name) || inStock(i.name, stock) || (staple(i.name) && !noShop)) ? { ...i, have: true } : i));
+}
+
 export type Scanned = CatalogRecipe & { serves?: number; intro?: string; steps?: { text: string }[]; items?: Item[]; dessert?: boolean };
 const round = (q: number, unit: string) => (unit ? (q >= 20 ? Math.round(q / 5) * 5 : Math.round(q * 2) / 2) : Math.max(0.5, Math.round(q * 2) / 2));
 

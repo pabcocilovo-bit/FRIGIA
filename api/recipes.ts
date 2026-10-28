@@ -7,7 +7,7 @@ import { norm, parse, type RawRecipe, salvage, shape, str, strs } from "./_recip
 import { dish } from "./_dish.js";
 import { browse } from "./_browse.js";
 import { backfill, canGenerate, photograph, photoNow, restyle } from "./_images.js";
-import { catalogForFridge, keepScanRecipes, promoteScanRecipe, type Scanned } from "./_fridge.js";
+import { catalogForFridge, keepScanRecipes, promoteScanRecipe, restock, type Scanned } from "./_fridge.js";
 import { waitUntil } from "@vercel/functions";
 import { constraintsOf } from "./_catalog.js";
 
@@ -141,7 +141,7 @@ export default async function handler(req: Req, res: Res) {
       : empty ? "Les placards sont vides aussi." : "",
     noShop
       ? "Sel, poivre, eau et un filet d'huile sont toujours là. Rien d'autre n'est disponible : tout ingrédient absent des listes (même beurre, ail, épices) est interdit."
-      : "Sel, poivre et eau sont toujours là. Rien d'autre n'est disponible : tout ingrédient absent des listes (même huile, beurre, ail, épices) est à acheter, avec \"have\" : false.",
+      : "Sel, poivre, eau, huile et les condiments de base (beurre, ail, épices, herbes, moutarde) sont toujours là. Tout autre ingrédient absent des listes est à acheter, avec \"have\" : false.",
     `Propose EXACTEMENT ${count} recette${count > 1 ? "s" : ""} pour ${MEALS[meal]}.`,
     meal === "d" ? "" : `Des plats salés (entrée ou plat principal) : jamais de dessert, de gâteau ni de recette sucrée. Les produits sucrés de la liste (biscuits, chocolat, barres, confiture…) sont ignorés. S'il ne reste presque rien de salé, fais des plats simples avec ce qui reste${noShop ? "" : " et les 1 ou 2 achats permis"}.`,
     envies.length ? `Envie : des recettes ${envies.join(" ; et ")}${envies.length > 1 ? " (tout à la fois)" : ""}.` : "",
@@ -174,11 +174,16 @@ export default async function handler(req: Req, res: Res) {
 
   // Une recette sans ses ingrédients ou ses étapes (réponse de l'IA incomplète) n'est jamais montrée :
   // on redemande une fois les recettes qui manquent.
+  const stock = [...list, ...pantry].map(i => i.name);
   const ask = async (meal: string, count: number) => {
     const answer = await askClaude<{ recipes?: RawRecipe[] }>([{ type: "text", text: promptFor(meal, count) }], 6000);
     if (!answer.ok) return null;
     const found = Array.isArray(answer.json?.recipes) ? answer.json.recipes : salvage(answer.text);
-    const valid = found.map(r => parse(r, noShop)).filter(r => r !== null);
+    // Recochées comme le catalogue (restock), puis 2 achats au plus (aucun en « Zéro course ») : l'IA en demandait parfois 3
+    const valid = found.map(r => parse(r)).filter(r => r !== null).map(v => {
+      const items = restock(v.items, stock, noShop), toBuy = items.filter(i => !i.have);
+      return { ...v, items, buy: toBuy.length, r: toBuy.length === v.items.filter(i => !i.have).length ? v.r : { ...v.r, missing: toBuy.map(i => i.name).join(", ") } };
+    }).filter(v => empty || v.buy <= (noShop ? 0 : 2));
     // Visible dans les logs Vercel : ce que l'IA a répondu quand il manque des recettes
     if (valid.length < count) console.warn(`recipes ${meal}: ${valid.length}/${count} valides`, answer.text.slice(0, 1500));
     return valid;
@@ -228,13 +233,17 @@ export default async function handler(req: Req, res: Res) {
   })));
   for (const [i, url] of (await Promise.all(ai)).entries()) if (url) recipes[i].imageUrl = url;
   if (known) {
-    // En 2e position (la 1re reste la plus faite pour ce frigo), ou seule s'il n'y a qu'elle
+    // En 2e position (devant si elle colle mieux au frigo, plus bas), ou seule s'il n'y a qu'elle
     const items = (known.items ?? []) as { name: string }[];
     const kept = { ...known, kids: false, without: dislikes.filter(d => !items.some(i => norm(i.name).includes(norm(d)) || norm(d).includes(norm(i.name)))) };
     (recipes as unknown[]).splice(Math.min(1, recipes.length), 0, kept);
     // Pas encore sa photo IA : faite pour la prochaine fois
     photograph(admin, [known], 1);
   }
+
+  // La 1re recette (la grande) est celle qui demande le moins d'achats ; les desserts après les plats
+  const toBuy = (r: { items?: { have?: boolean }[]; dessert?: boolean }) => (r.dessert ? 100 : 0) + (r.items ?? []).filter(i => !i.have).length;
+  (recipes as { items?: { have?: boolean }[]; dessert?: boolean }[]).sort((a, b) => toBuy(a) - toBuy(b));
 
   // Les recettes nouvelles rejoignent la réserve du scan, après la réponse
   waitUntil(keepScanRecipes(admin, recipes as unknown as Scanned[], eaters.map(e => e.name)).catch(e => console.error("recipe_catalog (scan):", e instanceof Error ? e.message : e)));

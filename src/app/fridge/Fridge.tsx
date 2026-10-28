@@ -167,10 +167,11 @@ export function MyKitchen({ isPlus, fridge, onFridge, onGone }: {
   const scan = (source: ScanSource) => { setScan({ source }); openScan(); };
   // « Que cuisiner avec ? » : le frigo part tout droit sur « Qu'est-ce qu'on cuisine ? » (sans photo) ; les placards s'y ajoutent
   // (« Tes placards », après le menu). Rien au frigo : ce sont les placards qui partent.
+  // « Zéro course » coché d'avance : on cuisine avec ce qu'on a (Hugo, 28 octobre), décochable sur le menu.
   const cook = () => {
     const cold = fridge.items.filter(x => placeOf(x) === "frigo");
     setScan({ source: cold.length ? "frigo" : "placard", switched: null, photo: null, ingredients: toIngredients({ ...fridge, items: cold.length ? cold : fridge.items }),
-      token: null, ticket: null, empty: false, merge: true, guests: 0, off: [], made: null });
+      token: null, ticket: null, empty: false, merge: true, noShop: true, guests: 0, off: [], made: null });
     navigate("/scan/menu");
   };
   // Rien dedans : des plats quand même (Plus)
