@@ -18,6 +18,7 @@ import {
 } from "./week";
 import "../onboarding/ob.css";
 import "./plan.css";
+import { timeText } from "../../lib/recipes";
 
 const lower1 = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 /** « mercredi soir », « ce soir » */
@@ -101,7 +102,7 @@ export function PickSheet({ at, week, days, opts, favTitles, onPick, onClose }: 
           return (
             <button key={o.recipe.title} type="button" className={"pn-opt" + (on ? " on" : "")} onClick={() => pick(slotOption(o), o.recipe.title)}>
               <Dish recipe={o.recipe} />
-              <span className="tx"><b>{o.recipe.title}</b><span>{o.recipe.time}{tab === "box" ? " · se mange froid" : ""}</span>
+              <span className="tx"><b>{o.recipe.title}</b><span>{timeText(o.recipe.time)}{tab === "box" ? " · se mange froid" : ""}</span>
                 <Badge tone={st.warn ? "warn" : undefined}>{st.text}</Badge>
                 {other && <span className="pn-used">Déjà prévu {when(days, other[0], mealOfKey(other[1]))}</span>}
               </span>
@@ -209,7 +210,7 @@ export function DessertSheet({ at, week, days, opts, setWeek, onOpen, onClose }:
         {ds && (
           <div className="pn-opt on ds-cur">
             <Dish recipe={ds.recipe} />
-            <span className="tx"><span className="kick">Prévu</span><b>{ds.recipe.title}</b><span>{ds.recipe.time}</span>
+            <span className="tx"><span className="kick">Prévu</span><b>{ds.recipe.title}</b><span>{timeText(ds.recipe.time)}</span>
               <span className="ds-act">
                 <button type="button" onClick={() => { onClose(); onOpen(ds); }}>Voir la recette</button>
                 <button type="button" onClick={() => put(undefined, "Dessert retiré")}>Retirer</button>
@@ -222,7 +223,7 @@ export function DessertSheet({ at, week, days, opts, setWeek, onOpen, onClose }:
           return (
             <button key={o.recipe.title} type="button" className="pn-opt" onClick={() => put(slotOption(o), `${o.recipe.title} · en dessert, ${when(days, i, meal)}`)}>
               <Dish recipe={o.recipe} />
-              <span className="tx"><b>{o.recipe.title}</b><span>{o.recipe.time}</span><Badge tone={st.warn ? "warn" : undefined}>{st.text}</Badge></span>
+              <span className="tx"><b>{o.recipe.title}</b><span>{timeText(o.recipe.time)}</span><Badge tone={st.warn ? "warn" : undefined}>{st.text}</Badge></span>
               <span className="ck"><Icon name="check" /></span>
             </button>
           );
@@ -294,7 +295,7 @@ export function SwapSheet({ at, week, days, opts, household, setWeek, onClose }:
             return (
               <button key={o.recipe.title} type="button" className={"sw-card" + (j === sel ? " on" : "")} onClick={() => tap(j)}>
                 <Dish recipe={o.recipe} className="plate" /><b>{o.recipe.title}</b>
-                <span className="sw-m">{o.recipe.time}{o.recipe.kids ? " · les enfants adorent" : ""}</span>
+                <span className="sw-m">{timeText(o.recipe.time)}{o.recipe.kids ? " · les enfants adorent" : ""}</span>
                 <Badge tone={st.warn ? "warn" : undefined} icon={st.warn ? undefined : "check"}>{st.text}</Badge>
               </button>
             );
@@ -342,7 +343,7 @@ export function TonightSheet({ open, slot, history, household, label = "Prévu c
     <Dialog open={open} onClose={onClose} className="tn-sheet" label={label}>
       <div className="tn-top">
         <Dish recipe={r} className="plate" />
-        <div><span className="label">{label}</span><h3>{r.title}</h3><span className="tn-sm">{r.time}{steps ? ` · ${steps} étape${steps > 1 ? "s" : ""}` : ""}</span></div>
+        <div><span className="label">{label}</span><h3>{r.title}</h3><span className="tn-sm">{timeText(r.time)}{steps ? ` · ${steps} étape${steps > 1 ? "s" : ""}` : ""}</span></div>
       </div>
       <p className={"tn-have" + (st.warn ? " warn" : "")}><Icon name={st.warn ? "cart" : "leaf"} /><span>{st.text}{st.warn ? " : pense à l'acheter en rentrant." : "."}</span></p>
       <span className="label tn-q">Qui mange ?</span>
@@ -360,7 +361,7 @@ export function TonightSheet({ open, slot, history, household, label = "Prévu c
         <Stepper value={scan.guests} min={0} max={MAX_GUESTS} label={["Un invité de moins", "Un invité de plus"]} onChange={guests} />
       </div>
       <button type="button" className="gobar tn-cook" onClick={() => { onClose(); navigate(`${path}/cuisine`, { state: { recipe: r, servings: p } }); }}>
-        <span><b>Commencer la cuisson</b><small>Pour {portTxt(p)} · {r.time}</small></span>
+        <span><b>Commencer la cuisson</b><small>Pour {portTxt(p)} · {timeText(r.time)}</small></span>
         <span className="go"><Icon name="arrow" /></span>
       </button>
       <div className="tn-links">

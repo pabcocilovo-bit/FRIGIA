@@ -21,6 +21,7 @@ import { weekDays } from "../format";
 import { WeekSheet } from "../plan/sheets";
 import { findTitle, type Option, placedText } from "../plan/week";
 import "./scan.css";
+import { timeText } from "../../lib/recipes";
 
 type Filter = "all" | "quick" | "veg" | "oven" | "cold";
 
@@ -47,7 +48,7 @@ function Feat({ recipe, found, label, isPlus, onClick }: { recipe: GeneratedReci
         <span className="label">{label}</span>
         {recipeBadges(recipe, isPlus).length > 0 && <span className="bbadges">{recipeBadges(recipe, isPlus).map(b => <Badge key={b} tone="ongreen">{b}</Badge>)}</span>}
         <b>{recipe.title}</b>
-        <span className="meta"><span><Icon name="clock" />{recipe.time}</span><span><Icon name="flame" />{recipe.cal} kcal</span><span>{recipe.diff}</span></span>
+        <span className="meta"><span><Icon name="clock" />{timeText(recipe.time)}</span><span><Icon name="flame" />{recipe.cal} kcal</span><span>{recipe.diff}</span></span>
         {total > 0 && <>
           <span className="segs">{Array.from({ length: total }, (_, i) => <i key={i} className={i < have ? "f" : undefined} />)}</span>
           <span className="mrow"><span>{have} ingrédient{have > 1 ? "s" : ""} sur {total} dans ton frigo</span>{have < total && <span>· manque {total - have}</span>}</span>
@@ -69,7 +70,7 @@ function Idea({ recipe, found, planned, onClick, onWeek }: {
         onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); onWeek(); } }}>
         <Icon name="cal" />
       </span>
-      <span className="tg">{recipe.time}</span>
+      <span className="tg">{timeText(recipe.time)}</span>
       <span className="rw">
         {photo ? <img className="plate" src={photo} alt="" /> : <span className="plate" style={{ width: 58, background: "var(--surface)" }} />}
         <span><b>{recipe.title}</b><span className="m">{recipe.dessert ? "Dessert · " : ""}{recipe.cal} kcal{recipe.origin ? ` · ${recipe.origin}` : ""}</span></span>

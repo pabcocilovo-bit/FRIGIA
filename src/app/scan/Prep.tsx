@@ -13,6 +13,7 @@ import type { Fridge } from "../../lib/home";
 import { eatersOf, portions } from "./portions";
 import { apiEaters, type Person } from "../../lib/household";
 import "./scan.css";
+import { timeText } from "../../lib/recipes";
 
 const ART = `<svg class="pr-svg" viewBox="0 0 300 270" aria-hidden="true">
 <ellipse cx="150" cy="252" rx="98" ry="10" fill="#1E4433" opacity=".45"/>
@@ -39,7 +40,7 @@ function Card({ recipe, i, done, from }: { recipe?: GeneratedRecipe; i: number; 
   return (
     <div className={"pc" + (done ? " done" : "")} style={{ "--d": `${0.15 + i * 0.1}s` } as CSSProperties}>
       <span className="th">{photo && <img src={photo} alt="" />}</span>
-      <span className="tx"><i className="sk" /><i className="sk" /><b>{recipe?.title}</b><small>{recipe?.time} · {from}</small></span>
+      <span className="tx"><i className="sk" /><i className="sk" /><b>{recipe?.title}</b><small>{timeText(recipe?.time)} · {from}</small></span>
       <span className="ok"><Icon name="check" /></span>
     </div>
   );

@@ -20,6 +20,7 @@ import { useRecipePhoto } from "./photo";
 import { useOpenPaywall } from "./plus/subscription";
 import { inFridge, minutesOf } from "./scan/portions";
 import { plural } from "./format";
+import { minText, timeText } from "../lib/recipes";
 
 const norm = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/œ/g, "oe").trim();
 const words = (r: GeneratedRecipe) => [r.title, ...(r.items?.map(i => i.name) ?? r.recipeIngredients?.map(i => i.name) ?? [])].join(" ");
@@ -72,7 +73,7 @@ function Card({ recipe, fav, onOpen }: { recipe: GeneratedRecipe; fav: boolean; 
     <button type="button" className="ex-card" onClick={onOpen}>
       <span className="ex-img">{photo ? <img src={photo} alt="" loading="lazy" /> : null}{fav && <span className="sp-heart" aria-label="Favori"><Icon name="heart-f" /></span>}</span>
       <b>{recipe.title}</b>
-      <span>{recipe.time}{recipe.diff ? ` · ${recipe.diff}` : ""}</span>
+      <span>{timeText(recipe.time)}{recipe.diff ? ` · ${recipe.diff}` : ""}</span>
     </button>
   );
 }
@@ -90,7 +91,7 @@ function Result({ recipe, fav, onOpen }: { recipe: GeneratedRecipe; fav: boolean
       <span className="ex-res-tx">
         <b>{recipe.title}</b>
         {recipe.change ? <span className="ex-chg">{recipe.change}</span> : recipe.intro ? <span className="ex-chg">{recipe.intro}</span> : null}
-        <span className="ex-meta">{recipe.time} · {recipe.diff}{recipe.veg ? " · Végé" : ""}{recipe.items ? (toBuy ? ` · ${plural(toBuy, "ingrédient")} à acheter` : " · Tu as tout") : ""}</span>
+        <span className="ex-meta">{timeText(recipe.time)} · {recipe.diff}{recipe.veg ? " · Végé" : ""}{recipe.items ? (toBuy ? ` · ${plural(toBuy, "ingrédient")} à acheter` : " · Tu as tout") : ""}</span>
       </span>
     </button>
   );
@@ -169,8 +170,8 @@ function Poster({ title, sub, image, fav, onOpen }: { title: string; sub: string
     </button>
   );
 }
-const dishSub = (d: BrowseDish) => `${d.minutes ? `${d.minutes} min` : ""}${d.minutes && d.difficulty ? " · " : ""}${d.difficulty}`;
-const recipeSub = (r: GeneratedRecipe) => `${r.time}${r.diff ? ` · ${r.diff}` : ""}`;
+const dishSub = (d: BrowseDish) => `${d.minutes ? minText(d.minutes) : ""}${d.minutes && d.difficulty ? " · " : ""}${d.difficulty}`;
+const recipeSub = (r: GeneratedRecipe) => `${timeText(r.time)}${r.diff ? ` · ${r.diff}` : ""}`;
 
 /** La recette du jour, en grand */
 function Hero({ dish, onOpen }: { dish: BrowseDish; onOpen: () => void }) {
@@ -456,7 +457,7 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
               <button key={t.label} type="button" className="ex-card" onClick={() => go(t.q ?? t.label)}>
                 <span className="ex-img"><img src={t.img} alt="" loading="lazy" /></span>
                 <b>{t.label}</b>
-                <span>{t.time} · et ses variantes</span>
+                <span>{timeText(t.time)} · et ses variantes</span>
               </button>
             ))}
           </div>

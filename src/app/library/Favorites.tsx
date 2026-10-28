@@ -15,6 +15,7 @@ import { allInKitchen, minutesOf, srvLabel } from "../scan/portions";
 import { showToast } from "../toast";
 import "../scan/scan.css";
 import "./library.css";
+import { timeText } from "../../lib/recipes";
 
 type Filter = "" | "frigo" | "enfants" | "rapide" | "vege";
 // « Les enfants adorent » : en Plus, avec le foyer
@@ -43,7 +44,7 @@ function FavCard({ recipe, isPlus, fridge, onOpen, onRemove }: {
           {photo ? <img src={photo} alt="" /> : <span style={{ width: 84, height: 84, borderRadius: 18, background: "var(--surface)", flex: "none" }} />}
           <span className="tx">
             <b>{recipe.title}</b>
-            <span className="fv-meta">{recipe.time}{recipe.veg ? " · Végé" : ""}</span>
+            <span className="fv-meta">{timeText(recipe.time)}{recipe.veg ? " · Végé" : ""}</span>
             {serves ? <span className="fv-pill"><Icon name="users" /><span>{srvLabel(true, serves)}</span></span> : null}
           </span>
         </button>

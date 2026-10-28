@@ -16,6 +16,7 @@ import type { PlanNewState } from "./PlanNew";
 import { DessertSheet, SwapSheet } from "./sheets";
 import { count, dayOf, dessertKey, doubled, foundOf, MEALS, options, type PlanProps, recipePath, status, toFinish } from "./week";
 import "./plan.css";
+import { timeText } from "../../lib/recipes";
 
 export function Planning({ isPlus, week, setWeek, history, favorites, household, onAddMissing }: PlanProps & {
   household: Person[];
@@ -105,7 +106,7 @@ export function Planning({ isPlus, week, setWeek, history, favorites, household,
                           onClick={() => navigate(recipePath(sl, history), { state: { recipe: sl.recipe, servings: portions, from: "plan" } })}>
                           <Dish recipe={sl.recipe} className="plate" />
                           <span className="tx"><span className="tg">{name}</span><b>{sl.recipe.title}</b>
-                            <span className="m">{sl.left ? `Restes de ${days[i - 1]?.long.toLowerCase() ?? "la veille"} soir · rien à cuisiner` : sl.recipe.time}</span>
+                            <span className="m">{sl.left ? `Restes de ${days[i - 1]?.long.toLowerCase() ?? "la veille"} soir · rien à cuisiner` : timeText(sl.recipe.time)}</span>
                             {sl.left ? <span className="badge left">Zéro gâchis</span>
                               : dbl ? <Badge icon="check">Double la dose pour demain midi</Badge>
                                 : i === 0 && meal === "s" ? <Badge icon="check">Ce soir</Badge>
