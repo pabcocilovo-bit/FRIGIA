@@ -65,7 +65,8 @@ const FIXES: { re: RegExp; add: string; v: string }[] = [
   { re: /burrito/i, add: "a large rolled flour tortilla burrito cut in half on a plate, the filling visible inside", v: "f2" },
   { re: /wrap/i, add: "a rolled flour tortilla wrap cut in half on a plate, the filling visible inside", v: "f2" },
   { re: /kebab|gyros|falafel pita/i, add: "a warm pita bread sandwich generously filled, with lettuce, tomato and a white yogurt sauce", v: "f2" },
-  { re: /french crepes|dairy free crepes/i, add: "thin golden French crêpes folded into triangles on a plate, lightly dusted with sugar, a small pot of jam", v: "f2" },
+  // Crêpes sucrées : une garniture jaune (des œufs brouillés) dans les crêpes pliées (Hugo, 28 octobre) : une pile, sans rien dedans
+  { re: /french crepes|dairy free crepes/i, add: "a neat stack of thin, plain golden French crêpes on a plate, empty with no filling at all, the top one folded into quarters, lightly dusted with sugar, a small pot of jam beside", v: "f3" },
   { re: /galette saucisse/i, add: "a Breton buckwheat galette rolled around a grilled sausage", v: "f2" },
   // Gratins aux œufs : un œuf au plat posé dessus (vu sur le gratin de courgettes, 28 octobre)
   { re: /gratin de courgettes|gratin de chou-fleur et brocoli|gratin d'épinards/i, add: "a baking dish of vegetables baked in a creamy sauce under a golden, bubbling cheese crust, the eggs fully baked into the sauce, nothing on top", v: "z2" },
