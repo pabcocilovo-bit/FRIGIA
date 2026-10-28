@@ -6,6 +6,7 @@ import { LegalSheet, type LegalKey } from "./landing/legal";
 import { GoogleInAppBar, InstallSheet, SocialInAppScreen } from "./landing/InApp";
 import { InstallSection } from "./landing/InstallSection";
 import { FAQ } from "./landing/faq";
+import { Explorer } from "./landing/Explorer";
 import { Tonight } from "./landing/Tonight";
 import { WaitlistSheet } from "./landing/Waitlist";
 import { SIGNUP_OPEN } from "./lib/launch";
@@ -218,8 +219,9 @@ export default function Landing({ onStart, onLogin }: Props) {
 
         <HowItWorks />
         <Tonight onStart={source => start("free", source)} cta={WAITLIST ? JOIN : undefined} />
+        <Explorer onStart={source => start("free", source)} cta={WAITLIST ? JOIN : "Essayer 7 jours"} />
 
-        <section className="plus" id="plus">
+        <section className="plus rule" id="plus">
           <div className="container">
             <div className="sh"><span className="k">Frigia Plus</span><h2>Pensé pour <em>toute la famille.</em></h2><p className="lede">Tout est compris dès l'essai : le scan, et ce qui change la semaine d'un foyer, la famille, le planning, la liste de courses et ce que tu économises.</p></div>
             <div className="feats">
