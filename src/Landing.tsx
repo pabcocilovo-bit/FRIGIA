@@ -23,7 +23,11 @@ export type Plan = "free" | "plus";
 // Liste d'attente tant que l'appli n'est pas ouverte à tous.
 // true : tous les boutons d'inscription ouvrent la liste d'attente (seule la connexion reste, pour les invités).
 // false : la landing redevient comme avant, avec l'inscription.
-const WAITLIST = true;
+const WAITLIST_ON = true;
+// Le lien d'invitation envoyé par email aux inscrits (frigia.fr/?invitation) rend la landing normale :
+// « Essayer » mène à l'inscription, et le compte créé avec un email de la liste a son mois offert (migration 20261028000000).
+const INVITED = typeof window !== "undefined" && new URLSearchParams(window.location.search).has("invitation");
+const WAITLIST = WAITLIST_ON && !INVITED;
 const JOIN = "Rejoindre la liste d'attente";
 type Props = { onStart?: (plan: Plan) => void; onLogin?: () => void };
 
@@ -77,7 +81,7 @@ function HeroArt() {
 
 // ── Comment ça marche : 3 cartes avec les vrais écrans de l'appli ────────────
 const STEPS = [
-  { n: "Un.", img: "app-scan", alt: "L'écran de scan : le frigo dans le viseur, avec le choix ce midi, ce soir ou la semaine", t: "Tu prends ton frigo en photo.", p: "Pour ce midi, ce soir ou la semaine. Une photo de ta galerie marche aussi, pas besoin de ranger avant." },
+  { n: "Un.", img: "app-scan", alt: "L'écran de scan : le frigo dans le viseur, avec le choix plat ou dessert", t: "Tu prends ton frigo en photo.", p: "Pour un plat ou un dessert. Une photo de ta galerie marche aussi, pas besoin de ranger avant." },
   { n: "Deux.", img: "app-ingr", alt: "L'écran « C'est bien ça ? » : 8 ingrédients trouvés, puis qui mange ce soir avec Camille, Thomas, Léo et Jade", t: "Tu vérifies, tu dis qui mange.", p: "Frigia liste ce qu'il a vu, avec les quantités. Tu corriges d'un geste et tu choisis qui est à table, allergies comprises." },
   { n: "Trois.", img: "app-results", alt: "L'écran « Trois idées pour ce soir » avec des penne aux légumes rôtis", t: "Tu choisis parmi trois recettes.", p: "Avec ce que tu as déjà, en commençant par ce qui se périme. Le mode cuisine te guide pas à pas." },
 ];

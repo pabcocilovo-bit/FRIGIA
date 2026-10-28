@@ -1,0 +1,112 @@
+[
+ {"q":"Tarte aux fraises","a":["tarte fraise","tarte aux fraises creme patissiere"],"r":[
+  ["Tarte aux fraises","La classique","","Une pâte sablée, une crème pâtissière vanillée et des fraises fraîches.","Pâtisserie française",70,380,"M","strawberry tart","vod",
+   ["pâte sablée|pâtes sablées|1|","fraise||500|g","lait||50|cl","œuf|œufs|3|","sucre|sucre|80|g","fécule de maïs|fécule de maïs|40|g","sucre vanillé|sucres vanillés|1|"],
+   ["Préchauffe le four à 180 °C. Garnis un moule de pâte, pique-la et fais-la cuire à blanc 20 min.|Four|20","Chauffe le lait. Fouette les œufs, le sucre, le sucre vanillé et la fécule.","Verse le lait chaud dessus, remets sur le feu et fouette jusqu'à ce que la crème épaississe.|Cuisson|3","Laisse refroidir la crème, puis étale-la sur le fond de tarte.","Dispose les fraises coupées en deux et garde au frais."]],
+  ["Tarte aux fraises express","Express","Avec du mascarpone à la place de la crème pâtissière.","Une tarte aux fraises sans cuisson de crème, prête en 40 minutes.","",40,420,"F","easy strawberry mascarpone tart","vod",
+   ["pâte sablée|pâtes sablées|1|","fraise||500|g","mascarpone|mascarpone|250|g","crème liquide entière|crème liquide entière|15|cl","sucre glace|sucre glace|50|g"],
+   ["Fais cuire la pâte à blanc 20 min à 180 °C et laisse refroidir.|Four|20","Fouette le mascarpone, la crème froide et le sucre glace jusqu'à ce que ce soit ferme.","Étale sur le fond de tarte.","Dispose les fraises."]],
+  ["Tarte aux fraises sans cuisson","Sans four","Une base de biscuits écrasés.","Une tarte aux fraises fraîche, sans four.","",30,400,"F","no bake strawberry tart","vcd",
+   ["biscuits secs|biscuits secs|200|g","beurre fondu|beurre fondu|80|g","fraise||500|g","fromage blanc|fromage blanc|250|g","crème liquide entière|crème liquide entière|15|cl","sucre glace|sucre glace|50|g"],
+   ["Écrase les biscuits, mélange-les au beurre fondu et tasse au fond d'un moule.","Laisse durcir 30 min au frais.","Fouette la crème en chantilly et mélange-la au fromage blanc et au sucre glace.","Étale sur la base et dispose les fraises."]]
+ ]},
+ {"q":"Tarte Bourdaloue","a":["tarte aux poires","tarte poire amande","tarte amandine aux poires"],"r":[
+  ["Tarte Bourdaloue","La classique","","La tarte aux poires sur une crème d'amandes dorée.","Pâtisserie française",60,420,"M","pear almond tart","vod",
+   ["pâte sablée|pâtes sablées|1|","poire au sirop|poires au sirop|8|","poudre d'amande|poudre d'amande|100|g","beurre mou|beurre mou|80|g","sucre|sucre|80|g","œuf|œufs|2|","amandes effilées|amandes effilées|20|g"],
+   ["Préchauffe le four à 180 °C et garnis un moule de pâte.","Mélange le beurre mou, le sucre, la poudre d'amande et les œufs.","Étale cette crème sur la pâte.","Pose les demi-poires égouttées et coupées en lamelles, en rosace.","Parsème d'amandes effilées et enfourne 35 min.|Four|35"]],
+  ["Tarte aux poires et au chocolat","Chocolat","Avec du chocolat dans la crème d'amandes.","Le duo poire chocolat dans une tarte gourmande.","",60,470,"M","pear chocolate tart","vod",
+   ["pâte sablée|pâtes sablées|1|","poire au sirop|poires au sirop|8|","poudre d'amande|poudre d'amande|80|g","chocolat noir|chocolat noir|100|g","beurre||60|g","sucre|sucre|60|g","œuf|œufs|2|"],
+   ["Préchauffe le four à 180 °C et garnis un moule de pâte.","Fais fondre le chocolat avec le beurre et mélange avec le sucre, les œufs et la poudre d'amande.","Étale sur la pâte et pose les poires en lamelles.","Enfourne 35 min.|Four|35"]],
+  ["Tarte fine aux poires","Tarte fine","Sur une pâte feuilletée, sans crème.","Une tarte fine et croustillante aux poires fraîches.","",40,280,"F","thin pear tart","vodb",
+   ["pâte feuilletée|pâtes feuilletées|1|","poire||4|","sucre|sucre|30|g","beurre||20|g","cannelle|cannelle|1|c. à c."],
+   ["Préchauffe le four à 200 °C. Étale la pâte sur une plaque.","Épluche les poires et coupe-les en fines lamelles.","Dispose-les sur la pâte, saupoudre de sucre et de cannelle, et parsème de beurre.","Enfourne 25 min.|Four|25"]]
+ ]},
+ {"q":"Far breton","a":["far aux pruneaux","far","far breton aux pruneaux"],"r":[
+  ["Far breton aux pruneaux","La classique","","Le flan épais breton aux pruneaux, doré et moelleux.","Spécialité bretonne",70,300,"F","far breton prunes","vodbf",
+   ["farine||200|g","sucre|sucre|120|g","œuf|œufs|4|","lait||75|cl","beurre||40|g","pruneaux|pruneaux|200|g","sel|||"],
+   ["Préchauffe le four à 200 °C. Beurre un plat.","Mélange la farine, le sucre et une pincée de sel, puis ajoute les œufs un à un.","Verse le lait petit à petit en fouettant.","Répartis les pruneaux dans le plat et verse la pâte.","Parsème de beurre en noisettes et enfourne 45 min.|Four|45"]],
+  ["Far breton nature","Nature","Sans pruneaux, à la vanille.","Le far nature à la vanille, pour ceux qui n'aiment pas les pruneaux.","",65,280,"F","plain far breton","vodbf",
+   ["farine||200|g","sucre|sucre|120|g","œuf|œufs|4|","lait||75|cl","beurre||40|g","gousse de vanille|gousses de vanille|1|"],
+   ["Préchauffe le four à 200 °C. Chauffe le lait avec la vanille fendue et laisse infuser.","Mélange la farine, le sucre et les œufs, puis le lait.","Verse dans un plat beurré, parsème de beurre.","Enfourne 45 min.|Four|45"]],
+  ["Far aux pommes","Aux pommes","Avec des pommes poêlées.","Un far moelleux aux pommes caramélisées.","",70,300,"F","apple far breton","vodbf",
+   ["farine||200|g","sucre|sucre|120|g","œuf|œufs|4|","lait||75|cl","beurre||40|g","pomme||3|"],
+   ["Fais dorer les pommes en lamelles 5 min dans un peu de beurre.|Poêle|5","Prépare la pâte : farine, sucre, œufs, puis lait.","Mets les pommes dans un plat beurré et verse la pâte.","Enfourne 45 min à 200 °C.|Four|45"]]
+ ]},
+ {"q":"Churros","a":["churro","churros maison","chichis"],"r":[
+  ["Churros","La classique","","Les beignets espagnols striés, croustillants et roulés dans le sucre à la cannelle.","Recette espagnole",30,300,"M","churros cinnamon sugar","vdf",
+   ["farine||200|g","beurre||30|g","sucre|sucre|80|g","cannelle|cannelle|1|c. à c.","huile de friture|huile de friture|100|cl","sel|||"],
+   ["Porte à ébullition 25 cl d'eau avec le beurre et une pincée de sel.","Verse la farine d'un coup et remue jusqu'à ce que la pâte forme une boule.","Mets la pâte dans une poche à douille cannelée.","Fais tomber des boudins de 10 cm dans l'huile chaude et fais-les frire 3 min.|Friture|3","Égoutte et roule-les dans le sucre mélangé à la cannelle."]],
+  ["Churros et sauce chocolat","Sauce chocolat","Avec une sauce chocolat chaude pour tremper.","Les churros avec leur chocolat chaud épais, comme en Espagne.","Recette espagnole",35,420,"M","churros chocolate sauce","vdf",
+   ["farine||200|g","beurre||30|g","sucre|sucre|60|g","huile de friture|huile de friture|100|cl","chocolat noir|chocolat noir|150|g","lait||20|cl"],
+   ["Prépare la pâte : eau, beurre et sel à ébullition, puis la farine d'un coup.","Fais frire des boudins de pâte 3 min.|Friture|3","Roule-les dans le sucre.","Fais fondre le chocolat dans le lait chaud et sers en trempette."]],
+  ["Churros au four","Au four","Cuits au four plutôt que frits.","Des churros plus légers, dorés au four.","",40,220,"M","baked churros","vodf",
+   ["farine||150|g","beurre||60|g","œuf|œufs|2|","sucre|sucre|60|g","cannelle|cannelle|1|c. à c."],
+   ["Préchauffe le four à 200 °C. Porte à ébullition 25 cl d'eau avec le beurre.","Ajoute la farine d'un coup, puis les œufs un à un hors du feu.","Forme des boudins sur une plaque avec une poche cannelée.","Enfourne 20 min.|Four|20","Roule dans le sucre à la cannelle."]]
+ ]},
+ {"q":"Cupcakes","a":["cupcake","cupcakes vanille","cupcakes chocolat"],"r":[
+  ["Cupcakes à la vanille","La classique","","Des petits gâteaux moelleux à la vanille, avec un glaçage au beurre.","Recette américaine",50,350,"M","vanilla cupcakes frosting","vodf",
+   ["farine||200|g","sucre|sucre|150|g","beurre mou|beurre mou|200|g","œuf|œufs|2|","lait||10|cl","levure chimique|levure chimique|2|c. à c.","sucre glace|sucre glace|200|g","sucre vanillé|sucres vanillés|1|"],
+   ["Préchauffe le four à 180 °C.","Fouette 100 g de beurre avec le sucre, puis les œufs, la farine, la levure, le lait et le sucre vanillé.","Remplis des caissettes aux deux tiers et enfourne 20 min.|Four|20","Fouette le reste du beurre avec le sucre glace pour le glaçage.","Décore les cupcakes refroidis."]],
+  ["Cupcakes au chocolat","Chocolat","Avec du cacao et un glaçage au chocolat.","Des cupcakes tout chocolat pour les anniversaires.","",50,380,"M","chocolate cupcakes","vodf",
+   ["farine||180|g","cacao en poudre|cacao en poudre|30|g","sucre|sucre|150|g","beurre mou|beurre mou|100|g","œuf|œufs|2|","lait||10|cl","levure chimique|levure chimique|2|c. à c.","chocolat noir|chocolat noir|150|g","crème liquide|crème liquide|15|cl"],
+   ["Préchauffe le four à 180 °C. Mélange le beurre et le sucre, puis les œufs, la farine, le cacao, la levure et le lait.","Remplis des caissettes et enfourne 20 min.|Four|20","Fais fondre le chocolat dans la crème chaude et laisse épaissir au frais.","Décore les cupcakes refroidis."]],
+  ["Cupcakes au citron","Citron","Avec un glaçage au fromage frais citronné.","Des cupcakes frais et acidulés au citron.","",50,340,"M","lemon cupcakes","vodf",
+   ["farine||200|g","sucre|sucre|150|g","beurre mou|beurre mou|100|g","œuf|œufs|2|","citron||2|","levure chimique|levure chimique|2|c. à c.","fromage frais type Philadelphia|fromage frais type Philadelphia|150|g","sucre glace|sucre glace|80|g"],
+   ["Préchauffe le four à 180 °C. Mélange le beurre, le sucre, les œufs, la farine, la levure, le zeste et le jus d'un citron.","Remplis des caissettes et enfourne 20 min.|Four|20","Fouette le fromage frais avec le sucre glace et le zeste du second citron.","Décore les cupcakes refroidis."]]
+ ]},
+ {"q":"Donuts","a":["donut","doughnuts","donuts maison"],"r":[
+  ["Donuts glacés","La classique","","Des beignets en anneau moelleux, avec un glaçage au sucre.","Recette américaine",150,320,"M","glazed donuts","vdf",
+   ["farine||400|g","levure de boulanger|levure de boulanger|10|g","lait||20|cl","œuf|œufs|1|","sucre|sucre|50|g","beurre fondu|beurre fondu|50|g","sucre glace|sucre glace|200|g","huile de friture|huile de friture|100|cl"],
+   ["Délaye la levure dans le lait tiède, puis pétris avec la farine, le sucre, l'œuf et le beurre.","Laisse lever 1 h 30.|Levée|90","Étale sur 1 cm et découpe des anneaux. Laisse lever 30 min.|Levée|30","Fais frire 1 min de chaque côté.|Friture|2","Trempe le dessus dans le sucre glace mélangé à 3 c. à s. d'eau."]],
+  ["Donuts au chocolat","Chocolat","Avec un glaçage au chocolat.","Les donuts nappés de chocolat fondant.","",150,370,"M","chocolate glazed donuts","vdf",
+   ["farine||400|g","levure de boulanger|levure de boulanger|10|g","lait||20|cl","œuf|œufs|1|","sucre|sucre|50|g","beurre fondu|beurre fondu|50|g","chocolat noir|chocolat noir|150|g","huile de friture|huile de friture|100|cl"],
+   ["Prépare la pâte et laisse lever 1 h 30.|Levée|90","Découpe des anneaux et laisse lever 30 min.|Levée|30","Fais frire 1 min de chaque côté.|Friture|2","Trempe le dessus dans le chocolat fondu."]],
+  ["Donuts au four","Au four","Cuits au four dans un moule à donuts.","Des donuts plus légers, sans friture.","",30,230,"F","baked donuts","vodbf",
+   ["farine||200|g","sucre|sucre|80|g","œuf|œufs|2|","lait||12|cl","beurre fondu|beurre fondu|50|g","levure chimique|levure chimique|2|c. à c.","sucre glace|sucre glace|100|g"],
+   ["Préchauffe le four à 180 °C.","Mélange tous les ingrédients sauf le sucre glace.","Remplis un moule à donuts beurré et enfourne 12 min.|Four|12","Trempe le dessus dans le sucre glace délayé avec un peu d'eau."]]
+ ]},
+ {"q":"Éclairs au chocolat","a":["eclair","eclairs","eclair au chocolat","eclairs au cafe"],"r":[
+  ["Éclairs au chocolat","La classique","","Des choux allongés garnis de crème pâtissière au chocolat et glacés au chocolat.","Pâtisserie française",90,380,"D","chocolate eclairs","vod",
+   ["farine||100|g","beurre||80|g","œuf|œufs|7|","lait||50|cl","sucre|sucre|80|g","fécule de maïs|fécule de maïs|40|g","chocolat noir|chocolat noir|200|g"],
+   ["Préchauffe le four à 180 °C. Porte à ébullition 15 cl d'eau, le beurre et une pincée de sel, verse la farine et remue jusqu'à ce que la pâte se détache.","Hors du feu, ajoute 4 œufs un à un. Forme des boudins de 12 cm sur une plaque.","Enfourne 30 min sans ouvrir le four.|Four|30","Prépare une crème pâtissière avec le lait, 3 œufs, le sucre et la fécule, et ajoute 100 g de chocolat.|Cuisson|5","Garnis les éclairs froids et nappe-les du reste de chocolat fondu."]],
+  ["Éclairs au café","Café","Une crème et un glaçage au café.","Les éclairs au café de la boulangerie.","",90,360,"D","coffee eclairs","vod",
+   ["farine||100|g","beurre||80|g","œuf|œufs|7|","lait||50|cl","sucre|sucre|80|g","fécule de maïs|fécule de maïs|40|g","café soluble|café soluble|2|c. à s.","sucre glace|sucre glace|150|g"],
+   ["Prépare la pâte à choux et fais cuire les éclairs 30 min.|Four|30","Prépare une crème pâtissière et parfume-la avec 1 c. à s. de café soluble.|Cuisson|5","Garnis les éclairs froids.","Mélange le sucre glace avec le reste du café délayé dans un peu d'eau et nappe les éclairs."]],
+  ["Éclairs à la chantilly","Chantilly","Garnis de chantilly, plus faciles.","Des éclairs légers garnis de chantilly et glacés au chocolat.","",70,330,"M","cream filled eclairs","vod",
+   ["farine||100|g","beurre||80|g","œuf|œufs|4|","crème liquide entière|crème liquide entière|30|cl","sucre glace|sucre glace|40|g","chocolat noir|chocolat noir|100|g"],
+   ["Prépare la pâte à choux et fais cuire les éclairs 30 min.|Four|30","Fouette la crème bien froide avec le sucre glace en chantilly.","Garnis les éclairs froids.","Nappe de chocolat fondu."]]
+ ]},
+ {"q":"Glace maison","a":["glace","creme glacee","glace vanille maison","glace sans sorbetiere"],"r":[
+  ["Glace à la vanille sans sorbetière","La classique","","Une glace crémeuse à la vanille, sans machine, avec du lait concentré.","",15,330,"F","no churn vanilla ice cream","vcdf",
+   ["crème liquide entière|crème liquide entière|50|cl","lait concentré sucré|lait concentré sucré|400|g","gousse de vanille|gousses de vanille|1|"],
+   ["Fouette la crème bien froide en chantilly ferme.","Mélange le lait concentré avec les graines de vanille.","Incorpore délicatement la chantilly.","Verse dans une boîte et laisse prendre 6 h au congélateur."]],
+  ["Glace au chocolat sans sorbetière","Chocolat","Avec du chocolat fondu.","Une glace au chocolat onctueuse, sans machine.","",15,380,"F","no churn chocolate ice cream","vcdf",
+   ["crème liquide entière|crème liquide entière|50|cl","lait concentré sucré|lait concentré sucré|400|g","chocolat noir|chocolat noir|100|g","cacao en poudre|cacao en poudre|2|c. à s."],
+   ["Fais fondre le chocolat et laisse tiédir.","Mélange le lait concentré, le chocolat et le cacao.","Fouette la crème en chantilly et incorpore-la.","Laisse prendre 6 h au congélateur."]],
+  ["Glace à la banane","Une seule banane","Des bananes congelées mixées, sans rien d'autre.","La glace express et légère à la banane.","",5,120,"F","banana nice cream","vcdhbf",
+   ["banane congelée|bananes congelées|4|","cacao en poudre|cacao en poudre|1|c. à s."],
+   ["Coupe les bananes en rondelles avant de les congeler.","Mixe-les jusqu'à obtenir une texture de glace.","Ajoute le cacao si tu veux.","Sers tout de suite."]]
+ ]},
+ {"q":"Sorbet","a":["sorbet maison","sorbet citron","sorbet fraise","sorbet mangue"],"r":[
+  ["Sorbet au citron","La classique","","Un sorbet frais et acidulé au citron, sans sorbetière.","",20,150,"F","lemon sorbet","vcdh",
+   ["citron||5|","sucre|sucre|200|g","blanc d'œuf|blancs d'œufs|1|"],
+   ["Fais chauffer 50 cl d'eau avec le sucre jusqu'à ce qu'il fonde, puis laisse refroidir.","Ajoute le jus des citrons et le zeste d'un.","Mets 2 h au congélateur, puis fouette à la fourchette.","Monte le blanc en neige, incorpore-le et remets 4 h au congélateur en fouettant 2 fois."]],
+  ["Sorbet à la fraise","Fraise","Avec des fraises mixées.","Un sorbet fruité et rose à la fraise.","",15,140,"F","strawberry sorbet","vcdhf",
+   ["fraise||500|g","sucre|sucre|120|g","citron||1|"],
+   ["Mixe les fraises avec le sucre et le jus du citron.","Verse dans une boîte et mets au congélateur.","Fouette à la fourchette toutes les heures pendant 4 h.","Sers en boules."]],
+  ["Sorbet à la mangue","Mangue","Avec de la mangue surgelée, mixée minute.","Un sorbet express à la mangue, prêt en 5 minutes.","",5,130,"F","mango sorbet","vcdh",
+   ["mangue surgelée|mangue surgelée|500|g","miel||2|c. à s.","citron vert|citrons verts|1|"],
+   ["Mixe la mangue surgelée avec le miel et le jus du citron vert.","Mixe jusqu'à ce que ce soit lisse.","Sers tout de suite ou garde 30 min au congélateur."]]
+ ]},
+ {"q":"Crème au chocolat","a":["creme dessert chocolat","creme chocolat","petits pots de creme au chocolat","danette maison"],"r":[
+  ["Crème dessert au chocolat","La classique","","Une crème au chocolat lisse et onctueuse, comme celle des petits pots.","",15,250,"F","chocolate pudding cups","vcdbf",
+   ["lait||50|cl","chocolat noir|chocolat noir|100|g","sucre|sucre|50|g","fécule de maïs|fécule de maïs|30|g","cacao en poudre|cacao en poudre|1|c. à s."],
+   ["Délaye la fécule et le cacao dans un peu de lait froid.","Chauffe le reste du lait avec le sucre et le chocolat en morceaux.","Ajoute la fécule délayée et remue jusqu'à ce que la crème épaississe.|Cuisson|3","Verse dans des pots et laisse 2 h au frais."]],
+  ["Crème à la vanille","Vanille","Parfumée à la vanille, sans chocolat.","La crème dessert à la vanille.","",15,220,"F","vanilla pudding","vcdbf",
+   ["lait||50|cl","sucre|sucre|60|g","fécule de maïs|fécule de maïs|35|g","œuf|œufs|1|","gousse de vanille|gousses de vanille|1|"],
+   ["Chauffe le lait avec la vanille fendue.","Fouette l'œuf, le sucre et la fécule.","Verse le lait chaud dessus et remets sur le feu en remuant jusqu'à ce que ça épaississe.|Cuisson|3","Verse dans des pots et laisse 2 h au frais."]],
+  ["Crème au chocolat végétale","Sans lait","Au lait d'avoine, sans produits laitiers.","Une crème au chocolat sans lactose.","",15,230,"F","vegan chocolate pudding","vcdb",
+   ["lait d'avoine|lait d'avoine|50|cl","chocolat noir|chocolat noir|100|g","sucre|sucre|40|g","fécule de maïs|fécule de maïs|30|g"],
+   ["Délaye la fécule dans un peu de lait froid.","Chauffe le reste du lait avec le sucre et le chocolat.","Ajoute la fécule et remue jusqu'à ce que ça épaississe.|Cuisson|3","Verse dans des pots et laisse 2 h au frais."]]
+ ]}
+]

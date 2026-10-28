@@ -1,0 +1,101 @@
+[
+ {"q":"Saumon au four","a":["pave de saumon","saumon au four citron","filet de saumon"],"r":[
+  ["Pavés de saumon au four","La classique","","Des pavés de saumon fondants, cuits au four avec citron, aneth et un filet d'huile d'olive.","",25,420,"F","baked salmon fillet lemon dill","oh",
+   ["pavé de saumon|pavés de saumon|4|","citron||1|","aneth|aneth||","huile d'olive|huile d'olive|2|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Pose les pavés dans un plat, côté peau en dessous.","Arrose d'huile, ajoute des rondelles de citron, l'aneth, sel et poivre.","Enfourne 15 min : le cœur doit rester légèrement nacré.|Four|15"]],
+  ["Saumon au four en croûte de moutarde","Moutarde et miel","Un glaçage moutarde et miel caramélise le dessus.","Un saumon laqué moutarde-miel, sucré-salé.","",25,450,"F","honey mustard salmon","o",
+   ["pavé de saumon|pavés de saumon|4|","moutarde à l'ancienne|moutarde à l'ancienne|2|c. à s.","miel|miel|1|c. à s.","citron||0.5|","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Mélange la moutarde, le miel et le jus du citron.","Badigeonne les pavés, sale et poivre.","Enfourne 15 min.|Four|15"]],
+  ["Saumon au four et légumes","Tout en un","Les légumes cuisent sur la même plaque que le saumon.","Le plat complet sur une plaque : saumon, brocoli et pommes de terre.","",40,520,"F","salmon traybake vegetables","oh",
+   ["pavé de saumon|pavés de saumon|4|","pomme de terre grenaille|pommes de terre grenaille|600|g","brocoli|brocolis|1|","citron||1|","huile d'olive|huile d'olive|3|c. à s.","paprika|paprika|1|c. à c.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Mets les pommes de terre coupées en deux sur une plaque avec 2 c. à s. d'huile, sel et paprika. Enfourne 20 min.|Four|20","Ajoute le brocoli en bouquets et les pavés de saumon arrosés d'huile et de citron.","Enfourne encore 15 min.|Four|15"]]
+ ]},
+ {"q":"Dos de cabillaud","a":["cabillaud au four","filet de cabillaud"],"r":[
+  ["Dos de cabillaud au four, beurre citronné","La classique","","Un cabillaud nacré, cuit au four avec un beurre au citron et au persil.","",25,320,"F","baked cod lemon butter","oh",
+   ["dos de cabillaud|dos de cabillaud|4|","beurre||40|g","citron||1|","persil|persil||","ail||1|gousse","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Pose le cabillaud dans un plat, sale et poivre.","Fais fondre le beurre avec l'ail, le jus du citron et le persil, et verse sur le poisson.","Enfourne 12 min.|Four|12"]],
+  ["Cabillaud à la provençale","À la provençale","Le poisson cuit sur une sauce tomate aux olives.","Un cabillaud ensoleillé, à la tomate, aux olives et au thym.","",30,300,"F","cod provencal tomato olives","oh",
+   ["dos de cabillaud|dos de cabillaud|4|","tomate concassée|tomates concassées|400|g","olive noire|olives noires|50|g","oignon||1|","ail||2|gousse","thym|thym||","huile d'olive|huile d'olive|2|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Fais revenir l'oignon et l'ail dans l'huile, ajoute les tomates, les olives et le thym. Cuis 10 min.|Cuisson|10","Verse dans un plat, pose le cabillaud dessus, sale et poivre.","Enfourne 15 min.|Four|15"]],
+  ["Cabillaud en croûte de parmesan","En croûte","Une croûte de chapelure et de parmesan rend le dessus croustillant.","Un poisson croustillant dessus, fondant dedans, que les enfants aiment.","",25,380,"F","parmesan crusted cod","of",
+   ["dos de cabillaud|dos de cabillaud|4|","chapelure|chapelure|40|g","parmesan râpé|parmesan râpé|40|g","beurre fondu|beurre fondu|30|g","persil|persil||","sel|||"],
+   ["Préchauffe le four à 200 °C.","Mélange la chapelure, le parmesan, le persil et le beurre fondu.","Pose le cabillaud dans un plat, sale et couvre-le de ce mélange.","Enfourne 15 min.|Four|15"]]
+ ]},
+ {"q":"Moules marinières","a":["moules","moules frites","moules a la creme"],"r":[
+  ["Moules marinières","La classique","","Des moules ouvertes dans le vin blanc, avec échalotes et persil.","",25,380,"F","moules marinieres mussels","b",
+   ["moule|moules|2000|g","vin blanc||20|cl","échalote||3|","beurre||30|g","persil|persil||","poivre|||"],
+   ["Gratte et rince les moules, et jette celles qui sont ouvertes.","Fais fondre les échalotes émincées dans le beurre dans un grand faitout.","Ajoute le vin et les moules, couvre et cuis 6 min à feu vif en secouant.|Cuisson|6","Parsème de persil et poivre. Sers avec des frites ou du pain."]],
+  ["Moules à la crème","À la crème","De la crème fraîche lie la sauce.","Les moules marinières, avec une sauce crémeuse.","",25,460,"F","mussels cream sauce","",
+   ["moule|moules|2000|g","vin blanc||20|cl","crème fraîche||20|cl","échalote||3|","beurre||20|g","persil|persil||","poivre|||"],
+   ["Prépare les moules.","Fais fondre les échalotes dans le beurre, ajoute le vin et les moules, couvre et cuis 6 min.|Cuisson|6","Retire les moules, ajoute la crème au jus et laisse réduire 3 min.|Cuisson|3","Verse la sauce sur les moules et parsème de persil."]],
+  ["Moules au curry","Au curry","Une sauce curry et lait de coco remplace le vin.","Des moules à la sauce curry-coco.","",25,440,"F","mussels coconut curry","",
+   ["moule|moules|2000|g","lait de coco|lait de coco|20|cl","curry|curry|2|c. à c.","oignon||1|","ail||1|gousse","coriandre|coriandre||","huile d'olive|huile d'olive|1|c. à s."],
+   ["Prépare les moules.","Fais revenir l'oignon et l'ail dans l'huile avec le curry 2 min.","Ajoute le lait de coco et les moules, couvre et cuis 6 min.|Cuisson|6","Parsème de coriandre."]]
+ ]},
+ {"q":"Crevettes à l'ail","a":["crevettes sautees","gambas","crevettes a la plancha"],"r":[
+  ["Crevettes sautées à l'ail et au persil","La classique","","Des crevettes poêlées à l'ail et au persil, en 10 minutes.","",10,220,"F","garlic shrimp","h",
+   ["crevette crue|crevettes crues|500|g","ail||4|gousse","persil|persil||","huile d'olive|huile d'olive|3|c. à s.","citron||1|","piment séché|piments séchés|1|","sel|||"],
+   ["Décortique les crevettes en gardant la queue.","Fais chauffer l'huile avec l'ail émincé et le piment 1 min.","Ajoute les crevettes et fais-les sauter 3 min, jusqu'à ce qu'elles soient roses.|Poêle|3","Ajoute le persil, le jus du citron et le sel."]],
+  ["Crevettes à la crème et à l'ail","À la crème","Une sauce crémeuse à l'ail, à servir avec des pâtes.","Des crevettes dans une sauce crème-ail, parfaites sur des tagliatelles.","",15,380,"F","creamy garlic shrimp","",
+   ["crevette crue|crevettes crues|500|g","ail||3|gousse","crème fraîche||20|cl","parmesan râpé|parmesan râpé|30|g","beurre||20|g","persil|persil||","sel|||"],
+   ["Fais sauter les crevettes dans le beurre 3 min. Réserve.|Poêle|3","Fais revenir l'ail 1 min, ajoute la crème et le parmesan, et laisse épaissir 3 min.|Cuisson|3","Remets les crevettes et parsème de persil."]],
+  ["Curry de crevettes","Au curry","Une sauce coco-curry, à servir avec du riz.","Les crevettes dans un curry doux au lait de coco.","Inspiration indienne",20,380,"F","shrimp coconut curry","",
+   ["crevette crue|crevettes crues|500|g","lait de coco|lait de coco|40|cl","tomate concassée|tomates concassées|200|g","oignon||1|","curry|curry|2|c. à c.","gingembre|gingembre|1|c. à c.","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir l'oignon, le gingembre et le curry dans l'huile 3 min.|Cuisson|3","Ajoute les tomates et le lait de coco, cuis 10 min.|Cuisson|10","Ajoute les crevettes et cuis 4 min.|Cuisson|4"]]
+ ]},
+ {"q":"Brandade de morue","a":["brandade","brandade parmentiere"],"r":[
+  ["Brandade de morue","La classique","","La morue mélangée à une purée à l'ail et à l'huile d'olive, gratinée au four.","Spécialité nîmoise",60,480,"M","brandade cod potato gratin","o",
+   ["morue salée|morue salée|500|g","pomme de terre||700|g","lait||30|cl","ail||3|gousse","huile d'olive|huile d'olive|8|cl","chapelure|chapelure|2|c. à s.","poivre|||"],
+   ["La veille, fais dessaler la morue dans l'eau froide en changeant l'eau 3 fois.","Fais pocher la morue 10 min dans le lait, puis effeuille-la.|Cuisson|10","Fais cuire les pommes de terre 20 min et écrase-les.|Cuisson|20","Mélange la purée, la morue, l'ail haché, l'huile et un peu du lait de cuisson. Poivre.","Verse dans un plat, saupoudre de chapelure et enfourne 20 min à 200 °C.|Four|20"]],
+  ["Brandade express au cabillaud","Express","Du cabillaud frais remplace la morue : pas de dessalage.","La brandade sans attendre la veille, au cabillaud frais.","",45,420,"F","quick cod potato brandade","ob",
+   ["dos de cabillaud|dos de cabillaud|500|g","pomme de terre||700|g","lait||30|cl","ail||2|gousse","huile d'olive|huile d'olive|6|cl","emmental râpé|emmental râpé|40|g","sel|||","poivre|||"],
+   ["Fais cuire les pommes de terre 20 min.|Cuisson|20","Fais pocher le cabillaud 8 min dans le lait, puis émiette-le.|Cuisson|8","Écrase les pommes de terre avec le poisson, l'ail, l'huile et un peu de lait. Sale et poivre.","Verse dans un plat, parsème d'emmental et enfourne 15 min à 200 °C.|Four|15"]],
+  ["Brandade de saumon","Au saumon","Le saumon remplace la morue.","Une brandade douce au saumon, que tout le monde aime.","",45,500,"F","salmon potato brandade","of",
+   ["pavé de saumon|pavés de saumon|3|","pomme de terre||700|g","lait||25|cl","crème fraîche||10|cl","aneth|aneth||","chapelure|chapelure|2|c. à s.","sel|||","poivre|||"],
+   ["Fais cuire les pommes de terre 20 min.|Cuisson|20","Fais pocher le saumon 8 min dans le lait et émiette-le.|Cuisson|8","Écrase les pommes de terre avec le saumon, la crème et l'aneth, sale et poivre.","Verse dans un plat, saupoudre de chapelure et enfourne 15 min à 200 °C.|Four|15"]]
+ ]},
+ {"q":"Poisson en papillote","a":["papillote","papillote de poisson","saumon en papillote","papillote de cabillaud"],"r":[
+  ["Papillotes de cabillaud aux légumes","La classique","","Le poisson cuit à la vapeur dans sa papillote, avec des légumes en julienne et du citron.","",30,240,"F","fish en papillote vegetables","oh",
+   ["dos de cabillaud|dos de cabillaud|4|","courgette||1|","carotte||2|","citron||1|","huile d'olive|huile d'olive|2|c. à s.","thym|thym||","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Coupe les légumes en fine julienne et répartis-les sur 4 feuilles de papier cuisson.","Pose le poisson dessus, ajoute une rondelle de citron, le thym, l'huile, sel et poivre.","Ferme les papillotes et enfourne 18 min.|Four|18"]],
+  ["Papillotes de saumon","Au saumon","Le saumon remplace le cabillaud, avec des poireaux.","Le saumon en papillote, fondant sur un lit de poireaux.","",30,400,"F","salmon en papillote leek","oh",
+   ["pavé de saumon|pavés de saumon|4|","poireau||2|","citron||1|","crème légère|crème légère|8|cl","aneth|aneth||","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Fais fondre les poireaux émincés 5 min à la poêle.|Poêle|5","Répartis-les sur 4 papillotes, ajoute le saumon, un peu de crème, l'aneth, le citron, sel et poivre.","Ferme et enfourne 15 min.|Four|15"]],
+  ["Papillotes de poisson à l'asiatique","À l'asiatique","Sauce soja, gingembre et citron vert parfument le poisson.","Une papillote parfumée au gingembre et au soja.","",25,260,"F","asian fish parcel ginger soy","oh",
+   ["filet de colin|filets de colin|4|","sauce soja|sauce soja|3|c. à s.","gingembre|gingembre|1|c. à c.","citron vert|citrons verts|1|","oignon nouveau|oignons nouveaux|2|","pak choï|pak choïs|2|"],
+   ["Préchauffe le four à 200 °C.","Pose le pak choï émincé sur 4 papillotes, puis le poisson.","Arrose de sauce soja, ajoute le gingembre, le citron vert et l'oignon.","Ferme et enfourne 15 min.|Four|15"]]
+ ]},
+ {"q":"Tartare de saumon","a":["tartare saumon","tartare de poisson"],"r":[
+  ["Tartare de saumon","La classique","","Du saumon cru coupé au couteau, avec citron vert, échalote et herbes.","",20,300,"F","salmon tartare","ce",
+   ["pavé de saumon extra-frais|pavés de saumon extra-frais|3|","citron vert|citrons verts|2|","échalote||1|","ciboulette|ciboulette||","huile d'olive|huile d'olive|2|c. à s.","sel|||","poivre|||"],
+   ["Coupe le saumon en petits dés bien réguliers.","Mélange avec l'échalote hachée, la ciboulette, l'huile, le jus des citrons, sel et poivre.","Mets au frais 10 min avant de servir.|Frais|10"]],
+  ["Tartare de saumon à l'avocat","À l'avocat","Une couche d'avocat et de mangue sous le saumon.","Un tartare frais et coloré, saumon, avocat et mangue.","",20,380,"F","salmon avocado tartare","ce",
+   ["pavé de saumon extra-frais|pavés de saumon extra-frais|3|","avocat||2|","mangue|mangues|1|","citron vert|citrons verts|2|","coriandre|coriandre||","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Coupe le saumon, l'avocat et la mangue en petits dés.","Assaisonne le saumon avec l'huile, la moitié du jus de citron et le sel, et l'avocat avec le reste du citron.","Monte en cercle : avocat, mangue puis saumon, et parsème de coriandre."]],
+  ["Tartare de saumon à l'asiatique","À l'asiatique","Assaisonné à la sauce soja, au sésame et au gingembre.","Un tartare façon japonaise, au soja et au sésame.","",20,320,"F","asian salmon tartare sesame","ce",
+   ["pavé de saumon extra-frais|pavés de saumon extra-frais|3|","sauce soja|sauce soja|2|c. à s.","huile de sésame|huile de sésame|1|c. à s.","gingembre|gingembre|1|c. à c.","citron vert|citrons verts|1|","graines de sésame|graines de sésame|1|c. à s.","oignon nouveau|oignons nouveaux|1|"],
+   ["Coupe le saumon en petits dés.","Mélange avec la sauce soja, l'huile de sésame, le gingembre, le jus du citron vert et l'oignon émincé.","Parsème de sésame et sers bien frais."]]
+ ]},
+ {"q":"Dorade au four","a":["dorade","daurade","bar au four","poisson entier au four"],"r":[
+  ["Dorade au four","La classique","","Une dorade entière rôtie au four, au citron, au fenouil et aux herbes.","",40,300,"F","baked sea bream","oh",
+   ["dorade vidée|dorades vidées|2|","citron||2|","fenouil|fenouils|1|","ail||3|gousse","thym|thym||","huile d'olive|huile d'olive|4|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Mets le fenouil émincé au fond d'un plat avec 2 c. à s. d'huile.","Glisse des rondelles de citron, l'ail et le thym dans les dorades, sale et poivre.","Pose-les sur le fenouil, arrose du reste d'huile et enfourne 25 min.|Four|25"]],
+  ["Dorade au four et pommes de terre","Avec pommes de terre","Des pommes de terre cuisent sous le poisson.","Un plat complet : la dorade sur un lit de pommes de terre.","",55,420,"F","sea bream potatoes oven","o",
+   ["dorade vidée|dorades vidées|2|","pomme de terre||800|g","tomate cerise|tomates cerises|200|g","citron||1|","huile d'olive|huile d'olive|4|c. à s.","thym|thym||","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Mets les pommes de terre en fines rondelles dans un plat avec l'huile, sel et thym. Enfourne 20 min.|Four|20","Ajoute les dorades garnies de citron et les tomates cerises.","Enfourne encore 25 min.|Four|25"]],
+  ["Dorade grillée à la plancha","À la plancha","Des filets de dorade grillés côté peau.","Des filets croustillants côté peau, en 10 minutes.","",15,280,"F","grilled sea bream fillet","h",
+   ["filet de dorade|filets de dorade|4|","citron||1|","huile d'olive|huile d'olive|2|c. à s.","fleur de sel|fleur de sel||","poivre|||"],
+   ["Entaille légèrement la peau des filets.","Fais-les cuire côté peau 4 min dans l'huile très chaude.|Poêle|4","Retourne-les 1 min, puis sers avec le citron et la fleur de sel.|Poêle|1"]]
+ ]},
+ {"q":"Fish and chips","a":["fish & chips","poisson pane","poisson frit"],"r":[
+  ["Fish and chips","La classique","","Du poisson blanc dans une pâte à la bière croustillante, avec des frites.","Plat anglais",45,720,"M","fish and chips","f",
+   ["filet de cabillaud|filets de cabillaud|4|","farine||150|g","bière blonde|bière blonde|25|cl","levure chimique|levure chimique|1|c. à c.","pomme de terre||1000|g","huile de friture|huile de friture|100|cl","citron||1|","sel|||"],
+   ["Coupe les pommes de terre en frites et fais-les frire 6 min à 160 °C, puis égoutte.|Friture|6","Mélange la farine, la levure, le sel et la bière froide.","Passe le poisson dans un peu de farine puis dans la pâte, et fais-le frire 5 min à 180 °C.|Friture|5","Refais frire les frites 3 min à 180 °C pour les dorer.|Friture|3","Sers avec du citron."]],
+  ["Fish and chips au four","Au four","Le poisson est pané et les frites cuisent au four, sans friture.","Le fish and chips plus léger, tout au four.","",45,520,"F","oven baked fish and chips","ofh",
+   ["filet de cabillaud|filets de cabillaud|4|","chapelure|chapelure|80|g","œuf|œufs|1|","farine||3|c. à s.","pomme de terre||1000|g","huile d'olive|huile d'olive|4|c. à s.","citron||1|","sel|||"],
+   ["Préchauffe le four à 220 °C. Coupe les pommes de terre en frites, mélange-les avec 3 c. à s. d'huile et du sel, et enfourne 20 min.|Four|20","Passe le poisson dans la farine, l'œuf battu puis la chapelure.","Ajoute-le sur une autre plaque, arrose d'huile et enfourne le tout 15 min.|Four|15"]],
+  ["Poisson pané maison","Pané","Des bâtonnets de poisson panés à la poêle, pour les enfants.","Des poissons panés maison, croustillants et dorés.","",25,420,"F","homemade fish fingers","bf",
+   ["filet de colin|filets de colin|500|g","chapelure|chapelure|100|g","œuf|œufs|2|","farine||4|c. à s.","huile d'olive|huile d'olive|4|c. à s.","citron||1|","sel|||"],
+   ["Coupe le poisson en bâtonnets et sale.","Passe-les dans la farine, l'œuf battu puis la chapelure.","Fais-les dorer dans l'huile 3 min de chaque côté.|Poêle|6","Sers avec du citron."]]
+ ]}
+]

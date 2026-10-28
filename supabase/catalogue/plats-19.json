@@ -1,0 +1,112 @@
+[
+ {"q":"Osso buco","a":["osso bucco","jarret de veau","ossobuco"],"r":[
+  ["Osso buco à la milanaise","La classique","","Des tranches de jarret de veau mijotées à la tomate, avec une gremolata au citron.","Plat italien",135,480,"M","osso buco","",
+   ["jarret de veau|jarrets de veau|4|","tomate concassée|tomates concassées|400|g","carotte||2|","oignon||1|","céleri|céleris|1|","vin blanc|vin blanc|15|cl","farine||2|c. à s.","citron||1|","persil|persil||","ail|ail|1|gousse"],
+   ["Farine légèrement les tranches de veau et fais-les dorer dans une cocotte huilée.|Cuisson|8","Retire-les et fais revenir l'oignon, les carottes et le céleri en dés.","Remets la viande, ajoute le vin, les tomates et 20 cl d'eau.","Couvre et laisse mijoter 1 h 45 à feu doux.|Cuisson|105","Hache le persil avec l'ail et le zeste du citron : c'est la gremolata.","Parsème la gremolata sur l'osso buco au moment de servir."]],
+  ["Osso buco de dinde","De dinde","Avec de l'osso buco de dinde, plus rapide et moins cher.","L'osso buco en version dinde, mijotée à la tomate.","",85,380,"F","turkey osso buco","b",
+   ["osso buco de dinde|osso buco de dinde|4|","tomate concassée|tomates concassées|400|g","carotte||2|","oignon||1|","vin blanc|vin blanc|10|cl","citron||1|","persil|persil||"],
+   ["Fais dorer la dinde dans une cocotte huilée.|Cuisson|8","Ajoute l'oignon et les carottes en dés et fais revenir 3 min.","Ajoute le vin, les tomates et 15 cl d'eau.","Couvre et laisse mijoter 1 h.|Cuisson|60","Parsème de persil haché et de zeste de citron."]],
+  ["Osso buco en blanc","Sans tomate","Mijoté au vin blanc et au bouillon, sans tomate.","L'osso buco à l'ancienne, en sauce blanche au citron.","",135,450,"M","osso buco bianco","",
+   ["jarret de veau|jarrets de veau|4|","oignon||1|","carotte||2|","vin blanc|vin blanc|25|cl","bouillon de volaille|bouillon de volaille|1|","farine||2|c. à s.","citron||1|","persil|persil||"],
+   ["Farine le veau et fais-le dorer dans une cocotte.|Cuisson|8","Ajoute l'oignon et les carottes, puis le vin, le bouillon et 20 cl d'eau.","Couvre et laisse mijoter 1 h 45.|Cuisson|105","Ajoute le zeste et le jus du citron et le persil haché avant de servir."]]
+ ]},
+ {"q":"Parmentier de canard","a":["hachis parmentier de canard","parmentier canard confit"],"r":[
+  ["Parmentier de canard","La classique","","Du confit de canard effiloché sous une purée maison, gratiné au four.","Sud-Ouest",75,620,"M","duck parmentier","o",
+   ["cuisse de canard confite|cuisses de canard confites|3|","pomme de terre|pommes de terre|1000|g","lait||20|cl","beurre||40|g","échalote||2|","persil|persil||","chapelure|chapelure|2|c. à s."],
+   ["Fais cuire les pommes de terre 20 min à l'eau salée.|Cuisson|20","Réchauffe les cuisses, retire la peau et effiloche la viande.","Fais revenir les échalotes avec 1 c. à s. de graisse de canard, puis le canard et le persil.","Écrase les pommes de terre avec le lait et le beurre.","Préchauffe le four à 200 °C. Mets le canard dans un plat et couvre de purée et de chapelure.","Enfourne 20 min.|Four|20"]],
+  ["Parmentier de canard à la patate douce","Patate douce","La purée est faite moitié patate douce.","Un parmentier sucré-salé, à la purée orange.","",75,600,"M","duck sweet potato parmentier","o",
+   ["cuisse de canard confite|cuisses de canard confites|3|","patate douce|patates douces|2|","pomme de terre|pommes de terre|500|g","beurre||30|g","échalote||2|","persil|persil||"],
+   ["Fais cuire les patates douces et les pommes de terre en morceaux 20 min.|Cuisson|20","Effiloche le canard sans la peau et fais-le revenir avec les échalotes et le persil.","Écrase les légumes avec le beurre.","Monte le parmentier dans un plat et enfourne 20 min à 200 °C.|Four|20"]],
+  ["Parmentier de poulet","Au poulet","Le poulet rôti remplace le canard, plus léger.","Le parmentier au poulet, pour finir un poulet rôti.","",60,450,"F","chicken parmentier","obf",
+   ["poulet cuit|poulet cuit|400|g","pomme de terre|pommes de terre|1000|g","lait||20|cl","beurre||30|g","oignon||1|","emmental râpé|emmental râpé|60|g"],
+   ["Fais cuire les pommes de terre 20 min et écrase-les avec le lait et le beurre.|Cuisson|20","Effiloche le poulet et fais-le revenir avec l'oignon.","Monte dans un plat : le poulet, puis la purée et l'emmental.","Enfourne 20 min à 200 °C.|Four|20"]]
+ ]},
+ {"q":"Magret de canard","a":["magret","magret poele","magrets de canard"],"r":[
+  ["Magret de canard poêlé","La classique","","Le magret saisi côté peau, rosé à cœur, avec des pommes de terre sautées dans sa graisse.","Sud-Ouest",40,650,"M","seared duck breast","",
+   ["magret de canard|magrets de canard|2|","pomme de terre|pommes de terre|800|g","ail|ail|2|gousse","persil|persil||","sel|||","poivre|||"],
+   ["Quadrille la peau des magrets sans couper la chair.","Fais-les cuire côté peau 8 min à feu moyen, en retirant la graisse.|Poêle|8","Retourne-les 4 min, puis laisse reposer 5 min sous du papier aluminium.|Poêle|4","Fais sauter les pommes de terre en dés dans la graisse 20 min.|Poêle|20","Ajoute l'ail et le persil hachés, et sers avec le magret en tranches."]],
+  ["Magret de canard au miel","Au miel","Laqué avec une sauce au miel et au vinaigre.","Le magret sucré-salé, laqué au miel.","",30,600,"M","honey glazed duck breast","",
+   ["magret de canard|magrets de canard|2|","miel||3|c. à s.","vinaigre balsamique|vinaigre balsamique|2|c. à s.","sel|||","poivre|||"],
+   ["Quadrille la peau et fais cuire côté peau 8 min, en retirant la graisse.|Poêle|8","Retourne et cuis 4 min.|Poêle|4","Retire la graisse, ajoute le miel et le vinaigre et laque les magrets 1 min.","Laisse reposer 5 min, coupe en tranches et nappe de sauce."]],
+  ["Magret de canard à l'orange","À l'orange","Avec une sauce à l'orange.","Le grand classique du canard à l'orange, avec le magret.","",35,600,"M","duck breast orange sauce","",
+   ["magret de canard|magrets de canard|2|","orange||3|","sucre|sucre|1|c. à s.","vinaigre|vinaigre|1|c. à s.","sel|||"],
+   ["Fais cuire les magrets 8 min côté peau et 4 min côté chair, puis laisse reposer.|Poêle|12","Fais caraméliser le sucre avec le vinaigre.","Ajoute le jus de 2 oranges et le zeste d'une, et fais réduire 5 min.|Cuisson|5","Sers le magret en tranches avec la sauce et des quartiers de la dernière orange."]]
+ ]},
+ {"q":"Poulet au citron","a":["poulet citron","poulet au citron confit"],"r":[
+  ["Poulet au citron et au thym","La classique","","Des cuisses de poulet rôties au citron, à l'ail et au thym.","",60,450,"F","lemon chicken thighs","ohb",
+   ["cuisse de poulet|cuisses de poulet|4|","citron||2|","ail|ail|4|gousse","thym|thym||","huile d'olive|huile d'olive|3|c. à s.","pomme de terre|pommes de terre|600|g"],
+   ["Préchauffe le four à 200 °C.","Coupe les pommes de terre en quartiers et un citron en rondelles.","Mets tout dans un plat avec le poulet, l'ail, le thym, l'huile et le jus de l'autre citron.","Enfourne 45 min en arrosant de temps en temps.|Four|45"]],
+  ["Poulet au citron à la chinoise","À la chinoise","Des morceaux de poulet frits et une sauce au citron.","Le poulet au citron du restaurant chinois, croustillant et nappé.","Inspiration chinoise",30,480,"M","chinese lemon chicken","",
+   ["blanc de poulet|blancs de poulet|3|","fécule de maïs|fécule de maïs|4|c. à s.","œuf|œufs|1|","citron||2|","sucre|sucre|3|c. à s.","sauce soja|sauce soja|1|c. à s.","huile|huile|5|c. à s.","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Coupe le poulet en morceaux, trempe-les dans l'œuf battu puis dans 3 c. à s. de fécule.","Fais-les dorer 6 min dans l'huile chaude.|Poêle|6","Chauffe le jus des citrons, le sucre, la sauce soja et le reste de fécule délayée dans 10 cl d'eau jusqu'à ce que ça épaississe.","Nappe le poulet de sauce et sers avec le riz."]],
+  ["Tajine de poulet au citron confit","Citron confit","Mijoté aux olives et au citron confit.","Le poulet à la marocaine, fondant et parfumé.","Inspiration marocaine",70,430,"F","chicken preserved lemon olives","h",
+   ["cuisse de poulet|cuisses de poulet|4|","citron confit|citrons confits|2|","olives vertes|olives vertes|100|g","oignon||2|","gingembre|gingembre|1|c. à c.","curcuma|curcuma|1|c. à c.","coriandre|coriandre||"],
+   ["Fais dorer le poulet dans une cocotte huilée.|Cuisson|8","Ajoute les oignons émincés, le gingembre et le curcuma.","Ajoute 30 cl d'eau, couvre et laisse mijoter 40 min.|Cuisson|40","Ajoute les citrons confits en quartiers et les olives, et laisse 10 min.|Cuisson|10","Parsème de coriandre."]]
+ ]},
+ {"q":"Ailes de poulet","a":["wings","chicken wings","ailes de poulet marinees","ailerons de poulet"],"r":[
+  ["Ailes de poulet marinées au four","La classique","","Des ailes de poulet marinées au paprika et au miel, rôties et collantes.","",60,420,"F","baked chicken wings","obf",
+   ["aile de poulet|ailes de poulet|1000|g","miel||2|c. à s.","sauce soja|sauce soja|3|c. à s.","paprika|paprika|2|c. à c.","ail|ail|2|gousse","huile|huile|2|c. à s."],
+   ["Mélange le miel, la sauce soja, le paprika, l'ail écrasé et l'huile.","Enrobe les ailes de cette marinade et laisse 30 min au frais.|Repos|30","Préchauffe le four à 220 °C.","Étale les ailes sur une plaque et enfourne 35 min en les retournant à mi-cuisson.|Four|35"]],
+  ["Ailes de poulet buffalo","Buffalo","Avec une sauce piquante au beurre.","Les ailes de poulet américaines, à la sauce piquante.","Recette américaine",50,450,"F","buffalo wings","o",
+   ["aile de poulet|ailes de poulet|1000|g","sauce piquante|sauce piquante|8|c. à s.","beurre||40|g","paprika|paprika|1|c. à c.","ail en poudre|ail en poudre|1|c. à c."],
+   ["Préchauffe le four à 220 °C.","Assaisonne les ailes de paprika, d'ail en poudre et de sel.","Enfourne 40 min en les retournant à mi-cuisson.|Four|40","Fais fondre le beurre avec la sauce piquante et enrobe les ailes chaudes."]],
+  ["Ailes de poulet au caramel","À la vietnamienne","Laquées au caramel et au nuoc-mâm.","Des ailes de poulet sucrées-salées à la vietnamienne.","Inspiration vietnamienne",45,430,"F","caramel chicken wings","b",
+   ["aile de poulet|ailes de poulet|1000|g","sucre|sucre|4|c. à s.","sauce nuoc-mâm|sauce nuoc-mâm|3|c. à s.","ail|ail|3|gousse","gingembre|gingembre|1|c. à c.","oignon nouveau|oignons nouveaux|2|"],
+   ["Fais un caramel brun avec le sucre et 2 c. à s. d'eau.","Ajoute hors du feu le nuoc-mâm et 10 cl d'eau.","Ajoute les ailes, l'ail et le gingembre, et laisse mijoter 30 min en remuant.|Cuisson|30","Fais réduire jusqu'à ce que les ailes soient laquées, puis parsème d'oignon nouveau."]]
+ ]},
+ {"q":"Rougail saucisse","a":["rougail","rougail saucisses","rougail saucisse reunionnais"],"r":[
+  ["Rougail saucisse","La classique","","Le plat réunionnais : saucisses fumées mijotées dans une sauce tomate au gingembre et au piment.","Recette réunionnaise",50,620,"F","rougail saucisse","b",
+   ["saucisse fumée|saucisses fumées|6|","tomate||6|","oignon||2|","ail|ail|3|gousse","gingembre|gingembre|1|c. à c.","curcuma|curcuma|1|c. à c.","piment|piments|1|","riz|riz|250|g"],
+   ["Fais blanchir les saucisses 5 min à l'eau bouillante, puis coupe-les en rondelles.|Cuisson|5","Fais-les dorer dans une cocotte.","Ajoute les oignons émincés, l'ail, le gingembre, le curcuma et le piment.","Ajoute les tomates en dés et laisse mijoter 25 min.|Cuisson|25","Sers avec du riz blanc."]],
+  ["Rougail de crevettes","Crevettes","Les crevettes remplacent les saucisses.","Un rougail plus léger, aux crevettes.","Recette réunionnaise",30,400,"F","shrimp rougail","h",
+   ["crevette décortiquée|crevettes décortiquées|500|g","tomate||5|","oignon||2|","ail|ail|2|gousse","gingembre|gingembre|1|c. à c.","curcuma|curcuma|1|c. à c.","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais revenir les oignons, l'ail, le gingembre et le curcuma.","Ajoute les tomates en dés et laisse mijoter 15 min.|Cuisson|15","Ajoute les crevettes et fais cuire 4 min.|Cuisson|4"]],
+  ["Rougail de lentilles","Végétarien","Des lentilles à la sauce rougail, sans viande.","Un rougail végétarien épicé et rassasiant.","",45,380,"F","lentil tomato curry","vhb",
+   ["lentille corail|lentilles corail|250|g","tomate||4|","oignon||2|","ail|ail|2|gousse","gingembre|gingembre|1|c. à c.","curcuma|curcuma|1|c. à c.","riz|riz|200|g"],
+   ["Fais revenir les oignons, l'ail, le gingembre et le curcuma.","Ajoute les tomates en dés, les lentilles et 50 cl d'eau.","Laisse mijoter 20 min.|Cuisson|20","Sers avec du riz."]]
+ ]},
+ {"q":"Colombo de poulet","a":["colombo","poulet colombo"],"r":[
+  ["Colombo de poulet","La classique","","Le curry antillais au poulet, avec pommes de terre et légumes, parfumé à la poudre de colombo.","Recette antillaise",60,480,"F","chicken colombo curry","b",
+   ["cuisse de poulet|cuisses de poulet|4|","poudre de colombo|poudre de colombo|2|c. à s.","pomme de terre|pommes de terre|3|","courgette||1|","oignon||2|","ail|ail|3|gousse","citron vert|citrons verts|1|"],
+   ["Frotte le poulet avec le jus du citron vert, l'ail et 1 c. à s. de colombo.","Fais-le dorer dans une cocotte avec les oignons.|Cuisson|8","Ajoute le reste du colombo, les pommes de terre et la courgette en morceaux, et 40 cl d'eau.","Couvre et laisse mijoter 40 min.|Cuisson|40"]],
+  ["Colombo de porc","Au porc","Avec de l'épaule de porc.","Le colombo antillais au porc, mijoté longuement.","Recette antillaise",90,560,"F","pork colombo","b",
+   ["épaule de porc|épaules de porc|800|g","poudre de colombo|poudre de colombo|2|c. à s.","pomme de terre|pommes de terre|3|","aubergine||1|","oignon||2|","ail|ail|3|gousse"],
+   ["Coupe le porc en cubes et fais-le dorer avec les oignons.|Cuisson|8","Ajoute l'ail, le colombo, puis 50 cl d'eau.","Laisse mijoter 45 min.|Cuisson|45","Ajoute les pommes de terre et l'aubergine en morceaux et laisse 25 min.|Cuisson|25"]],
+  ["Colombo de légumes","Végétarien","Pois chiches et légumes à la place de la viande.","Un colombo végétarien, aux légumes et pois chiches.","",45,380,"F","vegetable colombo curry","vhb",
+   ["pois chiche|pois chiches|400|g","patate douce|patates douces|1|","courgette||1|","aubergine||1|","poudre de colombo|poudre de colombo|2|c. à s.","lait de coco|lait de coco|20|cl","oignon||1|"],
+   ["Fais revenir l'oignon avec le colombo.","Ajoute la patate douce, la courgette et l'aubergine en dés.","Ajoute le lait de coco et 20 cl d'eau, et laisse mijoter 25 min.|Cuisson|25","Ajoute les pois chiches et laisse 5 min.|Cuisson|5"]]
+ ]},
+ {"q":"Navarin d'agneau","a":["navarin","ragout d agneau","navarin printanier"],"r":[
+  ["Navarin d'agneau printanier","La classique","","Le ragoût d'agneau aux petits légumes de printemps : carottes, navets et petits pois.","Plat français",120,550,"M","lamb navarin stew","",
+   ["épaule d'agneau|épaules d'agneau|1000|g","carotte||4|","navet|navets|4|","petits pois surgelés|petits pois surgelés|200|g","oignon||2|","tomate concassée|tomates concassées|200|g","farine||1|c. à s.","bouquet garni|bouquets garnis|1|"],
+   ["Coupe l'agneau en morceaux et fais-le dorer dans une cocotte.|Cuisson|8","Ajoute les oignons, saupoudre de farine et remue.","Ajoute les tomates, le bouquet garni et 50 cl d'eau, et laisse mijoter 1 h.|Cuisson|60","Ajoute les carottes et les navets en morceaux, et laisse 30 min.|Cuisson|30","Ajoute les petits pois 10 min avant la fin.|Cuisson|10"]],
+  ["Navarin d'agneau aux pommes de terre","Aux pommes de terre","Avec des pommes de terre à la place des navets.","Un navarin plus familial, avec des pommes de terre.","",120,580,"M","lamb potato stew","",
+   ["épaule d'agneau|épaules d'agneau|1000|g","pomme de terre|pommes de terre|600|g","carotte||3|","oignon||2|","tomate concassée|tomates concassées|200|g","farine||1|c. à s.","thym|thym||"],
+   ["Fais dorer l'agneau en morceaux dans une cocotte.|Cuisson|8","Ajoute les oignons, la farine, les tomates, le thym et 50 cl d'eau.","Laisse mijoter 1 h.|Cuisson|60","Ajoute les pommes de terre et les carottes et laisse 30 min.|Cuisson|30"]],
+  ["Navarin d'agneau à la cocotte-minute","Express","Cuit à la cocotte-minute, en moins de temps.","Le navarin en version rapide pour la semaine.","",50,550,"F","lamb stew pressure cooker","",
+   ["épaule d'agneau|épaules d'agneau|1000|g","carotte||4|","navet|navets|3|","petits pois surgelés|petits pois surgelés|200|g","oignon||2|","tomate concassée|tomates concassées|200|g"],
+   ["Fais dorer l'agneau dans la cocotte-minute avec les oignons.|Cuisson|8","Ajoute les tomates, les carottes, les navets et 30 cl d'eau.","Ferme et compte 25 min après le sifflement.|Cuisson|25","Ajoute les petits pois et laisse 5 min sans couvercle.|Cuisson|5"]]
+ ]},
+ {"q":"Veau Marengo","a":["saute de veau","marengo","saute de veau marengo"],"r":[
+  ["Sauté de veau Marengo","La classique","","Le sauté de veau mijoté à la tomate et au vin blanc, avec des champignons.","Plat français",105,450,"F","veal marengo stew","",
+   ["sauté de veau|sauté de veau|1000|g","tomate concassée|tomates concassées|400|g","champignon de Paris|champignons de Paris|250|g","oignon||2|","vin blanc|vin blanc|20|cl","farine||1|c. à s.","bouquet garni|bouquets garnis|1|"],
+   ["Fais dorer le veau en morceaux dans une cocotte huilée.|Cuisson|8","Ajoute les oignons, saupoudre de farine et remue.","Ajoute le vin, les tomates, le bouquet garni et 20 cl d'eau.","Laisse mijoter 1 h 15.|Cuisson|75","Ajoute les champignons émincés et laisse 15 min.|Cuisson|15"]],
+  ["Poulet Marengo","Au poulet","Le poulet remplace le veau, plus rapide.","La recette Marengo d'origine, au poulet.","",60,420,"F","chicken marengo","b",
+   ["cuisse de poulet|cuisses de poulet|4|","tomate concassée|tomates concassées|400|g","champignon de Paris|champignons de Paris|250|g","oignon||2|","vin blanc|vin blanc|15|cl","ail|ail|2|gousse"],
+   ["Fais dorer le poulet dans une cocotte.|Cuisson|8","Ajoute les oignons et l'ail, puis le vin et les tomates.","Laisse mijoter 30 min.|Cuisson|30","Ajoute les champignons et laisse 15 min.|Cuisson|15"]],
+  ["Sauté de dinde Marengo","À la dinde","Avec du sauté de dinde, plus léger.","Un Marengo léger et économique, à la dinde.","",55,350,"F","turkey tomato stew","hb",
+   ["sauté de dinde|sauté de dinde|800|g","tomate concassée|tomates concassées|400|g","champignon de Paris|champignons de Paris|250|g","oignon||2|","vin blanc|vin blanc|10|cl"],
+   ["Fais dorer la dinde dans une cocotte.|Cuisson|6","Ajoute les oignons, le vin et les tomates.","Laisse mijoter 30 min.|Cuisson|30","Ajoute les champignons et laisse 15 min.|Cuisson|15"]]
+ ]},
+ {"q":"Jambalaya","a":["jambalaya poulet chorizo","riz cajun"],"r":[
+  ["Jambalaya","La classique","","Le riz cajun de Louisiane au poulet, chorizo et crevettes, cuit dans une seule cocotte.","Recette de Louisiane",50,580,"M","jambalaya","",
+   ["riz|riz|300|g","blanc de poulet|blancs de poulet|2|","chorizo||100|g","crevette décortiquée|crevettes décortiquées|200|g","poivron vert|poivrons verts|1|","oignon||1|","tomate concassée|tomates concassées|400|g","paprika|paprika|2|c. à c.","bouillon de volaille|bouillon de volaille|1|"],
+   ["Fais dorer le poulet en dés et le chorizo en rondelles dans une cocotte.|Cuisson|6","Ajoute l'oignon et le poivron en dés, et le paprika.","Ajoute le riz, les tomates, le bouillon et 50 cl d'eau.","Couvre et laisse cuire 20 min à feu doux.|Cuisson|20","Ajoute les crevettes et laisse 5 min.|Cuisson|5"]],
+  ["Jambalaya aux crevettes","Crevettes","Seulement des crevettes, sans viande.","Le jambalaya de la mer, aux crevettes.","",40,450,"M","shrimp jambalaya","",
+   ["riz|riz|300|g","crevette décortiquée|crevettes décortiquées|400|g","poivron vert|poivrons verts|1|","oignon||1|","tomate concassée|tomates concassées|400|g","paprika|paprika|2|c. à c.","bouillon de légumes|bouillon de légumes|1|"],
+   ["Fais revenir l'oignon et le poivron avec le paprika.","Ajoute le riz, les tomates, le bouillon et 50 cl d'eau.","Couvre et laisse cuire 20 min.|Cuisson|20","Ajoute les crevettes et laisse 5 min.|Cuisson|5"]],
+  ["Jambalaya végétarien","Végétarien","Avec des haricots rouges à la place de la viande.","Un jambalaya végétarien, aux haricots rouges et légumes.","",40,420,"F","vegetarian jambalaya","vhb",
+   ["riz|riz|300|g","haricots rouges|haricots rouges|400|g","poivron vert|poivrons verts|1|","poivron rouge|poivrons rouges|1|","oignon||1|","tomate concassée|tomates concassées|400|g","paprika|paprika|2|c. à c.","bouillon de légumes|bouillon de légumes|1|"],
+   ["Fais revenir l'oignon et les poivrons avec le paprika.","Ajoute le riz, les tomates, le bouillon et 50 cl d'eau.","Couvre et laisse cuire 20 min.|Cuisson|20","Ajoute les haricots rouges égouttés et laisse 5 min.|Cuisson|5"]]
+ ]}
+]

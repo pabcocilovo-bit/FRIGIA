@@ -41,24 +41,36 @@ export async function authUser(req: Req, admin: SupabaseClient): Promise<User | 
 export const errorMessage = (e: unknown) => (e instanceof Error ? e.message : String(e));
 
 // ─── Frigia Plus ─────────────────────────────────────────────────────────────
-// Même règle que src/lib/billing.ts (isPlus). Seul app_metadata compte : il est écrit par le webhook Stripe,
-// le compte ne peut pas le modifier.
+// Même règle que src/lib/billing.ts (isPlus). Seul app_metadata compte : il est écrit par le webhook Stripe
+// (et par api/code.ts pour les jours d'essai d'un code), le compte ne peut pas le modifier.
+// Pas de formule gratuite (Hugo, 23 octobre) : 7 jours d'essai à l'inscription, 7 de plus avec un code, puis Plus.
 
-const TRIAL_MS = 4 * 24 * 60 * 60 * 1000;
+export const TRIAL_DAYS = 7;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** Fin de l'essai offert à l'inscription (ms) */
+export const trialEnd = (user: User) => (user.created_at ? new Date(user.created_at).getTime() : 0) + TRIAL_DAYS * DAY_MS;
 
 export function isPlus(user: User, now = Date.now()): boolean {
   const m = user.app_metadata || {};
   if (m.is_whitelisted) return true;
   // Pause d'un mois : Plus est en veille entre la fin de la période payée et la reprise
   if (m.pause_from && m.pause_until && now >= m.pause_from * 1000 && now < m.pause_until * 1000) return false;
-  // Mois offerts (parrainage) et mois d'essai d'un code créateur : Plus jusqu'à cette date
+  // Les 7 jours d'essai
+  if (now < trialEnd(user)) return true;
+  // Jours d'essai d'un code, mois offerts (parrainage), mois d'un code créateur : Plus jusqu'à cette date
   if (typeof m.plus_until === "number" && now < m.plus_until * 1000) return true;
   if (m.subscription_status === "active") return true;
-  if (m.subscription_status === "trialing") {
-    // Anciens essais de 4 jours (avant Gratuit et Plus) : valables jusqu'au bout. Une pause passe aussi par « trialing ».
-    return !!m.pause_until || (!!user.created_at && now < new Date(user.created_at).getTime() + TRIAL_MS);
-  }
+  // Abonné pendant l'essai (période d'essai chez Stripe, plus_until la suit) ou en pause
+  if (m.subscription_status === "trialing") return !!m.pause_until;
   return false;
+}
+
+/** Une semaine d'essai de plus (un code) : à la suite de l'essai, des jours déjà offerts, ou d'aujourd'hui (secondes) */
+export function plusWeek(user: User, now = Date.now()): number {
+  const m = user.app_metadata || {};
+  const from = Math.max(trialEnd(user), now, typeof m.plus_until === "number" ? m.plus_until * 1000 : 0);
+  return Math.floor((from + TRIAL_DAYS * DAY_MS) / 1000);
 }
 
 // ─── Stripe ──────────────────────────────────────────────────────────────────

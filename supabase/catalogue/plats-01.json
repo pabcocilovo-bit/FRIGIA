@@ -1,0 +1,13 @@
+[
+ {"q":"Tartiflette","a":["tartiflette savoyarde"],"r":[
+  ["Tartiflette au reblochon","La classique","","Le grand classique savoyard : des pommes de terre fondantes, des lardons et un reblochon qui gratine.","Spécialité savoyarde",60,750,"F","tartiflette potato gratin","obf",
+   ["pomme de terre||1000|g","reblochon||1|","lardon||200|g","oignon||2|","crème fraîche||20|cl","vin blanc||10|cl","sel|||","poivre|||"],
+   ["Fais cuire les pommes de terre entières 20 min dans l'eau bouillante salée.|Cuisson|20","Préchauffe le four à 200 °C. Coupe les pommes de terre en rondelles.","Fais revenir les oignons émincés et les lardons 8 min à la poêle, puis verse le vin blanc.|Poêle|8","Dans un plat, alterne pommes de terre, lardons et crème. Pose le reblochon coupé en deux, croûte vers le haut.","Enfourne 25 min, jusqu'à ce que ce soit bien doré.|Four|25"]],
+  ["Tartiflette légère","Plus légère","La crème est remplacée par du fromage blanc et le reblochon est réduit de moitié.","Toute la gourmandise de la tartiflette, en plus léger pour la semaine.","Spécialité savoyarde",55,520,"F","light tartiflette potato","oh",
+   ["pomme de terre||1000|g","reblochon||1|","dés de jambon||150|g","oignon||2|","fromage blanc||200|g","sel|||","poivre|||"],
+   ["Fais cuire les pommes de terre 20 min dans l'eau bouillante salée.|Cuisson|20","Préchauffe le four à 200 °C. Coupe les pommes de terre en rondelles.","Fais revenir les oignons émincés 5 min à la poêle avec le jambon.|Poêle|5","Mélange le fromage blanc avec du sel et du poivre, puis avec les pommes de terre, l'oignon et le jambon.","Verse dans un plat, ajoute un demi-reblochon en tranches et enfourne 25 min.|Four|25"]],
+  ["Tartiflette végétarienne aux champignons","Végétarienne","Les lardons sont remplacés par des champignons bien poêlés.","Des champignons dorés à la place des lardons : le reblochon fait le reste.","Spécialité savoyarde",60,680,"F","mushroom tartiflette gratin","vo",
+   ["pomme de terre||1000|g","reblochon||1|","champignon de Paris|champignons de Paris|300|g","oignon||2|","crème fraîche||20|cl","sel|||","poivre|||"],
+   ["Fais cuire les pommes de terre 20 min dans l'eau bouillante salée.|Cuisson|20","Préchauffe le four à 200 °C. Coupe les pommes de terre en rondelles.","Fais dorer les champignons émincés et les oignons 10 min à la poêle.|Poêle|10","Alterne pommes de terre, champignons et crème dans un plat, puis pose le reblochon coupé en deux.","Enfourne 25 min.|Four|25"]]
+ ]}
+]

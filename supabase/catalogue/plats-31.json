@@ -1,0 +1,112 @@
+[
+ {"q":"Tartare de bœuf","a":["tartare","steak tartare","tartare de boeuf frites"],"r":[
+  ["Tartare de bœuf","La classique","","Le bœuf cru haché au couteau, assaisonné aux câpres, cornichons, échalote et jaune d'œuf.","Bistrot français",20,380,"M","steak tartare","c",
+   ["bœuf extra-frais|bœuf extra-frais|500|g","échalote||1|","câpres|câpres|1|c. à s.","cornichon|cornichons|4|","œuf|œufs|4|","moutarde|moutarde|1|c. à s.","sauce Worcestershire|sauce Worcestershire|1|c. à c.","persil|persil||"],
+   ["Hache le bœuf au couteau, le plus finement possible. Garde-le au frais.","Hache l'échalote, les câpres, les cornichons et le persil.","Mélange le bœuf avec la moutarde, la sauce Worcestershire et les condiments, sale et poivre.","Forme 4 portions et pose un jaune d'œuf sur chacune.","Sers aussitôt, bien frais, avec des frites ou une salade."]],
+  ["Tartare de bœuf à l'italienne","À l'italienne","Au parmesan, pesto et tomates séchées.","Un tartare frais à l'italienne, au basilic et parmesan.","",20,400,"M","italian beef tartare","c",
+   ["bœuf extra-frais|bœuf extra-frais|500|g","parmesan||40|g","tomates séchées|tomates séchées|40|g","pesto|pesto|2|c. à s.","roquette|roquette|50|g","huile d'olive|huile d'olive|2|c. à s."],
+   ["Hache le bœuf au couteau.","Hache les tomates séchées.","Mélange le bœuf avec le pesto, les tomates, l'huile, du sel et du poivre.","Sers avec la roquette et des copeaux de parmesan."]],
+  ["Tartare de bœuf poêlé","Aller-retour","Saisi 30 secondes de chaque côté.","Le tartare aller-retour, juste saisi dehors.","",20,400,"M","seared beef tartare","",
+   ["bœuf extra-frais|bœuf extra-frais|500|g","échalote||1|","câpres|câpres|1|c. à s.","moutarde|moutarde|1|c. à s.","persil|persil||","beurre||20|g"],
+   ["Hache le bœuf au couteau et mélange-le avec l'échalote, les câpres, la moutarde et le persil.","Forme 4 galettes épaisses.","Saisis-les 30 secondes de chaque côté dans le beurre très chaud.|Poêle|1","Sers aussitôt."]]
+ ]},
+ {"q":"Carpaccio de bœuf","a":["carpaccio","carpaccio boeuf parmesan"],"r":[
+  ["Carpaccio de bœuf","La classique","","De très fines tranches de bœuf cru, avec huile d'olive, citron, parmesan et roquette.","Plat italien",20,280,"M","beef carpaccio","che",
+   ["filet de bœuf|filet de bœuf|400|g","parmesan||50|g","roquette|roquette|60|g","citron||1|","huile d'olive|huile d'olive|4|c. à s.","câpres|câpres|1|c. à s."],
+   ["Mets le bœuf 1 h au congélateur pour le trancher facilement.","Coupe-le en tranches les plus fines possible.","Étale-les sur les assiettes.","Arrose d'huile et de jus de citron, sale et poivre.","Ajoute la roquette, les câpres et des copeaux de parmesan."]],
+  ["Carpaccio de saumon","Saumon","Avec du saumon frais.","Un carpaccio de saumon frais au citron vert et à l'aneth.","",20,260,"M","salmon carpaccio","che",
+   ["saumon frais|saumon frais|400|g","citron vert|citrons verts|2|","aneth|aneth||","huile d'olive|huile d'olive|3|c. à s.","baies roses|baies roses|1|c. à c."],
+   ["Mets le saumon 1 h au congélateur.","Coupe-le en tranches très fines et étale-les sur les assiettes.","Arrose d'huile et de jus de citron vert.","Parsème d'aneth et de baies roses."]],
+  ["Carpaccio de courgettes","Végétarien","Des courgettes crues en fines lamelles.","Un carpaccio végétarien de courgettes, frais et léger.","",15,150,"F","zucchini carpaccio","vche",
+   ["courgette||3|","parmesan||40|g","citron||1|","huile d'olive|huile d'olive|3|c. à s.","menthe fraîche|menthe fraîche||"],
+   ["Coupe les courgettes en lamelles très fines avec un épluche-légumes.","Étale-les sur les assiettes.","Arrose d'huile et de jus de citron, sale et poivre.","Parsème de parmesan et de menthe."]]
+ ]},
+ {"q":"Soupe thaï","a":["soupe thai","tom kha kai","tom yum","soupe thai coco","soupe coco citronnelle"],"r":[
+  ["Soupe thaï au poulet et lait de coco","La classique","","Le tom kha kai : poulet dans un bouillon coco à la citronnelle et au citron vert.","Recette thaïlandaise",30,380,"F","tom kha gai","h",
+   ["blanc de poulet|blancs de poulet|2|","lait de coco|lait de coco|40|cl","bouillon de volaille|bouillon de volaille|1|","citronnelle|citronnelle|2|","gingembre frais|gingembre frais|1|","champignon de Paris|champignons de Paris|150|g","citron vert|citrons verts|2|","sauce nuoc-mâm|sauce nuoc-mâm|2|c. à s.","coriandre|coriandre||"],
+   ["Porte à frémissement 50 cl d'eau avec le bouillon, la citronnelle écrasée et le gingembre en tranches.|Cuisson|10","Ajoute le lait de coco et le poulet en fines lamelles, et laisse 8 min.|Cuisson|8","Ajoute les champignons émincés et laisse 3 min.|Cuisson|3","Hors du feu, ajoute le jus des citrons verts et le nuoc-mâm.","Parsème de coriandre."]],
+  ["Soupe thaï aux crevettes","Crevettes","Le tom yum : bouillon épicé aux crevettes.","Une soupe thaï piquante et acidulée aux crevettes.","Recette thaïlandaise",25,220,"F","tom yum shrimp","h",
+   ["crevette décortiquée|crevettes décortiquées|300|g","bouillon de volaille|bouillon de volaille|1|","citronnelle|citronnelle|2|","tomate cerise|tomates cerises|150|g","champignon de Paris|champignons de Paris|150|g","piment|piments|1|","citron vert|citrons verts|2|","sauce nuoc-mâm|sauce nuoc-mâm|2|c. à s."],
+   ["Porte à frémissement 1 litre d'eau avec le bouillon, la citronnelle et le piment.|Cuisson|10","Ajoute les champignons et les tomates, et laisse 3 min.","Ajoute les crevettes et laisse 3 min.|Cuisson|3","Hors du feu, ajoute le jus des citrons verts et le nuoc-mâm."]],
+  ["Soupe thaï végétarienne","Végétarienne","Avec du tofu et des légumes.","Une soupe coco citronnelle au tofu.","",25,300,"F","vegetarian thai coconut soup","vh",
+   ["tofu ferme|tofu ferme|200|g","lait de coco|lait de coco|40|cl","bouillon de légumes|bouillon de légumes|1|","citronnelle|citronnelle|2|","gingembre frais|gingembre frais|1|","champignon de Paris|champignons de Paris|150|g","citron vert|citrons verts|2|","sauce soja|sauce soja|2|c. à s."],
+   ["Porte à frémissement 50 cl d'eau avec le bouillon, la citronnelle et le gingembre.|Cuisson|10","Ajoute le lait de coco, le tofu en dés et les champignons.","Laisse 8 min.|Cuisson|8","Ajoute le jus des citrons verts et la sauce soja."]]
+ ]},
+ {"q":"Blinis","a":["blini","blinis maison","blinis saumon"],"r":[
+  ["Blinis maison","La classique","","De petites crêpes épaisses et moelleuses, à garnir de crème et de saumon fumé.","",40,180,"F","blinis smoked salmon","e",
+   ["farine||150|g","œuf|œufs|2|","lait||20|cl","levure chimique|levure chimique|1|c. à c.","beurre fondu|beurre fondu|20|g","crème fraîche|crème fraîche|10|cl","saumon fumé|saumon fumé|4|tranches","aneth|aneth||"],
+   ["Mélange la farine, la levure, les jaunes d'œufs, le lait et le beurre fondu.","Monte les blancs en neige et incorpore-les.","Fais cuire des petits disques de pâte 1 min de chaque côté dans une poêle beurrée.|Poêle|2","Garnis chaque blini de crème, de saumon et d'aneth."]],
+  ["Blinis à la crème de chèvre","Végétariens","Garnis d'une crème au chèvre et aux herbes.","Des blinis apéritifs au chèvre frais.","",35,170,"F","blinis goat cheese","ve",
+   ["farine||150|g","œuf|œufs|2|","lait||20|cl","levure chimique|levure chimique|1|c. à c.","chèvre frais|chèvres frais|150|g","ciboulette|ciboulette||"],
+   ["Prépare la pâte à blinis et fais-les cuire.|Poêle|2","Mélange le chèvre frais avec la ciboulette ciselée.","Garnis chaque blini.","Poivre et sers."]],
+  ["Blinis au sarrasin","Sarrasin","Avec de la farine de sarrasin, à la russe.","Des blinis au sarrasin, au goût plus rustique.","Inspiration russe",90,170,"M","buckwheat blinis","e",
+   ["farine de sarrasin|farine de sarrasin|100|g","farine||50|g","levure de boulanger|levure de boulanger|5|g","lait||25|cl","œuf|œufs|2|","crème fraîche|crème fraîche|10|cl","saumon fumé|saumon fumé|4|tranches"],
+   ["Délaye la levure dans le lait tiède, ajoute les farines et les jaunes.","Laisse lever 1 h.|Levée|60","Ajoute les blancs montés en neige.","Fais cuire les blinis 1 min de chaque côté et garnis-les de crème et de saumon.|Poêle|2"]]
+ ]},
+ {"q":"Pain d'épices","a":["pain d epice","pain d epices maison","pain aux epices"],"r":[
+  ["Pain d'épices","La classique","","Le pain d'épices moelleux au miel, parfumé à la cannelle, au gingembre et à l'anis.","Spécialité de Dijon",80,280,"F","french gingerbread loaf","vod",
+   ["farine||250|g","miel||250|g","lait||15|cl","œuf|œufs|1|","sucre roux|sucre roux|60|g","levure chimique|levure chimique|2|c. à c.","mélange quatre-épices|mélange quatre-épices|2|c. à c.","cannelle|cannelle|1|c. à c."],
+   ["Préchauffe le four à 160 °C.","Chauffe le lait avec le miel et le sucre, sans faire bouillir.","Mélange la farine, la levure et les épices, puis ajoute le lait au miel et l'œuf.","Verse dans un moule à cake beurré et enfourne 1 h.|Four|60","Laisse reposer un jour enveloppé : il est encore meilleur."]],
+  ["Pain d'épices à l'orange","Orange","Avec du zeste et des écorces d'orange.","Un pain d'épices de Noël parfumé à l'orange.","",80,290,"F","orange gingerbread","vod",
+   ["farine||250|g","miel||250|g","lait||15|cl","œuf|œufs|1|","orange||1|","levure chimique|levure chimique|2|c. à c.","mélange quatre-épices|mélange quatre-épices|2|c. à c."],
+   ["Préchauffe le four à 160 °C.","Chauffe le lait avec le miel et le zeste de l'orange.","Mélange la farine, la levure et les épices, puis le lait, l'œuf et le jus de l'orange.","Verse dans un moule et enfourne 1 h.|Four|60"]],
+  ["Pain d'épices à l'ancienne","Sans œuf","Sans œuf, avec seulement du miel et du lait.","Le pain d'épices à l'ancienne, sans œuf.","",75,270,"F","eggless gingerbread loaf","vod",
+   ["farine de seigle|farine de seigle|250|g","miel||250|g","lait||20|cl","bicarbonate|bicarbonate|1|c. à c.","mélange quatre-épices|mélange quatre-épices|2|c. à c."],
+   ["Préchauffe le four à 160 °C.","Chauffe le lait avec le miel.","Mélange la farine, le bicarbonate et les épices, puis le lait au miel.","Verse dans un moule et enfourne 1 h.|Four|60"]]
+ ]},
+ {"q":"Tarte au chocolat","a":["tarte chocolat","tarte au chocolat noir","tarte ganache"],"r":[
+  ["Tarte au chocolat","La classique","","Une pâte sablée et une ganache au chocolat noir fondante.","",50,450,"M","chocolate tart","vod",
+   ["pâte sablée|pâtes sablées|1|","chocolat noir|chocolat noir|200|g","crème liquide entière|crème liquide entière|20|cl","beurre||30|g","œuf|œufs|1|"],
+   ["Préchauffe le four à 180 °C. Fais cuire la pâte à blanc 20 min.|Four|20","Chauffe la crème et verse-la sur le chocolat en morceaux.","Mélange, puis ajoute le beurre et l'œuf battu.","Verse sur le fond de tarte et enfourne 10 min à 150 °C.|Four|10","Laisse refroidir au moins 1 h."]],
+  ["Tarte chocolat-caramel","Caramel","Avec une couche de caramel au beurre salé.","Une tarte chocolat avec un cœur caramel.","",60,520,"M","chocolate caramel tart","vod",
+   ["pâte sablée|pâtes sablées|1|","chocolat noir|chocolat noir|200|g","crème liquide entière|crème liquide entière|30|cl","sucre|sucre|100|g","beurre demi-sel|beurre demi-sel|40|g"],
+   ["Fais cuire la pâte à blanc 20 min à 180 °C.|Four|20","Fais un caramel avec le sucre, ajoute 10 cl de crème chaude et le beurre. Verse sur la pâte.","Chauffe le reste de la crème et fais-y fondre le chocolat.","Verse la ganache sur le caramel et laisse prendre 2 h au frais."]],
+  ["Tarte chocolat sans cuisson","Sans four","Une base de biscuits et une ganache.","Une tarte chocolat express, sans four.","",25,480,"F","no bake chocolate tart","vcd",
+   ["biscuits secs|biscuits secs|200|g","beurre fondu|beurre fondu|80|g","chocolat noir|chocolat noir|200|g","crème liquide entière|crème liquide entière|20|cl"],
+   ["Écrase les biscuits, mélange-les au beurre fondu et tasse dans un moule.","Chauffe la crème et verse-la sur le chocolat.","Mélange et verse sur la base.","Laisse prendre 2 h au frais."]]
+ ]},
+ {"q":"Bûche de Noël","a":["buche","buche de noel","buche chocolat","buche roulee"],"r":[
+  ["Bûche de Noël au chocolat","La classique","","Un biscuit roulé garni et recouvert de ganache au chocolat, pour le repas de Noël.","Tradition de Noël",70,420,"D","chocolate yule log","vod",
+   ["œuf|œufs|4|","sucre|sucre|100|g","farine||100|g","chocolat noir|chocolat noir|250|g","crème liquide entière|crème liquide entière|40|cl","sucre glace|sucre glace|2|c. à s."],
+   ["Préchauffe le four à 200 °C. Fouette les œufs et le sucre jusqu'à ce que le mélange triple, puis ajoute la farine.","Étale sur une plaque couverte de papier cuisson et enfourne 8 min.|Four|8","Roule le biscuit chaud dans un torchon humide et laisse refroidir.","Chauffe la crème, verse-la sur le chocolat et laisse refroidir jusqu'à ce que la ganache épaississe.","Déroule le biscuit, garnis d'un tiers de ganache, roule et couvre du reste.","Dessine des stries à la fourchette et saupoudre de sucre glace."]],
+  ["Bûche aux marrons","Marrons","Garnie de crème de marrons.","La bûche à la crème de marrons, douce et fondante.","",60,440,"D","chestnut yule log","vod",
+   ["œuf|œufs|4|","sucre|sucre|100|g","farine||100|g","crème de marrons|crème de marrons|300|g","crème liquide entière|crème liquide entière|20|cl","chocolat noir|chocolat noir|100|g"],
+   ["Prépare le biscuit roulé et fais-le cuire 8 min à 200 °C.|Four|8","Roule-le dans un torchon humide.","Fouette la crème en chantilly et mélange-la à la crème de marrons.","Garnis le biscuit, roule-le et nappe de chocolat fondu."]],
+  ["Bûche glacée express","Glacée","Avec de la glace et des biscuits, sans cuisson.","Une bûche glacée facile à préparer la veille.","",20,380,"F","ice cream yule log","vcd",
+   ["glace vanille|glace vanille|50|cl","glace chocolat|glace chocolat|50|cl","biscuits à la cuillère|biscuits à la cuillère|12|","chocolat noir|chocolat noir|100|g"],
+   ["Tapisse un moule à cake de film alimentaire.","Alterne la glace vanille ramollie, des biscuits et la glace chocolat.","Laisse prendre 6 h au congélateur.","Démoule et nappe de chocolat fondu juste avant de servir."]]
+ ]},
+ {"q":"Gâteau basque","a":["gateau basque","gateau basque creme","gateau basque cerise"],"r":[
+  ["Gâteau basque à la crème","La classique","","Une pâte sablée épaisse fourrée de crème pâtissière, à l'amande.","Spécialité basque",90,420,"M","gateau basque","vod",
+   ["farine||250|g","beurre mou|beurre mou|150|g","sucre|sucre|200|g","œuf|œufs|5|","poudre d'amande|poudre d'amande|50|g","lait||40|cl","fécule de maïs|fécule de maïs|30|g","levure chimique|levure chimique|1|c. à c."],
+   ["Prépare la crème : chauffe le lait, fouette 2 œufs avec 80 g de sucre et la fécule, verse le lait, puis fais épaissir. Laisse refroidir.|Cuisson|5","Mélange le beurre et le reste du sucre, 2 œufs, la farine, la poudre d'amande et la levure.","Laisse la pâte 1 h au frais.","Préchauffe le four à 180 °C. Étale deux tiers de la pâte dans un moule, ajoute la crème et couvre du reste de pâte.","Dore au dernier œuf, raye à la fourchette et enfourne 40 min.|Four|40"]],
+  ["Gâteau basque à la cerise","Cerise","Fourré à la confiture de cerises noires.","Le gâteau basque fourré à la cerise noire.","Spécialité basque",80,430,"M","cherry gateau basque","vod",
+   ["farine||250|g","beurre mou|beurre mou|150|g","sucre|sucre|120|g","œuf|œufs|3|","poudre d'amande|poudre d'amande|50|g","confiture de cerises noires|confiture de cerises noires|300|g","levure chimique|levure chimique|1|c. à c."],
+   ["Mélange le beurre et le sucre, 2 œufs, la farine, la poudre d'amande et la levure. Laisse 1 h au frais.","Préchauffe le four à 180 °C.","Étale deux tiers de la pâte dans un moule et garnis de confiture.","Couvre du reste de pâte, dore à l'œuf et enfourne 40 min.|Four|40"]],
+  ["Gâteau basque au chocolat","Chocolat","Fourré d'une crème au chocolat.","Le gâteau basque version chocolat.","",90,460,"M","chocolate gateau basque","vod",
+   ["farine||250|g","beurre mou|beurre mou|150|g","sucre|sucre|200|g","œuf|œufs|5|","poudre d'amande|poudre d'amande|50|g","lait||40|cl","fécule de maïs|fécule de maïs|30|g","chocolat noir|chocolat noir|100|g"],
+   ["Prépare une crème pâtissière et ajoute le chocolat en fin de cuisson. Laisse refroidir.|Cuisson|5","Prépare la pâte sablée et laisse-la 1 h au frais.","Monte le gâteau : pâte, crème, pâte.","Dore à l'œuf et enfourne 40 min à 180 °C.|Four|40"]]
+ ]},
+ {"q":"Gâteau aux pommes","a":["gateau pomme","gateau aux pommes moelleux","gateau invisible aux pommes","cake aux pommes"],"r":[
+  ["Gâteau moelleux aux pommes","La classique","","Un gâteau tout simple, plein de pommes fondantes, pour le goûter.","",60,280,"F","apple cake","vodbf",
+   ["pomme||4|","œuf|œufs|3|","sucre|sucre|120|g","farine||150|g","beurre fondu|beurre fondu|100|g","levure chimique|levure chimique|2|c. à c.","lait||5|cl"],
+   ["Préchauffe le four à 180 °C.","Fouette les œufs et le sucre, puis ajoute la farine, la levure, le beurre fondu et le lait.","Épluche les pommes et coupe-les en morceaux, puis ajoute-les à la pâte.","Verse dans un moule beurré et enfourne 40 min.|Four|40"]],
+  ["Gâteau invisible aux pommes","Invisible","Des fines lamelles de pommes empilées avec très peu de pâte.","Le gâteau aux couches de pommes fondantes, presque sans pâte.","",75,220,"M","apple layer cake invisible","vodb",
+   ["pomme||6|","œuf|œufs|2|","sucre|sucre|60|g","farine||80|g","lait||15|cl","beurre fondu|beurre fondu|30|g"],
+   ["Préchauffe le four à 180 °C.","Mélange les œufs, le sucre, la farine, le lait et le beurre fondu.","Coupe les pommes en lamelles très fines et mélange-les à la pâte.","Tasse dans un moule à cake et enfourne 50 min.|Four|50"]],
+  ["Gâteau aux pommes et au yaourt","Au yaourt","Une base de gâteau au yaourt.","Le gâteau au yaourt aux pommes, mesuré au pot.","",55,260,"F","apple yogurt cake","vodbf",
+   ["pomme||3|","yaourt nature|yaourts nature|1|","œuf|œufs|3|","sucre|sucre|150|g","farine||200|g","huile de tournesol|huile de tournesol|6|cl","levure chimique|levure chimique|2|c. à c."],
+   ["Préchauffe le four à 180 °C.","Mélange le yaourt, le sucre, les œufs, la farine, la levure et l'huile.","Ajoute les pommes en dés.","Verse dans un moule et enfourne 40 min.|Four|40"]]
+ ]},
+ {"q":"Mousse au citron","a":["mousse citron","mousse au citron leger"],"r":[
+  ["Mousse au citron","La classique","","Une mousse légère et acidulée au citron, à servir en verrines.","",25,250,"F","lemon mousse","vcd",
+   ["citron||3|","œuf|œufs|3|","sucre|sucre|100|g","crème liquide entière|crème liquide entière|20|cl","fécule de maïs|fécule de maïs|1|c. à s."],
+   ["Fouette les jaunes, le sucre, la fécule, le jus et le zeste des citrons.","Fais épaissir à feu doux en remuant, puis laisse refroidir.|Cuisson|5","Fouette la crème en chantilly et monte les blancs en neige.","Incorpore délicatement la chantilly, puis les blancs, à la crème au citron.","Répartis en verrines et laisse 3 h au frais."]],
+  ["Mousse au citron vert et coco","Citron vert et coco","Au citron vert et à la crème de coco.","Une mousse exotique, citron vert et coco.","",20,260,"F","lime coconut mousse","vcd",
+   ["citron vert|citrons verts|3|","crème de coco|crème de coco|20|cl","lait concentré sucré|lait concentré sucré|200|g","crème liquide entière|crème liquide entière|15|cl"],
+   ["Mélange le lait concentré avec le jus et le zeste des citrons verts.","Fouette la crème liquide et la crème de coco bien froides ensemble.","Incorpore délicatement au mélange citronné.","Répartis en verrines et laisse 3 h au frais."]],
+  ["Mousse au citron express","Sans œuf","Au fromage blanc et à la crème.","Une mousse au citron express, sans œuf.","",15,220,"F","eggless lemon mousse","vcd",
+   ["citron||2|","fromage blanc|fromage blanc|300|g","crème liquide entière|crème liquide entière|20|cl","sucre glace|sucre glace|60|g"],
+   ["Mélange le fromage blanc, le sucre glace, le jus et le zeste des citrons.","Fouette la crème en chantilly.","Incorpore-la délicatement.","Répartis en verrines et laisse 2 h au frais."]]
+ ]}
+]

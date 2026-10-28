@@ -1,0 +1,92 @@
+/* 16 · Activer les notifications, 16 bis · Centre de notifications (prototype V3), sous .fa */
+.fa.scr-notif{position:fixed;inset:0;max-width:420px;margin:0 auto;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+.fa.scr-notif .scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;overscroll-behavior:contain}
+.fa.scr-notif .scroll::-webkit-scrollbar{display:none}
+.fa .nf-top{flex:none;display:flex;justify-content:flex-end;padding:var(--top) 16px 0}
+.fa .nf-top .fg-x .i{width:20px;height:20px}
+.fa .nf-body{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 26px 8px;gap:12px}
+.fa .nf-art{position:relative;width:240px;height:200px;margin-bottom:8px}
+.fa .nf-disc{position:absolute;left:50%;top:6px;width:150px;height:150px;margin-left:-75px;border-radius:50%;background:var(--sage-soft)}
+.fa .nf-bell{position:absolute;left:50%;top:2px;width:150px;height:150px;margin-left:-75px}
+.fa .nf-swing{transform-origin:60px 18px}
+.fa.scr-notif.on .nf-swing{animation:nfRing 2.8s ease-in-out .5s infinite}
+.fa.scr-notif.ring .nf-swing{animation:nfRing .9s ease-in-out 2}
+@keyframes nfRing{0%,40%,100%{transform:none}5%{transform:rotate(14deg)}12%{transform:rotate(-12deg)}19%{transform:rotate(8deg)}26%{transform:rotate(-5deg)}33%{transform:rotate(2deg)}}
+.fa .nf-spk{position:absolute;fill:var(--hi)}
+.fa .nf-spk.s1{width:24px;height:24px;left:34px;top:10px}
+.fa .nf-spk.s2{width:16px;height:16px;right:40px;top:22px;fill:#C9A14A}
+.fa .nf-spk.s3{width:12px;height:12px;right:30px;top:96px;fill:var(--sage)}
+.fa.scr-notif.on .nf-spk{animation:nfTw 2.2s ease-in-out infinite}
+.fa.scr-notif.on .nf-spk.s2{animation-delay:.6s}.fa.scr-notif.on .nf-spk.s3{animation-delay:1.2s}
+@keyframes nfTw{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.6);opacity:.5}}
+.fa .nf-push{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:18px;background:rgba(255,255,255,.92);box-shadow:0 16px 30px -18px rgba(31,42,34,.55),0 0 0 1px rgba(31,42,34,.05);text-align:left;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.fa.scr-notif.on .nf-push{animation:nfIn .6s cubic-bezier(.2,.9,.3,1.2) .35s both}
+@keyframes nfIn{from{opacity:0;transform:translateY(-26px) scale(.94)}to{opacity:1;transform:none}}
+.fa .fg-tile.nf-tile{width:36px;height:36px;border-radius:10px;flex:none;box-shadow:none}
+.fa .fg-tile.nf-tile .sp-sym{width:26px;height:26px}
+.fa .nf-pt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.fa .nf-pt>span{display:flex;justify-content:space-between;gap:8px;font-size:12.5px}
+.fa .nf-pt b{font-weight:700;color:var(--text)}
+.fa .nf-pt i{font-style:normal;color:var(--muted)}
+.fa .nf-pt small{font-size:12.5px;line-height:1.3;color:var(--text)}
+.fa.scr-notif h2{margin:2px 0 0;font:400 34px/1.05 var(--serif);color:var(--sage-deep);max-width:300px}
+.fa.scr-notif h2 em{font-style:italic;color:var(--sage)}
+.fa .nf-body>p{margin:0;max-width:300px;font-size:15px;line-height:1.45;color:var(--muted)}
+.fa .nf-body>p.nf-safe{display:flex;align-items:center;gap:8px;font-size:13px;margin-top:2px}
+.fa .nf-safe svg{width:16px;height:16px;color:var(--sage);flex:none}
+.fa .nf-foot{flex:none;padding:10px 20px calc(22px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:6px}
+.fa .nf-on{background:var(--sage-deep);color:var(--on);padding:17px;font-size:16px}
+.fa .nf-later{font:600 15px/1 var(--sans);color:var(--sage-deep);padding:12px 18px}
+@media (max-height:700px){.fa .nf-art{transform:scale(.84);margin:-16px 0 -2px}.fa.scr-notif h2{font-size:29px}.fa .nf-body{gap:8px}.fa .nf-foot{padding-bottom:14px}.fa .nf-on{padding:15px}}
+@media (prefers-reduced-motion:reduce){.fa.scr-notif.on .nf-swing,.fa.scr-notif.on .nf-spk,.fa.scr-notif.on .nf-push,.fa.scr-notif.ring .nf-swing{animation:none}}
+
+/* Réglages : quand le téléphone ne sonne pas */
+.fa .st-nfoff{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.fa .st-nfoff>span{width:36px;height:36px;border-radius:50%;background:var(--hi-soft);color:#7A5212;display:grid;place-items:center;flex:none}
+.fa .st-nfoff>span svg{width:18px;height:18px}
+.fa .st-nfoff div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.fa .st-nfoff b{font:600 14.5px/1.25 var(--sans);color:var(--text)}
+.fa .st-nfoff small{font-size:12.5px;color:var(--muted)}
+.fa .st-nfoff .pill{padding:9px 14px;font-size:13.5px;background:var(--sage-deep);color:var(--on)}
+
+/* La pastille de la cloche (accueil) */
+.fa .ib-bell{position:relative}
+.fa .ib-badge{position:absolute;top:3px;right:2px;min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:var(--hi);color:#2A1E08;font:700 10.5px/17px var(--sans);font-style:normal;text-align:center;box-shadow:0 0 0 2px var(--sage-deep);pointer-events:none}
+
+/* Centre de notifications */
+.fa .ib-all{font:600 14px/1 var(--sans);color:var(--sage);align-self:center;padding:10px 4px}
+.fa .ib-all:disabled{color:var(--muted);opacity:.55;cursor:default}
+.fa .ib-body{padding:6px 18px 40px;display:flex;flex-direction:column;gap:6px}
+.fa .ib-off{display:flex;align-items:center;gap:12px;background:var(--sage-soft);border-radius:18px;padding:14px;margin:4px 0 6px}
+.fa .ib-off>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.fa .ib-off b{font:600 14.5px/1.25 var(--sans);color:var(--sage-deep)}
+.fa .ib-off span{font-size:12.5px;line-height:1.35;color:var(--sage-deep);opacity:.8}
+.fa .ib-off .ib-ic{background:var(--card)}
+.fa .ib-off .pill{padding:11px 15px;font-size:14px}
+.fa .ib-grp{display:flex;flex-direction:column;gap:8px}
+.fa .ib-day{margin:14px 4px 2px;font:600 11.5px/16px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.fa .ib-it{position:relative;border-radius:18px;overflow:hidden;transition:height .28s ease,opacity .28s ease,margin .28s ease}
+.fa .ib-it.gone{opacity:0}
+.fa .ib-del{position:absolute;inset:0;background:var(--danger-soft);color:var(--danger);display:flex;align-items:center;justify-content:flex-end;gap:8px;padding-right:20px;font:600 14px/1 var(--sans)}
+.fa .ib-del svg{width:18px;height:18px}
+.fa .ib-card{position:relative;display:flex;gap:12px;align-items:flex-start;background:var(--card);border-radius:18px;padding:14px 16px 14px 14px;box-shadow:0 1px 0 var(--line);touch-action:pan-y;cursor:pointer;transition:transform .25s cubic-bezier(.2,.8,.2,1),background .2s}
+.fa .ib-card.drag{transition:none}
+.fa .ib-it:not(.new) .ib-card{background:color-mix(in srgb,var(--card) 55%,var(--bg))}
+.fa .ib-ic{width:42px;height:42px;border-radius:14px;background:var(--sage-soft);color:var(--sage-deep);display:grid;place-items:center;flex:none;overflow:hidden}
+.fa .ib-ic svg{width:20px;height:20px}
+.fa .ib-ic.gold{background:var(--hi-soft);color:#8A5A12}
+.fa .ib-ic.photo img{width:100%;height:100%;object-fit:cover}
+.fa .ib-ic.logo{background:none}
+.fa .fg-tile.ib-tile{width:42px;height:42px;border-radius:14px;box-shadow:none}
+.fa .fg-tile.ib-tile .sp-sym{width:30px;height:30px}
+.fa .ib-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.fa .ib-k{font:500 12px/16px var(--sans);color:var(--muted)}
+.fa .ib-tx b{font:600 15px/1.3 var(--sans);color:var(--text)}
+.fa .ib-tx p{margin:0;font-size:13.5px;line-height:1.4;color:var(--muted)}
+.fa .ib-act{align-self:flex-start;margin-top:8px;padding:10px 14px;font-size:13.5px;background:var(--surface);color:var(--sage-deep)}
+.fa .ib-it.new .ib-act{background:var(--sage);color:var(--on)}
+.fa .ib-dot{position:absolute;top:18px;right:14px;width:8px;height:8px;border-radius:50%;background:var(--hi);opacity:0;transition:opacity .2s}
+.fa .ib-it.new .ib-dot{opacity:1}
+.fa .ib-it.new .ib-k{color:var(--sage-deep);font-weight:600}
+.fa .ib-hint{margin:16px 0 0;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12.5px;color:var(--muted);opacity:.85}
+.fa .ib-hint svg{width:14px;height:14px}

@@ -1,0 +1,112 @@
+[
+ {"q":"Raclette","a":["raclette maison","soiree raclette","raclette sans appareil"],"r":[
+  ["Raclette","La classique","","Le fromage à raclette fondu sur des pommes de terre, avec charcuterie et cornichons.","Spécialité savoyarde",40,850,"F","raclette dinner","f",
+   ["fromage à raclette|fromage à raclette|800|g","pomme de terre|pommes de terre|1200|g","jambon cru|jambon cru|8|tranches","rosette|rosette|150|g","jambon blanc|jambon blanc|4|tranches","cornichon|cornichons|16|","oignon blanc|oignons blancs|8|"],
+   ["Fais cuire les pommes de terre avec leur peau 25 min à l'eau salée.|Cuisson|25","Garde-les au chaud dans un torchon.","Dispose la charcuterie, les cornichons et les petits oignons sur la table.","Chacun fait fondre son fromage dans l'appareil et le verse sur ses pommes de terre."]],
+  ["Raclette au four","Sans appareil","Le fromage fond directement au four sur les pommes de terre.","La raclette sans appareil, gratinée au four en un plat.","",45,800,"F","baked raclette potatoes","of",
+   ["fromage à raclette|fromage à raclette|600|g","pomme de terre|pommes de terre|1000|g","jambon cru|jambon cru|8|tranches","oignon||1|","cornichon|cornichons|12|"],
+   ["Fais cuire les pommes de terre 20 min à l'eau, puis coupe-les en deux.|Cuisson|20","Préchauffe le four à 220 °C.","Range-les dans un plat avec l'oignon émincé et couvre de tranches de fromage.","Enfourne 10 min, jusqu'à ce que le fromage coule.|Four|10","Sers avec le jambon cru et les cornichons."]],
+  ["Raclette végétarienne","Végétarienne","Des légumes grillés à la place de la charcuterie.","Une raclette sans viande, avec des légumes rôtis.","",45,700,"F","vegetarian raclette vegetables","v",
+   ["fromage à raclette|fromage à raclette|700|g","pomme de terre|pommes de terre|1000|g","champignon de Paris|champignons de Paris|250|g","poivron rouge|poivrons rouges|2|","courgette||1|","cornichon|cornichons|12|"],
+   ["Fais cuire les pommes de terre 25 min à l'eau.|Cuisson|25","Coupe les légumes en morceaux et fais-les rôtir 15 min à la poêle ou sur le grill de l'appareil.|Poêle|15","Dispose tout sur la table avec les cornichons.","Chacun fait fondre son fromage sur ses pommes de terre et ses légumes."]]
+ ]},
+ {"q":"Fondue savoyarde","a":["fondue","fondue au fromage","fondue fromage"],"r":[
+  ["Fondue savoyarde","La classique","","Les trois fromages fondus au vin blanc, où l'on trempe des cubes de pain.","Spécialité savoyarde",30,820,"M","cheese fondue","v",
+   ["comté râpé|comté râpé|300|g","beaufort|beaufort|300|g","emmental râpé|emmental râpé|200|g","vin blanc sec|vin blanc sec|40|cl","ail|ail|1|gousse","fécule de maïs|fécule de maïs|1|c. à s.","pain de campagne|pains de campagne|1|"],
+   ["Coupe le pain en cubes, la veille si possible.","Frotte le caquelon avec l'ail.","Chauffe le vin dans le caquelon, puis ajoute les fromages petit à petit en remuant en huit.","Délaye la fécule dans un peu de vin et ajoute-la pour lier.","Pose le caquelon sur le réchaud et trempe le pain avec les piques."]],
+  ["Fondue au fromage sans alcool","Sans vin","Le vin est remplacé par du bouillon et du jus de citron.","Une fondue pour toute la famille, sans vin.","",30,780,"M","family cheese fondue","vf",
+   ["comté râpé|comté râpé|300|g","emmental râpé|emmental râpé|300|g","bouillon de légumes|bouillon de légumes|1|","citron||1|","fécule de maïs|fécule de maïs|1|c. à s.","ail|ail|1|gousse","pain de campagne|pains de campagne|1|"],
+   ["Prépare 35 cl de bouillon et ajoute le jus du citron.","Frotte le caquelon d'ail et chauffe le bouillon dedans.","Ajoute les fromages petit à petit en remuant, puis la fécule délayée.","Sers avec le pain en cubes."]],
+  ["Fondue aux champignons","Champignons","Avec des cèpes ou des champignons poêlés.","Une fondue forestière aux champignons.","",35,840,"M","mushroom cheese fondue","v",
+   ["comté râpé|comté râpé|300|g","beaufort|beaufort|300|g","vin blanc sec|vin blanc sec|40|cl","champignon de Paris|champignons de Paris|250|g","ail|ail|1|gousse","fécule de maïs|fécule de maïs|1|c. à s.","pain de campagne|pains de campagne|1|"],
+   ["Fais revenir les champignons émincés 8 min et hache-les grossièrement.|Poêle|8","Chauffe le vin dans le caquelon frotté d'ail.","Ajoute les fromages petit à petit, puis la fécule délayée.","Ajoute les champignons et sers avec le pain."]]
+ ]},
+ {"q":"Croziflette","a":["crozets","gratin de crozets","crozets savoyards"],"r":[
+  ["Croziflette","La classique","","Comme une tartiflette, mais avec des crozets, ces petites pâtes carrées de Savoie.","Spécialité savoyarde",50,780,"F","croziflette crozets reblochon","o",
+   ["crozets|crozets|400|g","reblochon|reblochons|1|","lardon|lardons|200|g","oignon||2|","crème fraîche|crème fraîche|20|cl","vin blanc|vin blanc|10|cl"],
+   ["Préchauffe le four à 200 °C. Fais cuire les crozets 15 min à l'eau salée.|Cuisson|15","Fais dorer les lardons et les oignons émincés, puis déglace au vin blanc.|Poêle|8","Mélange les crozets, les lardons, les oignons et la crème dans un plat.","Pose le reblochon coupé en deux, croûte dessus.","Enfourne 20 min.|Four|20"]],
+  ["Gratin de crozets au jambon","Au jambon","Avec du jambon et de l'emmental.","Un gratin de crozets plus doux, au jambon.","",45,680,"F","crozets gratin ham","of",
+   ["crozets|crozets|400|g","jambon blanc|jambon blanc|4|tranches","crème fraîche|crème fraîche|25|cl","emmental râpé|emmental râpé|120|g","oignon||1|"],
+   ["Préchauffe le four à 200 °C. Fais cuire les crozets 15 min.|Cuisson|15","Fais fondre l'oignon émincé.","Mélange les crozets, le jambon en dés, l'oignon et la crème dans un plat.","Couvre d'emmental et enfourne 20 min.|Four|20"]],
+  ["Croziflette végétarienne","Végétarienne","Avec des champignons à la place des lardons.","La croziflette sans viande, aux champignons.","",50,700,"F","vegetarian croziflette","vo",
+   ["crozets|crozets|400|g","reblochon|reblochons|1|","champignon de Paris|champignons de Paris|300|g","oignon||2|","crème fraîche|crème fraîche|20|cl"],
+   ["Fais cuire les crozets 15 min.|Cuisson|15","Fais revenir les champignons et les oignons émincés.|Poêle|10","Mélange tout avec la crème dans un plat et pose le reblochon.","Enfourne 20 min à 200 °C.|Four|20"]]
+ ]},
+ {"q":"Tarte flambée","a":["flammekueche","flammenkuche","flamenkuche","tarte flambee alsacienne"],"r":[
+  ["Tarte flambée","La classique","","La pâte très fine d'Alsace, avec crème, oignons et lardons, cuite à four très chaud.","Spécialité alsacienne",40,520,"F","flammekueche","obf",
+   ["pâte à pizza|pâtes à pizza|2|","fromage blanc|fromage blanc|200|g","crème fraîche|crème fraîche|10|cl","oignon||2|","lardon|lardons|200|g","muscade|muscade||"],
+   ["Préchauffe le four à 250 °C.","Mélange le fromage blanc, la crème, du sel, du poivre et un peu de muscade.","Étale les pâtes très finement sur des plaques et couvre de ce mélange.","Répartis les oignons en fines lamelles et les lardons.","Enfourne 12 min.|Four|12"]],
+  ["Tarte flambée gratinée","Gratinée","Avec de l'emmental sur le dessus.","La tarte flambée gratinée, encore plus fondante.","",40,600,"F","gratinee flammekueche cheese","obf",
+   ["pâte à pizza|pâtes à pizza|2|","fromage blanc|fromage blanc|200|g","crème fraîche|crème fraîche|10|cl","oignon||2|","lardon|lardons|200|g","emmental râpé|emmental râpé|100|g"],
+   ["Préchauffe le four à 250 °C.","Étale les pâtes finement et couvre du mélange fromage blanc et crème.","Ajoute les oignons, les lardons et l'emmental.","Enfourne 12 min.|Four|12"]],
+  ["Tarte flambée au chèvre","Végétarienne","Avec du chèvre et du miel, sans lardons.","Une tarte flambée végétarienne au chèvre et aux oignons.","",35,480,"F","goat cheese flatbread","vo",
+   ["pâte à pizza|pâtes à pizza|2|","fromage blanc|fromage blanc|200|g","bûche de chèvre|bûches de chèvre|1|","oignon rouge|oignons rouges|2|","miel||2|c. à s."],
+   ["Préchauffe le four à 250 °C.","Étale les pâtes finement et couvre de fromage blanc.","Ajoute les oignons émincés et les rondelles de chèvre.","Enfourne 12 min et arrose de miel en sortant.|Four|12"]]
+ ]},
+ {"q":"Pissaladière","a":["pissaladiere nicoise","tarte aux oignons","tarte a l oignon"],"r":[
+  ["Pissaladière","La classique","","La tarte niçoise aux oignons fondus, aux anchois et aux olives noires.","Spécialité niçoise",80,380,"M","pissaladiere","o",
+   ["pâte à pizza|pâtes à pizza|1|","oignon||1000|g","anchois à l'huile|anchois à l'huile|12|","olives noires|olives noires|16|","huile d'olive|huile d'olive|4|c. à s.","thym|thym||"],
+   ["Émince finement les oignons.","Fais-les fondre 40 min à feu doux dans l'huile avec le thym, sans les colorer.|Cuisson|40","Préchauffe le four à 220 °C et étale la pâte sur une plaque.","Étale les oignons, dessine des croisillons d'anchois et pose les olives.","Enfourne 20 min.|Four|20"]],
+  ["Tarte à l'oignon alsacienne","Alsacienne","Les oignons sont liés avec des œufs et de la crème.","La tarte à l'oignon crémeuse d'Alsace.","Spécialité alsacienne",70,420,"M","alsatian onion tart","vob",
+   ["pâte brisée|pâtes brisées|1|","oignon||800|g","œuf|œufs|3|","crème fraîche|crème fraîche|20|cl","beurre||30|g","muscade|muscade||"],
+   ["Fais fondre les oignons émincés 25 min dans le beurre.|Cuisson|25","Préchauffe le four à 200 °C et garnis un moule de pâte.","Bats les œufs avec la crème, le sel, le poivre et la muscade.","Étale les oignons sur la pâte et verse le mélange.","Enfourne 30 min.|Four|30"]],
+  ["Pissaladière sans anchois","Végétarienne","Sans anchois, avec des tomates séchées.","Une pissaladière végétarienne aux oignons et olives.","",80,350,"M","onion olive tart","vob",
+   ["pâte à pizza|pâtes à pizza|1|","oignon||1000|g","olives noires|olives noires|20|","tomates séchées|tomates séchées|60|g","huile d'olive|huile d'olive|4|c. à s.","thym|thym||"],
+   ["Fais fondre les oignons émincés 40 min à feu doux avec l'huile et le thym.|Cuisson|40","Préchauffe le four à 220 °C et étale la pâte.","Étale les oignons, ajoute les olives et les tomates séchées en lanières.","Enfourne 20 min.|Four|20"]]
+ ]},
+ {"q":"Soupe au pistou","a":["pistou","soupe pistou"],"r":[
+  ["Soupe au pistou","La classique","","La soupe provençale de légumes d'été et de haricots, avec son pistou au basilic.","Spécialité provençale",60,380,"F","soupe au pistou","vb",
+   ["courgette||2|","haricot vert|haricots verts|200|g","haricots blancs|haricots blancs|400|g","pomme de terre|pommes de terre|2|","carotte||2|","tomate||2|","petites pâtes|petites pâtes|80|g","basilic|basilic||","ail|ail|3|gousse","parmesan||50|g","huile d'olive|huile d'olive|6|c. à s."],
+   ["Coupe tous les légumes en petits dés.","Mets-les dans 2 litres d'eau salée et laisse cuire 30 min.|Cuisson|30","Ajoute les haricots blancs égouttés et les pâtes, et laisse 10 min.|Cuisson|10","Pile le basilic, l'ail, le parmesan et l'huile d'olive : c'est le pistou.","Ajoute le pistou hors du feu, au moment de servir."]],
+  ["Soupe au pistou express","Express","Avec des légumes surgelés et un pesto tout prêt.","La soupe au pistou en 25 minutes.","",25,350,"F","quick vegetable bean soup pesto","vb",
+   ["légumes pour soupe surgelés|légumes pour soupe surgelés|600|g","haricots blancs|haricots blancs|400|g","petites pâtes|petites pâtes|80|g","pesto|pesto|4|c. à s.","bouillon de légumes|bouillon de légumes|1|"],
+   ["Porte 1,5 litre d'eau à ébullition avec le bouillon.","Ajoute les légumes et laisse cuire 12 min.|Cuisson|12","Ajoute les haricots et les pâtes, et laisse 8 min.|Cuisson|8","Ajoute le pesto hors du feu."]],
+  ["Minestrone au pistou","Plus de légumes verts","Avec des petits pois, des fèves et des épinards.","Une soupe printanière toute verte, au pistou.","",45,320,"F","green minestrone pistou","vh",
+   ["courgette||2|","petits pois surgelés|petits pois surgelés|150|g","fèves surgelées|fèves surgelées|150|g","pousses d'épinard|pousses d'épinard|100|g","poireau|poireaux|1|","basilic|basilic||","ail|ail|2|gousse","huile d'olive|huile d'olive|5|c. à s."],
+   ["Fais revenir le poireau émincé dans un peu d'huile.","Ajoute les courgettes en dés et 1,5 litre d'eau salée, et laisse cuire 15 min.|Cuisson|15","Ajoute les petits pois et les fèves 8 min, puis les épinards.|Cuisson|8","Mixe le basilic, l'ail et l'huile, et ajoute ce pistou au moment de servir."]]
+ ]},
+ {"q":"Bouillabaisse","a":["soupe de poisson","soupe de poissons","bouillabaisse marseillaise"],"r":[
+  ["Bouillabaisse","La classique","","La soupe de poissons marseillaise au safran, avec sa rouille et ses croûtons.","Spécialité marseillaise",75,480,"D","bouillabaisse","",
+   ["filets de poisson blanc|filets de poisson blanc|800|g","moule|moules|500|g","pomme de terre|pommes de terre|4|","tomate||3|","fenouil|fenouils|1|","oignon||2|","safran|safran||","ail|ail|3|gousse","mayonnaise|mayonnaise|4|c. à s.","baguette|baguettes|1|"],
+   ["Fais revenir les oignons, le fenouil émincé et 2 gousses d'ail dans l'huile d'olive.","Ajoute les tomates en dés, le safran et 1,5 litre d'eau, et laisse cuire 20 min.|Cuisson|20","Ajoute les pommes de terre en rondelles et laisse 15 min.|Cuisson|15","Ajoute les poissons en morceaux et les moules, et laisse 8 min.|Cuisson|8","Mélange la mayonnaise avec l'ail restant écrasé et un peu de safran : c'est la rouille.","Sers avec la baguette grillée et la rouille."]],
+  ["Soupe de poissons","Mixée","Les poissons sont mixés en velouté.","La soupe de poissons veloutée, avec croûtons et fromage.","",50,350,"M","fish soup rouille","h",
+   ["filets de poisson blanc|filets de poisson blanc|600|g","tomate||3|","oignon||2|","fenouil|fenouils|1|","safran|safran||","concentré de tomate|concentré de tomate|1|c. à s.","baguette|baguettes|1|","emmental râpé|emmental râpé|80|g"],
+   ["Fais revenir les oignons et le fenouil, puis ajoute les tomates et le concentré.","Ajoute 1,2 litre d'eau, le safran et le poisson, et laisse cuire 25 min.|Cuisson|25","Mixe finement et filtre si tu veux.","Sers avec la baguette grillée et l'emmental."]],
+  ["Bouillabaisse facile","Facile","Avec du cabillaud et des crevettes, en moins de temps.","Une bouillabaisse simplifiée pour la semaine.","",40,400,"F","easy fish stew saffron","h",
+   ["dos de cabillaud|dos de cabillaud|4|","crevette décortiquée|crevettes décortiquées|200|g","pomme de terre|pommes de terre|3|","tomate concassée|tomates concassées|400|g","oignon||1|","safran|safran||","ail|ail|2|gousse"],
+   ["Fais revenir l'oignon et l'ail, ajoute les tomates, le safran et 80 cl d'eau.","Ajoute les pommes de terre en rondelles et laisse 15 min.|Cuisson|15","Ajoute le cabillaud en morceaux et les crevettes, et laisse 6 min.|Cuisson|6","Sers avec du pain grillé."]]
+ ]},
+ {"q":"Daube provençale","a":["daube","daube de boeuf","boeuf en daube"],"r":[
+  ["Daube provençale","La classique","","Le bœuf mariné au vin rouge et mijoté longtemps avec orange et olives.","Spécialité provençale",210,580,"M","provencal beef daube","",
+   ["bœuf à braiser|bœuf à braiser|1200|g","vin rouge|vin rouge|75|cl","carotte||3|","oignon||2|","lardon|lardons|150|g","orange||1|","olives noires|olives noires|80|g","ail|ail|3|gousse","bouquet garni|bouquets garnis|1|"],
+   ["Fais mariner le bœuf en morceaux une nuit dans le vin avec les carottes, les oignons, l'ail, le bouquet garni et le zeste de l'orange.","Égoutte la viande et fais-la dorer avec les lardons dans une cocotte.|Cuisson|10","Ajoute la marinade et porte à frémissement.","Couvre et laisse mijoter 3 h à feu très doux.|Cuisson|180","Ajoute les olives 15 min avant la fin."]],
+  ["Daube provençale express","À la cocotte-minute","Sans marinade, cuite à la cocotte-minute.","Toute la saveur de la daube, en une heure.","",75,560,"F","beef stew red wine olives","",
+   ["bœuf à braiser|bœuf à braiser|1000|g","vin rouge|vin rouge|50|cl","carotte||3|","oignon||2|","orange||1|","olives noires|olives noires|80|g","ail|ail|2|gousse"],
+   ["Fais dorer le bœuf en morceaux dans la cocotte-minute.|Cuisson|10","Ajoute les oignons, les carottes, l'ail, le vin et le zeste de l'orange.","Ferme et compte 50 min après le sifflement.|Cuisson|50","Ajoute les olives et laisse 5 min sans couvercle."]],
+  ["Daube de joue de bœuf","Joue de bœuf","Avec de la joue de bœuf, encore plus fondante.","Une daube ultra fondante à la joue de bœuf.","",240,560,"M","braised beef cheeks","",
+   ["joue de bœuf|joues de bœuf|1200|g","vin rouge|vin rouge|75|cl","carotte||3|","oignon||2|","tomate concassée|tomates concassées|200|g","orange||1|","bouquet garni|bouquets garnis|1|"],
+   ["Fais dorer les joues en morceaux dans une cocotte.|Cuisson|10","Ajoute les oignons, les carottes, les tomates, le vin, le zeste et le bouquet garni.","Couvre et laisse mijoter 3 h 30 à feu très doux.|Cuisson|210","Sers avec des pâtes fraîches ou de la purée."]]
+ ]},
+ {"q":"Piperade","a":["piperade basquaise","poivrons a la basquaise"],"r":[
+  ["Piperade","La classique","","Les poivrons et tomates fondus du Pays basque, avec du jambon de Bayonne.","Spécialité basque",45,280,"F","piperade basque","h",
+   ["poivron vert|poivrons verts|2|","poivron rouge|poivrons rouges|2|","tomate||5|","oignon||2|","ail|ail|2|gousse","jambon de Bayonne|jambon de Bayonne|4|tranches","piment d'Espelette|piment d'Espelette|1|c. à c.","huile d'olive|huile d'olive|3|c. à s."],
+   ["Émince les oignons et les poivrons, et coupe les tomates en dés.","Fais fondre les oignons et les poivrons 15 min dans l'huile.|Poêle|15","Ajoute les tomates, l'ail et le piment d'Espelette, et laisse 15 min.|Cuisson|15","Fais griller le jambon quelques secondes à la poêle et pose-le sur la piperade."]],
+  ["Piperade aux œufs","Aux œufs","Des œufs brouillés dans la piperade.","La piperade avec ses œufs, en plat complet.","",40,300,"F","piperade eggs","vhb",
+   ["poivron vert|poivrons verts|2|","poivron rouge|poivrons rouges|2|","tomate||5|","oignon||2|","œuf|œufs|6|","piment d'Espelette|piment d'Espelette|1|c. à c."],
+   ["Fais fondre les oignons et les poivrons émincés 15 min.|Poêle|15","Ajoute les tomates et le piment, et laisse 10 min.|Cuisson|10","Verse les œufs battus et remue doucement jusqu'à ce qu'ils soient crémeux.","Sers aussitôt."]],
+  ["Piperade végétarienne","Végétarienne","Sans jambon, avec du riz.","La piperade végétarienne servie avec du riz.","",45,320,"F","vegetarian piperade rice","vhb",
+   ["poivron vert|poivrons verts|2|","poivron rouge|poivrons rouges|2|","tomate||5|","oignon||2|","ail|ail|2|gousse","piment d'Espelette|piment d'Espelette|1|c. à c.","riz|riz|200|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais fondre les oignons et les poivrons 15 min.|Poêle|15","Ajoute les tomates, l'ail et le piment, et laisse 15 min.|Cuisson|15","Sers avec le riz."]]
+ ]},
+ {"q":"Potée auvergnate","a":["potee","potee au chou","chou au lard"],"r":[
+  ["Potée auvergnate","La classique","","Le chou, les légumes et le porc salé mijotés ensemble pour un plat d'hiver complet.","Spécialité auvergnate",150,650,"F","potee auvergnate cabbage pork","b",
+   ["chou vert|choux verts|1|","palette de porc demi-sel|palettes de porc demi-sel|1|","saucisse de Morteau|saucisses de Morteau|1|","pomme de terre|pommes de terre|6|","carotte||4|","navet|navets|2|","oignon||1|","bouquet garni|bouquets garnis|1|"],
+   ["Fais dessaler la palette 2 h dans l'eau froide.","Mets-la dans un grand faitout d'eau froide avec l'oignon et le bouquet garni, et laisse cuire 1 h.|Cuisson|60","Ajoute le chou en quartiers blanchi 5 min, les carottes et les navets.","Laisse cuire 30 min.|Cuisson|30","Ajoute les pommes de terre et la saucisse piquée, et laisse 30 min.|Cuisson|30"]],
+  ["Potée aux saucisses","Aux saucisses","Seulement avec des saucisses, plus rapide.","Une potée simplifiée pour la semaine.","",60,580,"F","cabbage sausage stew","b",
+   ["chou vert|choux verts|1|","saucisse de Toulouse|saucisses de Toulouse|4|","pomme de terre|pommes de terre|6|","carotte||3|","oignon||1|","bouillon de légumes|bouillon de légumes|1|"],
+   ["Coupe le chou en lanières et blanchis-le 5 min.|Cuisson|5","Fais dorer les saucisses dans une cocotte.|Cuisson|6","Ajoute le chou, les carottes, les pommes de terre, l'oignon, le bouillon et 50 cl d'eau.","Couvre et laisse mijoter 40 min.|Cuisson|40"]],
+  ["Potée de légumes","Végétarienne","Sans viande, avec des haricots blancs.","Une potée réconfortante aux légumes d'hiver.","",50,320,"F","vegetable cabbage stew","vhb",
+   ["chou vert|choux verts|0.5|","pomme de terre|pommes de terre|4|","carotte||3|","poireau|poireaux|2|","haricots blancs|haricots blancs|400|g","bouillon de légumes|bouillon de légumes|1|"],
+   ["Coupe tous les légumes en morceaux.","Mets-les dans une cocotte avec le bouillon et 1 litre d'eau.","Laisse mijoter 35 min.|Cuisson|35","Ajoute les haricots blancs et laisse 5 min.|Cuisson|5"]]
+ ]}
+]

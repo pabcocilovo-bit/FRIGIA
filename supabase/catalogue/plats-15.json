@@ -1,0 +1,112 @@
+[
+ {"q":"Madeleines","a":["madeleine","madeleines maison","madeleines a bosse"],"r":[
+  ["Madeleines","La classique","","Les petites madeleines dorées, avec leur bosse, parfumées au beurre et au citron.","Spécialité lorraine",80,110,"F","french madeleines","vodbf",
+   ["farine||150|g","œuf|œufs|3|","sucre|sucre|130|g","beurre fondu|beurre fondu|120|g","levure chimique|levure chimique|1|c. à c.","citron||1|","sel|||"],
+   ["Fouette les œufs et le sucre jusqu'à ce que le mélange blanchisse.","Ajoute le zeste du citron, la farine, la levure et une pincée de sel, puis le beurre fondu.","Laisse reposer la pâte 1 h au frais : c'est le secret de la bosse.|Repos|60","Préchauffe le four à 220 °C. Remplis les moules beurrés aux trois quarts.","Enfourne 5 min, baisse à 180 °C et laisse 5 min de plus.|Four|10"]],
+  ["Madeleines au chocolat","Chocolat","Avec du cacao dans la pâte et un fond de chocolat.","Des madeleines au cacao, avec une coque de chocolat au fond du moule.","",90,140,"M","chocolate madeleines","vodbf",
+   ["farine||130|g","cacao en poudre|cacao en poudre|20|g","œuf|œufs|3|","sucre|sucre|120|g","beurre fondu|beurre fondu|120|g","levure chimique|levure chimique|1|c. à c.","chocolat noir|chocolat noir|100|g"],
+   ["Fouette les œufs et le sucre, puis ajoute la farine, le cacao, la levure et le beurre fondu.","Laisse reposer 1 h au frais.|Repos|60","Préchauffe le four à 220 °C. Remplis les moules beurrés et enfourne 5 min, puis 5 min à 180 °C.|Four|10","Fais fondre le chocolat, verses-en un peu dans chaque moule propre et repose les madeleines dessus.","Laisse durcir 20 min au frais avant de démouler.|Repos|20"]],
+  ["Madeleines au miel","Au miel","Une partie du sucre est remplacée par du miel.","Des madeleines plus moelleuses, au bon goût de miel.","",80,115,"F","honey madeleines","vodbf",
+   ["farine||150|g","œuf|œufs|3|","sucre|sucre|90|g","miel||40|g","beurre fondu|beurre fondu|120|g","levure chimique|levure chimique|1|c. à c."],
+   ["Fouette les œufs et le sucre, puis ajoute le miel.","Ajoute la farine et la levure, puis le beurre fondu tiède.","Laisse reposer 1 h au frais.|Repos|60","Préchauffe le four à 220 °C, remplis les moules beurrés et enfourne 5 min, puis 5 min à 180 °C.|Four|10"]]
+ ]},
+ {"q":"Quatre-quarts","a":["quatre quart","quatre quarts breton","gateau breton"],"r":[
+  ["Quatre-quarts","La classique","","Le gâteau breton aux quatre ingrédients en parts égales : œufs, sucre, farine et beurre.","Spécialité bretonne",60,330,"F","pound cake","vodbf",
+   ["œuf|œufs|4|","sucre|sucre|200|g","farine||200|g","beurre fondu|beurre fondu|200|g","levure chimique|levure chimique|1|c. à c.","sel|||"],
+   ["Préchauffe le four à 180 °C et beurre un moule à cake.","Fouette les œufs et le sucre jusqu'à ce qu'ils blanchissent.","Ajoute la farine, la levure et une pincée de sel, puis le beurre fondu.","Verse dans le moule et enfourne 40 min : la lame d'un couteau doit ressortir sèche.|Four|40"]],
+  ["Quatre-quarts aux pommes","Aux pommes","Avec des pommes en dés dans la pâte.","Le quatre-quarts moelleux, avec des morceaux de pommes fondantes.","",70,320,"F","apple pound cake","vodbf",
+   ["œuf|œufs|3|","sucre|sucre|150|g","farine||150|g","beurre fondu|beurre fondu|150|g","levure chimique|levure chimique|1|c. à c.","pomme||3|","cannelle|cannelle|1|c. à c."],
+   ["Préchauffe le four à 180 °C. Épluche les pommes et coupe-les en dés.","Fouette les œufs et le sucre, ajoute la farine, la levure, la cannelle, puis le beurre fondu.","Incorpore les pommes et verse dans un moule beurré.","Enfourne 45 min.|Four|45"]],
+  ["Quatre-quarts à l'orange","À l'orange","Parfumé au zeste et au jus d'orange.","Un quatre-quarts tout doux, au parfum d'orange.","",60,330,"F","orange pound cake","vodbf",
+   ["œuf|œufs|4|","sucre|sucre|200|g","farine||200|g","beurre fondu|beurre fondu|180|g","levure chimique|levure chimique|1|c. à c.","orange||1|"],
+   ["Préchauffe le four à 180 °C.","Fouette les œufs et le sucre, ajoute le zeste et le jus de l'orange.","Ajoute la farine, la levure, puis le beurre fondu.","Verse dans un moule à cake beurré et enfourne 40 min.|Four|40"]]
+ ]},
+ {"q":"Gâteau marbré","a":["marbre","cake marbre","marbre chocolat vanille"],"r":[
+  ["Gâteau marbré","La classique","","Le cake vanille et chocolat aux jolies marbrures, comme celui du goûter.","",75,340,"F","marble cake","vodbf",
+   ["beurre fondu|beurre fondu|180|g","sucre|sucre|180|g","œuf|œufs|4|","farine||220|g","levure chimique|levure chimique|2|c. à c.","lait||5|cl","cacao en poudre|cacao en poudre|25|g","sucre vanillé|sucres vanillés|1|"],
+   ["Préchauffe le four à 180 °C et beurre un moule à cake.","Fouette le beurre fondu, le sucre et le sucre vanillé, puis ajoute les œufs un à un.","Ajoute la farine, la levure et le lait.","Sépare la pâte en deux et ajoute le cacao dans une moitié.","Verse les pâtes en alternant dans le moule et passe une fourchette pour marbrer.","Enfourne 45 min.|Four|45"]],
+  ["Marbré au yaourt","Plus léger","Moins de beurre : un yaourt garde le moelleux.","Un marbré plus léger, toujours aussi moelleux.","",70,260,"F","marble cake slice","vodbhf",
+   ["yaourt nature|yaourts nature|1|","sucre|sucre|140|g","œuf|œufs|3|","farine||220|g","huile de tournesol|huile de tournesol|5|cl","levure chimique|levure chimique|2|c. à c.","cacao en poudre|cacao en poudre|20|g"],
+   ["Préchauffe le four à 180 °C.","Mélange le yaourt, le sucre et les œufs, puis la farine, la levure et l'huile.","Sépare la pâte en deux et ajoute le cacao dans une moitié.","Verse en alternant dans un moule huilé et marbre à la fourchette.","Enfourne 40 min.|Four|40"]],
+  ["Marbré à l'orange et au cacao","Orange","La partie claire est parfumée à l'orange.","Le duo chocolat orange, dans un marbré tout simple.","",75,340,"F","orange chocolate marble cake","vodbf",
+   ["beurre fondu|beurre fondu|180|g","sucre|sucre|180|g","œuf|œufs|4|","farine||220|g","levure chimique|levure chimique|2|c. à c.","orange||1|","cacao en poudre|cacao en poudre|25|g"],
+   ["Préchauffe le four à 180 °C.","Fouette le beurre fondu et le sucre, ajoute les œufs, puis la farine et la levure.","Sépare la pâte : le zeste et le jus de l'orange dans une moitié, le cacao dans l'autre.","Verse en alternant dans un moule beurré et marbre à la fourchette.","Enfourne 45 min.|Four|45"]]
+ ]},
+ {"q":"Banana bread","a":["cake a la banane","gateau a la banane","pain a la banane"],"r":[
+  ["Banana bread","La classique","","Le cake américain aux bananes bien mûres, moelleux et parfumé.","Recette américaine",70,290,"F","banana bread","vodbf",
+   ["banane||3|","œuf|œufs|2|","sucre roux|sucre roux|100|g","beurre fondu|beurre fondu|80|g","farine||220|g","levure chimique|levure chimique|2|c. à c.","cannelle|cannelle|1|c. à c."],
+   ["Préchauffe le four à 180 °C.","Écrase les bananes à la fourchette.","Mélange-les avec les œufs, le sucre et le beurre fondu.","Ajoute la farine, la levure et la cannelle sans trop mélanger.","Verse dans un moule à cake beurré et enfourne 50 min.|Four|50"]],
+  ["Banana bread aux pépites de chocolat","Chocolat","Avec des pépites de chocolat.","Le banana bread gourmand, plein de pépites fondantes.","",70,340,"F","chocolate chip banana bread","vodbf",
+   ["banane||3|","œuf|œufs|2|","sucre roux|sucre roux|90|g","beurre fondu|beurre fondu|80|g","farine||220|g","levure chimique|levure chimique|2|c. à c.","pépites de chocolat|pépites de chocolat|100|g"],
+   ["Préchauffe le four à 180 °C.","Écrase les bananes et mélange-les avec les œufs, le sucre et le beurre fondu.","Ajoute la farine et la levure, puis les pépites de chocolat.","Verse dans un moule à cake et enfourne 50 min.|Four|50"]],
+  ["Banana bread sans sucre ajouté","Sans sucre ajouté","Les bananes très mûres suffisent à sucrer.","Un cake doux et léger, sucré seulement par les fruits.","",70,210,"F","healthy banana bread oats","vodhbf",
+   ["banane||4|","œuf|œufs|2|","huile de coco|huile de coco|4|c. à s.","farine complète|farine complète|150|g","flocons d'avoine|flocons d'avoine|60|g","levure chimique|levure chimique|2|c. à c.","cannelle|cannelle|1|c. à c."],
+   ["Préchauffe le four à 180 °C.","Écrase les bananes et mélange-les avec les œufs et l'huile fondue.","Ajoute la farine, les flocons, la levure et la cannelle.","Verse dans un moule à cake et enfourne 45 min.|Four|45"]]
+ ]},
+ {"q":"Cheesecake","a":["cheese cake","cheesecake new york","cheesecake maison"],"r":[
+  ["Cheesecake new-yorkais","La classique","","Le cheesecake crémeux sur sa base de biscuits, cuit doucement au four.","Recette new-yorkaise",90,480,"M","new york cheesecake","vod",
+   ["biscuits secs|biscuits secs|200|g","beurre fondu|beurre fondu|80|g","fromage frais type Philadelphia|fromage frais type Philadelphia|600|g","sucre|sucre|150|g","œuf|œufs|3|","crème fraîche|crème fraîche|20|cl","citron||1|"],
+   ["Préchauffe le four à 160 °C. Écrase les biscuits et mélange-les au beurre fondu.","Tasse ce mélange au fond d'un moule à charnière.","Fouette le fromage frais, le sucre, la crème, le zeste du citron, puis les œufs un à un.","Verse sur la base et enfourne 1 h.|Four|60","Laisse refroidir dans le four entrouvert, puis au moins 4 h au frais."]],
+  ["Cheesecake sans cuisson","Sans four","Pris au frais, sans passer par le four.","Un cheesecake frais et léger, qui se prépare la veille.","",30,420,"F","no bake cheesecake","vcd",
+   ["biscuits secs|biscuits secs|200|g","beurre fondu|beurre fondu|80|g","fromage frais type Philadelphia|fromage frais type Philadelphia|400|g","crème liquide entière|crème liquide entière|25|cl","sucre glace|sucre glace|80|g","citron||1|"],
+   ["Écrase les biscuits, mélange-les au beurre fondu et tasse au fond d'un moule à charnière.","Fouette la crème bien froide en chantilly.","Mélange le fromage frais, le sucre glace et le jus du citron, puis incorpore la chantilly.","Étale sur la base et laisse prendre au moins 6 h au frais."]],
+  ["Cheesecake aux fruits rouges","Fruits rouges","Avec un coulis de fruits rouges sur le dessus.","Le cheesecake crémeux, nappé d'un coulis de fruits rouges.","",100,500,"M","berry cheesecake","vod",
+   ["biscuits secs|biscuits secs|200|g","beurre fondu|beurre fondu|80|g","fromage frais type Philadelphia|fromage frais type Philadelphia|600|g","sucre|sucre|180|g","œuf|œufs|3|","crème fraîche|crème fraîche|20|cl","fruits rouges surgelés|fruits rouges surgelés|300|g"],
+   ["Préchauffe le four à 160 °C. Tasse les biscuits écrasés et le beurre au fond d'un moule.","Fouette le fromage frais, 150 g de sucre, la crème, puis les œufs.","Verse sur la base et enfourne 1 h. Laisse refroidir puis 4 h au frais.|Four|60","Fais cuire les fruits rouges 10 min avec le reste du sucre, puis laisse refroidir.|Cuisson|10","Nappe le cheesecake du coulis au moment de servir."]]
+ ]},
+ {"q":"Carrot cake","a":["gateau aux carottes","gateau a la carotte","cake aux carottes"],"r":[
+  ["Carrot cake","La classique","","Le gâteau moelleux aux carottes et aux épices, avec son glaçage au fromage frais.","Recette anglo-saxonne",80,450,"M","carrot cake frosting","vod",
+   ["carotte||3|","œuf|œufs|3|","sucre roux|sucre roux|150|g","huile de tournesol|huile de tournesol|15|cl","farine||250|g","levure chimique|levure chimique|2|c. à c.","cannelle|cannelle|2|c. à c.","fromage frais type Philadelphia|fromage frais type Philadelphia|200|g","sucre glace|sucre glace|60|g"],
+   ["Préchauffe le four à 180 °C. Râpe finement les carottes.","Fouette les œufs, le sucre roux et l'huile.","Ajoute la farine, la levure et la cannelle, puis les carottes.","Verse dans un moule beurré et enfourne 45 min. Laisse refroidir.|Four|45","Fouette le fromage frais et le sucre glace, et étale ce glaçage sur le gâteau."]],
+  ["Carrot cake aux noix","Aux noix","Avec des noix concassées dans la pâte et sur le glaçage.","Le carrot cake encore plus gourmand, avec des noix croquantes.","",80,500,"M","walnut carrot cake","vod",
+   ["carotte||3|","œuf|œufs|3|","sucre roux|sucre roux|150|g","huile de tournesol|huile de tournesol|15|cl","farine||250|g","levure chimique|levure chimique|2|c. à c.","cannelle|cannelle|2|c. à c.","cerneaux de noix|cerneaux de noix|80|g","fromage frais type Philadelphia|fromage frais type Philadelphia|200|g","sucre glace|sucre glace|60|g"],
+   ["Préchauffe le four à 180 °C. Râpe les carottes et concasse les noix.","Fouette les œufs, le sucre et l'huile, puis ajoute la farine, la levure et la cannelle.","Ajoute les carottes et les deux tiers des noix.","Verse dans un moule et enfourne 45 min. Laisse refroidir.|Four|45","Couvre du glaçage fromage frais et sucre glace, puis du reste des noix."]],
+  ["Carrot cake léger","Plus léger","Sans glaçage, avec moins de sucre et d'huile.","Un carrot cake moelleux pour le goûter de tous les jours.","",65,280,"F","healthy carrot cake loaf","vodhbf",
+   ["carotte||3|","œuf|œufs|3|","sucre roux|sucre roux|90|g","huile de tournesol|huile de tournesol|8|cl","yaourt nature|yaourts nature|1|","farine||220|g","levure chimique|levure chimique|2|c. à c.","cannelle|cannelle|2|c. à c."],
+   ["Préchauffe le four à 180 °C. Râpe les carottes.","Fouette les œufs, le sucre, l'huile et le yaourt.","Ajoute la farine, la levure et la cannelle, puis les carottes.","Verse dans un moule à cake et enfourne 45 min.|Four|45"]]
+ ]},
+ {"q":"Financiers","a":["financier","financiers aux amandes"],"r":[
+  ["Financiers aux amandes","La classique","","Les petits gâteaux aux amandes et au beurre noisette, croustillants dehors et fondants dedans.","",40,130,"F","almond financiers","vod",
+   ["poudre d'amande|poudre d'amande|100|g","sucre glace|sucre glace|150|g","farine||50|g","blanc d'œuf|blancs d'œufs|4|","beurre||120|g"],
+   ["Préchauffe le four à 200 °C.","Fais chauffer le beurre jusqu'à ce qu'il soit doré et sente la noisette.|Cuisson|5","Mélange la poudre d'amande, le sucre glace et la farine, puis les blancs non battus.","Ajoute le beurre noisette tiède et remplis des moules beurrés.","Enfourne 12 min.|Four|12"]],
+  ["Financiers aux framboises","Framboises","Avec une framboise au cœur de chaque financier.","Les financiers aux amandes, avec une framboise acidulée.","",40,135,"F","raspberry financiers","vod",
+   ["poudre d'amande|poudre d'amande|100|g","sucre glace|sucre glace|150|g","farine||50|g","blanc d'œuf|blancs d'œufs|4|","beurre||120|g","framboise||125|g"],
+   ["Préchauffe le four à 200 °C et fais dorer le beurre.|Cuisson|5","Mélange la poudre d'amande, le sucre glace, la farine et les blancs.","Ajoute le beurre noisette et remplis les moules.","Enfonce une ou deux framboises dans chaque financier.","Enfourne 14 min.|Four|14"]],
+  ["Financiers au chocolat","Chocolat","Avec du cacao dans la pâte et des pépites.","Des financiers chocolatés, pour finir les blancs d'œufs.","",40,150,"F","chocolate financiers","vod",
+   ["poudre d'amande|poudre d'amande|80|g","sucre glace|sucre glace|150|g","farine||40|g","cacao en poudre|cacao en poudre|20|g","blanc d'œuf|blancs d'œufs|4|","beurre||120|g","pépites de chocolat|pépites de chocolat|50|g"],
+   ["Préchauffe le four à 200 °C et fais dorer le beurre.|Cuisson|5","Mélange la poudre d'amande, le sucre glace, la farine, le cacao et les blancs.","Ajoute le beurre noisette, puis les pépites.","Remplis des moules beurrés et enfourne 12 min.|Four|12"]]
+ ]},
+ {"q":"Sablés","a":["sable","biscuits sables","petits sables","sables maison"],"r":[
+  ["Sablés au beurre","La classique","","Les petits biscuits sablés pur beurre, à découper à l'emporte-pièce.","",50,90,"F","butter shortbread cookies","vodbf",
+   ["farine||250|g","beurre mou|beurre mou|125|g","sucre|sucre|100|g","œuf|œufs|1|","sucre vanillé|sucres vanillés|1|","sel|||"],
+   ["Mélange le beurre mou, le sucre, le sucre vanillé et une pincée de sel.","Ajoute l'œuf, puis la farine, et forme une boule sans trop travailler.","Laisse reposer 30 min au frais.|Repos|30","Préchauffe le four à 180 °C. Étale la pâte et découpe les sablés.","Enfourne 10 min : ils doivent rester clairs.|Four|10"]],
+  ["Sablés au citron","Citron","Avec le zeste d'un citron dans la pâte.","Des sablés frais et parfumés au citron.","",50,90,"F","lemon shortbread cookies","vodbf",
+   ["farine||250|g","beurre mou|beurre mou|125|g","sucre|sucre|100|g","œuf|œufs|1|","citron||1|"],
+   ["Mélange le beurre mou, le sucre et le zeste du citron.","Ajoute l'œuf, puis la farine, et forme une boule.","Laisse reposer 30 min au frais.|Repos|30","Préchauffe le four à 180 °C, étale la pâte et découpe les sablés.","Enfourne 10 min.|Four|10"]],
+  ["Sablés au chocolat","Chocolat","Avec du cacao et des pépites de chocolat.","Des sablés cacao avec des pépites, pour les gourmands.","",50,105,"F","chocolate shortbread cookies","vodbf",
+   ["farine||220|g","cacao en poudre|cacao en poudre|30|g","beurre mou|beurre mou|125|g","sucre|sucre|100|g","œuf|œufs|1|","pépites de chocolat|pépites de chocolat|60|g"],
+   ["Mélange le beurre mou et le sucre, puis l'œuf.","Ajoute la farine, le cacao et les pépites, et forme une boule.","Laisse reposer 30 min au frais.|Repos|30","Préchauffe le four à 180 °C, étale et découpe les sablés.","Enfourne 10 min.|Four|10"]]
+ ]},
+ {"q":"Brioche","a":["brioche maison","brioche moelleuse"],"r":[
+  ["Brioche maison","La classique","","Une brioche moelleuse et filante, pour le petit-déjeuner du week-end.","",180,320,"M","homemade brioche","vodf",
+   ["farine||500|g","levure de boulanger|levure de boulanger|10|g","œuf|œufs|4|","lait||10|cl","sucre|sucre|60|g","beurre mou|beurre mou|150|g","sel|||"],
+   ["Délaye la levure dans le lait tiède.","Mélange la farine, le sucre, 1 c. à c. de sel, 3 œufs et le lait, puis pétris 10 min.|Pétrissage|10","Ajoute le beurre mou en morceaux et pétris encore jusqu'à ce que la pâte soit lisse.","Laisse lever 1 h 30 sous un torchon.|Levée|90","Façonne 6 boules dans un moule à cake et laisse lever encore 45 min.|Levée|45","Préchauffe le four à 180 °C, dore au dernier œuf battu et enfourne 30 min.|Four|30"]],
+  ["Brioche aux pépites de chocolat","Chocolat","Avec des pépites de chocolat dans la pâte.","La brioche moelleuse des goûters, pleine de pépites.","",180,360,"M","chocolate chip brioche","vodf",
+   ["farine||500|g","levure de boulanger|levure de boulanger|10|g","œuf|œufs|4|","lait||10|cl","sucre|sucre|60|g","beurre mou|beurre mou|150|g","pépites de chocolat|pépites de chocolat|120|g","sel|||"],
+   ["Délaye la levure dans le lait tiède, puis pétris avec la farine, le sucre, le sel et 3 œufs.|Pétrissage|10","Ajoute le beurre mou, puis les pépites, en pétrissant.","Laisse lever 1 h 30.|Levée|90","Façonne dans un moule à cake et laisse lever 45 min.|Levée|45","Dore au dernier œuf et enfourne 30 min à 180 °C.|Four|30"]],
+  ["Brioche tressée","Tressée","Façonnée en tresse et parsemée de sucre perlé.","Une belle brioche tressée, à poser au milieu de la table.","",180,330,"D","braided brioche","vodf",
+   ["farine||500|g","levure de boulanger|levure de boulanger|10|g","œuf|œufs|4|","lait||10|cl","sucre|sucre|60|g","beurre mou|beurre mou|150|g","sucre perlé|sucre perlé|30|g","sel|||"],
+   ["Délaye la levure dans le lait tiède, puis pétris avec la farine, le sucre, le sel et 3 œufs.|Pétrissage|10","Ajoute le beurre mou et pétris jusqu'à ce que la pâte soit lisse.","Laisse lever 1 h 30.|Levée|90","Partage la pâte en 3 boudins et tresse-les sur une plaque. Laisse lever 45 min.|Levée|45","Dore à l'œuf battu, parsème de sucre perlé et enfourne 25 min à 180 °C.|Four|25"]]
+ ]},
+ {"q":"Beignets","a":["beignet","beignets au sucre","beignets maison"],"r":[
+  ["Beignets au sucre","La classique","","Des beignets moelleux, dorés à la friture et roulés dans le sucre.","",150,280,"M","sugar donuts","vdf",
+   ["farine||400|g","levure de boulanger|levure de boulanger|10|g","lait||20|cl","œuf|œufs|2|","sucre|sucre|100|g","beurre fondu|beurre fondu|50|g","huile de friture|huile de friture|100|cl","sel|||"],
+   ["Délaye la levure dans le lait tiède.","Mélange la farine, 50 g de sucre, une pincée de sel, les œufs, le lait et le beurre fondu, et pétris 5 min.","Laisse lever 1 h 30.|Levée|90","Étale la pâte sur 1 cm, découpe des ronds et laisse lever 30 min.|Levée|30","Fais frire les beignets 2 min de chaque côté dans l'huile chaude.|Friture|4","Égoutte-les et roule-les dans le reste du sucre."]],
+  ["Beignets aux pommes","Aux pommes","Des rondelles de pommes enrobées de pâte à beignets.","Les beignets de pommes de carnaval, croustillants et fondants.","",40,250,"F","apple fritters","vdbf",
+   ["pomme||4|","farine||150|g","œuf|œufs|2|","lait||15|cl","sucre|sucre|30|g","sucre glace|sucre glace|2|c. à s.","huile de friture|huile de friture|100|cl"],
+   ["Mélange la farine, le sucre, les œufs et le lait pour une pâte lisse.","Épluche les pommes, retire le cœur et coupe-les en rondelles.","Trempe les rondelles dans la pâte.","Fais-les frire 2 min de chaque côté dans l'huile chaude.|Friture|4","Égoutte et saupoudre de sucre glace."]],
+  ["Beignets à la banane","Banane","Des morceaux de banane dans une pâte légère.","Des beignets de banane dorés, comme aux Antilles.","Inspiration antillaise",30,240,"F","banana fritters","vdbf",
+   ["banane||4|","farine||150|g","œuf|œufs|1|","lait||15|cl","sucre|sucre|30|g","cannelle|cannelle|1|c. à c.","huile de friture|huile de friture|100|cl"],
+   ["Écrase 2 bananes et mélange-les avec la farine, le sucre, la cannelle, l'œuf et le lait.","Coupe les autres bananes en rondelles et ajoute-les à la pâte.","Fais frire des cuillerées de pâte 2 min de chaque côté.|Friture|4","Égoutte sur du papier absorbant et sers tiède."]]
+ ]}
+]

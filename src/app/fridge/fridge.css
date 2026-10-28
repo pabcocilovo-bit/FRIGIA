@@ -1,0 +1,60 @@
+/* 7 · Mon frigo : les deux pages (frigo, courses) dans l'en-tête vert, les produits par rayon */
+.fa .fr-tabs{margin-top:2px}
+.fa .fr-tabs .chip svg{width:13px;height:13px;margin-left:5px;vertical-align:-1px;opacity:.8}
+.fa .fr-item .nm small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fa .fr-fin{flex:none;font:600 12px/1 var(--sans);padding:7px 10px;border-radius:999px;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line)}
+.fa .fr-fin.on{background:var(--hi-soft);color:#5E4210;box-shadow:none}
+.fa .fr-gone{flex:none;font:600 12px/1 var(--sans);padding:7px 10px;border-radius:999px;color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
+.fa .fr-gone:active{background:var(--surface)}
+.fa .fr-x{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.fa .fr-x svg{width:15px;height:15px}
+.fa .fr-x:active{background:var(--surface)}
+.fa .fr-note{display:flex;align-items:center;gap:12px;background:var(--sage-soft);border-radius:16px;padding:12px 14px;font-size:13.5px;line-height:1.4;color:var(--sage-deep)}
+.fa .fr-note span{flex:1;min-width:0}
+.fa .fr-note .link{flex:none}
+.fa .fr-old{margin:0 4px;font-size:13px;color:var(--muted)}
+.fa .fr-add{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:999px;padding:6px 6px 6px 18px;box-shadow:0 1px 0 var(--line)}
+.fa .fr-add input{flex:1;min-width:0;border:0;background:none;font:400 15px/1.2 var(--sans);color:var(--text);padding:8px 0;outline:none}
+.fa .fr-add button{flex:none;width:38px;height:38px;border-radius:50%;background:var(--sage);color:var(--on);display:grid;place-items:center}
+.fa .fr-add button:disabled{opacity:.4}
+.fa .fr-add button svg{width:18px;height:18px}
+.fa .fr-ideas{margin-top:0}
+/* Ma cuisine : sous-titre, filtres, rangement (frigo / placards), basiques des placards, « Que cuisiner avec ? » collé en bas */
+.fa .fr-sub{margin:6px 0 0;font-size:15px;color:rgba(247,241,230,.8)}
+.fa .fr-filters{margin:0 -16px;padding:0 16px}
+.fa .fr-filters .chip .n{margin-left:6px;font-size:12px;opacity:.7}
+.fa .fr-place{font:inherit;color:var(--sage-deep);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:2px;padding:0}
+.fa .fr-none{margin:4px;font-size:14px;line-height:1.45;color:var(--muted)}
+.fa .fr-basics{display:flex;flex-direction:column;gap:8px}
+.fa .fr-basics .label{padding-left:4px}
+.fa .fr-chips{display:flex;flex-wrap:wrap;gap:8px}
+.fa .fr-chips button{display:inline-flex;align-items:center;gap:5px;font:500 13.5px/1 var(--sans);padding:9px 12px;border-radius:999px;background:var(--card);box-shadow:0 1px 0 var(--line);color:var(--text)}
+.fa .fr-chips button svg{width:14px;height:14px;color:var(--sage)}
+.fa .fr-cook{position:sticky;bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:3;box-shadow:0 10px 24px -12px rgba(31,42,34,.5)}
+/* Nom et quantité modifiables (Ma cuisine, « C'est bien ça ? ») : touche le nom ou la quantité */
+.fa .fr-nm{font:inherit;color:inherit;text-align:left;padding:0}
+.fa .fr-q{font:inherit;color:inherit;padding:0}
+.fa .fr-q.none,.fa .irow .iq.none{color:var(--sage-deep);font-weight:600}
+.fa .irow .inm{flex:1;min-width:0;text-align:left;font:inherit;color:inherit;padding:0}
+.fa .irow .iq{flex:none;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums;padding:4px 0}
+.fa .ied{flex:1;min-width:0;display:flex;align-items:center;gap:8px}
+.fa .ied input{min-width:0;border:0;border-radius:10px;background:var(--surface);font:400 15px/1.2 var(--sans);color:var(--text);padding:9px 10px;outline:none}
+.fa .ied input:focus{box-shadow:inset 0 0 0 1.5px var(--sage)}
+.fa .ied .ied-n{flex:1.6}
+.fa .ied .ied-q{flex:1}
+.fa .ied button{flex:none;width:36px;height:36px;border-radius:50%;background:var(--sage);color:var(--on);display:grid;place-items:center}
+.fa .ied button svg{width:16px;height:16px}
+/* Dates de péremption : la date sous le produit (proche : en couleur), et le choix de la vraie date */
+.fa .fr-due{font:inherit;color:var(--muted);padding:0;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:2px}
+.fa .fr-due.soon{color:#9A5B12;font-weight:600}
+.fa .fr-due-ed{flex-direction:column;align-items:stretch;gap:10px}
+.fa .fr-due-h{display:flex;align-items:center;gap:8px}
+.fa .fr-due-h b{font-weight:600}
+.fa .fr-due-h span{flex:1;font-size:13px;color:var(--muted)}
+.fa .fr-due-ch{display:flex;flex-wrap:wrap;gap:8px}
+.fa .fr-due-ch>button{font:600 13px/1 var(--sans);padding:9px 12px;border-radius:999px;background:var(--sage-soft);color:var(--sage-deep)}
+.fa .fr-due-other{display:flex;gap:8px;align-items:center}
+.fa .fr-due-other input{flex:1;min-width:0;min-height:42px;padding:0 14px;border-radius:14px;border:0;background:var(--card);box-shadow:inset 0 0 0 1.5px var(--line);font:600 15px/1 var(--sans);color:var(--text);-webkit-appearance:none;appearance:none;text-align:left}
+.fa .fr-due-other button{flex:none;min-height:42px;padding:0 18px;border-radius:999px;background:var(--sage);color:var(--on);font:600 14px/1 var(--sans)}
+.fa .fr-due-other button:disabled{opacity:.5}
+.fa .fr-due-ch>.fr-due-auto{background:none;box-shadow:inset 0 0 0 1px var(--line);color:var(--muted)}

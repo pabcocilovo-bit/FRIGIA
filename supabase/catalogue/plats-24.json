@@ -1,0 +1,112 @@
+[
+ {"q":"Pâtes au thon","a":["pate thon","pates thon tomate","spaghetti au thon"],"r":[
+  ["Pâtes au thon et à la tomate","La classique","","Des pâtes dans une sauce tomate au thon, à l'ail et aux câpres : le repas des soirs pressés.","",20,520,"F","tuna tomato pasta","bf",
+   ["pâtes|pâtes|400|g","thon au naturel|thon au naturel|280|g","tomate concassée|tomates concassées|400|g","oignon||1|","ail|ail|2|gousse","câpres|câpres|1|c. à s.","huile d'olive|huile d'olive|2|c. à s."],
+   ["Fais cuire les pâtes.|Cuisson|10","Fais revenir l'oignon et l'ail dans l'huile.","Ajoute les tomates et laisse mijoter 10 min.|Cuisson|10","Ajoute le thon émietté et les câpres, et mélange aux pâtes."]],
+  ["Pâtes au thon à la crème","À la crème","Une sauce crème au citron à la place de la tomate.","Des pâtes au thon crémeuses, au citron et à la ciboulette.","",20,580,"F","creamy tuna pasta","bf",
+   ["pâtes|pâtes|400|g","thon au naturel|thon au naturel|280|g","crème fraîche|crème fraîche|20|cl","citron||1|","ciboulette|ciboulette||","parmesan||30|g"],
+   ["Fais cuire les pâtes.|Cuisson|10","Chauffe la crème avec le zeste du citron.","Ajoute le thon émietté et un peu de jus de citron.","Mélange aux pâtes avec la ciboulette et le parmesan."]],
+  ["Pâtes au thon gratinées","Gratinées","Gratinées au four avec du fromage.","Un gratin de pâtes au thon, simple et familial.","",35,600,"F","tuna pasta bake","obf",
+   ["pâtes|pâtes|350|g","thon au naturel|thon au naturel|280|g","tomate concassée|tomates concassées|400|g","mozzarella||1|","emmental râpé|emmental râpé|80|g"],
+   ["Préchauffe le four à 200 °C. Fais cuire les pâtes 2 min de moins que le paquet.|Cuisson|8","Mélange les pâtes, les tomates et le thon dans un plat.","Couvre de mozzarella et d'emmental.","Enfourne 20 min.|Four|20"]]
+ ]},
+ {"q":"Pâtes au poulet","a":["pate poulet","pates poulet creme","tagliatelles au poulet"],"r":[
+  ["Pâtes au poulet à la crème","La classique","","Des tagliatelles avec du poulet doré et une sauce crème aux champignons.","",30,620,"F","creamy chicken pasta","f",
+   ["tagliatelles|tagliatelles|400|g","blanc de poulet|blancs de poulet|3|","champignon de Paris|champignons de Paris|200|g","crème fraîche|crème fraîche|20|cl","échalote||1|","parmesan||30|g"],
+   ["Fais cuire les pâtes.|Cuisson|10","Fais dorer le poulet en dés 6 min, puis retire-le.|Poêle|6","Fais revenir l'échalote et les champignons émincés 5 min.|Poêle|5","Ajoute la crème et le poulet, et laisse 3 min.","Mélange aux pâtes et parsème de parmesan."]],
+  ["Pâtes au poulet et pesto","Pesto","Avec du pesto et des tomates cerises.","Des pâtes au poulet légères, au pesto.","",25,560,"F","pesto chicken pasta","",
+   ["pâtes|pâtes|400|g","blanc de poulet|blancs de poulet|3|","pesto|pesto|4|c. à s.","tomate cerise|tomates cerises|250|g","parmesan||30|g"],
+   ["Fais cuire les pâtes.|Cuisson|10","Fais dorer le poulet en dés 6 min.|Poêle|6","Ajoute les tomates cerises coupées en deux et laisse 2 min.","Mélange aux pâtes avec le pesto et le parmesan."]],
+  ["Pâtes au poulet et au citron","Citron","Une sauce légère au citron et aux épinards.","Des pâtes fraîches au poulet, citron et épinards.","",25,520,"F","lemon chicken pasta spinach","h",
+   ["pâtes|pâtes|400|g","blanc de poulet|blancs de poulet|3|","citron||1|","pousses d'épinard|pousses d'épinard|100|g","ail|ail|2|gousse","huile d'olive|huile d'olive|3|c. à s."],
+   ["Fais cuire les pâtes.|Cuisson|10","Fais dorer le poulet en dés avec l'ail dans l'huile.|Poêle|6","Ajoute les épinards, le zeste et le jus du citron.","Mélange aux pâtes avec un peu d'eau de cuisson."]]
+ ]},
+ {"q":"Spaghetti alle vongole","a":["spaghetti aux palourdes","pates aux palourdes","vongole","pates aux fruits de mer","spaghetti fruits de mer"],"r":[
+  ["Spaghetti aux palourdes","La classique","","Les spaghetti italiens aux palourdes, ail, vin blanc et persil.","Plat italien",30,480,"M","spaghetti alle vongole","",
+   ["spaghetti|spaghetti|400|g","palourdes|palourdes|1000|g","ail|ail|3|gousse","vin blanc|vin blanc|10|cl","persil|persil||","huile d'olive|huile d'olive|4|c. à s.","piment|piments|1|"],
+   ["Fais tremper les palourdes 30 min dans de l'eau salée pour retirer le sable.","Fais cuire les spaghetti.|Cuisson|9","Fais revenir l'ail et le piment dans l'huile, ajoute les palourdes et le vin, et couvre.","Retire du feu dès qu'elles s'ouvrent.|Cuisson|4","Mélange les spaghetti avec les palourdes et le persil."]],
+  ["Pâtes aux fruits de mer","Fruits de mer","Avec un mélange de fruits de mer surgelés et de la tomate.","Des pâtes aux fruits de mer en sauce tomate, faciles.","",25,500,"F","seafood pasta","",
+   ["spaghetti|spaghetti|400|g","fruits de mer surgelés|fruits de mer surgelés|400|g","tomate concassée|tomates concassées|400|g","ail|ail|2|gousse","vin blanc|vin blanc|10|cl","persil|persil||"],
+   ["Fais cuire les spaghetti.|Cuisson|9","Fais revenir l'ail, ajoute les fruits de mer et le vin, et laisse 5 min.|Poêle|5","Ajoute les tomates et laisse 8 min.|Cuisson|8","Mélange aux pâtes et parsème de persil."]],
+  ["Spaghetti aux moules","Aux moules","Les moules remplacent les palourdes.","La version plus accessible, avec des moules.","",30,480,"M","mussel spaghetti","b",
+   ["spaghetti|spaghetti|400|g","moule|moules|1000|g","ail|ail|3|gousse","vin blanc|vin blanc|10|cl","tomate cerise|tomates cerises|200|g","persil|persil||"],
+   ["Fais cuire les spaghetti.|Cuisson|9","Fais ouvrir les moules avec l'ail et le vin à couvert.|Cuisson|5","Décortique-en la moitié et ajoute les tomates cerises.","Mélange aux spaghetti avec le persil."]]
+ ]},
+ {"q":"Cannellonis","a":["cannelloni","cannellonis ricotta epinards","cannellonis a la viande"],"r":[
+  ["Cannellonis ricotta-épinards","La classique","","Des tubes de pâtes farcis à la ricotta et aux épinards, gratinés à la tomate.","Plat italien",60,520,"M","spinach ricotta cannelloni","vo",
+   ["cannellonis|cannellonis|16|","ricotta||500|g","épinards surgelés|épinards surgelés|400|g","œuf|œufs|1|","tomate concassée|tomates concassées|600|g","mozzarella||1|","parmesan||50|g"],
+   ["Préchauffe le four à 180 °C. Fais décongeler les épinards et presse-les.","Mélange-les avec la ricotta, l'œuf, la moitié du parmesan, sel et poivre.","Remplis les cannellonis avec une poche ou une petite cuillère.","Étale la moitié des tomates dans un plat, range les cannellonis et couvre du reste.","Ajoute la mozzarella et le parmesan, et enfourne 35 min.|Four|35"]],
+  ["Cannellonis à la viande","À la viande","Farcis de bœuf haché à la tomate, sous la béchamel.","Les cannellonis comme des lasagnes roulées, à la viande.","",70,620,"M","meat cannelloni bechamel","of",
+   ["cannellonis|cannellonis|16|","bœuf haché|bœuf haché|500|g","tomate concassée|tomates concassées|400|g","oignon||1|","lait||50|cl","farine||40|g","beurre||40|g","emmental râpé|emmental râpé|80|g"],
+   ["Fais revenir l'oignon et le bœuf, ajoute la moitié des tomates et laisse 10 min.|Cuisson|10","Prépare une béchamel avec le beurre, la farine et le lait.","Remplis les cannellonis de viande et range-les dans un plat sur le reste des tomates.","Nappe de béchamel et d'emmental.","Enfourne 35 min à 180 °C.|Four|35"]],
+  ["Cannellonis au saumon","Au saumon","Farcis au saumon et à la ricotta.","Des cannellonis délicats au saumon et à l'aneth.","",60,540,"M","salmon cannelloni","o",
+   ["cannellonis|cannellonis|16|","pavé de saumon|pavés de saumon|2|","ricotta||400|g","aneth|aneth||","crème fraîche|crème fraîche|25|cl","parmesan||50|g"],
+   ["Fais cuire le saumon 10 min à la vapeur et émiette-le.|Cuisson|10","Mélange-le avec la ricotta et l'aneth.","Remplis les cannellonis et range-les dans un plat.","Nappe de crème et de parmesan, et enfourne 30 min à 180 °C.|Four|30"]]
+ ]},
+ {"q":"Aubergines à la parmesane","a":["parmigiana","aubergines parmigiana","gratin d aubergines","melanzane"],"r":[
+  ["Aubergines à la parmigiana","La classique","","Des tranches d'aubergine grillées en couches avec sauce tomate, mozzarella et parmesan.","Plat italien",75,420,"M","eggplant parmigiana","vo",
+   ["aubergine||3|","tomate concassée|tomates concassées|800|g","mozzarella||2|","parmesan||80|g","basilic|basilic||","ail|ail|2|gousse","huile d'olive|huile d'olive|5|c. à s."],
+   ["Coupe les aubergines en tranches, badigeonne d'huile et fais-les griller au four 20 min à 200 °C.|Four|20","Fais mijoter les tomates avec l'ail 15 min.|Cuisson|15","Alterne dans un plat : sauce, aubergines, mozzarella, parmesan et basilic.","Termine par la sauce, la mozzarella et le parmesan.","Enfourne 30 min à 180 °C.|Four|30"]],
+  ["Gratin d'aubergines à la viande","À la viande","Avec une couche de bœuf haché.","Un gratin d'aubergines généreux, comme une moussaka rapide.","",75,520,"M","eggplant beef bake","o",
+   ["aubergine||3|","bœuf haché|bœuf haché|400|g","tomate concassée|tomates concassées|600|g","oignon||1|","mozzarella||1|","parmesan||50|g"],
+   ["Fais griller les aubergines en tranches au four 20 min.|Four|20","Fais revenir l'oignon et le bœuf, puis ajoute les tomates et laisse 10 min.|Cuisson|10","Alterne aubergines et viande dans un plat.","Couvre de mozzarella et de parmesan, et enfourne 25 min à 180 °C.|Four|25"]],
+  ["Aubergines farcies à l'italienne","Farcies","Les aubergines coupées en deux sont farcies.","Des demi-aubergines garnies de tomate et mozzarella.","",55,350,"F","stuffed eggplant italian","voh",
+   ["aubergine||2|","tomate||3|","mozzarella||1|","parmesan||40|g","ail|ail|1|gousse","basilic|basilic||"],
+   ["Préchauffe le four à 200 °C. Coupe les aubergines en deux et quadrille la chair.","Enfourne 25 min, puis évide-les à moitié.|Four|25","Mélange la chair avec les tomates en dés, l'ail et le basilic.","Remplis les aubergines, couvre de mozzarella et de parmesan, et enfourne 15 min.|Four|15"]]
+ ]},
+ {"q":"Polenta","a":["polenta cremeuse","polenta grillee","frites de polenta"],"r":[
+  ["Polenta crémeuse au parmesan","La classique","","Une polenta onctueuse au parmesan et au beurre, à servir avec une viande en sauce.","Plat italien",15,320,"F","creamy polenta","vbf",
+   ["polenta précuite|polenta précuite|250|g","lait||50|cl","parmesan||60|g","beurre||30|g","sel|||"],
+   ["Porte à ébullition le lait avec 50 cl d'eau salée.","Verse la polenta en pluie en fouettant.","Laisse cuire 5 min en remuant.|Cuisson|5","Ajoute le parmesan et le beurre hors du feu."]],
+  ["Polenta grillée","Grillée","Refroidie, coupée en parts et dorée à la poêle.","Des parts de polenta croustillantes, avec une sauce tomate.","",30,300,"F","grilled polenta squares","vbf",
+   ["polenta précuite|polenta précuite|250|g","parmesan||50|g","huile d'olive|huile d'olive|3|c. à s.","tomate concassée|tomates concassées|400|g"],
+   ["Fais cuire la polenta dans 1 litre d'eau salée 5 min, ajoute le parmesan.|Cuisson|5","Étale-la sur 2 cm dans un plat et laisse refroidir 1 h.","Coupe en parts et fais-les dorer à la poêle dans l'huile.|Poêle|8","Sers avec la sauce tomate chauffée."]],
+  ["Polenta aux champignons","Champignons","Avec une poêlée de champignons à la crème.","Une polenta crémeuse coiffée de champignons.","",25,420,"F","polenta mushrooms","vb",
+   ["polenta précuite|polenta précuite|250|g","champignon de Paris|champignons de Paris|400|g","échalote||2|","crème fraîche|crème fraîche|15|cl","parmesan||50|g","persil|persil||"],
+   ["Fais revenir les échalotes et les champignons émincés 10 min, puis ajoute la crème.|Poêle|10","Fais cuire la polenta dans 1 litre d'eau salée 5 min.|Cuisson|5","Ajoute le parmesan à la polenta.","Sers la polenta avec les champignons et le persil."]]
+ ]},
+ {"q":"Saltimbocca","a":["saltimbocca a la romaine","escalope jambon sauge"],"r":[
+  ["Saltimbocca de veau","La classique","","Des escalopes de veau fines avec jambon cru et sauge, poêlées et déglacées au vin blanc.","Plat italien",25,380,"M","veal saltimbocca","",
+   ["escalope de veau|escalopes de veau|4|","jambon cru|jambon cru|4|tranches","sauge|sauge|8|feuilles","beurre||30|g","vin blanc|vin blanc|10|cl","farine||1|c. à s."],
+   ["Aplatis les escalopes et coupe-les en deux.","Pose sur chacune une demi-tranche de jambon et une feuille de sauge, fixée avec un pic.","Farine légèrement le côté viande.","Fais dorer 2 min de chaque côté dans le beurre.|Poêle|4","Déglace au vin blanc et laisse réduire 2 min."]],
+  ["Saltimbocca de poulet","Au poulet","Avec des blancs de poulet aplatis.","Le saltimbocca au poulet, moins cher et tout aussi bon.","",30,360,"F","chicken saltimbocca","",
+   ["blanc de poulet|blancs de poulet|4|","jambon cru|jambon cru|4|tranches","sauge|sauge|8|feuilles","beurre||30|g","vin blanc|vin blanc|10|cl"],
+   ["Ouvre les blancs en deux et aplatis-les.","Pose le jambon et la sauge, et fixe avec un pic.","Fais dorer 4 min de chaque côté dans le beurre.|Poêle|8","Déglace au vin blanc et laisse réduire."]],
+  ["Saltimbocca de dinde au citron","Dinde citron","Avec de la dinde et une sauce au citron.","Des escalopes de dinde au jambon cru, sauce citron.","",25,320,"F","turkey saltimbocca lemon","h",
+   ["escalope de dinde|escalopes de dinde|4|","jambon cru|jambon cru|4|tranches","sauge|sauge|8|feuilles","citron||1|","beurre||20|g"],
+   ["Pose le jambon et la sauge sur les escalopes et fixe avec un pic.","Fais dorer 3 min de chaque côté dans le beurre.|Poêle|6","Ajoute le jus du citron et 5 cl d'eau.","Laisse réduire 1 min et sers."]]
+ ]},
+ {"q":"Pâtes aux courgettes","a":["pates courgette","spaghetti aux courgettes","pates courgettes feta"],"r":[
+  ["Pâtes aux courgettes et parmesan","La classique","","Des pâtes avec des courgettes fondantes à l'ail, au citron et au parmesan.","",25,450,"F","zucchini pasta","vhbf",
+   ["pâtes|pâtes|400|g","courgette||3|","ail|ail|2|gousse","citron||1|","parmesan||50|g","huile d'olive|huile d'olive|3|c. à s."],
+   ["Fais cuire les pâtes.|Cuisson|10","Râpe ou coupe les courgettes en fines rondelles.","Fais-les fondre 10 min avec l'ail dans l'huile.|Poêle|10","Mélange aux pâtes avec le zeste du citron et le parmesan."]],
+  ["Pâtes courgettes et feta","Feta","Avec de la feta et de la menthe.","Des pâtes fraîches aux courgettes, feta et menthe.","",25,470,"F","zucchini feta pasta","vh",
+   ["pâtes|pâtes|400|g","courgette||3|","feta||150|g","menthe fraîche|menthe fraîche||","ail|ail|1|gousse","huile d'olive|huile d'olive|3|c. à s."],
+   ["Fais cuire les pâtes.|Cuisson|10","Fais revenir les courgettes en dés avec l'ail 8 min.|Poêle|8","Mélange aux pâtes.","Ajoute la feta émiettée et la menthe ciselée."]],
+  ["Pâtes courgettes et lardons","Lardons","Avec des lardons et de la crème.","Des pâtes crémeuses aux courgettes et lardons.","",25,560,"F","zucchini bacon pasta","bf",
+   ["pâtes|pâtes|400|g","courgette||2|","lardon|lardons|150|g","crème fraîche|crème fraîche|15|cl","parmesan||30|g"],
+   ["Fais cuire les pâtes.|Cuisson|10","Fais dorer les lardons, puis ajoute les courgettes en dés 8 min.|Poêle|8","Ajoute la crème et laisse 2 min.","Mélange aux pâtes avec le parmesan."]]
+ ]},
+ {"q":"Arancini","a":["arancinis","boulettes de riz","croquettes de riz"],"r":[
+  ["Arancini","La classique","","Les boulettes de risotto siciliennes, au cœur de mozzarella, panées et frites.","Spécialité sicilienne",90,420,"D","arancini","ve",
+   ["riz à risotto|riz à risotto|300|g","bouillon de légumes|bouillon de légumes|1|","parmesan||60|g","mozzarella||1|","œuf|œufs|2|","chapelure|chapelure|100|g","huile de friture|huile de friture|100|cl"],
+   ["Prépare un risotto : riz nacré, puis bouillon ajouté petit à petit pendant 18 min.|Cuisson|18","Ajoute le parmesan et laisse refroidir complètement.","Forme des boules avec un dé de mozzarella au centre.","Passe-les dans les œufs battus puis dans la chapelure.","Fais-les frire 4 min dans l'huile chaude.|Friture|4"]],
+  ["Arancini à la bolognaise","À la viande","Avec un cœur de sauce bolognaise.","Les arancini farcis à la viande, comme en Sicile.","",100,480,"D","meat arancini","e",
+   ["riz à risotto|riz à risotto|300|g","bouillon de légumes|bouillon de légumes|1|","parmesan||50|g","bœuf haché|bœuf haché|200|g","tomate concassée|tomates concassées|200|g","œuf|œufs|2|","chapelure|chapelure|100|g","huile de friture|huile de friture|100|cl"],
+   ["Prépare un risotto au parmesan et laisse-le refroidir.|Cuisson|18","Fais une petite bolognaise épaisse avec le bœuf et les tomates.|Cuisson|15","Forme des boules de riz avec un peu de bolognaise au centre.","Pane-les à l'œuf et à la chapelure, et fais-les frire 4 min.|Friture|4"]],
+  ["Arancini au four","Au four","Cuits au four plutôt que frits.","Des arancini plus légers, dorés au four.","",80,350,"M","baked arancini","voe",
+   ["riz à risotto|riz à risotto|300|g","bouillon de légumes|bouillon de légumes|1|","parmesan||60|g","mozzarella||1|","œuf|œufs|2|","chapelure|chapelure|100|g","huile d'olive|huile d'olive|3|c. à s."],
+   ["Prépare un risotto au parmesan et laisse-le refroidir.|Cuisson|18","Forme des boules avec un dé de mozzarella au centre.","Pane-les à l'œuf et à la chapelure, et arrose d'huile.","Enfourne 25 min à 200 °C.|Four|25"]]
+ ]},
+ {"q":"Pâtes aux quatre fromages","a":["pates 4 fromages","sauce quatre fromages","penne quatre fromages"],"r":[
+  ["Pâtes aux quatre fromages","La classique","","Des pâtes nappées d'une sauce crème fondante au gorgonzola, mozzarella, parmesan et emmental.","",20,700,"F","four cheese pasta","vf",
+   ["pâtes|pâtes|400|g","gorgonzola|gorgonzola|100|g","mozzarella||1|","parmesan||40|g","emmental râpé|emmental râpé|60|g","crème liquide|crème liquide|20|cl"],
+   ["Fais cuire les pâtes.|Cuisson|10","Chauffe la crème à feu doux.","Ajoute le gorgonzola, la mozzarella en dés, l'emmental et le parmesan, et remue jusqu'à ce que tout fonde.","Mélange aux pâtes et poivre."]],
+  ["Pâtes aux quatre fromages gratinées","Gratinées","Passées au four.","Un gratin de pâtes aux quatre fromages, doré et filant.","",35,720,"F","baked four cheese pasta","vof",
+   ["pâtes courtes|pâtes courtes|400|g","gorgonzola|gorgonzola|100|g","mozzarella||1|","parmesan||40|g","emmental râpé|emmental râpé|80|g","crème liquide|crème liquide|20|cl"],
+   ["Préchauffe le four à 200 °C. Fais cuire les pâtes 2 min de moins que le paquet.|Cuisson|8","Fais fondre le gorgonzola et le parmesan dans la crème.","Mélange avec les pâtes dans un plat et couvre de mozzarella et d'emmental.","Enfourne 15 min.|Four|15"]],
+  ["Pâtes aux trois fromages doux","Fromages doux","Sans fromage bleu, pour les enfants.","Une version douce sans bleu, à l'emmental, mozzarella et parmesan.","",20,650,"F","mild cheese pasta","vbf",
+   ["pâtes|pâtes|400|g","mozzarella||1|","emmental râpé|emmental râpé|80|g","parmesan||40|g","crème liquide|crème liquide|20|cl"],
+   ["Fais cuire les pâtes.|Cuisson|10","Chauffe la crème et fais-y fondre les fromages.","Mélange aux pâtes.","Poivre et sers aussitôt."]]
+ ]}
+]

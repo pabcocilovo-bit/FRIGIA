@@ -1,0 +1,74 @@
+/* Tes recettes (prototype V3) : Tes scans, Tes favoris. En Gratuit, ce qui a plus de 7 jours est flouté (.old.blur). */
+.fa .hs-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.fa .hs-tabs button{font:600 14px/1 var(--sans);padding:13px 4px;text-align:center;white-space:nowrap;border-radius:999px;background:var(--surface);color:var(--text);transition:background .15s,box-shadow .15s}
+.fa .hs-tabs button.on{background:var(--card);box-shadow:inset 0 0 0 2px var(--text)}
+.fa .hs-list{padding:4px 16px 110px;display:flex;flex-direction:column;gap:12px}
+.fa .hs-grp{display:flex;flex-direction:column;gap:12px}
+.fa .hs-grp[hidden]{display:none}
+.fa .hs-day{margin:10px 2px 0;font:700 17px/1.2 var(--sans);color:var(--text)}
+.fa .hs-card{position:relative;display:flex;gap:14px;align-items:center;width:100%;padding:12px;text-align:left;background:#fff;border-radius:22px;box-shadow:0 1px 0 var(--line),0 10px 24px -20px rgba(31,42,34,.5)}
+.fa .hs-card[hidden]{display:none}
+.fa .hs-item{position:relative}
+.fa .hs-item .hs-st{padding-right:30px}
+.fa .hs-del{position:absolute;right:8px;bottom:8px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.fa .hs-del svg{width:15px;height:15px}
+.fa .hs-del:active{background:var(--surface)}
+.fa .hs-ph{width:76px;height:76px;border-radius:16px;object-fit:cover;flex:none}
+.fa .hs-card .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.fa .hs-card b{font:700 17px/1.2 var(--sans);letter-spacing:-.01em;padding-right:58px}
+.fa .hs-date{font-size:13px;color:var(--muted)}
+.fa .hs-st{display:flex;align-items:flex-start;gap:6px;font-size:13px;line-height:1.3;font-weight:600;color:var(--muted);margin-top:2px}
+.fa .hs-st>span{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.fa .hs-st svg{width:15px;height:15px;flex:none;margin-top:1px}
+.fa .hs-st.ok{color:var(--sage-deep)}
+.fa .hs-st.plan{color:#7A5212}
+.fa .hs-first{align-self:flex-start;margin-top:4px;font:600 12px/1 var(--sans);padding:6px 9px;border-radius:8px;background:var(--hi-soft);color:#7A5212}
+.fa .hs-plates{position:absolute;top:12px;right:12px;display:flex}
+.fa .hs-plates img{width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px #fff}
+.fa .hs-plates img+img{margin-left:-9px}
+.fa .hs-sep{display:flex;flex-direction:column;align-items:center;gap:8px;margin:6px 0 2px;color:var(--muted)}
+.fa .hs-sep i{width:1.5px;height:16px;background:var(--line)}
+.fa .hs-sep b{font:400 26px/1 var(--serif);color:var(--muted)}
+.fa .hs-card.old.blur .hs-ph,.fa .hs-card.old.blur .tx,.fa .hs-card.old.blur .hs-plates{filter:blur(3.5px);opacity:.7}
+@media (max-width:370px){.fa .hs-ph{width:64px;height:64px}.fa .hs-card b{font-size:16px}}
+
+/* 1 bis · Tes favoris : fond crème, gros titre, recherche, pilules, cartes blanches avec un pied (Rodeo) */
+.fa .fv-head{padding:var(--top) 18px 6px;display:flex;flex-direction:column;gap:10px}
+.fa .fv-row{display:flex;justify-content:space-between}
+.fa .fv-rb{width:46px;height:46px;box-shadow:0 8px 20px -12px rgba(31,42,34,.35)}
+.fa .fv-head h2{margin:8px 0 0;font:400 44px/1 var(--serif);color:var(--text)}
+.fa .fv-head h2 em{font-style:italic;color:var(--sage)}
+.fa .fv-count{font-size:13.5px;color:var(--muted);margin-top:-2px}
+.fa .fv-search{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:999px;padding:0 16px;margin-top:4px}
+.fa .fv-search svg{width:20px;height:20px;color:var(--muted);flex:none}
+.fa .fv-search input{flex:1;min-width:0;border:0;background:none;font:400 15.5px/1 var(--sans);color:var(--text);padding:14px 0;outline:0;-webkit-appearance:none}
+.fa .fv-search input::-webkit-search-cancel-button{display:none}
+.fa .fv-chips{margin:2px -18px 0;padding:0 18px}
+.fa .chip.fv-chip{box-shadow:inset 0 0 0 1px var(--line);background:var(--card)}
+.fa .chip.fv-chip.on{background:var(--card);color:var(--text);box-shadow:inset 0 0 0 2px var(--text);font-weight:600}
+.fa .fv-list{padding:8px 16px 110px;display:flex;flex-direction:column;gap:12px}
+.fa .fv-card{background:#fff;border-radius:22px;box-shadow:0 1px 0 var(--line),0 10px 24px -20px rgba(31,42,34,.5);overflow:hidden;transition:opacity .25s,transform .25s}
+.fa .fv-card.gone{opacity:0;transform:translateX(40px)}
+.fa .fv-main{display:flex;gap:14px;align-items:center;width:100%;padding:14px;text-align:left}
+.fa .fv-main img{width:84px;height:84px;border-radius:18px;object-fit:cover;flex:none}
+.fa .fv-main .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.fa .fv-main b{font:700 17px/1.2 var(--sans);letter-spacing:-.01em}
+.fa .fv-meta{font-size:13px;color:var(--muted)}
+.fa .fv-pill{align-self:flex-start;display:inline-flex;align-items:center;gap:5px;font:600 12px/1 var(--sans);padding:6px 9px;border-radius:999px;background:var(--surface);color:var(--muted)}
+.fa .fv-pill svg{width:13px;height:13px}
+.fa .fv-heart{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--sage-soft);color:var(--sage);flex:none;align-self:flex-start}
+.fa .fv-heart svg{width:19px;height:19px;fill:currentColor}
+.fa .fv-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.fa .fv-foot>span{display:flex;align-items:center;gap:8px}
+.fa .fv-foot>span svg{width:16px;height:16px;color:var(--sage)}
+.fa .fv-tag{font:600 12px/1 var(--sans);padding:6px 9px;border-radius:8px;background:var(--hi-soft);color:#7A5212}
+.fa .fv-tag.ok{background:var(--sage-soft);color:var(--sage-deep)}
+.fa .fv-card.old.blur .fv-main img,.fa .fv-card.old.blur .fv-main .tx{filter:blur(3.5px);opacity:.7}
+.fa .fv-lock{display:flex;align-items:center;gap:12px;padding:14px;border-radius:18px;background:var(--hi-soft);color:#5E4210;font-size:13.5px;text-align:left;width:100%}
+.fa .fv-lock b{display:block;font-size:14.5px;color:#4A340C}
+.fa .fv-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:14.5px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.fa .fv-empty span{width:64px;height:64px;border-radius:50%;background:var(--sage-soft);color:var(--sage-deep);display:grid;place-items:center}
+.fa .fv-empty span svg{width:28px;height:28px}
+.fa .fv-empty b{font:400 24px/1.1 var(--serif);color:var(--text)}
+.fa .es-hint{font-size:12.5px;color:var(--muted)}
+.fa .fv-foot i{font-style:italic}

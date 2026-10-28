@@ -6,7 +6,7 @@ Site : https://frigia.fr — en français, pour la France.
 
 ## Comment ça marche
 
-1. Tu prends ton frigo en photo, pour ce midi, ce soir ou la semaine. Une photo de la galerie marche aussi.
+1. Tu prends ton frigo en photo, pour un plat ou un dessert. Une photo de la galerie marche aussi.
 2. Frigia liste les ingrédients trouvés avec leurs quantités. Tu corriges et tu choisis qui mange ce soir, allergies comprises.
 3. Frigia propose trois recettes avec ce que tu as déjà. Le mode cuisine guide pas à pas.
 

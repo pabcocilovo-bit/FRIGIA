@@ -1,0 +1,112 @@
+[
+ {"q":"Coquillettes au jambon","a":["coquillettes jambon","coquillettes jambon fromage","pates jambon","pates au jambon"],"r":[
+  ["Coquillettes au jambon","La classique","","Le plat réconfort de l'enfance : coquillettes au beurre, jambon et fromage râpé.","",15,480,"F","macaroni ham cheese","bf",
+   ["coquillettes|coquillettes|400|g","jambon blanc|jambon blanc|4|tranches","beurre||30|g","emmental râpé|emmental râpé|80|g"],
+   ["Fais cuire les coquillettes à l'eau salée.|Cuisson|9","Coupe le jambon en petits morceaux.","Égoutte les pâtes et mélange-les avec le beurre et le jambon.","Parsème d'emmental et sers aussitôt."]],
+  ["Coquillettes jambon à la crème","À la crème","Avec de la crème et des champignons.","Des coquillettes crémeuses au jambon et champignons.","",20,560,"F","creamy ham pasta mushrooms","bf",
+   ["coquillettes|coquillettes|400|g","jambon blanc|jambon blanc|4|tranches","champignon de Paris|champignons de Paris|150|g","crème fraîche|crème fraîche|15|cl","emmental râpé|emmental râpé|60|g"],
+   ["Fais cuire les coquillettes.|Cuisson|9","Fais revenir les champignons émincés 5 min.|Poêle|5","Ajoute la crème et le jambon en morceaux.","Mélange avec les pâtes et l'emmental."]],
+  ["Coquillettes façon risotto","Façon risotto","Cuites comme un risotto, dans un bouillon, avec du parmesan.","Les coquillettes crémeuses des bistrots, cuites au bouillon.","",25,500,"F","pasta risotto ham parmesan","f",
+   ["coquillettes|coquillettes|400|g","jambon blanc|jambon blanc|4|tranches","bouillon de volaille|bouillon de volaille|1|","parmesan||60|g","beurre||20|g","échalote||1|"],
+   ["Fais revenir l'échalote dans le beurre, ajoute les coquillettes et remue 1 min.","Ajoute le bouillon chaud louche par louche en remuant, comme un risotto.|Cuisson|12","Ajoute le parmesan et le jambon en dés.","Sers bien crémeux."]]
+ ]},
+ {"q":"Œufs à la coque","a":["oeuf a la coque","oeufs coque mouillettes","oeuf mouillettes"],"r":[
+  ["Œufs à la coque et mouillettes","La classique","","Des œufs au jaune coulant, avec des mouillettes beurrées à tremper.","",10,250,"F","soft boiled eggs soldiers","vbf",
+   ["œuf|œufs|8|","pain de mie|pains de mie|6|tranches","beurre||30|g","sel|||"],
+   ["Porte une casserole d'eau à ébullition.","Plonge les œufs délicatement et compte 3 min.|Cuisson|3","Pendant ce temps, grille le pain, beurre-le et coupe-le en bâtonnets.","Sers les œufs dans des coquetiers avec les mouillettes."]],
+  ["Œufs à la coque et asperges","Asperges","Des asperges vertes en guise de mouillettes.","Une version printanière, avec des asperges à tremper.","",15,200,"F","soft boiled eggs asparagus","vh",
+   ["œuf|œufs|8|","asperge verte|asperges vertes|500|g","beurre||15|g","sel|||"],
+   ["Fais cuire les asperges 6 min à l'eau salée.|Cuisson|6","Plonge les œufs dans l'eau bouillante 3 min.|Cuisson|3","Sers les œufs avec les asperges beurrées.","Sale au moment de tremper."]],
+  ["Œufs à la coque et mouillettes au jambon","Au jambon","Des mouillettes enroulées de jambon cru.","Des mouillettes plus gourmandes, au jambon cru.","",10,300,"F","eggs soldiers prosciutto","",
+   ["œuf|œufs|8|","pain de mie|pains de mie|6|tranches","jambon cru|jambon cru|6|tranches","beurre||20|g"],
+   ["Grille le pain, beurre-le et coupe-le en bâtonnets.","Enroule une demi-tranche de jambon cru autour de chaque mouillette.","Plonge les œufs 3 min dans l'eau bouillante.|Cuisson|3","Sers aussitôt."]]
+ ]},
+ {"q":"Galette complète","a":["galettes de sarrasin","galette bretonne","galette sarrasin","galettes complete","crepes salees"],"r":[
+  ["Galette complète","La classique","","La galette de sarrasin bretonne avec jambon, œuf et emmental.","Spécialité bretonne",80,450,"F","galette complete buckwheat crepe","bf",
+   ["farine de sarrasin|farine de sarrasin|250|g","œuf|œufs|5|","jambon blanc|jambon blanc|4|tranches","emmental râpé|emmental râpé|120|g","beurre demi-sel|beurre demi-sel|40|g","sel|||"],
+   ["Mélange la farine, 1 œuf, une pincée de sel et 60 cl d'eau froide. Laisse reposer 1 h.|Repos|60","Fais cuire une galette 2 min dans une poêle beurrée.|Poêle|2","Retourne-la, ajoute emmental et jambon, et casse un œuf au centre.","Replie les bords en carré et laisse cuire jusqu'à ce que le blanc soit pris.|Poêle|3"]],
+  ["Galette saucisse","Saucisse","Roulée autour d'une saucisse grillée.","La galette-saucisse des marchés bretons.","Spécialité bretonne",80,520,"F","galette saucisse","bf",
+   ["farine de sarrasin|farine de sarrasin|250|g","œuf|œufs|1|","saucisse de Toulouse|saucisses de Toulouse|4|","beurre demi-sel|beurre demi-sel|30|g","moutarde|moutarde|4|c. à c."],
+   ["Prépare la pâte et laisse reposer 1 h.|Repos|60","Fais griller les saucisses 15 min.|Poêle|15","Fais cuire les galettes.|Poêle|2","Tartine de moutarde et roule chaque galette autour d'une saucisse."]],
+  ["Galette chèvre et épinards","Végétarienne","Avec chèvre, épinards et miel.","Une galette végétarienne au chèvre fondant.","",80,420,"F","goat cheese spinach galette","v",
+   ["farine de sarrasin|farine de sarrasin|250|g","œuf|œufs|1|","bûche de chèvre|bûches de chèvre|1|","pousses d'épinard|pousses d'épinard|150|g","miel||2|c. à s.","beurre demi-sel|beurre demi-sel|30|g"],
+   ["Prépare la pâte et laisse reposer 1 h.|Repos|60","Fais fondre les épinards 2 min.|Poêle|2","Fais cuire une galette, garnis d'épinards et de rondelles de chèvre.","Replie les bords, laisse fondre 2 min et arrose de miel.|Poêle|2"]]
+ ]},
+ {"q":"Steak haché purée","a":["steak hache maison","steaks haches maison","steak puree"],"r":[
+  ["Steak haché purée","La classique","","Des steaks hachés poêlés avec une purée maison.","",30,560,"F","burger patty mashed potatoes","bf",
+   ["steak haché|steaks hachés|4|","pomme de terre|pommes de terre|1000|g","lait||20|cl","beurre||40|g","sel|||"],
+   ["Fais cuire les pommes de terre 20 min à l'eau salée.|Cuisson|20","Écrase-les avec le lait chaud et le beurre.","Fais cuire les steaks 2 à 4 min de chaque côté selon la cuisson voulue.|Poêle|6","Sale, poivre et sers avec la purée."]],
+  ["Steaks hachés maison aux herbes","Maison","Façonnés à la main avec des herbes et de l'oignon.","Des steaks hachés maison bien parfumés.","",25,450,"F","homemade beef patties herbs","bf",
+   ["bœuf haché|bœuf haché|500|g","oignon||1|","persil|persil||","œuf|œufs|1|","haricot vert|haricots verts|500|g"],
+   ["Hache l'oignon et le persil, et mélange-les avec le bœuf et l'œuf.","Forme 4 steaks.","Fais cuire les haricots verts 8 min à l'eau.|Cuisson|8","Fais dorer les steaks 3 min de chaque côté.|Poêle|6"]],
+  ["Steak haché à la sauce au poivre","Sauce poivre","Avec une sauce crème au poivre.","Le steak haché du bistrot, sauce au poivre.","",25,560,"F","patty pepper sauce","",
+   ["steak haché|steaks hachés|4|","crème fraîche|crème fraîche|15|cl","poivre concassé|poivre concassé|1|c. à c.","échalote||1|","pomme de terre|pommes de terre|800|g"],
+   ["Fais cuire les pommes de terre en quartiers 20 min à la vapeur.|Cuisson|20","Fais cuire les steaks et retire-les.|Poêle|6","Fais revenir l'échalote, ajoute la crème et le poivre, et laisse réduire 2 min.","Nappe les steaks de sauce."]]
+ ]},
+ {"q":"Velouté de tomates","a":["soupe de tomates","soupe a la tomate","veloute tomate","creme de tomate"],"r":[
+  ["Velouté de tomates","La classique","","Un velouté de tomates doux et parfumé au basilic, avec un trait de crème.","",35,160,"F","tomato soup","vhbf",
+   ["tomate||8|","oignon||1|","ail|ail|1|gousse","bouillon de légumes|bouillon de légumes|1|","crème fraîche|crème fraîche|2|c. à s.","basilic|basilic||","sucre|sucre|1|c. à c."],
+   ["Fais revenir l'oignon et l'ail.","Ajoute les tomates en quartiers, le sucre, le bouillon et 40 cl d'eau.","Laisse cuire 20 min.|Cuisson|20","Mixe avec la crème et le basilic."]],
+  ["Soupe de tomates rôties","Rôties","Les tomates sont rôties au four avant d'être mixées.","Une soupe de tomates plus intense, rôties au four.","",50,170,"F","roasted tomato soup","vohb",
+   ["tomate||10|","oignon rouge|oignons rouges|1|","ail|ail|3|gousse","huile d'olive|huile d'olive|3|c. à s.","bouillon de légumes|bouillon de légumes|1|","thym|thym||"],
+   ["Préchauffe le four à 200 °C.","Mets les tomates coupées en deux, l'oignon et l'ail dans un plat avec l'huile et le thym.","Enfourne 35 min.|Four|35","Mixe avec le bouillon et 30 cl d'eau chaude."]],
+  ["Soupe de tomates et croque au fromage","Avec croques","Servie avec des petits croques au fromage à tremper.","La soupe à la tomate et son sandwich au fromage fondu.","",35,420,"F","tomato soup grilled cheese","vbf",
+   ["tomate concassée|tomates concassées|800|g","oignon||1|","bouillon de légumes|bouillon de légumes|1|","pain de mie|pains de mie|8|tranches","cheddar|cheddar|8|tranches","beurre||30|g"],
+   ["Fais revenir l'oignon, ajoute les tomates, le bouillon et 30 cl d'eau, et laisse 20 min.|Cuisson|20","Mixe la soupe.","Garnis le pain de cheddar, beurre l'extérieur et fais dorer à la poêle 3 min de chaque côté.|Poêle|6","Coupe en bâtonnets et sers avec la soupe."]]
+ ]},
+ {"q":"Pâtes à la sauce tomate","a":["sauce tomate","pates tomate","spaghetti sauce tomate","sauce tomate maison","pates sauce tomate"],"r":[
+  ["Pâtes à la sauce tomate maison","La classique","","Des pâtes avec une vraie sauce tomate maison, à l'ail et au basilic.","",25,450,"F","pasta tomato sauce","vhbf",
+   ["pâtes|pâtes|400|g","tomate concassée|tomates concassées|800|g","oignon||1|","ail|ail|2|gousse","huile d'olive|huile d'olive|3|c. à s.","basilic|basilic||","parmesan||40|g"],
+   ["Fais revenir l'oignon et l'ail dans l'huile.","Ajoute les tomates, sale, poivre et laisse mijoter 20 min.|Cuisson|20","Fais cuire les pâtes.|Cuisson|10","Mélange avec la sauce, le basilic et le parmesan."]],
+  ["Pâtes sauce tomate et légumes cachés","Légumes cachés","Des légumes mixés dans la sauce.","Une sauce tomate pleine de légumes, que les enfants ne voient pas.","",35,430,"F","hidden veggie pasta sauce","vhbf",
+   ["pâtes|pâtes|400|g","tomate concassée|tomates concassées|800|g","carotte||2|","courgette||1|","poivron rouge|poivrons rouges|1|","oignon||1|","huile d'olive|huile d'olive|2|c. à s."],
+   ["Fais revenir l'oignon, la carotte, la courgette et le poivron en dés 5 min.","Ajoute les tomates et laisse mijoter 25 min.|Cuisson|25","Mixe la sauce.","Fais cuire les pâtes et mélange avec la sauce.|Cuisson|10"]],
+  ["Pâtes sauce tomate et thon","Au thon","Avec du thon et des câpres.","Une sauce tomate enrichie au thon.","",25,500,"F","tuna tomato pasta","bf",
+   ["pâtes|pâtes|400|g","tomate concassée|tomates concassées|800|g","thon au naturel|thon au naturel|200|g","ail|ail|2|gousse","câpres|câpres|1|c. à s."],
+   ["Fais revenir l'ail, ajoute les tomates et laisse 15 min.|Cuisson|15","Ajoute le thon et les câpres.","Fais cuire les pâtes.|Cuisson|10","Mélange avec la sauce."]]
+ ]},
+ {"q":"Gratin de poisson","a":["gratin de poisson blanc","poisson gratine","gratin de cabillaud"],"r":[
+  ["Gratin de poisson","La classique","","Du poisson blanc en béchamel, gratiné à l'emmental, avec des pommes de terre.","",50,450,"F","fish gratin","obf",
+   ["filets de poisson blanc|filets de poisson blanc|600|g","pomme de terre|pommes de terre|600|g","lait||50|cl","farine||40|g","beurre||40|g","emmental râpé|emmental râpé|100|g"],
+   ["Préchauffe le four à 200 °C. Fais cuire les pommes de terre en rondelles 10 min à l'eau.|Cuisson|10","Prépare une béchamel avec le beurre, la farine et le lait.","Range les pommes de terre et le poisson en morceaux dans un plat.","Nappe de béchamel et couvre d'emmental.","Enfourne 25 min.|Four|25"]],
+  ["Gratin de poisson aux épinards","Épinards","Avec des épinards à la crème.","Un gratin de poisson vert, aux épinards.","",40,400,"F","fish spinach gratin","oh",
+   ["filets de poisson blanc|filets de poisson blanc|600|g","épinards surgelés|épinards surgelés|500|g","crème fraîche|crème fraîche|20|cl","parmesan||50|g","muscade|muscade||"],
+   ["Préchauffe le four à 200 °C. Fais décongeler les épinards et presse-les.","Mélange-les avec la crème et la muscade.","Mets le poisson dans un plat et couvre d'épinards.","Parsème de parmesan et enfourne 25 min.|Four|25"]],
+  ["Gratin de poisson à la tomate","Tomate","Avec une sauce tomate et de la mozzarella.","Un gratin de poisson à l'italienne.","",40,380,"F","fish tomato mozzarella bake","oh",
+   ["filets de poisson blanc|filets de poisson blanc|600|g","tomate concassée|tomates concassées|400|g","mozzarella||1|","olives noires|olives noires|50|g","basilic|basilic||"],
+   ["Préchauffe le four à 200 °C.","Étale les tomates dans un plat et pose le poisson dessus.","Ajoute les olives et la mozzarella en tranches.","Enfourne 25 min et parsème de basilic.|Four|25"]]
+ ]},
+ {"q":"Feuilletés à la saucisse","a":["feuilletes saucisse","friands saucisse","roules a la saucisse","feuilletes apero"],"r":[
+  ["Feuilletés à la saucisse","La classique","","Des petites saucisses roulées dans la pâte feuilletée, pour l'apéritif.","",30,280,"F","sausage rolls","oe",
+   ["pâte feuilletée|pâtes feuilletées|1|","saucisse cocktail|saucisses cocktail|24|","moutarde|moutarde|1|c. à s.","œuf|œufs|1|"],
+   ["Préchauffe le four à 200 °C.","Tartine la pâte de moutarde et coupe-la en bandes.","Roule chaque saucisse dans une bande de pâte.","Dore à l'œuf battu et enfourne 18 min.|Four|18"]],
+  ["Friands à la viande","Friands","Des chaussons feuilletés farcis à la chair à saucisse.","Les friands de la boulangerie, faits maison.","",45,380,"M","meat puff pastry friands","o",
+   ["pâte feuilletée|pâtes feuilletées|2|","chair à saucisse|chair à saucisse|400|g","oignon||1|","persil|persil||","œuf|œufs|1|"],
+   ["Préchauffe le four à 200 °C.","Mélange la chair à saucisse avec l'oignon haché et le persil.","Découpe des rectangles de pâte, garnis-les, replie et soude.","Dore à l'œuf et enfourne 25 min.|Four|25"]],
+  ["Feuilletés au fromage","Végétariens","Des torsades feuilletées au fromage.","Des feuilletés au fromage pour l'apéritif.","",25,220,"F","cheese straws puff pastry","voe",
+   ["pâte feuilletée|pâtes feuilletées|1|","emmental râpé|emmental râpé|80|g","œuf|œufs|1|","paprika|paprika|1|c. à c."],
+   ["Préchauffe le four à 200 °C.","Dore la pâte à l'œuf et parsème d'emmental et de paprika.","Coupe-la en bandes et torsade chaque bande.","Enfourne 12 min.|Four|12"]]
+ ]},
+ {"q":"Muffins salés","a":["muffin sale","muffins sales jambon fromage","muffins apero"],"r":[
+  ["Muffins salés jambon-fromage","La classique","","Des muffins moelleux au jambon et à l'emmental, pour l'apéritif ou le pique-nique.","",35,250,"F","ham cheese savory muffins","obf",
+   ["farine||200|g","œuf|œufs|3|","lait||10|cl","huile|huile|8|cl","levure chimique|levure chimique|2|c. à c.","jambon blanc|jambon blanc|3|tranches","emmental râpé|emmental râpé|100|g"],
+   ["Préchauffe le four à 180 °C.","Mélange la farine, la levure, les œufs, le lait et l'huile.","Ajoute le jambon en dés et l'emmental.","Remplis des moules à muffins et enfourne 20 min.|Four|20"]],
+  ["Muffins salés aux légumes","Aux légumes","Avec des carottes et du fromage.","Des muffins salés aux légumes râpés.","",35,220,"F","vegetable savory muffins","vobf",
+   ["farine||200|g","œuf|œufs|3|","lait||10|cl","huile|huile|8|cl","levure chimique|levure chimique|2|c. à c.","carotte||2|","emmental râpé|emmental râpé|80|g"],
+   ["Préchauffe le four à 180 °C.","Mélange la farine, la levure, les œufs, le lait et l'huile.","Ajoute les carottes râpées et l'emmental.","Remplis les moules et enfourne 20 min.|Four|20"]],
+  ["Muffins salés chorizo-poivron","Chorizo","Avec du chorizo et du poivron.","Des muffins relevés au chorizo.","",35,270,"F","chorizo savory muffins","o",
+   ["farine||200|g","œuf|œufs|3|","lait||10|cl","huile d'olive|huile d'olive|8|cl","levure chimique|levure chimique|2|c. à c.","chorizo||80|g","poivron rouge|poivrons rouges|1|"],
+   ["Préchauffe le four à 180 °C.","Mélange la farine, la levure, les œufs, le lait et l'huile.","Ajoute le chorizo et le poivron en petits dés.","Remplis les moules et enfourne 20 min.|Four|20"]]
+ ]},
+ {"q":"Bouillon de poulet","a":["soupe de poulet","soupe poulet vermicelles","bouillon de poule","soupe aux vermicelles"],"r":[
+  ["Soupe de poulet aux vermicelles","La classique","","Le bouillon réconfortant au poulet, carottes et vermicelles, pour les soirs de rhume.","",50,280,"F","chicken noodle soup","hbf",
+   ["cuisse de poulet|cuisses de poulet|2|","carotte||3|","poireau|poireaux|1|","oignon||1|","vermicelles|vermicelles|80|g","bouquet garni|bouquets garnis|1|","persil|persil||"],
+   ["Mets le poulet, l'oignon et le bouquet garni dans 1,5 litre d'eau salée et laisse frémir 30 min.|Cuisson|30","Retire le poulet et effiloche-le.","Ajoute les carottes et le poireau en rondelles, et laisse 10 min.|Cuisson|10","Ajoute les vermicelles et le poulet, et laisse 4 min.|Cuisson|4","Parsème de persil."]],
+  ["Bouillon de poulet au gingembre","Gingembre","Avec du gingembre et de la citronnelle.","Un bouillon parfumé à l'asiatique.","Inspiration asiatique",45,240,"F","ginger chicken broth","h",
+   ["blanc de poulet|blancs de poulet|2|","gingembre frais|gingembre frais|1|","citronnelle|citronnelle|1|","sauce soja|sauce soja|2|c. à s.","nouilles de riz|nouilles de riz|100|g","oignon nouveau|oignons nouveaux|2|"],
+   ["Mets le poulet, le gingembre en tranches et la citronnelle dans 1,5 litre d'eau et laisse frémir 25 min.|Cuisson|25","Retire le poulet et effiloche-le.","Ajoute la sauce soja et les nouilles, et laisse 4 min.|Cuisson|4","Remets le poulet et parsème d'oignon nouveau."]],
+  ["Soupe de poulet au riz","Au riz","Du riz à la place des vermicelles.","Une soupe de poulet douce au riz et au citron.","",45,290,"F","chicken rice soup lemon","hbf",
+   ["cuisse de poulet|cuisses de poulet|2|","carotte||2|","oignon||1|","riz|riz|80|g","citron||1|","persil|persil||"],
+   ["Mets le poulet et l'oignon dans 1,5 litre d'eau salée et laisse frémir 30 min.|Cuisson|30","Retire le poulet et effiloche-le.","Ajoute les carottes et le riz, et laisse 15 min.|Cuisson|15","Remets le poulet, ajoute le jus du citron et le persil."]]
+ ]}
+]

@@ -1,0 +1,112 @@
+[
+ {"q":"Soupe de légumes","a":["soupe aux legumes","veloute de legumes","soupe maison"],"r":[
+  ["Soupe de légumes","La classique","","Une soupe maison toute simple, avec les légumes du moment, mixée bien lisse.","",35,140,"F","vegetable soup bowl","vbfhe",
+   ["carotte||3|","pomme de terre||2|","poireau||1|","courgette||1|","oignon||1|","bouillon de légumes|bouillons de légumes|1|","beurre||15|g","sel|||","poivre|||"],
+   ["Épluche et coupe tous les légumes en morceaux.","Fais revenir l'oignon et le poireau dans le beurre 5 min.|Cuisson|5","Ajoute le reste des légumes, couvre d'eau avec le bouillon et cuis 25 min.|Cuisson|25","Mixe, sale et poivre."]],
+  ["Soupe de légumes moulinée","Moulinée","Les légumes sont écrasés grossièrement, avec un peu de crème.","La soupe de grand-mère, avec des morceaux et une touche de crème.","",35,190,"F","rustic vegetable soup","vbfe",
+   ["carotte||3|","pomme de terre||3|","poireau||1|","navet||1|","oignon||1|","crème fraîche||5|cl","bouillon de légumes|bouillons de légumes|1|","sel|||","poivre|||"],
+   ["Coupe tous les légumes en morceaux.","Mets-les dans une casserole, couvre d'eau avec le bouillon et cuis 25 min.|Cuisson|25","Écrase grossièrement au presse-purée, ajoute la crème, sale et poivre."]],
+  ["Soupe de légumes et vermicelles","Aux vermicelles","Les légumes restent en petits dés, avec des vermicelles dans le bouillon.","Un bouillon de légumes en petits dés, avec des vermicelles : un vrai plat du soir.","",30,180,"F","vegetable noodle soup","vbfhe",
+   ["carotte||2|","courgette||1|","poireau||1|","pomme de terre||1|","vermicelle|vermicelles|60|g","bouillon de légumes|bouillons de légumes|2|","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Coupe les légumes en petits dés et fais-les revenir 5 min dans l'huile.|Cuisson|5","Ajoute 1,2 l d'eau et les bouillons, et cuis 15 min.|Cuisson|15","Ajoute les vermicelles et cuis encore 4 min.|Cuisson|4"]]
+ ]},
+ {"q":"Velouté de carottes","a":["soupe de carottes","soupe carotte"],"r":[
+  ["Velouté de carottes","La classique","","Un velouté doux et sucré, avec une pointe de cumin.","",35,150,"F","carrot soup","vbfhe",
+   ["carotte||8|","pomme de terre||1|","oignon||1|","bouillon de légumes|bouillons de légumes|1|","cumin|cumin|0.5|c. à c.","crème fraîche||5|cl","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Fais revenir l'oignon dans l'huile 3 min.|Cuisson|3","Ajoute les carottes et la pomme de terre en rondelles, le cumin, couvre d'eau avec le bouillon.","Cuis 25 min.|Cuisson|25","Mixe avec la crème, sale et poivre."]],
+  ["Velouté carottes, coco et gingembre","Coco gingembre","Le lait de coco et le gingembre remplacent la crème et le cumin.","Un velouté exotique, doux et légèrement piquant.","",35,200,"F","carrot coconut ginger soup","vbhe",
+   ["carotte||8|","oignon||1|","lait de coco|lait de coco|20|cl","gingembre frais|gingembre frais|1|c. à s.","bouillon de légumes|bouillons de légumes|1|","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir l'oignon et le gingembre râpé dans l'huile 3 min.|Cuisson|3","Ajoute les carottes en rondelles, couvre d'eau avec le bouillon et cuis 25 min.|Cuisson|25","Mixe avec le lait de coco et sale."]],
+  ["Velouté de carottes à l'orange","À l'orange","Le jus d'orange apporte une note fruitée.","Un velouté plein de vitamines, carotte et orange.","",35,160,"F","carrot orange soup","vbhe",
+   ["carotte||8|","orange||2|","oignon||1|","bouillon de légumes|bouillons de légumes|1|","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Fais revenir l'oignon dans l'huile 3 min.|Cuisson|3","Ajoute les carottes, couvre d'eau avec le bouillon et cuis 25 min.|Cuisson|25","Mixe avec le jus des oranges, sale et poivre."]]
+ ]},
+ {"q":"Velouté de courgettes","a":["soupe de courgettes","soupe courgette","veloute courgette vache qui rit"],"r":[
+  ["Velouté de courgettes","La classique","","Un velouté vert et onctueux, adouci avec un peu de fromage fondu.","",30,150,"F","zucchini soup","vbfhe",
+   ["courgette||4|","pomme de terre||1|","oignon||1|","fromage fondu|fromages fondus|4|","bouillon de légumes|bouillons de légumes|1|","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Fais revenir l'oignon dans l'huile 3 min.|Cuisson|3","Ajoute les courgettes et la pomme de terre en morceaux, couvre d'eau avec le bouillon.","Cuis 20 min.|Cuisson|20","Mixe avec les portions de fromage fondu, sale et poivre."]],
+  ["Velouté de courgettes au chèvre","Au chèvre","Du chèvre frais remplace le fromage fondu.","Un velouté de courgettes parfumé au chèvre et au basilic.","",30,180,"F","zucchini goat cheese soup","vhe",
+   ["courgette||4|","oignon||1|","chèvre frais|chèvres frais|100|g","basilic|basilic||","bouillon de légumes|bouillons de légumes|1|","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Fais revenir l'oignon dans l'huile 3 min.|Cuisson|3","Ajoute les courgettes, couvre d'eau avec le bouillon et cuis 20 min.|Cuisson|20","Mixe avec le chèvre et le basilic, sale et poivre."]],
+  ["Velouté de courgettes à la menthe","Froid à la menthe","Servi froid, avec du yaourt et de la menthe.","Une soupe fraîche pour l'été, à la menthe et au yaourt.","",25,120,"F","cold zucchini mint soup","vchbe",
+   ["courgette||4|","oignon||1|","yaourt grec|yaourts grecs|1|","menthe|menthe||","bouillon de légumes|bouillons de légumes|1|","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Fais revenir l'oignon dans l'huile, ajoute les courgettes et couvre d'eau avec le bouillon.","Cuis 15 min, puis laisse refroidir.|Cuisson|15","Mixe avec le yaourt et la menthe, sale, poivre et mets au frais 1 h.|Frais|60"]]
+ ]},
+ {"q":"Potage poireaux pommes de terre","a":["soupe poireaux pommes de terre","soupe de poireaux","veloute de poireaux","vichyssoise"],"r":[
+  ["Potage poireaux pommes de terre","La classique","","Le potage du soir par excellence, doux et réconfortant.","",35,170,"F","leek potato soup","vbfhe",
+   ["poireau||3|","pomme de terre||3|","oignon||1|","bouillon de légumes|bouillons de légumes|1|","beurre||20|g","crème fraîche||5|cl","sel|||","poivre|||"],
+   ["Émince les poireaux et l'oignon et fais-les fondre dans le beurre 5 min.|Cuisson|5","Ajoute les pommes de terre en cubes, couvre d'eau avec le bouillon et cuis 25 min.|Cuisson|25","Mixe avec la crème, sale et poivre."]],
+  ["Vichyssoise","Froide","Servie froide, avec de la crème et de la ciboulette.","La version froide et chic du potage poireaux.","",35,210,"F","vichyssoise cold soup","vce",
+   ["poireau||3|","pomme de terre||2|","oignon||1|","bouillon de légumes|bouillons de légumes|1|","crème fraîche liquide||15|cl","ciboulette|ciboulette||","beurre||20|g","sel|||","poivre|||"],
+   ["Fais fondre les blancs de poireaux et l'oignon dans le beurre 5 min.|Cuisson|5","Ajoute les pommes de terre, couvre d'eau avec le bouillon et cuis 25 min.|Cuisson|25","Mixe avec la crème et laisse refroidir 2 h au frais.|Frais|120","Sers avec la ciboulette ciselée."]],
+  ["Soupe poireaux pommes de terre et lardons","Aux lardons","Des lardons grillés sont ajoutés au moment de servir.","Le potage tout doux, avec des lardons croustillants.","",35,260,"F","leek potato soup bacon","bf",
+   ["poireau||3|","pomme de terre||3|","lardon||100|g","bouillon de volaille|bouillons de volaille|1|","beurre||20|g","sel|||","poivre|||"],
+   ["Fais fondre les poireaux émincés dans le beurre 5 min.|Cuisson|5","Ajoute les pommes de terre, couvre d'eau avec le bouillon et cuis 25 min.|Cuisson|25","Fais griller les lardons 5 min à la poêle.|Poêle|5","Mixe la soupe et sers avec les lardons."]]
+ ]},
+ {"q":"Gaspacho","a":["gazpacho","soupe froide tomate"],"r":[
+  ["Gaspacho","La classique","","La soupe froide andalouse : tomates, concombre et poivron, mixés avec un filet d'huile d'olive.","Plat espagnol",15,140,"F","gazpacho cold tomato soup","vchbe",
+   ["tomate||6|","concombre||0.5|","poivron rouge|poivrons rouges|1|","oignon rouge|oignons rouges|0.5|","ail||1|gousse","huile d'olive|huile d'olive|4|c. à s.","vinaigre de xérès|vinaigre de xérès|1|c. à s.","sel|||","poivre|||"],
+   ["Coupe les légumes en morceaux.","Mixe-les avec l'ail, l'huile, le vinaigre, sel et poivre, jusqu'à ce que ce soit bien lisse.","Mets au frais au moins 2 h avant de servir.|Frais|120"]],
+  ["Gaspacho de pastèque","À la pastèque","La pastèque remplace la moitié des tomates.","Un gaspacho sucré-salé, ultra rafraîchissant.","",15,110,"F","watermelon gazpacho","vche",
+   ["pastèque|pastèques|600|g","tomate||3|","concombre||0.5|","menthe|menthe||","huile d'olive|huile d'olive|2|c. à s.","citron vert|citrons verts|1|","sel|||"],
+   ["Coupe la pastèque sans les pépins, les tomates et le concombre en morceaux.","Mixe avec l'huile, le jus du citron vert, la menthe et le sel.","Mets au frais 2 h.|Frais|120"]],
+  ["Gaspacho vert","Vert","Concombre, avocat et herbes remplacent la tomate.","Un gaspacho tout vert, frais et crémeux.","",15,180,"F","green gazpacho cucumber avocado","vche",
+   ["concombre||1|","avocat||1|","poivron vert|poivrons verts|1|","basilic|basilic||","yaourt nature|yaourts nature|1|","citron||1|","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Coupe les légumes en morceaux.","Mixe avec le yaourt, le jus du citron, le basilic, l'huile et le sel.","Mets au frais 1 h.|Frais|60"]]
+ ]},
+ {"q":"Minestrone","a":["soupe minestrone"],"r":[
+  ["Minestrone","La classique","","La soupe italienne aux légumes, haricots et petites pâtes, servie avec du parmesan.","Plat italien",45,280,"F","minestrone soup","vbfh",
+   ["carotte||2|","courgette||1|","céleri|céleris|1|","haricot blanc|haricots blancs|250|g","tomate concassée|tomates concassées|400|g","coquillette|coquillettes|80|g","oignon||1|","bouillon de légumes|bouillons de légumes|1|","huile d'olive|huile d'olive|2|c. à s.","parmesan râpé|parmesan râpé|30|g","sel|||","poivre|||"],
+   ["Fais revenir l'oignon, la carotte et le céleri en dés dans l'huile 5 min.|Cuisson|5","Ajoute la courgette, les tomates, 1 l d'eau et le bouillon. Cuis 20 min.|Cuisson|20","Ajoute les haricots égouttés et les pâtes, et cuis 10 min.|Cuisson|10","Sers avec le parmesan."]],
+  ["Minestrone au pesto","Au pesto","Une cuillère de pesto parfume chaque bol.","Le minestrone, relevé d'une cuillère de pesto au moment de servir.","Plat italien",45,330,"F","minestrone pesto","vbh",
+   ["carotte||2|","courgette||1|","haricot vert|haricots verts|150|g","pomme de terre||1|","coquillette|coquillettes|80|g","oignon||1|","bouillon de légumes|bouillons de légumes|1|","pesto|pesto|4|c. à s.","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir l'oignon et les carottes dans l'huile 5 min.|Cuisson|5","Ajoute la pomme de terre, la courgette, les haricots verts coupés, 1 l d'eau et le bouillon. Cuis 20 min.|Cuisson|20","Ajoute les pâtes et cuis 10 min.|Cuisson|10","Sers avec une cuillère de pesto par bol."]],
+  ["Minestrone au jambon","Au jambon","Des dés de jambon cru parfument le bouillon.","Le minestrone en version plus copieuse, au jambon.","Plat italien",45,340,"F","minestrone ham","bf",
+   ["carotte||2|","courgette||1|","haricot blanc|haricots blancs|250|g","tomate concassée|tomates concassées|400|g","coquillette|coquillettes|80|g","jambon cru|jambon cru|80|g","oignon||1|","bouillon de volaille|bouillons de volaille|1|","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir l'oignon, le jambon en dés et les carottes dans l'huile 5 min.|Cuisson|5","Ajoute la courgette, les tomates, 1 l d'eau et le bouillon. Cuis 20 min.|Cuisson|20","Ajoute les haricots et les pâtes, cuis 10 min.|Cuisson|10"]]
+ ]},
+ {"q":"Salade niçoise","a":["nicoise"],"r":[
+  ["Salade niçoise","La classique","","La salade du Sud : thon, œufs durs, tomates, olives et anchois, avec une vinaigrette à l'huile d'olive.","Spécialité niçoise",20,420,"F","nicoise salad tuna egg","che",
+   ["tomate||4|","œuf|œufs|4|","thon au naturel|thon au naturel|200|g","poivron vert|poivrons verts|1|","oignon rouge|oignons rouges|1|","olive noire|olives noires|60|g","anchois|anchois|8|","huile d'olive|huile d'olive|4|c. à s.","vinaigre de vin|vinaigre de vin|1|c. à s.","sel|||","poivre|||"],
+   ["Fais cuire les œufs 10 min dans l'eau bouillante, puis refroidis-les.|Œufs|10","Coupe les tomates en quartiers, le poivron en lanières et l'oignon en rondelles fines.","Dispose les légumes, le thon, les œufs en quartiers, les olives et les anchois.","Arrose de vinaigrette : huile, vinaigre, sel et poivre."]],
+  ["Salade niçoise aux pommes de terre et haricots verts","Plus complète","Des pommes de terre et des haricots verts en font un plat complet.","La niçoise des brasseries, avec pommes de terre et haricots verts.","",35,520,"F","nicoise salad potatoes green beans","cbh",
+   ["pomme de terre||4|","haricot vert|haricots verts|200|g","tomate||3|","œuf|œufs|4|","thon au naturel|thon au naturel|200|g","olive noire|olives noires|60|g","huile d'olive|huile d'olive|4|c. à s.","vinaigre de vin|vinaigre de vin|1|c. à s.","moutarde|moutarde|1|c. à c.","sel|||","poivre|||"],
+   ["Fais cuire les pommes de terre 20 min et les haricots verts 8 min dans l'eau salée.|Cuisson|20","Fais cuire les œufs 10 min et écale-les.|Œufs|10","Prépare la vinaigrette avec la moutarde, le vinaigre, l'huile, sel et poivre.","Mélange tous les ingrédients coupés et arrose de vinaigrette."]],
+  ["Salade niçoise végétarienne","Végétarienne","Le thon et les anchois sont remplacés par des pois chiches.","Toutes les couleurs de la niçoise, sans poisson.","",20,400,"F","vegetarian nicoise salad chickpeas","vche",
+   ["tomate||4|","œuf|œufs|4|","pois chiche|pois chiches|250|g","poivron vert|poivrons verts|1|","olive noire|olives noires|60|g","huile d'olive|huile d'olive|4|c. à s.","vinaigre de vin|vinaigre de vin|1|c. à s.","sel|||","poivre|||"],
+   ["Fais cuire les œufs 10 min et refroidis-les.|Œufs|10","Coupe les tomates et le poivron.","Mélange avec les pois chiches égouttés, les olives et les œufs en quartiers, puis la vinaigrette."]]
+ ]},
+ {"q":"Salade César","a":["salade cesar","caesar salad","salade caesar"],"r":[
+  ["Salade César","La classique","","De la romaine croquante, du poulet doré, des croûtons et une sauce César au parmesan.","Plat américain",25,560,"F","caesar salad chicken","cf",
+   ["laitue romaine|laitues romaines|1|","blanc de poulet|blancs de poulet|2|","pain de mie|pains de mie|3|tranches","parmesan râpé|parmesan râpé|40|g","mayonnaise|mayonnaise|3|c. à s.","citron||0.5|","ail||1|gousse","huile d'olive|huile d'olive|2|c. à s.","sel|||","poivre|||"],
+   ["Fais dorer le poulet dans 1 c. à s. d'huile 10 min, puis coupe-le en tranches.|Poêle|10","Coupe le pain en cubes et fais-le dorer 3 min dans le reste d'huile avec l'ail.|Poêle|3","Mélange la mayonnaise, le jus du citron, la moitié du parmesan, sel et poivre.","Mélange la salade avec la sauce, puis ajoute le poulet, les croûtons et le reste de parmesan."]],
+  ["Salade César légère","Plus légère","La sauce est faite au yaourt et les croûtons sont grillés à sec.","La César en version légère, toujours aussi gourmande.","",25,400,"F","light caesar salad","ch",
+   ["laitue romaine|laitues romaines|1|","blanc de poulet|blancs de poulet|2|","pain complet|pains complets|2|tranches","parmesan râpé|parmesan râpé|30|g","yaourt grec|yaourts grecs|1|","citron||0.5|","moutarde|moutarde|1|c. à c.","sel|||","poivre|||"],
+   ["Fais cuire le poulet 10 min à la poêle antiadhésive et tranche-le.|Poêle|10","Grille le pain en cubes à sec 3 min.|Poêle|3","Mélange le yaourt, la moutarde, le jus de citron, la moitié du parmesan, sel et poivre.","Mélange la salade avec la sauce et ajoute le reste."]],
+  ["Salade César aux crevettes","Aux crevettes","Des crevettes à l'ail remplacent le poulet.","La César revisitée avec des crevettes poêlées à l'ail.","",20,480,"F","shrimp caesar salad","c",
+   ["laitue romaine|laitues romaines|1|","crevette|crevettes|300|g","pain de mie|pains de mie|3|tranches","parmesan râpé|parmesan râpé|40|g","mayonnaise|mayonnaise|3|c. à s.","citron||0.5|","ail||2|gousse","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Fais sauter les crevettes avec l'ail dans 1 c. à s. d'huile 3 min.|Poêle|3","Fais dorer les cubes de pain dans le reste d'huile 3 min.|Poêle|3","Mélange la mayonnaise, le jus de citron et la moitié du parmesan.","Mélange la salade avec la sauce, les crevettes, les croûtons et le parmesan."]]
+ ]},
+ {"q":"Salade de lentilles","a":["lentilles en salade","salade lentille"],"r":[
+  ["Salade de lentilles","La classique","","Des lentilles vertes tièdes avec échalote, persil et une vinaigrette à la moutarde.","",35,340,"F","lentil salad","vcbhe",
+   ["lentille verte|lentilles vertes|250|g","échalote||2|","carotte||1|","persil|persil||","moutarde|moutarde|1|c. à c.","vinaigre de vin|vinaigre de vin|2|c. à s.","huile d'olive|huile d'olive|4|c. à s.","sel|||","poivre|||"],
+   ["Fais cuire les lentilles 25 min dans l'eau avec la carotte coupée en dés.|Cuisson|25","Prépare la vinaigrette avec la moutarde, le vinaigre, l'huile, sel et poivre.","Égoutte les lentilles et mélange-les tièdes avec les échalotes émincées, le persil et la vinaigrette."]],
+  ["Salade de lentilles au saumon fumé","Au saumon fumé","Du saumon fumé et de la crème à l'aneth complètent la salade.","Une salade de lentilles chic, au saumon fumé.","",35,420,"F","lentil salad smoked salmon","ce",
+   ["lentille verte|lentilles vertes|250|g","saumon fumé|saumon fumé|150|g","échalote||1|","aneth|aneth||","crème fraîche||5|cl","citron||1|","huile d'olive|huile d'olive|3|c. à s.","sel|||","poivre|||"],
+   ["Fais cuire les lentilles 25 min et égoutte-les.|Cuisson|25","Mélange l'huile, le jus du citron, sel et poivre, et assaisonne les lentilles avec l'échalote.","Ajoute le saumon en lanières et une cuillère de crème à l'aneth."]],
+  ["Salade de lentilles, feta et légumes croquants","Feta et légumes","De la feta, du concombre et des tomates cerises rendent la salade plus fraîche.","Une salade complète et colorée, idéale à emporter.","",35,380,"F","lentil feta salad","vche",
+   ["lentille verte|lentilles vertes|250|g","feta|feta|100|g","concombre||0.5|","tomate cerise|tomates cerises|150|g","oignon rouge|oignons rouges|0.5|","menthe|menthe||","citron||1|","huile d'olive|huile d'olive|3|c. à s.","sel|||","poivre|||"],
+   ["Fais cuire les lentilles 25 min et laisse-les refroidir.|Cuisson|25","Coupe le concombre, les tomates et l'oignon.","Mélange tout avec la feta émiettée, la menthe, le jus du citron, l'huile, sel et poivre."]]
+ ]},
+ {"q":"Taboulé","a":["taboule libanais","salade de boulgour","taboule oriental"],"r":[
+  ["Taboulé","La classique","","La semoule fraîche à la tomate, au concombre, à la menthe et au citron.","",20,320,"F","couscous tabbouleh salad","vcbfhe",
+   ["semoule|semoule|250|g","tomate||3|","concombre||0.5|","oignon||1|","menthe|menthe||","persil|persil||","citron||2|","huile d'olive|huile d'olive|5|c. à s.","sel|||","poivre|||"],
+   ["Verse 25 cl d'eau bouillante salée sur la semoule, couvre 5 min et égrène à la fourchette.|Repos|5","Coupe les tomates, le concombre et l'oignon en petits dés.","Mélange avec la semoule, la menthe et le persil ciselés, le jus des citrons, l'huile, sel et poivre.","Mets au frais 1 h.|Frais|60"]],
+  ["Taboulé libanais","Libanais","Beaucoup de persil et un peu de boulgour, à la libanaise.","Le vrai taboulé libanais : surtout du persil, avec un peu de boulgour.","Plat libanais",25,220,"F","lebanese tabbouleh parsley","vche",
+   ["persil plat|persil plat|150|g","menthe|menthe||","boulgour|boulgour|60|g","tomate||3|","oignon nouveau|oignons nouveaux|2|","citron||2|","huile d'olive|huile d'olive|5|c. à s.","sel|||"],
+   ["Fais tremper le boulgour 15 min dans l'eau froide et égoutte-le bien.|Trempage|15","Hache finement le persil et la menthe, coupe les tomates et les oignons en petits dés.","Mélange tout avec le jus des citrons, l'huile et le sel."]],
+  ["Taboulé au quinoa","Au quinoa","Le quinoa remplace la semoule, sans gluten.","Le taboulé frais, au quinoa.","",25,330,"F","quinoa tabbouleh","vche",
+   ["quinoa|quinoa|200|g","tomate||3|","concombre||0.5|","poivron rouge|poivrons rouges|1|","menthe|menthe||","citron||2|","huile d'olive|huile d'olive|4|c. à s.","sel|||","poivre|||"],
+   ["Fais cuire le quinoa 12 min dans l'eau salée et laisse-le refroidir.|Cuisson|12","Coupe les légumes en petits dés.","Mélange avec le quinoa, la menthe, le jus des citrons, l'huile, sel et poivre."]]
+ ]}
+]

@@ -1,0 +1,112 @@
+[
+ {"q":"Salade caprese","a":["caprese","tomate mozzarella","tomates mozzarella"],"r":[
+  ["Salade caprese","La classique","","Tomates, mozzarella et basilic, avec un filet d'huile d'olive : l'Italie en 10 minutes.","Salade italienne",10,280,"F","caprese salad","vche",
+   ["tomate||4|","mozzarella||2|","basilic|basilic||","huile d'olive|huile d'olive|3|c. à s.","sel|||","poivre|||"],
+   ["Coupe les tomates et la mozzarella en tranches.","Alterne-les sur un plat.","Parsème de feuilles de basilic.","Arrose d'huile d'olive, sale et poivre au moment de servir."]],
+  ["Caprese à la burrata","Burrata","Avec une burrata crémeuse au centre.","La caprese encore plus fondante, avec une burrata.","",10,340,"F","burrata tomato salad","vce",
+   ["tomate||4|","burrata||2|","basilic|basilic||","huile d'olive|huile d'olive|3|c. à s.","vinaigre balsamique|vinaigre balsamique|1|c. à s.","sel|||","poivre|||"],
+   ["Coupe les tomates en quartiers et dispose-les dans un plat.","Pose les burratas au centre.","Parsème de basilic, arrose d'huile d'olive et de balsamique.","Sale et poivre au moment de servir."]],
+  ["Caprese aux pêches","Aux pêches","Des pêches remplacent une partie des tomates.","Une salade d'été sucrée-salée, pêches et mozzarella.","",10,270,"F","peach mozzarella salad","vche",
+   ["tomate||2|","pêche||2|","mozzarella||2|","basilic|basilic||","huile d'olive|huile d'olive|3|c. à s.","sel|||","poivre|||"],
+   ["Coupe les tomates, les pêches et la mozzarella en tranches.","Alterne-les sur un plat.","Parsème de basilic et arrose d'huile d'olive.","Sale et poivre."]]
+ ]},
+ {"q":"Salade grecque","a":["salade a la grecque","horiatiki"],"r":[
+  ["Salade grecque","La classique","","Tomates, concombre, oignon rouge, olives noires et un beau morceau de feta.","Salade grecque",15,320,"F","greek salad","vche",
+   ["tomate||4|","concombre||1|","oignon rouge|oignons rouges|1|","feta||200|g","olives noires|olives noires|80|g","origan|origan|1|c. à c.","huile d'olive|huile d'olive|4|c. à s.","sel|||"],
+   ["Coupe les tomates en quartiers et le concombre en rondelles.","Émince l'oignon rouge en fines lamelles.","Mélange les légumes avec les olives, un peu de sel et l'huile d'olive.","Pose la feta en morceaux sur le dessus et saupoudre d'origan."]],
+  ["Salade grecque aux pois chiches","Plus complète","Avec des pois chiches pour en faire un repas.","La salade grecque rassasiante, avec des pois chiches.","",15,420,"F","greek chickpea salad","vchb",
+   ["tomate||3|","concombre||1|","pois chiche|pois chiches|400|g","oignon rouge|oignons rouges|1|","feta||150|g","olives noires|olives noires|60|g","huile d'olive|huile d'olive|4|c. à s.","citron||1|"],
+   ["Rince et égoutte les pois chiches.","Coupe les tomates, le concombre et l'oignon.","Mélange avec les pois chiches, les olives, l'huile et le jus du citron.","Ajoute la feta émiettée."]],
+  ["Salade grecque au poulet","Au poulet","Avec du poulet grillé à l'origan.","La salade grecque en plat complet, avec du poulet.","",25,430,"F","greek chicken salad","ch",
+   ["blanc de poulet|blancs de poulet|2|","tomate||3|","concombre||1|","oignon rouge|oignons rouges|1|","feta||150|g","olives noires|olives noires|60|g","origan|origan|1|c. à c.","huile d'olive|huile d'olive|4|c. à s."],
+   ["Assaisonne le poulet d'origan et d'un filet d'huile.","Fais-le griller 6 min de chaque côté, puis coupe-le en lamelles.|Poêle|12","Coupe les tomates, le concombre et l'oignon.","Mélange avec les olives, l'huile, puis ajoute le poulet et la feta."]]
+ ]},
+ {"q":"Salade de pâtes","a":["salade de pate","pates froides","salade pates"],"r":[
+  ["Salade de pâtes","La classique","","Des pâtes froides avec tomates cerises, mozzarella, jambon et basilic.","",25,480,"F","pasta salad","cbf",
+   ["pâtes courtes|pâtes courtes|300|g","tomate cerise|tomates cerises|250|g","mozzarella||1|","jambon blanc|jambon blanc|4|tranches","basilic|basilic||","huile d'olive|huile d'olive|4|c. à s.","vinaigre balsamique|vinaigre balsamique|1|c. à s."],
+   ["Fais cuire les pâtes, puis rince-les à l'eau froide.|Cuisson|10","Coupe les tomates cerises en deux, la mozzarella et le jambon en dés.","Mélange l'huile et le vinaigre, sale et poivre.","Mélange le tout avec le basilic et garde au frais."]],
+  ["Salade de pâtes au thon","Au thon","Avec du thon, du maïs et des œufs durs.","La salade de pâtes du pique-nique, au thon et au maïs.","",25,500,"F","tuna pasta salad","cbf",
+   ["pâtes courtes|pâtes courtes|300|g","thon au naturel|thon au naturel|280|g","maïs|maïs|140|g","œuf|œufs|2|","tomate||2|","mayonnaise|mayonnaise|3|c. à s."],
+   ["Fais cuire les pâtes, rince-les à l'eau froide.|Cuisson|10","Fais cuire les œufs 10 min, écale-les et coupe-les.|Cuisson|10","Coupe les tomates en dés et émiette le thon.","Mélange le tout avec le maïs et la mayonnaise."]],
+  ["Salade de pâtes au pesto","Pesto","Au pesto, avec tomates cerises et parmesan.","Une salade de pâtes végétarienne, toute verte de pesto.","",20,470,"F","pesto pasta salad","vcbf",
+   ["pâtes courtes|pâtes courtes|300|g","pesto|pesto|4|c. à s.","tomate cerise|tomates cerises|250|g","parmesan||40|g","roquette|roquette|50|g"],
+   ["Fais cuire les pâtes, rince-les à l'eau froide.|Cuisson|10","Coupe les tomates cerises en deux.","Mélange les pâtes avec le pesto et les tomates.","Ajoute la roquette et des copeaux de parmesan."]]
+ ]},
+ {"q":"Salade de riz","a":["riz froid","salade riz thon"],"r":[
+  ["Salade de riz au thon","La classique","","Le riz froid avec thon, tomates, maïs, poivron et œufs durs.","",30,450,"F","rice salad tuna","cbf",
+   ["riz|riz|250|g","thon au naturel|thon au naturel|280|g","tomate||2|","maïs|maïs|140|g","poivron rouge|poivrons rouges|1|","œuf|œufs|2|","huile|huile|3|c. à s.","vinaigre|vinaigre|1|c. à s."],
+   ["Fais cuire le riz, puis rince-le à l'eau froide.|Cuisson|12","Fais cuire les œufs 10 min et coupe-les en quartiers.|Cuisson|10","Coupe les tomates et le poivron en dés, émiette le thon.","Mélange tout avec le maïs, l'huile et le vinaigre, sale et poivre."]],
+  ["Salade de riz végétarienne","Sans poisson","Avec des légumes, de la feta et des herbes.","Une salade de riz colorée, sans viande ni poisson.","",30,400,"F","vegetarian rice salad","vcbf",
+   ["riz|riz|250|g","tomate||2|","concombre||1|","poivron jaune|poivrons jaunes|1|","feta||150|g","olives noires|olives noires|50|g","huile d'olive|huile d'olive|3|c. à s.","citron||1|"],
+   ["Fais cuire le riz, puis rince-le à l'eau froide.|Cuisson|12","Coupe les tomates, le concombre et le poivron en dés.","Mélange le riz avec les légumes, les olives et la feta émiettée.","Assaisonne d'huile d'olive et de jus de citron."]],
+  ["Salade de riz au poulet et curry","Poulet curry","Avec du poulet et une sauce légère au curry.","Une salade de riz parfumée, au poulet et au curry.","",30,480,"F","curry chicken rice salad","cb",
+   ["riz|riz|250|g","blanc de poulet|blancs de poulet|2|","yaourt nature|yaourts nature|1|","curry|curry|2|c. à c.","raisins secs|raisins secs|40|g","poivron rouge|poivrons rouges|1|","citron||1|"],
+   ["Fais cuire le riz, puis rince-le à l'eau froide.|Cuisson|12","Fais cuire le poulet en dés 8 min à la poêle avec 1 c. à c. de curry.|Poêle|8","Mélange le yaourt avec le reste du curry et le jus du citron.","Mélange le riz, le poulet, le poivron en dés, les raisins secs et la sauce."]]
+ ]},
+ {"q":"Salade de chèvre chaud","a":["chevre chaud","salade chevre chaud","toast chevre chaud"],"r":[
+  ["Salade de chèvre chaud","La classique","","Des toasts de chèvre gratinés sur une salade verte, avec une vinaigrette au miel.","Bistrot français",20,420,"F","warm goat cheese salad","voe",
+   ["bûche de chèvre|bûches de chèvre|1|","baguette|baguettes|1|","salade verte|salade verte|1|","miel||1|c. à s.","huile d'olive|huile d'olive|3|c. à s.","vinaigre balsamique|vinaigre balsamique|1|c. à s."],
+   ["Préchauffe le four en position gril.","Coupe la baguette en 8 tranches et pose une rondelle de chèvre sur chacune.","Fais gratiner 5 min.|Four|5","Mélange l'huile, le vinaigre et le miel.","Sers les toasts chauds sur la salade assaisonnée."]],
+  ["Chèvre chaud au miel et aux noix","Miel et noix","Les toasts sont arrosés de miel et parsemés de noix.","Le chèvre chaud plus gourmand, avec du miel et des noix.","",20,480,"F","goat cheese toast honey walnuts","voe",
+   ["bûche de chèvre|bûches de chèvre|1|","baguette|baguettes|1|","salade verte|salade verte|1|","miel||3|c. à s.","cerneaux de noix|cerneaux de noix|50|g","huile d'olive|huile d'olive|3|c. à s."],
+   ["Préchauffe le four en position gril.","Pose des rondelles de chèvre sur des tranches de baguette et arrose d'un peu de miel.","Fais gratiner 5 min.|Four|5","Sers sur la salade assaisonnée, parsème de noix et arrose du reste de miel."]],
+  ["Chèvre chaud aux lardons","Aux lardons","Avec des lardons poêlés sur la salade.","La salade de chèvre chaud en plat, avec des lardons.","",25,560,"F","goat cheese salad bacon","o",
+   ["bûche de chèvre|bûches de chèvre|1|","baguette|baguettes|1|","salade verte|salade verte|1|","lardon|lardons|150|g","huile d'olive|huile d'olive|3|c. à s.","vinaigre balsamique|vinaigre balsamique|1|c. à s."],
+   ["Préchauffe le four en position gril.","Fais dorer les lardons à la poêle.|Poêle|5","Pose des rondelles de chèvre sur la baguette et fais gratiner 5 min.|Four|5","Sers les toasts sur la salade assaisonnée, avec les lardons chauds."]]
+ ]},
+ {"q":"Carottes râpées","a":["carotte rapee","salade de carottes","carottes rapees vinaigrette"],"r":[
+  ["Carottes râpées","La classique","","L'entrée de toujours : des carottes râpées avec une vinaigrette au citron et du persil.","",15,110,"F","grated carrot salad","vchbfe",
+   ["carotte||6|","citron||1|","huile d'olive|huile d'olive|3|c. à s.","moutarde|moutarde|1|c. à c.","persil|persil||","sel|||"],
+   ["Épluche et râpe finement les carottes.","Mélange le jus du citron, la moutarde, l'huile et un peu de sel.","Arrose les carottes de cette vinaigrette.","Ajoute le persil ciselé et garde au frais."]],
+  ["Carottes râpées à l'orange","À l'orange","Avec du jus d'orange dans la vinaigrette.","Des carottes râpées douces et fruitées, que les enfants adorent.","",15,120,"F","carrot orange salad","vchbfe",
+   ["carotte||6|","orange||1|","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Épluche et râpe les carottes.","Presse l'orange et mélange son jus avec l'huile et un peu de sel.","Arrose les carottes et mélange.","Laisse 15 min au frais avant de servir."]],
+  ["Carottes râpées au cumin","Orientale","Au cumin, avec des raisins secs.","Des carottes râpées parfumées au cumin, à l'orientale.","Inspiration orientale",15,150,"F","moroccan carrot salad","vchbe",
+   ["carotte||6|","raisins secs|raisins secs|40|g","cumin|cumin|1|c. à c.","citron||1|","huile d'olive|huile d'olive|3|c. à s.","coriandre|coriandre||"],
+   ["Épluche et râpe les carottes.","Mélange le jus du citron, l'huile et le cumin.","Ajoute les raisins secs et la coriandre ciselée.","Mélange et laisse 15 min au frais."]]
+ ]},
+ {"q":"Céleri rémoulade","a":["celeri remoulade","celeri rave remoulade"],"r":[
+  ["Céleri rémoulade","La classique","","Du céleri-rave râpé dans une sauce rémoulade bien moutardée.","Entrée française",15,180,"F","celeriac remoulade","vcbe",
+   ["céleri-rave|céleris-raves|1|","mayonnaise|mayonnaise|4|c. à s.","moutarde|moutarde|1|c. à s.","citron||1|","sel|||","poivre|||"],
+   ["Épluche le céleri et râpe-le finement.","Arrose-le tout de suite du jus du citron pour qu'il ne noircisse pas.","Mélange la mayonnaise et la moutarde, sale et poivre.","Mélange le céleri avec la sauce et garde au frais."]],
+  ["Céleri rémoulade à la pomme","À la pomme","Avec une pomme verte râpée.","Un céleri rémoulade plus frais, avec de la pomme.","",15,170,"F","celeriac apple slaw","vcbe",
+   ["céleri-rave|céleris-raves|1|","pomme verte|pommes vertes|1|","mayonnaise|mayonnaise|4|c. à s.","moutarde|moutarde|1|c. à s.","citron||1|"],
+   ["Épluche et râpe le céleri et la pomme, arrose-les du jus du citron.","Mélange la mayonnaise et la moutarde.","Mélange le tout, sale et poivre.","Garde au frais."]],
+  ["Céleri rémoulade au yaourt","Plus léger","Le yaourt remplace la moitié de la mayonnaise.","Le céleri rémoulade allégé, toujours aussi crémeux.","",15,110,"F","light celeriac remoulade","vchbe",
+   ["céleri-rave|céleris-raves|1|","yaourt grec|yaourts grecs|1|","mayonnaise|mayonnaise|2|c. à s.","moutarde|moutarde|1|c. à s.","citron||1|"],
+   ["Épluche et râpe le céleri, arrose-le du jus du citron.","Mélange le yaourt, la mayonnaise et la moutarde.","Mélange avec le céleri, sale et poivre.","Garde au frais."]]
+ ]},
+ {"q":"Salade de pommes de terre","a":["salade pomme de terre","pommes de terre en salade","salade piemontaise","piemontaise"],"r":[
+  ["Salade de pommes de terre","La classique","","Des pommes de terre tièdes, une vinaigrette à l'échalote et beaucoup de ciboulette.","",30,280,"F","potato salad","vchb",
+   ["pomme de terre|pommes de terre|800|g","échalote||2|","ciboulette|ciboulette||","huile|huile|4|c. à s.","vinaigre|vinaigre|2|c. à s.","moutarde|moutarde|1|c. à c."],
+   ["Fais cuire les pommes de terre 20 min à l'eau salée.|Cuisson|20","Épluche-les tièdes et coupe-les en rondelles.","Mélange la moutarde, le vinaigre, l'huile et l'échalote hachée.","Arrose les pommes de terre encore tièdes et parsème de ciboulette."]],
+  ["Salade piémontaise","Piémontaise","Avec jambon, œufs, tomates, cornichons et mayonnaise.","La salade de pommes de terre complète des repas d'été.","",35,420,"F","piemontaise potato salad","cbf",
+   ["pomme de terre|pommes de terre|800|g","jambon blanc|jambon blanc|4|tranches","œuf|œufs|3|","tomate||2|","cornichon|cornichons|8|","mayonnaise|mayonnaise|4|c. à s."],
+   ["Fais cuire les pommes de terre 20 min à l'eau salée, puis coupe-les en dés.|Cuisson|20","Fais cuire les œufs 10 min et coupe-les.|Cuisson|10","Coupe le jambon, les tomates et les cornichons en dés.","Mélange tout avec la mayonnaise et garde au frais."]],
+  ["Salade de pommes de terre aux lardons","Aux lardons","Avec des lardons poêlés et des oignons.","Une salade de pommes de terre tiède à l'allemande.","Inspiration allemande",30,420,"F","german potato salad bacon","b",
+   ["pomme de terre|pommes de terre|800|g","lardon|lardons|150|g","oignon||1|","vinaigre|vinaigre|3|c. à s.","huile|huile|2|c. à s.","moutarde|moutarde|1|c. à c.","ciboulette|ciboulette||"],
+   ["Fais cuire les pommes de terre 20 min à l'eau salée, puis coupe-les en rondelles.|Cuisson|20","Fais dorer les lardons et l'oignon émincé.|Poêle|6","Déglace la poêle avec le vinaigre, puis ajoute l'huile et la moutarde.","Verse sur les pommes de terre tièdes et parsème de ciboulette."]]
+ ]},
+ {"q":"Salade de quinoa","a":["quinoa en salade","bowl quinoa","taboule de quinoa"],"r":[
+  ["Salade de quinoa","La classique","","Du quinoa avec concombre, tomates, feta et herbes, comme un taboulé.","",25,380,"F","quinoa salad","vch",
+   ["quinoa|quinoa|200|g","concombre||1|","tomate cerise|tomates cerises|250|g","feta||150|g","menthe fraîche|menthe fraîche||","citron||1|","huile d'olive|huile d'olive|3|c. à s."],
+   ["Rince le quinoa, puis fais-le cuire 12 min à l'eau salée. Égoutte et laisse refroidir.|Cuisson|12","Coupe le concombre en dés et les tomates en deux.","Mélange avec le quinoa, la feta émiettée et la menthe ciselée.","Assaisonne de jus de citron et d'huile d'olive."]],
+  ["Salade de quinoa à l'avocat","Avocat","Avec de l'avocat, du maïs et des haricots rouges.","Une salade de quinoa à la mexicaine, complète et vegan.","Inspiration mexicaine",25,450,"F","quinoa avocado black bean salad","vch",
+   ["quinoa|quinoa|200|g","avocat||2|","haricots rouges|haricots rouges|250|g","maïs|maïs|140|g","citron vert|citrons verts|2|","coriandre|coriandre||","huile d'olive|huile d'olive|3|c. à s."],
+   ["Fais cuire le quinoa 12 min, égoutte et laisse refroidir.|Cuisson|12","Rince les haricots rouges et le maïs.","Coupe les avocats en dés et arrose-les de jus de citron vert.","Mélange tout avec la coriandre, l'huile et le reste du jus."]],
+  ["Salade de quinoa au poulet","Au poulet","Avec du poulet grillé et des crudités.","La salade de quinoa en plat complet, avec du poulet.","",30,470,"F","quinoa chicken salad","ch",
+   ["quinoa|quinoa|200|g","blanc de poulet|blancs de poulet|2|","concombre||1|","tomate cerise|tomates cerises|250|g","citron||1|","huile d'olive|huile d'olive|3|c. à s."],
+   ["Fais cuire le quinoa 12 min, égoutte et laisse refroidir.|Cuisson|12","Fais griller le poulet 6 min de chaque côté et coupe-le en lamelles.|Poêle|12","Coupe le concombre et les tomates.","Mélange tout avec le jus de citron et l'huile."]]
+ ]},
+ {"q":"Coleslaw","a":["salade de chou","chou cru","cole slaw"],"r":[
+  ["Coleslaw","La classique","","La salade américaine de chou blanc et carottes, à la sauce crémeuse.","Recette américaine",15,190,"F","coleslaw","vcb",
+   ["chou blanc|choux blancs|0.5|","carotte||2|","mayonnaise|mayonnaise|4|c. à s.","vinaigre de cidre|vinaigre de cidre|1|c. à s.","sucre|sucre|1|c. à c.","sel|||"],
+   ["Émince très finement le chou.","Râpe les carottes.","Mélange la mayonnaise, le vinaigre, le sucre et un peu de sel.","Mélange tout et laisse 30 min au frais."]],
+  ["Coleslaw au yaourt","Plus léger","La sauce est faite au yaourt.","Un coleslaw léger et croquant.","",15,100,"F","yogurt coleslaw","vchb",
+   ["chou blanc|choux blancs|0.5|","carotte||2|","yaourt grec|yaourts grecs|1|","moutarde|moutarde|1|c. à c.","citron||1|"],
+   ["Émince finement le chou et râpe les carottes.","Mélange le yaourt, la moutarde et le jus du citron.","Mélange tout, sale et poivre.","Laisse 15 min au frais."]],
+  ["Salade de chou à l'asiatique","Asiatique","Avec une sauce soja, sésame et citron vert.","Une salade de chou croquante aux saveurs asiatiques.","Inspiration asiatique",15,150,"F","asian cabbage slaw","vchb",
+   ["chou rouge|choux rouges|0.5|","carotte||2|","sauce soja|sauce soja|2|c. à s.","huile de sésame|huile de sésame|1|c. à s.","citron vert|citrons verts|1|","graines de sésame|graines de sésame|1|c. à s."],
+   ["Émince finement le chou et râpe les carottes.","Mélange la sauce soja, l'huile de sésame et le jus du citron vert.","Mélange tout avec la sauce.","Parsème de graines de sésame."]]
+ ]}
+]

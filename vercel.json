@@ -4,6 +4,107 @@
   "functions": {
     "api/analyze.ts": {
       "maxDuration": 60
+    },
+    "api/ingredients.ts": {
+      "maxDuration": 60
+    },
+    "api/recipes.ts": {
+      "maxDuration": 60
+    },
+    "api/notify.ts": {
+      "maxDuration": 60
     }
-  }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Content-Security-Policy", "value": "frame-ancestors 'none'; base-uri 'self'; object-src 'none'" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(self), microphone=(), geolocation=()" }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera|plus|resilier|recette|aide|bilan|parrainage|notifications|cuisine|espace|explorer|avis)",
+      "destination": "/"
+    },
+    {
+      "source": "/i/:code",
+      "destination": "/"
+    },
+    {
+      "source": "/notifications/:page",
+      "destination": "/"
+    },
+    {
+      "source": "/questions/:n",
+      "destination": "/"
+    },
+    {
+      "source": "/compte/:etape",
+      "destination": "/"
+    },
+    {
+      "source": "/plus/:etape",
+      "destination": "/"
+    },
+    {
+      "source": "/planning/:page",
+      "destination": "/"
+    },
+    {
+      "source": "/famille/:page",
+      "destination": "/"
+    },
+    {
+      "source": "/famille/:page/:id",
+      "destination": "/"
+    },
+    {
+      "source": "/scan/:etape",
+      "destination": "/"
+    },
+    {
+      "source": "/recettes/:id",
+      "destination": "/"
+    },
+    {
+      "source": "/recettes/:id/:n",
+      "destination": "/"
+    },
+    {
+      "source": "/recettes/:id/:n/cuisine",
+      "destination": "/"
+    },
+    {
+      "source": "/recette/cuisine",
+      "destination": "/"
+    },
+    {
+      "source": "/reglages/:page",
+      "destination": "/"
+    },
+    {
+      "source": "/infos-legales/:page",
+      "destination": "/"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/subscription",
+      "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/notify?job=evening",
+      "schedule": "0 16 * * *"
+    },
+    {
+      "path": "/api/notify?job=week",
+      "schedule": "0 8 * * 0"
+    }
+  ]
 }

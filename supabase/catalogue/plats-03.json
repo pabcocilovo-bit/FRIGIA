@@ -1,0 +1,112 @@
+[
+ {"q":"Ratatouille","a":["ratatouille nicoise"],"r":[
+  ["Ratatouille","La classique","","Les légumes du soleil mijotés doucement à l'huile d'olive et aux herbes de Provence.","Spécialité niçoise",75,220,"F","ratatouille provencal vegetables","vbh",
+   ["aubergine||2|","courgette||2|","poivron rouge|poivrons rouges|1|","poivron jaune|poivrons jaunes|1|","tomate||4|","oignon||2|","ail||3|gousse","huile d'olive|huile d'olive|4|c. à s.","herbes de Provence|herbes de Provence|1|c. à c.","sel|||","poivre|||"],
+   ["Coupe tous les légumes en dés de même taille.","Fais revenir les oignons et l'ail 5 min dans l'huile, dans une cocotte.|Cuisson|5","Ajoute les poivrons et les aubergines, cuis 10 min en remuant.|Cuisson|10","Ajoute les courgettes, les tomates, les herbes, sel et poivre.","Laisse mijoter 45 min à couvert, puis 10 min à découvert pour réduire.|Mijotage|55"]],
+  ["Ratatouille au four","Au four","Les légumes rôtissent au four au lieu de mijoter.","Des légumes rôtis et caramélisés, avec presque rien à faire.","",60,230,"F","roasted ratatouille vegetables tray","vobh",
+   ["aubergine||1|","courgette||2|","poivron rouge|poivrons rouges|2|","tomate cerise|tomates cerises|250|g","oignon rouge|oignons rouges|2|","ail||3|gousse","huile d'olive|huile d'olive|4|c. à s.","herbes de Provence|herbes de Provence|1|c. à c.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Coupe les légumes en gros morceaux et mets-les sur une plaque avec l'ail et les tomates cerises.","Arrose d'huile, ajoute les herbes, sel et poivre, et mélange.","Enfourne 45 min en remuant à mi-cuisson.|Four|45"]],
+  ["Tian provençal","Tian","Les légumes sont coupés en rondelles et rangés en rosace avant d'aller au four.","La ratatouille en version élégante : des rondelles de légumes confites au four.","Spécialité provençale",75,210,"F","tian provencal vegetables","voh",
+   ["aubergine||1|","courgette||2|","tomate||4|","oignon||2|","ail||2|gousse","huile d'olive|huile d'olive|4|c. à s.","thym|thym||","sel|||","poivre|||"],
+   ["Préchauffe le four à 180 °C. Fais fondre les oignons émincés 10 min dans 1 c. à s. d'huile et étale-les au fond d'un plat.|Poêle|10","Coupe l'aubergine, les courgettes et les tomates en rondelles fines.","Range-les en les alternant debout dans le plat.","Arrose d'huile, ajoute l'ail haché, le thym, sel et poivre.","Enfourne 1 h, couvert d'alu les 30 premières minutes.|Four|60"]]
+ ]},
+ {"q":"Gratin de courgettes","a":["gratin courgette"],"r":[
+  ["Gratin de courgettes","La classique","","Des courgettes fondantes dans un appareil crémeux, gratinées à l'emmental.","",40,320,"F","zucchini gratin cheese","vobf",
+   ["courgette||4|","œuf|œufs|2|","crème fraîche||20|cl","emmental râpé|emmental râpé|80|g","ail||1|gousse","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C. Coupe les courgettes en rondelles.","Fais-les revenir 8 min à la poêle avec l'huile et l'ail.|Poêle|8","Bats les œufs avec la crème, la moitié de l'emmental, sel et poivre.","Mets les courgettes dans un plat, verse l'appareil et parsème du reste d'emmental.","Enfourne 25 min.|Four|25"]],
+  ["Gratin de courgettes léger","Plus léger","La crème est remplacée par du lait et du fromage blanc.","Le gratin de courgettes en version légère, toujours bien doré.","",40,220,"F","light zucchini bake","vobh",
+   ["courgette||4|","œuf|œufs|2|","fromage blanc||150|g","lait||10|cl","parmesan râpé|parmesan râpé|30|g","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C. Coupe les courgettes en rondelles et fais-les revenir 8 min sans matière grasse.|Poêle|8","Bats les œufs avec le fromage blanc, le lait, sel et poivre.","Mets les courgettes dans un plat, verse l'appareil et parsème de parmesan.","Enfourne 25 min.|Four|25"]],
+  ["Gratin de courgettes au chèvre","Au chèvre","Le chèvre remplace l'emmental, avec du thym.","Un gratin parfumé au chèvre fondu et au thym.","",40,360,"F","zucchini goat cheese gratin","vo",
+   ["courgette||4|","bûche de chèvre|bûches de chèvre|1|","œuf|œufs|2|","crème fraîche||15|cl","thym|thym||","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C. Coupe les courgettes en rondelles et fais-les revenir 8 min dans l'huile.|Poêle|8","Bats les œufs avec la crème, le thym, sel et poivre.","Mets les courgettes dans un plat, verse l'appareil et dépose le chèvre en rondelles.","Enfourne 25 min.|Four|25"]]
+ ]},
+ {"q":"Soupe à l'oignon","a":["soupe a l oignon gratinee","gratinee"],"r":[
+  ["Soupe à l'oignon gratinée","La classique","","Des oignons longuement caramélisés dans un bouillon, sous un croûton gratiné au fromage.","",70,420,"F","french onion soup","voe",
+   ["oignon||6|","beurre||40|g","farine||1|c. à s.","vin blanc||10|cl","bouillon de légumes|bouillons de légumes|1|","baguette|baguettes|0.5|","gruyère râpé|gruyère râpé|100|g","sel|||","poivre|||"],
+   ["Émince finement les oignons et fais-les fondre dans le beurre 30 min à feu doux, jusqu'à ce qu'ils soient bien dorés.|Cuisson|30","Saupoudre de farine, mélange, puis verse le vin blanc et 1,2 l d'eau avec le bouillon.","Laisse mijoter 20 min, sale et poivre.|Mijotage|20","Verse dans des bols, pose des tranches de pain grillé et couvre de gruyère.","Passe 5 min sous le gril du four.|Gril|5"]],
+  ["Soupe à l'oignon légère","Plus légère","Sans croûton gratiné, et avec moins de beurre.","Toute la douceur des oignons caramélisés, en soupe légère.","",60,180,"F","light onion soup bowl","vbhe",
+   ["oignon||6|","huile d'olive|huile d'olive|2|c. à s.","bouillon de légumes|bouillons de légumes|1|","thym|thym||","sel|||","poivre|||"],
+   ["Émince les oignons et fais-les dorer 30 min dans l'huile à feu doux.|Cuisson|30","Ajoute 1,2 l d'eau, le bouillon et le thym.","Laisse mijoter 20 min, sale et poivre.|Mijotage|20"]],
+  ["Soupe à l'oignon au cidre","Au cidre","Le vin blanc est remplacé par du cidre, à la normande.","Une soupe à l'oignon douce et fruitée, gratinée au camembert.","Spécialité normande",70,440,"F","onion soup cider","voe",
+   ["oignon||6|","beurre||40|g","cidre brut|cidre brut|25|cl","bouillon de légumes|bouillons de légumes|1|","baguette|baguettes|0.5|","camembert||0.5|","sel|||","poivre|||"],
+   ["Fais fondre les oignons émincés 30 min dans le beurre à feu doux.|Cuisson|30","Verse le cidre, laisse réduire 5 min, puis ajoute 1 l d'eau et le bouillon.|Cuisson|5","Laisse mijoter 20 min.|Mijotage|20","Verse dans des bols, ajoute du pain grillé et des tranches de camembert, et passe 5 min sous le gril.|Gril|5"]]
+ ]},
+ {"q":"Velouté de potiron","a":["soupe de potiron","veloute de citrouille","soupe de citrouille","veloute de courge"],"r":[
+  ["Velouté de potiron","La classique","","Un velouté orange et onctueux, tout doux, avec une touche de crème.","",40,200,"F","pumpkin soup bowl","vbfhe",
+   ["potiron||1000|g","pomme de terre||1|","oignon||1|","crème fraîche||10|cl","bouillon de légumes|bouillons de légumes|1|","beurre||20|g","noix de muscade|noix de muscade||","sel|||","poivre|||"],
+   ["Épluche le potiron et la pomme de terre et coupe-les en cubes.","Fais revenir l'oignon dans le beurre 3 min dans une casserole.|Cuisson|3","Ajoute les légumes, couvre d'eau avec le bouillon et laisse cuire 25 min.|Cuisson|25","Mixe en ajoutant la crème, la muscade, sel et poivre."]],
+  ["Velouté de potiron au lait de coco","Au lait de coco","Le lait de coco et un peu de curry remplacent la crème.","Un velouté doux et exotique, au lait de coco et au curry.","",40,240,"F","pumpkin coconut curry soup","vbhe",
+   ["potiron||1000|g","oignon||1|","lait de coco|lait de coco|20|cl","curry|curry|1|c. à c.","gingembre|gingembre||","bouillon de légumes|bouillons de légumes|1|","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir l'oignon dans l'huile avec le curry et un peu de gingembre râpé 3 min.|Cuisson|3","Ajoute le potiron en cubes, couvre d'eau avec le bouillon et cuis 25 min.|Cuisson|25","Mixe avec le lait de coco et sale."]],
+  ["Velouté de potiron et châtaignes","Aux châtaignes","Des châtaignes cuites donnent un goût de fête et une texture plus riche.","Le velouté d'automne, avec des châtaignes pour plus de douceur.","",40,280,"F","pumpkin chestnut soup","vhe",
+   ["potiron||800|g","châtaigne cuite|châtaignes cuites|200|g","oignon||1|","crème fraîche||10|cl","bouillon de légumes|bouillons de légumes|1|","beurre||20|g","sel|||","poivre|||"],
+   ["Fais revenir l'oignon dans le beurre 3 min.|Cuisson|3","Ajoute le potiron en cubes et les châtaignes, couvre d'eau avec le bouillon et cuis 25 min.|Cuisson|25","Mixe avec la crème, sale et poivre."]]
+ ]},
+ {"q":"Cassoulet","a":["cassoulet maison"],"r":[
+  ["Cassoulet","La classique","","Haricots blancs fondants, saucisse de Toulouse et confit de canard, gratinés au four.","Spécialité du Sud-Ouest",180,850,"M","cassoulet beans sausage duck","o",
+   ["haricot blanc sec|haricots blancs secs|500|g","saucisse de Toulouse|saucisses de Toulouse|4|","cuisse de canard confite|cuisses de canard confites|2|","poitrine fumée|poitrine fumée|150|g","tomate concassée|tomates concassées|400|g","oignon||2|","carotte||2|","ail||4|gousse","bouquet garni|bouquets garnis|1|","chapelure|chapelure|3|c. à s.","sel|||","poivre|||"],
+   ["La veille, fais tremper les haricots dans l'eau froide.","Fais cuire les haricots 1 h dans l'eau avec la carotte, l'oignon et le bouquet garni.|Cuisson|60","Fais dorer la poitrine en dés, les saucisses et le canard dans une poêle.","Préchauffe le four à 160 °C. Dans un plat, mélange les haricots égouttés, les tomates, l'ail et les viandes, et ajoute un peu d'eau de cuisson.","Saupoudre de chapelure et enfourne 1 h 30, en cassant la croûte deux fois.|Four|90"]],
+  ["Cassoulet express","Express","Avec des haricots en conserve, c'est prêt en 45 minutes.","Le goût du cassoulet sans y passer la journée.","Spécialité du Sud-Ouest",45,780,"F","quick cassoulet beans","ob",
+   ["haricot blanc|haricots blancs|800|g","saucisse de Toulouse|saucisses de Toulouse|4|","lardon||100|g","tomate concassée|tomates concassées|400|g","oignon||1|","ail||2|gousse","chapelure|chapelure|2|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Fais dorer les saucisses coupées en tronçons, les lardons et l'oignon 10 min.|Poêle|10","Ajoute les haricots égouttés, les tomates et l'ail, sale et poivre.","Verse dans un plat, saupoudre de chapelure et enfourne 25 min.|Four|25"]],
+  ["Cassoulet végétarien","Végétarienne","La viande est remplacée par des légumes et de la fumée de paprika.","Des haricots mijotés à la tomate et au paprika fumé, gratinés comme un vrai.","",60,520,"F","vegetarian bean cassoulet","vobh",
+   ["haricot blanc|haricots blancs|800|g","carotte||2|","poireau||1|","tomate concassée|tomates concassées|400|g","oignon||1|","ail||2|gousse","paprika fumé|paprika fumé|1|c. à c.","chapelure|chapelure|3|c. à s.","huile d'olive|huile d'olive|2|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 180 °C.","Fais revenir l'oignon, le poireau et les carottes en dés 10 min dans l'huile.|Poêle|10","Ajoute les haricots, les tomates, l'ail, le paprika, sel et poivre, et laisse mijoter 10 min.|Mijotage|10","Verse dans un plat, couvre de chapelure et enfourne 30 min.|Four|30"]]
+ ]},
+ {"q":"Choucroute","a":["choucroute garnie"],"r":[
+  ["Choucroute garnie","La classique","","Le chou fermenté mijoté au vin blanc, avec saucisses, lard et pommes de terre.","Spécialité alsacienne",120,780,"F","choucroute sauerkraut sausages","",
+   ["choucroute crue|choucroute crue|1200|g","saucisse de Strasbourg|saucisses de Strasbourg|4|","saucisse de Montbéliard|saucisses de Montbéliard|2|","lard fumé|lard fumé|300|g","pomme de terre||8|","oignon||1|","vin blanc||25|cl","baie de genièvre|baies de genièvre|6|","saindoux|saindoux|1|c. à s.","poivre|||"],
+   ["Rince la choucroute et égoutte-la bien.","Fais revenir l'oignon dans le saindoux, ajoute la choucroute, le genièvre, le vin et 25 cl d'eau.","Ajoute le lard et laisse mijoter 1 h à couvert.|Mijotage|60","Ajoute les saucisses de Montbéliard et les pommes de terre épluchées, cuis 30 min.|Cuisson|30","Ajoute les saucisses de Strasbourg 10 min avant la fin.|Cuisson|10"]],
+  ["Choucroute de la mer","De la mer","Les charcuteries sont remplacées par des poissons.","Une choucroute légère au saumon, au cabillaud et aux crevettes.","Spécialité alsacienne",60,480,"M","fish sauerkraut","h",
+   ["choucroute cuite|choucroute cuite|1000|g","pavé de saumon|pavés de saumon|2|","dos de cabillaud|dos de cabillaud|2|","crevette|crevettes|8|","pomme de terre||6|","vin blanc||20|cl","crème fraîche||10|cl","beurre||20|g","poivre|||"],
+   ["Fais chauffer la choucroute avec le vin blanc 20 min à couvert.|Cuisson|20","Fais cuire les pommes de terre à la vapeur 25 min.|Cuisson|25","Pose les poissons et les crevettes sur la choucroute et cuis 10 min à couvert.|Cuisson|10","Fais chauffer la crème avec le beurre et un peu de jus de cuisson, et nappe le poisson."]],
+  ["Choucroute express","Express","Avec une choucroute déjà cuite, c'est prêt en 35 minutes.","La choucroute pour un soir de semaine.","",35,700,"F","quick sauerkraut sausage","b",
+   ["choucroute cuite|choucroute cuite|1000|g","saucisse de Strasbourg|saucisses de Strasbourg|4|","saucisse fumée|saucisses fumées|2|","pomme de terre||6|","vin blanc||15|cl","poivre|||"],
+   ["Fais cuire les pommes de terre 20 min dans l'eau salée.|Cuisson|20","Fais chauffer la choucroute avec le vin blanc et les saucisses fumées 20 min à couvert.|Cuisson|20","Ajoute les saucisses de Strasbourg 8 min avant la fin et sers avec les pommes de terre.|Cuisson|8"]]
+ ]},
+ {"q":"Rôti de porc","a":["roti de porc au four","roti de porc moutarde"],"r":[
+  ["Rôti de porc","La classique","","Un rôti tendre et doré, avec son jus et des pommes de terre fondantes.","",80,520,"F","roast pork loin","obf",
+   ["rôti de porc|rôtis de porc|1000|g","pomme de terre||800|g","oignon||2|","ail||3|gousse","thym|thym||","huile d'olive|huile d'olive|2|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Frotte le rôti d'huile, de sel, de poivre et de thym, et fais-le dorer sur toutes les faces dans une cocotte.","Ajoute les oignons en quartiers, l'ail, les pommes de terre en morceaux et un verre d'eau.","Enfourne 1 h, en arrosant de jus deux fois.|Four|60","Laisse reposer 10 min avant de trancher.|Repos|10"]],
+  ["Rôti de porc à la moutarde","À la moutarde","Le rôti est enrobé de moutarde et servi avec une sauce crémeuse.","Un rôti tout doux, avec une sauce moutarde à la crème.","",80,580,"F","pork roast mustard sauce","of",
+   ["rôti de porc|rôtis de porc|1000|g","moutarde|moutarde|3|c. à s.","crème fraîche||20|cl","oignon||1|","vin blanc||10|cl","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Préchauffe le four à 200 °C.","Badigeonne le rôti de 2 c. à s. de moutarde, sale et poivre.","Mets-le dans un plat avec l'oignon émincé, le vin et un filet d'huile. Enfourne 1 h.|Four|60","Verse le jus dans une casserole avec la crème et le reste de moutarde, et laisse épaissir 3 min.|Sauce|3"]],
+  ["Rôti de porc au miel et aux épices","Miel et épices","Un glaçage au miel, au soja et aux épices caramélise le rôti.","Un rôti laqué, sucré-salé et parfumé.","",80,560,"F","honey glazed pork roast","o",
+   ["rôti de porc|rôtis de porc|1000|g","miel|miel|3|c. à s.","sauce soja|sauce soja|3|c. à s.","ail||2|gousse","quatre-épices|quatre-épices|1|c. à c.","pomme de terre||800|g","sel|||","poivre|||"],
+   ["Préchauffe le four à 190 °C.","Mélange le miel, la sauce soja, l'ail haché et les épices.","Mets le rôti dans un plat avec les pommes de terre en morceaux et badigeonne-le de sauce.","Enfourne 1 h en arrosant toutes les 20 min.|Four|60"]]
+ ]},
+ {"q":"Lapin à la moutarde","a":["lapin moutarde","lapin"],"r":[
+  ["Lapin à la moutarde","La classique","","Un lapin tendre, mijoté dans une sauce crémeuse à la moutarde.","",75,520,"M","rabbit mustard sauce","",
+   ["lapin en morceaux|lapins en morceaux|1|","moutarde|moutarde|4|c. à s.","crème fraîche||20|cl","vin blanc||20|cl","échalote||3|","beurre||30|g","thym|thym||","sel|||","poivre|||"],
+   ["Badigeonne les morceaux de lapin avec la moutarde.","Fais-les dorer dans le beurre dans une cocotte, avec les échalotes émincées.","Verse le vin blanc, ajoute le thym, sel et poivre, et laisse mijoter 50 min à couvert.|Mijotage|50","Ajoute la crème et laisse réduire 5 min.|Cuisson|5"]],
+  ["Lapin aux pruneaux","Aux pruneaux","Des pruneaux et un peu de bière donnent une sauce sucrée-salée.","Le lapin à la flamande, fondant et doucement sucré.","",80,540,"M","rabbit prunes stew","",
+   ["lapin en morceaux|lapins en morceaux|1|","pruneau|pruneaux|16|","bière blonde|bière blonde|33|cl","oignon||2|","moutarde|moutarde|1|c. à s.","beurre||30|g","farine||1|c. à s.","sel|||","poivre|||"],
+   ["Fais dorer le lapin dans le beurre avec les oignons émincés.","Saupoudre de farine, ajoute la bière et la moutarde, sale et poivre.","Laisse mijoter 40 min, ajoute les pruneaux et cuis encore 20 min.|Mijotage|60"]],
+  ["Poulet à la moutarde","Au poulet","Le lapin est remplacé par des hauts de cuisse de poulet.","Toute la sauce du lapin à la moutarde, avec du poulet.","",45,500,"F","chicken mustard cream","bf",
+   ["haut de cuisse de poulet|hauts de cuisse de poulet|8|","moutarde|moutarde|3|c. à s.","crème fraîche||20|cl","vin blanc||10|cl","échalote||2|","beurre||20|g","sel|||","poivre|||"],
+   ["Fais dorer le poulet dans le beurre 10 min avec les échalotes.|Cuisson|10","Verse le vin, couvre et laisse cuire 25 min.|Cuisson|25","Ajoute la crème et la moutarde, et laisse épaissir 5 min.|Cuisson|5"]]
+ ]},
+ {"q":"Poulet à la crème","a":["poulet a la creme et champignons","emince de poulet a la creme","poulet creme champignons"],"r":[
+  ["Poulet à la crème et aux champignons","La classique","","Des morceaux de poulet tendres dans une sauce crémeuse aux champignons.","",30,520,"F","chicken mushroom cream sauce","bf",
+   ["blanc de poulet|blancs de poulet|4|","champignon de Paris|champignons de Paris|300|g","crème fraîche||20|cl","échalote||2|","beurre||20|g","persil|persil||","sel|||","poivre|||"],
+   ["Coupe le poulet en morceaux et fais-le dorer 6 min dans le beurre. Réserve.|Poêle|6","Fais revenir les échalotes et les champignons émincés 8 min.|Poêle|8","Remets le poulet, ajoute la crème, sale et poivre, et laisse mijoter 5 min.|Mijotage|5","Parsème de persil et sers avec du riz ou des pâtes."]],
+  ["Poulet à la crème légère","Plus légère","La crème est remplacée par de la crème légère et un peu de bouillon.","La même sauce douce, en plus léger.","",30,380,"F","light creamy chicken","bfh",
+   ["blanc de poulet|blancs de poulet|4|","champignon de Paris|champignons de Paris|300|g","crème légère|crème légère|20|cl","bouillon de volaille|bouillons de volaille|1|","échalote||2|","huile d'olive|huile d'olive|1|c. à s.","sel|||","poivre|||"],
+   ["Fais dorer le poulet en morceaux 6 min dans l'huile.|Poêle|6","Ajoute les échalotes et les champignons et cuis 8 min.|Poêle|8","Verse 10 cl d'eau avec le bouillon émietté et la crème, et laisse épaissir 5 min.|Mijotage|5"]],
+  ["Poulet à la crème et à la moutarde","À la moutarde","De la moutarde à l'ancienne relève la sauce.","Le poulet à la crème, relevé à la moutarde à l'ancienne.","",25,540,"F","chicken creamy mustard sauce","bf",
+   ["blanc de poulet|blancs de poulet|4|","crème fraîche||20|cl","moutarde à l'ancienne|moutarde à l'ancienne|2|c. à s.","oignon||1|","beurre||20|g","sel|||","poivre|||"],
+   ["Fais dorer le poulet en morceaux 6 min dans le beurre avec l'oignon émincé.|Poêle|6","Ajoute la crème et la moutarde, sale et poivre.","Laisse mijoter 8 min.|Mijotage|8"]]
+ ]},
+ {"q":"Endives au jambon","a":["gratin d endives","endives jambon"],"r":[
+  ["Endives au jambon","La classique","","Des endives fondantes roulées dans du jambon, gratinées sous une béchamel.","Spécialité du Nord",60,480,"F","endives ham gratin bechamel","obf",
+   ["endive||8|","jambon blanc|jambon blanc|8|tranches","beurre||40|g","farine||40|g","lait||50|cl","emmental râpé|emmental râpé|80|g","noix de muscade|noix de muscade||","sel|||","poivre|||"],
+   ["Fais cuire les endives 20 min à la vapeur ou dans l'eau, puis presse-les bien pour les égoutter.|Cuisson|20","Fais une béchamel : beurre fondu, farine, puis lait en fouettant 5 min. Ajoute muscade, sel et poivre.|Béchamel|5","Préchauffe le four à 200 °C. Roule chaque endive dans une tranche de jambon et range-les dans un plat.","Nappe de béchamel et parsème d'emmental.","Enfourne 25 min.|Four|25"]],
+  ["Endives au jambon légères","Plus légères","La béchamel est faite au lait demi-écrémé, sans beurre.","Le gratin réconfortant, en version plus légère.","Spécialité du Nord",55,330,"F","light endive ham gratin","obh",
+   ["endive||8|","jambon blanc|jambon blanc|8|tranches","lait demi-écrémé||50|cl","fécule de maïs|fécule de maïs|2|c. à s.","emmental râpé|emmental râpé|40|g","noix de muscade|noix de muscade||","sel|||","poivre|||"],
+   ["Fais cuire les endives 20 min à la vapeur et égoutte-les bien.|Cuisson|20","Délaye la fécule dans un peu de lait froid, ajoute le reste du lait et fais épaissir 3 min en remuant.|Sauce|3","Préchauffe le four à 200 °C. Roule les endives dans le jambon et range-les dans un plat.","Nappe de sauce, parsème d'emmental et enfourne 20 min.|Four|20"]],
+  ["Endives au jambon et au maroilles","Au maroilles","Le maroilles remplace l'emmental, pour un gratin bien du Nord.","Le gratin d'endives avec le caractère du maroilles.","Spécialité du Nord",60,540,"F","endive gratin strong cheese","o",
+   ["endive||8|","jambon blanc|jambon blanc|8|tranches","maroilles||0.5|","beurre||40|g","farine||40|g","lait||50|cl","sel|||","poivre|||"],
+   ["Fais cuire les endives 20 min et égoutte-les bien.|Cuisson|20","Prépare la béchamel avec le beurre, la farine et le lait.","Préchauffe le four à 200 °C. Roule les endives dans le jambon, range-les dans un plat et nappe de béchamel.","Ajoute le maroilles en tranches et enfourne 25 min.|Four|25"]]
+ ]}
+]

@@ -1,0 +1,112 @@
+[
+ {"q":"Chili con carne","a":["chili","chili con carne maison"],"r":[
+  ["Chili con carne","La classique","","Bœuf haché, haricots rouges et tomates, relevés au cumin et au piment.","Plat tex-mex",50,560,"F","chili con carne","bf",
+   ["bœuf haché|bœuf haché|500|g","haricot rouge|haricots rouges|400|g","tomate concassée|tomates concassées|800|g","oignon||2|","poivron rouge|poivrons rouges|1|","ail||2|gousse","cumin|cumin|2|c. à c.","piment en poudre|piment en poudre|0.5|c. à c.","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Fais revenir les oignons, le poivron en dés et l'ail dans l'huile 5 min.|Cuisson|5","Ajoute la viande et les épices, et fais dorer 5 min.|Cuisson|5","Ajoute les tomates, sale et laisse mijoter 25 min.|Mijotage|25","Ajoute les haricots rouges égouttés et cuis 10 min. Sers avec du riz.|Cuisson|10"]],
+  ["Chili sin carne","Végétarienne","La viande est remplacée par des lentilles et plus de haricots.","Le chili tout végé, aux haricots rouges, lentilles et maïs.","Plat tex-mex",40,460,"F","vegetarian chili beans","vbh",
+   ["haricot rouge|haricots rouges|400|g","lentille corail|lentilles corail|100|g","maïs|maïs|150|g","tomate concassée|tomates concassées|800|g","oignon||2|","poivron rouge|poivrons rouges|1|","ail||2|gousse","cumin|cumin|2|c. à c.","paprika fumé|paprika fumé|1|c. à c.","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Fais revenir les oignons, le poivron et l'ail dans l'huile 5 min.|Cuisson|5","Ajoute les épices, les lentilles rincées, les tomates et 20 cl d'eau. Laisse mijoter 20 min.|Mijotage|20","Ajoute les haricots et le maïs, et cuis 5 min.|Cuisson|5"]],
+  ["Chili con carne doux","Version enfants","Sans piment, avec un peu de maïs et servi avec du fromage râpé.","Le chili pour toute la famille, doux et gourmand.","Plat tex-mex",45,580,"F","mild chili kids","bf",
+   ["bœuf haché|bœuf haché|500|g","haricot rouge|haricots rouges|400|g","maïs|maïs|150|g","tomate concassée|tomates concassées|800|g","oignon||1|","cumin|cumin|1|c. à c.","cheddar râpé|cheddar râpé|60|g","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir l'oignon dans l'huile, puis la viande avec le cumin 5 min.|Cuisson|5","Ajoute les tomates et laisse mijoter 25 min.|Mijotage|25","Ajoute les haricots et le maïs, cuis 5 min, et sers avec le cheddar.|Cuisson|5"]]
+ ]},
+ {"q":"Curry de poulet","a":["poulet curry","poulet au curry","curry poulet coco","poulet coco"],"r":[
+  ["Poulet au curry et lait de coco","La classique","","Du poulet tendre dans une sauce crémeuse au lait de coco et au curry.","Inspiration indienne",35,520,"F","chicken coconut curry","bf",
+   ["blanc de poulet|blancs de poulet|4|","lait de coco|lait de coco|40|cl","oignon||1|","ail||2|gousse","curry|curry|2|c. à s.","gingembre|gingembre|1|c. à c.","tomate concassée|tomates concassées|200|g","huile d'olive|huile d'olive|1|c. à s.","coriandre|coriandre||","sel|||"],
+   ["Fais revenir l'oignon, l'ail et le gingembre dans l'huile 3 min.|Cuisson|3","Ajoute le poulet en morceaux et le curry, fais dorer 5 min.|Cuisson|5","Verse les tomates et le lait de coco, sale et laisse mijoter 20 min.|Mijotage|20","Sers avec du riz et la coriandre."]],
+  ["Curry de poulet léger","Plus léger","Le lait de coco est remplacé par du yaourt et plus de légumes.","Un curry parfumé et léger, plein de légumes.","Inspiration indienne",35,380,"F","light chicken curry yogurt","bh",
+   ["blanc de poulet|blancs de poulet|4|","yaourt nature|yaourts nature|2|","courgette||1|","poivron rouge|poivrons rouges|1|","oignon||1|","curry|curry|2|c. à s.","tomate concassée|tomates concassées|400|g","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir l'oignon dans l'huile, ajoute le poulet en morceaux et le curry 5 min.|Cuisson|5","Ajoute la courgette, le poivron et les tomates, et laisse mijoter 20 min.|Mijotage|20","Hors du feu, ajoute le yaourt et sale."]],
+  ["Curry de poulet aux légumes et pommes de terre","Aux légumes","Des pommes de terre et des petits pois en font un plat complet.","Un curry complet, sans besoin de riz.","Inspiration indienne",40,500,"F","chicken potato curry","bf",
+   ["blanc de poulet|blancs de poulet|3|","pomme de terre||3|","petits pois|petits pois|150|g","lait de coco|lait de coco|40|cl","oignon||1|","curry|curry|2|c. à s.","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir l'oignon et le poulet en morceaux avec le curry 5 min.|Cuisson|5","Ajoute les pommes de terre en cubes, le lait de coco et 10 cl d'eau. Cuis 20 min.|Cuisson|20","Ajoute les petits pois et cuis 5 min.|Cuisson|5"]]
+ ]},
+ {"q":"Poulet tikka masala","a":["tikka masala","chicken tikka masala"],"r":[
+  ["Poulet tikka masala","La classique","","Du poulet mariné au yaourt et aux épices, dans une sauce tomate crémeuse.","Plat indien",45,540,"M","chicken tikka masala","",
+   ["blanc de poulet|blancs de poulet|4|","yaourt nature|yaourts nature|1|","garam masala|garam masala|2|c. à c.","paprika|paprika|1|c. à c.","tomate concassée|tomates concassées|400|g","crème fraîche||15|cl","oignon||1|","ail||2|gousse","gingembre|gingembre|1|c. à c.","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Coupe le poulet en morceaux et mélange-le avec le yaourt, la moitié des épices et du sel. Laisse mariner 15 min.|Marinade|15","Fais dorer le poulet dans l'huile 6 min. Réserve.|Poêle|6","Fais revenir l'oignon, l'ail et le gingembre, ajoute le reste des épices puis les tomates. Cuis 10 min.|Cuisson|10","Ajoute la crème et le poulet, et laisse mijoter 10 min. Sers avec du riz basmati.|Mijotage|10"]],
+  ["Poulet tikka masala léger","Plus léger","La crème est remplacée par du yaourt.","Toutes les épices du tikka, avec une sauce plus légère.","Plat indien",45,400,"M","light tikka masala","h",
+   ["blanc de poulet|blancs de poulet|4|","yaourt nature|yaourts nature|2|","garam masala|garam masala|2|c. à c.","paprika|paprika|1|c. à c.","tomate concassée|tomates concassées|400|g","oignon||1|","ail||2|gousse","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais mariner le poulet en morceaux avec un yaourt et la moitié des épices 15 min.|Marinade|15","Fais-le dorer 6 min, puis ajoute l'oignon, l'ail, le reste des épices et les tomates.|Poêle|6","Laisse mijoter 15 min, puis ajoute le second yaourt hors du feu.|Mijotage|15"]],
+  ["Tikka masala de pois chiches","Végétarienne","Le poulet est remplacé par des pois chiches et des épinards.","La sauce tikka, avec des pois chiches et des épinards.","Plat indien",30,420,"F","chickpea tikka masala","vbh",
+   ["pois chiche|pois chiches|500|g","pousse d'épinard|pousses d'épinard|100|g","tomate concassée|tomates concassées|400|g","crème fraîche||10|cl","garam masala|garam masala|2|c. à c.","oignon||1|","ail||2|gousse","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Fais revenir l'oignon et l'ail dans l'huile avec les épices 3 min.|Cuisson|3","Ajoute les tomates et laisse mijoter 10 min.|Mijotage|10","Ajoute les pois chiches, la crème et les épinards, et cuis 5 min.|Cuisson|5"]]
+ ]},
+ {"q":"Butter chicken","a":["poulet au beurre","murgh makhani"],"r":[
+  ["Butter chicken","La classique","","Le poulet au beurre indien : une sauce tomate douce, beurrée et crémeuse.","Plat indien",45,620,"M","butter chicken","f",
+   ["blanc de poulet|blancs de poulet|4|","yaourt nature|yaourts nature|1|","beurre||50|g","tomate concassée|tomates concassées|400|g","crème fraîche||20|cl","oignon||1|","ail||2|gousse","gingembre|gingembre|1|c. à c.","garam masala|garam masala|2|c. à c.","sel|||"],
+   ["Fais mariner le poulet en morceaux avec le yaourt, 1 c. à c. de garam masala et du sel 15 min.|Marinade|15","Fais dorer le poulet dans la moitié du beurre 6 min. Réserve.|Poêle|6","Fais fondre l'oignon, l'ail et le gingembre dans le reste du beurre, ajoute les épices et les tomates. Cuis 10 min puis mixe.|Cuisson|10","Ajoute la crème et le poulet, et laisse mijoter 10 min.|Mijotage|10"]],
+  ["Butter chicken express","Express","Sans marinade ni sauce mixée : prêt en 25 minutes.","Le butter chicken pour les soirs pressés.","Plat indien",25,580,"F","quick butter chicken","bf",
+   ["blanc de poulet|blancs de poulet|4|","beurre||40|g","coulis de tomate|coulis de tomate|40|cl","crème fraîche||15|cl","garam masala|garam masala|2|c. à c.","ail||2|gousse","sel|||"],
+   ["Fais dorer le poulet en morceaux dans le beurre 6 min avec l'ail.|Poêle|6","Ajoute le garam masala et le coulis, et cuis 10 min.|Cuisson|10","Ajoute la crème, sale et laisse épaissir 3 min.|Cuisson|3"]],
+  ["Butter paneer","Végétarienne","Le poulet est remplacé par du paneer, ou de la halloumi.","La sauce butter chicken, avec un fromage qui se tient à la cuisson.","Plat indien",30,560,"F","paneer butter masala","v",
+   ["paneer|paneer|400|g","beurre||40|g","tomate concassée|tomates concassées|400|g","crème fraîche||15|cl","oignon||1|","ail||2|gousse","garam masala|garam masala|2|c. à c.","sel|||"],
+   ["Coupe le paneer en cubes et fais-le dorer 4 min dans la moitié du beurre.|Poêle|4","Fais fondre l'oignon et l'ail dans le reste du beurre, ajoute les épices et les tomates, et cuis 10 min.|Cuisson|10","Ajoute la crème et le paneer et laisse mijoter 5 min.|Mijotage|5"]]
+ ]},
+ {"q":"Curry de légumes","a":["curry vegetarien","curry legumes coco","curry vegetal"],"r":[
+  ["Curry de légumes au lait de coco","La classique","","Des légumes fondants dans une sauce coco parfumée au curry.","Inspiration indienne",35,380,"F","vegetable coconut curry","vbh",
+   ["pomme de terre||2|","carotte||2|","courgette||1|","chou-fleur|choux-fleurs|0.5|","pois chiche|pois chiches|250|g","lait de coco|lait de coco|40|cl","oignon||1|","curry|curry|2|c. à s.","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Fais revenir l'oignon dans l'huile avec le curry 3 min.|Cuisson|3","Ajoute les pommes de terre et les carottes en morceaux, le lait de coco et 15 cl d'eau. Cuis 10 min.|Cuisson|10","Ajoute le chou-fleur en bouquets et la courgette, cuis encore 12 min.|Cuisson|12","Ajoute les pois chiches, sale et sers avec du riz."]],
+  ["Curry de patate douce et épinards","Patate douce","Patate douce et épinards remplacent les autres légumes.","Un curry doux, à la patate douce fondante.","Inspiration indienne",30,400,"F","sweet potato spinach curry","vbh",
+   ["patate douce|patates douces|2|","pousse d'épinard|pousses d'épinard|150|g","lentille corail|lentilles corail|100|g","lait de coco|lait de coco|40|cl","oignon||1|","curry|curry|2|c. à s.","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir l'oignon avec le curry 3 min.|Cuisson|3","Ajoute la patate douce en cubes, les lentilles, le lait de coco et 30 cl d'eau. Cuis 20 min.|Cuisson|20","Ajoute les épinards 2 min et sale.|Cuisson|2"]],
+  ["Curry vert de légumes","Curry vert thaï","La pâte de curry vert remplace le curry en poudre.","Un curry thaï parfumé, au basilic et au citron vert.","Plat thaïlandais",30,360,"F","thai green vegetable curry","vh",
+   ["pâte de curry vert|pâte de curry vert|2|c. à s.","lait de coco|lait de coco|40|cl","courgette||1|","poivron rouge|poivrons rouges|1|","haricot vert|haricots verts|150|g","champignon|champignons|150|g","citron vert|citrons verts|1|","basilic|basilic||","huile d'olive|huile d'olive|1|c. à s.","sauce soja|sauce soja|1|c. à s."],
+   ["Fais revenir la pâte de curry dans l'huile 1 min, puis verse le lait de coco.","Ajoute les légumes en morceaux et cuis 12 min.|Cuisson|12","Ajoute la sauce soja, le jus du citron vert et le basilic."]]
+ ]},
+ {"q":"Dal de lentilles","a":["dal","dhal","dahl","dal de lentilles corail"],"r":[
+  ["Dal de lentilles corail","La classique","","Des lentilles corail fondantes, au lait de coco et aux épices douces.","Plat indien",30,380,"F","red lentil dal","vbh",
+   ["lentille corail|lentilles corail|250|g","lait de coco|lait de coco|20|cl","tomate concassée|tomates concassées|400|g","oignon||1|","ail||2|gousse","gingembre|gingembre|1|c. à c.","curry|curry|1|c. à s.","curcuma|curcuma|1|c. à c.","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir l'oignon, l'ail et le gingembre dans l'huile avec les épices 3 min.|Cuisson|3","Ajoute les lentilles rincées, les tomates, le lait de coco et 50 cl d'eau.","Laisse cuire 20 min en remuant, jusqu'à ce que ce soit crémeux.|Cuisson|20","Sale et sers avec du riz ou du pain naan."]],
+  ["Dal aux épinards","Aux épinards","Des épinards ajoutés à la fin.","Le dal crémeux, avec des épinards pour le vert.","Plat indien",30,380,"F","spinach lentil dal","vbh",
+   ["lentille corail|lentilles corail|250|g","épinard|épinards|200|g","lait de coco|lait de coco|20|cl","oignon||1|","ail||2|gousse","curry|curry|1|c. à s.","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir l'oignon et l'ail avec le curry 3 min.|Cuisson|3","Ajoute les lentilles, le lait de coco et 60 cl d'eau. Cuis 20 min.|Cuisson|20","Ajoute les épinards et cuis 3 min.|Cuisson|3"]],
+  ["Dal de lentilles et patate douce","Patate douce","Des cubes de patate douce rendent le dal plus complet.","Un dal encore plus doux et nourrissant.","Plat indien",35,430,"F","sweet potato lentil dal","vbfh",
+   ["lentille corail|lentilles corail|200|g","patate douce|patates douces|1|","lait de coco|lait de coco|20|cl","oignon||1|","curry|curry|1|c. à s.","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir l'oignon avec le curry 3 min.|Cuisson|3","Ajoute la patate douce en petits cubes, les lentilles, le lait de coco et 60 cl d'eau.","Cuis 25 min et sale.|Cuisson|25"]]
+ ]},
+ {"q":"Fajitas","a":["fajitas poulet","fajita"],"r":[
+  ["Fajitas au poulet","La classique","","Des lanières de poulet et de poivrons épicées, roulées dans des tortillas.","Plat tex-mex",25,520,"F","chicken fajitas","f",
+   ["blanc de poulet|blancs de poulet|3|","poivron rouge|poivrons rouges|1|","poivron vert|poivrons verts|1|","oignon||1|","tortilla|tortillas|8|","épices fajitas|épices fajitas|2|c. à s.","crème fraîche||10|cl","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Coupe le poulet, les poivrons et l'oignon en lanières.","Fais dorer le poulet dans l'huile avec les épices 6 min.|Poêle|6","Ajoute les légumes et cuis 6 min, ils doivent rester croquants.|Poêle|6","Réchauffe les tortillas et garnis-les avec la crème et la poêlée."]],
+  ["Fajitas au bœuf","Au bœuf","Des lanières de bœuf remplacent le poulet.","Les fajitas en version bœuf, avec du guacamole.","Plat tex-mex",25,580,"F","beef fajitas","",
+   ["bœuf à griller|bœuf à griller|500|g","poivron rouge|poivrons rouges|2|","oignon||1|","tortilla|tortillas|8|","épices fajitas|épices fajitas|2|c. à s.","avocat||1|","citron vert|citrons verts|1|","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Écrase l'avocat avec le jus du citron vert et du sel.","Fais saisir le bœuf en lanières avec les épices 3 min à feu vif.|Poêle|3","Ajoute les poivrons et l'oignon et cuis 5 min.|Poêle|5","Garnis les tortillas chaudes de bœuf, de légumes et d'avocat."]],
+  ["Fajitas végétariennes","Végétarienne","Le poulet est remplacé par des haricots noirs et des champignons.","Des fajitas pleines de légumes et de haricots.","Plat tex-mex",25,460,"F","vegetarian fajitas beans","vbh",
+   ["haricot noir|haricots noirs|400|g","champignon|champignons|200|g","poivron rouge|poivrons rouges|2|","oignon||1|","tortilla|tortillas|8|","épices fajitas|épices fajitas|2|c. à s.","yaourt grec|yaourts grecs|1|","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Fais revenir les champignons, les poivrons et l'oignon en lanières avec les épices 8 min.|Poêle|8","Ajoute les haricots noirs égouttés 2 min.|Poêle|2","Garnis les tortillas avec le yaourt et la poêlée."]]
+ ]},
+ {"q":"Tacos","a":["tacos mexicains","taco"],"r":[
+  ["Tacos au bœuf","La classique","","Des petites tortillas garnies de bœuf épicé, d'oignon, de coriandre et de citron vert.","Plat mexicain",25,520,"F","beef tacos","f",
+   ["bœuf haché|bœuf haché|400|g","tortilla de maïs|tortillas de maïs|12|","oignon||1|","tomate||2|","coriandre|coriandre||","citron vert|citrons verts|2|","cumin|cumin|1|c. à c.","paprika|paprika|1|c. à c.","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais revenir la moitié de l'oignon dans l'huile, ajoute la viande et les épices et cuis 8 min.|Poêle|8","Coupe les tomates et le reste d'oignon en petits dés.","Réchauffe les tortillas à la poêle sèche.","Garnis de viande, de tomate, d'oignon et de coriandre, avec un filet de citron vert."]],
+  ["Tacos au poulet","Au poulet","Du poulet mariné au citron vert remplace le bœuf.","Des tacos légers, au poulet et au citron vert.","Plat mexicain",25,460,"F","chicken tacos","fh",
+   ["blanc de poulet|blancs de poulet|3|","tortilla de maïs|tortillas de maïs|12|","chou rouge|choux rouges|0.25|","citron vert|citrons verts|2|","coriandre|coriandre||","paprika|paprika|1|c. à c.","yaourt grec|yaourts grecs|1|","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Coupe le poulet en lanières et mélange-le avec le jus d'un citron vert, le paprika et le sel.","Fais-le dorer 6 min dans l'huile.|Poêle|6","Émince finement le chou.","Garnis les tortillas chaudes de poulet, de chou, de yaourt et de coriandre."]],
+  ["Tacos au poisson","Au poisson","Du poisson blanc pané remplace la viande.","Les tacos de Basse-Californie, au poisson croustillant.","Plat mexicain",30,480,"F","fish tacos","",
+   ["filet de cabillaud|filets de cabillaud|400|g","tortilla de maïs|tortillas de maïs|12|","farine||3|c. à s.","chou blanc|choux blancs|0.25|","mayonnaise|mayonnaise|3|c. à s.","citron vert|citrons verts|2|","coriandre|coriandre||","huile d'olive|huile d'olive|3|c. à s.","sel|||"],
+   ["Coupe le poisson en bâtonnets, sale et passe-les dans la farine.","Fais-les dorer dans l'huile 5 min.|Poêle|5","Mélange la mayonnaise avec le jus d'un citron vert.","Garnis les tortillas de chou émincé, de poisson, de sauce et de coriandre."]]
+ ]},
+ {"q":"Burritos","a":["burrito"],"r":[
+  ["Burritos au bœuf","La classique","","De grandes tortillas garnies de bœuf épicé, riz, haricots et fromage.","Plat tex-mex",35,680,"F","beef burrito","f",
+   ["bœuf haché|bœuf haché|400|g","riz|riz|150|g","haricot rouge|haricots rouges|250|g","tortilla|tortillas|4|","cheddar râpé|cheddar râpé|80|g","tomate||2|","oignon||1|","épices tex-mex|épices tex-mex|2|c. à c.","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais cuire le riz.|Cuisson|12","Fais revenir l'oignon, la viande et les épices 8 min, ajoute les haricots 2 min.|Poêle|10","Garnis chaque tortilla de riz, de viande, de tomate en dés et de cheddar.","Replie les côtés puis roule bien serré, et fais dorer 2 min de chaque côté à la poêle.|Poêle|4"]],
+  ["Burritos au poulet","Au poulet","Du poulet remplace le bœuf, avec de l'avocat.","Des burritos au poulet et à l'avocat, bien garnis.","Plat tex-mex",35,640,"F","chicken burrito avocado","",
+   ["blanc de poulet|blancs de poulet|2|","riz|riz|150|g","haricot noir|haricots noirs|250|g","tortilla|tortillas|4|","avocat||1|","maïs|maïs|100|g","épices tex-mex|épices tex-mex|2|c. à c.","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais cuire le riz.|Cuisson|12","Fais dorer le poulet en lanières avec les épices 8 min.|Poêle|8","Garnis les tortillas de riz, poulet, haricots, maïs et avocat, puis roule-les."]],
+  ["Burritos végétariens","Végétarienne","Haricots, riz, poivrons et maïs, sans viande.","Des burritos généreux, tout végé.","Plat tex-mex",30,560,"F","vegetarian bean burrito","vbh",
+   ["haricot noir|haricots noirs|400|g","riz|riz|150|g","poivron rouge|poivrons rouges|1|","maïs|maïs|150|g","tortilla|tortillas|4|","cheddar râpé|cheddar râpé|60|g","épices tex-mex|épices tex-mex|2|c. à c.","huile d'olive|huile d'olive|1|c. à s.","sel|||"],
+   ["Fais cuire le riz.|Cuisson|12","Fais revenir le poivron en dés avec les épices 5 min, ajoute les haricots et le maïs 3 min.|Poêle|8","Garnis les tortillas de riz, de légumes et de cheddar, roule et fais dorer 2 min de chaque côté.|Poêle|4"]]
+ ]},
+ {"q":"Burger maison","a":["burger","hamburger","burger fait maison","cheeseburger"],"r":[
+  ["Burger maison","La classique","","Un steak juteux, du cheddar fondu, des crudités et une sauce maison dans un pain brioché.","Plat américain",25,720,"F","homemade cheeseburger","f",
+   ["pain à burger|pains à burger|4|","steak haché|steaks hachés|4|","cheddar|cheddar|4|tranches","tomate||1|","oignon rouge|oignons rouges|1|","salade|salades|4|feuilles","cornichon|cornichons|4|","ketchup|ketchup|2|c. à s.","mayonnaise|mayonnaise|2|c. à s.","sel|||","poivre|||"],
+   ["Mélange le ketchup et la mayonnaise pour la sauce.","Fais toaster les pains coupés en deux 1 min à la poêle.|Poêle|1","Fais cuire les steaks 3 min de chaque côté, sale, poivre et pose le cheddar dessus à la fin.|Poêle|6","Monte les burgers : sauce, salade, steak, tomate, oignon et cornichons."]],
+  ["Burger au poulet croustillant","Au poulet","Un filet de poulet pané remplace le steak.","Le burger au poulet croustillant, avec une sauce au miel et à la moutarde.","Plat américain",30,680,"F","crispy chicken burger","f",
+   ["pain à burger|pains à burger|4|","blanc de poulet|blancs de poulet|2|","chapelure|chapelure|80|g","œuf|œufs|1|","farine||3|c. à s.","salade|salades|4|feuilles","tomate||1|","mayonnaise|mayonnaise|2|c. à s.","miel|miel|1|c. à s.","moutarde|moutarde|1|c. à c.","huile d'olive|huile d'olive|4|c. à s.","sel|||"],
+   ["Coupe chaque blanc en deux dans l'épaisseur. Passe-les dans la farine, l'œuf battu puis la chapelure.","Fais-les dorer dans l'huile 4 min de chaque côté.|Poêle|8","Mélange la mayonnaise, le miel et la moutarde.","Monte les burgers avec la sauce, la salade, le poulet et la tomate."]],
+  ["Burger végétarien","Végétarienne","Une galette de haricots rouges remplace le steak.","Un burger végé gourmand, à la galette de haricots.","",30,600,"F","veggie bean burger","vb",
+   ["pain à burger|pains à burger|4|","haricot rouge|haricots rouges|400|g","chapelure|chapelure|50|g","œuf|œufs|1|","oignon||1|","cumin|cumin|1|c. à c.","cheddar|cheddar|4|tranches","salade|salades|4|feuilles","tomate||1|","ketchup|ketchup|2|c. à s.","huile d'olive|huile d'olive|2|c. à s.","sel|||"],
+   ["Écrase les haricots égouttés avec l'oignon haché, l'œuf, la chapelure, le cumin et le sel. Forme 4 galettes.","Fais-les dorer dans l'huile 4 min de chaque côté, avec le cheddar à la fin.|Poêle|8","Monte les burgers avec le ketchup, la salade et la tomate."]]
+ ]}
+]

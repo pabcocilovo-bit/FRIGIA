@@ -1,0 +1,112 @@
+[
+ {"q":"Bibimbap","a":["bibimbap coreen","riz coreen"],"r":[
+  ["Bibimbap","La classique","","Le bol coréen : riz, bœuf mariné, légumes sautés, œuf au plat et sauce pimentée.","Recette coréenne",45,580,"M","bibimbap","",
+   ["riz|riz|300|g","bœuf haché|bœuf haché|300|g","carotte||2|","courgette||1|","pousses d'épinard|pousses d'épinard|150|g","œuf|œufs|4|","sauce soja|sauce soja|4|c. à s.","pâte de piment coréenne|pâte de piment coréenne|2|c. à s.","huile de sésame|huile de sésame|2|c. à s."],
+   ["Fais cuire le riz.|Cuisson|12","Fais revenir le bœuf avec 2 c. à s. de sauce soja et 1 c. à s. d'huile de sésame.|Poêle|6","Fais sauter séparément les carottes et la courgette en bâtonnets, puis les épinards.|Poêle|8","Fais cuire les œufs au plat.|Poêle|4","Mets le riz dans des bols, dispose les légumes et le bœuf en parts, pose l'œuf.","Sers avec la pâte de piment mélangée au reste de sauce soja."]],
+  ["Bibimbap au tofu","Végétarien","Du tofu doré à la place du bœuf.","Le bibimbap végétarien, au tofu croustillant.","",40,500,"M","tofu bibimbap","vh",
+   ["riz|riz|300|g","tofu ferme|tofu ferme|300|g","carotte||2|","courgette||1|","pousses d'épinard|pousses d'épinard|150|g","œuf|œufs|4|","sauce soja|sauce soja|4|c. à s.","pâte de piment coréenne|pâte de piment coréenne|2|c. à s."],
+   ["Fais cuire le riz.|Cuisson|12","Fais dorer le tofu en dés avec 2 c. à s. de sauce soja.|Poêle|8","Fais sauter les carottes, la courgette et les épinards.|Poêle|8","Monte les bols avec le riz, les légumes, le tofu et un œuf au plat.","Sers avec la sauce pimentée."]],
+  ["Bibimbap au poulet","Au poulet","Avec du poulet mariné au soja.","Un bibimbap plus doux, au poulet.","",45,540,"M","chicken bibimbap bowl","",
+   ["riz|riz|300|g","blanc de poulet|blancs de poulet|2|","carotte||2|","concombre||1|","pousses d'épinard|pousses d'épinard|150|g","œuf|œufs|4|","sauce soja|sauce soja|4|c. à s.","miel||1|c. à s."],
+   ["Fais cuire le riz.|Cuisson|12","Fais dorer le poulet en lamelles avec la sauce soja et le miel.|Poêle|8","Fais sauter les carottes et les épinards, et coupe le concombre en bâtonnets.","Monte les bols et ajoute un œuf au plat."]]
+ ]},
+ {"q":"Gyozas","a":["gyoza","raviolis japonais","raviolis chinois","dumplings","raviolis vapeur"],"r":[
+  ["Gyozas au porc","La classique","","Les raviolis japonais grillés dessous et cuits à la vapeur dessus, farcis au porc et au chou.","Recette japonaise",60,320,"D","pork gyoza dumplings","e",
+   ["feuilles à gyoza|feuilles à gyoza|30|","porc haché|porc haché|300|g","chou chinois|choux chinois|0.25|","gingembre|gingembre|1|c. à c.","ail|ail|1|gousse","sauce soja|sauce soja|4|c. à s.","huile de sésame|huile de sésame|1|c. à s."],
+   ["Hache finement le chou, sale-le et presse-le pour retirer l'eau.","Mélange-le avec le porc, l'ail, le gingembre, 1 c. à s. de sauce soja et l'huile de sésame.","Mets une cuillerée de farce sur chaque feuille, mouille le bord et plisse pour fermer.","Fais dorer les gyozas 3 min dans une poêle huilée.|Poêle|3","Verse 10 cl d'eau, couvre et laisse 5 min.|Vapeur|5","Sers avec le reste de sauce soja."]],
+  ["Gyozas aux légumes","Végétariens","Farcis aux légumes et au tofu.","Des gyozas végétariens au chou, carotte et tofu.","",60,250,"D","vegetable gyoza","ve",
+   ["feuilles à gyoza|feuilles à gyoza|30|","tofu ferme|tofu ferme|150|g","chou chinois|choux chinois|0.25|","carotte||1|","champignon de Paris|champignons de Paris|100|g","sauce soja|sauce soja|4|c. à s.","gingembre|gingembre|1|c. à c."],
+   ["Hache le chou, la carotte et les champignons et fais-les revenir 5 min.|Poêle|5","Mélange avec le tofu écrasé, le gingembre et 1 c. à s. de sauce soja.","Garnis et ferme les feuilles.","Fais dorer 3 min, puis ajoute 10 cl d'eau, couvre et laisse 5 min.|Vapeur|5"]],
+  ["Gyozas aux crevettes","Crevettes","Farcis aux crevettes.","Des gyozas délicats aux crevettes et à la ciboulette.","",60,260,"D","shrimp gyoza","e",
+   ["feuilles à gyoza|feuilles à gyoza|30|","crevette décortiquée|crevettes décortiquées|300|g","ciboulette|ciboulette||","gingembre|gingembre|1|c. à c.","sauce soja|sauce soja|4|c. à s.","huile de sésame|huile de sésame|1|c. à s."],
+   ["Hache les crevettes et mélange-les avec la ciboulette, le gingembre, l'huile et 1 c. à s. de sauce soja.","Garnis et ferme les feuilles.","Fais dorer 3 min dans une poêle huilée.|Poêle|3","Ajoute 10 cl d'eau, couvre et laisse 5 min.|Vapeur|5"]]
+ ]},
+ {"q":"Makis","a":["maki","sushi","sushis","sushis maison","california roll","californias"],"r":[
+  ["Makis au saumon","La classique","","Des rouleaux de riz vinaigré et d'algue nori, au saumon et au concombre.","Recette japonaise",70,350,"D","salmon maki sushi","c",
+   ["riz à sushi|riz à sushi|300|g","vinaigre de riz|vinaigre de riz|5|c. à s.","sucre|sucre|1|c. à s.","feuilles de nori|feuilles de nori|5|","saumon frais|saumon frais|250|g","concombre||1|","sauce soja|sauce soja|4|c. à s."],
+   ["Rince le riz jusqu'à ce que l'eau soit claire, puis fais-le cuire 12 min avec 36 cl d'eau, à couvert.|Cuisson|12","Laisse reposer 10 min, puis mélange avec le vinaigre, le sucre et une pincée de sel. Laisse refroidir.","Coupe le saumon et le concombre en bâtonnets.","Étale une fine couche de riz sur une feuille de nori, pose saumon et concombre au bord.","Roule serré avec une natte, puis coupe en 6 avec un couteau mouillé.","Sers avec la sauce soja."]],
+  ["California rolls","California","Le riz à l'extérieur, avec avocat et surimi.","Les rouleaux inversés à l'avocat et au surimi, roulés dans le sésame.","",70,380,"D","california roll","c",
+   ["riz à sushi|riz à sushi|300|g","vinaigre de riz|vinaigre de riz|5|c. à s.","sucre|sucre|1|c. à s.","feuilles de nori|feuilles de nori|4|","avocat||2|","surimi|surimi|8|","graines de sésame|graines de sésame|3|c. à s."],
+   ["Prépare le riz vinaigré et laisse-le refroidir.|Cuisson|12","Étale le riz sur une feuille de nori, parsème de sésame et retourne-la sur un film.","Pose avocat et surimi en bâtonnets sur la nori.","Roule serré et coupe en 8."]],
+  ["Makis végétariens","Végétariens","Avec avocat, concombre et carotte.","Des makis tout légumes, frais et colorés.","",60,280,"D","vegetable maki","vc",
+   ["riz à sushi|riz à sushi|300|g","vinaigre de riz|vinaigre de riz|5|c. à s.","sucre|sucre|1|c. à s.","feuilles de nori|feuilles de nori|5|","avocat||1|","concombre||1|","carotte||1|"],
+   ["Prépare le riz vinaigré et laisse-le refroidir.|Cuisson|12","Coupe l'avocat, le concombre et la carotte en bâtonnets.","Étale le riz sur la nori, pose les légumes au bord et roule serré.","Coupe en 6 et sers avec de la sauce soja."]]
+ ]},
+ {"q":"Phở","a":["pho","soupe pho","pho bo","soupe vietnamienne"],"r":[
+  ["Phở au bœuf","La classique","","La soupe vietnamienne au bouillon parfumé à la badiane, avec nouilles de riz et bœuf.","Recette vietnamienne",60,420,"M","pho bo beef noodle soup","h",
+   ["nouilles de riz|nouilles de riz|250|g","bœuf à fondue|bœuf à fondue|300|g","bouillon de bœuf|bouillons de bœuf|2|","oignon||1|","gingembre frais|gingembre frais|1|","badiane|badianes|2|","sauce nuoc-mâm|sauce nuoc-mâm|3|c. à s.","pousses de soja|pousses de soja|150|g","coriandre|coriandre||","citron vert|citrons verts|1|"],
+   ["Fais griller l'oignon et le gingembre coupés en deux à la poêle, à sec.|Poêle|5","Mets-les dans 1,5 litre d'eau avec les bouillons, la badiane et le nuoc-mâm, et laisse frémir 40 min.|Cuisson|40","Fais cuire les nouilles selon le paquet.","Coupe le bœuf cru en tranches très fines.","Mets nouilles et bœuf dans les bols et verse le bouillon bouillant dessus : il cuit la viande.","Sers avec les pousses de soja, la coriandre et le citron vert."]],
+  ["Phở au poulet","Au poulet","Avec du poulet poché dans le bouillon.","La version au poulet, plus douce.","",50,380,"M","pho ga chicken noodle soup","h",
+   ["nouilles de riz|nouilles de riz|250|g","blanc de poulet|blancs de poulet|2|","bouillon de volaille|bouillons de volaille|2|","oignon||1|","gingembre frais|gingembre frais|1|","badiane|badianes|2|","sauce nuoc-mâm|sauce nuoc-mâm|2|c. à s.","coriandre|coriandre||"],
+   ["Fais griller l'oignon et le gingembre à sec.|Poêle|5","Mets-les dans 1,5 litre d'eau avec les bouillons, la badiane et le nuoc-mâm.","Poche le poulet 20 min dans ce bouillon, puis effiloche-le.|Cuisson|20","Fais cuire les nouilles et répartis-les dans les bols avec le poulet.","Verse le bouillon chaud et parsème de coriandre."]],
+  ["Phở végétarien","Végétarien","Un bouillon de légumes avec tofu et champignons.","Un phở parfumé sans viande, au tofu.","",45,330,"M","vegetarian pho","vh",
+   ["nouilles de riz|nouilles de riz|250|g","tofu ferme|tofu ferme|200|g","champignons shiitaké|champignons shiitaké|150|g","bouillon de légumes|bouillons de légumes|2|","gingembre frais|gingembre frais|1|","badiane|badianes|2|","sauce soja|sauce soja|3|c. à s.","coriandre|coriandre||"],
+   ["Fais griller le gingembre à sec, puis mets-le dans 1,5 litre d'eau avec les bouillons, la badiane et la sauce soja.","Laisse frémir 25 min avec les champignons.|Cuisson|25","Fais dorer le tofu en dés.|Poêle|6","Fais cuire les nouilles, répartis-les avec le tofu et verse le bouillon."]]
+ ]},
+ {"q":"Poulet satay","a":["satay","brochettes satay","poulet sauce cacahuete","poulet cacahuete"],"r":[
+  ["Brochettes de poulet satay","La classique","","Des brochettes de poulet marinées au curry, avec une sauce aux cacahuètes.","Recette indonésienne",45,480,"F","chicken satay skewers","",
+   ["blanc de poulet|blancs de poulet|4|","beurre de cacahuète|beurre de cacahuète|4|c. à s.","lait de coco|lait de coco|20|cl","sauce soja|sauce soja|3|c. à s.","curry|curry|2|c. à c.","citron vert|citrons verts|1|","riz|riz|250|g"],
+   ["Coupe le poulet en lamelles et fais-le mariner 20 min avec 10 cl de lait de coco, le curry et 1 c. à s. de sauce soja.|Repos|20","Enfile le poulet sur des brochettes et fais-les griller 10 min en les retournant.|Poêle|10","Chauffe le beurre de cacahuète avec le reste du lait de coco, de la sauce soja et le jus du citron vert.","Sers les brochettes avec la sauce et du riz."]],
+  ["Poulet satay en sauce","En sauce","Le poulet mijote dans la sauce cacahuète.","Un poulet crémeux à la cacahuète, avec du riz.","",30,520,"F","peanut chicken curry","",
+   ["blanc de poulet|blancs de poulet|4|","beurre de cacahuète|beurre de cacahuète|4|c. à s.","lait de coco|lait de coco|40|cl","sauce soja|sauce soja|2|c. à s.","curry|curry|2|c. à c.","oignon||1|","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais dorer le poulet en dés avec l'oignon et le curry.|Poêle|6","Ajoute le lait de coco, le beurre de cacahuète et la sauce soja.","Laisse mijoter 10 min.|Cuisson|10"]],
+  ["Tofu satay","Végétarien","Du tofu à la place du poulet.","Des brochettes de tofu à la sauce cacahuète.","",35,430,"F","tofu satay","vh",
+   ["tofu ferme|tofu ferme|400|g","beurre de cacahuète|beurre de cacahuète|4|c. à s.","lait de coco|lait de coco|20|cl","sauce soja|sauce soja|3|c. à s.","curry|curry|1|c. à c.","citron vert|citrons verts|1|","riz|riz|250|g"],
+   ["Coupe le tofu en cubes et fais-le mariner 15 min avec la sauce soja et le curry.|Repos|15","Fais-le dorer 8 min à la poêle.|Poêle|8","Chauffe le beurre de cacahuète avec le lait de coco et le jus du citron vert.","Sers le tofu nappé de sauce, avec du riz."]]
+ ]},
+ {"q":"Chop suey","a":["chop suey poulet","legumes sautes chinois","poulet aux legumes chinois"],"r":[
+  ["Chop suey au poulet","La classique","","Le sauté chinois de poulet et de légumes croquants, avec pousses de soja et sauce soja.","Inspiration chinoise",30,380,"F","chicken chop suey","h",
+   ["blanc de poulet|blancs de poulet|3|","pousses de soja|pousses de soja|200|g","carotte||2|","chou chinois|choux chinois|0.25|","champignon de Paris|champignons de Paris|150|g","sauce soja|sauce soja|4|c. à s.","fécule de maïs|fécule de maïs|1|c. à s.","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Coupe le poulet en lamelles et fais-le dorer 5 min à feu vif, puis retire-le.|Poêle|5","Fais sauter les carottes en bâtonnets, le chou et les champignons émincés 5 min.|Poêle|5","Ajoute les pousses de soja et le poulet.","Délaye la fécule dans la sauce soja et 10 cl d'eau, verse et mélange jusqu'à ce que ça épaississe."]],
+  ["Chop suey aux crevettes","Crevettes","Les crevettes remplacent le poulet.","Un chop suey léger aux crevettes.","",25,320,"F","shrimp chop suey","h",
+   ["crevette décortiquée|crevettes décortiquées|400|g","pousses de soja|pousses de soja|200|g","carotte||2|","poivron rouge|poivrons rouges|1|","sauce soja|sauce soja|4|c. à s.","fécule de maïs|fécule de maïs|1|c. à s.","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais sauter les carottes et le poivron en lamelles 5 min.|Poêle|5","Ajoute les crevettes et les pousses de soja, et laisse 3 min.|Poêle|3","Ajoute la sauce soja mélangée à la fécule et 10 cl d'eau, et remue jusqu'à ce que ça épaississe."]],
+  ["Chop suey végétarien","Végétarien","Avec du tofu et plus de légumes.","Un sauté de légumes croquants au tofu.","",25,300,"F","vegetable chop suey tofu","vhb",
+   ["tofu ferme|tofu ferme|300|g","pousses de soja|pousses de soja|200|g","carotte||2|","brocoli|brocolis|1|","chou chinois|choux chinois|0.25|","sauce soja|sauce soja|4|c. à s.","fécule de maïs|fécule de maïs|1|c. à s.","riz|riz|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais dorer le tofu en dés et retire-le.|Poêle|6","Fais sauter les carottes, le brocoli et le chou 5 min.|Poêle|5","Ajoute les pousses de soja, le tofu et la sauce soja épaissie à la fécule."]]
+ ]},
+ {"q":"Biryani","a":["biriyani","riz biryani","biryani poulet"],"r":[
+  ["Biryani au poulet","La classique","","Le riz indien épicé cuit avec du poulet mariné au yaourt.","Recette indienne",75,560,"M","chicken biryani","",
+   ["riz basmati|riz basmati|300|g","cuisse de poulet|cuisses de poulet|4|","yaourt nature|yaourts nature|1|","oignon||2|","garam masala|garam masala|2|c. à c.","curcuma|curcuma|1|c. à c.","gingembre|gingembre|1|c. à c.","coriandre|coriandre||"],
+   ["Coupe le poulet en morceaux et fais-le mariner 30 min avec le yaourt et les épices.|Repos|30","Fais dorer les oignons émincés dans une cocotte, puis retire-en la moitié.|Cuisson|10","Ajoute le poulet et sa marinade et fais cuire 10 min.|Cuisson|10","Couvre du riz rincé et de 55 cl d'eau, sans mélanger.","Couvre et laisse cuire 20 min à feu doux.|Cuisson|20","Parsème des oignons gardés et de coriandre."]],
+  ["Biryani de légumes","Végétarien","Avec des légumes et des pois chiches.","Un biryani végétarien parfumé.","",60,460,"M","vegetable biryani","vh",
+   ["riz basmati|riz basmati|300|g","chou-fleur|choux-fleurs|0.5|","carotte||2|","petits pois surgelés|petits pois surgelés|100|g","pois chiche|pois chiches|250|g","oignon||2|","garam masala|garam masala|2|c. à c.","yaourt nature|yaourts nature|1|"],
+   ["Fais dorer les oignons dans une cocotte.|Cuisson|10","Ajoute les carottes, le chou-fleur, les épices et le yaourt, et fais cuire 10 min.|Cuisson|10","Ajoute les pois chiches et les petits pois, puis le riz rincé et 55 cl d'eau.","Couvre et laisse cuire 20 min à feu doux.|Cuisson|20"]],
+  ["Biryani d'agneau","À l'agneau","Avec de l'agneau mijoté.","Le biryani de fête à l'agneau.","",120,620,"D","lamb biryani","",
+   ["riz basmati|riz basmati|300|g","épaule d'agneau|épaules d'agneau|700|g","yaourt nature|yaourts nature|1|","oignon||2|","garam masala|garam masala|2|c. à c.","gingembre|gingembre|1|c. à c.","ail|ail|3|gousse"],
+   ["Coupe l'agneau en cubes et fais-le mariner 30 min avec le yaourt et les épices.|Repos|30","Fais dorer les oignons, ajoute l'agneau et l'ail, et laisse mijoter 50 min avec 20 cl d'eau.|Cuisson|50","Couvre du riz rincé et de 55 cl d'eau.","Laisse cuire 20 min à feu doux à couvert.|Cuisson|20"]]
+ ]},
+ {"q":"Naans","a":["naan","naan au fromage","cheese naan","pain indien"],"r":[
+  ["Naans nature","La classique","","Les pains indiens moelleux cuits à la poêle, à servir avec un curry.","Recette indienne",90,250,"F","naan bread","vbf",
+   ["farine||400|g","yaourt nature|yaourts nature|1|","levure de boulanger|levure de boulanger|7|g","lait||10|cl","beurre fondu|beurre fondu|30|g","sel|||"],
+   ["Délaye la levure dans le lait tiède.","Mélange avec la farine, le yaourt, une pincée de sel et 5 cl d'eau, et pétris 5 min.","Laisse lever 1 h.|Levée|60","Partage en 8, étale chaque boule en ovale.","Fais cuire 2 min de chaque côté dans une poêle très chaude.|Poêle|4","Badigeonne de beurre fondu."]],
+  ["Cheese naans","Au fromage","Fourrés au fromage fondu.","Les naans fourrés au fromage, ultra fondants.","",90,340,"M","cheese naan","vbf",
+   ["farine||400|g","yaourt nature|yaourts nature|1|","levure de boulanger|levure de boulanger|7|g","lait||10|cl","fromage fondu en portions|fromage fondu en portions|8|","beurre fondu|beurre fondu|30|g"],
+   ["Prépare la pâte comme pour des naans et laisse lever 1 h.|Levée|60","Étale 8 disques et pose une portion de fromage au centre de chacun.","Referme et aplatis délicatement.","Fais cuire 3 min de chaque côté à la poêle.|Poêle|6","Badigeonne de beurre."]],
+  ["Naans à l'ail","À l'ail","Badigeonnés de beurre à l'ail et à la coriandre.","Des naans parfumés à l'ail et aux herbes.","",90,260,"F","garlic naan","vbf",
+   ["farine||400|g","yaourt nature|yaourts nature|1|","levure de boulanger|levure de boulanger|7|g","lait||10|cl","beurre fondu|beurre fondu|40|g","ail|ail|3|gousse","coriandre|coriandre||"],
+   ["Prépare la pâte et laisse lever 1 h.|Levée|60","Étale 8 naans.","Fais-les cuire 2 min de chaque côté.|Poêle|4","Badigeonne de beurre fondu mélangé à l'ail écrasé et à la coriandre."]]
+ ]},
+ {"q":"Chana masala","a":["curry de pois chiches","pois chiches au curry","chana"],"r":[
+  ["Curry de pois chiches","La classique","","Les pois chiches mijotés dans une sauce tomate aux épices indiennes.","Inspiration indienne",30,380,"F","chana masala","vhb",
+   ["pois chiche|pois chiches|800|g","tomate concassée|tomates concassées|400|g","oignon||2|","ail|ail|3|gousse","gingembre|gingembre|1|c. à c.","garam masala|garam masala|2|c. à c.","cumin|cumin|1|c. à c.","riz basmati|riz basmati|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais revenir les oignons, l'ail, le gingembre et les épices.","Ajoute les tomates et laisse mijoter 10 min.|Cuisson|10","Ajoute les pois chiches égouttés et laisse 10 min.|Cuisson|10"]],
+  ["Curry de pois chiches au lait de coco","Coco","Avec du lait de coco pour une sauce plus douce.","Un curry de pois chiches crémeux, doux pour les enfants.","",30,450,"F","coconut chickpea curry","vbf",
+   ["pois chiche|pois chiches|800|g","lait de coco|lait de coco|40|cl","tomate concassée|tomates concassées|200|g","oignon||1|","curry|curry|2|c. à c.","pousses d'épinard|pousses d'épinard|100|g","riz basmati|riz basmati|250|g"],
+   ["Fais cuire le riz.|Cuisson|12","Fais revenir l'oignon avec le curry.","Ajoute les tomates, le lait de coco et les pois chiches, et laisse mijoter 15 min.|Cuisson|15","Ajoute les épinards 2 min avant la fin."]],
+  ["Curry de pois chiches et patate douce","Patate douce","Avec de la patate douce en dés.","Un curry complet et rassasiant à la patate douce.","",40,430,"F","chickpea sweet potato curry","vhb",
+   ["pois chiche|pois chiches|400|g","patate douce|patates douces|2|","lait de coco|lait de coco|40|cl","oignon||1|","curry|curry|2|c. à c.","riz basmati|riz basmati|250|g"],
+   ["Fais revenir l'oignon avec le curry.","Ajoute la patate douce en dés et le lait de coco.","Laisse mijoter 20 min.|Cuisson|20","Ajoute les pois chiches et laisse 5 min. Sers avec le riz.|Cuisson|5"]]
+ ]},
+ {"q":"Bulgogi","a":["boeuf bulgogi","boeuf coreen","bulgogi boeuf"],"r":[
+  ["Bœuf bulgogi","La classique","","Le bœuf coréen mariné sucré-salé, saisi et servi avec du riz.","Recette coréenne",40,480,"F","beef bulgogi","",
+   ["bœuf à fondue|bœuf à fondue|500|g","sauce soja|sauce soja|5|c. à s.","sucre roux|sucre roux|2|c. à s.","poire||1|","ail|ail|3|gousse","huile de sésame|huile de sésame|1|c. à s.","oignon nouveau|oignons nouveaux|3|","riz|riz|250|g"],
+   ["Râpe la poire et mélange-la avec la sauce soja, le sucre, l'ail et l'huile de sésame.","Coupe le bœuf en fines tranches et fais-le mariner 20 min.|Repos|20","Fais cuire le riz.|Cuisson|12","Saisis le bœuf 3 min à feu très vif.|Poêle|3","Parsème d'oignon nouveau et sers avec le riz."]],
+  ["Poulet bulgogi","Au poulet","Avec des cuisses de poulet.","La marinade bulgogi sur du poulet.","",40,450,"F","chicken bulgogi","",
+   ["cuisse de poulet désossée|cuisses de poulet désossées|6|","sauce soja|sauce soja|5|c. à s.","sucre roux|sucre roux|2|c. à s.","ail|ail|3|gousse","gingembre|gingembre|1|c. à c.","huile de sésame|huile de sésame|1|c. à s.","riz|riz|250|g"],
+   ["Mélange la sauce soja, le sucre, l'ail, le gingembre et l'huile.","Coupe le poulet en lamelles et fais-le mariner 20 min.|Repos|20","Fais-le dorer 8 min à la poêle.|Poêle|8","Sers avec du riz."]],
+  ["Bulgogi en bowl","En bowl","Servi en bol avec légumes croquants et œuf.","Un bowl coréen complet au bœuf bulgogi.","",40,560,"F","bulgogi rice bowl","",
+   ["bœuf à fondue|bœuf à fondue|400|g","sauce soja|sauce soja|5|c. à s.","sucre roux|sucre roux|2|c. à s.","ail|ail|2|gousse","carotte||2|","concombre||1|","œuf|œufs|4|","riz|riz|250|g"],
+   ["Fais mariner le bœuf en tranches avec la sauce soja, le sucre et l'ail 20 min.|Repos|20","Fais cuire le riz et râpe la carotte, coupe le concombre.|Cuisson|12","Saisis le bœuf 3 min et fais cuire les œufs au plat.|Poêle|3","Monte les bols : riz, bœuf, légumes et œuf."]]
+ ]}
+]

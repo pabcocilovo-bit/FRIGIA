@@ -75,9 +75,9 @@ export function cancelEmail(to: string, endsAt: number, idempotencyKey: string) 
   return sendEmail(to, "Ta résiliation de Frigia Plus est confirmée", {
     title: "C'est noté, ta résiliation est confirmée",
     paragraphs: [
-      `Ton abonnement Frigia Plus ne sera pas renouvelé. Il reste actif jusqu'au ${end}, puis tu passes en Gratuit.`,
+      `Ton abonnement Frigia Plus ne sera pas renouvelé. Il reste actif jusqu'au ${end}. Ensuite, il faudra te réabonner pour scanner et créer des recettes.`,
       "Aucun autre paiement ne sera prélevé.",
-      "Rien ne disparaît : tes favoris, ta liste et tes scans restent là.",
+      "Rien ne disparaît : tes favoris, ta liste et tes scans restent sur ton compte.",
     ],
     button: { label: "Je change d'avis", href: `${SITE}/resilier` },
     note: `Tu peux reprendre Plus jusqu'au ${end}, en un clic, au même prix.`,
@@ -95,7 +95,7 @@ export function payFailedEmail(to: string, amount: number, idempotencyKey: strin
       "Mets à jour ta carte en deux minutes pour garder ta semaine, ta famille et tes scans sans limite.",
     ],
     button: { label: "Mettre à jour ma carte", href: `${SITE}/plus/paiement?refus=1` },
-    note: "On réessaiera automatiquement dans quelques jours. Sans paiement, tu repasseras en Gratuit, sans rien perdre.",
+    note: "On réessaiera automatiquement dans quelques jours. Sans paiement, Plus s'arrête, mais tu ne perds rien : tout reste sur ton compte.",
   }, idempotencyKey);
 }
 
