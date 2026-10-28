@@ -64,6 +64,8 @@ export async function dish(req: Req, res: Res, userId: string, admin: SupabaseCl
 - La 1re est la recette classique, celle qu'on connaît : "variant" vaut "La classique".
 - Les 2 suivantes sont des variantes qui ont du sens pour CE plat, choisies parmi : plus légère, sans crème, sans gluten, végétarienne, express, petit budget, version enfants, version au four… Une variante garde l'esprit du plat. "variant" : 2 à 3 mots (« Plus légère », « Sans crème », « Végétarienne »).
 Si c'est un ingrédient, une envie ou une catégorie (« saumon », « healthy », « rapide », « petit budget », « dessert ») : propose 3 plats DIFFÉRENTS qui y répondent, connus et qu'on a envie de manger. "variant" vaut "".`,
+    `Une viande ou un poisson par plat, deux au plus, sauf un plat qui en demande plusieurs (paella, cassoulet, choucroute).`,
+    `« Petit budget », « pas cher », « économique » : des ingrédients bon marché (pâtes, riz, pommes de terre, œufs, lentilles, légumes de saison, poulet, porc ou viande hachée), une seule viande au plus, rien de cher (pas de fruits de mer, de canard, de veau ni de beaux morceaux de bœuf).`,
     `Tous les ingrédients ont "have" : false.`,
     `Quantités pour ${servings} portion${servings > 1 ? "s" : ""}.`,
     lines.length ? `À RESPECTER, même pour la recette classique (adapte-la si besoin) :\n${lines.join("\n")}` : "",

@@ -26,6 +26,7 @@ export function parse(r: RawRecipe | null | undefined, noShop = false) {
   if (items.length < 2 || steps.length < 2) return null;
   if (noShop && items.some(i => !i.have)) return null;
   if (missingFromTitle(str(r.title, 80), items.map(i => i.name)).length) return null;
+  if (tooManyMeats(str(r.title, 80), items.map(i => i.name))) return null;
   return { r, title: str(r.title, 80), items, steps };
 }
 export type RawRecipe = {
@@ -62,6 +63,15 @@ function missingFromTitle(title: string, names: string[]): string[] {
   const named = FOOD_WORDS.filter(f => t.includes(` ${f} `)).sort((a, b) => b.length - a.length)
     .filter((f, i, l) => !l.slice(0, i).some(g => g.includes(f)));
   return named.filter(f => !all.includes(` ${f} `) && !all.includes(` ${f.split(" ").pop()} `));
+}
+
+// Une viande ou un poisson par plat, deux au plus (poulet et chorizo) : l'IA en mettait parfois 4 dans une recette (Hugo, 28 octobre).
+// Le bouillon, le fond ou la sauce ne comptent pas. Sauf les plats qui en demandent plusieurs.
+const MEATS = /^ (poulet|dinde|canard|pintade|caille|boeuf|veau|steak|viande|porc|lardon|jambon|bacon|pancetta|saucisse|saucisson|chorizo|merguez|chipolata|knack|andouille|boudin|chair a saucisse|travers|echine|palette|poitrine|lard|agneau|mouton|gigot|lapin|magret|escalope|cuisse|aile|blanc de|filet de|saumon|thon|cabillaud|colin|lieu|merlu|truite|dorade|bar|sardine|maquereau|morue|lotte|sole|crevette|moule|calamar|encornet|seiche|saint jacques|noix de saint|gambas|langoustine|homard|crabe|surimi|anchois) /;
+const MANY = / (paella|choucroute|cassoulet|couscous royal|pot au feu|potee|jambalaya|bouillabaisse|garbure|paupiette|cordon bleu|saltimbocca|surf|mixed grill|brochette|planche|plateau|grillade|barbecue|tapas|antipasti) /;
+export function tooManyMeats(title: string, names: string[]): boolean {
+  if (MANY.test(` ${words(title).replace(/-/g, " ").trim()} `)) return false;
+  return new Set(names.map(n => words(n).replace(/-/g, " ")).filter(n => MEATS.test(n))).size > 2;
 }
 
 /** Les recettes complètes d'une réponse coupée en route (trop longue) : chaque objet entier de la liste. */
