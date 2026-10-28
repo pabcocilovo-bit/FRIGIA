@@ -54,10 +54,10 @@ const vessel = (r: Dish) => {
 // Les plats que le modèle dessine mal : une précision, et un nouveau nom de fichier pour refaire leur photo
 // Quiches : un œuf au plat posé dessus, même sans œuf dans la consigne (27 octobre)
 const FIXES: { re: RegExp; add: string; v: string }[] = [
-  { re: /quiche/i, add: "a savory tart with a smooth, set, golden custard filling, the egg fully baked into the custard", v: "t2" },
+  { re: /quiche/i, add: "a savory tart with a smooth, set, golden custard filling", v: "t2" },
   // Carbonara et pad thaï : un jaune d'œuf posé au milieu (Hugo, 27 octobre : « j'aime pas trop »)
-  { re: /carbonara/i, add: "pasta tossed in a glossy, creamy carbonara sauce that coats every strand, the egg fully mixed into the sauce, grated cheese on top", v: "c2" },
-  { re: /pad tha/i, add: "stir-fried rice noodles with the egg scrambled and mixed through, crushed peanuts, bean sprouts and a lime wedge", v: "p2" },
+  { re: /carbonara/i, add: "pasta tossed in a glossy, creamy carbonara sauce that coats every strand, grated cheese and crispy pancetta on top", v: "c2" },
+  { re: /pad tha/i, add: "stir-fried rice noodles tossed with bean sprouts and spring onions, crushed peanuts and a lime wedge", v: "p2" },
   // Galettes, crêpes, tortillas (Hugo, 27 octobre : « fajitas, il y a une tortilla souvent ») : des fajitas sans tortilla,
   // des wraps ouverts comme des pizzas, un œuf au plat sur les crêpes et la galette des rois
   { re: /galette des rois|galette chocolat-poire/i, add: "a golden French king cake (galette des rois) of flaky puff pastry with a scored leaf pattern on top, one slice cut out", v: "g2" },
@@ -68,33 +68,42 @@ const FIXES: { re: RegExp; add: string; v: string }[] = [
   // Crêpes sucrées : une garniture jaune (des œufs brouillés) dans les crêpes pliées (Hugo, 28 octobre) : une pile, sans rien dedans
   { re: /french crepes|dairy free crepes/i, add: "a neat stack of thin, plain golden French crêpes on a plate, empty with no filling at all, the top one folded into quarters, lightly dusted with sugar, a small pot of jam beside", v: "f3" },
   // Galettes bretonnes : des tartes épaisses, un œuf au plat sur la galette saucisse (28 octobre). Une crêpe de sarrasin fine, pliée en carré
-  { re: /galette saucisse/i, add: "a grilled sausage rolled tightly in a thin, lacy, dark brown Breton buckwheat crêpe, wrapped like a hot dog, no egg", v: "f3" },
+  { re: /galette saucisse/i, add: "a grilled sausage rolled tightly in a thin, lacy, dark brown Breton buckwheat crêpe, wrapped like a hot dog", v: "f3" },
   { re: /galette compl|buckwheat galette ham/i, add: "a thin, lacy, dark brown Breton buckwheat crêpe with its edges folded in to make a square, ham and melted grated cheese inside and one sunny-side-up egg in the center", v: "k2" },
-  { re: /goat cheese spinach galette/i, add: "a thin, lacy, dark brown Breton buckwheat crêpe with its edges folded in to make a square, wilted spinach and melted goat cheese in the center, no egg", v: "k2" },
+  { re: /goat cheese spinach galette/i, add: "a thin, lacy, dark brown Breton buckwheat crêpe with its edges folded in to make a square, wilted spinach and melted goat cheese in the center", v: "k2" },
   // Gratins aux œufs : un œuf au plat posé dessus (vu sur le gratin de courgettes, 28 octobre)
-  { re: /gratin de courgettes|gratin de chou-fleur et brocoli|gratin d'épinards/i, add: "a baking dish of vegetables baked in a creamy sauce under a golden, bubbling cheese crust, the eggs fully baked into the sauce, nothing on top", v: "z2" },
+  { re: /gratin de courgettes|gratin de chou-fleur et brocoli|gratin d'épinards/i, add: "a baking dish of vegetables baked in a creamy sauce under a golden, bubbling cheese crust", v: "z2" },
   // Raclette : des morceaux brûlés en vrac dans un plat (Hugo, 27 octobre : « mal faite »)
   { re: /raclette au four/i, add: "a baking dish of sliced boiled potatoes generously covered with melted, bubbling raclette cheese", v: "r2" },
   { re: /raclette dinner/i, add: "a plate of boiled baby potatoes with creamy melted raclette cheese poured over them, a few slices of cured ham and small pickled gherkins on the side", v: "r2" },
   { re: /raclette/i, add: "a plate of boiled baby potatoes with creamy melted raclette cheese poured over them, small pickled gherkins on the side", v: "r2" },
 ];
 const fix = (r: Dish) => FIXES.find(f => f.re.test(`${r.title} ${r.imageSearch}`));
+const EGG = /(œ|oe)ufs?\b/i;
+// Une recette avec des œufs qui ne sont pas le plat : sa photo est refaite sans eux dans la consigne (e2).
+// Les plats d'œufs (omelette, œufs mimosa, shakshuka…) gardent la leur.
+const eggs = (r: Dish) => Array.isArray(r.items) && (r.items as { name?: unknown }[]).some(i => EGG.test(String(i?.name ?? "")))
+  && !/\beggs?\b|omelet|frittata|shakshuka|tortilla|piperade/i.test(`${r.title} ${r.imageSearch}`);
+// « eggless tiramisu », « eggplant » : le mot « egg » suffit à faire venir un œuf
+const subject = (s: string) => s.replace(/\beggless\s*/gi, "").replace(/eggplants?/gi, "aubergine");
 
 function prompt(r: Dish): string {
   // Les ingrédients qui font la différence entre les variantes (lardons ou champignons…), pas ceux qui lient le plat :
   // « Visible ingredients: … œuf, crème » posait un œuf au plat sur la quiche et une cuillère de crème sur le hachis (27 octobre)
+  // Les œufs jamais : « [œo]euf » laissait passer « œuf », et le modèle posait un œuf au plat sur les gaufres, le pain perdu,
+  // les cordons bleus, les crèmes brûlées… (Hugo, 28 octobre). Nommer l'œuf, même pour dire « sans », le fait apparaître.
   const items = (Array.isArray(r.items) ? r.items as { name?: unknown }[] : [])
-    .map(i => String(i?.name ?? "")).filter(n => n && !/^(sel|poivre|eau|huile|beurre|cr[èe]me|lait|farine|sucre|levure|fromage blanc|[œo]euf|bouillon|vin|ail|herbes)/i.test(n)).slice(0, 4);
+    .map(i => String(i?.name ?? "")).filter(n => n && !EGG.test(n) && !/^(sel|poivre|eau|huile|beurre|cr[èe]me|lait|farine|sucre|levure|fromage blanc|bouillon|vin|ail|herbes)/i.test(n)).slice(0, 4);
   return [
     // Pas le nom français entre guillemets : Z-Image l'écrivait sur la photo (« Tartifette au reblochon », 27 octobre)
-    `Professional food photograph of ${r.imageSearch}, ${fix(r)?.add ?? "a home-cooked dish"}, fully cooked and served as it comes out of the kitchen`
+    `Professional food photograph of ${subject(String(r.imageSearch))}, ${fix(r)?.add ?? "a home-cooked dish"}, fully cooked and served as it comes out of the kitchen`
       + (items.length ? `, made with ${items.join(", ")} cooked into the dish, nothing raw placed on top.` : "."),
     style(vessel(r)?.text ?? "served in a simple speckled handmade ceramic dish"),
   ].join(" ");
 }
 
 const slug = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80);
-const pathOf = (r: Dish) => r.path ?? `${DIR}/${[slug(r.title), fix(r)?.v, vessel(r)?.v].filter(Boolean).join("-")}.webp`;
+const pathOf = (r: Dish) => r.path ?? `${DIR}/${[slug(r.title), fix(r)?.v, vessel(r)?.v, eggs(r) ? "e2" : null].filter(Boolean).join("-")}.webp`;
 /** La photo de cette recette est celle de la consigne en cours (sinon, on la refait) */
 const current = (r: Dish) => generated(r.imageUrl) && String(r.imageUrl).endsWith(`/${pathOf(r)}`);
 
