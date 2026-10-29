@@ -6,8 +6,8 @@ import { postApi } from "./api";
 export const TRIAL_DAYS = 7;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-/** Fin de l'essai offert à l'inscription (ms) */
-const trialEnd = (u: User) => (u.created_at ? new Date(u.created_at).getTime() : 0) + TRIAL_DAYS * DAY_MS;
+/** Fin de l'essai offert à l'inscription (ms). Pas d'essai pour un email qui l'a déjà eu (no_trial, migration 20261103000000) */
+const trialEnd = (u: User) => (u.created_at ? new Date(u.created_at).getTime() : 0) + (u.app_metadata?.no_trial ? 0 : TRIAL_DAYS * DAY_MS);
 
 /** Frigia Plus. Même règle que le serveur (api/_shared.ts) : seul app_metadata compte, écrit par le webhook Stripe
  *  (et par api/code.ts pour la semaine d'essai d'un code). */

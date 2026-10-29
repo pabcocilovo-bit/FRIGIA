@@ -12,7 +12,7 @@ import { useBack } from "../nav";
 import { showToast } from "../toast";
 import { getSignupEmail, resetAnswers, setSignupEmail, useAnswers } from "./answers";
 import { useCaptcha } from "./captcha";
-import { authMessage, isEmailNotConfirmed, looksLikeEmail } from "./errors";
+import { authMessage, isEmailNotConfirmed, JETABLE, looksLikeEmail } from "./errors";
 import { withGoogle } from "./oauth";
 import { SIGNUP_OPEN, WAITLIST_URL } from "../../lib/launch";
 import { checkCode, cleanCode, clearInviteCode, inviteCode, setPendingCode } from "../../lib/codes";
@@ -449,6 +449,9 @@ export function EmailSignup() {
     if (password.length < 8) { showToast("8 caractères minimum"); return; }
     setLoading(true);
     try {
+      // Les emails jetables sont refusés par la base : on le dit avant le captcha
+      const { data: jetable } = await supabase.rpc("email_jetable", { p_email: mail });
+      if (jetable === true) { showToast(JETABLE); return; }
       const first = name.trim();
       setPendingProfile({ ...a, first_name: first || null });
       const captchaToken = await take();
