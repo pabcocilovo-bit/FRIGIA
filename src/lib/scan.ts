@@ -203,6 +203,13 @@ export async function fillCatalogPhotos(): Promise<{ done: number; left: number;
   return { done: Number(data.done) || 0, left: data.left, total: Number(data.total) || 0 };
 }
 
+/** explorer?invitations=1 (admin) : le lien d'accès aux inscrits de la liste d'attente qui ne l'ont pas, un paquet par appel */
+export async function sendWaitlistInvites(): Promise<{ sent: number; done: number; left: number } | null> {
+  const { response, data } = await post("/api/waitlist", { invite: true });
+  if (!response?.ok || typeof data.left !== "number") return null;
+  return { sent: Number(data.sent) || 0, done: Number(data.done) || 0, left: data.left };
+}
+
 /** Scan, 2e partie : la liste vérifiée devient 3 recettes (ou 2 « autres idées » avec more). */
 export async function makeRecipes(o: {
   ingredients: ScanIngredient[];
