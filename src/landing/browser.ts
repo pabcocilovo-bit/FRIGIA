@@ -17,10 +17,12 @@ export function detectInAppBrowser(): InApp {
   };
 }
 
-export function openInNativeBrowser(isIos: boolean) {
+/** Rouvre la page dans Safari (iPhone) ou Chrome (Android), à la même adresse : le lien d'inscription (/acces?email=…) suit */
+export function openInNativeBrowser(isIos: boolean, path = window.location.pathname + window.location.search) {
+  const host = window.location.host;
   window.location.href = isIos
-    ? "x-safari-https://frigia.fr"
-    : "intent://frigia.fr/#Intent;scheme=https;package=com.android.chrome;end";
+    ? `x-safari-https://${host}${path}`
+    : `intent://${host}${path}#Intent;scheme=https;package=com.android.chrome;end`;
 }
 
 export type Browser = "ios-safari" | "ios-chrome" | "chrome-android" | "chrome-desktop" | "samsung" | "firefox-android" | "edge-mobile" | "unknown";

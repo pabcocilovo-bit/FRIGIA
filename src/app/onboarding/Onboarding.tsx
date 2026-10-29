@@ -14,7 +14,8 @@ import { getSignupEmail, resetAnswers, setSignupEmail, useAnswers } from "./answ
 import { useCaptcha } from "./captcha";
 import { authMessage, isEmailNotConfirmed, JETABLE, looksLikeEmail } from "./errors";
 import { withGoogle } from "./oauth";
-import { signupOpen, WAITLIST_URL } from "../../lib/launch";
+import { accessEmail, signupOpen, WAITLIST_URL } from "../../lib/launch";
+import { detectInAppBrowser, openInNativeBrowser } from "../../landing/browser";
 import { checkCode, cleanCode, clearInviteCode, inviteCode, setPendingCode } from "../../lib/codes";
 import { CodeSheet, type CodeProblem } from "../plus/CodeSheet";
 import "./ob.css";
@@ -111,10 +112,28 @@ function useCountdown() {
 
 // ─── A · Bienvenue (appli installée) ─────────────────────────────────────────
 
+/** Dans l'appli Google (iPhone, Android) : on ne peut pas installer Frigia, on propose Safari ou Chrome (Hugo, 29 octobre).
+ *  Le lien de la liste d'attente suit, avec son email : l'autre navigateur ne le connaît pas encore. */
+function InAppBar() {
+  const { isGoogleApp, isIos, isAndroid } = detectInAppBrowser();
+  const [closed, setClosed] = useState(false);
+  if (!isGoogleApp || !(isIos || isAndroid) || closed) return null;
+  const email = accessEmail();
+  const path = email ? `/acces${email !== "1" ? `?email=${encodeURIComponent(email)}` : ""}` : "/bienvenue";
+  return (
+    <div className="ob-gbar" role="region" aria-label="Ouvrir dans le navigateur">
+      <span>Ouvre Frigia dans {isIos ? "Safari" : "Chrome"} pour l'installer sur ton téléphone.</span>
+      <button type="button" className="go" onClick={() => openInNativeBrowser(isIos, path)}>Ouvrir</button>
+      <button type="button" className="x" onClick={() => setClosed(true)} aria-label="Fermer">✕</button>
+    </div>
+  );
+}
+
 export function Welcome() {
   const navigate = useNavigate();
   return (
     <Screen cls="scr-welcome" label="Bienvenue">
+      <InAppBar />
       <div className="ob-wphoto"><img src="/landing/frigo.jpg" alt="" /></div>
       <div className="ob-wtop"><span className="ob-wlogo" dangerouslySetInnerHTML={{ __html: LOGO_SYMBOL + LOGO_WORD }} /></div>
       <div className="band ob-wband">
