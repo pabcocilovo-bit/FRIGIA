@@ -5,7 +5,7 @@ import { detectBrowser, openInNativeBrowser, type Browser } from "./browser";
 export function GoogleInAppBar({ isIos, onDismiss }: { isIos: boolean; onDismiss: () => void }) {
   return (
     <div className="lp-gbar" role="region" aria-label="Ouvrir dans le navigateur">
-      <span>Ouvre Frigia dans {isIos ? "Safari" : "Chrome"}, c'est plus simple pour créer ton compte.</span>
+      <span>Ouvre Frigia dans {isIos ? "Safari" : "Chrome"} pour l'installer sur ton téléphone et créer ton compte.</span>
       <button className="btn btn-cream" onClick={() => openInNativeBrowser(isIos)}>Ouvrir</button>
       <button className="close" onClick={onDismiss} aria-label="Fermer">✕</button>
     </div>
