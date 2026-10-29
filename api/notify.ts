@@ -156,6 +156,15 @@ async function week(admin: SupabaseClient, now = Date.now()) {
   return { week: await notifyMany(admin, list, subs) };
 }
 
+// Seulement les serveurs de notifications des navigateurs : sinon le serveur enverrait des requêtes vers n'importe quelle adresse
+const PUSH_HOSTS = [/^fcm\.googleapis\.com$/, /^updates\.push\.services\.mozilla\.com$/, /^web\.push\.apple\.com$/, /\.push\.apple\.com$/, /\.notify\.windows\.com$/];
+const isPushService = (url: string) => {
+  try {
+    const u = new URL(url);
+    return u.protocol === "https:" && !u.port && PUSH_HOSTS.some(h => h.test(u.hostname));
+  } catch { return false; }
+};
+
 export default async function handler(req: Req, res: Res) {
   if (req.method === "GET") {
     const secret = process.env.CRON_SECRET;
@@ -184,7 +193,7 @@ export default async function handler(req: Req, res: Res) {
 
   if (action === "subscribe") {
     const e = sub?.endpoint, p = sub?.keys?.p256dh, a = sub?.keys?.auth;
-    if (typeof e !== "string" || !/^https:\/\//.test(e) || e.length > 1000 || typeof p !== "string" || p.length > 200 || typeof a !== "string" || a.length > 100) {
+    if (typeof e !== "string" || !isPushService(e) || e.length > 1000 || typeof p !== "string" || p.length > 200 || typeof a !== "string" || a.length > 100) {
       return res.status(400).json({ error: "Abonnement invalide" });
     }
     // Un téléphone qui change de compte passe au nouveau

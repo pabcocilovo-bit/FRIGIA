@@ -5,6 +5,7 @@ import { waitlistEmail } from "./_email.js";
 import { adminClient, errorMessage, preflight, type Req, type Res } from "./_shared.js";
 
 const PER_MINUTE = 30;
+const PER_IP_HOUR = 5;
 const EMAIL = /^[^\s@]{1,64}@[^\s@]{1,190}\.[a-z]{2,24}$/i;
 const text = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
@@ -20,6 +21,10 @@ export default async function handler(req: Req, res: Res) {
 
   const admin = adminClient();
   try {
+    // Par adresse IP aussi : sinon un robot remplit les 30 places de la minute et envoie des emails à n'importe qui
+    const ip = String(req.headers["x-real-ip"] ?? req.headers["x-forwarded-for"] ?? "").split(",")[0].trim() || "?";
+    const { data: allowed } = await admin.rpc("check_code_attempt", { p_key: `liste:${ip}`, p_limit: PER_IP_HOUR, p_window_seconds: 3600 });
+    if (allowed === false) return res.status(429).json({ error: "Trop d'inscriptions depuis cette connexion. Réessaie plus tard." });
     const { count } = await admin.from("waitlist").select("id", { count: "exact", head: true })
       .gte("created_at", new Date(Date.now() - 60e3).toISOString());
     if ((count ?? 0) >= PER_MINUTE) return res.status(429).json({ error: "Beaucoup d'inscriptions en ce moment. Réessaie dans une minute." });
