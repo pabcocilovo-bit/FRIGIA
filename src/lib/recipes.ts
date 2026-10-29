@@ -1,6 +1,19 @@
 // Recettes : icônes, texte à partager, photo du plat.
 import type { GeneratedRecipe } from "./types";
 
+/** Une durée lisible : « 45 min », et en heures au-delà de 60 min (Hugo, 28 octobre) : « 1 h », « 1 h 30 ». */
+export function minText(min: number): string {
+  const m = Math.round(min);
+  if (m < 60) return `${m} min`;
+  const h = Math.floor(m / 60), r = m % 60;
+  return r ? `${h} h ${String(r).padStart(2, "0")}` : `${h} h`;
+}
+/** La durée gardée avec une recette (« 90 min », même dans les anciennes), écrite comme minText. */
+export const timeText = (time: string | undefined): string => {
+  const m = /^\s*(\d+)\s*min\b/.exec(time ?? "");
+  return m ? minText(Number(m[1])) : time ?? "";
+};
+
 export function ingredientIcon(name: string) {
   const l = name.toLowerCase();
   if (l.includes("œuf") || l.includes("oeuf")) return "🥚";
@@ -65,7 +78,7 @@ export function recipeIcon(title: string) {
 export function buildShareText(r: GeneratedRecipe): string {
   const lines: string[] = [];
   lines.push(r.title);
-  lines.push(`⏱ ${r.time}  🔥 ${r.cal} kcal  📊 ${r.diff}`);
+  lines.push(`⏱ ${timeText(r.time)}  🔥 ${r.cal} kcal  📊 ${r.diff}`);
   if (r.recipeIngredients && r.recipeIngredients.length > 0) {
     lines.push("");
     lines.push("🛒 Ingrédients :");

@@ -12,6 +12,7 @@ import { daysAgo, plural, scanWhen } from "./format";
 import { useOpenScan } from "./offline";
 import { useRecipePhoto } from "./photo";
 import { useOpenPaywall } from "./plus/subscription";
+import { timeText } from "../lib/recipes";
 
 function ScanRow({ entry, locked, onClick }: { entry: HistoryEntry; locked: boolean; onClick: () => void }) {
   const first = entry.recipes[0];
@@ -32,7 +33,7 @@ function FavCard({ recipe, fav, onClick }: { recipe: GeneratedRecipe; fav: boole
       {photo ? <img src={photo} alt="" /> : <span className="sp-ph" />}
       {fav && <span className="sp-heart" aria-label="Favori"><Icon name="heart-f" /></span>}
       <b>{recipe.title}</b>
-      <span>{recipe.time}</span>
+      <span>{timeText(recipe.time)}</span>
     </button>
   );
 }

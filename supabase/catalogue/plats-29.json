@@ -77,7 +77,7 @@
    ["Fais cuire le poulet 15 min dans le bouillon avec 40 cl d'eau, puis effiloche-le.|Cuisson|15","Épaissis le bouillon avec la fécule.|Cuisson|3","Fais frire les frites en deux fois.|Friture|9","Garnis les frites de poulet et de fromage, et nappe de sauce."]]
  ]},
  {"q":"Goulash","a":["goulasch","goulache","boeuf au paprika"],"r":[
-  ["Goulash","La classique","","Le ragoût hongrois de bœuf au paprika, aux oignons et aux poivrons.","Recette hongroise",150,520,"F","hungarian goulash","b",
+  ["Goulash","La classique","","Le ragoût hongrois de bœuf au paprika, aux oignons et aux poivrons.","Recette hongroise",150,520,"F","hungarian goulash","",
    ["bœuf à braiser|bœuf à braiser|1000|g","oignon||3|","poivron rouge|poivrons rouges|2|","tomate concassée|tomates concassées|400|g","paprika|paprika|3|c. à s.","cumin|cumin|1|c. à c.","pomme de terre|pommes de terre|4|"],
    ["Coupe le bœuf en cubes et fais-le dorer dans une cocotte.|Cuisson|10","Ajoute les oignons émincés et laisse fondre 5 min.","Ajoute le paprika, le cumin, les tomates et 50 cl d'eau.","Couvre et laisse mijoter 1 h 30.|Cuisson|90","Ajoute les poivrons et les pommes de terre en dés, et laisse 30 min.|Cuisson|30"]],
   ["Goulash de porc","Au porc","Avec de l'échine de porc.","Un goulash plus tendre, à l'échine de porc.","",90,540,"F","pork goulash","b",

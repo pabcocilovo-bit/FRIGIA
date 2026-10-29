@@ -10,7 +10,7 @@ import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
 import { showToast } from "../toast";
 import { Stepper } from "./Ingredients";
-import { eatersOf, haveCount, recipeLines, srvLabel } from "./portions";
+import { eatersOf, haveCount, piecesText, recipeLines, srvLabel } from "./portions";
 import { recipeBadges, type Person, portionsOf } from "../../lib/household";
 import type { Fridge, ShopItem, Week } from "../../lib/home";
 import { weekDays } from "../format";
@@ -21,6 +21,7 @@ import { checkQty, type Stock } from "../../lib/stock";
 import { qtyOf } from "../../lib/fridge";
 import { MAX_GUESTS, useScan } from "./store";
 import "./scan.css";
+import { minText, timeText } from "../../lib/recipes";
 
 /** « Ajouter les 2 manquants à ma liste », « Ajouter le manque à ma liste », « Ajouter les 2 manquants et le manque à ma liste » */
 function addText(missing: number, short: number): string {
@@ -66,6 +67,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
   const linesFor = (srv: number) => recipeLines(recipe, srv, entry?.ingredients)
     .map(l => ({ ...l, check: l.have && l.q ? checkQty(l.q, l.n, stocks) : null }));
   const lines = linesFor(servings);
+  const pieces = piecesText(recipe, servings);
   const { have, total } = haveCount(recipe, entry?.ingredients);
   const missing = total - have;
   const steps = recipe.steps ?? [];
@@ -124,7 +126,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
           {recipeBadges(recipe, isPlus).length > 0 && <span className="bbadges">{recipeBadges(recipe, isPlus).map(b => <Badge key={b} tone="ongreen">{b}</Badge>)}</span>}
           <h2>{recipe.title}</h2>
           <div className="stats">
-            <div><b>{recipe.time}</b><span>au total</span></div>
+            <div><b>{timeText(recipe.time)}</b><span>au total</span></div>
             <div><b>{recipe.cal}</b><span>kcal / pers.</span></div>
             {total > 0 && <div><b>{have}/{total}</b><span>dans ton frigo</span></div>}
           </div>
@@ -167,6 +169,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
                   <Stepper value={servings} min={1} max={MAX_GUESTS} label={["Moins", "Plus"]} onChange={setServings} />
                 </div>
               )}
+              {pieces && <p className="rc-makes">{pieces}</p>}
               <div className="ingbox">
                 <ul className="ings">
                   {lines.map((l, i) => (
@@ -201,7 +204,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
                 const t = recipe.timers?.[i];
                 return (
                   <li key={i}><span className="num">{i + 1}</span>
-                    <div><p>{s}</p>{t && <span className="timer-chip"><Icon name="clock" />{t.label} · {t.min} min</span>}</div>
+                    <div><p>{s}</p>{t && <span className="timer-chip"><Icon name="clock" />{t.label} · {minText(t.min)}</span>}</div>
                   </li>
                 );
               })}
@@ -210,7 +213,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
         </div>
       </div>
       <button type="button" className="gobar" onClick={cook}>
-        <span><b>Lancer la cuisson</b><small>{recipe.time} · {steps.length} étape{steps.length > 1 ? "s" : ""}</small></span>
+        <span><b>Lancer la cuisson</b><small>{timeText(recipe.time)} · {steps.length} étape{steps.length > 1 ? "s" : ""}</small></span>
         <span className="go"><Icon name="arrow" /></span>
       </button>
       <WeekSheet option={wk} week={week} days={days} setWeek={onWeek} onClose={() => setWk(null)} />

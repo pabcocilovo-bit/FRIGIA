@@ -15,6 +15,9 @@ type Base = { title: string; photo: string; alt: string; /** L'accroche du carro
  *  Les photos du document de Hugo restent dans public/featured. */
 export const featuredPhoto = (photo: string) =>
   `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/recipe-images/featured/${photo}.webp`;
+/** Une photo IA du catalogue (catalog/v3, api/_images.ts : le nom du plat, puis sa correction et sa vaisselle) */
+export const catalogPhoto = (path: string) =>
+  `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/recipe-images/catalog/v3/${path}.webp`;
 
 // Les 6 recettes choisies par Hugo le 21 octobre (« FRIGIA_6_recettes_avec_photos »), pour l'instant.
 // Photos : public/featured, recadrées sans les textes du document.

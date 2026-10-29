@@ -21,6 +21,7 @@ import { Dish } from "./plan/Dish";
 import { SwapSheet, TonightSheet } from "./plan/sheets";
 import { cookedSlot, MEAL_NAME, mealOfKey, nextUp, options, recipePath } from "./plan/week";
 import { BetaCard } from "./beta/BetaCard";
+import { timeText } from "../lib/recipes";
 
 export function Avatar({ user, name, photo, className, onClick, label }: {
   user: User; name?: string; photo: string | null; className: string; onClick?: () => void; label: string;
@@ -42,12 +43,12 @@ function WeekRecipes({ kitchen, onOpen }: { kitchen: Fridge; onOpen: (r: Generat
     <section className="hm-wk wk" aria-label="Recettes de la semaine">
       <div className="wk-track" ref={track} onScroll={e => setAt(Math.round(e.currentTarget.scrollLeft / e.currentTarget.clientWidth))}>
         {list.map(({ recipe: r, alt }, i) => (
-          <button key={r.title} type="button" className="wk-slide" onClick={() => onOpen(r)} aria-label={`${r.title}, ${r.time}. Voir la recette`}>
+          <button key={r.title} type="button" className="wk-slide" onClick={() => onOpen(r)} aria-label={`${r.title}, ${timeText(r.time)}. Voir la recette`}>
             <img src={r.imageSearch} alt={alt} loading={i ? "lazy" : undefined} />
             <span className="wk-cap">
               <small>Recette de la semaine</small>
               <b>{r.title}</b>
-              <span>{r.time} · {r.diff}{r.veg ? " · Végé" : ""}</span>
+              <span>{timeText(r.time)} · {r.diff}{r.veg ? " · Végé" : ""}</span>
             </span>
           </button>
         ))}
@@ -156,7 +157,7 @@ export function Home({ user, isPlus, avatar, history, favorites, cooked, househo
           {tonight ? (
             <button type="button" className="tn-card" onClick={() => setTn(true)}>
               <Dish recipe={tonight.recipe} className="plate" />
-              <span className="tn-tx"><b>{tonight.recipe.title}</b><span className="tn-m">{tonight.recipe.time} · pour {portTxt(portionsOf(eaters, scan.guests))}{next?.dessert ? " · et un dessert" : ""}</span></span>
+              <span className="tn-tx"><b>{tonight.recipe.title}</b><span className="tn-m">{timeText(tonight.recipe.time)} · pour {portTxt(portionsOf(eaters, scan.guests))}{next?.dessert ? " · et un dessert" : ""}</span></span>
               <span className="tn-go" aria-hidden="true"><Icon name="arrow" /></span>
             </button>
           ) : (

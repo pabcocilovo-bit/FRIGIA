@@ -88,8 +88,10 @@ export function restock<T extends { name: string; have: boolean }>(items: T[], s
   return items.map(i => (!i.have && (basic(i.name) || inStock(i.name, stock) || (staple(i.name) && !noShop)) ? { ...i, have: true } : i));
 }
 
-export type Scanned = CatalogRecipe & { serves?: number; intro?: string; steps?: { text: string }[]; items?: Item[]; dessert?: boolean };
-const round = (q: number, unit: string) => (unit ? (q >= 20 ? Math.round(q / 5) * 5 : Math.round(q * 2) / 2) : Math.max(0.5, Math.round(q * 2) / 2));
+export type Scanned = CatalogRecipe & { serves?: number; intro?: string; steps?: { text: string }[]; items?: Item[]; dessert?: boolean;
+  makes?: { n: number; one: string; many: string } };
+const round = (q: number, unit: string) => (unit === "cl" ? (q >= 10 ? Math.round(q / 5) * 5 : Math.max(1, Math.round(q)))
+  : unit ? (q >= 20 ? Math.round(q / 5) * 5 : Math.round(q * 2) / 2) : Math.max(0.5, Math.round(q * 2) / 2));
 
 /**
  * Les recettes que l'IA vient d'écrire pour un scan, gardées pour tout le monde : ramenées à 4 portions, sans rien du foyer
@@ -106,7 +108,8 @@ export async function keepScanRecipes(admin: SupabaseClient, recipes: Scanned[],
     const rest: Record<string, unknown> = { ...r };
     for (const f of ["kids", "without", "missing", "fromCatalog"]) delete rest[f];
     return [{ key: scanKey(r.title), query: r.title.slice(0, 200), kind: "dish", source: "ia",
-      recipes: [{ ...rest, items, missing: "", serves: CATALOG_SERVES }] }];
+      recipes: [{ ...rest, items, missing: "", serves: CATALOG_SERVES,
+        ...(r.makes ? { makes: { ...r.makes, n: Math.max(1, Math.round(r.makes.n * k)) } } : {}) }] }];
   });
   if (!rows.length) return;
   const { error } = await admin.from("recipe_catalog").upsert(rows, { onConflict: "key", ignoreDuplicates: true });

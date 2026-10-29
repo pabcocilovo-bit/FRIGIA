@@ -25,6 +25,11 @@ export function itemText(it: RecipeItem, factor: number): { q: string; n: string
     v = Math.max(5, Math.round(v / 5) * 5);
     return { q: `${v} ${it.unit}`, n: it.name };
   }
+  // Pas de « 12½ cl » (Hugo, 28 octobre) : des cl entiers, de 5 en 5 à partir de 10 cl
+  if (it.unit === "cl") {
+    v = v >= 10 ? Math.round(v / 5) * 5 : Math.max(1, Math.round(v));
+    return { q: `${v} cl`, n: it.name };
+  }
   if (COUNTED.includes(it.unit)) v = Math.max(1, Math.round(v));
   const r = Math.round(v * 2) / 2, whole = Math.floor(r), half = r - whole > 0;
   const s = (whole ? String(whole) : "") + (half ? "½" : "") || "½";
@@ -60,6 +65,13 @@ export function recipeLines(r: GeneratedRecipe, servings: number, found?: Detect
     return r.items.map(it => ({ ...itemText(it, factor), have: it.have }));
   }
   return (r.recipeIngredients ?? []).map(i => ({ q: i.qty, n: i.name, have: !found?.length || inFridge(i.name, found) }));
+}
+
+/** Une recette en pièces : « Environ 15 crêpes » pour ces portions (Hugo, 28 octobre), sinon null. */
+export function piecesText(r: GeneratedRecipe, servings: number): string | null {
+  if (!r.makes) return null;
+  const n = Math.max(1, Math.round(r.makes.n * servings / (r.serves || servings || 1)));
+  return `Environ ${n} ${n > 1 ? r.makes.many : r.makes.one}`;
 }
 
 /** « 6 sur 8 » : ce que tu as déjà, sur le total (0 sur 0 quand on ne sait pas). */

@@ -86,7 +86,7 @@ export function prefLines(prefs: Prefs | null | undefined): string[] {
     sain: "recettes saines et équilibrées", healthy: "recettes saines et équilibrées",
     gaspi: "recettes zéro gaspillage utilisant un maximum d'ingrédients visibles", nogaspi: "recettes zéro gaspillage utilisant un maximum d'ingrédients visibles",
     temps: "recettes rapides à préparer", quick: "recettes rapides à préparer",
-    budget: "recettes économiques, avec ce qu'il y a déjà", idees: "recettes variées qui sortent de la routine",
+    budget: "recettes économiques, avec ce qu'il y a déjà : une seule viande ou un seul poisson par plat, rien de cher à acheter", idees: "recettes variées qui sortent de la routine",
   };
   const equipMap: Record<string, string> = { airfryer: "AirFryer", moulinex: "Moulinex", thermomix: "Thermomix" };
   const timeMap: Record<string, string> = { "15": "15 minutes maximum", "30": "30 minutes maximum", "15min": "15 minutes maximum", "30min": "30 minutes maximum" };

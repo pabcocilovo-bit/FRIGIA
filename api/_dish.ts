@@ -9,7 +9,7 @@ import type { Req, Res } from "./_shared.js";
 import { askClaude, checkIdeasLimit, dishPhoto, prefLines, type Prefs } from "./_ai.js";
 import { CATALOG_SERVES, type CatalogRecipe, catalogServed, constraintsOf, findInCatalog, keepInCatalog } from "./_catalog.js";
 import { parse, type RawRecipe, salvage, shape, str, strs } from "./_recipe.js";
-import { photograph } from "./_images.js";
+import { photosNow } from "./_images.js";
 
 export type DishBody = {
   query?: unknown;
@@ -38,15 +38,20 @@ export async function dish(req: Req, res: Res, userId: string, admin: SupabaseCl
   const catalogOnly = body.catalogOnly === true;
   const known = await findInCatalog(admin, query, constraints, { skip: strs(body.skip, 30, 120), loose: catalogOnly });
   if (known.row && known.recipes) {
+    // La photo IA tout de suite (12 s au plus, Hugo, 28 octobre), Pexels en attendant si elle tarde
+    const ai = photosNow(admin, known.recipes);
+    const pexels = known.recipes.map(r => (r.imageUrl ? Promise.resolve(null) : dishPhoto(r.imageSearch)));
+    const urls = await ai.urls;
     const found = new Map<string, string>();
-    const recipes = await Promise.all(known.recipes.map(async r => {
+    const recipes = await Promise.all(known.recipes.map(async (r, i) => {
+      if (urls[i]) return { ...r, imageUrl: urls[i]! };
       if (r.imageUrl) return r;
-      const imageUrl = await dishPhoto(r.imageSearch);
+      const imageUrl = await pexels[i];
       if (imageUrl) found.set(r.title, imageUrl);
       return { ...r, imageUrl };
     }));
     await catalogServed(admin, known.row, found);
-    photograph(admin, known.recipes, 3);
+    ai.save();
     return res.json({ recipes });
   }
 
@@ -64,6 +69,8 @@ export async function dish(req: Req, res: Res, userId: string, admin: SupabaseCl
 - La 1re est la recette classique, celle qu'on connaît : "variant" vaut "La classique".
 - Les 2 suivantes sont des variantes qui ont du sens pour CE plat, choisies parmi : plus légère, sans crème, sans gluten, végétarienne, express, petit budget, version enfants, version au four… Une variante garde l'esprit du plat. "variant" : 2 à 3 mots (« Plus légère », « Sans crème », « Végétarienne »).
 Si c'est un ingrédient, une envie ou une catégorie (« saumon », « healthy », « rapide », « petit budget », « dessert ») : propose 3 plats DIFFÉRENTS qui y répondent, connus et qu'on a envie de manger. "variant" vaut "".`,
+    `Une viande ou un poisson par plat, deux au plus, sauf un plat qui en demande plusieurs (paella, cassoulet, choucroute).`,
+    `« Petit budget », « pas cher », « économique » : des ingrédients bon marché (pâtes, riz, pommes de terre, œufs, lentilles, légumes de saison, poulet, porc ou viande hachée), une seule viande au plus, rien de cher (pas de fruits de mer, de canard, de veau ni de beaux morceaux de bœuf).`,
     `Tous les ingrédients ont "have" : false.`,
     `Quantités pour ${servings} portion${servings > 1 ? "s" : ""}.`,
     lines.length ? `À RESPECTER, même pour la recette classique (adapte-la si besoin) :\n${lines.join("\n")}` : "",
@@ -77,6 +84,7 @@ Si c'est un ingrédient, une envie ou une catégorie (« saumon », « healthy �
 - "imageSearch" : le plat EN ANGLAIS, 2 à 4 mots, le dernier mot est le type de plat ("tartiflette potato gratin", "salmon poke bowl").
 - "veg" : true si sans viande ni poisson. "oven" : true si elle passe au four. "cold" : true si elle se mange froide. "dessert" : true pour un dessert.
 - "ingredients" : chaque ingrédient avec "name" (minuscules, singulier), "plural", "qty" (nombre, ou null pour « un peu »), "unit" ("g", "ml", "cl", "c. à s.", "c. à c.", "gousse", "feuilles", "tranches", ou "" pour un nombre de pièces), "have".
+- "makes" : pour une recette qui se fait en pièces (crêpes, galettes, pancakes, cookies, muffins, nems, tacos, wraps, burgers, brochettes…), combien elle en fait avec ces quantités : {"n": 12, "one": "crêpe", "many": "crêpes"}. Sinon null.
 - "steps" : 3 à 8 étapes au tutoiement, phrases courtes, avec quantités, températures et durées. Une étape qui attend (four, cuisson, repos) a un "timer" : {"label":"Four","min":25}, sinon null.`,
     `JSON uniquement : {"recipes":[{"title":"Tartiflette au reblochon","variant":"La classique","change":"","intro":"…","origin":"Spécialité savoyarde","minutes":60,"calories":750,"difficulty":"Facile","imageSearch":"tartiflette potato gratin","veg":false,"oven":true,"cold":false,"dessert":false,"ingredients":[{"name":"pomme de terre","plural":"pommes de terre","qty":800,"unit":"g","have":false}],"steps":[{"text":"…","timer":null}]}]}`,
   ].filter(Boolean).join("\n");
@@ -96,9 +104,9 @@ Si c'est un ingrédient, une envie ou une catégorie (« saumon », « healthy �
     change: str(raw.change, 160),
     ...(raw.dessert === true ? { dessert: true } : {}),
   })));
-  if (!known.error) {
-    await keepInCatalog(admin, known.key, query, recipes as CatalogRecipe[]);
-    photograph(admin, recipes as CatalogRecipe[], 3);
-  }
+  const ai = photosNow(admin, recipes as CatalogRecipe[]);
+  if (!known.error) await keepInCatalog(admin, known.key, query, recipes as CatalogRecipe[]);
+  for (const [i, url] of (await ai.urls).entries()) if (url) recipes[i].imageUrl = url;
+  ai.save();
   res.json({ recipes });
 }

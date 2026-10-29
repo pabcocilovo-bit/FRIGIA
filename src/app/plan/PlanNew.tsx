@@ -17,6 +17,7 @@ import {
 } from "./week";
 import "../scan/scan.css";
 import "./plan.css";
+import { timeText } from "../../lib/recipes";
 
 export type PlanNewState = { pick?: [number, MealKey] };
 
@@ -109,7 +110,7 @@ export function PlanNew({ isPlus, week, setWeek, history, favorites }: PlanProps
                             return (
                               <div key={id} className={"pn-card" + (meal === "m" ? " mid" : "") + (menu === id ? " menu" : "")}>
                                 <button type="button" className="rw" onClick={() => navigate(recipePath(sl, history), { state: { recipe: sl.recipe, from: "plan" } })}>
-                                  <Dish recipe={sl.recipe} /><span className="tx"><b>{sl.recipe.title}</b><span>{sl.left ? "Rien à cuisiner" : sl.recipe.time}</span></span>
+                                  <Dish recipe={sl.recipe} /><span className="tx"><b>{sl.recipe.title}</b><span>{sl.left ? "Rien à cuisiner" : timeText(sl.recipe.time)}</span></span>
                                 </button>
                                 <button type="button" className="pn-more" aria-label="Options" aria-expanded={menu === id} onClick={() => setMenu(m => (m === id ? null : id))}>···</button>
                                 <div className={"pn-band" + band.c}>{band.t}</div>

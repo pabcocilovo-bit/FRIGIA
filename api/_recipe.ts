@@ -26,11 +26,12 @@ export function parse(r: RawRecipe | null | undefined, noShop = false) {
   if (items.length < 2 || steps.length < 2) return null;
   if (noShop && items.some(i => !i.have)) return null;
   if (missingFromTitle(str(r.title, 80), items.map(i => i.name)).length) return null;
+  if (tooManyMeats(str(r.title, 80), items.map(i => i.name))) return null;
   return { r, title: str(r.title, 80), items, steps };
 }
 export type RawRecipe = {
   title?: unknown; intro?: unknown; minutes?: unknown; time?: unknown; calories?: unknown; kcal?: unknown; difficulty?: unknown; imageSearch?: unknown;
-  veg?: unknown; oven?: unknown; cold?: unknown; kids?: unknown; missing?: unknown; origin?: unknown; ingredients?: (RawItem | string)[]; steps?: RawStep[];
+  veg?: unknown; oven?: unknown; cold?: unknown; kids?: unknown; missing?: unknown; origin?: unknown; makes?: { n?: unknown; one?: unknown; many?: unknown } | null; ingredients?: (RawItem | string)[]; steps?: RawStep[];
 };
 
 export const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
@@ -64,6 +65,15 @@ function missingFromTitle(title: string, names: string[]): string[] {
   return named.filter(f => !all.includes(` ${f} `) && !all.includes(` ${f.split(" ").pop()} `));
 }
 
+// Une viande ou un poisson par plat, deux au plus (poulet et chorizo) : l'IA en mettait parfois 4 dans une recette (Hugo, 28 octobre).
+// Le bouillon, le fond ou la sauce ne comptent pas. Sauf les plats qui en demandent plusieurs.
+const MEATS = /^ (poulet|dinde|canard|pintade|caille|boeuf|veau|steak|viande|porc|lardon|jambon|bacon|pancetta|saucisse|saucisson|chorizo|merguez|chipolata|knack|andouille|boudin|chair a saucisse|travers|echine|palette|poitrine|lard|agneau|mouton|gigot|lapin|magret|escalope|cuisse|aile|blanc de|filet de|saumon|thon|cabillaud|colin|lieu|merlu|truite|dorade|bar|sardine|maquereau|morue|lotte|sole|crevette|moule|calamar|encornet|seiche|saint jacques|noix de saint|gambas|langoustine|homard|crabe|surimi|anchois) /;
+const MANY = / (paella|choucroute|cassoulet|couscous royal|pot au feu|potee|jambalaya|bouillabaisse|garbure|paupiette|cordon bleu|saltimbocca|surf|mixed grill|brochette|planche|plateau|grillade|barbecue|tapas|antipasti) /;
+export function tooManyMeats(title: string, names: string[]): boolean {
+  if (MANY.test(` ${words(title).replace(/-/g, " ").trim()} `)) return false;
+  return new Set(names.map(n => words(n).replace(/-/g, " ")).filter(n => MEATS.test(n))).size > 2;
+}
+
 /** Les recettes complètes d'une réponse coupée en route (trop longue) : chaque objet entier de la liste. */
 export function salvage(text: string): RawRecipe[] {
   const list = text.indexOf("[", text.indexOf('"recipes"'));
@@ -94,7 +104,14 @@ export async function shape(r: RawRecipe, items: Parsed["items"], steps: Parsed[
     serves: servings,
     items,
     steps,
+    ...makesOf(r.makes),
     ...extra,
   };
 }
 type Parsed = NonNullable<ReturnType<typeof parse>>;
+
+/** Une recette qui se fait en pièces (crêpes, cookies, nems…) : combien, pour les quantités données. Sinon rien. */
+export function makesOf(m: RawRecipe["makes"]): { makes?: { n: number; one: string; many: string } } {
+  const n = num(m?.n), one = str(m?.one, 30), many = str(m?.many, 30) || one;
+  return n && n <= 200 && one ? { makes: { n: Math.round(n), one, many } } : {};
+}
