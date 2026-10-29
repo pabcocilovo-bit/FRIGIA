@@ -48,8 +48,8 @@ export const errorMessage = (e: unknown) => (e instanceof Error ? e.message : St
 export const TRIAL_DAYS = 7;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-/** Fin de l'essai offert à l'inscription (ms) */
-export const trialEnd = (user: User) => (user.created_at ? new Date(user.created_at).getTime() : 0) + TRIAL_DAYS * DAY_MS;
+/** Fin de l'essai offert à l'inscription (ms). Pas d'essai pour un email qui l'a déjà eu (no_trial, migration 20261103000000) */
+export const trialEnd = (user: User) => (user.created_at ? new Date(user.created_at).getTime() : 0) + (user.app_metadata?.no_trial ? 0 : TRIAL_DAYS * DAY_MS);
 
 export function isPlus(user: User, now = Date.now()): boolean {
   const m = user.app_metadata || {};

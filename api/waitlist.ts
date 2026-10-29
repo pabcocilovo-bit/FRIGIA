@@ -25,6 +25,9 @@ export default async function handler(req: Req, res: Res) {
     const ip = String(req.headers["x-real-ip"] ?? req.headers["x-forwarded-for"] ?? "").split(",")[0].trim() || "?";
     const { data: allowed } = await admin.rpc("check_code_attempt", { p_key: `liste:${ip}`, p_limit: PER_IP_HOUR, p_window_seconds: 3600 });
     if (allowed === false) return res.status(429).json({ error: "Trop d'inscriptions depuis cette connexion. Réessaie plus tard." });
+    // Pas d'email jetable (migration 20261103000000) : le mois offert irait à n'importe qui
+    const { data: jetable } = await admin.rpc("email_jetable", { p_email: email });
+    if (jetable === true) return res.status(400).json({ error: "Les adresses email jetables ne sont pas acceptées. Prends ton adresse habituelle." });
     const { count } = await admin.from("waitlist").select("id", { count: "exact", head: true })
       .gte("created_at", new Date(Date.now() - 60e3).toISOString());
     if ((count ?? 0) >= PER_MINUTE) return res.status(429).json({ error: "Beaucoup d'inscriptions en ce moment. Réessaie dans une minute." });
