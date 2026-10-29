@@ -159,7 +159,17 @@ export function supportEmail(m: { id: number; kind: keyof typeof KIND; topic: st
 }
 
 /** Inscription à la liste d'attente du site : la confirmation (une seule fois par adresse). */
-export function waitlistEmail(to: string, firstName: string) {
+export function waitlistEmail(to: string, firstName: string, link?: string, key = "") {
+  // Avec le lien : l'accès tout de suite (api/waitlist.ts). Sans : les accès partent par vagues
+  if (link) return sendEmail(to, "Ton accès à Frigia", {
+    title: `C'est noté${firstName ? `, ${firstName}` : ""} !`,
+    paragraphs: [
+      "Tu es sur la liste d'attente de Frigia : tu photographies ton frigo, et Frigia te propose des recettes avec ce que tu as déjà.",
+      "Ton accès est prêt, avec ton mois offert. Crée ton compte avec cette adresse email ou avec le compte Google qui a la même adresse.",
+    ],
+    button: { label: "Créer mon compte", href: link },
+    note: "Tu ne t'es pas inscrit ? Ignore cet email : on ne t'écrira pas d'autre message.",
+  }, `waitlist-link-${to}${key ? `-${key}` : ""}`);
   return sendEmail(to, "Tu es sur la liste d'attente de Frigia", {
     title: `C'est noté${firstName ? `, ${firstName}` : ""} !`,
     paragraphs: [

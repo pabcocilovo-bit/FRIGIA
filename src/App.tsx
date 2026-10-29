@@ -11,9 +11,9 @@ import { addToList, BY_HAND, same } from "./lib/shopping";
 import type { Member as HomeMember } from "./lib/home";
 import { useSession } from "./hooks/useSession";
 import { isStandalone } from "./landing/browser";
-import { SIGNUP_OPEN, WAITLIST_URL } from "./lib/launch";
+import { setAccess, signupOpen, WAITLIST_URL } from "./lib/launch";
 import { Analytics } from "@vercel/analytics/react";
-import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router";
+import { Navigate, Route, Routes, useLocation, useNavigate, useSearchParams } from "react-router";
 import { AppFrame } from "./app/AppFrame";
 import { Home } from "./app/Home";
 import { Courses } from "./app/Lists";
@@ -32,8 +32,8 @@ import {
   EMPTY_PROFILE, clearPendingProfile, fetchProfile, hasPendingProfile, fromOldPrefs, getCachedProfile, saveProfile, takePendingProfile, type Profile,
 } from "./lib/profile";
 import { Camera, EmailSignup, Forgot, Login, QDiet, QGoal, QTime, Ready, Signup, VerifyEmail, Welcome } from "./app/onboarding/Onboarding";
-import { takeOAuthIntent } from "./app/onboarding/oauth";
-import { resetAnswers } from "./app/onboarding/answers";
+import { oauthError, takeOAuthIntent } from "./app/onboarding/oauth";
+import { resetAnswers, setSignupEmail } from "./app/onboarding/answers";
 import { firstName } from "./app/format";
 import { Favorites } from "./app/library/Favorites";
 import { Scans } from "./app/library/Scans";
@@ -169,6 +169,9 @@ export default function Frigia() {
     },
   });
 
+  // Google refusé (email sans accès de la liste d'attente…) : le message au retour sur le site
+  useEffect(() => { const msg = oauthError(); if (msg) showToast(msg); }, []);
+
   // Notifications : le centre suit le compte, une notif touchée ouvre son écran
   useNotifSync(user);
 
@@ -217,7 +220,7 @@ if (user && goCamera && location.pathname !== "/camera") {
 if (!user || obPath) {
   const open = (path: string) => !user || OB_SIGNED_IN.includes(path);
   // Inscriptions fermées (src/lib/launch.ts) : sans compte, les écrans d'inscription mènent à la liste d'attente
-  const closed = (path: string) => !user && !SIGNUP_OPEN && SIGNUP_PATHS.includes(path);
+  const closed = (path: string) => !user && !signupOpen() && SIGNUP_PATHS.includes(path);
   const screens: [string, React.ReactNode][] = [
     ["/bienvenue", <Welcome />],
     ["/questions/1", <QGoal />],
@@ -238,7 +241,8 @@ if (!user || obPath) {
       <Routes>
         {screens.map(([path, el]) => <Route key={path} path={path} element={closed(path) ? <Navigate to={WAITLIST_URL} replace /> : open(path) ? el : <Navigate to="/" replace />} />)}
         <Route path="/i/:code" element={<InviteLink />} />
-        <Route path="/" element={isStandalone() && SIGNUP_OPEN
+        <Route path="/acces" element={<AccessLink />} />
+        <Route path="/" element={isStandalone() && signupOpen()
           ? <Navigate to="/bienvenue" replace />
           : <><Analytics /><Suspense fallback={null}><Landing
               onStart={() => { resetAnswers(); navigate("/questions/1"); }}
@@ -408,4 +412,13 @@ return (
     <CookingLive />
   </AppFrame>
 );
+}
+
+/** /acces?email=… : le lien du mail de la liste d'attente (api/waitlist.ts). L'inscription s'ouvre, l'email est déjà rempli. */
+function AccessLink() {
+  const [params] = useSearchParams();
+  const email = (params.get("email") ?? "").trim().toLowerCase().slice(0, 254);
+  setAccess(email || "1");
+  if (email) setSignupEmail(email);
+  return <Navigate to="/bienvenue" replace />;
 }

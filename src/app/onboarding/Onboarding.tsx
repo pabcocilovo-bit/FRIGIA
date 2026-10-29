@@ -14,7 +14,7 @@ import { getSignupEmail, resetAnswers, setSignupEmail, useAnswers } from "./answ
 import { useCaptcha } from "./captcha";
 import { authMessage, isEmailNotConfirmed, JETABLE, looksLikeEmail } from "./errors";
 import { withGoogle } from "./oauth";
-import { SIGNUP_OPEN, WAITLIST_URL } from "../../lib/launch";
+import { signupOpen, WAITLIST_URL } from "../../lib/launch";
 import { checkCode, cleanCode, clearInviteCode, inviteCode, setPendingCode } from "../../lib/codes";
 import { CodeSheet, type CodeProblem } from "../plus/CodeSheet";
 import "./ob.css";
@@ -594,7 +594,7 @@ export function Login() {
           <ObField label="Mot de passe" icon="lock" eye autoComplete="current-password" value={password} onChange={e => setPassword(e.target.value)} />
           <button type="button" className="lm-forgot" onClick={() => navigate("/mot-de-passe", { state: { email: email.trim() } })}>Mot de passe oublié ?</button>
           <Pill type="submit" block className={cx("lm-go", loading && "loading")}>{loading ? "Connexion…" : "Se connecter"}</Pill>
-          {SIGNUP_OPEN
+          {signupOpen()
             ? <p className="ob-have">Pas encore de compte ? <button type="button" onClick={() => { resetAnswers(); navigate("/questions/1"); }}>Créer un compte</button></p>
             : <p className="ob-have">Pas encore invité ? <button type="button" onClick={() => navigate(WAITLIST_URL)}>Rejoins la liste d'attente</button></p>}
           {widget}

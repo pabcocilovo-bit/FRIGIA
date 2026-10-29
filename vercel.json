@@ -29,7 +29,7 @@
   ],
   "rewrites": [
     {
-      "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera|plus|resilier|recette|aide|bilan|parrainage|notifications|cuisine|espace|explorer|avis)",
+      "source": "/(planning|courses|famille|scan|scans|favoris|reglages|bienvenue|pret|compte|connexion|mot-de-passe|camera|plus|resilier|recette|aide|bilan|parrainage|notifications|cuisine|espace|explorer|avis|acces)",
       "destination": "/"
     },
     {

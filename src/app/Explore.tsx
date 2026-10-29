@@ -12,7 +12,7 @@ import { Chip, Icon, Pill } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry } from "../lib/types";
 import type { Fridge } from "../lib/home";
 import { apiEaters, type Person } from "../lib/household";
-import { type Browse, type BrowseDish, type BrowseRow, browseExplore, fillCatalogPhotos, searchDish } from "../lib/scan";
+import { type Browse, type BrowseDish, type BrowseRow, browseExplore, fillCatalogPhotos, searchDish, sendWaitlistInvites } from "../lib/scan";
 import { AppTabBar } from "./AppTabBar";
 import { GreenHead } from "./GreenHead";
 import { catalogPhoto, featuredPhoto, weekRecipes } from "./featured";
@@ -155,6 +155,34 @@ function PhotoFill() {
         : st.stop ? `Arrêté après ${st.done} photos (il en reste ${st.left ?? "?"}). Recharge la page pour reprendre.`
         : st.left === null ? "Photos du catalogue : ça démarre…"
         : `Photos du catalogue : ${st.done} faites, encore ${st.left}. Garde la page ouverte.`}
+    </p>
+  );
+}
+
+/** explorer?invitations=1 : le lien d'accès aux inscrits de la liste d'attente qui ne l'ont pas encore (Hugo, 29 octobre) */
+function InviteFill() {
+  const [st, setSt] = useState<{ sent: number; left: number | null; stop: boolean }>({ sent: 0, left: null, stop: false });
+  useEffect(() => {
+    let live = true;
+    (async () => {
+      let sent = 0;
+      while (live) {
+        const r = await sendWaitlistInvites();
+        if (!live) return;
+        if (r) sent += r.sent;
+        const stop = !r || r.left === 0 || r.done === 0;
+        setSt(p => ({ sent, left: r ? r.left : p.left, stop }));
+        if (stop) break;
+      }
+    })();
+    return () => { live = false; };
+  }, []);
+  return (
+    <p className="ex-photofill" role="status">
+      {st.stop && st.left === 0 ? `Terminé : ${st.sent} liens envoyés.`
+        : st.stop ? `Arrêté après ${st.sent} liens (il en reste ${st.left ?? "?"}). Recharge la page pour reprendre.`
+        : st.left === null ? "Liens de la liste d'attente : ça démarre…"
+        : `Liens de la liste d'attente : ${st.sent} envoyés, encore ${st.left}. Garde la page ouverte.`}
     </p>
   );
 }
@@ -337,6 +365,7 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
       <GreenHead title="Explorer" sub="Des idées pour tous les goûts" back={false} />
       <div className="v3-body ex-body">
         {params.get("photos") === "1" && <PhotoFill />}
+        {params.get("invitations") === "1" && <InviteFill />}
         <form ref={top} className="hm-search" role="search" onSubmit={submit}>
           <label><Icon name="search" /><input type="search" enterKeyHint="search" autoComplete="off" placeholder="Rechercher une recette ou un ingrédient…"
             aria-label="Rechercher une recette" value={text} onChange={e => setText(e.target.value)} /></label>

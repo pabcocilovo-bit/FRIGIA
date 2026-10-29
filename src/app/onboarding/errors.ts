@@ -1,6 +1,8 @@
 // Messages d'erreur de Supabase (en anglais) traduits pour les écrans de connexion.
 export const JETABLE = "Les adresses email jetables ne sont pas acceptées. Prends ton adresse habituelle.";
 
+export const NOT_INVITED = "Cette adresse n'est pas sur la liste d'attente. Utilise celle qui a reçu le lien, ou inscris-toi sur la liste.";
+
 export function authMessage(e: unknown): string {
   const raw = e && typeof e === "object" && "message" in e ? String((e as { message: unknown }).message) : "";
   const code = e && typeof e === "object" && "code" in e ? String((e as { code: unknown }).code) : "";
@@ -9,8 +11,10 @@ export function authMessage(e: unknown): string {
   if (m.includes("already registered") || m.includes("user_already_exists")) return "Un compte existe déjà avec cet email. Connecte-toi.";
   if (m.includes("expired") || m.includes("invalid") && m.includes("token") || m.includes("otp")) return "Ce code ne marche pas. Vérifie-le ou demande un nouveau code.";
   if (m.includes("rate limit") || m.includes("over_email_send_rate_limit") || m.includes("too many")) return "Trop d'essais. Réessaie dans quelques minutes.";
-  // Refusé par la base (migration 20261103000000) : Supabase ne transmet que « Database error saving new user »
-  if (m.includes("email_jetable") || m.includes("database error saving new user")) return JETABLE;
+  // Refusé par la base (migrations 20261103000000 et 20261104000000) : Supabase ne transmet que « Database error saving new user ».
+  // Un email jetable est déjà repéré avant (email_jetable) : il reste un email sans accès de la liste d'attente.
+  if (m.includes("email_jetable")) return JETABLE;
+  if (m.includes("pas_invite") || m.includes("database error saving new user")) return NOT_INVITED;
   if (m.includes("captcha")) return "La vérification anti-robot n'a pas marché. Réessaie.";
   if (m.includes("password") && (m.includes("weak") || m.includes("characters") || m.includes("short"))) return "8 caractères minimum";
   if (m.includes("email") && m.includes("invalid")) return "Cet email n'a pas l'air complet.";
