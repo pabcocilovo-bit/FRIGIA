@@ -31,8 +31,10 @@ export default async function handler(req: Req, res: Res) {
 
   const lines = prefLines(prefs);
   const prefBlock = lines.length > 0 ? `\n\nPRÉFÉRENCES UTILISATEUR :\n${lines.join("\n")}` : "";
-  const avoidBlock = recentTitles && recentTitles.length > 0
-    ? `\n\nRECETTES DÉJÀ PROPOSÉES (NE PAS RÉPÉTER) : ${recentTitles.join(", ")}. Propose des recettes différentes même si les ingrédients sont similaires.`
+  // Bornée : sans ça, un appel peut envoyer des Mo de texte à l'IA (et les payer)
+  const avoid = (Array.isArray(recentTitles) ? recentTitles : []).filter(t => typeof t === "string").map(t => t.slice(0, 80)).slice(0, 40);
+  const avoidBlock = avoid.length > 0
+    ? `\n\nRECETTES DÉJÀ PROPOSÉES (NE PAS RÉPÉTER) : ${avoid.join(", ")}. Propose des recettes différentes même si les ingrédients sont similaires.`
     : "";
   const mealTypeMap: Record<string, string> = {
     protein: "TYPE DE PLAT : Les 3 recettes doivent être riches en protéines (viande, poisson, œufs, légumineuses).",

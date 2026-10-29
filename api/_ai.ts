@@ -94,7 +94,7 @@ export function prefLines(prefs: Prefs | null | undefined): string[] {
   const dietConstraints = (prefs.diet || []).map(d => dietMap[d]).filter(Boolean);
   if (dietConstraints.length > 0) lines.push(`ALIMENTATION (OBLIGATOIRE sur toutes les recettes) : ${dietConstraints.join(" et ")}.`);
 
-  const allergies = (prefs.allergies || []).filter(a => typeof a === "string" && a.length < 40);
+  const allergies = (prefs.allergies || []).filter(a => typeof a === "string" && a.length < 40).slice(0, 20);
   if (allergies.length > 0) lines.push(`ALLERGIES (OBLIGATOIRE) : aucune recette ne doit contenir ${allergies.join(", ")}.`);
 
   const goals = [...(prefs.goals || []), ...(prefs.goal ? [prefs.goal] : [])].map(g => goalMap[g]).filter(Boolean);
@@ -104,7 +104,7 @@ export function prefLines(prefs: Prefs | null | undefined): string[] {
   if (timeConstraint) lines.push(`DURÉE : Au moins 2 recettes sur 3 doivent être réalisables en ${timeConstraint}. La 3ème peut être plus longue.`);
 
   // « Pas de four » (choix de l'équipement) : obligatoire. Four et micro-ondes : la cuisine de base, rien à suggérer.
-  const equipment = (prefs.equipment || []).filter(e => typeof e === "string");
+  const equipment = (prefs.equipment || []).filter(e => typeof e === "string").slice(0, 10);
   const noOven = equipment.includes("pas de four");
   if (noOven) lines.push(`PAS DE FOUR (OBLIGATOIRE) : aucune recette ne passe au four (ni gratin, ni gâteau, ni rôti au four), "oven" est toujours false.${equipment.some(e => e.toLowerCase() === "airfryer") ? " L'Airfryer peut le remplacer." : ""}`);
   const equipList = equipment.filter(e => !["pas de four", "four", "micro-ondes"].includes(e.toLowerCase())).map(e => equipMap[e.toLowerCase()] ?? e).filter(e => e.length < 40);
