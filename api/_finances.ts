@@ -5,6 +5,8 @@ import type Stripe from "stripe";
 import { planOf } from "./_shared.js";
 
 const DAY_S = 86_400;
+// Les chiffres d'argent partent du 29 octobre 2026 (Hugo, 30 octobre) : rien de ce qui est passé avant, paiements de test compris
+export const MONEY_START = Date.UTC(2026, 9, 29) / 1000;
 const day = (s: number) => new Date(s * 1000).toISOString().slice(0, 10);
 
 // Les types de mouvements Stripe qui comptent (pas les virements vers la banque)
@@ -14,6 +16,8 @@ const FEE = ["stripe_fee", "tax_fee"];
 
 export type Finances = {
   days: number;
+  /** Début des chiffres (YYYY-MM-DD) : le début de la période, ou MONEY_START s'il est plus récent */
+  from: string;
   stripe: {
     gross: number; refunds: number; fees: number; net: number; payments: number;
     /** Revenu mensuel récurrent (centimes), les annuels comptés au douzième */
@@ -127,7 +131,7 @@ async function usdToEur(): Promise<number | null> {
 export async function finances(stripe: Stripe | null, admin: SupabaseClient, days: number): Promise<Finances> {
   const d = Math.min(Math.max(Math.round(days) || 30, 7), 180);
   // Même début que le reste du dashboard : minuit UTC, d jours en comptant aujourd'hui
-  const since = Math.floor(Date.now() / 1000 / DAY_S) * DAY_S - (d - 1) * DAY_S;
+  const since = Math.max(MONEY_START, Math.floor(Date.now() / 1000 / DAY_S) * DAY_S - (d - 1) * DAY_S);
   const missing: string[] = [];
   const adminKey = process.env.ANTHROPIC_ADMIN_KEY?.trim();
   if (!stripe) missing.push("no_stripe");
@@ -140,6 +144,7 @@ export async function finances(stripe: Stripe | null, admin: SupabaseClient, day
   ]);
   return {
     days: d,
+    from: day(since),
     stripe: s,
     claude: c ? { ...c, eur: rate ? Math.round(c.usd * rate * 100) / 100 : null } : null,
     missing,

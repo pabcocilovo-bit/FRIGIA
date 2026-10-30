@@ -47,6 +47,8 @@ export const isAdmin = (user: { app_metadata?: Record<string, unknown> } | null 
 
 export type Finances = {
   days: number;
+  /** Début des chiffres (YYYY-MM-DD) : rien avant le 29 octobre 2026 */
+  from: string;
   stripe: {
     gross: number; refunds: number; fees: number; net: number; payments: number; mrr: number;
     active: { month: number; year: number; founder: number };

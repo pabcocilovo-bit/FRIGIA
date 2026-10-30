@@ -535,6 +535,8 @@ function MoneyView({ money, days, wide }: { money: Money; days: Day[]; wide?: bo
   }
   if (left != null) tiles.push({ label: "Il reste", value: eurF.format(left), sub: "reçu net moins Claude", warn: left < 0 });
   const notes = money.missing.map(k => MISSING[k]).filter(Boolean);
+  // Rien avant le 29 octobre : les jours d'avant restent à zéro, et on le dit
+  const cut = money.from && days[0] && money.from > days[0].jour ? money.from : null;
   return (
     <>
       {tiles.length > 0 && (
@@ -557,7 +559,7 @@ function MoneyView({ money, days, wide }: { money: Money; days: Day[]; wide?: bo
           <BarChart days={onDays(days, cl.byDay.map(d => ({ day: d.day, v: d.usd })))} label="Coût Claude" height={wide ? 150 : 170} fmt={usd} />
         </Panel>}
       </div>
-      <p className="adm-muted adm-small">Les photos des recettes (fal.ai) ne sont pas comptées : fal n'a pas de rapport de coûts. Revenu mensuel : abonnements actifs au prix catalogue, les annuels au douzième.</p>
+      <p className="adm-muted adm-small">{cut && `Comptés à partir du ${dayLabel(cut)}. `}Les photos des recettes (fal.ai) ne sont pas comptées : fal n'a pas de rapport de coûts. Revenu mensuel : abonnements actifs au prix catalogue, les annuels au douzième.</p>
     </>
   );
 }
