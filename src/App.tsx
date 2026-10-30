@@ -15,6 +15,7 @@ import { setAccess, signupOpen, WAITLIST_URL } from "./lib/launch";
 import { Analytics } from "@vercel/analytics/react";
 import { Navigate, Route, Routes, useLocation, useNavigate, useSearchParams } from "react-router";
 import { AppFrame } from "./app/AppFrame";
+import { isAdmin } from "./app/admin/admin";
 import { Home } from "./app/Home";
 import { Courses } from "./app/Lists";
 import { MyKitchen } from "./app/fridge/Fridge";
@@ -78,6 +79,8 @@ const OB_SIGNED_IN = ["/questions/1", "/questions/2", "/questions/3", "/mot-de-p
 const metaFirstName = (u: User): string | null =>
   u.user_metadata?.given_name || (displayName(u).trim().split(/\s+/)[0] || null);
 const Landing = lazy(() => import("./Landing"));
+/** Le dashboard de suivi, chargé seulement pour l'admin */
+const Admin = lazy(() => import("./app/admin/Admin"));
 /** Ouverts quand l'essai est fini : s'abonner, son compte, l'aide, les mentions */
 const WALL_OPEN = ["/plus", "/resilier", "/reglages", "/aide", "/infos-legales"];
 
@@ -253,6 +256,11 @@ if (!user || obPath) {
       </Routes>
     </AppFrame>
   );
+}
+
+// Le dashboard de suivi (admin) : sa propre page, pleine largeur, hors de l'appli
+if (location.pathname === "/admin" && isAdmin(user)) {
+  return <Suspense fallback={null}><Admin /></Suspense>;
 }
 
 // Frigia Plus, les 7 jours d'essai compris (plus de formule gratuite depuis le 23 octobre)

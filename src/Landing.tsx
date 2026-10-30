@@ -13,6 +13,7 @@ import { SIGNUP_OPEN } from "./lib/launch";
 import { RECIPES, fridgeScore } from "./landing/recipes";
 import { LEGAL } from "./legal/pages";
 import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./landing/browser";
+import { SITE_KEY } from "./app/onboarding/captcha";
 
 // Landing V5 (refonte d'octobre 2026). Les textes décrivent les offres de la refonte :
 // 7 jours d'essai sans carte, puis Frigia Plus : plus de formule gratuite depuis le 23 octobre.
@@ -304,7 +305,7 @@ export default function Landing({ onStart, onLogin }: Props) {
       {legal && <LegalSheet initial={legal} onClose={() => setLegal(null)} />}
       {installHint && <InstallSheet onClose={() => setInstallHint(false)} />}
       {internalAuth && (
-        <Turnstile ref={turnstile} siteKey="0x4AAAAAADcyx1Wtay8saMMq" onSuccess={setCaptchaToken} onExpire={resetCaptcha} options={{ size: "invisible" }} />
+        <Turnstile ref={turnstile} siteKey={SITE_KEY} onSuccess={setCaptchaToken} onExpire={resetCaptcha} options={{ size: "invisible" }} />
       )}
     </div>
   );
