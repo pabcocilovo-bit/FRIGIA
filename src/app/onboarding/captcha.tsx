@@ -3,7 +3,11 @@
 import { useCallback, useRef } from "react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
-const SITE_KEY = "0x4AAAAAADcyx1Wtay8saMMq";
+// Aperçus Vercel des branches et localhost : la clé de test de Cloudflare (toujours valide), pour ne pas ajouter
+// chaque nouvelle branche dans Turnstile. Ils utilisent la base frigia-test, dont le captcha Supabase est coupé.
+const PREVIEW = typeof window !== "undefined"
+  && (/^frigia-[a-z0-9-]+-pablo-s-projects16\.vercel\.app$/.test(window.location.hostname) || window.location.hostname === "localhost");
+export const SITE_KEY = PREVIEW ? "1x00000000000000000000AA" : "0x4AAAAAADcyx1Wtay8saMMq";
 
 export function useCaptcha() {
   const ref = useRef<TurnstileInstance>(null);
