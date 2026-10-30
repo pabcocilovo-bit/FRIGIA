@@ -181,6 +181,16 @@ export function MyKitchen({ isPlus, fridge, onFridge, onGone }: {
     navigate("/scan/menu");
   };
 
+  // Au-dessus de ce qu'on a (Hugo, 30 octobre) : « Ajouter à mon frigo » ou « à mes placards » selon le filtre
+  const adder = (
+    <form className="fr-add" onSubmit={e => { e.preventDefault(); add(); }}>
+      <input value={name} onChange={e => setName(e.target.value)}
+        placeholder={filter === "placard" ? "Ajouter à mes placards" : filter === "frigo" ? "Ajouter à mon frigo" : "Ajouter à mon frigo ou mes placards"}
+        aria-label="Ajouter un produit" maxLength={60} enterKeyHint="done" />
+      <button type="submit" aria-label="Ajouter" disabled={!name.trim()}><Icon name="plus" /></button>
+    </form>
+  );
+
   return (
     <div className="fa fa-app" aria-label="Ma cuisine">
       <div className="rhead">
@@ -222,6 +232,7 @@ export function MyKitchen({ isPlus, fridge, onFridge, onGone }: {
               </Chip>
             ))}
           </div>
+          {adder}
           {old && filter !== "placard" && <p className="fr-old">Frigo vu il y a {daysSince(fridge.seen!)} jours. Rescanne-le pour le mettre à jour.</p>}
           {shown.length > 0 ? (
             <div className="litems">
@@ -270,11 +281,7 @@ export function MyKitchen({ isPlus, fridge, onFridge, onGone }: {
             </div>
           )}
         </>}
-        <form className="fr-add" onSubmit={e => { e.preventDefault(); add(); }}>
-          <input value={name} onChange={e => setName(e.target.value)} placeholder={filter === "placard" ? "Ajouter aux placards" : filter === "frigo" ? "Ajouter au frigo" : "Ajouter un produit"}
-            aria-label="Ajouter un produit" maxLength={60} enterKeyHint="done" />
-          <button type="submit" aria-label="Ajouter" disabled={!name.trim()}><Icon name="plus" /></button>
-        </form>
+        {items.length === 0 && adder}
         {items.length > 0 && <Pill block icon="sparkle" className="fr-cook" onClick={cook}>Que cuisiner avec ?</Pill>}
       </div>
       <AppTabBar active="list" isPlus={isPlus} />
