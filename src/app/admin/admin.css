@@ -1,0 +1,118 @@
+/* Le dashboard de suivi (/admin) : couleurs et polices du design V3 (design/tokens.css), pleine largeur sur ordinateur. */
+.adm{
+  --page:#EFE3D0; --bg:#F5EFE3; --card:#FBF7EF; --surface:#ECE4D4; --line:#E0D6C3;
+  --text:#1F2A22; --muted:#66705F; --sage:#527659; --sage-deep:#34503B; --sage-soft:#DCE5D5; --on:#F7F1E6;
+  --hi:#E0A44A; --hi-soft:#F6E5C6; --danger:#9A3B26; --danger-soft:#F3E1D9;
+  --sans:"Hanken Grotesk",ui-sans-serif,system-ui,-apple-system,sans-serif; --serif:"Instrument Serif",Georgia,serif;
+  min-height:100svh;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.4;
+}
+body:has(.adm){background:#F5EFE3;margin:0}
+.adm *{box-sizing:border-box}
+.adm h1,.adm h2,.adm h3,.adm p{margin:0}
+.adm h1{font-family:var(--serif);font-weight:400;font-size:40px;line-height:1.05;color:var(--sage-deep)}
+.adm h1 em,.adm-brand em{color:var(--sage)}
+.adm h2{font-family:var(--serif);font-weight:400;font-size:28px;color:var(--sage-deep);margin:8px 0 14px}
+.adm h3{font-size:15px;font-weight:600}
+.adm a{color:var(--sage-deep)}
+.adm button{font:inherit;color:inherit;cursor:pointer}
+.adm button:disabled{opacity:.5;cursor:default}
+.adm-muted{color:var(--muted)}
+.adm-small{font-size:13px}
+.adm-warn{color:var(--danger)}
+.adm-mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+.adm-break{overflow-wrap:anywhere}
+.adm-nowrap{white-space:nowrap}
+.adm-row{display:flex;align-items:center;gap:10px}
+.adm-between{justify-content:space-between}
+.adm-center{display:grid;place-items:center;padding:24px}
+.adm-brand{font-family:var(--serif);font-size:26px;color:var(--sage-deep)}
+
+.adm-card{background:var(--card);border:1px solid var(--line);border-radius:18px}
+.adm-panel{padding:18px 20px;min-width:0}
+.adm-ph{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.adm-msg{max-width:440px;padding:28px;display:grid;gap:14px}
+.adm-msg h1{font-size:32px}
+.adm-empty{color:var(--muted);padding:12px 0}
+
+.adm-btn{border:0;border-radius:999px;padding:10px 18px;background:var(--sage);color:var(--on)!important;font-weight:600}
+.adm-btn.line{background:transparent;border:1px solid var(--line);color:var(--text)!important}
+.adm-seg{display:inline-flex;background:var(--surface);border-radius:999px;padding:3px}
+.adm-seg button{border:0;background:none;border-radius:999px;padding:7px 14px;font-weight:600;color:var(--muted)}
+.adm-seg button[aria-checked=true]{background:var(--card);color:var(--text);box-shadow:0 1px 3px rgba(31,42,34,.12)}
+.adm-dot{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;margin-left:8px;border-radius:999px;background:var(--danger);color:#fff;font-size:12px;font-weight:700}
+.adm-tag{display:inline-block;padding:2px 9px;border-radius:999px;background:var(--surface);font-size:12px;font-weight:600}
+.adm-tag.bug{background:var(--danger-soft);color:var(--danger)}
+.adm-tag.idea{background:var(--hi-soft);color:#7A5418}
+.adm-tag.contact{background:var(--sage-soft);color:var(--sage-deep)}
+
+/* Chiffres clés */
+.adm-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.adm-kpi{padding:16px 18px;display:grid;gap:4px;align-content:start}
+.adm-kpi b{font-size:32px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+
+/* États des comptes */
+.adm-bars{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.adm-track{height:8px;border-radius:999px;background:var(--surface);margin-top:6px;overflow:hidden}
+.adm-track i{display:block;height:100%;min-width:2px;border-radius:999px;background:var(--sage)}
+.adm-track i.warn{background:var(--danger)}
+.adm-stats{list-style:none;margin:0;padding:0}
+.adm-stats li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.adm-stats li:first-child{border-top:0;padding-top:0}
+.adm-stats b{font-weight:600;text-align:right}
+
+/* Graphique */
+.adm-chart{position:relative}
+.adm-tip{font-size:13px;min-height:20px;margin-bottom:6px}
+.adm-chart svg{display:block;width:100%;height:auto;overflow:visible}
+.adm-chart path{fill:var(--sage)}
+.adm-chart path.on{fill:var(--sage-deep)}
+.adm-grid{stroke:var(--line);stroke-dasharray:3 4;vector-effect:non-scaling-stroke}
+.adm-axis{stroke:#C9BDA6;vector-effect:non-scaling-stroke}
+.adm-xl{position:relative;height:18px;font-size:12px;color:var(--muted)}
+.adm-xl span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.adm-xl span:first-child{transform:none}
+.adm-xl span:last-child:not(:first-child){transform:translateX(-100%)}
+
+/* Tableaux (ordinateur) */
+.adm-table{width:100%;border-collapse:collapse;font-size:14px}
+.adm-table th{text-align:left;font-weight:600;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding:0 10px 8px 0}
+.adm-table td{padding:10px 10px 10px 0;border-top:1px solid var(--line);vertical-align:top}
+.adm-msgcell{max-width:420px;white-space:pre-wrap}
+
+/* ─── Ordinateur ─── */
+.adm-wide{display:grid;grid-template-columns:230px 1fr}
+.adm-side{position:sticky;top:0;height:100svh;padding:28px 20px;border-right:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;gap:28px}
+.adm-side nav{display:grid;gap:4px}
+.adm-side nav button{display:flex;align-items:center;justify-content:space-between;border:0;background:none;text-align:left;padding:10px 12px;border-radius:12px;font-weight:500}
+.adm-side nav button:hover{background:var(--surface)}
+.adm-exit{margin-top:auto}
+.adm-main{padding:32px 40px 80px;max-width:1320px;width:100%;min-width:0}
+.adm-main section{scroll-margin-top:24px;margin-bottom:36px}
+.adm-top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:24px;flex-wrap:wrap}
+.adm-top p{margin-top:6px}
+.adm-grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}
+.adm-wide .adm-kpis{grid-template-columns:repeat(6,minmax(0,1fr))}
+.adm-wide .adm-kpis3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:1180px){.adm-wide .adm-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* ─── Téléphone ─── */
+.adm-phone{max-width:560px;margin:0 auto}
+.adm-ptop{position:sticky;top:0;z-index:2;background:var(--bg);padding:calc(10px + env(safe-area-inset-top,0px)) 16px 0;border-bottom:1px solid var(--line)}
+.adm-icon{width:40px;height:40px;border-radius:50%;border:0;background:var(--surface);font-size:22px;line-height:1}
+.adm-tabs{display:flex;gap:4px;margin-top:10px;overflow-x:auto;scrollbar-width:none}
+.adm-tabs button{flex:1;border:0;background:none;padding:10px 6px 12px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
+.adm-tabs button[aria-selected=true]{color:var(--sage-deep);border-bottom-color:var(--sage)}
+.adm-tabs .adm-dot{margin-left:5px;min-width:18px;height:18px;font-size:11px}
+.adm-pmain{padding:14px 16px calc(40px + env(safe-area-inset-bottom,0px));display:grid;gap:12px}
+.adm-pmain h2{font-size:24px;margin:10px 0 0}
+.adm-phone .adm-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0}
+.adm-phone .adm-kpis3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.adm-phone .adm-kpi{padding:14px}
+.adm-phone .adm-kpi b{font-size:26px}
+.adm-phone .adm-panel{padding:16px}
+.adm-phone .adm-seg{display:flex}
+.adm-phone .adm-seg button{flex:1}
+.adm-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px}
+.adm-chips button{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;font-weight:600;font-size:14px}
+.adm-chips button[aria-pressed=true]{background:var(--sage);border-color:var(--sage);color:var(--on)}
+.adm-item{padding:14px 16px;display:grid;gap:6px}
