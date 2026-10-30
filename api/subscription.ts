@@ -3,6 +3,7 @@
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import type Stripe from "stripe";
 import { pauseEndEmail } from "./_email.js";
+import { finances } from "./_finances.js";
 import {
   adminClient, authUser, currentSubscription, errorMessage, founderSeatsLeft, hasCreatorOffer, periodEnd, planOf, plusOneMonth, preflight, stripeClient, type Req, type Res,
 } from "./_shared.js";
@@ -79,6 +80,15 @@ export default async function handler(req: Req, res: Res) {
   }
   if (preflight(req, res)) return;
   const { action, reason } = (req.body ?? {}) as { action?: string; reason?: string };
+
+  // Le dashboard de suivi (/admin) : l'argent encaissé (Stripe) et le coût de Claude, compte admin seulement
+  if (action === "finances") {
+    const caller = await authUser(req, adminClient());
+    if (caller?.app_metadata?.admin !== true) return res.status(403).json({ error: "Réservé à l'admin" });
+    const days = Number((req.body as { days?: unknown }).days) || 30;
+    return res.json(await finances(process.env.STRIPE_SECRET_KEY ? stripeClient() : null, adminClient(), days));
+  }
+
   if (!process.env.STRIPE_SECRET_KEY) return res.status(500).json({ error: "Stripe not configured" });
   const stripe = stripeClient();
 

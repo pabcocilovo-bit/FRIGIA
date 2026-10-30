@@ -1,6 +1,7 @@
 // Le dashboard de suivi (/admin) : les chiffres viennent d'une seule fonction Supabase,
 // public.admin_dashboard (migration 20261105000000). Réservée aux comptes avec app_metadata.admin.
 import { supabase } from "../../supabase";
+import { postApi } from "../../lib/api";
 
 export type Day = { jour: string; inscriptions: number; scans: number; cuisines: number; liste_attente: number };
 export type SupportMsg = { id: number; kind: "bug" | "contact" | "idea"; topic: string | null; message: string; email: string | null; created_at: string };
@@ -41,3 +42,29 @@ export async function loadDashboard(days: number): Promise<Loaded> {
 }
 
 export const isAdmin = (user: { app_metadata?: Record<string, unknown> } | null | undefined) => user?.app_metadata?.admin === true;
+
+// ─── L'argent : Stripe (encaissé) et Claude (coût), par api/subscription.ts (action « finances ») ───
+
+export type Finances = {
+  days: number;
+  /** Début des chiffres (YYYY-MM-DD) : rien avant le 29 octobre 2026 */
+  from: string;
+  stripe: {
+    gross: number; refunds: number; fees: number; net: number; payments: number; mrr: number;
+    active: { month: number; year: number; founder: number };
+    byDay: { day: string; eur: number }[];
+  } | null;
+  claude: {
+    usd: number; eur: number | null; byDay: { day: string; usd: number }[];
+    /** Sans clé admin Anthropic : calculé d'après les tokens notés à chaque appel, depuis cette date */
+    estimated?: { since: string | null; calls: number };
+  } | null;
+  missing: string[];
+};
+
+export async function loadFinances(days: number): Promise<Finances | null> {
+  try {
+    const r = await postApi("/api/subscription", { action: "finances", days });
+    return r.ok ? await r.json() as Finances : null;
+  } catch { return null; }
+}
