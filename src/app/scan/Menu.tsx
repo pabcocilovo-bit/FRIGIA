@@ -12,6 +12,7 @@ import { useOpenPaywall } from "../plus/subscription";
 import { madeKey, MAX_GUESTS, MEAL_WORDS, mealOf, menuOf, MENUS, type MenuId, placardStep, setScan, useScan } from "./store";
 import { Stepper } from "./Ingredients";
 import { eatersOf, portions, srvLabel } from "./portions";
+import { WhoGrid } from "./WhoGrid";
 import "./scan.css";
 
 const ENVIES: [Envie, string][] = [["rapide", "Rapide"], ["healthy", "Healthy"], ["proteine", "Protéiné"], ["gourmand", "Gourmand"], ["enfants", "Enfants"], ["gaspi", "Anti-gaspi"]];
@@ -27,17 +28,7 @@ function Who({ household, avatar }: { household: Person[]; avatar: string | null
   return (
     <div className="opt">
       <span className="label">{MEAL_WORDS[scan.meal].qui}</span>
-      <div className="who">
-        {household.map(p => {
-          const on = !scan.away.includes(p.id), pp = p.me && avatar;
-          return (
-            <button key={p.id} type="button" className={"wm" + (on ? " on" : "")} aria-pressed={on} onClick={() => toggle(p.id)}>
-              <i className={pp ? "has-pp" : undefined} style={pp ? { backgroundImage: `url(${avatar})` } : undefined}>{p.name.charAt(0).toUpperCase()}</i>{p.name}
-              {p.kid && <small>{p.age} ans</small>}
-            </button>
-          );
-        })}
-      </div>
+      <WhoGrid household={household} away={scan.away} avatar={avatar} onToggle={toggle} />
       <div className="gst"><span className="gst-ic"><Icon name="users" /></span><div><b>Des invités ?</b><small>Comptés comme des adultes</small></div>
         <Stepper value={g} min={0} max={MAX_GUESTS} label={["Un invité de moins", "Un invité de plus"]} onChange={n => setScan({ guests: n })} />
       </div>

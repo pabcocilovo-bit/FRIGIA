@@ -476,3 +476,11 @@ body:has(.fa .gd.on) .fa .toast{opacity:0;visibility:hidden}
 .fa .ck-other span{flex:1;min-width:0;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fa .ck-other b{font-weight:600;font-variant-numeric:tabular-nums}
 .fa .ck-other small{font-size:12px;opacity:.75}
+/* Fiche recette : les avatars et « Toute la famille » ouvrent « Qui mange ? » (Hugo, 30 octobre) */
+.fa .rg-who{flex:1;min-width:0;display:flex;align-items:center;gap:10px;text-align:left;color:inherit;padding:0;background:none}
+.fa .rg-who:disabled{cursor:default}
+.fa .rg-who small{display:flex;align-items:center;gap:2px}
+.fa .rg-who small span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.fa .rg-who small .i{width:13px;height:13px;flex:none;color:var(--sage-deep)}
+.fa .r-allergy{display:flex;gap:10px;align-items:flex-start;margin:0;font-size:13.5px;line-height:1.4;color:var(--hi-ink);background:var(--hi-soft);border-radius:14px;padding:11px 12px}
+.fa .r-allergy .i{width:18px;height:18px;flex:none;margin-top:1px}
