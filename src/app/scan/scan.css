@@ -482,3 +482,5 @@ body:has(.fa .gd.on) .fa .toast{opacity:0;visibility:hidden}
 .fa .rg-who small{display:flex;align-items:center;gap:2px}
 .fa .rg-who small span{min-width:0;overflow:hidden;text-overflow:ellipsis}
 .fa .rg-who small .i{width:13px;height:13px;flex:none;color:var(--sage-deep)}
+.fa .r-allergy{display:flex;gap:10px;align-items:flex-start;margin:0;font-size:13.5px;line-height:1.4;color:var(--hi-ink);background:var(--hi-soft);border-radius:14px;padding:11px 12px}
+.fa .r-allergy .i{width:18px;height:18px;flex:none;margin-top:1px}

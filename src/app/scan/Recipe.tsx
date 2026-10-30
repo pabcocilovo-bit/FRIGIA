@@ -11,7 +11,8 @@ import { useOpenPaywall } from "../plus/subscription";
 import { showToast } from "../toast";
 import { Stepper } from "./Ingredients";
 import { eatersOf, haveCount, piecesText, recipeLines, srvLabel, toggleAway } from "./portions";
-import { recipeBadges, type Person, portionsOf, whoParts } from "../../lib/household";
+import { names, recipeBadges, type Person, portionsOf, whoParts } from "../../lib/household";
+import { allergyHits } from "../../lib/allergens";
 import type { Fridge, ShopItem, Week } from "../../lib/home";
 import { weekDays } from "../format";
 import { WeekSheet } from "../plan/sheets";
@@ -92,6 +93,14 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
     setArrived(ids);
     showToast(`${joinNames(buy.map(b => b.name.charAt(0).toUpperCase() + b.name.slice(1)))} ${buy.length > 1 ? "ajoutés" : "ajouté"} à ta liste`);
   };
+  // Une allergie de ceux qui mangent dans la recette (catalogue, favori, allergie ajoutée après) : l'alerte et « Allergie » sur la ligne
+  const hits = allergyHits(recipe, isPlus ? eaters : household);
+  const allergic = new Set(hits.flatMap(h => h.items));
+  const lineName = (i: number) => (recipe.items?.length ? recipe.items[i]?.name : recipe.recipeIngredients?.[i]?.name) ?? "";
+  const alert = hits.length > 0 && (
+    <p className="r-allergy" role="alert"><Icon name="alert" /><span><b>Attention, allergie.</b> {hits.map(h => `${h.who} (${h.allergy}) : ${h.items.join(", ")}`).join(". ")}.</span></p>
+  );
+  const safe = eaters.filter(p => p.allergies.length && !hits.some(h => h.who === p.name));
   // Plus : les invités du soir, comptés comme des adultes
   const guests = Math.max(0, Math.round(servings - family));
   const all = eaters.length === household.length;
@@ -182,6 +191,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
                   <Stepper value={servings} min={1} max={MAX_GUESTS} label={["Moins", "Plus"]} onChange={setServings} />
                 </div>
               )}
+              {alert}
               {pieces && <p className="rc-makes">{pieces}</p>}
               <div className="ingbox">
                 <ul className="ings">
@@ -199,7 +209,7 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
                           </small>
                         )}
                       </span>
-                      {!l.have && <Badge tone="warn">À acheter</Badge>}
+                      {allergic.has(lineName(i)) ? <Badge tone="warn" icon="alert">Allergie</Badge> : !l.have && <Badge tone="warn">À acheter</Badge>}
                     </li>
                   ))}
                 </ul>
@@ -235,6 +245,8 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
           <h3 className="stitle">Qui <em>mange&nbsp;?</em></h3>
           <WhoGrid household={household} away={away} avatar={avatar} onToggle={pickEater} />
           <p className="whonote"><Icon name="users" /><span><b>{whoParts(eaters, guests)}, soit {srvLabel(true, servings)}.</b> Les quantités suivent.</span></p>
+          {alert}
+          {safe.length > 0 && <p className="whonote"><Icon name="shield" /><span>{safe.length > 1 ? "Allergies" : "Allergie"} de {names(safe.map(p => `${p.name} (${p.allergies.join(", ")})`))} : rien de repéré dans cette recette.</span></p>}
           <Pill block onClick={() => setWhoOpen(false)}>C'est bon</Pill>
         </Sheet>
       )}
