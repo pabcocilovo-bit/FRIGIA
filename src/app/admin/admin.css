@@ -119,3 +119,4 @@ body:has(.adm){background:#F5EFE3;margin:0}
 .adm-item{padding:14px 16px;display:grid;gap:6px}
 .adm-note{background:var(--hi-soft);border-radius:14px;padding:10px 14px;font-size:14px;margin:0 0 12px}
 .adm-stack{display:grid;gap:12px}
+.adm-test{background:var(--danger-soft);color:var(--danger)}
