@@ -3,7 +3,7 @@
 // Réservé aux comptes avec app_metadata.admin (src/App.tsx), les chiffres : src/app/admin/admin.ts.
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router";
-import { type Day, type Dashboard, type Finances, type Loaded, loadDashboard, loadFinances } from "./admin";
+import { type Day, type Dashboard, type Finances, type ListKey, type Loaded, type Person, type WaitlistRow, loadDashboard, loadFinances, loadList } from "./admin";
 import "./admin.css";
 
 const PERIODS = [7, 30, 90] as const;
@@ -116,6 +116,7 @@ const SECTIONS = [
 ];
 
 function Desktop({ data, period, onPeriod, onRefresh, loading, onExit, money }: ViewProps) {
+  const [list, setList] = useState<ListKey | null>(null);
   const go = (id: string) => document.getElementById(`adm-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   const problems = data.support_7j.bug + data.abus.connexions.length;
   return (
@@ -150,9 +151,9 @@ function Desktop({ data, period, onPeriod, onRefresh, loading, onExit, money }: 
         </header>
 
         <section id="adm-resume">
-          <Kpis data={data} />
+          <Kpis data={data} onOpen={setList} />
           <div className="adm-grid2">
-            <Panel title="Essais et abonnements"><Funnel data={data} /></Panel>
+            <Panel title="Essais et abonnements"><Funnel data={data} onOpen={setList} /></Panel>
             <Panel title="Utilisation"><Usage data={data} /></Panel>
           </div>
         </section>
@@ -191,6 +192,7 @@ function Desktop({ data, period, onPeriod, onRefresh, loading, onExit, money }: 
           </div>
         </section>
       </main>
+      {list && <People list={list} wide onClose={() => setList(null)} />}
     </div>
   );
 }
@@ -207,6 +209,7 @@ const TABS = [
 type Tab = (typeof TABS)[number]["id"];
 
 function Mobile({ data, period, onPeriod, onRefresh, loading, onExit, money }: ViewProps) {
+  const [list, setList] = useState<ListKey | null>(null);
   const [tab, setTab] = useState<Tab>("resume");
   const [serie, setSerie] = useState<(typeof SERIES)[number]["key"]>("inscriptions");
   const current = SERIES.find(s => s.key === serie)!;
@@ -231,8 +234,8 @@ function Mobile({ data, period, onPeriod, onRefresh, loading, onExit, money }: V
       <main className="adm-pmain">
         <p className="adm-muted adm-small">Mis à jour à {time(data.genere_le)}</p>
         {tab === "resume" && <>
-          <Kpis data={data} />
-          <Panel title="Essais et abonnements"><Funnel data={data} /></Panel>
+          <Kpis data={data} onOpen={setList} />
+          <Panel title="Essais et abonnements"><Funnel data={data} onOpen={setList} /></Panel>
           <Panel title="Utilisation"><Usage data={data} /></Panel>
         </>}
 
@@ -285,6 +288,7 @@ function Mobile({ data, period, onPeriod, onRefresh, loading, onExit, money }: V
             </ul></Panel>}
         </>}
       </main>
+      {list && <People list={list} onClose={() => setList(null)} />}
     </div>
   );
 }
@@ -310,46 +314,46 @@ function Periods({ value, onChange }: { value: Period; onChange: (p: Period) => 
   );
 }
 
-function Kpis({ data }: { data: Dashboard }) {
+function Kpis({ data, onOpen }: { data: Dashboard; onOpen: (k: ListKey) => void }) {
   const c = data.comptes;
   const paying = c.abonnes + c.abonnes_essai;
-  const tiles: { label: string; value: number; sub: string; warn?: boolean }[] = [
-    { label: "Comptes", value: c.total, sub: `+${n(c.nouveaux_7j)} en 7 jours · +${n(c.nouveaux_jour)} aujourd'hui` },
-    { label: "Abonnés", value: paying, sub: `${pct(paying, c.total)} des comptes` },
-    { label: "En essai", value: c.essai, sub: `${n(c.essai_fini_sans_payer)} essais finis sans payer` },
-    { label: "Actifs 7 jours", value: data.actifs_7j, sub: `ont scanné ou cuisiné · ${pct(data.actifs_7j, c.total)}` },
-    { label: "Scans 7 jours", value: data.usage.scans_7j, sub: `${n(data.usage.scans)} au total` },
-    { label: "Liste d'attente", value: data.liste_attente.total, sub: `+${n(data.liste_attente.nouveaux_7j)} en 7 jours · ${n(data.liste_attente.invites)} invités` },
+  const tiles: { label: string; value: number; sub: string; list: ListKey }[] = [
+    { label: "Comptes", value: c.total, sub: `+${n(c.nouveaux_7j)} en 7 jours · +${n(c.nouveaux_jour)} aujourd'hui`, list: "comptes" },
+    { label: "Abonnés", value: paying, sub: `${pct(paying, c.total)} des comptes`, list: "abonnes" },
+    { label: "En essai", value: c.essai, sub: `${n(c.essai_fini_sans_payer)} essais finis sans payer`, list: "essai" },
+    { label: "Actifs 7 jours", value: data.actifs_7j, sub: `ont scanné ou cuisiné · ${pct(data.actifs_7j, c.total)}`, list: "actifs_7j" },
+    { label: "Scans 7 jours", value: data.usage.scans_7j, sub: `${n(data.usage.scans)} au total`, list: "scans_7j" },
+    { label: "Liste d'attente", value: data.liste_attente.total, sub: `+${n(data.liste_attente.nouveaux_7j)} en 7 jours · ${n(data.liste_attente.invites)} invités`, list: "liste_attente" },
   ];
   return (
     <div className="adm-kpis">
       {tiles.map(t => (
-        <div key={t.label} className="adm-card adm-kpi">
+        <button key={t.label} type="button" className="adm-card adm-kpi adm-click" onClick={() => onOpen(t.list)} aria-label={`${t.label} : voir la liste`}>
           <span className="adm-muted">{t.label}</span>
           <b>{n(t.value)}</b>
           <span className="adm-small adm-muted">{t.sub}</span>
-        </div>
+        </button>
       ))}
     </div>
   );
 }
 
 /** Où en sont les comptes : une barre par état, à l'échelle du total */
-function Funnel({ data }: { data: Dashboard }) {
+function Funnel({ data, onOpen }: { data: Dashboard; onOpen: (k: ListKey) => void }) {
   const c = data.comptes;
-  const rows = [
-    { label: "En essai", v: c.essai },
-    { label: "Abonnés", v: c.abonnes },
-    { label: "Abonnés en période d'essai Stripe", v: c.abonnes_essai },
-    { label: "Comptes offerts", v: c.offerts },
-    { label: "Essai fini sans payer", v: c.essai_fini_sans_payer },
-    { label: "Paiement refusé", v: c.paiement_refuse, warn: true },
+  const rows: { label: string; v: number; warn?: boolean; list: ListKey }[] = [
+    { label: "En essai", v: c.essai, list: "essai" },
+    { label: "Abonnés", v: c.abonnes, list: "abonnes" },
+    { label: "Abonnés en période d'essai Stripe", v: c.abonnes_essai, list: "abonnes" },
+    { label: "Comptes offerts", v: c.offerts, list: "offerts" },
+    { label: "Essai fini sans payer", v: c.essai_fini_sans_payer, list: "essai_fini" },
+    { label: "Paiement refusé", v: c.paiement_refuse, warn: true, list: "refuse" },
   ];
   const total = c.total || 1;
   return (
     <ul className="adm-bars">
       {rows.map(r => (
-        <li key={r.label}>
+        <li key={r.label} className="adm-click" role="button" tabIndex={0} onClick={() => onOpen(r.list)} onKeyDown={e => { if (e.key === "Enter") onOpen(r.list); }}>
           <div className="adm-row adm-between"><span>{r.label}</span><b className={r.warn && r.v > 0 ? "adm-warn" : undefined}>{n(r.v)} <span className="adm-muted adm-small">{pct(r.v, c.total)}</span></b></div>
           <div className="adm-track"><i className={r.warn ? "warn" : undefined} style={{ width: `${(r.v / total) * 100}%` }} /></div>
         </li>
@@ -564,5 +568,115 @@ function MoneyView({ money, days, wide }: { money: Money; days: Day[]; wide?: bo
       </div>
       <p className="adm-muted adm-small">{cut && `Comptés à partir du ${dayLabel(cut)}. `}Les photos des recettes (fal.ai) ne sont pas comptées : fal n'a pas de rapport de coûts. Revenu mensuel : abonnements actifs au prix catalogue, les annuels au douzième.</p>
     </>
+  );
+}
+
+const LISTS: Record<ListKey, string> = {
+  comptes: "Tous les comptes", nouveaux_7j: "Nouveaux comptes (7 jours)", abonnes: "Abonnés", essai: "En essai",
+  essai_fini: "Essai fini sans payer", refuse: "Paiement refusé", offerts: "Comptes offerts", recrees: "Comptes recréés (sans essai)",
+  connectes_7j: "Connectés en 7 jours", actifs_7j: "Actifs en 7 jours (scan ou recette)", scans_7j: "Ont scanné en 7 jours",
+  liste_attente: "Liste d'attente",
+};
+const ETATS: Record<Person["etat"], string> = {
+  essai: "En essai", abonne: "Abonné", abonne_essai: "Abonné (essai Stripe)", refuse: "Paiement refusé", offert: "Offert", fini: "Essai fini",
+};
+const dateOnly = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "2-digit" }) : "–");
+const isWaitlist = (r: Person | WaitlistRow): r is WaitlistRow => "a_un_compte" in r;
+
+/** La liste derrière un chiffre : panneau à droite sur ordinateur, plein écran sur téléphone. Recherche par email ou prénom. */
+function People({ list, wide, onClose }: { list: ListKey; wide?: boolean; onClose: () => void }) {
+  const [res, setRes] = useState<{ key: ListKey; r: Awaited<ReturnType<typeof loadList>> } | null>(null);
+  const [q, setQ] = useState("");
+  useEffect(() => {
+    let live = true;
+    void loadList(list).then(r => { if (live) setRes({ key: list, r }); });
+    return () => { live = false; };
+  }, [list]);
+  useEffect(() => {
+    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", esc);
+    return () => window.removeEventListener("keydown", esc);
+  }, [onClose]);
+  const r = res?.key === list ? res.r : null;
+  const needle = q.trim().toLowerCase();
+  const rows = r?.ok ? r.rows.filter(x => !needle || x.email.toLowerCase().includes(needle) || (x.prenom ?? "").toLowerCase().includes(needle)) : [];
+  const copy = () => {
+    void navigator.clipboard?.writeText(rows.map(x => x.email).join(", "));
+  };
+  return (
+    <div className="adm-overlay" onClick={onClose}>
+      <aside className={`adm-drawer${wide ? " wide" : ""}`} role="dialog" aria-label={LISTS[list]} onClick={e => e.stopPropagation()}>
+        <header className="adm-dh">
+          <div>
+            <h3>{LISTS[list]}</h3>
+            <span className="adm-muted adm-small">{r?.ok ? `${n(rows.length)} personne${rows.length > 1 ? "s" : ""}${r.rows.length >= 500 ? " (500 plus récentes)" : ""}` : "Chargement…"}</span>
+          </div>
+          <button type="button" className="adm-icon" onClick={onClose} aria-label="Fermer">×</button>
+        </header>
+        <div className="adm-row adm-dtools">
+          <input className="adm-search" type="search" placeholder="Chercher un email ou un prénom" value={q} onChange={e => setQ(e.target.value)} />
+          {rows.length > 0 && <button type="button" className="adm-btn line" onClick={copy}>Copier les emails</button>}
+        </div>
+        <div className="adm-dbody">
+          {!r && <Empty>Chargement…</Empty>}
+          {r && !r.ok && <Empty>{r.message}</Empty>}
+          {r?.ok && rows.length === 0 && <Empty>Personne ici.</Empty>}
+          {r?.ok && rows.length > 0 && (wide ? <PeopleTable rows={rows} /> : rows.map(x => <PersonCard key={x.email + x.created_at} r={x} />))}
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+function PeopleTable({ rows }: { rows: (Person | WaitlistRow)[] }) {
+  if (isWaitlist(rows[0])) {
+    return (
+      <table className="adm-table">
+        <thead><tr><th>Email</th><th>Prénom</th><th>Inscrit le</th><th>Accès envoyé</th><th>Compte</th><th>Source</th></tr></thead>
+        <tbody>{(rows as WaitlistRow[]).map(w => (
+          <tr key={w.email}>
+            <td className="adm-break"><a href={`mailto:${w.email}`}>{w.email}</a></td><td>{w.prenom ?? "–"}</td>
+            <td className="adm-nowrap">{dateOnly(w.created_at)}</td><td className="adm-nowrap">{dateOnly(w.invite_le)}</td>
+            <td>{w.a_un_compte ? "Oui" : "Non"}</td><td>{w.source ?? "–"}</td>
+          </tr>
+        ))}</tbody>
+      </table>
+    );
+  }
+  return (
+    <table className="adm-table">
+      <thead><tr><th>Email</th><th>Prénom</th><th>État</th><th>Inscrit le</th><th>Dernière connexion</th><th>Scans</th><th>Cuisinés</th><th>Dernière activité</th></tr></thead>
+      <tbody>{(rows as Person[]).map(p => (
+        <tr key={p.email + p.created_at}>
+          <td className="adm-break"><a href={`mailto:${p.email}`}>{p.email}</a>{p.recree && <span className="adm-tag bug adm-ml">recréé</span>}</td>
+          <td>{p.prenom ?? "–"}</td><td><span className={`adm-tag st-${p.etat}`}>{ETATS[p.etat]}</span></td>
+          <td className="adm-nowrap">{dateOnly(p.created_at)}</td><td className="adm-nowrap">{dateOnly(p.last_sign_in_at)}</td>
+          <td>{n(p.scans)}</td><td>{n(p.cuisines)}</td><td className="adm-nowrap">{dateOnly(p.derniere_activite)}</td>
+        </tr>
+      ))}</tbody>
+    </table>
+  );
+}
+
+function PersonCard({ r }: { r: Person | WaitlistRow }) {
+  if (isWaitlist(r)) {
+    return (
+      <article className="adm-card adm-item">
+        <a className="adm-break" href={`mailto:${r.email}`}>{r.email}</a>
+        <span className="adm-muted adm-small">{r.prenom ?? "Sans prénom"} · inscrit le {dateOnly(r.created_at)} · {r.invite_le ? `accès le ${dateOnly(r.invite_le)}` : "pas encore d'accès"} · {r.a_un_compte ? "a un compte" : "pas de compte"}</span>
+      </article>
+    );
+  }
+  return (
+    <article className="adm-card adm-item">
+      <div className="adm-row adm-between">
+        <a className="adm-break" href={`mailto:${r.email}`}>{r.email}</a>
+        <span className={`adm-tag st-${r.etat}`}>{ETATS[r.etat]}</span>
+      </div>
+      <span className="adm-muted adm-small">
+        {r.prenom ?? "Sans prénom"} · inscrit le {dateOnly(r.created_at)}{r.recree ? " · recréé" : ""}<br />
+        {n(r.scans)} scan{r.scans > 1 ? "s" : ""} · {n(r.cuisines)} cuisiné{r.cuisines > 1 ? "s" : ""} · dernière activité {dateOnly(r.derniere_activite)}
+      </span>
+    </article>
   );
 }
