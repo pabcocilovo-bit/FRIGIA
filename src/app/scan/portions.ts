@@ -12,6 +12,12 @@ export const portions = (isPlus: boolean, s: Pick<ScanState, "servings" | "guest
 /** Ceux du foyer qui mangent là */
 export const eatersOf = (household: Person[], s: Pick<ScanState, "away">) => household.filter(p => !s.away.includes(p.id));
 
+/** Retire ou remet quelqu'un, sans jamais vider la table : le dernier qui mange reste. */
+export const toggleAway = (household: Person[], away: string[], id: string) => {
+  if (away.includes(id)) return away.filter(x => x !== id);
+  return household.some(p => p.id !== id && !away.includes(p.id)) ? [...away, id] : away;
+};
+
 export const srvLabel = (isPlus: boolean, n: number) =>
   isPlus ? `${num(n)} portion${n > 1 ? "s" : ""}` : `${n} personne${n > 1 ? "s" : ""}`;
 

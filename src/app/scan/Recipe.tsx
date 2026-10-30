@@ -3,15 +3,15 @@
 // Ce que tu as est comparé à Ma cuisine (ou à la photo du scan) : avec des invités, « il en manque 200 g » part aussi dans la liste.
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router";
-import { Badge, Icon, LockPill, RoundButton } from "../../ui/components";
+import { Badge, Icon, LockPill, Pill, RoundButton, Sheet } from "../../ui/components";
 import type { GeneratedRecipe, HistoryEntry } from "../../lib/types";
 import { useBack } from "../nav";
 import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
 import { showToast } from "../toast";
 import { Stepper } from "./Ingredients";
-import { eatersOf, haveCount, piecesText, recipeLines, srvLabel } from "./portions";
-import { recipeBadges, type Person, portionsOf } from "../../lib/household";
+import { eatersOf, haveCount, piecesText, recipeLines, srvLabel, toggleAway } from "./portions";
+import { recipeBadges, type Person, portionsOf, whoParts } from "../../lib/household";
 import type { Fridge, ShopItem, Week } from "../../lib/home";
 import { weekDays } from "../format";
 import { WeekSheet } from "../plan/sheets";
@@ -19,7 +19,8 @@ import { type Option, placedText } from "../plan/week";
 import { inListAs, joinNames } from "../../lib/shopping";
 import { checkQty, type Stock } from "../../lib/stock";
 import { qtyOf } from "../../lib/fridge";
-import { MAX_GUESTS, useScan } from "./store";
+import { MAX_GUESTS, setScan, useScan } from "./store";
+import { WhoGrid } from "./WhoGrid";
 import "./scan.css";
 import { minText, timeText } from "../../lib/recipes";
 
@@ -50,8 +51,10 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
   const index = Number(n);
   const recipe = entry ? entry.recipes[index] : state?.recipe;
   const scan = useScan();
-  // Plus : ceux du foyer qui mangent (« Qui mange ce soir ? »), et les invités en plus
-  const eaters = eatersOf(household, scan);
+  // Plus : ceux du foyer qui mangent (« Qui mange ce soir ? », ou choisis ici d'un appui sur les avatars), et les invités en plus
+  const [away, setAway] = useState(scan.away);
+  const [whoOpen, setWhoOpen] = useState(false);
+  const eaters = eatersOf(household, { away });
   const family = portionsOf(eaters, 0);
   const base = entry?.servings ?? state?.servings ?? (isPlus ? family : 2);
   const [servings, setServings] = useState(base);
@@ -94,6 +97,14 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
   const all = eaters.length === household.length;
   const who = (household.length > 1 && all ? (guests ? "Famille" : "Toute la famille") : eaters.map(p => p.name).join(", "))
     + (guests ? ` + ${guests} invité${guests > 1 ? "s" : ""}` : "");
+  // Qui mange (Hugo, 30 octobre) : les portions suivent. Ouverte hors d'un scan (Explorer, favoris), le choix reste pour les suivantes.
+  const pickEater = (id: string) => {
+    const next = toggleAway(household, away, id);
+    if (next === away) return;
+    setAway(next);
+    setServings(portionsOf(eatersOf(household, { away: next }), 0) + guests);
+    if (!entry) setScan({ away: next });
+  };
   const addGuest = (d: number) => {
     const g = Math.max(0, Math.min(MAX_GUESTS, guests + d));
     setServings(family + g);
@@ -151,14 +162,16 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {isPlus ? (
                 <div className="rg">
-                  <span className="rg-avs">
-                    {eaters.slice(0, 3).map(p => {
-                      const pp = p.me && avatar;
-                      return <span key={p.id} className={"ini" + (p.kid ? " k" : "") + (pp ? " has-pp" : "")} style={pp ? { backgroundImage: `url(${avatar})` } : undefined}>{p.name.charAt(0).toUpperCase()}</span>;
-                    })}
-                    {guests > 0 && <span key={guests} className="ini g pop">+{guests}</span>}
-                  </span>
-                  <div className="rg-tx"><b>{srvLabel(true, servings)}</b><small>{who}</small></div>
+                  <button type="button" className="rg-who" disabled={household.length < 2} aria-label={`${srvLabel(true, servings)}, ${who}. Choisir qui mange`} onClick={() => setWhoOpen(true)}>
+                    <span className="rg-avs">
+                      {eaters.slice(0, 3).map(p => {
+                        const pp = p.me && avatar;
+                        return <span key={p.id} className={"ini" + (p.kid ? " k" : "") + (pp ? " has-pp" : "")} style={pp ? { backgroundImage: `url(${avatar})` } : undefined}>{p.name.charAt(0).toUpperCase()}</span>;
+                      })}
+                      {guests > 0 && <span key={guests} className="ini g pop">+{guests}</span>}
+                    </span>
+                    <span className="rg-tx"><b>{srvLabel(true, servings)}</b><small><span>{who}</span>{household.length > 1 && <Icon name="next" />}</small></span>
+                  </button>
                   <span className="rg-ctl">
                     <button type="button" className="rg-minus" aria-label="Un invité de moins" hidden={!guests} onClick={() => addGuest(-1)}><Icon name="minus" /></button>
                     <button type="button" className="rg-plus" aria-label="Un invité de plus" onClick={() => addGuest(1)}>+1</button>
@@ -217,6 +230,14 @@ export function Recipe({ history, isPlus, household, shopping, fridge, onAddMiss
         <span className="go"><Icon name="arrow" /></span>
       </button>
       <WeekSheet option={wk} week={week} days={days} setWeek={onWeek} onClose={() => setWk(null)} />
+      {isPlus && household.length > 1 && (
+        <Sheet open={whoOpen} onClose={() => setWhoOpen(false)} label="Qui mange ?">
+          <h3 className="stitle">Qui <em>mange&nbsp;?</em></h3>
+          <WhoGrid household={household} away={away} avatar={avatar} onToggle={pickEater} />
+          <p className="whonote"><Icon name="users" /><span><b>{whoParts(eaters, guests)}, soit {srvLabel(true, servings)}.</b> Les quantités suivent.</span></p>
+          <Pill block onClick={() => setWhoOpen(false)}>C'est bon</Pill>
+        </Sheet>
+      )}
     </section>
   );
 }

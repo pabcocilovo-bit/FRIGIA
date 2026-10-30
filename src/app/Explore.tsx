@@ -11,14 +11,15 @@ import { useSearchParams } from "react-router";
 import { Chip, Icon, Pill } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry } from "../lib/types";
 import type { Fridge } from "../lib/home";
-import { apiEaters, type Person } from "../lib/household";
+import { apiEaters, type Person, portionsOf } from "../lib/household";
 import { type Browse, type BrowseDish, type BrowseRow, browseExplore, fillCatalogPhotos, searchDish, sendWaitlistInvites } from "../lib/scan";
 import { AppTabBar } from "./AppTabBar";
 import { GreenHead } from "./GreenHead";
 import { catalogPhoto, featuredPhoto, weekRecipes } from "./featured";
 import { useRecipePhoto } from "./photo";
 import { useOpenPaywall } from "./plus/subscription";
-import { inFridge, minutesOf } from "./scan/portions";
+import { eatersOf, inFridge, minutesOf, srvLabel, toggleAway } from "./scan/portions";
+import { setScan, useScan } from "./scan/store";
 import { plural } from "./format";
 import { minText, timeText } from "../lib/recipes";
 
@@ -228,6 +229,13 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
   onOpenRecipe: (r: GeneratedRecipe) => void;
 }) {
   const openPaywall = useOpenPaywall();
+  // Qui mange (Plus, Hugo le 30 octobre) : le même choix que « Qui mange ce soir ? » du scan. Les recherches respectent
+  // les allergies et les goûts de ceux-là seulement, et la fiche recette s'ouvre pour leurs portions.
+  const scan = useScan();
+  const eaters = isPlus ? eatersOf(household, scan) : household;
+  const forWho = eaters.length ? apiEaters(eaters) : undefined;
+  // Les réponses gardées dépendent de qui mange : « tartiflette@moi,l2 » n'est pas « tartiflette »
+  const ek = eaters.length < household.length ? `@${eaters.map(p => p.id).join(",")}` : "";
   const [params, setParams] = useSearchParams();
   const q = params.get("q") ?? "";
   const cat = params.get("c") ?? "";
@@ -260,36 +268,36 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
   const mine = useMemo(() => [...new Set(kitchen.items.map(i => i.name))].slice(0, 8), [kitchen.items]);
   const picked = chip ?? mine[0] ?? null;
   // « Œufs » trouve « œuf » : sans le s final
-  const fromCatalog = picked ? byChip[picked] : undefined;
+  const fromCatalog = picked ? byChip[picked + ek] : undefined;
   // Tes recettes d'abord, puis ta dernière recherche de ce mot (« pêches »), puis le catalogue, avec ce que tu as déjà coché
   const withChip = useMemo(() => {
     if (!picked) return [];
     const seen = new Set<string>();
-    return [...known.filter(r => norm(words(r)).includes(norm(picked).replace(/s$/, ""))), ...(cached(picked) ?? []), ...(fromCatalog ?? [])]
+    return [...known.filter(r => norm(words(r)).includes(norm(picked).replace(/s$/, ""))), ...(cached(picked + ek) ?? []), ...(fromCatalog ?? [])]
       .filter(r => !seen.has(r.title) && !!seen.add(r.title))
       .map(r => (r.items ? { ...r, items: r.items.map(i => ({ ...i, have: inFridge(i.name, kitchen.items) })) } : r));
     // q : revenir d'une recherche relit les réponses gardées
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [picked, known, fromCatalog, kitchen.items, q]);
+  }, [picked, known, fromCatalog, kitchen.items, q, ek]);
   useEffect(() => {
     // Rien trouvé : on redemande au retour d'une recherche (elle a pu ajouter ce mot au catalogue)
-    if (q || !picked || !isPlus || byChip[picked]?.length) return;
-    const keep = (recipes: GeneratedRecipe[]) => setByChip(m => ({ ...m, [picked]: recipes }));
-    const saved = cached(`+${picked}`);
+    if (q || !picked || !isPlus || byChip[picked + ek]?.length) return;
+    const keep = (recipes: GeneratedRecipe[]) => setByChip(m => ({ ...m, [picked + ek]: recipes }));
+    const saved = cached(`+${picked}${ek}`);
     if (saved) { keep(saved); return; }
     let live = true;
-    void searchDish({ query: picked, catalogOnly: true, eaters: household.length ? apiEaters(household) : undefined }).then(r => {
+    void searchDish({ query: picked, catalogOnly: true, eaters: forWho }).then(r => {
       if (!live) return;
       const recipes = r.status === "ok" ? r.recipes : [];
-      if (recipes.length) remember(`+${picked}`, recipes);
+      if (recipes.length) remember(`+${picked}${ek}`, recipes);
       keep(recipes);
     });
     return () => { live = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [q, picked, isPlus]);
+  }, [q, picked, isPlus, ek]);
 
-  // Les rangées du jour (Plus) : selon Ma cuisine et les allergies du foyer
-  const allergies = household.length ? apiEaters(household) : undefined;
+  // Les rangées du jour (Plus) : selon Ma cuisine et les allergies de ceux qui mangent
+  const allergies = forWho;
   const sig = JSON.stringify([mine, allergies?.map(e => e.allergies)]);
   const saved = useMemo(() => readRows(sig), [sig]);
   const [rows, setRows] = useState<{ sig: string; data: Browse | null } | null>(null);
@@ -329,19 +337,19 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
   const openRow = rang ? allRows.find(r => r.id === rang) : undefined;
 
   // La recherche de l'adresse : gardée 24 h, sinon demandée à l'IA (une fois par adresse, ou par « Réessayer »)
-  const key = `${q}#${tries}`;
-  const hit = useMemo(() => (q && !tries ? cached(q) : null), [q, tries]);
+  const key = `${q}${ek}#${tries}`;
+  const hit = useMemo(() => (q && !tries ? cached(q + ek) : null), [q, tries, ek]);
   useEffect(() => {
     if (!q || hit) return;
     let live = true;
-    void searchDish({ query: q, eaters: household.length ? apiEaters(household) : undefined, skip: skip.current }).then(r => {
+    void searchDish({ query: q, eaters: forWho, skip: skip.current }).then(r => {
       if (!live) return;
-      if (r.status === "ok") { remember(q, r.recipes); setFetched({ key, state: "ok", recipes: r.recipes }); }
+      if (r.status === "ok") { remember(q + ek, r.recipes); setFetched({ key, state: "ok", recipes: r.recipes }); }
       else if (r.status === "quota") openPaywall("def", "/explorer");
       else setFetched({ key, state: "error", recipes: [], message: r.status === "error" ? (r.message ?? (r.rate ? "Beaucoup de recherches cette heure-ci. Réessaie un peu plus tard." : "La recherche n'a pas marché. Vérifie ta connexion et réessaie.")) : undefined });
     });
     return () => { live = false; };
-    // Une recherche par adresse : le foyer est lu au moment de chercher
+    // Une recherche par adresse et par tablée : le foyer est lu au moment de chercher
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, hit]);
   const search: Search | null = !q ? null : hit ? { key, state: "ok", recipes: hit } : fetched?.key === key ? fetched : { key, state: "loading", recipes: [] };
@@ -376,6 +384,18 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
             <Chip on={quick} onClick={() => setQuick(v => !v)}>Moins de 30 min</Chip>
             <Chip on={veg} onClick={() => setVeg(v => !v)}>Végé</Chip>
             <Chip on={easy} onClick={() => setEasy(v => !v)}>Facile</Chip>
+          </div>
+        )}
+
+        {isPlus && household.length > 1 && (
+          <div className="ex-who" role="group" aria-label="Qui mange ?">
+            <span className="ex-who-l"><Icon name="users" />Pour</span>
+            <div className="chips ex-chips">
+              {household.map(p => (
+                <Chip key={p.id} on={!scan.away.includes(p.id)} onClick={() => setScan({ away: toggleAway(household, scan.away, p.id) })}>{p.name}</Chip>
+              ))}
+            </div>
+            <span className="ex-who-n">{srvLabel(true, portionsOf(eaters, 0))}</span>
           </div>
         )}
 
