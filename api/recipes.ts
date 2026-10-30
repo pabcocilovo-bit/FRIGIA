@@ -7,7 +7,7 @@ import { norm, parse, type RawRecipe, salvage, shape, str, strs } from "./_recip
 import { dish } from "./_dish.js";
 import { browse } from "./_browse.js";
 import { backfill, canGenerate, photograph, photoNow, restyle } from "./_images.js";
-import { catalogForFridge, keepScanRecipes, promoteScanRecipe, restock, type Scanned } from "./_fridge.js";
+import { catalogFill, catalogForFridge, keepScanRecipes, promoteScanRecipe, restock, type Scanned } from "./_fridge.js";
 import { waitUntil } from "@vercel/functions";
 import { constraintsOf } from "./_catalog.js";
 
@@ -165,7 +165,7 @@ export default async function handler(req: Req, res: Res) {
     familyLines.length ? `LE FOYER :\n${familyLines.join("\n")}` : "",
     avoid.length ? `DÉJÀ PROPOSÉES RÉCEMMENT, À NE PAS REPROPOSER, ni une variante proche (le même plat avec les mêmes ingrédients principaux sous un autre nom) : ${avoid.join(" ; ")}.` : "",
     `Pour chaque recette :
-- "title" : nom court et appétissant, en français. Il décrit exactement le plat : tout ce qu'il nomme (base comme wrap, pâtes, riz, ou ingrédient) est dans "ingredients". Vérifie-le avant de répondre : un titre « aux petits pois » demande des petits pois dans "ingredients". Pas de « wrap » sans galette, pas de « gratin » sans four.
+- "title" : nom court et appétissant, en français. Il décrit exactement le plat : tout ce qu'il nomme (base comme wrap, pâtes, riz, ou ingrédient) est dans "ingredients". Vérifie-le avant de répondre : un titre « aux petits pois » demande des petits pois dans "ingredients". Pas de « wrap » sans galette, pas de « gratin » sans four. Le titre est définitif : jamais d'hésitation ni de correction dedans (pas de « ... non : »), choisis le plat avant de l'écrire.
 - "intro" : 1 ou 2 phrases simples qui donnent envie, au tutoiement. Pour un plat peu connu en France, dis d'abord en quelques mots ce que c'est (« La shakshuka, ce sont des œufs pochés dans une sauce tomate épicée. »).
 - "origin" : "" pour un plat courant en France. Pour une spécialité d'un pays ou d'une région, 2 à 4 mots : "Spécialité libanaise", "Plat indien", "Recette basque".
 - "minutes" : durée totale. "calories" : kcal par portion. "difficulty" : "Facile", "Moyen" ou "Difficile".
@@ -185,44 +185,64 @@ export default async function handler(req: Req, res: Res) {
     const answer = await askClaude<{ recipes?: RawRecipe[] }>([{ type: "text", text: promptFor(meal, count) }], 6000);
     if (!answer.ok) return null;
     const found = Array.isArray(answer.json?.recipes) ? answer.json.recipes : salvage(answer.text);
-    // Recochées comme le catalogue (restock), puis 2 achats au plus (aucun en « Zéro course ») : l'IA en demandait parfois 3
-    const valid = found.map(r => parse(r)).filter(r => r !== null).map(v => {
+    // Recochées comme le catalogue (restock), puis 2 achats au plus (aucun en « Zéro course ») : l'IA en demandait parfois 3.
+    // Celles qui en demandent plus restent en réserve (spare), pour compléter s'il manque des recettes
+    const all = found.map(r => parse(r)).filter(r => r !== null).map(v => {
       const items = restock(v.items, stock, noShop), toBuy = items.filter(i => !i.have);
       return { ...v, items, buy: toBuy.length, r: toBuy.length === v.items.filter(i => !i.have).length ? v.r : { ...v.r, missing: toBuy.map(i => i.name).join(", ") } };
-    }).filter(v => empty || v.buy <= (noShop ? 0 : 2));
+    }).sort((a, b) => a.buy - b.buy);
+    const valid = all.filter(v => empty || v.buy <= (noShop ? 0 : 2));
+    const spare = noShop ? [] : all.filter(v => !valid.includes(v));
     // Visible dans les logs Vercel : ce que l'IA a répondu quand il manque des recettes
     if (valid.length < count) console.warn(`recipes ${meal}: ${valid.length}/${count} valides`, answer.text.slice(0, 1500));
-    return valid;
+    return { valid, spare };
   };
   const t0 = Date.now();
   const gen = async (meal: string, count: number) => {
     if (!count) return [];
-    const first = await ask(meal, count);
+    // Une de plus que demandé (Hugo, 30 octobre) : on garde celles qui demandent le moins d'achats, et il en reste assez
+    // quand l'une d'elles est écartée (titre qui ne colle pas, trop d'achats, recette incomplète)
+    const first = await ask(meal, count + 1);
     if (!first) return null;
-    let raw = first.slice(0, count);
-    // Une 2e demande seulement s'il reste le temps (la fonction s'arrête à 60 s)
+    let raw = first.valid.slice(0, count);
+    const spare = [...first.spare];
+    // Une 2e demande seulement s'il reste le temps (la fonction s'arrête à 60 s, la 1re demande est plus longue). Seulement celles qui manquent :
+    // plus court, donc plus rapide (« Créer mes 3 recettes » donnait parfois 2 idées, Hugo le 30 octobre)
     if (raw.length < count && Date.now() - t0 < 25000) {
-      const again = (await ask(meal, count)) ?? [];
-      raw = [...raw, ...again.filter(r => !raw.some(o => norm(o.title) === norm(r.title)))].slice(0, count);
+      avoid.push(...raw.map(r => r.title));
+      const again = await ask(meal, count - raw.length);
+      raw = [...raw, ...(again?.valid ?? []).filter(r => !raw.some(o => norm(o.title) === norm(r.title)))].slice(0, count);
+      spare.push(...(again?.spare ?? []));
     }
+    // Toujours pas assez : celles qui demandent 3 achats ou plus, plutôt que moins de recettes que promis
+    for (const v of spare.sort((a, b) => a.buy - b.buy)) if (raw.length < count && !raw.some(o => norm(o.title) === norm(v.title))) raw.push(v);
     return raw;
   };
   // Une place pour le catalogue quand une recette colle au frigo (api/_fridge.ts). Pas frigo vide, pas les desserts,
   // ni l'envie « protéines » que le catalogue ne sait pas vérifier.
   const asked = (Array.isArray(body.envies) ? body.envies : [body.envie]).filter((e): e is string => typeof e === "string");
-  const known = !empty && dishes > 0 && !asked.includes("proteine")
-    ? await catalogForFridge(admin, {
-      fridge: list, pantry: pantry.map(i => i.name), dislikes, avoid,
-      constraints: constraintsOf(body.prefs, eaters.flatMap(e => e.allergies)),
-      noShop, quick: asked.includes("rapide"), light: asked.includes("healthy"), kids: asked.includes("enfants"),
-    }).catch(e => { console.error("catalogue du frigo:", e instanceof Error ? e.message : e); return null; })
+  const fridgeAsk = {
+    fridge: list, pantry: pantry.map(i => i.name), dislikes, avoid,
+    constraints: constraintsOf(body.prefs, eaters.flatMap(e => e.allergies)),
+    noShop, quick: asked.includes("rapide"), light: asked.includes("healthy"), kids: asked.includes("enfants"),
+  };
+  const useCatalog = !empty && dishes > 0 && !asked.includes("proteine");
+  const known = useCatalog
+    ? await catalogForFridge(admin, fridgeAsk).catch(e => { console.error("catalogue du frigo:", e instanceof Error ? e.message : e); return null; })
     : null;
   // L'IA ne refait pas le même plat
   if (known) avoid.push(known.title);
   const [mains, sweets] = await Promise.all([gen(meal === "d" ? "s" : meal, dishes - (known ? 1 : 0)), gen("d", desserts)]);
-  if (!mains && !sweets && !known) return fail(502, "Service IA temporairement indisponible.");
+  // Il manque encore des plats : le catalogue complète (« Créer mes 3 recettes » donne 3 recettes)
+  const shortBy = dishes - (known ? 1 : 0) - (mains?.length ?? 0);
+  const fill = useCatalog && shortBy > 0
+    ? await catalogFill(admin, { ...fridgeAsk, avoid: [...avoid, ...(mains ?? []).map(m => m.title)] }, shortBy)
+      .catch(e => { console.error("catalogue (complément):", e instanceof Error ? e.message : e); return []; })
+    : [];
+  const fromCatalog = [...(known ? [known] : []), ...fill];
+  if (!mains && !sweets && !fromCatalog.length) return fail(502, "Service IA temporairement indisponible.");
   const raw = [...(mains ?? []).map(r => ({ ...r, dessert: false })), ...(sweets ?? []).map(r => ({ ...r, dessert: true }))];
-  if (raw.length === 0 && !known) {
+  if (raw.length === 0 && !fromCatalog.length) {
     if (noShop) return fail(422, "Pas assez d'ingrédients pour cuisiner sans courses. Ajoute ce que tu as, ou décoche « Zéro course ».", "none");
     return fail(422, !dishes
       ? "Pas de dessert trouvé avec ces ingrédients. Ajoute-en un ou deux, ou choisis des plats."
@@ -238,14 +258,14 @@ export default async function handler(req: Req, res: Res) {
     ...(dessert ? { dessert: true } : {}),
   })));
   for (const [i, url] of (await Promise.all(ai)).entries()) if (url) recipes[i].imageUrl = url;
-  if (known) {
+  for (const c of fromCatalog) {
     // En 2e position (devant si elle colle mieux au frigo, plus bas), ou seule s'il n'y a qu'elle
-    const items = (known.items ?? []) as { name: string }[];
-    const kept = { ...known, kids: false, without: dislikes.filter(d => !items.some(i => norm(i.name).includes(norm(d)) || norm(d).includes(norm(i.name)))) };
+    const items = (c.items ?? []) as { name: string }[];
+    const kept = { ...c, kids: false, without: dislikes.filter(d => !items.some(i => norm(i.name).includes(norm(d)) || norm(d).includes(norm(i.name)))) };
     (recipes as unknown[]).splice(Math.min(1, recipes.length), 0, kept);
-    // Pas encore sa photo IA : faite pour la prochaine fois
-    photograph(admin, [known], 1);
   }
+  // Pas encore leur photo IA : faite pour la prochaine fois
+  if (fromCatalog.length) photograph(admin, fromCatalog, fromCatalog.length);
 
   // La 1re recette (la grande) est celle qui demande le moins d'achats ; les desserts après les plats
   const toBuy = (r: { items?: { have?: boolean }[]; dessert?: boolean }) => (r.dessert ? 100 : 0) + (r.items ?? []).filter(i => !i.have).length;

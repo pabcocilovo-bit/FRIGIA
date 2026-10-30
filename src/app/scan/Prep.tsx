@@ -77,6 +77,8 @@ export function Prep({ isPlus, household, kitchen, onReady, onOutOfScans }: {
     if (!e || !alive.current) return;
     entry.current = null;
     onReady(e);
+    // Moins d'idées que promis (« Créer mes 3 recettes ») : on le dit, plutôt qu'un « Deux idées » sans explication
+    if (e.recipes.length < menu.n) showToast(`Frigia a trouvé ${e.recipes.length} idée${e.recipes.length > 1 ? "s" : ""} qui collent à ton frigo. « D'autres idées » en cherche d'autres.`);
     // fresh : la flèche des recettes ramène à l'accueil, pas sur le menu (qui referait les recettes)
     navigate(`/recettes/${e.id}`, { replace: true, state: { fresh: true } });
   };
@@ -132,7 +134,7 @@ export function Prep({ isPlus, household, kitchen, onReady, onOutOfScans }: {
         <div className="pr-dots">{[0, 1, 2].map(i => <i key={i} className={i <= line ? "on" : undefined} />)}</div>
       </div>
       <div className="pr-cards">
-        {Array.from({ length: recipes?.length || menu.n }, (_, i) => i).map(i => <Card key={i} i={i} recipe={recipes?.[i]} done={filled > i} from={!empty ? "avec ton frigo" : pantry.length ? "avec tes placards" : "avec quelques courses"} />)}
+        {Array.from({ length: recipes?.length || menu.n }, (_, i) => i).map(i => <Card key={i} i={i} recipe={recipes?.[i]} done={filled > i} from={!empty ? (recipes?.[i]?.items?.some(x => !x.have) ? "avec un peu de courses" : "avec ton frigo") : pantry.length ? "avec tes placards" : "avec quelques courses"} />)}
       </div>
     </section>
   );

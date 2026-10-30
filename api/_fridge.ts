@@ -43,11 +43,13 @@ const staple = (name: string) => STAPLES.test(w(name).trim());
 // « Zéro course » : seuls sel, poivre, eau et huile sont sûrs d'être là (comme pour l'IA, api/recipes.ts)
 const basic = (name: string) => /^(sel|poivre|eau|huile)\b/.test(w(name).trim());
 
-/** La meilleure recette du catalogue pour ce frigo, prête pour l'appli (ce qu'on a est coché), ou null. */
-export async function catalogForFridge(admin: SupabaseClient, o: {
+type FridgeAsk = {
   fridge: { name: string; finish: boolean }[]; pantry: string[]; constraints: string; dislikes: string[]; avoid: string[];
   noShop: boolean; quick: boolean; light: boolean; kids: boolean;
-}): Promise<CatalogRecipe | null> {
+};
+
+/** Les plats du catalogue qui collent au frigo (au moins 2 produits du frigo, buy achats au plus), les mieux notés d'abord. */
+async function rank(admin: SupabaseClient, o: FridgeAsk, buy: number): Promise<{ r: CatalogRecipe; score: number }[]> {
   const fridge = o.fridge.map(i => i.name);
   const finish = o.fridge.filter(i => i.finish).map(i => i.name);
   const stock = [...fridge, ...o.pantry];
@@ -65,20 +67,37 @@ export async function catalogForFridge(admin: SupabaseClient, o: {
     const main = items.filter(i => !staple(i.name));
     const used = main.filter(i => inStock(i.name, fridge));
     const missing = main.filter(i => !inStock(i.name, stock));
-    if (main.length < 2 || used.length < 2 || missing.length > (o.noShop ? 0 : 1)) continue;
+    if (main.length < 2 || used.length < 2 || missing.length > (o.noShop ? 0 : buy)) continue;
     if (o.noShop && items.some(i => staple(i.name) && !basic(i.name) && !inStock(i.name, stock))) continue;
     // Plus de frigo utilisé, rien à acheter, et ce qui va se perdre d'abord
     const saves = finish.filter(f => main.some(i => inStock(i.name, [f]))).length;
     scored.push({ r, score: used.length * 3 + used.length / main.length * 2 - missing.length * 4 + saves * 2 });
   }
-  if (!scored.length) return null;
-  // Un peu de hasard parmi les meilleures : pas toujours la même pour le même frigo
-  scored.sort((a, b) => b.score - a.score);
-  const top = scored.filter(s => s.score >= scored[0].score - 1).slice(0, 5);
-  const r = top[Math.floor(Math.random() * top.length)].r;
+  return scored.sort((a, b) => b.score - a.score);
+}
+
+/** Prête pour l'appli : ce qu'on a est coché, ce qui manque dans « missing » */
+function ready(r: CatalogRecipe, o: FridgeAsk): CatalogRecipe {
+  const stock = [...o.fridge.map(i => i.name), ...o.pantry];
   const items = ((r.items ?? []) as Item[]).map(i => ({ ...i, have: basic(i.name) || inStock(i.name, stock) || (staple(i.name) && !o.noShop) }));
   const toBuy = items.filter(i => !i.have).map(i => i.name);
   return { ...r, items, missing: toBuy.join(", "), fromCatalog: true };
+}
+
+/** La meilleure recette du catalogue pour ce frigo, prête pour l'appli (ce qu'on a est coché), ou null. */
+export async function catalogForFridge(admin: SupabaseClient, o: FridgeAsk): Promise<CatalogRecipe | null> {
+  const scored = await rank(admin, o, 1);
+  if (!scored.length) return null;
+  // Un peu de hasard parmi les meilleures : pas toujours la même pour le même frigo
+  const top = scored.filter(s => s.score >= scored[0].score - 1).slice(0, 5);
+  return ready(top[Math.floor(Math.random() * top.length)].r, o);
+}
+
+/** « Créer mes 3 recettes » donne toujours 3 recettes (Hugo, 30 octobre) : quand l'IA en donne moins, les plats du catalogue
+ *  qui collent le mieux au frigo complètent (2 achats au plus, comme l'IA). */
+export async function catalogFill(admin: SupabaseClient, o: FridgeAsk, n: number): Promise<CatalogRecipe[]> {
+  if (n <= 0) return [];
+  return (await rank(admin, o, 2)).slice(0, n).map(s => ready(s.r, o));
 }
 
 /** Les recettes de l'IA cochées comme celles du catalogue : sel, poivre, eau, huile et ce qui est au frigo ou aux placards sont là ;
