@@ -16,6 +16,8 @@ const FEE = ["stripe_fee", "tax_fee"];
 
 export type Finances = {
   days: number;
+  /** Clé Stripe de test (sk_test_…) : les paiements sont fictifs */
+  stripeTest: boolean;
   /** Début des chiffres (YYYY-MM-DD) : le début de la période, ou MONEY_START s'il est plus récent */
   from: string;
   stripe: {
@@ -145,6 +147,7 @@ export async function finances(stripe: Stripe | null, admin: SupabaseClient, day
   return {
     days: d,
     from: day(since),
+    stripeTest: /^(sk|rk)_test_/.test(process.env.STRIPE_SECRET_KEY ?? ""),
     stripe: s,
     claude: c ? { ...c, eur: rate ? Math.round(c.usd * rate * 100) / 100 : null } : null,
     missing,

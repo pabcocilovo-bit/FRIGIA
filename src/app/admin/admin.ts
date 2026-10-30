@@ -47,6 +47,8 @@ export const isAdmin = (user: { app_metadata?: Record<string, unknown> } | null 
 
 export type Finances = {
   days: number;
+  /** Clé Stripe de test : les paiements sont fictifs (le bandeau part tout seul avec la vraie clé) */
+  stripeTest: boolean;
   /** Début des chiffres (YYYY-MM-DD) : rien avant le 29 octobre 2026 */
   from: string;
   stripe: {

@@ -539,6 +539,9 @@ function MoneyView({ money, days, wide }: { money: Money; days: Day[]; wide?: bo
   const cut = money.from && days[0] && money.from > days[0].jour ? money.from : null;
   return (
     <>
+      {money.stripeTest && st && (
+        <p className="adm-note adm-test"><b>Stripe en mode test</b> : ces paiements et abonnements sont fictifs. Le bandeau partira tout seul avec la vraie clé Stripe.</p>
+      )}
       {tiles.length > 0 && (
         <div className={`adm-kpis${wide ? " adm-kpis5" : ""}`}>
           {tiles.map(t => (
