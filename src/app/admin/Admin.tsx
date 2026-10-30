@@ -27,6 +27,9 @@ const time = (iso: string) => new Date(iso).toLocaleTimeString("fr-FR", { hour: 
 const sum = (days: Day[], k: keyof Omit<Day, "jour">) => days.reduce((t, d) => t + d[k], 0);
 const eurF = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
 const usdF = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "USD" });
+const usdSmall = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "USD", maximumFractionDigits: 4 });
+/** Dollars : 4 décimales sous 1 $ (un jour de Haiku coûte quelques centimes) */
+const usd = (v: number) => (v < 1 ? usdSmall : usdF).format(v);
 /** Centimes → « 12,34 € » */
 const cents = (c: number) => eurF.format(c / 100);
 type Point = { jour: string; v: number };
@@ -372,7 +375,8 @@ function Usage({ data }: { data: Dashboard }) {
 function BarChart({ days, label, height, fmt = n }: { days: Point[]; label: string; height: number; fmt?: (v: number) => string }) {
   const [hover, setHover] = useState<number | null>(null);
   const W = 600, H = height, top = 8, bottom = 22;
-  const max = Math.max(1, ...days.map(d => d.v));
+  // Pas de plancher à 1 : un jour de Claude coûte quelques centimes
+  const max = Math.max(0, ...days.map(d => d.v)) || 1;
   const step = W / Math.max(1, days.length);
   const bw = Math.max(2, step - 2);
   const y = (v: number) => H - bottom - ((H - bottom - top) * v) / max;
@@ -503,7 +507,7 @@ function RecreatedTable({ list }: { list: Dashboard["abus"]["recrees"] }) {
 const MISSING: Record<string, string> = {
   no_stripe: "Stripe n'est pas configuré sur ce déploiement.",
   stripe_error: "Stripe n'a pas répondu : réessaie dans un moment.",
-  no_admin_key: "Pour le coût de Claude, ajoute une clé admin Anthropic (sk-ant-admin…) dans Vercel, variable ANTHROPIC_ADMIN_KEY.",
+  no_usage_table: "Pour le coût de Claude, lance cout-ia.sql (migration 20261106000000) dans Supabase.",
   claude_error: "Le rapport de coûts d'Anthropic n'a pas répondu (clé admin refusée ?).",
 };
 
@@ -522,7 +526,13 @@ function MoneyView({ money, days, wide }: { money: Money; days: Day[]; wide?: bo
       { label: "Revenu mensuel", value: cents(st.mrr), sub: `${n(st.active.month)} mensuels · ${n(st.active.year)} annuels · ${n(st.active.founder)} fondateurs` },
     );
   }
-  if (cl) tiles.push({ label: "Coût de Claude", value: claudeEur != null ? eurF.format(claudeEur) : usdF.format(cl.usd), sub: `${usdF.format(cl.usd)} facturés par Anthropic` });
+  if (cl) {
+    const est = cl.estimated;
+    const sub = est
+      ? `${usd(cl.usd)} estimés d'après ${n(est.calls)} appel${est.calls > 1 ? "s" : ""}${est.since ? `, comptés depuis le ${dayLabel(est.since.slice(0, 10))}` : ""}`
+      : `${usd(cl.usd)} facturés par Anthropic`;
+    tiles.push({ label: "Coût de Claude", value: claudeEur != null ? eurF.format(claudeEur) : usd(cl.usd), sub });
+  }
   if (left != null) tiles.push({ label: "Il reste", value: eurF.format(left), sub: "reçu net moins Claude", warn: left < 0 });
   const notes = money.missing.map(k => MISSING[k]).filter(Boolean);
   return (
@@ -543,8 +553,8 @@ function MoneyView({ money, days, wide }: { money: Money; days: Day[]; wide?: bo
         {st && <Panel title="Encaissé par jour" aside="Stripe, avant frais">
           <BarChart days={onDays(days, st.byDay.map(d => ({ day: d.day, v: d.eur })))} label="Encaissé" height={wide ? 150 : 170} fmt={v => eurF.format(v)} />
         </Panel>}
-        {cl && <Panel title="Coût de Claude par jour" aside="En dollars, comme Anthropic le facture">
-          <BarChart days={onDays(days, cl.byDay.map(d => ({ day: d.day, v: d.usd })))} label="Coût Claude" height={wide ? 150 : 170} fmt={v => usdF.format(v)} />
+        {cl && <Panel title="Coût de Claude par jour" aside={cl.estimated ? "Estimé d'après les tokens, en dollars" : "En dollars, comme Anthropic le facture"}>
+          <BarChart days={onDays(days, cl.byDay.map(d => ({ day: d.day, v: d.usd })))} label="Coût Claude" height={wide ? 150 : 170} fmt={usd} />
         </Panel>}
       </div>
       <p className="adm-muted adm-small">Les photos des recettes (fal.ai) ne sont pas comptées : fal n'a pas de rapport de coûts. Revenu mensuel : abonnements actifs au prix catalogue, les annuels au douzième.</p>

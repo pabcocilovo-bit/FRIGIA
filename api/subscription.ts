@@ -86,7 +86,7 @@ export default async function handler(req: Req, res: Res) {
     const caller = await authUser(req, adminClient());
     if (caller?.app_metadata?.admin !== true) return res.status(403).json({ error: "Réservé à l'admin" });
     const days = Number((req.body as { days?: unknown }).days) || 30;
-    return res.json(await finances(process.env.STRIPE_SECRET_KEY ? stripeClient() : null, days));
+    return res.json(await finances(process.env.STRIPE_SECRET_KEY ? stripeClient() : null, adminClient(), days));
   }
 
   if (!process.env.STRIPE_SECRET_KEY) return res.status(500).json({ error: "Stripe not configured" });

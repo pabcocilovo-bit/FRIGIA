@@ -52,7 +52,11 @@ export type Finances = {
     active: { month: number; year: number; founder: number };
     byDay: { day: string; eur: number }[];
   } | null;
-  claude: { usd: number; eur: number | null; byDay: { day: string; usd: number }[] } | null;
+  claude: {
+    usd: number; eur: number | null; byDay: { day: string; usd: number }[];
+    /** Sans clé admin Anthropic : calculé d'après les tokens notés à chaque appel, depuis cette date */
+    estimated?: { since: string | null; calls: number };
+  } | null;
   missing: string[];
 };
 

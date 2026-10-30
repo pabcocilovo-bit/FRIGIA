@@ -1,6 +1,8 @@
 // Outils communs au scan : limite par heure, goûts du compte, appel à l'IA, photos des plats.
 import { createHmac, timingSafeEqual } from "node:crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { waitUntil } from "@vercel/functions";
+import { adminClient } from "./_shared.js";
 
 // ─── Limite : 5 scans par heure et par compte ───
 // Un scan, c'est une photo (ou des ingrédients tapés à la main). Les recettes d'une photo déjà comptée
@@ -120,6 +122,22 @@ const MODEL = process.env.ANTHROPIC_MODEL?.trim() || "claude-haiku-5-5";
 // Haiku 5.5 réfléchit par défaut : coupé, comme Sonnet 4.6, pour que la réflexion ne mange pas max_tokens
 const NO_THINKING = /^claude-haiku-5/.test(MODEL) ? { thinking: { type: "disabled" } } : {};
 
+type Usage = { input_tokens?: number; output_tokens?: number; cache_creation_input_tokens?: number; cache_read_input_tokens?: number };
+
+/** Les tokens de l'appel, pour le coût de Claude dans le dashboard (table ai_usage). Ne bloque jamais la réponse. */
+async function logUsage(u: Usage | undefined) {
+  if (!u || !process.env.VITE_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) return;
+  try {
+    await adminClient().from("ai_usage").insert({
+      model: MODEL,
+      input_tokens: u.input_tokens ?? 0,
+      output_tokens: u.output_tokens ?? 0,
+      cache_write_tokens: u.cache_creation_input_tokens ?? 0,
+      cache_read_tokens: u.cache_read_input_tokens ?? 0,
+    });
+  } catch { /* table pas encore créée : tant pis pour ce comptage */ }
+}
+
 /** Envoie la demande à Claude et renvoie le premier objet JSON de la réponse (null si l'IA ne répond pas ou mal). */
 export async function askClaude<T>(content: Content[], maxTokens: number): Promise<{ ok: true; json: T | null; text: string } | { ok: false }> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -133,7 +151,9 @@ export async function askClaude<T>(content: Content[], maxTokens: number): Promi
     await res?.text();
     return { ok: false };
   }
-  const data = await res.json() as { content?: { text?: string }[] };
+  const data = await res.json() as { content?: { text?: string }[]; usage?: Usage };
+  // Après la réponse : le scan n'attend pas l'écriture
+  waitUntil(logUsage(data.usage));
   const text = (data.content || []).map(i => i.text || "").join("");
   const json = extractFirstJSON(text);
   if (!json) return { ok: true, json: null, text };
