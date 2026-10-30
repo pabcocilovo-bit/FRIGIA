@@ -70,3 +70,24 @@ export async function loadFinances(days: number): Promise<Finances | null> {
     return r.ok ? await r.json() as Finances : null;
   } catch { return null; }
 }
+
+// ─── Les listes derrière les chiffres (public.admin_liste, migration 20261107000000) ───
+
+export type ListKey = "comptes" | "nouveaux_7j" | "abonnes" | "essai" | "essai_fini" | "refuse" | "offerts" | "recrees"
+  | "connectes_7j" | "actifs_7j" | "scans_7j" | "liste_attente";
+
+export type Person = {
+  email: string; prenom: string | null; created_at: string; last_sign_in_at: string | null;
+  etat: "offert" | "abonne" | "abonne_essai" | "refuse" | "essai" | "fini"; plus_until: string | null;
+  scans: number; scans_7j: number; cuisines: number; derniere_activite: string | null; recree: boolean;
+};
+export type WaitlistRow = { email: string; prenom: string | null; created_at: string; invite_le: string | null; source: string | null; a_un_compte: boolean };
+
+export async function loadList(key: ListKey): Promise<{ ok: true; rows: (Person | WaitlistRow)[] } | { ok: false; message: string }> {
+  const { data, error } = await supabase.rpc("admin_liste", { p_liste: key });
+  if (error) {
+    if (error.code === "PGRST202") return { ok: false, message: "Lance la migration 20261107000000_dashboard_listes.sql dans Supabase pour voir les listes." };
+    return { ok: false, message: error.message };
+  }
+  return { ok: true, rows: (data ?? []) as (Person | WaitlistRow)[] };
+}
