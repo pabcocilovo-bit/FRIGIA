@@ -3,7 +3,7 @@
 // Réservé aux comptes avec app_metadata.admin (src/App.tsx), les chiffres : src/app/admin/admin.ts.
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router";
-import { type Day, type Dashboard, type Loaded, loadDashboard } from "./admin";
+import { type Day, type Dashboard, type Finances, type Loaded, loadDashboard, loadFinances } from "./admin";
 import "./admin.css";
 
 const PERIODS = [7, 30, 90] as const;
@@ -25,6 +25,17 @@ const dayLabel = (iso: string) => new Date(iso + "T12:00:00").toLocaleDateString
 const when = (iso: string) => new Date(iso).toLocaleString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 const time = (iso: string) => new Date(iso).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
 const sum = (days: Day[], k: keyof Omit<Day, "jour">) => days.reduce((t, d) => t + d[k], 0);
+const eurF = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
+const usdF = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "USD" });
+/** Centimes → « 12,34 € » */
+const cents = (c: number) => eurF.format(c / 100);
+type Point = { jour: string; v: number };
+const points = (days: Day[], k: keyof Omit<Day, "jour">): Point[] => days.map(d => ({ jour: d.jour, v: d[k] }));
+/** Une valeur par jour de la période (0 les jours sans rien) */
+const onDays = (days: Day[], list: { day: string; v: number }[]): Point[] =>
+  days.map(d => ({ jour: d.jour, v: list.find(x => x.day === d.jour)?.v ?? 0 }));
+/** L'argent : null tant qu'il charge, "error" si la route ne répond pas */
+type Money = Finances | null | "error";
 
 /** Ordinateur à partir de 900 px de large */
 function useWide() {
@@ -54,9 +65,16 @@ export default function Admin() {
     return () => { live = false; };
   }, [period, ask]);
   const refresh = useCallback(() => setAsk(a => a + 1), []);
+  // L'argent (Stripe, Claude) à part : plus lent, il ne retient pas le reste
+  const [money, setMoney] = useState<{ key: string; m: Money } | null>(null);
+  useEffect(() => {
+    let live = true;
+    void loadFinances(period).then(f => { if (live) setMoney({ key: `${period}:${ask}`, m: f ?? "error" }); });
+    return () => { live = false; };
+  }, [period, ask]);
 
   const exit = () => navigate("/");
-  const props = { period, onPeriod: setPeriod, onRefresh: refresh, loading, onExit: exit };
+  const props = { period, onPeriod: setPeriod, onRefresh: refresh, loading, onExit: exit, money: money?.key === key ? money.m : null };
 
   if (!state) return <div className="adm adm-center"><p className="adm-muted">Chargement des chiffres…</p></div>;
   const res = state.r;
@@ -81,18 +99,20 @@ export default function Admin() {
 
 type ViewProps = {
   data: Dashboard; period: Period; onPeriod: (p: Period) => void; onRefresh: () => void; loading: boolean; onExit: () => void;
+  money: Money;
 };
 
 // ─── Ordinateur ──────────────────────────────────────────────────────────────
 
 const SECTIONS = [
   { id: "resume", label: "Vue d'ensemble" },
+  { id: "argent", label: "Argent" },
   { id: "activite", label: "Activité" },
   { id: "problemes", label: "Problèmes" },
   { id: "abus", label: "Abus d'essai" },
 ];
 
-function Desktop({ data, period, onPeriod, onRefresh, loading, onExit }: ViewProps) {
+function Desktop({ data, period, onPeriod, onRefresh, loading, onExit, money }: ViewProps) {
   const go = (id: string) => document.getElementById(`adm-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   const problems = data.support_7j.bug + data.abus.connexions.length;
   return (
@@ -134,12 +154,17 @@ function Desktop({ data, period, onPeriod, onRefresh, loading, onExit }: ViewPro
           </div>
         </section>
 
+        <section id="adm-argent">
+          <h2>Argent · {period} derniers jours</h2>
+          <MoneyView money={money} days={data.par_jour} wide />
+        </section>
+
         <section id="adm-activite">
           <h2>Activité · {period} derniers jours</h2>
           <div className="adm-grid2">
             {SERIES.map(s => (
               <Panel key={s.key} title={s.label} aside={`${n(sum(data.par_jour, s.key))} au total`}>
-                <BarChart days={data.par_jour} k={s.key} label={s.label} height={150} />
+                <BarChart days={points(data.par_jour, s.key)} label={s.label} height={150} />
               </Panel>
             ))}
           </div>
@@ -171,13 +196,14 @@ function Desktop({ data, period, onPeriod, onRefresh, loading, onExit }: ViewPro
 
 const TABS = [
   { id: "resume", label: "Résumé" },
+  { id: "argent", label: "Argent" },
   { id: "activite", label: "Activité" },
   { id: "problemes", label: "Problèmes" },
   { id: "abus", label: "Abus" },
 ] as const;
 type Tab = (typeof TABS)[number]["id"];
 
-function Mobile({ data, period, onPeriod, onRefresh, loading, onExit }: ViewProps) {
+function Mobile({ data, period, onPeriod, onRefresh, loading, onExit, money }: ViewProps) {
   const [tab, setTab] = useState<Tab>("resume");
   const [serie, setSerie] = useState<(typeof SERIES)[number]["key"]>("inscriptions");
   const current = SERIES.find(s => s.key === serie)!;
@@ -207,6 +233,11 @@ function Mobile({ data, period, onPeriod, onRefresh, loading, onExit }: ViewProp
           <Panel title="Utilisation"><Usage data={data} /></Panel>
         </>}
 
+        {tab === "argent" && <>
+          <Periods value={period} onChange={onPeriod} />
+          <MoneyView money={money} days={data.par_jour} />
+        </>}
+
         {tab === "activite" && <>
           <Periods value={period} onChange={onPeriod} />
           <div className="adm-chips">
@@ -215,7 +246,7 @@ function Mobile({ data, period, onPeriod, onRefresh, loading, onExit }: ViewProp
             ))}
           </div>
           <Panel title={current.label} aside={`${n(sum(data.par_jour, serie))} sur ${period} jours`}>
-            <BarChart days={data.par_jour} k={serie} label={current.label} height={190} />
+            <BarChart days={points(data.par_jour, serie)} label={current.label} height={190} />
           </Panel>
           <Panel title="Sur la période">
             <ul className="adm-stats">
@@ -338,10 +369,10 @@ function Usage({ data }: { data: Dashboard }) {
 }
 
 /** Une barre par jour, une seule couleur ; survol (ou toucher) : le jour et sa valeur */
-function BarChart({ days, k, label, height }: { days: Day[]; k: keyof Omit<Day, "jour">; label: string; height: number }) {
+function BarChart({ days, label, height, fmt = n }: { days: Point[]; label: string; height: number; fmt?: (v: number) => string }) {
   const [hover, setHover] = useState<number | null>(null);
   const W = 600, H = height, top = 8, bottom = 22;
-  const max = Math.max(1, ...days.map(d => d[k]));
+  const max = Math.max(1, ...days.map(d => d.v));
   const step = W / Math.max(1, days.length);
   const bw = Math.max(2, step - 2);
   const y = (v: number) => H - bottom - ((H - bottom - top) * v) / max;
@@ -350,13 +381,13 @@ function BarChart({ days, k, label, height }: { days: Day[]; k: keyof Omit<Day, 
   return (
     <div className="adm-chart">
       <div className="adm-tip" aria-live="polite">
-        {shown ? <><b>{n(shown[k])}</b> {label.toLowerCase()} · {dayLabel(shown.jour)}</> : <span className="adm-muted">Max {n(max)} par jour</span>}
+        {shown ? <><b>{fmt(shown.v)}</b> {label.toLowerCase()} · {dayLabel(shown.jour)}</> : <span className="adm-muted">Max {fmt(max)} par jour</span>}
       </div>
       <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${label} par jour`} preserveAspectRatio="none" onMouseLeave={() => setHover(null)}>
         <line x1="0" x2={W} y1={y(max)} y2={y(max)} className="adm-grid" />
         <line x1="0" x2={W} y1={H - bottom} y2={H - bottom} className="adm-axis" />
         {days.map((d, i) => {
-          const x = i * step + (step - bw) / 2, yy = y(d[k]), h = H - bottom - yy, r = Math.min(4, bw / 2, h);
+          const x = i * step + (step - bw) / 2, yy = y(d.v), h = H - bottom - yy, r = Math.min(4, bw / 2, h);
           return (
             <g key={d.jour} onMouseEnter={() => setHover(i)} onClick={() => setHover(i)}>
               <rect x={i * step} y={0} width={step} height={H - bottom} fill="transparent" />
@@ -466,5 +497,57 @@ function RecreatedTable({ list }: { list: Dashboard["abus"]["recrees"] }) {
         ))}
       </tbody>
     </table>
+  );
+}
+
+const MISSING: Record<string, string> = {
+  no_stripe: "Stripe n'est pas configuré sur ce déploiement.",
+  stripe_error: "Stripe n'a pas répondu : réessaie dans un moment.",
+  no_admin_key: "Pour le coût de Claude, ajoute une clé admin Anthropic (sk-ant-admin…) dans Vercel, variable ANTHROPIC_ADMIN_KEY.",
+  claude_error: "Le rapport de coûts d'Anthropic n'a pas répondu (clé admin refusée ?).",
+};
+
+/** L'argent : ce que Stripe a vraiment encaissé, ce que coûte Claude, et ce qui reste */
+function MoneyView({ money, days, wide }: { money: Money; days: Day[]; wide?: boolean }) {
+  if (money === null) return <Panel><Empty>Chargement de Stripe et de Claude…</Empty></Panel>;
+  if (money === "error") return <Panel><Empty>Les chiffres d'argent n'ont pas pu être chargés. Réessaie avec « Actualiser ».</Empty></Panel>;
+  const { stripe: st, claude: cl } = money;
+  const claudeEur = cl ? (cl.eur ?? null) : null;
+  const left = st && claudeEur != null ? st.net / 100 - claudeEur : null;
+  const tiles: { label: string; value: string; sub: string; warn?: boolean }[] = [];
+  if (st) {
+    tiles.push(
+      { label: "Encaissé", value: cents(st.gross), sub: `${n(st.payments)} paiement${st.payments > 1 ? "s" : ""}` },
+      { label: "Reçu net", value: cents(st.net), sub: `après ${cents(st.fees)} de frais Stripe${st.refunds ? ` et ${cents(st.refunds)} remboursés` : ""}` },
+      { label: "Revenu mensuel", value: cents(st.mrr), sub: `${n(st.active.month)} mensuels · ${n(st.active.year)} annuels · ${n(st.active.founder)} fondateurs` },
+    );
+  }
+  if (cl) tiles.push({ label: "Coût de Claude", value: claudeEur != null ? eurF.format(claudeEur) : usdF.format(cl.usd), sub: `${usdF.format(cl.usd)} facturés par Anthropic` });
+  if (left != null) tiles.push({ label: "Il reste", value: eurF.format(left), sub: "reçu net moins Claude", warn: left < 0 });
+  const notes = money.missing.map(k => MISSING[k]).filter(Boolean);
+  return (
+    <>
+      {tiles.length > 0 && (
+        <div className={`adm-kpis${wide ? " adm-kpis5" : ""}`}>
+          {tiles.map(t => (
+            <div key={t.label} className="adm-card adm-kpi">
+              <span className="adm-muted">{t.label}</span>
+              <b className={t.warn ? "adm-warn" : undefined}>{t.value}</b>
+              <span className="adm-small adm-muted">{t.sub}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {notes.map(t => <p key={t} className="adm-note">{t}</p>)}
+      <div className={wide ? "adm-grid2" : "adm-stack"}>
+        {st && <Panel title="Encaissé par jour" aside="Stripe, avant frais">
+          <BarChart days={onDays(days, st.byDay.map(d => ({ day: d.day, v: d.eur })))} label="Encaissé" height={wide ? 150 : 170} fmt={v => eurF.format(v)} />
+        </Panel>}
+        {cl && <Panel title="Coût de Claude par jour" aside="En dollars, comme Anthropic le facture">
+          <BarChart days={onDays(days, cl.byDay.map(d => ({ day: d.day, v: d.usd })))} label="Coût Claude" height={wide ? 150 : 170} fmt={v => usdF.format(v)} />
+        </Panel>}
+      </div>
+      <p className="adm-muted adm-small">Les photos des recettes (fal.ai) ne sont pas comptées : fal n'a pas de rapport de coûts. Revenu mensuel : abonnements actifs au prix catalogue, les annuels au douzième.</p>
+    </>
   );
 }
