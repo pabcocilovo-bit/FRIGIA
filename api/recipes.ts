@@ -165,7 +165,7 @@ export default async function handler(req: Req, res: Res) {
     familyLines.length ? `LE FOYER :\n${familyLines.join("\n")}` : "",
     avoid.length ? `DÉJÀ PROPOSÉES RÉCEMMENT, À NE PAS REPROPOSER, ni une variante proche (le même plat avec les mêmes ingrédients principaux sous un autre nom) : ${avoid.join(" ; ")}.` : "",
     `Pour chaque recette :
-- "title" : nom court et appétissant, en français. Il décrit exactement le plat : tout ce qu'il nomme (base comme wrap, pâtes, riz, ou ingrédient) est dans "ingredients". Vérifie-le avant de répondre : un titre « aux petits pois » demande des petits pois dans "ingredients". Pas de « wrap » sans galette, pas de « gratin » sans four.
+- "title" : nom court et appétissant, en français. Il décrit exactement le plat : tout ce qu'il nomme (base comme wrap, pâtes, riz, ou ingrédient) est dans "ingredients". Vérifie-le avant de répondre : un titre « aux petits pois » demande des petits pois dans "ingredients". Pas de « wrap » sans galette, pas de « gratin » sans four. Le titre est définitif : jamais d'hésitation ni de correction dedans (pas de « ... non : »), choisis le plat avant de l'écrire.
 - "intro" : 1 ou 2 phrases simples qui donnent envie, au tutoiement. Pour un plat peu connu en France, dis d'abord en quelques mots ce que c'est (« La shakshuka, ce sont des œufs pochés dans une sauce tomate épicée. »).
 - "origin" : "" pour un plat courant en France. Pour une spécialité d'un pays ou d'une région, 2 à 4 mots : "Spécialité libanaise", "Plat indien", "Recette basque".
 - "minutes" : durée totale. "calories" : kcal par portion. "difficulty" : "Facile", "Moyen" ou "Difficile".
@@ -200,9 +200,11 @@ export default async function handler(req: Req, res: Res) {
     const first = await ask(meal, count);
     if (!first) return null;
     let raw = first.slice(0, count);
-    // Une 2e demande seulement s'il reste le temps (la fonction s'arrête à 60 s)
-    if (raw.length < count && Date.now() - t0 < 25000) {
-      const again = (await ask(meal, count)) ?? [];
+    // Une 2e demande seulement s'il reste le temps (la fonction s'arrête à 60 s). Seulement celles qui manquent :
+    // plus court, donc plus rapide (« Créer mes 3 recettes » donnait parfois 2 idées, Hugo le 30 octobre)
+    if (raw.length < count && Date.now() - t0 < 30000) {
+      avoid.push(...raw.map(r => r.title));
+      const again = (await ask(meal, count - raw.length)) ?? [];
       raw = [...raw, ...again.filter(r => !raw.some(o => norm(o.title) === norm(r.title)))].slice(0, count);
     }
     return raw;

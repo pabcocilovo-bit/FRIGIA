@@ -6,8 +6,10 @@ type RawStep = { text?: unknown; timer?: { label?: unknown; min?: unknown } | nu
 
 /** Ingrédients et étapes lisibles d'une recette de l'IA, ou null s'il en manque (moins de 2 de chaque).
  *  noShop (« Zéro course ») : null aussi si un ingrédient est à acheter. */
-export function parse(r: RawRecipe | null | undefined, noShop = false) {
-  if (!r || !str(r.title, 80)) return null;
+export function parse(raw: RawRecipe | null | undefined, noShop = false) {
+  if (!raw || !str(raw.title, 80)) return null;
+  const r = { ...raw, title: cleanTitle(str(raw.title, 80)) };
+  if (!r.title) return null;
   const items = (Array.isArray(r.ingredients) ? r.ingredients : [])
     .map(i => (typeof i === "string" ? { name: i } : i))
     .filter(i => str(i?.name, 60)).map(i => ({
@@ -28,6 +30,13 @@ export function parse(r: RawRecipe | null | undefined, noShop = false) {
   if (missingFromTitle(str(r.title, 80), items.map(i => i.name)).length) return null;
   if (tooManyMeats(str(r.title, 80), items.map(i => i.name))) return null;
   return { r, title: str(r.title, 80), items, steps };
+}
+/** « Omelette... non : riz sauté aux œufs et légumes » : l'IA s'est corrigée en plein titre (vu par Hugo le 30 octobre).
+ *  On garde ce qui vient après la correction, avec une majuscule. */
+export function cleanTitle(t: string): string {
+  const m = t.match(/(?:\.{2,}|…|\s[-–—]|,)\s*(?:ou plutôt|plutôt|non|pardon|enfin)\s*[:,!.]?\s+(.+)$/i);
+  const s = (m ? m[1] : t).replace(/[\s.…]+$/, "").trim();
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 export type RawRecipe = {
   title?: unknown; intro?: unknown; minutes?: unknown; time?: unknown; calories?: unknown; kcal?: unknown; difficulty?: unknown; imageSearch?: unknown;

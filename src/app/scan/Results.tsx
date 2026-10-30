@@ -109,6 +109,8 @@ export function Results({ history, isPlus, household, kitchen, week, onWeek, onN
   const [feat, ...others] = shown;
   const open = (i: number) => navigate(`/recettes/${entry.id}/${i}`);
   const n = entry.ingredients.length;
+  // « Manque riz » sous « avec ton frigo » : le sous-titre dit qu'il y a un peu de courses (Hugo, 30 octobre)
+  const toBuy = (r: GeneratedRecipe) => { const c = haveCount(r, entry.ingredients); return c.have < c.total; };
   // Le menu : que des desserts, des plats et un dessert, ou que des plats
   const sweets = entry.recipes.filter(r => r.dessert).length + (meal === "d" ? entry.recipes.filter(r => !r.dessert).length : 0);
   const howMany = ["Une", "Deux", "Trois", "Quatre", "Cinq"][entry.recipes.length - 1] ?? String(entry.recipes.length);
@@ -169,7 +171,7 @@ export function Results({ history, isPlus, household, kitchen, week, onWeek, onN
             </button>
           </> : <p className="muted" style={{ margin: 0, fontSize: 14 }}>Aucune idée de ce scan ne correspond.</p>}
           {others.length > 0 && <>
-            <div className="sec"><h3>{meal === "w" ? "Pour la suite de la semaine" : "Autres idées"}</h3><span className="muted" style={{ fontSize: 13 }}>{n ? "avec ton frigo" : pantryOf(kitchen).length ? "avec tes placards" : "avec quelques courses"}</span></div>
+            <div className="sec"><h3>{meal === "w" ? "Pour la suite de la semaine" : "Autres idées"}</h3><span className="muted" style={{ fontSize: 13 }}>{n ? (others.some(x => toBuy(x.r)) ? "avec ton frigo et un peu de courses" : "avec ton frigo") : pantryOf(kitchen).length ? "avec tes placards" : "avec quelques courses"}</span></div>
             <div className="grid2">{others.map(x => <Idea key={x.i} recipe={x.r} found={entry.ingredients} planned={isPlus && !!findTitle(week, days, x.r.title)}
               onClick={() => open(x.i)} onWeek={() => addToWeek(x.i)} />)}</div>
           </>}
