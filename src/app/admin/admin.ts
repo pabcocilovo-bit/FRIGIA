@@ -106,6 +106,8 @@ export type SocialAccount = {
   inscrits: number; abonnes: number;
   /** 180 derniers jours, du plus ancien au plus récent */
   stats: SocialStat[];
+  /** Compte lié (TikTok) : quand, dernier relevé automatique, dernière erreur ; null s'il ne l'est pas */
+  lie?: { le: string; synchro: string | null; erreur: string | null } | null;
 };
 export type Social = { comptes: SocialAccount[]; codes: { code: string; creator: string | null }[] };
 export type CaptureRead = { platform: Platform | null; handle: string | null; followers: number | null; views: number | null; views_30d: number | null; likes: number | null; posts: number | null };
@@ -157,4 +159,33 @@ export async function deleteAccount(id: string): Promise<string | null> {
 export async function deleteStat(accountId: string, day: string): Promise<string | null> {
   const { error } = await supabase.from("social_stats").delete().eq("account_id", accountId).eq("day", day);
   return error ? error.message : null;
+}
+
+// ─── Comptes liés (TikTok) : api/_tiktok.ts, par api/subscription.ts ───
+
+/** L'adresse d'autorisation TikTok : pour le compte de Frigia (à ouvrir tout de suite) ou à envoyer à un créateur (7 jours) */
+export async function socialLink(kind: "frigia" | "createur"): Promise<{ url: string } | { error: string }> {
+  try {
+    const r = await postApi("/api/subscription", { action: "social_link", kind, origin: location.origin });
+    const body = await r.json().catch(() => ({})) as { url?: string; error?: string };
+    return body.url ? { url: body.url } : { error: body.error || "Le lien n'a pas pu être créé." };
+  } catch { return { error: "Pas de connexion. Réessaie." }; }
+}
+
+/** Relève tout de suite les chiffres d'un compte lié (ou de tous) */
+export async function socialSync(accountId?: string): Promise<string | null> {
+  try {
+    const r = await postApi("/api/subscription", { action: "social_sync", accountId });
+    const body = await r.json().catch(() => ({})) as { failed?: number; error?: string };
+    return !r.ok ? body.error || "Le relevé n'a pas marché." : body.failed ? "TikTok a refusé : regarde l'erreur sur le compte." : null;
+  } catch { return "Pas de connexion. Réessaie."; }
+}
+
+/** Retour de TikTok sur /admin?code=…&state=… : sans compte Frigia (un créateur n'est pas admin) */
+export async function socialConnect(code: string, state: string): Promise<{ handle: string; kind: string } | { error: string }> {
+  try {
+    const r = await fetch("/api/subscription", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "social_connect", code, state }) });
+    const body = await r.json().catch(() => ({})) as { handle?: string; kind?: string; error?: string };
+    return body.handle ? { handle: body.handle, kind: body.kind ?? "frigia" } : { error: body.error || "La liaison n'a pas marché." };
+  } catch { return { error: "Pas de connexion. Réessaie." }; }
 }
