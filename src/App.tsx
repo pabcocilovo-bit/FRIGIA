@@ -81,6 +81,8 @@ const metaFirstName = (u: User): string | null =>
 const Landing = lazy(() => import("./Landing"));
 /** Le dashboard de suivi, chargé seulement pour l'admin */
 const Admin = lazy(() => import("./app/admin/Admin"));
+/** Retour de TikTok après « Connecter TikTok » : ouvert aussi par les créateurs, sans compte Frigia */
+const SocialCallback = lazy(() => import("./app/admin/Callback"));
 /** Ouverts quand l'essai est fini : s'abonner, son compte, l'aide, les mentions */
 const WALL_OPEN = ["/plus", "/resilier", "/reglages", "/aide", "/infos-legales"];
 
@@ -217,6 +219,11 @@ const saveTastes = async (p: Profile) => {
 
 if (user && goCamera && location.pathname !== "/camera") {
   return <Navigate to="/camera" replace />;
+}
+
+// Retour de TikTok après « Connecter TikTok » (dashboard > Réseaux) : avec ou sans compte (un créateur n'en a pas)
+if (location.pathname === "/admin" && /[?&]state=/.test(location.search)) {
+  return <Suspense fallback={null}><SocialCallback admin={isAdmin(user)} /></Suspense>;
 }
 
 // Pas connecté, ou en plein parcours d'inscription : la landing (ou Bienvenue dans l'appli installée) et les écrans du compte

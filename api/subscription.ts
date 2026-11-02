@@ -5,6 +5,7 @@ import type Stripe from "stripe";
 import { pauseEndEmail } from "./_email.js";
 import { finances } from "./_finances.js";
 import { readCapture } from "./_social.js";
+import { tiktokConnect, tiktokLink, tiktokReady, tiktokSync } from "./_tiktok.js";
 import {
   adminClient, authUser, currentSubscription, errorMessage, founderSeatsLeft, hasCreatorOffer, periodEnd, planOf, plusOneMonth, preflight, stripeClient, type Req, type Res,
 } from "./_shared.js";
@@ -74,7 +75,9 @@ async function pauseReminders(admin: SupabaseClient): Promise<number> {
 export default async function handler(req: Req, res: Res) {
   // Le cron de Vercel appelle en GET avec CRON_SECRET
   if (req.method === "GET" && process.env.CRON_SECRET && req.headers.authorization === `Bearer ${process.env.CRON_SECRET}`) {
-    try { return res.json({ sent: await pauseReminders(adminClient()) }); } catch (e) {
+    // Les chiffres des comptes TikTok liés (dashboard > Réseaux) : le même cron, Vercel n'accepte pas plus de 12 routes
+    const social = await tiktokSync(adminClient()).catch(e => { console.error("tiktok sync:", errorMessage(e)); return null; });
+    try { return res.json({ sent: await pauseReminders(adminClient()), social }); } catch (e) {
       console.error("pause reminders:", errorMessage(e));
       return res.status(500).json({ error: "failed" });
     }
@@ -98,6 +101,35 @@ export default async function handler(req: Req, res: Res) {
     if (read === "bad_request") return res.status(400).json({ error: "Envoie 1 à 3 captures (JPEG, PNG ou WebP)." });
     if (!read) return res.status(502).json({ error: "Claude n'a pas pu lire la capture. Réessaie." });
     return res.json(read);
+  }
+
+  // Réseaux > lier un compte TikTok : l'adresse d'autorisation (pour le compte de Frigia ou un lien pour un créateur)
+  if (action === "social_link" || action === "social_sync") {
+    const caller = await authUser(req, adminClient());
+    if (caller?.app_metadata?.admin !== true) return res.status(403).json({ error: "Réservé à l'admin" });
+    if (!tiktokReady()) return res.status(503).json({ error: "Ajoute TIKTOK_CLIENT_KEY et TIKTOK_CLIENT_SECRET dans Vercel, puis redéploie." });
+    const body = req.body as { kind?: unknown; origin?: unknown; accountId?: unknown };
+    if (action === "social_sync") {
+      try { return res.json(await tiktokSync(adminClient(), typeof body.accountId === "string" ? body.accountId : undefined)); } catch (e) {
+        console.error("social_sync:", errorMessage(e));
+        return res.status(500).json({ error: "Le relevé n'a pas marché. Réessaie." });
+      }
+    }
+    const url = tiktokLink(body.kind, body.origin);
+    return url ? res.json({ url }) : res.status(400).json({ error: "Cette adresse n'est pas déclarée dans l'app TikTok." });
+  }
+
+  // Retour de TikTok (/admin?code=…) : sans compte Frigia, c'est le state signé qui fait foi (un créateur n'est pas admin)
+  if (action === "social_connect") {
+    if (!tiktokReady()) return res.status(503).json({ error: "La liaison TikTok n'est pas encore prête." });
+    const { code, state } = req.body as { code?: unknown; state?: unknown };
+    try {
+      const r = await tiktokConnect(adminClient(), code, state);
+      return "error" in r ? res.status(400).json(r) : res.json(r);
+    } catch (e) {
+      console.error("social_connect:", errorMessage(e));
+      return res.status(502).json({ error: "TikTok n'a pas répondu comme prévu. Réessaie dans un moment." });
+    }
   }
 
   if (!process.env.STRIPE_SECRET_KEY) return res.status(500).json({ error: "Stripe not configured" });

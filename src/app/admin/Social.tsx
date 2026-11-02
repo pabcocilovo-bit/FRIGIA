@@ -5,7 +5,7 @@ import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { compressImage } from "../../lib/scan";
 import {
   type CaptureRead, type Platform, type Social, type SocialAccount, type SocialStat,
-  deleteAccount, deleteStat, loadSocial, readCapture, saveAccount, saveStat,
+  deleteAccount, deleteStat, loadSocial, readCapture, saveAccount, saveStat, socialLink, socialSync,
 } from "./admin";
 
 const PLATFORMS: Record<Platform, string> = { instagram: "Instagram", tiktok: "TikTok", youtube: "YouTube", autre: "Autre" };
@@ -77,6 +77,7 @@ export default function SocialView({ wide }: { wide?: boolean }) {
         <button type="button" className="adm-btn" onClick={() => setEntry({ capture: true })}>Lire une capture</button>
         <button type="button" className="adm-btn line" onClick={() => setEntry({ capture: false })}>Saisir à la main</button>
       </div>
+      <LinkTikTok />
       {data.comptes.length === 0
         ? <p className="adm-note">Aucun compte pour l'instant. Fais une capture d'écran d'un profil (abonnés, vues) et clique sur « Lire une capture » : Claude remplit les chiffres, tu vérifies, et le compte est créé.</p>
         : <>
@@ -133,6 +134,7 @@ const Handle = ({ a }: { a: SocialAccount }) => (
   <span className="adm-row adm-gap6">
     <span className={`adm-tag pf-${a.platform}`}>{PLATFORMS[a.platform]}</span>
     <b className="adm-break">@{a.handle}</b>
+    {a.lie && <span className={`adm-tag ${a.lie.erreur ? "st-refuse" : "st-abonne"}`} title={a.lie.erreur ?? "Chiffres relevés chaque matin"}>{a.lie.erreur ? "lien cassé" : "lié"}</span>}
   </span>
 );
 
@@ -402,6 +404,7 @@ function AccountDrawer({ a, data, wide, onClose, onChanged, onAdd }: {
           <span className="adm-small">Dernier relevé <Freshness a={a} /></span>
           <button type="button" className="adm-btn adm-push" onClick={onAdd}>Ajouter des chiffres</button>
         </div>
+        {a.lie && <Linked a={a} onChanged={onChanged} />}
         <div className={wide ? "adm-grid2" : "adm-stack"}>
           <div className="adm-card adm-panel"><div className="adm-ph"><h3>Abonnés</h3></div><LineChart points={series("followers")} label="abonnés" height={140} /></div>
           <div className="adm-card adm-panel"><div className="adm-ph"><h3>Vues cumulées</h3></div><LineChart points={series("views")} label="vues" height={140} /></div>
@@ -453,5 +456,70 @@ function AccountDrawer({ a, data, wide, onClose, onChanged, onAdd }: {
         </div>
       </div>
     </Sheet>
+  );
+}
+
+// ─── Comptes liés (TikTok) ───────────────────────────────────────────────────
+
+/** Lier un compte TikTok : le sien tout de suite, ou un lien à envoyer à un créateur (valable 7 jours) */
+function LinkTikTok() {
+  const [busy, setBusy] = useState<"frigia" | "createur" | null>(null);
+  const [link, setLink] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  async function go(kind: "frigia" | "createur") {
+    setBusy(kind); setError(null); setCopied(false);
+    const r = await socialLink(kind);
+    setBusy(null);
+    if ("error" in r) { setError(r.error); return; }
+    if (kind === "frigia") location.href = r.url;
+    else setLink(r.url);
+  }
+  async function copy() {
+    if (!link) return;
+    try { await navigator.clipboard.writeText(link); setCopied(true); } catch { setCopied(false); }
+  }
+  return (
+    <div className="adm-card adm-panel adm-stack">
+      <div className="adm-ph"><h3>Comptes TikTok liés</h3><span className="adm-muted adm-small">chiffres relevés tout seuls chaque matin</span></div>
+      <div className="adm-row adm-wrap">
+        <button type="button" className="adm-btn" disabled={!!busy} onClick={() => void go("frigia")}>{busy === "frigia" ? "…" : "Connecter un TikTok de Frigia"}</button>
+        <button type="button" className="adm-btn line" disabled={!!busy} onClick={() => void go("createur")}>{busy === "createur" ? "…" : "Lien pour un créateur"}</button>
+      </div>
+      {link && <div className="adm-stack">
+        <p className="adm-small">Envoie ce lien au créateur : il se connecte à TikTok et accepte. Valable 7 jours.</p>
+        <div className="adm-row">
+          <input className="adm-search adm-mono" readOnly value={link} onFocus={e => e.currentTarget.select()} aria-label="Lien pour le créateur" />
+          <button type="button" className="adm-btn line" onClick={() => void copy()}>{copied ? "Copié" : "Copier"}</button>
+        </div>
+      </div>}
+      {error && <p className="adm-warn adm-small">{error}</p>}
+    </div>
+  );
+}
+
+const whenFr = (iso: string) => new Date(iso).toLocaleString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+
+/** Fiche d'un compte lié : dernier relevé automatique, erreur éventuelle, relever maintenant */
+function Linked({ a, onChanged }: { a: SocialAccount; onChanged: () => void }) {
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
+  const l = a.lie!;
+  async function sync() {
+    setBusy(true); setMsg(null);
+    const err = await socialSync(a.id);
+    setBusy(false);
+    setMsg(err ?? "Chiffres relevés.");
+    onChanged();
+  }
+  return (
+    <div className={`adm-note${l.erreur ? " adm-test" : ""}`}>
+      <div className="adm-row adm-wrap adm-between">
+        <span>Compte lié le {whenFr(l.le)}{l.synchro && ` · dernier relevé ${whenFr(l.synchro)}`}</span>
+        <button type="button" className="adm-btn line" disabled={busy} onClick={() => void sync()}>{busy ? "…" : "Relever maintenant"}</button>
+      </div>
+      {l.erreur && <p className="adm-small">Dernière erreur : {l.erreur}. Si le propriétaire a retiré l'accès, envoie-lui un nouveau lien.</p>}
+      {msg && <p className="adm-small">{msg}</p>}
+    </div>
   );
 }
