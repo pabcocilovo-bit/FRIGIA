@@ -13,6 +13,9 @@
     },
     "api/notify.ts": {
       "maxDuration": 60
+    },
+    "api/subscription.ts": {
+      "maxDuration": 60
     }
   },
   "headers": [

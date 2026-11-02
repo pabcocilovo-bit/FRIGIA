@@ -91,3 +91,70 @@ export async function loadList(key: ListKey): Promise<{ ok: true; rows: (Person 
   }
   return { ok: true, rows: (data ?? []) as (Person | WaitlistRow)[] };
 }
+
+// ─── Réseaux : comptes Instagram, TikTok, YouTube et leurs chiffres (migration 20261108000000_reseaux.sql) ───
+
+export type Platform = "instagram" | "tiktok" | "youtube" | "autre";
+export type SocialStat = {
+  day: string; followers: number | null; views: number | null; views_30d: number | null;
+  likes: number | null; posts: number | null; source: "capture" | "manuel" | "api";
+};
+export type SocialAccount = {
+  id: string; platform: Platform; handle: string; name: string | null; kind: "frigia" | "createur";
+  code: string | null; cost_eur: number; created_at: string;
+  /** Inscriptions et premiers abonnements avec son code créateur */
+  inscrits: number; abonnes: number;
+  /** 180 derniers jours, du plus ancien au plus récent */
+  stats: SocialStat[];
+};
+export type Social = { comptes: SocialAccount[]; codes: { code: string; creator: string | null }[] };
+export type CaptureRead = { platform: Platform | null; handle: string | null; followers: number | null; views: number | null; views_30d: number | null; likes: number | null; posts: number | null };
+
+export async function loadSocial(): Promise<{ ok: true; data: Social } | { ok: false; message: string }> {
+  const { data, error } = await supabase.rpc("admin_reseaux");
+  if (error) {
+    if (error.code === "PGRST202") return { ok: false, message: "Lance la migration 20261108000000_reseaux.sql dans Supabase pour voir les réseaux." };
+    return { ok: false, message: error.message };
+  }
+  const d = data as Social;
+  // numeric arrive en texte
+  return { ok: true, data: { ...d, comptes: d.comptes.map(c => ({ ...c, cost_eur: Number(c.cost_eur) || 0 })) } };
+}
+
+/** Claude lit 1 à 3 captures d'écran du même compte (api/subscription.ts, action « social_capture ») */
+export async function readCapture(images: { base64: string; type: string }[]): Promise<CaptureRead | string> {
+  try {
+    const r = await postApi("/api/subscription", { action: "social_capture", images: images.map(i => ({ data: i.base64, type: i.type })) });
+    const body = await r.json().catch(() => ({})) as CaptureRead & { error?: string };
+    return r.ok ? body : body.error || "La capture n'a pas pu être lue.";
+  } catch { return "Pas de connexion. Réessaie."; }
+}
+
+export type AccountInput = Pick<SocialAccount, "platform" | "handle" | "name" | "kind" | "code" | "cost_eur">;
+
+/** Crée le compte (ou reprend celui qui a déjà ce réseau et ce nom) : renvoie son id */
+export async function saveAccount(a: AccountInput, id?: string): Promise<{ id: string } | { error: string }> {
+  const row = { ...a, handle: a.handle.trim().replace(/^@/, ""), code: a.code?.trim().toUpperCase() || null, name: a.name?.trim() || null };
+  const q = id
+    ? supabase.from("social_accounts").update(row).eq("id", id).select("id").single()
+    : supabase.from("social_accounts").upsert(row, { onConflict: "platform,handle" }).select("id").single();
+  const { data, error } = await q;
+  if (error) return { error: error.code === "23505" ? "Ce compte existe déjà." : error.code === "23514" ? "Vérifie le nom du compte et le code (lettres, chiffres, tirets)." : error.message };
+  return { id: data.id as string };
+}
+
+/** Les chiffres d'un jour : remplace ceux déjà notés ce jour-là */
+export async function saveStat(accountId: string, s: Omit<SocialStat, "source"> & { source: SocialStat["source"] }): Promise<string | null> {
+  const { error } = await supabase.from("social_stats").upsert({ account_id: accountId, ...s, updated_at: new Date().toISOString() }, { onConflict: "account_id,day" });
+  return error ? error.message : null;
+}
+
+export async function deleteAccount(id: string): Promise<string | null> {
+  const { error } = await supabase.from("social_accounts").delete().eq("id", id);
+  return error ? error.message : null;
+}
+
+export async function deleteStat(accountId: string, day: string): Promise<string | null> {
+  const { error } = await supabase.from("social_stats").delete().eq("account_id", accountId).eq("day", day);
+  return error ? error.message : null;
+}
