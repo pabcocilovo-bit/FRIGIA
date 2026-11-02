@@ -4,6 +4,7 @@ import type { SupabaseClient, User } from "@supabase/supabase-js";
 import type Stripe from "stripe";
 import { pauseEndEmail } from "./_email.js";
 import { finances } from "./_finances.js";
+import { readCapture } from "./_social.js";
 import {
   adminClient, authUser, currentSubscription, errorMessage, founderSeatsLeft, hasCreatorOffer, periodEnd, planOf, plusOneMonth, preflight, stripeClient, type Req, type Res,
 } from "./_shared.js";
@@ -87,6 +88,16 @@ export default async function handler(req: Req, res: Res) {
     if (caller?.app_metadata?.admin !== true) return res.status(403).json({ error: "Réservé à l'admin" });
     const days = Number((req.body as { days?: unknown }).days) || 30;
     return res.json(await finances(process.env.STRIPE_SECRET_KEY ? stripeClient() : null, adminClient(), days));
+  }
+
+  // Le dashboard de suivi > Réseaux : Claude lit une capture d'écran de profil, compte admin seulement
+  if (action === "social_capture") {
+    const caller = await authUser(req, adminClient());
+    if (caller?.app_metadata?.admin !== true) return res.status(403).json({ error: "Réservé à l'admin" });
+    const read = await readCapture((req.body as { images?: unknown }).images);
+    if (read === "bad_request") return res.status(400).json({ error: "Envoie 1 à 3 captures (JPEG, PNG ou WebP)." });
+    if (!read) return res.status(502).json({ error: "Claude n'a pas pu lire la capture. Réessaie." });
+    return res.json(read);
   }
 
   if (!process.env.STRIPE_SECRET_KEY) return res.status(500).json({ error: "Stripe not configured" });

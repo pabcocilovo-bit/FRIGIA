@@ -4,6 +4,7 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router";
 import { type Day, type Dashboard, type Finances, type ListKey, type Loaded, type Person, type WaitlistRow, loadDashboard, loadFinances, loadList } from "./admin";
+import SocialView from "./Social";
 import "./admin.css";
 
 const PERIODS = [7, 30, 90] as const;
@@ -111,6 +112,7 @@ const SECTIONS = [
   { id: "resume", label: "Vue d'ensemble" },
   { id: "argent", label: "Argent" },
   { id: "activite", label: "Activité" },
+  { id: "reseaux", label: "Réseaux" },
   { id: "problemes", label: "Problèmes" },
   { id: "abus", label: "Abus d'essai" },
 ];
@@ -174,6 +176,11 @@ function Desktop({ data, period, onPeriod, onRefresh, loading, onExit, money }: 
           </div>
         </section>
 
+        <section id="adm-reseaux">
+          <h2>Réseaux</h2>
+          <SocialView wide />
+        </section>
+
         <section id="adm-problemes">
           <h2>Problèmes remontés</h2>
           <SupportCounts data={data} />
@@ -203,6 +210,7 @@ const TABS = [
   { id: "resume", label: "Résumé" },
   { id: "argent", label: "Argent" },
   { id: "activite", label: "Activité" },
+  { id: "reseaux", label: "Réseaux" },
   { id: "problemes", label: "Problèmes" },
   { id: "abus", label: "Abus" },
 ] as const;
@@ -260,6 +268,8 @@ function Mobile({ data, period, onPeriod, onRefresh, loading, onExit, money }: V
             </ul>
           </Panel>
         </>}
+
+        {tab === "reseaux" && <SocialView />}
 
         {tab === "problemes" && <>
           <SupportCounts data={data} />
