@@ -3,9 +3,10 @@
 // Les chiffres viennent d'une capture d'écran lue par Claude (vérifiée avant d'enregistrer) ou d'une saisie à la main.
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { compressImage } from "../../lib/scan";
+import { Insights, VideosPanel } from "./Videos";
 import {
-  type CaptureRead, type Platform, type Social, type SocialAccount, type SocialStat,
-  deleteAccount, deleteStat, loadSocial, readCapture, saveAccount, saveStat, socialLink, socialSync,
+  type CaptureRead, type Video, engagementOf, type Platform, type Social, type SocialAccount, type SocialStat,
+  deleteAccount, deleteStat, loadSocial, loadVideos, readCapture, saveAccount, saveStat, socialLink, socialSync,
 } from "./admin";
 
 const PLATFORMS: Record<Platform, string> = { instagram: "Instagram", tiktok: "TikTok", youtube: "YouTube", autre: "Autre" };
@@ -54,10 +55,10 @@ function carried(accounts: SocialAccount[], k: Num, days: number): { day: string
 
 export default function SocialView({ wide }: { wide?: boolean }) {
   const [ask, setAsk] = useState(0);
-  const [state, setState] = useState<{ ask: number; r: Awaited<ReturnType<typeof loadSocial>> } | null>(null);
+  const [state, setState] = useState<{ ask: number; r: Awaited<ReturnType<typeof loadSocial>>; videos: Video[] } | null>(null);
   useEffect(() => {
     let live = true;
-    void loadSocial().then(r => { if (live) setState({ ask, r }); });
+    void Promise.all([loadSocial(), loadVideos()]).then(([r, videos]) => { if (live) setState({ ask, r, videos }); });
     return () => { live = false; };
   }, [ask]);
   const reload = () => setAsk(a => a + 1);
@@ -67,6 +68,7 @@ export default function SocialView({ wide }: { wide?: boolean }) {
   if (!state) return <p className="adm-muted">Chargement des réseaux…</p>;
   if (!state.r.ok) return <p className="adm-note">{state.r.message}</p>;
   const data = state.r.data;
+  const videos = state.videos;
   const open = data.comptes.find(a => a.id === openId) ?? null;
   const frigia = data.comptes.filter(a => a.kind === "frigia");
   const creators = data.comptes.filter(a => a.kind === "createur");
@@ -93,13 +95,16 @@ export default function SocialView({ wide }: { wide?: boolean }) {
             </div>
           </div>
           {wide
-            ? <div className="adm-card adm-panel"><AccountsTable list={data.comptes} onOpen={setOpenId} /></div>
-            : data.comptes.map(a => <AccountCard key={a.id} a={a} onOpen={() => setOpenId(a.id)} />)}
+            ? <div className="adm-card adm-panel"><AccountsTable list={data.comptes} videos={videos} onOpen={setOpenId} /></div>
+            : data.comptes.map(a => <AccountCard key={a.id} a={a} videos={videos} onOpen={() => setOpenId(a.id)} />)}
           <p className="adm-muted adm-small">Un relevé par compte et par jour : refais une capture chaque semaine pour suivre l'évolution. Les inscriptions viennent du code créateur mis sur le compte.</p>
+          <h3 className="adm-h">Ce qui marche</h3>
+          <Insights videos={videos} accounts={data.comptes} wide={wide} />
+          <VideosPanel videos={videos} accounts={data.comptes} wide={wide} />
         </>}
       {entry && <Entry data={data} capture={entry.capture} account={entry.account} wide={wide}
         onClose={() => setEntry(null)} onSaved={() => { setEntry(null); reload(); }} />}
-      {open && !entry && <AccountDrawer a={open} data={data} wide={wide} onClose={() => setOpenId(null)} onChanged={reload}
+      {open && !entry && <AccountDrawer a={open} data={data} videos={videos} wide={wide} onClose={() => setOpenId(null)} onChanged={reload}
         onAdd={() => setEntry({ capture: true, account: open })} />}
     </div>
   );
@@ -115,7 +120,7 @@ function SocialKpis({ frigia, creators }: { frigia: SocialAccount[]; creators: S
     { label: "Vues 30 jours", value: big(sumOf(all.map(views30))), sub: `dont ${big(sumOf(creators.map(views30)))} chez les créateurs` },
     { label: "Créateurs", value: nf.format(creators.length), sub: `${big(sumOf(creators.map(a => latest(a, "followers"))))} abonnés au total` },
     { label: "Inscriptions via codes", value: nf.format(creators.reduce((t, a) => t + a.inscrits, 0)), sub: `${nf.format(subs)} devenus abonnés` },
-    { label: "Coût par abonné", value: subs > 0 ? eur.format(cost / subs) : "–", sub: `${eur.format(cost)} payés aux créateurs` },
+    { label: "Coût par abonné", value: subs > 0 ? eur.format(cost / subs) : "–", sub: `${eur.format(cost)} payés aux créateurs · ${cpmOf(cost, sumOf(creators.map(a => latest(a, "views"))))} pour 1 000 vues` },
   ];
   return (
     <div className="adm-kpis adm-kpis5">
@@ -146,13 +151,19 @@ function Freshness({ a }: { a: SocialAccount }) {
 }
 
 const perSub = (a: SocialAccount) => (a.abonnes > 0 ? eur.format(a.cost_eur / a.abonnes) : "–");
+const eur2 = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 2 });
+/** Coût pour 1 000 vues */
+const cpmOf = (cost: number, views: number | null) => (cost > 0 && views ? eur2.format((cost / views) * 1000) : "–");
+const perSignup = (a: SocialAccount) => (a.cost_eur > 0 && a.inscrits > 0 ? eur.format(a.cost_eur / a.inscrits) : "–");
+const pctF = (x: number | null) => (x == null ? "–" : `${(x * 100).toLocaleString("fr-FR", { maximumFractionDigits: x < 0.1 ? 1 : 0 })} %`);
+const accEngagement = (a: SocialAccount, videos: Video[]) => engagementOf(videos.filter(v => v.account_id === a.id));
 
-function AccountsTable({ list, onOpen }: { list: SocialAccount[]; onOpen: (id: string) => void }) {
+function AccountsTable({ list, videos, onOpen }: { list: SocialAccount[]; videos: Video[]; onOpen: (id: string) => void }) {
   return (
     <table className="adm-table">
       <thead><tr>
-        <th>Compte</th><th>Type</th><th>Abonnés</th><th>7 jours</th><th>Vues 30 j</th><th>Dernier relevé</th>
-        <th>Code</th><th>Inscrits</th><th>Abonnés Plus</th><th>Coût</th><th>Par abonné</th>
+        <th>Compte</th><th>Type</th><th>Abonnés</th><th>7 jours</th><th>Vues 30 j</th><th>Engagement</th><th>Dernier relevé</th>
+        <th>Code</th><th>Inscrits</th><th>Abonnés Plus</th><th>Coût</th><th>Rentabilité</th>
       </tr></thead>
       <tbody>
         {list.map(a => (
@@ -162,12 +173,15 @@ function AccountsTable({ list, onOpen }: { list: SocialAccount[]; onOpen: (id: s
             <td><b>{big(latest(a, "followers"))}</b></td>
             <td className="adm-muted">{plus(gain(a, "followers", 7)) || "–"}</td>
             <td>{big(views30(a))}</td>
+            <td>{pctF(accEngagement(a, videos))}</td>
             <td className="adm-nowrap"><Freshness a={a} /></td>
             <td className="adm-mono">{a.code ?? "–"}</td>
             <td>{a.code ? nf.format(a.inscrits) : "–"}</td>
             <td>{a.code ? nf.format(a.abonnes) : "–"}</td>
             <td>{a.cost_eur > 0 ? eur.format(a.cost_eur) : "–"}</td>
-            <td>{perSub(a)}</td>
+            <td className="adm-small adm-nowrap">{a.cost_eur > 0 ? <>
+              {cpmOf(a.cost_eur, latest(a, "views"))} / 1 000 vues<br />{perSignup(a)} / inscrit<br />{perSub(a)} / abonné
+            </> : "–"}</td>
           </tr>
         ))}
       </tbody>
@@ -175,7 +189,7 @@ function AccountsTable({ list, onOpen }: { list: SocialAccount[]; onOpen: (id: s
   );
 }
 
-function AccountCard({ a, onOpen }: { a: SocialAccount; onOpen: () => void }) {
+function AccountCard({ a, videos, onOpen }: { a: SocialAccount; videos: Video[]; onOpen: () => void }) {
   return (
     <button type="button" className="adm-card adm-item adm-click adm-full" onClick={onOpen}>
       <div className="adm-row adm-between"><Handle a={a} /><span className="adm-tag">{KIND[a.kind]}</span></div>
@@ -183,7 +197,9 @@ function AccountCard({ a, onOpen }: { a: SocialAccount; onOpen: () => void }) {
         <span><b>{big(latest(a, "followers"))}</b> abonnés <span className="adm-muted">{plus(gain(a, "followers", 7))}</span></span>
         <span><b>{big(views30(a))}</b> vues 30 j</span>
       </div>
+      {accEngagement(a, videos) != null && <p className="adm-small">Engagement <b>{pctF(accEngagement(a, videos))}</b></p>}
       {a.code && <p className="adm-small adm-muted">Code {a.code} : {nf.format(a.inscrits)} inscrits · {nf.format(a.abonnes)} abonné{a.abonnes > 1 ? "s" : ""} · {perSub(a)} par abonné</p>}
+      {a.cost_eur > 0 && <p className="adm-small adm-muted">{cpmOf(a.cost_eur, latest(a, "views"))} pour 1 000 vues · {perSignup(a)} par inscrit</p>}
       <p className="adm-small">Relevé <Freshness a={a} /></p>
     </button>
   );
@@ -365,8 +381,8 @@ function Entry({ data, capture, account, wide, onClose, onSaved }: {
 }
 
 /** Un compte : ses courbes, ses relevés, son code créateur et ce qu'il a coûté */
-function AccountDrawer({ a, data, wide, onClose, onChanged, onAdd }: {
-  a: SocialAccount; data: Social; wide?: boolean; onClose: () => void; onChanged: () => void; onAdd: () => void;
+function AccountDrawer({ a, data, videos, wide, onClose, onChanged, onAdd }: {
+  a: SocialAccount; data: Social; videos: Video[]; wide?: boolean; onClose: () => void; onChanged: () => void; onAdd: () => void;
 }) {
   const [name, setName] = useState(a.name ?? "");
   const [kind, setKind] = useState(a.kind);
@@ -428,6 +444,8 @@ function AccountDrawer({ a, data, wide, onClose, onChanged, onAdd }: {
           {msg && <p className="adm-small">{msg}</p>}
           <div className="adm-row"><button type="submit" className="adm-btn">Enregistrer</button></div>
         </form>
+
+        {videos.some(v => v.account_id === a.id) && <VideosPanel videos={videos} accounts={data.comptes} account={a} wide={wide} limit={5} />}
 
         <div className="adm-card adm-panel">
           <div className="adm-ph"><h3>Relevés</h3><span className="adm-muted adm-small">{rows.length} sur 180 jours</span></div>

@@ -72,6 +72,12 @@ async function tokenRequest(params: Record<string, string>): Promise<Token> {
   return body as Token;
 }
 
+type TikTokVideo = {
+  id: string; title?: string; video_description?: string; create_time?: number; cover_image_url?: string; share_url?: string;
+  duration?: number; view_count?: number; like_count?: number; comment_count?: number; share_count?: number;
+};
+const VIDEO_FIELDS = "id,title,video_description,create_time,cover_image_url,share_url,duration,view_count,like_count,comment_count,share_count";
+
 type TikTokUser = { open_id: string; username?: string; display_name?: string; follower_count?: number; likes_count?: number; video_count?: number };
 
 async function api<T>(path: string, token: string, init?: { body: unknown }): Promise<T> {
@@ -90,16 +96,17 @@ async function api<T>(path: string, token: string, init?: { body: unknown }): Pr
 async function fetchStats(token: string, scopes: string) {
   const fields = ["open_id", "display_name", "follower_count", "likes_count", "video_count", ...(scopes.includes("user.info.profile") ? ["username"] : [])];
   const { user } = await api<{ user: TikTokUser }>(`/user/info/?fields=${fields.join(",")}`, token);
-  let views = 0, cursor: number | undefined;
+  const videos: TikTokVideo[] = [];
+  let cursor: number | undefined;
   // 20 vidéos par page, 50 pages au plus (1 000 vidéos)
   for (let page = 0; page < 50; page++) {
-    const d = await api<{ videos?: { view_count?: number }[]; cursor?: number; has_more?: boolean }>(
-      "/video/list/?fields=id,view_count", token, { body: { max_count: 20, ...(cursor ? { cursor } : {}) } });
-    views += (d.videos ?? []).reduce((t, v) => t + (v.view_count ?? 0), 0);
+    const d = await api<{ videos?: TikTokVideo[]; cursor?: number; has_more?: boolean }>(
+      `/video/list/?fields=${VIDEO_FIELDS}`, token, { body: { max_count: 20, ...(cursor ? { cursor } : {}) } });
+    videos.push(...(d.videos ?? []));
     if (!d.has_more || !d.cursor) break;
     cursor = d.cursor;
   }
-  return { user, views };
+  return { user, videos, views: videos.reduce((t, v) => t + (v.view_count ?? 0), 0) };
 }
 
 const handleOf = (u: TikTokUser) => (u.username || u.display_name || u.open_id).replace(/^@/, "").replace(/\s+/g, "_").slice(0, 80);
@@ -112,6 +119,25 @@ async function saveStats(admin: SupabaseClient, accountId: string, s: Awaited<Re
     followers: s.user.follower_count ?? null, likes: s.user.likes_count ?? null, posts: s.user.video_count ?? null, views: s.views,
   }, { onConflict: "account_id,day" });
   if (error) throw error;
+  // Chaque vidéo : ses chiffres du moment, et une ligne par jour (vues à 24 h et à 7 jours)
+  const now = new Date().toISOString();
+  const rows = s.videos.filter(v => v.id).map(v => ({
+    account_id: accountId, external_id: v.id,
+    title: (v.title || v.video_description || "").slice(0, 300) || null, url: v.share_url ?? null, cover_url: v.cover_image_url ?? null,
+    duration: v.duration ?? null, published_at: v.create_time ? new Date(v.create_time * 1000).toISOString() : null,
+    views: v.view_count ?? 0, likes: v.like_count ?? 0, comments: v.comment_count ?? 0, shares: v.share_count ?? 0, updated_at: now,
+  }));
+  for (let i = 0; i < rows.length; i += 200) {
+    const part = rows.slice(i, i + 200);
+    const { error: e1 } = await admin.from("social_videos").upsert(part, { onConflict: "account_id,external_id" });
+    // Migration 20261110000000_reseaux_videos.sql pas encore lancée : les chiffres du compte restent notés
+    if (e1?.code === "PGRST205" || e1?.code === "42P01") { console.error("social_videos manquante :", e1.message); return; }
+    if (e1) throw e1;
+    const { error: e2 } = await admin.from("social_video_stats").upsert(
+      part.map(r => ({ account_id: r.account_id, external_id: r.external_id, day: today(), views: r.views, likes: r.likes, comments: r.comments, shares: r.shares })),
+      { onConflict: "account_id,external_id,day" });
+    if (e2) throw e2;
+  }
 }
 
 /** Retour de TikTok : échange le code, crée (ou retrouve) le compte, garde les jetons et note les chiffres du jour */

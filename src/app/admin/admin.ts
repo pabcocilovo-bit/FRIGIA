@@ -189,3 +189,29 @@ export async function socialConnect(code: string, state: string): Promise<{ hand
     return body.handle ? { handle: body.handle, kind: body.kind ?? "frigia" } : { error: body.error || "La liaison n'a pas marché." };
   } catch { return { error: "Pas de connexion. Réessaie." }; }
 }
+
+// ─── Vidéos des comptes liés (migration 20261110000000_reseaux_videos.sql) ───
+
+export type Video = {
+  account_id: string; id: string; title: string | null; url: string | null; cover_url: string | null;
+  duration: number | null; published_at: string | null;
+  views: number; likes: number; comments: number; shares: number;
+  /** Vues au relevé du lendemain et à celui de J+7 (null : vidéo publiée avant la liaison, ou trop récente) */
+  views_24h: number | null; views_7j: number | null;
+};
+
+/** [] si la migration n'est pas lancée : le reste de l'onglet marche sans */
+export async function loadVideos(): Promise<Video[]> {
+  const { data, error } = await supabase.rpc("admin_videos");
+  return error ? [] : (data ?? []) as Video[];
+}
+
+/** (j'aime + commentaires + partages) / vues */
+export const engagement = (v: Pick<Video, "views" | "likes" | "comments" | "shares">) => (v.views > 0 ? (v.likes + v.comments + v.shares) / v.views : null);
+/** partages / vues : le meilleur signe qu'une vidéo peut partir */
+export const shareRate = (v: Pick<Video, "views" | "shares">) => (v.views > 0 ? v.shares / v.views : null);
+/** L'engagement de plusieurs vidéos ensemble (pondéré par les vues) */
+export function engagementOf(list: Video[]): number | null {
+  const views = list.reduce((t, v) => t + v.views, 0);
+  return views > 0 ? list.reduce((t, v) => t + v.likes + v.comments + v.shares, 0) / views : null;
+}
