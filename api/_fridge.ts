@@ -84,13 +84,17 @@ function ready(r: CatalogRecipe, o: FridgeAsk): CatalogRecipe {
   return { ...r, items, missing: toBuy.join(", "), fromCatalog: true };
 }
 
-/** La meilleure recette du catalogue pour ce frigo, prête pour l'appli (ce qu'on a est coché), ou null. */
-export async function catalogForFridge(admin: SupabaseClient, o: FridgeAsk): Promise<CatalogRecipe | null> {
+/** Le catalogue d'abord (Hugo, 3 novembre : c'est gratuit et il y a déjà beaucoup de recettes) : jusqu'à n plats qui collent
+ *  au frigo (1 achat au plus), prêts pour l'appli. Un peu de hasard parmi les meilleurs : pas toujours les mêmes pour le même frigo.
+ *  L'IA n'écrit que les places qui restent. */
+export async function catalogPick(admin: SupabaseClient, o: FridgeAsk, n: number): Promise<CatalogRecipe[]> {
+  if (n <= 0) return [];
   const scored = await rank(admin, o, 1);
-  if (!scored.length) return null;
-  // Un peu de hasard parmi les meilleures : pas toujours la même pour le même frigo
-  const top = scored.filter(s => s.score >= scored[0].score - 1).slice(0, 5);
-  return ready(top[Math.floor(Math.random() * top.length)].r, o);
+  if (!scored.length) return [];
+  const pool = scored.filter(s => s.score >= scored[0].score - 2).slice(0, n + 4);
+  for (let i = pool.length - 1; i > 0; i--) { const k = Math.floor(Math.random() * (i + 1)); [pool[i], pool[k]] = [pool[k], pool[i]]; }
+  const picked = [...pool, ...scored.filter(s => !pool.includes(s))].slice(0, n);
+  return picked.map(s => ready(s.r, o));
 }
 
 /** « Créer mes 3 recettes » donne toujours 3 recettes (Hugo, 30 octobre) : quand l'IA en donne moins, les plats du catalogue
