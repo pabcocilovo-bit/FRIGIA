@@ -38,13 +38,21 @@ export function useSlotDrag(enabled: boolean, onDrop: (from: Spot, to: Spot) => 
     return () => window.removeEventListener("touchmove", block);
   }, [enabled]);
 
-  const start = (e: React.PointerEvent<HTMLElement>, from: Spot) => {
-    if (!enabled || e.button !== 0 || live.current.active) return;
-    const el = e.currentTarget, x0 = e.clientX, y0 = e.clientY, id = e.pointerId, mouse = e.pointerType === "mouse";
+  // Au doigt, on suit les évènements tactiles plutôt que les « pointer events » : sur iPhone et Android, le navigateur
+  // peut annuler ces derniers (pointercancel) dès qu'il croit à un défilement ou à un appui long, et le plat retombe.
+  const start = (el: HTMLElement, from: Spot, x0: number, y0: number, mouse: boolean, id: number) => {
+    if (!enabled || live.current.active) return;
     const frame = el.closest(".fa");
     let x = x0, y = y0, over: Spot | null = from, raf = 0, scroller: HTMLElement | null = null;
 
     const show = () => setDrag({ from, x, y, over });
+    // Entre deux cases (le petit espace entre midi et soir, ou entre deux jours), on garde la dernière case visée
+    const inList = (px: number, py: number) => {
+      const r = el.closest(".days")?.getBoundingClientRect();
+      const top = Math.max(0, frame?.querySelector(".rhead")?.getBoundingClientRect().bottom ?? 0);
+      const bottom = frame?.querySelector(".tabbar")?.getBoundingClientRect().top ?? window.innerHeight;
+      return !!r && px >= r.left && px <= r.right && py >= Math.max(r.top, top) && py <= Math.min(r.bottom, bottom);
+    };
     const lift = () => {
       live.current.active = true;
       scroller = scrollerOf(el);
@@ -60,49 +68,56 @@ export function useSlotDrag(enabled: boolean, onDrop: (from: Spot, to: Spot) => 
       if (v && scroller) {
         const before = scroller.scrollTop;
         scroller.scrollTop += Math.max(-12, Math.min(12, v / 6));
-        if (scroller.scrollTop !== before) { over = spotAt(x, y); show(); }
+        if (scroller.scrollTop !== before) { over = spotAt(x, y) ?? (inList(x, y) ? over : null); show(); }
       }
       raf = requestAnimationFrame(tick);
     };
     const timer = mouse ? 0 : window.setTimeout(lift, HOLD);
 
-    const move = (ev: PointerEvent) => {
-      if (ev.pointerId !== id) return;
-      x = ev.clientX; y = ev.clientY;
+    const at = (nx: number, ny: number) => {
+      x = nx; y = ny;
       if (!live.current.active) {
         if (Math.hypot(x - x0, y - y0) < SLOP) return;
         if (mouse) lift(); else { end(); return; }
       }
-      const o = spotAt(x, y);
-      over = o;
+      over = spotAt(x, y) ?? (inList(x, y) ? over : null);
       show();
     };
-    const up = (ev: PointerEvent) => {
-      if (ev.pointerId !== id) return;
+    const release = () => {
       if (live.current.active) {
         live.current.dropped = Date.now();
         if (over && !same(over, from)) drop.current(from, over);
       }
       end();
     };
-    const cancel = (ev: PointerEvent) => { if (ev.pointerId === id) end(); };
+    const finger = (ev: TouchEvent) => [...ev.changedTouches].find(t => t.identifier === id);
+    const tMove = (ev: TouchEvent) => { const t = finger(ev); if (t) at(t.clientX, t.clientY); };
+    const tEnd = (ev: TouchEvent) => { if (finger(ev)) release(); };
+    const pMove = (ev: PointerEvent) => { if (ev.pointerId === id) at(ev.clientX, ev.clientY); };
+    const pUp = (ev: PointerEvent) => { if (ev.pointerId === id) release(); };
+    const pCancel = (ev: PointerEvent) => { if (ev.pointerId === id) end(); };
+    const on: [string, EventListener][] = mouse
+      ? [["pointermove", pMove as EventListener], ["pointerup", pUp as EventListener], ["pointercancel", pCancel as EventListener]]
+      : [["touchmove", tMove as EventListener], ["touchend", tEnd as EventListener], ["touchcancel", end]];
     function end() {
       clearTimeout(timer);
       cancelAnimationFrame(raf);
       live.current.active = false;
       setDrag(null);
-      window.removeEventListener("pointermove", move);
-      window.removeEventListener("pointerup", up);
-      window.removeEventListener("pointercancel", cancel);
+      on.forEach(([t, f]) => window.removeEventListener(t, f));
     }
-    window.addEventListener("pointermove", move);
-    window.addEventListener("pointerup", up);
-    window.addEventListener("pointercancel", cancel);
+    on.forEach(([t, f]) => window.addEventListener(t, f, { passive: true }));
   };
 
   /** À poser sur la carte qu'on peut soulever. */
   const handle = (from: Spot) => enabled ? {
-    onPointerDown: (e: React.PointerEvent<HTMLElement>) => start(e, from),
+    onTouchStart: (e: React.TouchEvent<HTMLElement>) => {
+      const t = e.changedTouches[0];
+      if (e.touches.length === 1 && t) start(e.currentTarget, from, t.clientX, t.clientY, false, t.identifier);
+    },
+    onPointerDown: (e: React.PointerEvent<HTMLElement>) => {
+      if (e.pointerType !== "touch" && e.button === 0) start(e.currentTarget, from, e.clientX, e.clientY, true, e.pointerId);
+    },
     // Le clic qui suit un glisser n'ouvre pas la recette ; l'appui long n'ouvre pas le menu du navigateur
     onClickCapture: (e: React.MouseEvent) => { if (Date.now() - live.current.dropped < 300) { e.preventDefault(); e.stopPropagation(); } },
     onContextMenu: (e: React.MouseEvent) => e.preventDefault(),
