@@ -4,5 +4,5 @@ import { useRecipePhoto } from "../photo";
 
 export function Dish({ recipe, className }: { recipe: GeneratedRecipe; className?: string }) {
   const photo = useRecipePhoto(recipe.title, recipe.imageSearch);
-  return photo ? <img className={className} src={photo} alt="" /> : <span className={(className ? className + " " : "") + "ph0"} aria-hidden="true" />;
+  return photo ? <img className={className} src={photo} alt="" draggable={false} /> : <span className={(className ? className + " " : "") + "ph0"} aria-hidden="true" />;
 }

@@ -77,6 +77,22 @@ export function setSlot(w: Week, days: WeekDay[], key: string, meal: SlotKey, sl
   return tidy(put(w, key, { ...dayOf(w, key), off: slot ? false : dayOf(w, key).off, [meal]: slot }), days);
 }
 
+/** Glisser un plat d'une case à l'autre (Hugo, 3 novembre) : il prend la place, et le plat qui y était, s'il y en a un,
+ *  part dans la case de départ. Les desserts restent où ils sont. Un plat déplacé n'est plus « des restes », sauf s'il
+ *  arrive le midi qui suit le soir de la même recette ; des restes dont le soir a bougé sont retirés (tidy). */
+export function moveSlot(w: Week, days: WeekDay[], a: [number, MealKey], b: [number, MealKey]): Week {
+  const ka = days[a[0]].key, kb = days[b[0]].key;
+  const sa = dayOf(w, ka)[a[1]], sb = dayOf(w, kb)[b[1]];
+  const plain = (s?: Slot): Slot | undefined => s && { recipe: s.recipe, scanId: s.scanId, n: s.n };
+  let out = put(w, ka, { ...dayOf(w, ka), [a[1]]: plain(sb) });
+  out = put(out, kb, { ...dayOf(out, kb), off: false, [b[1]]: plain(sa) });
+  for (const [i, m] of [a, b]) {
+    const s = dayOf(out, days[i].key)[m];
+    if (m === "m" && s && leftFor(out, days, i)?.recipe.title === s.recipe.title) out = put(out, days[i].key, { ...dayOf(out, days[i].key), m: { ...s, left: true } });
+  }
+  return tidy(out, days);
+}
+
 /** Sauter un jour (resto, chez mamie) vide ses repas ; le remettre le laisse vide. */
 export function toggleOff(w: Week, days: WeekDay[], key: string): Week {
   const off = !dayOf(w, key).off;
