@@ -80,7 +80,7 @@ export function Explorer({ onStart, cta }: { onStart: (source: string) => void; 
           </ul>
           <div className="xp-cta">
             <button className="btn btn-fill" onClick={() => onStart("explorer")}>{cta}</button>
-            <span className="fine">Compris dans Frigia Plus, et dans les 7 jours d'essai.</span>
+            <span className="fine">Compris dans Frigia Plus, et dans l'essai gratuit.</span>
           </div>
         </div>
 

@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { supabase } from "../supabase";
 import { Sheet } from "./Sheet";
 import type { LegalKey } from "./legal";
+import { trialPitch } from "../lib/alpha";
 
 // Inscription et connexion depuis la landing, avec la logique Supabase de l'ancienne version.
 // Provisoire : dans la refonte, « Commencer » ouvrira le parcours d'inscription de l'appli (questions, compte, code par email).
@@ -109,7 +110,7 @@ export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, 
   return (
     <Sheet label={signup ? "Crée ton compte" : "Connexion"} onClose={onClose}>
       <h2>{signup ? <>Crée ton <em>compte</em></> : <>Content de te <em>revoir</em></>}</h2>
-      <p className="intro">{signup ? "7 jours d'essai, sans carte bancaire." : "Connecte-toi pour retrouver tes recettes."}</p>
+      <p className="intro">{signup ? `${trialPitch()}, sans carte bancaire.` : "Connecte-toi pour retrouver tes recettes."}</p>
       <div className="stack">
         <button className="btn btn-google full" onClick={google} disabled={loading}><GoogleIcon />Continuer avec Google</button>
         <div className="or">ou avec ton email</div>

@@ -1,8 +1,7 @@
-// Inscriptions fermées tant que l'appli n'est pas ouverte à tous (Hugo, 28 octobre) : la landing, la connexion et
-// l'appli installée mènent à la liste d'attente, les écrans d'inscription renvoient vers elle. La connexion reste.
-// VITE_SIGNUP_OPEN=true (Vercel, environnement Preview par exemple) les rouvre.
-// Le vrai verrou est dans la base : seuls les emails de la liste d'attente avec un accès créent un compte (migration 20261104000000).
-export const SIGNUP_OPEN = import.meta.env.VITE_SIGNUP_OPEN === "true";
+// Inscriptions ouvertes à tous depuis l'alpha (Hugo, 3 novembre ; migration 20261111000000). Elles étaient fermées depuis
+// le 28 octobre : la landing, la connexion et l'appli installée menaient à la liste d'attente.
+// VITE_SIGNUP_OPEN=false (Vercel) les referme ; le verrou de la base est alors à remettre (migration 20261104000000).
+export const SIGNUP_OPEN = import.meta.env.VITE_SIGNUP_OPEN !== "false";
 
 /** La landing avec la liste d'attente ouverte */
 export const WAITLIST_URL = "/?liste";

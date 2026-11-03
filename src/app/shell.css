@@ -503,3 +503,10 @@ body:has(.fa .tabbar) .fa.ck-live-wrap{bottom:calc(90px + env(safe-area-inset-bo
 @media (prefers-reduced-motion:reduce){.fa .ex-dots i{animation:none}}
 /* explorer?photos=1 : l'avancement des photos du catalogue */
 .fa .ex-photofill{margin:0;padding:10px 14px;border-radius:14px;background:var(--hi-soft);color:var(--hi-ink);font:600 13.5px/1.35 var(--sans)}
+/* Accueil : le bandeau de l'alpha (AlphaBanner.tsx) */
+.fa .hm-alpha{display:flex;align-items:flex-start;gap:10px;padding:10px 8px 10px 12px;border-radius:16px;background:var(--hi-soft);color:var(--hi-ink)}
+.fa .hm-alpha-tag{flex:none;margin-top:1px;padding:3px 7px;border-radius:999px;background:var(--hi-ink);color:var(--hi-soft);font:700 10.5px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase}
+.fa .hm-alpha p{flex:1;margin:0;font-size:13px;line-height:1.4}
+.fa .hm-alpha p button{color:inherit;font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px;padding:0;background:none}
+.fa .hm-alpha-x{flex:none;width:26px;height:26px;display:grid;place-items:center;border-radius:50%;color:inherit;opacity:.7}
+.fa .hm-alpha-x .i{width:15px;height:15px}

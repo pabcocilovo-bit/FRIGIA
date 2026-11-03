@@ -10,6 +10,7 @@ import { Explorer } from "./landing/Explorer";
 import { Tonight } from "./landing/Tonight";
 import { WaitlistSheet } from "./landing/Waitlist";
 import { SIGNUP_OPEN } from "./lib/launch";
+import { inAlpha, trialPitch, tryLabel } from "./lib/alpha";
 import { RECIPES, fridgeScore } from "./landing/recipes";
 import { LEGAL } from "./legal/pages";
 import { detectInAppBrowser, isStandalone, type InstallPromptEvent } from "./landing/browser";
@@ -17,6 +18,7 @@ import { SITE_KEY } from "./app/onboarding/captcha";
 
 // Landing V5 (refonte d'octobre 2026). Les textes décrivent les offres de la refonte :
 // 7 jours d'essai sans carte, puis Frigia Plus : plus de formule gratuite depuis le 23 octobre.
+// Pendant l'alpha (src/lib/alpha.ts) : gratuit pour tout le monde jusqu'au 30 novembre, et c'est dit en haut.
 // Ni code ni prix fondateur sur le site (demandé par Hugo le 23 octobre) : ils restent dans les CGV et dans l'appli.
 //
 // onStart / onLogin : branchés par l'appli sur son parcours d'inscription quand il existera.
@@ -177,7 +179,7 @@ export default function Landing({ onStart, onLogin }: Props) {
     <div className="lp">
       {showGbar && <GoogleInAppBar isIos={isIos} onDismiss={() => setGbarClosed(true)} />}
 
-      <div className="promo">7 jours d'essai, sans carte bancaire · Puis <b>Frigia Plus</b>, sans engagement</div>
+      <div className="promo">{inAlpha() ? <><b>Version alpha</b> · Gratuit pour tout le monde jusqu'au 30 novembre, sans carte bancaire</> : <>7 jours d'essai, sans carte bancaire · Puis <b>Frigia Plus</b>, sans engagement</>}</div>
       <header className="nav">
         <div className="container">
           <a className="home" href="#top" aria-label="Frigia, accueil"><img src={`${IMG}/frigia-logo.svg`} alt="Frigia" width={84} height={30} /></a>
@@ -205,14 +207,14 @@ export default function Landing({ onStart, onLogin }: Props) {
               <span className="k">Pour les soirs de semaine</span>
               <h1>Une photo du frigo, <em>trois idées</em> pour ce soir.</h1>
               <p className="lede">Fini le « on mange quoi ce soir ? ». Frigia repère ce qu'il y a dans ton frigo et te propose trois recettes avec ce que tu as déjà, pour toute la famille.</p>
-              <div className="ctas"><button className="btn btn-fill" onClick={() => start("free", "hero")}>{WAITLIST ? JOIN : "Essayer 7 jours"}</button><a className="link" href="#comment">Voir comment ça marche</a></div>
+              <div className="ctas"><button className="btn btn-fill" onClick={() => start("free", "hero")}>{WAITLIST ? JOIN : tryLabel()}</button><a className="link" href="#comment">Voir comment ça marche</a></div>
               {WAITLIST && (
                 <div className="wl-note">
                   <p>Ouverture par petits groupes. Les premiers inscrits passent en premier.</p>
                   <button onClick={login}>Déjà invité ? Se connecter</button>
                 </div>
               )}
-              <div className="reassure"><span className="chip plain">Sans carte bancaire</span><span className="chip plain">7 jours d'essai</span><span className="chip plain">Rien à télécharger</span></div>
+              <div className="reassure"><span className="chip plain">Sans carte bancaire</span><span className="chip plain">{trialPitch()}</span><span className="chip plain">Rien à télécharger</span></div>
             </div>
             <HeroArt />
           </div>
@@ -220,7 +222,7 @@ export default function Landing({ onStart, onLogin }: Props) {
 
         <HowItWorks />
         <Tonight onStart={source => start("free", source)} cta={WAITLIST ? JOIN : undefined} />
-        <Explorer onStart={source => start("free", source)} cta={WAITLIST ? JOIN : "Essayer 7 jours"} />
+        <Explorer onStart={source => start("free", source)} cta={WAITLIST ? JOIN : tryLabel()} />
 
         <section className="plus rule" id="plus">
           <div className="container">
@@ -255,13 +257,13 @@ export default function Landing({ onStart, onLogin }: Props) {
 
         <section className="price rule" id="prix">
           <div className="container">
-            <div className="sh"><span className="k">{WAITLIST ? "Prix à l'ouverture" : "Prix"}</span><h2>Essaie 7 jours, <em>puis passe à Plus.</em></h2><p className="lede">Pas de carte bancaire pour essayer, et rien n'est débité à la fin de l'essai. Plus est sans engagement.</p></div>
+            <div className="sh"><span className="k">{WAITLIST ? "Prix à l'ouverture" : "Prix"}</span><h2>{inAlpha() ? <>Gratuit jusqu'au 30 novembre, </> : <>Essaie 7 jours, </>}<em>puis passe à Plus.</em></h2><p className="lede">Pas de carte bancaire pour essayer, et rien n'est débité à la fin de l'essai. Plus est sans engagement.</p></div>
             <div className="offer">
               <div className="offer-main">
                 <div className="top"><span className="k">Frigia Plus</span><span className="badge">7 jours offerts</span></div>
                 <div className="amount">39,99 €<small>par an</small></div>
                 <div className="sub"><span>Ou 6,99 € par mois</span><span>Résiliable en 3 clics</span></div>
-                <div className="foot"><button className="btn btn-cream" onClick={() => start("free", "prix")}>{WAITLIST ? JOIN : "Essayer 7 jours"}</button><span className="fine">Sans engagement. Paiement sécurisé par Stripe.</span></div>
+                <div className="foot"><button className="btn btn-cream" onClick={() => start("free", "prix")}>{WAITLIST ? JOIN : tryLabel()}</button><span className="fine">Sans engagement. Paiement sécurisé par Stripe.</span></div>
               </div>
               <ul aria-label="Compris dans Frigia Plus">{FEATURES.map(f => <li key={f}><span className="yes" aria-hidden="true">✓</span>{f}</li>)}</ul>
             </div>
@@ -288,7 +290,7 @@ export default function Landing({ onStart, onLogin }: Props) {
 
       <footer>
         <div className="container">
-          <div className="big"><h2>Ce soir, commence par <em>ouvrir le frigo.</em></h2><button className="btn btn-cream" onClick={() => start("free", "fin")}>{WAITLIST ? JOIN : "Essayer 7 jours"}</button></div>
+          <div className="big"><h2>Ce soir, commence par <em>ouvrir le frigo.</em></h2><button className="btn btn-cream" onClick={() => start("free", "fin")}>{WAITLIST ? JOIN : tryLabel()}</button></div>
           <div className="base">
             <img src={`${IMG}/frigia-logo-inverse.svg`} alt="Frigia" width={78} height={28} />
             <nav className="legal" aria-label="Informations légales">

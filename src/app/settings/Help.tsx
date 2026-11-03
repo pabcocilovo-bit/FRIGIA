@@ -55,9 +55,11 @@ export function Help({ user, isPlus }: { user: User; isPlus: boolean }) {
   const openPaywall = useOpenPaywall();
   const location = useLocation();
   const asked = (location.state as { q?: string } | null)?.q ?? null;
+  // Le bandeau alpha de l'accueil ouvre directement « Nous écrire » (state.send)
+  const sendAsked = (location.state as { send?: SendMode } | null)?.send ?? null;
   const [open, setOpen] = useState<string | null>(asked);
   const [q, setQ] = useState("");
-  const [send, setSend] = useState<SendMode | null>(null);
+  const [send, setSend] = useState<SendMode | null>(sendAsked);
   const qRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const query = norm(q.trim());
   const groups = FAQ.map(g => ({ ...g, qs: g.qs.filter(x => !query || norm(x.q + " " + x.a).includes(query)) })).filter(g => g.qs.length);
