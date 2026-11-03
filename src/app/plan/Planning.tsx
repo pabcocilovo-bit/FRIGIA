@@ -13,8 +13,9 @@ import { showToast } from "../toast";
 import { recipeLines } from "../scan/portions";
 import { Dish } from "./Dish";
 import type { PlanNewState } from "./PlanNew";
+import { useSlotDrag } from "./drag";
 import { DessertSheet, SwapSheet } from "./sheets";
-import { count, dayOf, dessertKey, doubled, foundOf, MEALS, options, type PlanProps, recipePath, status, toFinish } from "./week";
+import { count, dayOf, dessertKey, doubled, foundOf, MEAL_NAME, MEALS, moveSlot, options, type PlanProps, recipePath, status, toFinish } from "./week";
 import "./plan.css";
 import { timeText } from "../../lib/recipes";
 
@@ -34,6 +35,17 @@ export function Planning({ isPlus, week, setWeek, history, favorites, household,
   const { n, lefts } = count(w, days);
   const fin = toFinish(history);
   const portions = isPlus ? portionsOf(household, 0) : 2;
+  // Glisser un plat sur une autre case : il prend sa place, l'autre plat (s'il y en a un) part dans la case de départ
+  const { drag, handle } = useSlotDrag(isPlus, (from, to) => {
+    const at = (i: number, m: MealKey) => (i === 0 ? `ce ${MEAL_NAME[m]}` : `${days[i].long.toLowerCase()} ${MEAL_NAME[m]}`);
+    const other = dayOf(week, days[to.i].key)[to.meal];
+    const next = moveSlot(week, days, [from.i, from.meal], [to.i, to.meal]);
+    const lost = count(week, days).n - count(next, days).n;
+    setWeek(next);
+    navigator.vibrate?.(8);
+    showToast(`${other ? `Échangé avec ${at(to.i, to.meal)}` : `Déplacé à ${at(to.i, to.meal)}`}${lost > 0 ? " · les restes du lendemain sont retirés" : ""}`);
+  });
+  const lifted = drag && dayOf(w, days[drag.from.i].key)[drag.from.meal];
   const create = (pick?: [number, MealKey]) => navigate("/planning/creer", { state: { pick } satisfies PlanNewState });
 
   // Les recettes prévues à qui il manque quelque chose (les restes n'ont rien à acheter)
@@ -70,12 +82,13 @@ export function Planning({ isPlus, week, setWeek, history, favorites, household,
           </button>
         )}
         {fin.length > 0 && <div className="fresh"><Icon name="leaf" /><span>Ce qui se garde le moins passe en premier : {fin.slice(0, 3).join(", ").toLowerCase()}.</span></div>}
-        <p className="pl-sum">{n} repas prévu{n > 1 ? "s" : ""}{lefts ? ` · ${lefts} avec les restes de la veille` : ""}</p>
+        <p className="pl-sum">{n} repas prévu{n > 1 ? "s" : ""}{lefts ? ` · ${lefts} avec les restes de la veille` : ""}
+          {isPlus && n > 0 && <small>Maintiens un plat pour le changer de jour.</small>}</p>
         <div className="days">
           {days.map((d, i) => {
             const day = dayOf(w, d.key);
             return (
-              <div key={d.key} className={"pday" + (i === 0 ? " today" : "")}>
+              <div key={d.key} className={"pday" + (i === 0 ? " today" : "") + (drag ? " dragging" : "")}>
                 <span className="d"><small>{d.short}</small><b>{d.date.getDate()}</b></span>
                 <div className="pms">
                   {day.off ? <div className="pm off">Pas de repas ce jour-là</div> : MEALS.map(meal => {
@@ -89,8 +102,10 @@ export function Planning({ isPlus, week, setWeek, history, favorites, household,
                         <small>Dessert</small>
                       </button>
                     );
+                    const target = drag && drag.over?.i === i && drag.over.meal === meal && !(drag.from.i === i && drag.from.meal === meal);
+                    const drop = { "data-drop": `${i}:${meal}` };
                     if (!sl) return (
-                      <div key={meal} className="pmrow">
+                      <div key={meal} className={"pmrow" + (target ? " drop-on" : "")} {...drop}>
                         <button type="button" className="pm empty" aria-label={`Choisir le repas du ${name.toLowerCase()}`} onClick={() => create([i, meal])}>
                           <span className="tx"><Icon name="plus" />{name} : rien de prévu · choisir</span>
                         </button>
@@ -100,8 +115,8 @@ export function Planning({ isPlus, week, setWeek, history, favorites, household,
                     const st = status(sl.recipe, foundOf(sl, history));
                     const dbl = meal === "s" && doubled(w, days, i);
                     return (
-                      <div key={meal} className="pmrow">
-                      <div className="pmw">
+                      <div key={meal} className={"pmrow" + (target ? " drop-on" : "")} {...drop}>
+                      <div className={"pmw" + (drag?.from.i === i && drag.from.meal === meal ? " lift" : "")} {...handle({ i, meal })}>
                         <button type="button" className={"pm" + (i === 0 && meal === "s" ? " now" : "")}
                           onClick={() => navigate(recipePath(sl, history), { state: { recipe: sl.recipe, servings: portions, from: "plan" } })}>
                           <Dish recipe={sl.recipe} className="plate" />
@@ -130,6 +145,11 @@ export function Planning({ isPlus, week, setWeek, history, favorites, household,
         </Pill>
         <button type="button" className="wk-add" onClick={() => create()}><Icon name="pencil" /><span>Modifier ma semaine</span></button>
       </div>
+      {drag && lifted && (
+        <div className="pm-ghost" style={{ left: drag.x, top: drag.y }} aria-hidden="true">
+          <Dish recipe={lifted.recipe} className="plate" /><b>{lifted.recipe.title}</b>
+        </div>
+      )}
       <AppTabBar active="plan" isPlus={isPlus} />
       <SwapSheet at={swap} week={week} days={days} opts={options(history, favorites)} household={household}
         setWeek={setWeek} onClose={() => setSwap(null)} />
