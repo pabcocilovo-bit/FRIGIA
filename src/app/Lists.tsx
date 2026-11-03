@@ -1,7 +1,7 @@
 // 7 · Liste de courses (étape 10), la 2e page de l'onglet « Ma cuisine ». Le planning est dans plan/.
 import { useState } from "react";
 import { useLocation } from "react-router";
-import { EmptyState, Icon, Pill, RoundButton } from "../ui/components";
+import { Dialog, EmptyState, Icon, Pill, RoundButton, TextLink } from "../ui/components";
 import type { ShopItem } from "../lib/home";
 import { byAisle, listText, typedItem } from "../lib/shopping";
 import { ArtBag } from "../ui/art";
@@ -13,19 +13,22 @@ import { showToast } from "./toast";
 
 /** 7 · Liste de courses : les manquants des recettes, rangés par rayon. On coche en faisant les courses, on envoie la liste.
  *  Ouverte à tous depuis le 21 octobre (choix de Hugo) : Plus garde la liste de la semaine en un appui, depuis le Planning. */
-export function Courses({ isPlus, items, onToggle, onAdd, onClearDone }: {
+export function Courses({ isPlus, items, onToggle, onAdd, onClearDone, onClearAll }: {
   isPlus: boolean; items: ShopItem[];
   onToggle: (id: string) => void;
   /** Un article tapé à la main (« 2 citrons ») ; renvoie son id */
   onAdd: (item: { name: string; qty: string }) => string | null;
   /** Retire ce qui est déjà dans le panier */
   onClearDone: () => void;
+  /** Vide toute la liste, cochée ou non (Hugo, 3 novembre : le bouton en haut) */
+  onClearAll: () => void;
 }) {
   const openScan = useOpenScan();
   // Les articles qui viennent d'arriver (« Dans ta liste · voir ») s'allument un instant
   const arrived = (useLocation().state as { flash?: string[] } | null)?.flash ?? [];
   const [typed, setTyped] = useState("");
   const [mine, setMine] = useState<string[]>([]);
+  const [askClear, setAskClear] = useState(false);
   const flash = [...arrived, ...mine];
   const add = () => {
     if (!typed.trim()) return;
@@ -82,6 +85,11 @@ export function Courses({ isPlus, items, onToggle, onAdd, onClearDone }: {
             action={<Pill icon="cam" onClick={openScan}>Scanner mon frigo</Pill>}
           />
         ) : <>
+          {/* En haut de la liste : retirer ce qui est coché, ou tout vider (avant, seulement les cochés, tout en bas) */}
+          <div className="l-tools">
+            {done > 0 && <button type="button" className="l-tool" onClick={onClearDone}><Icon name="check" />Retirer {done > 1 ? `les ${done} cochés` : "le coché"}</button>}
+            <button type="button" className="l-tool l-all" onClick={() => setAskClear(true)}><Icon name="trash" />Vider la liste</button>
+          </div>
           {byAisle(list).map(([aisle, group]) => (
             <div key={aisle} className="lgroup">
               <span className="label">{aisle}</span>
@@ -97,7 +105,6 @@ export function Courses({ isPlus, items, onToggle, onAdd, onClearDone }: {
               </div>
             </div>
           ))}
-          {done > 0 && <button type="button" className="link l-clear" onClick={onClearDone}>Retirer {done > 1 ? `les ${done} articles cochés` : "l'article coché"}</button>}
           <div className="sec"><h3>Envoyer la liste</h3></div>
           <div className="share-row">
             <button type="button" onClick={() => share("WhatsApp")}><Icon name="msg" />WhatsApp</button>
@@ -111,6 +118,11 @@ export function Courses({ isPlus, items, onToggle, onAdd, onClearDone }: {
           </div>
         </>}
       </div>
+      <Dialog open={askClear} onClose={() => setAskClear(false)} icon="trash" title={<>Vider ta <em>liste&nbsp;?</em></>} label="Vider la liste">
+        <p>{list.length > 1 ? `Les ${list.length} articles sont retirés` : "L'article est retiré"}, cochés ou non. Ta cuisine ne change pas.</p>
+        <Pill block tone="danger" onClick={() => { onClearAll(); setAskClear(false); showToast("Liste vidée"); }}>Tout retirer</Pill>
+        <TextLink onClick={() => setAskClear(false)}>Annuler</TextLink>
+      </Dialog>
       <AppTabBar active="list" isPlus={isPlus} />
     </div>
   );
