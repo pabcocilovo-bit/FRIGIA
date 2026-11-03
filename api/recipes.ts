@@ -7,7 +7,7 @@ import { norm, parse, type RawRecipe, salvage, shape, str, strs } from "./_recip
 import { dish } from "./_dish.js";
 import { browse } from "./_browse.js";
 import { backfill, canGenerate, photograph, photoNow, restyle } from "./_images.js";
-import { catalogFill, catalogForFridge, keepScanRecipes, promoteScanRecipe, restock, type Scanned } from "./_fridge.js";
+import { catalogFill, catalogPick, keepScanRecipes, promoteScanRecipe, restock, type Scanned } from "./_fridge.js";
 import { waitUntil } from "@vercel/functions";
 import { constraintsOf } from "./_catalog.js";
 
@@ -198,11 +198,11 @@ export default async function handler(req: Req, res: Res) {
     return { valid, spare };
   };
   const t0 = Date.now();
-  const gen = async (meal: string, count: number) => {
+  const gen = async (meal: string, count: number, margin: number) => {
     if (!count) return [];
-    // Une de plus que demandé (Hugo, 30 octobre) : on garde celles qui demandent le moins d'achats, et il en reste assez
-    // quand l'une d'elles est écartée (titre qui ne colle pas, trop d'achats, recette incomplète)
-    const first = await ask(meal, count + 1);
+    // margin : une de plus que demandé (Hugo, 30 octobre) quand le catalogue ne peut pas compléter (allergies, frigo vide, desserts) :
+    // on garde celles qui demandent le moins d'achats, et il en reste assez quand l'une d'elles est écartée
+    const first = await ask(meal, count + margin);
     if (!first) return null;
     let raw = first.valid.slice(0, count);
     const spare = [...first.spare];
@@ -218,8 +218,8 @@ export default async function handler(req: Req, res: Res) {
     for (const v of spare.sort((a, b) => a.buy - b.buy)) if (raw.length < count && !raw.some(o => norm(o.title) === norm(v.title))) raw.push(v);
     return raw;
   };
-  // Une place pour le catalogue quand une recette colle au frigo (api/_fridge.ts). Pas frigo vide, pas les desserts,
-  // ni l'envie « protéines » que le catalogue ne sait pas vérifier.
+  // Le catalogue d'abord, autant de plats qu'il en a qui collent au frigo (api/_fridge.ts) ; l'IA écrit le reste.
+  // Pas frigo vide, pas les desserts, ni l'envie « protéines » que le catalogue ne sait pas vérifier.
   const asked = (Array.isArray(body.envies) ? body.envies : [body.envie]).filter((e): e is string => typeof e === "string");
   const fridgeAsk = {
     fridge: list, pantry: pantry.map(i => i.name), dislikes, avoid,
@@ -228,18 +228,18 @@ export default async function handler(req: Req, res: Res) {
   };
   const useCatalog = !empty && dishes > 0 && !asked.includes("proteine");
   const known = useCatalog
-    ? await catalogForFridge(admin, fridgeAsk).catch(e => { console.error("catalogue du frigo:", e instanceof Error ? e.message : e); return null; })
-    : null;
-  // L'IA ne refait pas le même plat
-  if (known) avoid.push(known.title);
-  const [mains, sweets] = await Promise.all([gen(meal === "d" ? "s" : meal, dishes - (known ? 1 : 0)), gen("d", desserts)]);
-  // Il manque encore des plats : le catalogue complète (« Créer mes 3 recettes » donne 3 recettes)
-  const shortBy = dishes - (known ? 1 : 0) - (mains?.length ?? 0);
+    ? await catalogPick(admin, fridgeAsk, dishes).catch(e => { console.error("catalogue du frigo:", e instanceof Error ? e.message : e); return []; })
+    : [];
+  // L'IA ne refait pas les mêmes plats
+  avoid.push(...known.map(k => k.title));
+  const [mains, sweets] = await Promise.all([gen(meal === "d" ? "s" : meal, dishes - known.length, useCatalog ? 0 : 1), gen("d", desserts, 1)]);
+  // Il manque encore des plats : le catalogue complète, jusqu'à 2 achats (« Créer mes 3 recettes » donne 3 recettes)
+  const shortBy = dishes - known.length - (mains?.length ?? 0);
   const fill = useCatalog && shortBy > 0
     ? await catalogFill(admin, { ...fridgeAsk, avoid: [...avoid, ...(mains ?? []).map(m => m.title)] }, shortBy)
       .catch(e => { console.error("catalogue (complément):", e instanceof Error ? e.message : e); return []; })
     : [];
-  const fromCatalog = [...(known ? [known] : []), ...fill];
+  const fromCatalog = [...known, ...fill];
   if (!mains && !sweets && !fromCatalog.length) return fail(502, "Service IA temporairement indisponible.");
   const raw = [...(mains ?? []).map(r => ({ ...r, dessert: false })), ...(sweets ?? []).map(r => ({ ...r, dessert: true }))];
   if (raw.length === 0 && !fromCatalog.length) {
