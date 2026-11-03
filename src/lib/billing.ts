@@ -2,12 +2,15 @@
 // Pas de formule gratuite (Hugo, 23 octobre) : 7 jours d'essai à l'inscription, 7 de plus avec un code, puis Plus.
 import type { User } from "./types";
 import { postApi } from "./api";
+import { ALPHA_END } from "./alpha";
 
 export const TRIAL_DAYS = 7;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-/** Fin de l'essai offert à l'inscription (ms). Pas d'essai pour un email qui l'a déjà eu (no_trial, migration 20261103000000) */
-const trialEnd = (u: User) => (u.created_at ? new Date(u.created_at).getTime() : 0) + (u.app_metadata?.no_trial ? 0 : TRIAL_DAYS * DAY_MS);
+/** Fin de l'essai offert à l'inscription (ms), au plus tôt la fin de l'alpha. Pas d'essai après l'alpha pour un email
+ *  qui l'a déjà eu (no_trial, migration 20261103000000) */
+const trialEnd = (u: User) =>
+  Math.max(ALPHA_END, (u.created_at ? new Date(u.created_at).getTime() : 0) + (u.app_metadata?.no_trial ? 0 : TRIAL_DAYS * DAY_MS));
 
 /** Frigia Plus. Même règle que le serveur (api/_shared.ts) : seul app_metadata compte, écrit par le webhook Stripe
  *  (et par api/code.ts pour la semaine d'essai d'un code). */
@@ -40,6 +43,8 @@ export function trialUntil(u: User | null | undefined, now = Date.now()): number
 export function trialText(end: number, now = Date.now()): string {
   // (une marge d'une minute : un « maintenant » lu quelques secondes plus tôt ne compte pas un jour de plus)
   const days = Math.ceil((end - now - 60e3) / DAY_MS);
+  // L'alpha : la date plutôt qu'un compte de jours (src/lib/alpha.ts)
+  if (end === ALPHA_END && days > 1) return "Gratuit jusqu'au 30 novembre";
   return days <= 1 ? "Dernier jour d'essai" : `Encore ${days} jours d'essai`;
 }
 

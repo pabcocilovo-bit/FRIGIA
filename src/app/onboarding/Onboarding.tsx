@@ -15,6 +15,7 @@ import { useCaptcha } from "./captcha";
 import { authMessage, isEmailNotConfirmed, JETABLE, looksLikeEmail } from "./errors";
 import { withGoogle } from "./oauth";
 import { accessEmail, signupOpen, WAITLIST_URL } from "../../lib/launch";
+import { trialPitch } from "../../lib/alpha";
 import { detectInAppBrowser, openInNativeBrowser } from "../../landing/browser";
 import { checkCode, cleanCode, clearInviteCode, inviteCode, setPendingCode } from "../../lib/codes";
 import { CodeSheet, type CodeProblem } from "../plus/CodeSheet";
@@ -146,7 +147,7 @@ export function Welcome() {
         </ol>
         <Pill tone="cream" block onClick={() => { resetAnswers(); navigate("/questions/1"); }}>Commencer</Pill>
         <button type="button" className="ob-login" onClick={() => { clearPendingProfile(); navigate("/connexion"); }}>J'ai déjà un compte</button>
-        <p className="ob-free">7 jours d'essai, sans carte bancaire</p>
+        <p className="ob-free">{trialPitch()}, sans carte bancaire</p>
       </div>
     </Screen>
   );
@@ -376,7 +377,7 @@ export function Ready() {
           {lines.map((l, i) => <li key={l} className={cx(i < shown && "in")}><i><Icon name="check" /></i><span>{l}</span></li>)}
         </ul>
       </div>
-      <GoBar plain title="Créer mon compte" sub="7 jours d'essai, sans carte bancaire" onClick={() => { setPendingProfile(a); navigate("/compte"); }} />
+      <GoBar plain title="Créer mon compte" sub={`${trialPitch()}, sans carte bancaire`} onClick={() => { setPendingProfile(a); navigate("/compte"); }} />
     </Screen>
   );
 }
@@ -506,7 +507,7 @@ export function EmailSignup() {
         {widget}
         <button type="submit" hidden />
       </div></form>
-      <GoBar title="Créer mon compte" sub="7 jours d'essai, sans carte bancaire" loading={loading} onClick={submit} />
+      <GoBar title="Créer mon compte" sub={`${trialPitch()}, sans carte bancaire`} loading={loading} onClick={submit} />
     </Screen>
   );
 }

@@ -18,6 +18,7 @@ import { useScan } from "./scan/store";
 import { eatersOf } from "./scan/portions";
 import { weekDays } from "./format";
 import { Dish } from "./plan/Dish";
+import { AlphaBanner } from "./AlphaBanner";
 import { SwapSheet, TonightSheet } from "./plan/sheets";
 import { cookedSlot, MEAL_NAME, mealOfKey, nextUp, options, recipePath } from "./plan/week";
 import { BetaCard } from "./beta/BetaCard";
@@ -134,6 +135,7 @@ export function Home({ user, isPlus, avatar, history, favorites, cooked, househo
       </div>
       <div className="hm-body">
         {/* Pas de bandeau d'essai en V3 pour l'instant (Hugo, 25 octobre) : à décider, voir notes/versions.md du projet */}
+        <AlphaBanner />
         <section className="hm-hero" aria-label="Scanner mon frigo">
           <img src="/landing/frigo.jpg" alt="" />
           <h1>Ton frigo a des idées&nbsp;!</h1>

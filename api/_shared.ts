@@ -48,8 +48,13 @@ export const errorMessage = (e: unknown) => (e instanceof Error ? e.message : St
 export const TRIAL_DAYS = 7;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-/** Fin de l'essai offert à l'inscription (ms). Pas d'essai pour un email qui l'a déjà eu (no_trial, migration 20261103000000) */
-export const trialEnd = (user: User) => (user.created_at ? new Date(user.created_at).getTime() : 0) + (user.app_metadata?.no_trial ? 0 : TRIAL_DAYS * DAY_MS);
+/** L'alpha (Hugo, 3 novembre) : inscriptions ouvertes et Plus gratuit pour tout le monde jusqu'au 30 novembre inclus
+ *  (1er décembre 0 h, heure de Paris). Même date dans src/lib/alpha.ts. */
+export const ALPHA_END = Date.UTC(2026, 10, 30, 23);
+/** Fin de l'essai offert à l'inscription (ms), au plus tôt la fin de l'alpha. Pas d'essai après l'alpha pour un email
+ *  qui l'a déjà eu (no_trial, migration 20261103000000) */
+export const trialEnd = (user: User) =>
+  Math.max(ALPHA_END, (user.created_at ? new Date(user.created_at).getTime() : 0) + (user.app_metadata?.no_trial ? 0 : TRIAL_DAYS * DAY_MS));
 
 export function isPlus(user: User, now = Date.now()): boolean {
   const m = user.app_metadata || {};
