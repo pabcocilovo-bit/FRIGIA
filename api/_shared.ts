@@ -30,6 +30,8 @@ export function preflight(req: Req, res: Res, methods = "POST"): boolean {
 export type Lang = "fr" | "en";
 export const langOf = (req: Req): Lang => (String(req.headers["x-frigia-lang"] ?? "").toLowerCase() === "en" ? "en" : "fr");
 /** say(lang)("Réessaie", "Try again") : le message dans la langue de l'appli */
+/** La langue d'un compte (l'appli la garde dans user_metadata.lang) : pour les emails partis sans demande de l'appli (Stripe, cron) */
+export const userLang = (u?: { user_metadata?: Record<string, unknown> } | null): Lang => (u?.user_metadata?.lang === "en" ? "en" : "fr");
 export const say = (lang: Lang) => (fr: string, en: string) => (lang === "en" ? en : fr);
 /** À la fin d'une demande à l'IA quand l'appli est en anglais : les consignes restent en français, la réponse est en anglais. */
 export const AI_ENGLISH = `LANGUE (OBLIGATOIRE) : l'utilisateur lit l'anglais. Écris en anglais britannique simple tout le texte qu'il lit : titres, intro, noms d'ingrédients ("name", "plural"), "missing", étapes, libellés des minuteurs, "variant", "change", noms des pièces ("one", "many"). Unités en anglais : "g", "ml", "cl", "tbsp", "tsp", "clove", "slices", "leaves", ou "" pour un nombre de pièces. Restent telles quelles : les clés JSON, et "difficulty" qui vaut toujours "Facile", "Moyen" ou "Difficile". Les exemples en français ci-dessus montrent seulement la forme.`;

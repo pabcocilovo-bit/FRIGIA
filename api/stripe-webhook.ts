@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 import { cancelEmail, payFailedEmail, renewalEmail } from "./_email.js";
-import { errorMessage, grantPlusMonth, periodEnd, type Req, type Res } from "./_shared.js";
+import { errorMessage, grantPlusMonth, type Lang, periodEnd, type Req, type Res, userLang } from "./_shared.js";
 import { notify } from "./_push.js";
 
 export const config = { api: { bodyParser: false } };
@@ -98,24 +98,27 @@ export default async function handler(req: Req, res: Res) {
       throw e;
     }
     const { data: p } = await admin.from("profiles").select("first_name").eq("id", userId).maybeSingle();
-    const name = ((p?.first_name as string | null) ?? "").trim().split(/\s+/)[0] || "Ton ami";
+    // Dans la langue de l'appli de celui qui a invité
+    const en = userLang((await admin.auth.admin.getUserById(referrer)).data?.user) === "en";
+    const name = ((p?.first_name as string | null) ?? "").trim().split(/\s+/)[0] || (en ? "Your friend" : "Ton ami");
     await notify(admin, referrer, {
       kind: "referral", key: `ref-plus:${userId}`, url: "/parrainage",
-      title: `${name} a pris Frigia Plus : un mois offert pour toi`,
-      body: "Ton mois de Plus est ajouté. Merci de faire connaître Frigia.",
+      title: en ? `${name} got Frigia Plus: a free month for you` : `${name} a pris Frigia Plus : un mois offert pour toi`,
+      body: en ? "Your month of Plus has been added. Thanks for spreading the word about Frigia." : "Ton mois de Plus est ajouté. Merci de faire connaître Frigia.",
     });
   };
 
   /** L'adresse du compte, sinon celle du client Stripe. */
-  const emailOf = async (userId: string | null, sub: Stripe.Subscription): Promise<string | null> => {
+  // L'adresse, et la langue de l'appli du compte (userLang) pour écrire l'email dans la bonne langue
+  const emailOf = async (userId: string | null, sub: Stripe.Subscription): Promise<{ email: string | null; lang: Lang }> => {
     if (userId) {
       const { data } = await admin.auth.admin.getUserById(userId);
-      if (data?.user?.email) return data.user.email;
+      if (data?.user?.email) return { email: data.user.email, lang: userLang(data.user) };
     }
     try {
       const customer = await stripe.customers.retrieve(sub.customer as string);
-      return customer.deleted ? null : customer.email;
-    } catch { return null; }
+      return { email: customer.deleted ? null : customer.email, lang: "fr" };
+    } catch { return { email: null, lang: "fr" }; }
   };
 
   if (processedEvents.has(event.id)) return res.json({ received: true });
@@ -154,8 +157,8 @@ export default async function handler(req: Req, res: Res) {
           ? !!before.cancel_at_period_end || !!before.cancel_at
           : nowCanceling;
         if (nowCanceling && !wasCanceling) {
-          const email = await emailOf(userId, sub);
-          if (email) await cancelEmail(email, sub.cancel_at ?? periodEnd(sub), `cancel-${event.id}`);
+          const { email, lang } = await emailOf(userId, sub);
+          if (email) await cancelEmail(email, sub.cancel_at ?? periodEnd(sub), `cancel-${event.id}`, lang);
         }
         break;
       }
@@ -184,8 +187,8 @@ export default async function handler(req: Req, res: Res) {
         if (userId) await updateUser(userId, "past_due");
         // Renouvellement refusé : un email au premier échec (au premier paiement, l'abonné est encore sur la page)
         if (sub && invoice.billing_reason === "subscription_cycle" && invoice.attempt_count === 1) {
-          const email = await emailOf(userId, sub);
-          if (email) await payFailedEmail(email, invoice.amount_due, `payfail-${invoice.id}`);
+          const { email, lang } = await emailOf(userId, sub);
+          if (email) await payFailedEmail(email, invoice.amount_due, `payfail-${invoice.id}`, lang);
         }
         break;
       }
@@ -195,9 +198,9 @@ export default async function handler(req: Req, res: Res) {
         const invoice = event.data.object as Stripe.Invoice;
         const sub = await subscriptionOfInvoice(invoice);
         if (!sub || sub.cancel_at_period_end || sub.cancel_at || sub.items.data[0]?.price.recurring?.interval !== "year") break;
-        const email = await emailOf(await getUserIdFromSubscription(sub), sub);
+        const { email, lang } = await emailOf(await getUserIdFromSubscription(sub), sub);
         const renewsAt = periodEnd(sub);
-        if (email) await renewalEmail(email, renewsAt, invoice.amount_due, `renew-${sub.id}-${renewsAt}`);
+        if (email) await renewalEmail(email, renewsAt, invoice.amount_due, `renew-${sub.id}-${renewsAt}`, lang);
         break;
       }
       case "invoice.payment_succeeded": {

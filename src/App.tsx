@@ -67,7 +67,7 @@ import { Inbox } from "./app/notifs/Inbox";
 import { NotifAsk } from "./app/notifs/NotifAsk";
 import { BetaSurvey } from "./app/beta/BetaSurvey";
 import { useNotifSync } from "./app/notifs/sync";
-import { t } from "./lib/i18n";
+import { lang, t } from "./lib/i18n";
 
 // Écrans de l'inscription et de la connexion (étape 4). Connecté, seuls les questions, la caméra
 // et le mot de passe oublié (le code connecte avant le nouveau mot de passe) restent ouverts.
@@ -141,6 +141,8 @@ export default function Frigia() {
         });
       }
       setUserId(u.id);
+      // La langue de l'appli, gardée sur le compte : les emails et les notifications partent dans cette langue (api/_shared.ts, userLang)
+      if ((lang === "en" || u.user_metadata?.lang === "en") && u.user_metadata?.lang !== lang) void supabase.auth.updateUser({ data: { lang } }).catch(() => { /* réessayé à la prochaine ouverture */ });
       void library.load(u.id);
       void cooked.load(u.id);
       void home.load(u.id);

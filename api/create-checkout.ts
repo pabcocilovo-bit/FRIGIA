@@ -1,11 +1,12 @@
 // Passer à Plus : ouvre la page de paiement Stripe pour la formule choisie (mensuel ou annuel).
 // L'annuel est au prix fondateur (29,99 €/an) tant qu'il reste des places parmi les 500 premiers.
 import {
-  adminClient, authUser, CREATOR_OFFER, currentSubscription, findCustomerId, founderSeatsLeft, hasCreatorOffer, isPlus, plusOneMonth, preflight, siteOrigin, stripeClient, trialEnd as trialOver, type Req, type Res,
+  adminClient, authUser, CREATOR_OFFER, currentSubscription, findCustomerId, founderSeatsLeft, hasCreatorOffer, isPlus, plusOneMonth, preflight, siteOrigin, stripeClient, trialEnd as trialOver, type Req, type Res, langOf, say,
 } from "./_shared.js";
 
 export default async function handler(req: Req, res: Res) {
   if (preflight(req, res)) return;
+  const tx = say(langOf(req));
   const user = await authUser(req, adminClient());
   if (!user || !user.email) return res.status(401).json({ error: "Invalid token" });
 
@@ -62,6 +63,6 @@ export default async function handler(req: Req, res: Res) {
     res.json({ url: session.url });
   } catch (e) {
     console.error("create-checkout:", e);
-    res.status(500).json({ error: "Impossible de créer la session de paiement. Réessayez." });
+    res.status(500).json({ error: tx("Impossible de créer la session de paiement. Réessayez.", "Couldn't start the payment. Try again.") });
   }
 }

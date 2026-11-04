@@ -8,11 +8,24 @@
 // Vercel ne lance les crons que sur le site en production, pas sur les aperçus.
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { notifyMany, payloadOf, sendPush, vapidPublicKey, type Notif, type Sub } from "./_push.js";
-import { adminClient, authUser, errorMessage, isPlus, preflight, type Req, type Res } from "./_shared.js";
+import { adminClient, authUser, errorMessage, isPlus, type Lang, langOf, preflight, type Req, type Res, say, userLang } from "./_shared.js";
 
 const DAY = 864e5;
 const iso = (t: number) => new Date(t).toISOString();
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+const MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+/** Les comptes qui ont l'appli en anglais (user_metadata.lang) : leurs notifications partent en anglais */
+async function english(admin: SupabaseClient): Promise<Set<string>> {
+  const out = new Set<string>();
+  for (let page = 1; page < 50; page++) {
+    const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 1000 });
+    if (error) { console.error("notify (langues):", error.message); break; }
+    for (const u of data.users) if (userLang(u) === "en") out.add(u.id);
+    if (data.users.length < 1000) break;
+  }
+  return out;
+}
 
 /** Le fuseau du téléphone s'il est valable, sinon Paris */
 export function safeTz(tz: unknown): string {
@@ -70,9 +83,11 @@ async function audience(admin: SupabaseClient, now: number, scanDays: number) {
 }
 
 /** « Tu as tout dans le frigo. 25 minutes, et c'est prêt. » */
-export function eveningBody(r: Recipe): string {
-  const have = r.missing === undefined || r.missing === null ? "Avec ce qu'il y a dans ton frigo." : r.missing.trim() ? `Il te manque juste ${r.missing.trim()}.` : "Tu as tout dans le frigo.";
-  return r.minutes && r.minutes > 0 ? `${have} ${Math.round(r.minutes)} minutes, et c'est prêt.` : have;
+export function eveningBody(r: Recipe, lang: Lang = "fr"): string {
+  const x = say(lang);
+  const have = r.missing === undefined || r.missing === null ? x("Avec ce qu'il y a dans ton frigo.", "With what's in your fridge.")
+    : r.missing.trim() ? x(`Il te manque juste ${r.missing.trim()}.`, `You just need ${r.missing.trim()}.`) : x("Tu as tout dans le frigo.", "You have everything in the fridge.");
+  return r.minutes && r.minutes > 0 ? `${have} ${x(`${Math.round(r.minutes)} minutes, et c'est prêt.`, `Ready in ${Math.round(r.minutes)} minutes.`)}` : have;
 }
 
 /** Peut-il scanner ? (Plus, ou encore dans ses jours d'essai) */
@@ -88,6 +103,8 @@ async function canScan(admin: SupabaseClient, ids: string[]): Promise<Set<string
 /** L'idée du soir : une recette du dernier scan (3 jours au plus), pas encore cuisinée. Rien si un repas est déjà cuisiné aujourd'hui. */
 async function evening(admin: SupabaseClient, now = Date.now()) {
   const { subs, lastScan, users, settings } = await audience(admin, now, 3);
+  const en = await english(admin);
+  const x = (u: string) => say(en.has(u) ? "en" : "fr");
   const [cooked, recent] = await Promise.all([
     all<{ user_id: string; recipe_title: string; cooked_at: string }>((a, b) => admin.from("cooked_meals").select("user_id, recipe_title, cooked_at").gte("cooked_at", iso(now - 4 * DAY)).range(a, b)),
     // Les relances sans scan : une tous les 3 jours au plus
@@ -110,33 +127,36 @@ async function evening(admin: SupabaseClient, now = Date.now()) {
     if (scan && ideas.length) {
       // Une autre recette du scan chaque jour
       const { r, i } = ideas[Math.max(0, Math.floor((now - Date.parse(scan.scan_date)) / DAY)) % ideas.length];
-      list.push({ userId: u, push: true, n: { kind: "evening", key, title: `${clip(r.title!.trim())} ce soir ?`, body: eveningBody(r), url: `/recettes/${encodeURIComponent(scan.id)}/${i}`, action: "Voir la recette" } });
+      list.push({ userId: u, push: true, n: { kind: "evening", key, title: x(u)(`${clip(r.title!.trim())} ce soir ?`, `${clip(r.title!.trim())} tonight?`), body: eveningBody(r, en.has(u) ? "en" : "fr"), url: `/recettes/${encodeURIComponent(scan.id)}/${i}`, action: x(u)("Voir la recette", "See the recipe") } });
     } else if (subs.has(u) && !lately.has(u)) nudge.push({ userId: u, key });
   }
   const able = nudge.length ? await canScan(admin, nudge.map(x => x.userId)) : new Set<string>();
+  const tx = x;
   for (const x of nudge) {
-    if (able.has(x.userId)) list.push({ userId: x.userId, push: true, n: { kind: "evening", key: x.key, title: "Qu'est-ce qu'on mange ce soir ?", body: "Prends ton frigo en photo : 3 idées avec ce qu'il te reste.", url: "/scan", action: "Scanner mon frigo" } });
+    if (able.has(x.userId)) list.push({ userId: x.userId, push: true, n: { kind: "evening", key: x.key, title: tx(x.userId)("Qu'est-ce qu'on mange ce soir ?", "What's for dinner tonight?"), body: tx(x.userId)("Prends ton frigo en photo : 3 idées avec ce qu'il te reste.", "Take a photo of your fridge: 3 ideas with what you have left."), url: "/scan", action: tx(x.userId)("Scanner mon frigo", "Scan my fridge") } });
   }
   const sent = await notifyMany(admin, list, subs);
-  return { evening: sent, report: await monthReport(admin, now) };
+  return { evening: sent, report: await monthReport(admin, now, en) };
 }
 
 /** Les 3 premiers jours du mois : « Ton bilan de septembre est prêt », pour ceux qui ont cuisiné le mois d'avant. Dans le centre seulement. */
-async function monthReport(admin: SupabaseClient, now: number) {
+async function monthReport(admin: SupabaseClient, now: number, en: Set<string>) {
   const [y, m, d] = dayOf(now, "Europe/Paris").split("-").map(Number);
   if (d > 3) return 0;
   const py = m === 1 ? y - 1 : y, pm = m === 1 ? 12 : m - 1;
   const month = `${py}-${String(pm).padStart(2, "0")}`;
   const rows = await all<{ user_id: string; kg: number | string; cooked_at: string }>((a, b) => admin.from("cooked_meals").select("user_id, kg, cooked_at")
     .gte("cooked_at", iso(Date.UTC(py, pm - 1, 1) - DAY)).lt("cooked_at", iso(Date.UTC(y, m - 1, 1) + DAY)).range(a, b));
-  const name = MONTHS[pm - 1];
+  const name = MONTHS[pm - 1], nameEn = MONTHS_EN[pm - 1];
   const of = /^[aeiouâ]/.test(name) ? `d'${name}` : `de ${name}`;
   const list = [...group(rows.filter(r => dayOf(r.cooked_at, "Europe/Paris").startsWith(month)), r => r.user_id)].map(([userId, meals]) => ({
     userId, push: false,
     n: {
-      kind: "report", key: `report:${month}`, title: `Ton bilan ${of} est prêt`, url: `/bilan?mois=${month}`,
+      kind: "report", key: `report:${month}`, title: en.has(userId) ? `Your ${nameEn} report is ready` : `Ton bilan ${of} est prêt`, url: `/bilan?mois=${month}`,
       // « Sauvé » seulement si quelque chose marqué « À finir » a été cuisiné ce mois-là
-      body: meals.some(r => Number(r.kg) > 0) ? `Ce que tu as cuisiné et sauvé en ${name}.` : `Ce que tu as cuisiné avec ton frigo en ${name}.`,
+      body: en.has(userId)
+        ? meals.some(r => Number(r.kg) > 0) ? `What you cooked and saved in ${nameEn}.` : `What you cooked from your fridge in ${nameEn}.`
+        : meals.some(r => Number(r.kg) > 0) ? `Ce que tu as cuisiné et sauvé en ${name}.` : `Ce que tu as cuisiné avec ton frigo en ${name}.`,
     } satisfies Notif,
   }));
   return notifyMany(admin, list);
@@ -145,12 +165,14 @@ async function monthReport(admin: SupabaseClient, now: number) {
 /** Le dimanche matin : « On prépare ta semaine ? » */
 async function week(admin: SupabaseClient, now = Date.now()) {
   const { subs, lastScan, users, settings } = await audience(admin, now, 7);
-  const list = users.filter(u => settings.get(u)?.week !== false).map(u => ({
+  const en = await english(admin);
+  const list = users.filter(u => settings.get(u)?.week !== false).map(u => ({ u, x: say(en.has(u) ? "en" : "fr") })).map(({ u, x }) => ({
     userId: u, push: true,
     n: {
-      kind: "week", key: `week:${dayOf(now, safeTz(settings.get(u)?.tz))}`, title: "On prépare ta semaine ?",
-      body: lastScan.has(u) ? "Des repas avec ton dernier scan. Ce qui se périme passe en premier." : "Un scan du frigo, et on te propose les repas de la semaine.",
-      url: "/planning/creer", action: "Préparer ma semaine",
+      kind: "week", key: `week:${dayOf(now, safeTz(settings.get(u)?.tz))}`, title: x("On prépare ta semaine ?", "Shall we plan your week?"),
+      body: lastScan.has(u) ? x("Des repas avec ton dernier scan. Ce qui se périme passe en premier.", "Meals from your last scan. What goes off first comes first.")
+        : x("Un scan du frigo, et on te propose les repas de la semaine.", "One fridge scan, and we suggest the week's meals."),
+      url: "/planning/creer", action: x("Préparer ma semaine", "Plan my week"),
     } satisfies Notif,
   }));
   return { week: await notifyMany(admin, list, subs) };
@@ -202,7 +224,9 @@ export default async function handler(req: Req, res: Res) {
     await admin.from("notif_settings").upsert({ user_id: user.id, tz: safeTz(tz), updated_at: new Date().toISOString() }, { onConflict: "user_id" });
     // Une fois par jour l'appli redit son abonnement (quiet) : pas de notif alors
     if (quiet) return res.json({ ok: true, sent: 0 });
-    const sent = await sendPush(admin, [{ endpoint: e, p256dh: p, auth: a }], payloadOf({ kind: "welcome", key: "on", title: "C'est activé", body: "On te fait signe au bon moment. Tu choisis lesquelles dans les réglages." }));
+    const sent = await sendPush(admin, [{ endpoint: e, p256dh: p, auth: a }], payloadOf({ kind: "welcome", key: "on", ...(langOf(req) === "en"
+      ? { title: "It's on", body: "We'll nudge you at the right time. You choose which ones in Settings." }
+      : { title: "C'est activé", body: "On te fait signe au bon moment. Tu choisis lesquelles dans les réglages." }) }));
     return res.json({ ok: true, sent });
   }
 
