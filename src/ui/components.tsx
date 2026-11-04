@@ -138,7 +138,7 @@ export function TabBar({ active, isPlus, onTab, onScan }: {
     </button>
   );
   return (
-    <nav className="tabbar" aria-label="Navigation">
+    <nav className="tabbar" aria-label={t("Navigation", "Navigation")}>
       {TABS.slice(0, 2).map(tab)}
       <button type="button" className="tab-scan" aria-label={t("Scanner mon frigo", "Scan my fridge")} onClick={onScan}><Icon name="cam" /></button>
       {TABS.slice(2).map(tab)}

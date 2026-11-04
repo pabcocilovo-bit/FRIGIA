@@ -8,6 +8,9 @@ import { isEn, locale, t } from "../../lib/i18n";
 
 export const MEALS: MealKey[] = ["m", "s"];
 export const MEAL_NAME: Record<MealKey, string> = t({ m: "midi", s: "soir" }, { m: "lunch", s: "dinner" });
+/** « Restes de jeudi soir » / « Leftovers from Thursday dinner » */
+export const leftFrom = (days: WeekDay[], i: number) =>
+  t(`Restes de ${days[i - 1]?.long.toLowerCase() ?? "la veille"} soir`, `Leftovers from ${days[i - 1] ? `${days[i - 1].long}'s dinner` : "last night"}`);
 /** « ce soir », « jeudi midi » / « tonight », « Thursday lunch » */
 export const slotWhen = (days: WeekDay[], i: number, m: MealKey) => isEn
   ? (i === 0 ? (m === "s" ? "tonight" : "this lunchtime") : `${days[i].long} ${MEAL_NAME[m]}`)

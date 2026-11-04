@@ -1,5 +1,6 @@
 // Les membres du foyer, chacun se retire ou revient d'un appui : « Qui mange ce soir ? » (Menu), la fiche recette et Explorer.
 import type { Person } from "../../lib/household";
+import { t } from "../../lib/i18n";
 import "./scan.css";
 
 export function WhoGrid({ household, away, avatar, onToggle }: {
@@ -12,7 +13,7 @@ export function WhoGrid({ household, away, avatar, onToggle }: {
         return (
           <button key={p.id} type="button" className={"wm" + (on ? " on" : "")} aria-pressed={on} onClick={() => onToggle(p.id)}>
             <i className={pp ? "has-pp" : undefined} style={pp ? { backgroundImage: `url(${avatar})` } : undefined}>{p.name.charAt(0).toUpperCase()}</i>{p.name}
-            {p.kid && <small>{p.age} ans</small>}
+            {p.kid && <small>{t(`${p.age} ans`, `${p.age} yrs`)}</small>}
           </button>
         );
       })}

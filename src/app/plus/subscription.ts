@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { subscriptionAction, type PlanChoice, type Subscription } from "../../lib/billing";
+import { isEn, locale, t } from "../../lib/i18n";
 
 /** Pourquoi « Passe à Plus » s'ouvre : la phrase sous « Frigia Plus ». */
-export const WHY = {
+const WHY_FR = {
   def: "Fini le « on mange quoi ce soir ? », et moins de courses à la poubelle.",
   fin: "Ton essai de 7 jours est terminé. Abonne-toi pour continuer : ta cuisine, ta liste et tes recettes t'attendent.",
   planning: "Le planning de la semaine est dans Frigia Plus.",
@@ -17,6 +18,19 @@ export const WHY = {
   budget: "Le budget courses est dans Frigia Plus : tes tickets de caisse s'y ajoutent tout seuls.",
   vide: "Frigo vide ? Avec Plus, Frigia te propose quand même 3 plats, avec la petite liste de courses.",
 };
+export const WHY: typeof WHY_FR = t(WHY_FR, {
+  def: "No more \"what's for dinner?\", and less food in the bin.",
+  fin: "Your 7-day trial is over. Subscribe to keep going: your kitchen, your list and your recipes are waiting.",
+  planning: "The weekly plan is in Frigia Plus.",
+  courses: "The week's shopping in one tap is in Frigia Plus.",
+  famille: "Family mode is in Frigia Plus: everyone's tastes, portions worked out for you.",
+  idees: "\"More ideas\" is in Frigia Plus, without using a scan.",
+  historique: "Your last 50 scans are in Frigia Plus.",
+  favoris: "All your favourites, kept, are in Frigia Plus.",
+  bilan: "Your full savings report is in Frigia Plus.",
+  budget: "The grocery budget is in Frigia Plus: your receipts add up on their own.",
+  vide: "Empty fridge? With Plus, Frigia still suggests 3 dishes, with a short shopping list.",
+});
 export type Why = keyof typeof WHY;
 /** Ce que « Passe à Plus » reçoit : la raison, et l'écran à ouvrir une fois abonné. */
 export type PaywallState = { why?: Why; go?: string; /** « Utiliser un code » des réglages : le champ code ouvert */ code?: boolean };
@@ -36,28 +50,28 @@ export function checkoutChoice(): { plan: PlanChoice; go?: string } {
   try { return JSON.parse(sessionStorage.getItem(GO_KEY) || "null") ?? { plan: "year" }; } catch { return { plan: "year" }; }
 }
 
-const DAY = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long" });
-const DAY_YEAR = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+const DAY = new Intl.DateTimeFormat(locale, { day: "numeric", month: "long" });
+const DAY_YEAR = new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric" });
 /** « 6 novembre », ou « 6 octobre 2027 » quand ce n'est pas cette année (ou quand on veut l'année). */
 export function longDate(s: number, withYear?: boolean): string {
   const d = new Date(s * 1000);
   return (withYear ?? d.getFullYear() !== new Date().getFullYear() ? DAY_YEAR : DAY).format(d);
 }
-const euros = (cents: number) => (cents / 100).toFixed(2).replace(".", ",") + " €";
+const euros = (cents: number) => (isEn ? "€" + (cents / 100).toFixed(2) : (cents / 100).toFixed(2).replace(".", ",") + " €");
 export const isYearly = (sub: Subscription) => sub.interval === "year";
 
 /** Le prix de l'abonnement : « 29,99 €/an, prix fondateur », « 6,99 €/mois ». */
 export function priceText(sub: Subscription): string {
-  const price = sub.amount != null ? `${euros(sub.amount)}/${isYearly(sub) ? "an" : "mois"}` : "Frigia Plus";
-  return sub.plan === "founder" ? `${price}, prix fondateur` : price;
+  const price = sub.amount != null ? `${euros(sub.amount)}/${isYearly(sub) ? t("an", "year") : t("mois", "month")}` : "Frigia Plus";
+  return sub.plan === "founder" ? `${price}, ${t("prix fondateur", "founder price")}` : price;
 }
 
 /** La ligne sous « Frigia Plus » dans Famille. */
 export function subscriptionText(sub: Subscription): string {
   const end = longDate(sub.periodEnd);
-  if (sub.cancelAtPeriodEnd) return `Se termine le ${end} · sans renouvellement`;
-  if (sub.pauseUntil) return isYearly(sub) ? `En pause jusqu'au ${longDate(sub.pauseUntil)} · renouvelé le ${end}` : `En pause · prochain paiement le ${end}`;
-  return isYearly(sub) ? `${priceText(sub)} · renouvelé le ${end}` : `${priceText(sub)} · prochain paiement le ${end}`;
+  if (sub.cancelAtPeriodEnd) return t(`Se termine le ${end} · sans renouvellement`, `Ends on ${end} · won't renew`);
+  if (sub.pauseUntil) return isYearly(sub) ? t(`En pause jusqu'au ${longDate(sub.pauseUntil)} · renouvelé le ${end}`, `Paused until ${longDate(sub.pauseUntil)} · renews on ${end}`) : t(`En pause · prochain paiement le ${end}`, `Paused · next payment on ${end}`);
+  return isYearly(sub) ? t(`${priceText(sub)} · renouvelé le ${end}`, `${priceText(sub)} · renews on ${end}`) : t(`${priceText(sub)} · prochain paiement le ${end}`, `${priceText(sub)} · next payment on ${end}`);
 }
 
 let cache: { userId: string; sub: Subscription | null } | null = null;

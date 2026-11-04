@@ -1,5 +1,6 @@
 // Carte story de fin de cuisson : la photo du plat, « Frigia », ce qui a été sauvé et le nom du plat, en 1080 × 1920.
 // Même mise en page que la carte du prototype (.scard, 210 × 373), agrandie.
+import { t } from "../../lib/i18n";
 const W = 1080, H = 1920, K = W / 210;
 const SERIF = '"Instrument Serif", Georgia, serif';
 const SANS = '"Hanken Grotesk", system-ui, sans-serif';
@@ -89,7 +90,7 @@ async function draw(photo: string | null, badge: string, title: string, foot0: s
 
 /** L'image de la carte (PNG). foot : la petite phrase du bas. */
 export async function storyImage(photo: string | null, badge: string, title: string,
-  foot = "Faite avec ce qu'il y avait dans le frigo · frigia.fr"): Promise<Blob | null> {
+  foot = t("Faite avec ce qu'il y avait dans le frigo · frigia.fr", "Made with what was in the fridge · frigia.fr")): Promise<Blob | null> {
   await Promise.all([
     document.fonts.load(`italic 400 ${22 * K}px ${SERIF}`),
     document.fonts.load(`400 ${26 * K}px ${SERIF}`),

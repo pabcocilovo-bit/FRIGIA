@@ -9,12 +9,13 @@ import { useBack } from "../nav";
 import { useOpenPaywall } from "../plus/subscription";
 import { ContactSheet, type SendMode } from "./sheets";
 import { ART_ALLERGIES, ART_OFFLINE, ART_PHOTO } from "./helpArt";
+import { t } from "../../lib/i18n";
 import "../library/library.css";
 import "./settings.css";
 
 type Act = "paywall" | "sub" | "privacy" | "install";
 type Q = { k: string; q: string; a: string; act?: [string, Act] };
-const FAQ: { title: string; icon: IconName; qs: Q[] }[] = [
+const FAQ: { title: string; icon: IconName; qs: Q[] }[] = t([
   { title: "Le scan", icon: "cam", qs: [
     { k: "photo", q: "Comment réussir la photo du frigo ?", a: "Porte grande ouverte, lumière allumée, et un pas en arrière pour tout faire tenir dans le cadre. Avant les recettes, tu vérifies ce que Frigia a trouvé : tu ajoutes un oubli ou tu retires une erreur." },
     { k: "free", q: "Est-ce que je peux essayer sans payer ?", a: "Oui : 7 jours pour tout essayer, sans carte bancaire. Avec un code ami ou créateur, 7 jours de plus. Ensuite, Frigia Plus coûte 6,99 € par mois ou 39,99 € par an." },
@@ -41,13 +42,39 @@ const FAQ: { title: string; icon: IconName; qs: Q[] }[] = [
     { k: "camera", q: "Sur iPhone, Frigia me redemande la caméra à chaque fois", a: "C'est iOS qui fait ça quand Frigia est ouverte depuis l'écran d'accueil : Frigia ne peut pas l'empêcher. Pour ne plus avoir la question : Réglages de l'iPhone, Apps, Safari, Caméra, puis « Autoriser ». Attention : ce réglage vaut pour tous les sites que tu ouvres dans Safari, pas seulement Frigia, et il reste actif tant que tu ne le changes pas. Si tu préfères, laisse « Demander » : il suffit de toucher « Autoriser » à chaque scan." },
     { k: "delete", q: "Comment supprimer mon compte ?", a: "Réglages, tout en bas : « Supprimer mon compte ». Tes scans, tes favoris et ta famille sont effacés." },
   ] },
-];
+], [
+  { title: "Scanning", icon: "cam", qs: [
+    { k: "photo", q: "How do I take a good fridge photo?", a: "Door wide open, light on, and one step back so everything fits in the frame. Before the recipes, you check what Frigia found: add anything it missed or remove a mistake." },
+    { k: "free", q: "Can I try it without paying?", a: "Yes: 7 days to try everything, no card needed. With a friend or creator code, 7 more days. After that, Frigia Plus costs €6.99 a month or €39.99 a year." },
+    { k: "offline", q: "Does Frigia work offline?", a: "Yes for your shopping list, your week and your favourites: they're kept on your phone. Scanning waits until you're back online." },
+  ] },
+  { title: "Recipes", icon: "utensils", qs: [
+    { k: "allergies", q: "Does Frigia take allergies into account?", a: "Yes, the ones you enter for yourself and your family. The recipes come from an AI: still check the labels, especially for children." },
+    { k: "ai", q: "Where do the recipes come from?", a: "From an artificial intelligence (Claude, by Anthropic) that starts from your ingredients, your tastes and the time you have. The dish photos give an idea: they don't show exactly your recipe." },
+    { k: "missing", q: "I'm missing an ingredient, what do I do?", a: "On the recipe, tap \"Add the missing items\": they go to your shopping list, sorted by aisle." },
+  ] },
+  { title: "Subscription", icon: "sparkle", qs: [
+    { k: "price", q: "How much is Frigia Plus?", a: "€6.99 a month with no commitment, or €39.99 a year. The first 500 subscribers get the founder price: €29.99 a year, kept as long as they don't cancel.", act: ["See Frigia Plus", "paywall"] },
+    { k: "code", q: "I have a friend or creator code, where do I enter it?", a: "When you create your account, under \"I have a friend or creator code\". Or when you upgrade to Plus. One code per account." },
+    { k: "cancel", q: "How do I cancel?", a: "Settings, then Subscription: it's done in 3 taps. Plus stays active until the end of the paid period. You can also take a one-month pause.", act: ["Manage my subscription", "sub"] },
+    { k: "declined", q: "My payment was declined, do I lose everything?", a: "No. Nothing is charged and nothing is deleted: your favourites, scans and list stay. Change your card whenever you like." },
+  ] },
+  { title: "Your account", icon: "user", qs: [
+    { k: "photos", q: "What happens to my fridge photo?", a: "It's only used to read your ingredients: Frigia doesn't keep it. We never sell your data.", act: ["Read the privacy policy", "privacy"] },
+    { k: "family", q: "How do I add my family?", a: "With Plus, in My profile, at the top of the home screen: a first name, an age, their allergies and what they don't like. Recipes adapt to the whole table." },
+    { k: "notifs", q: "I'm not getting notifications", a: "On iPhone, they only arrive if Frigia is on your home screen (iOS 16.4 or later). Then check your phone settings, and in Frigia: Settings, Notifications.", act: ["How to add it", "install"] },
+    { k: "install", q: "How do I put Frigia on my home screen?", a: "On iPhone, in Safari: Share, then \"Add to Home Screen\". On Android, in Chrome: the ⋮ menu, then \"Install app\"." },
+    { k: "camera", q: "On iPhone, Frigia asks for the camera every time", a: "iOS does this when Frigia is opened from the home screen: Frigia can't prevent it. To stop the question: iPhone Settings, Apps, Safari, Camera, then \"Allow\". Note: this setting applies to every site you open in Safari, not just Frigia, and it stays on until you change it. If you prefer, leave \"Ask\": just tap \"Allow\" at each scan." },
+    { k: "delete", q: "How do I delete my account?", a: "Settings, at the very bottom: \"Delete my account\". Your scans, favourites and family are erased." },
+  ] },
+]);
+
 const CARDS: { k: string; tone: string; art: string; title: string }[] = [
-  { k: "photo", tone: "sage", art: ART_PHOTO, title: "Réussir la photo du frigo" },
-  { k: "allergies", tone: "gold", art: ART_ALLERGIES, title: "Les allergies de la famille" },
-  { k: "offline", tone: "cream", art: ART_OFFLINE, title: "Frigia sans réseau" },
+  { k: "photo", tone: "sage", art: ART_PHOTO, title: t("Réussir la photo du frigo", "Taking a good fridge photo") },
+  { k: "allergies", tone: "gold", art: ART_ALLERGIES, title: t("Les allergies de la famille", "Family allergies") },
+  { k: "offline", tone: "cream", art: ART_OFFLINE, title: t("Frigia sans réseau", "Frigia offline") },
 ];
-const norm = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const norm = (v: string) => v.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
 export function Help({ user, isPlus }: { user: User; isPlus: boolean }) {
   const back = useBack();
@@ -81,17 +108,17 @@ export function Help({ user, isPlus }: { user: User; isPlus: boolean }) {
   };
 
   return (
-    <div className="fa fa-app hp-page" aria-label="Aide et questions fréquentes">
-      <ScreenHeader title={<>Comment on peut <em>t'aider ?</em></>} left={<RoundButton icon="back" label="Retour" big onClick={back} />} />
+    <div className="fa fa-app hp-page" aria-label={t("Aide et questions fréquentes", "Help and FAQ")}>
+      <ScreenHeader title={t(<>Comment on peut <em>t'aider ?</em></>, <>How can we <em>help?</em></>)} left={<RoundButton icon="back" label={t("Retour", "Back")} big onClick={back} />} />
       <div className="st-body hp-body">
         <div className="st-card hp-top">
-          {([["contact", "msg", "Nous écrire", "Une vraie personne, sous 24 h"], ["bug", "alert", "Signaler un problème", "Un bug, une erreur de scan"], ["idea", "sparkle", "Donner ton avis", "Une idée pour Frigia ?"]] as const).map(([m, icon, t, s]) => (
+          {([["contact", "msg", t("Nous écrire", "Contact us"), t("Une vraie personne, sous 24 h", "A real person, within 24 h")], ["bug", "alert", t("Signaler un problème", "Report a problem"), t("Un bug, une erreur de scan", "A bug, a scan mistake")], ["idea", "sparkle", t("Donner ton avis", "Give feedback"), t("Une idée pour Frigia ?", "An idea for Frigia?")]] as const).map(([m, icon, title, s]) => (
             <button key={m} type="button" className="st-row" onClick={() => setSend(m)}>
-              <span className="pi"><Icon name={icon} /></span><span className="hp-rt"><b>{t}</b><small>{s}</small></span><Icon name="next" className="st-chev" />
+              <span className="pi"><Icon name={icon} /></span><span className="hp-rt"><b>{title}</b><small>{s}</small></span><Icon name="next" className="st-chev" />
             </button>
           ))}
         </div>
-        <span className="st-sec">Bien démarrer</span>
+        <span className="st-sec">{t("Bien démarrer", "Getting started")}</span>
         <div className="hp-cards">
           {CARDS.map(c => (
             <button key={c.k} type="button" className={`hp-card ${c.tone}`} onClick={() => { setQ(""); show(c.k); }}>
@@ -99,8 +126,8 @@ export function Help({ user, isPlus }: { user: User; isPlus: boolean }) {
             </button>
           ))}
         </div>
-        <h3 className="hp-faqt">Questions <em>fréquentes</em></h3>
-        <label className="fv-search hp-search"><Icon name="search" /><input type="search" placeholder="Cherche une question" autoComplete="off" aria-label="Chercher dans les questions" value={q} onChange={e => setQ(e.target.value)} /></label>
+        <h3 className="hp-faqt">{t(<>Questions <em>fréquentes</em></>, <>Frequently asked <em>questions</em></>)}</h3>
+        <label className="fv-search hp-search"><Icon name="search" /><input type="search" placeholder={t("Cherche une question", "Search a question")} autoComplete="off" aria-label={t("Chercher dans les questions", "Search the questions")} value={q} onChange={e => setQ(e.target.value)} /></label>
         {groups.map(g => (
           <div key={g.title} className="hp-grp"><span className="st-sec">{g.title}</span>
             {g.qs.map(x => {
@@ -119,11 +146,11 @@ export function Help({ user, isPlus }: { user: User; isPlus: boolean }) {
             })}
           </div>
         ))}
-        {!groups.length && <p className="hp-none">Rien trouvé pour « <b>{q.trim()}</b> ». Écris-nous, on te répond sous 24 h.</p>}
+        {!groups.length && <p className="hp-none">{t(<>Rien trouvé pour « <b>{q.trim()}</b> ». Écris-nous, on te répond sous 24 h.</>, <>Nothing found for "<b>{q.trim()}</b>". Write to us, we reply within 24 h.</>)}</p>}
         <div className="hp-more">
-          <h3>Pas trouvé ta <em>réponse ?</em></h3>
-          <p>Écris-nous, une vraie personne te répond par email sous 24 h.</p>
-          <Pill tone="cream" icon="msg" onClick={() => setSend("contact")}>Nous écrire</Pill>
+          <h3>{t(<>Pas trouvé ta <em>réponse ?</em></>, <>Didn't find your <em>answer?</em></>)}</h3>
+          <p>{t("Écris-nous, une vraie personne te répond par email sous 24 h.", "Write to us, a real person replies by email within 24 h.")}</p>
+          <Pill tone="cream" icon="msg" onClick={() => setSend("contact")}>{t("Nous écrire", "Contact us")}</Pill>
         </div>
       </div>
       <ContactSheet mode={send} onClose={() => setSend(null)} user={user} />

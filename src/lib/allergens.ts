@@ -34,6 +34,8 @@ const ALLERGY_EN: Record<string, string> = {
   "crustacés": "shellfish", soja: "soy", "sésame": "sesame",
 };
 export const allergyName = (a: string) => (isEn && ALLERGY_EN[a]) || a;
+/** Les 9 allergies proposées (Famille, inscription), dans l'ordre */
+export const ALLERGY_KEYS = Object.keys(ALLERGY_EN);
 const flat = (s: string) => ` ${s.toLowerCase().replace(/œ/g, "oe").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z]+/g, " ").trim()} `;
 /** Un mot entier, au singulier ou au pluriel : « noix » trouve « noix », pas « noix de coco » */
 const contains = (name: string, allergy: string) => {

@@ -12,33 +12,35 @@ import { useBack } from "../nav";
 import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
 import { showToast } from "../toast";
+import { isEn, locale, t } from "../../lib/i18n";
+import { hm } from "../format";
 import "../library/library.css";
 import "./notifs.css";
 
 const KIND: Record<NotifKind, { label: string; cat: "meal" | "acc"; icon: IconName; gold?: boolean }> = {
-  evening: { label: "L'idée du soir", cat: "meal", icon: "pot" },
-  week: { label: "Ta semaine", cat: "meal", icon: "cal" },
-  list: { label: "Courses", cat: "meal", icon: "cart" },
-  referral: { label: "Parrainage", cat: "acc", icon: "gift", gold: true },
-  scans: { label: "Tes scans", cat: "acc", icon: "sparkle", gold: true },
-  report: { label: "Ton bilan", cat: "acc", icon: "leaf" },
+  evening: { label: t("L'idée du soir", "Tonight's idea"), cat: "meal", icon: "pot" },
+  week: { label: t("Ta semaine", "Your week"), cat: "meal", icon: "cal" },
+  list: { label: t("Courses", "Shopping"), cat: "meal", icon: "cart" },
+  referral: { label: t("Parrainage", "Referral"), cat: "acc", icon: "gift", gold: true },
+  scans: { label: t("Tes scans", "Your scans"), cat: "acc", icon: "sparkle", gold: true },
+  report: { label: t("Ton bilan", "Your report"), cat: "acc", icon: "leaf" },
   welcome: { label: "Frigia", cat: "acc", icon: "home" },
 };
 const DAY = 864e5;
-const WEEKDAY = new Intl.DateTimeFormat("fr-FR", { weekday: "long" });
-const MONTH = new Intl.DateTimeFormat("fr-FR", { month: "long" });
+const WEEKDAY = new Intl.DateTimeFormat(locale, { weekday: "long" });
+const MONTH = new Intl.DateTimeFormat(locale, { month: "long" });
 const startOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
 
 /** « 18 h 02 », « dimanche », « 1er octobre » */
 function when(d: Date, now = new Date()) {
   const ago = startOfDay(now) - startOfDay(d);
-  if (ago <= 0) return `${d.getHours()} h ${String(d.getMinutes()).padStart(2, "0")}`;
+  if (ago <= 0) return isEn ? hm(d) : `${d.getHours()} h ${String(d.getMinutes()).padStart(2, "0")}`;
   if (ago < 7 * DAY) return WEEKDAY.format(d);
-  return `${d.getDate() === 1 ? "1er" : d.getDate()} ${MONTH.format(d)}`;
+  return isEn ? `${MONTH.format(d)} ${d.getDate()}` : `${d.getDate() === 1 ? "1er" : d.getDate()} ${MONTH.format(d)}`;
 }
 function groupOf(d: Date, now = new Date()) {
   const ago = startOfDay(now) - startOfDay(d);
-  return ago <= 0 ? "Aujourd'hui" : ago < 7 * DAY ? "Cette semaine" : "Plus tôt";
+  return ago <= 0 ? t("Aujourd'hui", "Today") : ago < 7 * DAY ? t("Cette semaine", "This week") : t("Plus tôt", "Earlier");
 }
 
 /** L'idée du soir : la photo du plat, retrouvée dans le scan */
@@ -63,7 +65,7 @@ function Card({ n, name, history, onOpen }: { n: Notif; name: string; history: H
     if (el) { el.style.height = el.offsetHeight + "px"; void el.offsetWidth; el.style.height = "0px"; el.style.marginBottom = "-8px"; }
     setGone(true);
     setTimeout(() => removeNotif(n.id), 300);
-    showToast("Notification supprimée");
+    showToast(t("Notification supprimée", "Notification deleted"));
   };
   const down = (e: React.PointerEvent) => {
     if (e.button) return;
@@ -103,17 +105,17 @@ function Card({ n, name, history, onOpen }: { n: Notif; name: string; history: H
     : <span className={"ib-ic" + (k.gold ? " gold" : "")}><Icon name={k.icon} /></span>;
   return (
     <div ref={it} className={"ib-it" + (n.read ? "" : " new") + (gone ? " gone" : "")}>
-      <div className="ib-del" aria-hidden="true"><Icon name="trash" />Supprimer</div>
+      <div className="ib-del" aria-hidden="true"><Icon name="trash" />{t("Supprimer", "Delete")}</div>
       <div ref={card} className={"ib-card" + (dragging ? " drag" : "")} style={dx ? { transform: `translateX(${dx}px)` } : undefined}
         onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} onClick={click}>
         {icon}
         <div className="ib-tx">
           <span className="ib-k">{k.label} · {when(n.date)}</span>
-          <b>{n.kind === "welcome" ? `Bienvenue, ${name}` : n.title}</b>
+          <b>{n.kind === "welcome" ? t(`Bienvenue, ${name}`, `Welcome, ${name}`) : n.title}</b>
           {n.body && <p>{n.body}</p>}
           {n.action && n.url && <button type="button" className="pill ib-act">{n.action}</button>}
         </div>
-        <i className="ib-dot" aria-label={n.read ? undefined : "Non lue"} />
+        <i className="ib-dot" aria-label={n.read ? undefined : t("Non lue", "Unread")} />
       </div>
     </div>
   );
@@ -132,7 +134,7 @@ export function Inbox({ userId, name, isPlus, history }: { userId: string; name:
   const mine = (all ?? []).filter(n => !(isPlus && n.kind === "scans"));
   const shown = mine.filter(n => !tab || (KIND[n.kind] ?? KIND.welcome).cat === tab);
   const unread = shown.filter(n => !n.read);
-  const groups = ["Aujourd'hui", "Cette semaine", "Plus tôt"].map(g => ({ g, items: shown.filter(n => groupOf(n.date) === g) })).filter(x => x.items.length);
+  const groups = [t("Aujourd'hui", "Today"), t("Cette semaine", "This week"), t("Plus tôt", "Earlier")].map(g => ({ g, items: shown.filter(n => groupOf(n.date) === g) })).filter(x => x.items.length);
 
   const open = (n: Notif, viaAction: boolean) => {
     markRead([n.id]);
@@ -143,13 +145,13 @@ export function Inbox({ userId, name, isPlus, history }: { userId: string; name:
   };
 
   return (
-    <div className="fa fa-app ib-page" aria-label="Tes notifications">
-      <ScreenHeader title={<>Tes <em>notifs</em></>}
-        sub={unread.length ? `${unread.length} non lue${unread.length > 1 ? "s" : ""}` : "Tout est lu"}
-        left={<RoundButton icon="back" label="Retour" big onClick={back} />}
-        right={<button type="button" className="ib-all" disabled={!unread.length} onClick={() => { markRead(unread.map(n => n.id)); showToast("Tout est marqué comme lu"); }}>Tout marquer lu</button>}>
+    <div className="fa fa-app ib-page" aria-label={t("Tes notifications", "Your notifications")}>
+      <ScreenHeader title={t(<>Tes <em>notifs</em></>, <>Your <em>notifications</em></>)}
+        sub={unread.length ? t(`${unread.length} non lue${unread.length > 1 ? "s" : ""}`, `${unread.length} unread`) : t("Tout est lu", "All read")}
+        left={<RoundButton icon="back" label={t("Retour", "Back")} big onClick={back} />}
+        right={<button type="button" className="ib-all" disabled={!unread.length} onClick={() => { markRead(unread.map(n => n.id)); showToast(t("Tout est marqué comme lu", "All marked as read")); }}>{t("Tout marquer lu", "Mark all read")}</button>}>
         <div className="hs-tabs" role="tablist">
-          {([["", "Tout"], ["meal", "Repas"], ["acc", "Ton compte"]] as const).map(([k, label]) => (
+          {([["", t("Tout", "All")], ["meal", t("Repas", "Meals")], ["acc", t("Ton compte", "Your account")]] as const).map(([k, label]) => (
             <button key={k} type="button" role="tab" aria-selected={tab === k} className={tab === k ? "on" : undefined} onClick={() => setTab(k)}>{label}</button>
           ))}
         </div>
@@ -158,8 +160,8 @@ export function Inbox({ userId, name, isPlus, history }: { userId: string; name:
         {push && push !== "on" && (
           <div className="ib-off">
             <span className="ib-ic"><Icon name="bell" /></span>
-            <div><b>Coupées sur ce téléphone</b><span>Elles arrivent ici, mais ton téléphone ne sonne pas.</span></div>
-            <Pill onClick={() => navigate("/notifications/activer")}>Activer</Pill>
+            <div><b>{t("Coupées sur ce téléphone", "Off on this phone")}</b><span>{t("Elles arrivent ici, mais ton téléphone ne sonne pas.", "They arrive here, but your phone doesn't ring.")}</span></div>
+            <Pill onClick={() => navigate("/notifications/activer")}>{t("Activer", "Turn on")}</Pill>
           </div>
         )}
         {groups.map(({ g, items }) => (
@@ -168,8 +170,8 @@ export function Inbox({ userId, name, isPlus, history }: { userId: string; name:
           </div>
         ))}
         {all && !groups.length && (
-          <EmptyState title={<>Rien de <em>nouveau</em></>}
-            text="On te prévient quand l'idée du soir est prête, ou quand un ami s'abonne avec ton lien."
+          <EmptyState title={t(<>Rien de <em>nouveau</em></>, <>Nothing <em>new</em></>)}
+            text={t("On te prévient quand l'idée du soir est prête, ou quand un ami s'abonne avec ton lien.", "We'll let you know when tonight's idea is ready, or when a friend subscribes with your link.")}
             art={
               <svg className="es-art" viewBox="0 0 200 130" aria-hidden="true" fill="none" stroke="#34503B" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round">
                 <path d="M72 86c5-5 8-12 8-28a20 20 0 0 1 40 0c0 16 3 23 8 28z" fill="#FBF7EF" />
@@ -181,7 +183,7 @@ export function Inbox({ userId, name, isPlus, history }: { userId: string; name:
               </svg>
             } />
         )}
-        {groups.length > 0 && <p className="ib-hint"><Icon name="back" />Glisse une notification vers la gauche pour la supprimer</p>}
+        {groups.length > 0 && <p className="ib-hint"><Icon name="back" />{t("Glisse une notification vers la gauche pour la supprimer", "Swipe a notification left to delete it")}</p>}
       </div>
     </div>
   );

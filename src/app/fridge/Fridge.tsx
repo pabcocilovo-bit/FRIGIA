@@ -27,12 +27,12 @@ import { t } from "../../lib/i18n";
 
 const DAY = 864e5;
 const daysSince = (at: number) => Math.max(0, Math.round((new Date().setHours(0, 0, 0, 0) - new Date(at).setHours(0, 0, 0, 0)) / DAY));
-const ago = (at: number) => { const d = daysSince(at); return d === 0 ? "aujourd'hui" : d === 1 ? "hier" : `il y a ${d} jours`; };
-const FROM: Record<FridgeItem["from"], string> = { scan: "vu", courses: "acheté", main: "ajouté" };
-const PLACE: Record<Place, string> = { frigo: "Frigo", placard: "Placards" };
+const ago = (at: number) => { const d = daysSince(at); return d === 0 ? t("aujourd'hui", "today") : d === 1 ? t("hier", "yesterday") : t(`il y a ${d} jours`, `${d} days ago`); };
+const FROM: Record<FridgeItem["from"], string> = t({ scan: "vu", courses: "acheté", main: "ajouté" }, { scan: "seen", courses: "bought", main: "added" });
+const PLACE: Record<Place, string> = t({ frigo: "Frigo", placard: "Placards" }, { frigo: "Fridge", placard: "Cupboards" });
 
 type Filter = "tout" | Place | "finir";
-const FILTERS: [Filter, string][] = [["tout", "Tout"], ["frigo", "Frigo"], ["placard", "Placards"], ["finir", "À finir"]];
+const FILTERS: [Filter, string][] = [["tout", t("Tout", "All")], ["frigo", t("Frigo", "Fridge")], ["placard", t("Placards", "Cupboards")], ["finir", t("À finir", "Use up")]];
 
 // Les placards se scannent rarement : ce qu'on y a presque toujours, à ajouter d'un geste
 const BASICS: [string, string][] = t([
@@ -48,16 +48,16 @@ export function FridgeTabs({ on }: { on: "cuisine" | "courses" }) {
   const navigate = useNavigate();
   return (
     <div className="chips fr-tabs" role="tablist">
-      <Chip ongreen on={on === "cuisine"} role="tab" aria-selected={on === "cuisine"} onClick={() => on !== "cuisine" && navigate("/cuisine", { replace: true })}>Ma cuisine</Chip>
+      <Chip ongreen on={on === "cuisine"} role="tab" aria-selected={on === "cuisine"} onClick={() => on !== "cuisine" && navigate("/cuisine", { replace: true })}>{t("Ma cuisine", "My kitchen")}</Chip>
       <Chip ongreen on={on === "courses"} role="tab" aria-selected={on === "courses"} onClick={() => on !== "courses" && navigate("/courses", { replace: true })}>
-        Courses
+        {t("Courses", "Shopping")}
       </Chip>
     </div>
   );
 }
 
-const QUICK: [string, number][] = [["Aujourd'hui", 0], ["Demain", 1], ["Dans 3 jours", 3], ["Dans 1 semaine", 7]];
-const iso = (t: number) => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+const QUICK: [string, number][] = [[t("Aujourd'hui", "Today"), 0], [t("Demain", "Tomorrow"), 1], [t("Dans 3 jours", "In 3 days"), 3], [t("Dans 1 semaine", "In 1 week"), 7]];
+const iso = (at: number) => { const d = new Date(at); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
 
 /** La vraie date d'un produit : quelques choix rapides, ou une date ; « Sans date » revient à la date estimée.
  *  « Autre date » montre un vrai champ date et « OK » : l'iPhone ouvrait mal un champ caché, et changeait la date
@@ -68,18 +68,18 @@ function DueEdit({ it, onDate, onClose }: { it: FridgeItem; onDate: (until: numb
   const [val, setVal] = useState(() => iso(it.until ?? Date.now() + 3 * DAY));
   const pick = () => { const [y, m, d] = val.split("-").map(Number); if (y) onDate(new Date(y, m - 1, d, 12).getTime()); };
   return (
-    <div className="litem fr-item editing fr-due-ed" role="group" aria-label={`Date limite de ${it.name}`}>
-      <div className="fr-due-h"><b>{it.name}</b><span>Date limite ?</span>
-        <button type="button" className="fr-x" aria-label="Fermer" onClick={onClose}><Icon name="x" /></button>
+    <div className="litem fr-item editing fr-due-ed" role="group" aria-label={t(`Date limite de ${it.name}`, `Use-by date of ${it.name}`)}>
+      <div className="fr-due-h"><b>{it.name}</b><span>{t("Date limite ?", "Use-by date?")}</span>
+        <button type="button" className="fr-x" aria-label={t("Fermer", "Close")} onClick={onClose}><Icon name="x" /></button>
       </div>
       <div className="fr-due-ch">
         {QUICK.map(([label, d]) => <button key={d} type="button" onClick={() => onDate(atNoon(Date.now() + d * DAY))}>{label}</button>)}
-        {!other && <button type="button" onClick={() => setOther(true)}>Autre date</button>}
-        {it.until && <button type="button" className="fr-due-auto" onClick={() => onDate(undefined)}>Sans date</button>}
+        {!other && <button type="button" onClick={() => setOther(true)}>{t("Autre date", "Other date")}</button>}
+        {it.until && <button type="button" className="fr-due-auto" onClick={() => onDate(undefined)}>{t("Sans date", "No date")}</button>}
       </div>
       {other && (
         <div className="fr-due-other">
-          <input type="date" aria-label="Autre date" min={today} value={val} onChange={e => setVal(e.target.value)} />
+          <input type="date" aria-label={t("Autre date", "Other date")} min={today} value={val} onChange={e => setVal(e.target.value)} />
           <button type="button" disabled={!val} onClick={pick}>OK</button>
         </div>
       )}
@@ -108,26 +108,26 @@ function Row({ it, onFinish, onMove, onRemove, onEdit, onDate, onGone }: {
   return (
     <div className={"litem fr-item" + (fin ? " fin" : "")}>
       <span className="nm">
-        <button type="button" className="fr-nm" aria-label={`Changer le nom de ${it.name}`} onClick={() => setEditing("name")}><b>{it.name}</b></button>
+        <button type="button" className="fr-nm" aria-label={t(`Changer le nom de ${it.name}`, `Rename ${it.name}`)} onClick={() => setEditing("name")}><b>{it.name}</b></button>
         <small>
-          <button type="button" className={"fr-q" + (qty ? "" : " none")} aria-label={qty ? `Quantité de ${it.name} : ${qty}. Changer` : `Ajouter une quantité à ${it.name}`}
-            onClick={() => setEditing("qty")}>{qty || "+ quantité"}</button>
+          <button type="button" className={"fr-q" + (qty ? "" : " none")} aria-label={qty ? t(`Quantité de ${it.name} : ${qty}. Changer`, `Quantity of ${it.name}: ${qty}. Change`) : t(`Ajouter une quantité à ${it.name}`, `Add a quantity to ${it.name}`)}
+            onClick={() => setEditing("qty")}>{qty || t("+ quantité", "+ quantity")}</button>
           {" · "}
-          <button type="button" className="fr-place" aria-label={`${it.name} : ${PLACE[place]}. Ranger ${place === "frigo" ? "aux placards" : "au frigo"}`} onClick={onMove}>{PLACE[place]}</button>
+          <button type="button" className="fr-place" aria-label={t(`${it.name} : ${PLACE[place]}. Ranger ${place === "frigo" ? "aux placards" : "au frigo"}`, `${it.name}: ${PLACE[place]}. Move to the ${place === "frigo" ? "cupboards" : "fridge"}`)} onClick={onMove}>{PLACE[place]}</button>
           {" · "}
           {/* La date (estimée ou vraie) ; touchée : la vraie date. Sans estimation au frigo : « + date » */}
           {due ? (
-            <button type="button" className={"fr-due" + (due.soon ? " soon" : "")} aria-label={`${it.name} : ${due.text}. Mettre la date`} onClick={() => setEditing("date")}>{due.text}</button>
+            <button type="button" className={"fr-due" + (due.soon ? " soon" : "")} aria-label={t(`${it.name} : ${due.text}. Mettre la date`, `${it.name}: ${due.text}. Set the date`)} onClick={() => setEditing("date")}>{due.text}</button>
           ) : <>{`${FROM[it.from]} ${ago(it.at)}`}{place === "frigo" && <>{" · "}
-            <button type="button" className="fr-due" aria-label={`Mettre la date de ${it.name}`} onClick={() => setEditing("date")}>+ date</button></>}</>}
+            <button type="button" className="fr-due" aria-label={t(`Mettre la date de ${it.name}`, `Set the date of ${it.name}`)} onClick={() => setEditing("date")}>+ date</button></>}</>}
         </small>
       </span>
       {past ? <>
-        <button type="button" className="fr-gone" aria-label={`${it.name} : mangé`} onClick={() => onGone(true)}>Mangé</button>
-        <button type="button" className="fr-gone" aria-label={`${it.name} : jeté`} onClick={() => onGone(false)}>Jeté</button>
+        <button type="button" className="fr-gone" aria-label={t(`${it.name} : mangé`, `${it.name}: eaten`)} onClick={() => onGone(true)}>{t("Mangé", "Eaten")}</button>
+        <button type="button" className="fr-gone" aria-label={t(`${it.name} : jeté`, `${it.name}: thrown out`)} onClick={() => onGone(false)}>{t("Jeté", "Thrown out")}</button>
       </> : <>
-        <button type="button" className={"fr-fin" + (fin ? " on" : "")} aria-pressed={fin} onClick={onFinish}>À finir</button>
-        <button type="button" className="fr-x" aria-label={`Retirer ${it.name}`} onClick={onRemove}><Icon name="x" /></button>
+        <button type="button" className={"fr-fin" + (fin ? " on" : "")} aria-pressed={fin} onClick={onFinish}>{t("À finir", "Use up")}</button>
+        <button type="button" className="fr-x" aria-label={t(`Retirer ${it.name}`, `Remove ${it.name}`)} onClick={onRemove}><Icon name="x" /></button>
       </>}
     </div>
   );
@@ -189,47 +189,47 @@ export function MyKitchen({ isPlus, fridge, onFridge, onGone }: {
   const adder = (
     <form className="fr-add" onSubmit={e => { e.preventDefault(); add(); }}>
       <input value={name} onChange={e => setName(e.target.value)}
-        placeholder={filter === "placard" ? "Ajouter à mes placards" : filter === "frigo" ? "Ajouter à mon frigo" : "Ajouter à mon frigo ou mes placards"}
-        aria-label="Ajouter un produit" maxLength={60} enterKeyHint="done" />
-      <button type="submit" aria-label="Ajouter" disabled={!name.trim()}><Icon name="plus" /></button>
+        placeholder={filter === "placard" ? t("Ajouter à mes placards", "Add to my cupboards") : filter === "frigo" ? t("Ajouter à mon frigo", "Add to my fridge") : t("Ajouter à mon frigo ou mes placards", "Add to my fridge or cupboards")}
+        aria-label={t("Ajouter un produit", "Add an item")} maxLength={60} enterKeyHint="done" />
+      <button type="submit" aria-label={t("Ajouter", "Add")} disabled={!name.trim()}><Icon name="plus" /></button>
     </form>
   );
 
   return (
-    <div className="fa fa-app" aria-label="Ma cuisine">
+    <div className="fa fa-app" aria-label={t("Ma cuisine", "My kitchen")}>
       <div className="rhead">
         <div className="row">
-          <span className="label">{items.length ? `${plural(items.length, "produit")} disponible${items.length > 1 ? "s" : ""}` : "Rien pour l'instant"}</span>
-          <RoundButton icon="cam" label="Scanner" tone="glass" onClick={openScan} />
+          <span className="label">{items.length ? t(`${plural(items.length, "produit")} disponible${items.length > 1 ? "s" : ""}`, `${plural(items.length, "produit", "item")} available`) : t("Rien pour l'instant", "Nothing yet")}</span>
+          <RoundButton icon="cam" label={t("Scanner", "Scan")} tone="glass" onClick={openScan} />
         </div>
         <div>
-          <h2>Ma <em>cuisine</em></h2>
-          <p className="fr-sub">Ton frigo et tes placards au même endroit.</p>
+          <h2>{t(<>Ma <em>cuisine</em></>, <>My <em>kitchen</em></>)}</h2>
+          <p className="fr-sub">{t("Ton frigo et tes placards au même endroit.", "Your fridge and cupboards in one place.")}</p>
         </div>
         <FridgeTabs on="cuisine" />
       </div>
       <div className="lbody">
         {cooked && (
           <div className="fr-note">
-            <span><b>{cooked.title}</b> · retiré de ta cuisine : {joinNames(cooked.items.map(x => x.name)).toLowerCase()}.</span>
-            <button type="button" className="link" onClick={() => onFridge(undoCooked)}>Remettre</button>
+            <span><b>{cooked.title}</b> · {t("retiré de ta cuisine : ", "removed from your kitchen: ")}{joinNames(cooked.items.map(x => x.name)).toLowerCase()}.</span>
+            <button type="button" className="link" onClick={() => onFridge(undoCooked)}>{t("Remettre", "Put back")}</button>
           </div>
         )}
         {items.length === 0 ? <>
           <EmptyState
             art={<ArtFridge />}
-            title={<>Ta cuisine est <em>vide</em></>}
-            text="Scanne ton frigo et tes placards : ce que Frigia voit arrive ici. Tes courses cochées aussi."
-            action={<Pill icon="cam" onClick={() => scan("frigo")}>Scanner mon frigo</Pill>}
+            title={t(<>Ta cuisine est <em>vide</em></>, <>Your kitchen is <em>empty</em></>)}
+            text={t("Scanne ton frigo et tes placards : ce que Frigia voit arrive ici. Tes courses cochées aussi.", "Scan your fridge and cupboards: what Frigia sees lands here. Your ticked-off shopping too.")}
+            action={<Pill icon="cam" onClick={() => scan("frigo")}>{t("Scanner mon frigo", "Scan my fridge")}</Pill>}
           />
-          <button type="button" className="pill line block" onClick={() => scan("placard")}>Scanner mes placards</button>
+          <button type="button" className="pill line block" onClick={() => scan("placard")}>{t("Scanner mes placards", "Scan my cupboards")}</button>
           <button type="button" className="sf-empty fr-ideas" onClick={ideas}>
             <span className="ico"><Icon name="sparkle" /></span>
-            <span className="tx"><b>Rien dedans ?</b>3 plats avec le placard, et une petite liste de courses</span>
+            <span className="tx"><b>{t("Rien dedans ?", "Nothing in there?")}</b>{t("3 plats avec le placard, et une petite liste de courses", "3 dishes from the cupboard, and a short shopping list")}</span>
             {isPlus ? <Icon name="next" className="muted" /> : <LockPill />}
           </button>
         </> : <>
-          <div className="chips fr-filters" role="tablist" aria-label="Filtrer">
+          <div className="chips fr-filters" role="tablist" aria-label={t("Filtrer", "Filter")}>
             {FILTERS.map(([f, label]) => (
               <Chip key={f} on={filter === f} role="tab" aria-selected={filter === f} onClick={() => pick(f)}>
                 {label}{f !== "tout" && count(f) > 0 && <span className="n">{count(f)}</span>}
@@ -237,7 +237,7 @@ export function MyKitchen({ isPlus, fridge, onFridge, onGone }: {
             ))}
           </div>
           {adder}
-          {old && filter !== "placard" && <p className="fr-old">Frigo vu il y a {daysSince(fridge.seen!)} jours. Rescanne-le pour le mettre à jour.</p>}
+          {old && filter !== "placard" && <p className="fr-old">{t(`Frigo vu il y a ${daysSince(fridge.seen!)} jours. Rescanne-le pour le mettre à jour.`, `Fridge seen ${daysSince(fridge.seen!)} days ago. Scan it again to update it.`)}</p>}
           {shown.length > 0 ? (
             <div className="litems">
               {shown.map(it => (
@@ -247,34 +247,34 @@ export function MyKitchen({ isPlus, fridge, onFridge, onGone }: {
                   onDate={until => {
                     // Une nouvelle date : « À finir » suit de nouveau la date
                     set(it.id, { until, finish: undefined });
-                    showToast(until ? `${it.name} : date notée, ${dayWord(until)}` : `${it.name} : sans date`);
+                    showToast(until ? t(`${it.name} : date notée, ${dayWord(until)}`, `${it.name}: date saved, ${dayWord(until)}`) : t(`${it.name} : sans date`, `${it.name}: no date`));
                   }}
                   onMove={() => {
                     const to: Place = placeOf(it) === "frigo" ? "placard" : "frigo";
                     set(it.id, { place: to });
                     setMoved(m => (m.includes(it.id) ? m : [...m, it.id]));
-                    showToast(`${it.name} : rangé ${to === "frigo" ? "au frigo" : "aux placards"}`);
+                    showToast(t(`${it.name} : rangé ${to === "frigo" ? "au frigo" : "aux placards"}`, `${it.name}: moved to the ${to === "frigo" ? "fridge" : "cupboards"}`));
                   }}
                   onRemove={() => set(it.id, null)}
                   onGone={ate => {
                     const value = countItem(it.name, qtyOf(it.qty));
                     set(it.id, null);
                     onGone(it, ate, value);
-                    showToast(ate ? (value.eur > 0 ? `${it.name} : ${euros(value.eur)} sauvés` : `${it.name} : noté, mangé`) : `${it.name} : noté, retiré de ta cuisine`);
+                    showToast(ate ? (value.eur > 0 ? t(`${it.name} : ${euros(value.eur)} sauvés`, `${it.name}: ${euros(value.eur)} saved`) : t(`${it.name} : noté, mangé`, `${it.name}: noted, eaten`)) : t(`${it.name} : noté, retiré de ta cuisine`, `${it.name}: noted, removed from your kitchen`));
                   }}
                   onEdit={(name, qty) => set(it.id, { name, qty })} />
               ))}
             </div>
           ) : (
             <p className="fr-none">
-              {filter === "finir" ? "Rien à finir. Touche « À finir » sur ce qui se garde le moins : les recettes l'utilisent en premier."
-                : filter === "placard" ? "Rien aux placards pour l'instant." : "Rien au frigo pour l'instant."}
-              {filter !== "finir" && <> <button type="button" className="link" onClick={() => scan(filter === "placard" ? "placard" : "frigo")}>{filter === "placard" ? "Scanner mes placards" : "Scanner mon frigo"}</button></>}
+              {filter === "finir" ? t("Rien à finir. Touche « À finir » sur ce qui se garde le moins : les recettes l'utilisent en premier.", "Nothing to use up. Tap \"Use up\" on what keeps the least: recipes use it first.")
+                : filter === "placard" ? t("Rien aux placards pour l'instant.", "Nothing in the cupboards yet.") : t("Rien au frigo pour l'instant.", "Nothing in the fridge yet.")}
+              {filter !== "finir" && <> <button type="button" className="link" onClick={() => scan(filter === "placard" ? "placard" : "frigo")}>{filter === "placard" ? t("Scanner mes placards", "Scan my cupboards") : t("Scanner mon frigo", "Scan my fridge")}</button></>}
             </p>
           )}
           {showBasics && (
             <div className="fr-basics">
-              <span className="label">Dans tes placards ?</span>
+              <span className="label">{t("Dans tes placards ?", "In your cupboards?")}</span>
               <div className="fr-chips">
                 {basics.slice(0, 8).map(([n, q]) => (
                   <button key={n} type="button" onClick={() => onFridge(f => addItems(f, [{ name: n, qty: q }], "main", { place: "placard" }))}>
@@ -286,7 +286,7 @@ export function MyKitchen({ isPlus, fridge, onFridge, onGone }: {
           )}
         </>}
         {items.length === 0 && adder}
-        {items.length > 0 && <Pill block icon="sparkle" className="fr-cook" onClick={cook}>Que cuisiner avec ?</Pill>}
+        {items.length > 0 && <Pill block icon="sparkle" className="fr-cook" onClick={cook}>{t("Que cuisiner avec ?", "What can I cook?")}</Pill>}
       </div>
       <AppTabBar active="list" isPlus={isPlus} />
     </div>

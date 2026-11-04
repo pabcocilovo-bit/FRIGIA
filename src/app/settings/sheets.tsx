@@ -11,6 +11,7 @@ import { authMessage } from "../onboarding/errors";
 import { useRecipePhoto } from "../photo";
 import { showToast } from "../toast";
 import { kilos } from "../scan/savings";
+import { t } from "../../lib/i18n";
 import "../onboarding/ob.css";
 import "./settings.css";
 
@@ -33,7 +34,7 @@ export function ProfileDot({ name, photo, className }: { name: string; photo: st
 function DishPick({ dish, on, onPick }: { dish: Dish; on: boolean; onPick: (src: string) => void }) {
   const photo = useRecipePhoto(dish.title, dish.imageSearch);
   if (!photo) return null;
-  return <button type="button" className={cx(on && "on")} aria-label={`Le plat ${dish.title}`} onClick={() => onPick(photo)}><img src={photo} alt="" /></button>;
+  return <button type="button" className={cx(on && "on")} aria-label={t(`Le plat ${dish.title}`, `The dish ${dish.title}`)} onClick={() => onPick(photo)}><img src={photo} alt="" /></button>;
 }
 
 // ─── Mon compte : photo, prénom, email (avec code), mot de passe ─────────────
@@ -48,8 +49,8 @@ export function AccountSheet({ mode, onClose, onMode, user, name, avatar, dishes
   if (mode !== prev) { setPrev(mode); if (mode) setShown(s => ({ mode, n: s.n + 1 })); }
   const k = shown.n;
   return (
-    <Dialog open={!!mode} onClose={onClose} className="ac-sheet" label="Ton compte">
-      <button type="button" className="dl-x" aria-label="Fermer" onClick={onClose}><Icon name="x" /></button>
+    <Dialog open={!!mode} onClose={onClose} className="ac-sheet" label={t("Ton compte", "Your account")}>
+      <button type="button" className="dl-x" aria-label={t("Fermer", "Close")} onClick={onClose}><Icon name="x" /></button>
       {shown.mode === "photo" && <PhotoPane key={k} name={name} avatar={avatar} dishes={dishes} onClose={onClose} onAvatar={onAvatar} onName={() => onMode("name")} />}
       {shown.mode === "name" && <NamePane key={k} name={name} onClose={onClose} onName={onName} />}
       {shown.mode === "email" && <EmailPane key={k} onClose={onClose} />}
@@ -71,25 +72,25 @@ function PhotoPane({ name, avatar, dishes, onClose, onAvatar, onName }: {
   const file = (capture?: boolean) => <input type="file" accept="image/*" capture={capture ? "user" : undefined} className="ac-file" onChange={pick} />;
   return (
     <div className="ac-pane">
-      <h3>Ta <em>photo</em></h3>
+      <h3>{t(<>Ta <em>photo</em></>, <>Your <em>photo</em></>)}</h3>
       <ProfileDot className="ac-pv" name={name} photo={next ?? avatar} />
-      <p className="ac-pvt">Elle apparaît sur ton compte et dans ta famille.</p>
+      <p className="ac-pvt">{t("Elle apparaît sur ton compte et dans ta famille.", "It shows on your account and in your family.")}</p>
       {next === null ? <>
         {dishes.length > 0 && (
-          <div className="ac-dish"><span>Ou l'un de tes plats</span>
+          <div className="ac-dish"><span>{t("Ou l'un de tes plats", "Or one of your dishes")}</span>
             <div>{dishes.map(d => <DishPick key={d.title} dish={d} on={false} onPick={setNext} />)}</div>
           </div>
         )}
         <div className="ac-pbt">
-          <label className="pill sage block">{file(true)}<Icon name="cam" />Prendre une photo</label>
-          <label className="pill block sf-line-btn">{file()}<Icon name="image" />Choisir dans ma galerie</label>
-          {avatar && <button type="button" className="ac-rm" onClick={() => { onAvatar(null); onClose(); showToast("Photo retirée, ton initiale revient"); }}><Icon name="trash" />Retirer la photo</button>}
+          <label className="pill sage block">{file(true)}<Icon name="cam" />{t("Prendre une photo", "Take a photo")}</label>
+          <label className="pill block sf-line-btn">{file()}<Icon name="image" />{t("Choisir dans ma galerie", "Choose from my gallery")}</label>
+          {avatar && <button type="button" className="ac-rm" onClick={() => { onAvatar(null); onClose(); showToast(t("Photo retirée, ton initiale revient", "Photo removed, your initial is back")); }}><Icon name="trash" />{t("Retirer la photo", "Remove the photo")}</button>}
         </div>
-        <button type="button" className="ac-tonm" onClick={onName}>Changer ton prénom</button>
+        <button type="button" className="ac-tonm" onClick={onName}>{t("Changer ton prénom", "Change your first name")}</button>
       </> : (
         <div className="ac-pbt">
-          <Pill block onClick={() => { onAvatar(next); onClose(); showToast("Nouvelle photo, bien reçue"); }}>Garder cette photo</Pill>
-          <label className="link">{file()}Choisir une autre</label>
+          <Pill block onClick={() => { onAvatar(next); onClose(); showToast(t("Nouvelle photo, bien reçue", "New photo, got it")); }}>{t("Garder cette photo", "Keep this photo")}</Pill>
+          <label className="link">{file()}{t("Choisir une autre", "Choose another")}</label>
         </div>
       )}
     </div>
@@ -104,14 +105,14 @@ function NamePane({ name, onClose, onName }: { name: string; onClose: () => void
     if (!v) { input.current?.focus(); return; }
     onName(capitalize(v));
     onClose();
-    showToast(`C'est noté, ${capitalize(v)}`);
+    showToast(t(`C'est noté, ${capitalize(v)}`, `Got it, ${capitalize(v)}`));
   };
   return (
     <form className="ac-pane" onSubmit={e => { e.preventDefault(); save(); }}>
-      <h3>Ton <em>prénom</em></h3>
-      <p>C'est lui qu'on utilise pour te dire bonsoir.</p>
-      <div className="ob-input"><Icon name="user" /><input ref={input} autoComplete="given-name" aria-label="Ton prénom" value={value} onChange={e => setValue(e.target.value)} /></div>
-      <Pill type="submit" block>Enregistrer</Pill>
+      <h3>{t(<>Ton <em>prénom</em></>, <>Your <em>first name</em></>)}</h3>
+      <p>{t("C'est lui qu'on utilise pour te dire bonsoir.", "It's the one we use to say good evening.")}</p>
+      <div className="ob-input"><Icon name="user" /><input ref={input} autoComplete="given-name" aria-label={t("Ton prénom", "Your first name")} value={value} onChange={e => setValue(e.target.value)} /></div>
+      <Pill type="submit" block>{t("Enregistrer", "Save")}</Pill>
     </form>
   );
 }
@@ -140,24 +141,24 @@ function EmailPane({ onClose }: { onClose: () => void }) {
       await confirmEmailChange(email.trim(), token);
       setState("ok");
       onClose();
-      showToast("Ton email est changé");
+      showToast(t("Ton email est changé", "Your email is changed"));
     } catch (e) {
       setState("bad"); setHint(authMessage(e)); setCode(""); codeRef.current?.focus();
     }
   };
   return (
     <form className="ac-pane" onSubmit={e => { e.preventDefault(); void send(); }}>
-      <h3>Change ton <em>email</em></h3>
+      <h3>{t(<>Change ton <em>email</em></>, <>Change your <em>email</em></>)}</h3>
       {!sent ? <>
-        <p>On envoie un code à la nouvelle adresse pour la confirmer.</p>
-        <div className="ob-input"><Icon name="mail" /><input type="email" inputMode="email" autoComplete="email" placeholder="nouvelle@adresse.fr" aria-label="Nouvel email" value={email} onChange={e => setEmail(e.target.value)} /></div>
-        <Pill type="submit" block className={cx(busy && "loading")} disabled={!EMAIL_RE.test(email.trim())}>Recevoir le code</Pill>
+        <p>{t("On envoie un code à la nouvelle adresse pour la confirmer.", "We send a code to the new address to confirm it.")}</p>
+        <div className="ob-input"><Icon name="mail" /><input type="email" inputMode="email" autoComplete="email" placeholder={t("nouvelle@adresse.fr", "new@address.com")} aria-label={t("Nouvel email", "New email")} value={email} onChange={e => setEmail(e.target.value)} /></div>
+        <Pill type="submit" block className={cx(busy && "loading")} disabled={!EMAIL_RE.test(email.trim())}>{t("Recevoir le code", "Get the code")}</Pill>
       </> : <>
-        <p>Code envoyé à <b>{email.trim()}</b>. Il marche 10 minutes.</p>
+        <p>{t(<>Code envoyé à <b>{email.trim()}</b>. Il marche 10 minutes.</>, <>Code sent to <b>{email.trim()}</b>. It works for 10 minutes.</>)}</p>
         <CodeBoxes inputRef={codeRef} value={code} state={state} onChange={v => { setCode(v); setState(null); setHint(""); if (v.length === 6) void verify(v); }} />
         {hint && <p className="ob-codehint">{hint}</p>}
       </>}
-      <p className="ac-note"><Icon name="shield" /><span>Ton ancienne adresse reçoit un message, au cas où ce ne serait pas toi.</span></p>
+      <p className="ac-note"><Icon name="shield" /><span>{t("Ton ancienne adresse reçoit un message, au cas où ce ne serait pas toi.", "Your old address gets a message, in case it wasn't you.")}</span></p>
     </form>
   );
 }
@@ -168,7 +169,8 @@ function strength(v: string): 0 | 1 | 2 | 3 {
   if (!/\d/.test(v)) return 1;
   return v.length >= 12 && /[^a-z0-9]/i.test(v) ? 3 : 2;
 }
-const STRENGTH = ["8 caractères, dont un chiffre", "8 caractères et un chiffre", "Bien. Plus solide avec un !", "Très solide"];
+const STRENGTH = t(["8 caractères, dont un chiffre", "8 caractères et un chiffre", "Bien. Plus solide avec un !", "Très solide"],
+  ["8 characters, including a number", "8 characters and a number", "Good. Stronger with a !", "Very strong"]);
 
 function PassPane({ user, onClose }: { user: User; onClose: () => void }) {
   const navigate = useNavigate();
@@ -185,23 +187,23 @@ function PassPane({ user, onClose }: { user: User; onClose: () => void }) {
     setBusy(true);
     const res = await changePassword(user, current, next);
     setBusy(false);
-    if (res === "wrong-current") { showToast("Ce n'est pas ton mot de passe actuel"); return; }
+    if (res === "wrong-current") { showToast(t("Ce n'est pas ton mot de passe actuel", "That's not your current password")); return; }
     if (res !== "ok") { showToast(authMessage({ message: res.error })); return; }
     onClose();
-    showToast("Mot de passe changé. Tes autres appareils sont déconnectés");
+    showToast(t("Mot de passe changé. Tes autres appareils sont déconnectés", "Password changed. Your other devices are signed out"));
   };
   return (
     <form className="ac-pane" onSubmit={e => { e.preventDefault(); void save(); }}>
-      <h3>Ton <em>mot de passe</em></h3>
-      {!noPassword && <div className="ob-input"><Icon name="lock" /><input type="password" autoComplete="current-password" placeholder="Mot de passe actuel" aria-label="Mot de passe actuel" value={current} onChange={e => setCurrent(e.target.value)} /></div>}
+      <h3>{t(<>Ton <em>mot de passe</em></>, <>Your <em>password</em></>)}</h3>
+      {!noPassword && <div className="ob-input"><Icon name="lock" /><input type="password" autoComplete="current-password" placeholder={t("Mot de passe actuel", "Current password")} aria-label={t("Mot de passe actuel", "Current password")} value={current} onChange={e => setCurrent(e.target.value)} /></div>}
       <div className="ob-input">
         <Icon name="lock" />
-        <input type={show ? "text" : "password"} autoComplete="new-password" placeholder="Nouveau mot de passe" aria-label="Nouveau mot de passe" value={next} onChange={e => setNext(e.target.value)} />
-        <button type="button" aria-label={show ? "Cacher le mot de passe" : "Afficher le mot de passe"} onClick={() => setShow(s => !s)}><Icon name="eye" /></button>
+        <input type={show ? "text" : "password"} autoComplete="new-password" placeholder={t("Nouveau mot de passe", "New password")} aria-label={t("Nouveau mot de passe", "New password")} value={next} onChange={e => setNext(e.target.value)} />
+        <button type="button" aria-label={show ? t("Cacher le mot de passe", "Hide password") : t("Afficher le mot de passe", "Show password")} onClick={() => setShow(s => !s)}><Icon name="eye" /></button>
       </div>
       <div className="ac-str" data-l={level} aria-live="polite"><i /><i /><i /><span>{STRENGTH[next ? Math.max(level, 1) : 0]}</span></div>
-      <Pill type="submit" block className={cx(busy && "loading")} disabled={!ok}>Changer le mot de passe</Pill>
-      {!noPassword && <TextLink onClick={() => { onClose(); navigate("/mot-de-passe", { state: { email: user.email } }); }}>Mot de passe oublié ?</TextLink>}
+      <Pill type="submit" block className={cx(busy && "loading")} disabled={!ok}>{t("Changer le mot de passe", "Change password")}</Pill>
+      {!noPassword && <TextLink onClick={() => { onClose(); navigate("/mot-de-passe", { state: { email: user.email } }); }}>{t("Mot de passe oublié ?", "Forgot your password?")}</TextLink>}
     </form>
   );
 }
@@ -238,7 +240,7 @@ export function DeleteSheet({ open, onClose, isPlus, user, onDelete, onGone, sav
       setTimeout(onGone, 2600);
     } catch (e) {
       setBusy(false); reset();
-      showToast((e as Error).message || "La suppression n'a pas marché. Réessaie");
+      showToast((e as Error).message || t("La suppression n'a pas marché. Réessaie", "The deletion didn't work. Try again"));
     }
   };
   const up = () => {
@@ -248,20 +250,20 @@ export function DeleteSheet({ open, onClose, isPlus, user, onDelete, onGone, sav
   };
   const idle = !drag && x === 0 && !busy;
   return (
-    <Dialog open={open} onClose={busy ? () => {} : onClose} className="dl-sheet" label="Supprimer ton compte">
+    <Dialog open={open} onClose={busy ? () => {} : onClose} className="dl-sheet" label={t("Supprimer ton compte", "Delete your account")}>
       {!done ? <>
-        <button type="button" className="dl-x" aria-label="Fermer" onClick={onClose} disabled={busy}><Icon name="x" /></button>
+        <button type="button" className="dl-x" aria-label={t("Fermer", "Close")} onClick={onClose} disabled={busy}><Icon name="x" /></button>
         <div className="dl-form">
           <span className="dl-ic" aria-hidden="true"><Icon name="alert" /></span>
-          <h3>Supprimer ton <em>compte ?</em></h3>
-          <p>Tes scans, tes favoris, ta semaine, ta liste de courses et ta famille seront effacés, allergies comprises.</p>
-          {isPlus && <p>Ton abonnement Frigia Plus s'arrête en même temps. La période déjà payée n'est pas remboursée.</p>}
-          <p className="dl-def">C'est définitif : on ne pourra rien récupérer.</p>
+          <h3>{t(<>Supprimer ton <em>compte ?</em></>, <>Delete your <em>account?</em></>)}</h3>
+          <p>{t("Tes scans, tes favoris, ta semaine, ta liste de courses et ta famille seront effacés, allergies comprises.", "Your scans, favourites, week, shopping list and family will be erased, allergies included.")}</p>
+          {isPlus && <p>{t("Ton abonnement Frigia Plus s'arrête en même temps. La période déjà payée n'est pas remboursée.", "Your Frigia Plus subscription stops at the same time. The period already paid isn't refunded.")}</p>}
+          <p className="dl-def">{t("C'est définitif : on ne pourra rien récupérer.", "It's final: we won't be able to recover anything.")}</p>
           <div ref={slide} className={cx("dl-slide", back && "back", idle && "idle")}>
             <span className="dl-fill" style={{ width: 60 + x }} />
-            <span className="dl-txt">Glisse pour supprimer</span>
+            <span className="dl-txt">{t("Glisse pour supprimer", "Slide to delete")}</span>
             <button
-              type="button" className="dl-knob" role="slider" aria-label="Glisse pour supprimer ton compte"
+              type="button" className="dl-knob" role="slider" aria-label={t("Glisse pour supprimer ton compte", "Slide to delete your account")}
               aria-valuemin={0} aria-valuemax={100} aria-valuenow={w ? Math.round((x / w) * 100) : 0}
               style={{ transform: `translateX(${x}px)` }} disabled={busy}
               onPointerDown={e => { e.currentTarget.setPointerCapture(e.pointerId); setBack(false); setDrag({ from: e.clientX - x, max: max() }); }}
@@ -275,15 +277,15 @@ export function DeleteSheet({ open, onClose, isPlus, user, onDelete, onGone, sav
             ><Icon name="arrow" /></button>
           </div>
           <div className="dl-alt">
-            {isPlus && <TextLink onClick={() => { onClose(); navigate("/resilier"); }}>Plutôt une pause d'un mois</TextLink>}
-            <TextLink onClick={() => downloadMyData(user).catch(() => showToast("Le fichier n'a pas pu être préparé. Réessaie"))}>Télécharger mes données avant</TextLink>
+            {isPlus && <TextLink onClick={() => { onClose(); navigate("/resilier"); }}>{t("Plutôt une pause d'un mois", "A one-month pause instead")}</TextLink>}
+            <TextLink onClick={() => downloadMyData(user).catch(() => showToast(t("Le fichier n'a pas pu être préparé. Réessaie", "The file couldn't be prepared. Try again")))}>{t("Télécharger mes données avant", "Download my data first")}</TextLink>
           </div>
         </div>
       </> : (
         <div className="dl-done">
           <span className="dl-ic ok" aria-hidden="true"><Icon name="check" /></span>
-          <h3>Compte <em>supprimé</em></h3>
-          {savedKg > 0 && <p>Merci d'avoir sauvé <b>{kilos(savedKg)}</b> de nourriture avec nous.</p>}
+          <h3>{t(<>Compte <em>supprimé</em></>, <>Account <em>deleted</em></>)}</h3>
+          {savedKg > 0 && <p>{t(<>Merci d'avoir sauvé <b>{kilos(savedKg)}</b> de nourriture avec nous.</>, <>Thanks for saving <b>{kilos(savedKg)}</b> of food with us.</>)}</p>}
         </div>
       )}
     </Dialog>
@@ -292,18 +294,23 @@ export function DeleteSheet({ open, onClose, isPlus, user, onDelete, onGone, sav
 
 // ─── Nous écrire, Signaler un problème, Donner ton avis ──────────────────────
 export type SendMode = "contact" | "bug" | "idea";
-const SEND: Record<SendMode, { t: [string, string]; p: string; c: string[]; ph: string; logs: boolean; ok: string }> = {
+type SendText = { t: [string, string]; p: string; c: string[]; ph: string; logs: boolean; ok: string };
+const SEND: Record<SendMode, SendText> = t<Record<SendMode, SendText>>({
   contact: { t: ["Écris-", "nous"], p: "Une vraie personne te répond par email, sous 24 h.", c: ["Le scan", "Une recette", "Mon abonnement", "Autre"], ph: "Raconte-nous…", logs: false, ok: "On te répond par email, sous 24 h." },
   bug: { t: ["Signale un ", "problème"], p: "Dis-nous ce qui s'est passé, on regarde vite.", c: ["Ingrédient mal reconnu", "Recette bizarre", "L'app plante", "Autre"], ph: "Ce que tu faisais, ce qui s'est passé…", logs: true, ok: "Merci ! On regarde ça et on te tient au courant par email." },
   idea: { t: ["Ton idée ", "compte"], p: "On lit tout. Les meilleures idées arrivent dans l'app.", c: ["Les recettes", "La famille", "La liste", "Autre"], ph: "Ce qui te manque, ce qui t'aiderait…", logs: false, ok: "Merci ! On lit tout, promis." },
-};
+}, {
+  contact: { t: ["Write to ", "us"], p: "A real person replies by email, within 24 h.", c: ["Scanning", "A recipe", "My subscription", "Other"], ph: "Tell us…", logs: false, ok: "We'll reply by email, within 24 h." },
+  bug: { t: ["Report a ", "problem"], p: "Tell us what happened, we'll look quickly.", c: ["Ingredient misread", "Odd recipe", "The app crashes", "Other"], ph: "What you were doing, what happened…", logs: true, ok: "Thanks! We'll look into it and keep you posted by email." },
+  idea: { t: ["Your idea ", "counts"], p: "We read everything. The best ideas make it into the app.", c: ["Recipes", "Family", "The list", "Other"], ph: "What's missing, what would help…", logs: false, ok: "Thanks! We read everything, promise." },
+});
 
 export function ContactSheet({ mode, onClose, user }: { mode: SendMode | null; onClose: () => void; user: User }) {
   const [shown, setShown] = useState<{ mode: SendMode; n: number }>({ mode: "contact", n: 0 });
   const [prev, setPrev] = useState<SendMode | null>(null);
   if (mode !== prev) { setPrev(mode); if (mode) setShown(s => ({ mode, n: s.n + 1 })); }
   return (
-    <Dialog open={!!mode} onClose={onClose} className="hp-sheet" label="Écris-nous">
+    <Dialog open={!!mode} onClose={onClose} className="hp-sheet" label={t("Écris-nous", "Write to us")}>
       <ContactForm key={shown.n} mode={shown.mode} onClose={onClose} user={user} />
     </Dialog>
   );
@@ -324,14 +331,14 @@ function ContactForm({ mode, onClose, user }: { mode: SendMode; onClose: () => v
     try {
       await sendSupportMessage(user, mode, topic, text.trim(), m.logs && logs ? `Frigia 1.0 · ${navigator.userAgent}` : undefined);
       setSent(true);
-    } catch { showToast("Ton message n'est pas parti. Réessaie dans un instant"); } finally { setBusy(false); }
+    } catch { showToast(t("Ton message n'est pas parti. Réessaie dans un instant", "Your message wasn't sent. Try again in a moment")); } finally { setBusy(false); }
   };
   if (sent) return (
     <div className="hp-sent">
       <span className="dialog-art" aria-hidden="true"><Icon name="mail" /><span className="dialog-badge hp-ok"><Icon name="check" /></span></span>
-      <h3>Message <em>envoyé</em></h3>
+      <h3>{t(<>Message <em>envoyé</em></>, <>Message <em>sent</em></>)}</h3>
       <p>{m.ok}</p>
-      <Pill block onClick={onClose}>Fermer</Pill>
+      <Pill block onClick={onClose}>{t("Fermer", "Close")}</Pill>
     </div>
   );
   return (
@@ -342,12 +349,12 @@ function ContactForm({ mode, onClose, user }: { mode: SendMode; onClose: () => v
       <textarea ref={area} rows={4} placeholder={m.ph} aria-label={m.ph} value={text} onChange={e => setText(e.target.value)} />
       {m.logs && (
         <div className="st-row st-tgrow hp-logs">
-          <div><b>Joindre les infos de l'app</b><small>Version et modèle de téléphone, rien d'autre</small></div>
-          <button type="button" className={cx("st-tg", logs && "on")} role="switch" aria-checked={logs} aria-label="Joindre les infos de l'app" onClick={() => setLogs(l => !l)}><i /></button>
+          <div><b>{t("Joindre les infos de l'app", "Attach app info")}</b><small>{t("Version et modèle de téléphone, rien d'autre", "Version and phone model, nothing else")}</small></div>
+          <button type="button" className={cx("st-tg", logs && "on")} role="switch" aria-checked={logs} aria-label={t("Joindre les infos de l'app", "Attach app info")} onClick={() => setLogs(l => !l)}><i /></button>
         </div>
       )}
-      <Pill block icon="mail" className={cx(busy && "loading")} onClick={() => void send()}>Envoyer</Pill>
-      <TextLink onClick={onClose}>Annuler</TextLink>
+      <Pill block icon="mail" className={cx(busy && "loading")} onClick={() => void send()}>{t("Envoyer", "Send")}</Pill>
+      <TextLink onClick={onClose}>{t("Annuler", "Cancel")}</TextLink>
     </div>
   );
 }
