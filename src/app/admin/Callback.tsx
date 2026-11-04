@@ -15,7 +15,10 @@ function readReturn(): { code: string; state: string } | { error: string } {
   history.replaceState(null, "", "/admin");
   const code = q.get("code"), state = q.get("state");
   if (q.get("error") || !code || !state) {
-    return { error: q.get("error") === "access_denied" ? "Tu as refusé l'autorisation : rien n'a été relié." : "TikTok n'a pas donné l'autorisation." };
+    const err = q.get("error"), detail = q.get("error_description");
+    if (err === "access_denied") return { error: "Tu as refusé l'autorisation : rien n'a été relié." };
+    // Le code d'erreur de TikTok, pour savoir quoi corriger (ex. non_sandbox_target, invalid_scope)
+    return { error: `TikTok n'a pas donné l'autorisation${err ? ` (${err}${detail ? ` : ${detail}` : ""})` : ""}.` };
   }
   return { code, state };
 }
