@@ -1,0 +1,112 @@
+[
+ {"q":"Pizza","a":["homemade pizza","pizza margherita","pizza dough"],"fr":"Pizza","r":[
+  ["Homemade pizza margherita","The classic","","Homemade dough, tomato sauce, mozzarella and basil.","Italian dish",100,620,"M","pizza margherita","vobf",
+   ["flour|flour|300|g","baker's yeast|baker's yeast|7|g","olive oil|olive oil|3|tbsp","passata|passata|20|cl","mozzarella|mozzarella|2|","basil|basil||","oregano|oregano||","salt|salt||"],
+   ["Mix the flour, yeast, 1 tsp of salt, 2 tbsp of oil and 18 cl of warm water. Knead for 5 min.","Leave to rise for 1 h under a tea towel.|Rise|60","Preheat the oven to 250 °C. Roll the dough out thinly on an oiled baking tray.","Spread on the passata seasoned with oregano and add the torn mozzarella.","Bake for 12 min, then add the basil.|Oven|12"]],
+  ["Ham and mushroom pizza","Reine","With ham and mushrooms.","The ham and mushroom pizza, a favourite with kids.","",100,680,"M","ham mushroom pizza","obf",
+   ["flour|flour|300|g","baker's yeast|baker's yeast|7|g","olive oil|olive oil|3|tbsp","passata|passata|20|cl","mozzarella|mozzarella|2|","cooked ham|cooked ham|3|slices","button mushroom|button mushrooms|150|g","salt|salt||"],
+   ["Make the dough and leave it to rise for 1 h.|Rise|60","Preheat the oven to 250 °C and roll out the dough.","Top with the passata, mozzarella, ham and sliced mushrooms.","Bake for 12 min.|Oven|12"]],
+  ["Quick no-rise pizza","Quick","A yoghurt dough, with no rising time.","A homemade pizza in 30 minutes, with no waiting for the dough to rise.","",30,600,"F","quick yogurt dough pizza","vobf",
+   ["flour|flour|250|g","plain yoghurt|plain yoghurts|1|","baking powder|baking powder|1|tsp","olive oil|olive oil|2|tbsp","passata|passata|15|cl","mozzarella|mozzarella|1|","cherry tomato|cherry tomatoes|150|g","salt|salt||"],
+   ["Preheat the oven to 240 °C.","Mix the flour, yoghurt, baking powder, oil and salt until you have a ball of dough.","Roll out the dough and top with the passata, mozzarella and cherry tomatoes.","Bake for 15 min.|Oven|15"]]
+ ]},
+ {"q":"Calzone","a":["pizza calzone"],"fr":"Calzone","r":[
+  ["Calzone","The classic","","A pizza folded into a turnover, filled with ham, mozzarella, mushrooms and egg.","Italian dish",100,700,"M","calzone","of",
+   ["flour|flour|300|g","baker's yeast|baker's yeast|7|g","olive oil|olive oil|3|tbsp","passata|passata|15|cl","mozzarella|mozzarella|2|","cooked ham|cooked ham|3|slices","button mushroom|button mushrooms|150|g","egg|eggs|2|","salt|salt||"],
+   ["Make the pizza dough and leave it to rise for 1 h.|Rise|60","Preheat the oven to 240 °C. Divide the dough into 2 discs.","Spread half of each disc with passata, ham, mushrooms and mozzarella, and crack in an egg.","Fold over and seal the edges.","Bake for 18 min.|Oven|18"]],
+  ["Vegetarian calzone","Vegetarian","Spinach, ricotta and mozzarella.","A soft calzone with spinach and ricotta.","Italian dish",100,640,"M","spinach ricotta calzone","vo",
+   ["flour|flour|300|g","baker's yeast|baker's yeast|7|g","olive oil|olive oil|3|tbsp","spinach|spinach|200|g","ricotta|ricotta|200|g","mozzarella|mozzarella|1|","garlic|garlic|1|clove","salt|salt||"],
+   ["Make the dough and leave it to rise for 1 h.|Rise|60","Wilt the spinach with the garlic and mix with the ricotta.","Spread over half of each disc, add the mozzarella and fold over.","Bake for 18 min at 240 °C.|Oven|18"]],
+  ["Quick puff pastry turnovers","Quick","With ready-made puff pastry.","Little calzone-style turnovers, ready in 25 minutes.","",25,560,"F","puff pastry turnovers ham cheese","obf",
+   ["puff pastry|puff pastries|2|","passata|passata|10|cl","cooked ham|cooked ham|3|slices","mozzarella|mozzarella|1|","egg|eggs|1|"],
+   ["Preheat the oven to 200 °C.","Cut out discs of pastry and top half of each with passata, ham and mozzarella.","Fold over, seal the edges and brush with beaten egg.","Bake for 18 min.|Oven|18"]]
+ ]},
+ {"q":"Focaccia","a":["homemade focaccia","fougasse"],"fr":"Focaccia","r":[
+  ["Rosemary focaccia","The classic","","Soft Italian bread with olive oil, rosemary and fleur de sel.","Italian dish",150,320,"M","rosemary focaccia","vob",
+   ["flour|flour|500|g","baker's yeast|baker's yeast|7|g","olive oil|olive oil|8|cl","rosemary|rosemary||","fleur de sel|fleur de sel||","salt|salt||"],
+   ["Mix the flour, yeast, 2 tsp of salt, 3 tbsp of oil and 35 cl of warm water. Knead for 5 min.","Leave to rise for 1 h 30.|Rise|90","Spread the dough in an oiled dish, press your fingers in to make dimples and drizzle with the rest of the oil.","Sprinkle with rosemary and fleur de sel, and leave to rise for another 20 min.|Rise|20","Bake for 25 min at 220 °C.|Oven|25"]],
+  ["Cherry tomato and olive focaccia","Tomatoes and olives","Topped with cherry tomatoes and olives.","A colourful focaccia with tomatoes and olives.","Italian dish",150,340,"M","tomato olive focaccia","vo",
+   ["flour|flour|500|g","baker's yeast|baker's yeast|7|g","olive oil|olive oil|8|cl","cherry tomato|cherry tomatoes|200|g","black olive|black olives|60|g","oregano|oregano||","salt|salt||"],
+   ["Make the dough and leave it to rise for 1 h 30.|Rise|90","Spread it in an oiled dish and press in the tomatoes and olives.","Drizzle with oil, sprinkle with oregano and leave to rise for 20 min.|Rise|20","Bake for 25 min at 220 °C.|Oven|25"]],
+  ["Bacon fougasse","Fougasse","The Provençal fougasse with bacon.","A golden fougasse with bacon, for nibbles.","Provençal speciality",120,360,"M","bacon fougasse bread","o",
+   ["flour|flour|500|g","baker's yeast|baker's yeast|7|g","olive oil|olive oil|4|tbsp","bacon lardon|bacon lardons|150|g","salt|salt||"],
+   ["Fry the bacon lardons for 5 min.|Pan|5","Mix the flour, yeast, salt, oil, 30 cl of warm water and the bacon lardons. Knead.","Leave to rise for 1 h.|Rise|60","Shape into a leaf, cut slits and bake for 20 min at 220 °C.|Oven|20"]]
+ ]},
+ {"q":"Bruschetta","a":["bruschettas","tomato toasts"],"fr":"Bruschetta","r":[
+  ["Tomato and basil bruschetta","The classic","","Toasted bread rubbed with garlic, topped with fresh tomatoes and basil.","Italian dish",15,220,"F","tomato bruschetta","vbhe",
+   ["country bread|country bread|8|slices","tomato|tomatoes|4|","garlic|garlic|1|clove","basil|basil||","olive oil|olive oil|4|tbsp","salt|salt||","pepper|pepper||"],
+   ["Cut the tomatoes into small dice and mix with the basil, 3 tbsp of oil, salt and pepper.","Toast the bread and rub it with the garlic.","Top with the tomatoes and drizzle with a little oil."]],
+  ["Mozzarella and cured ham bruschetta","Mozzarella and cured ham","Mozzarella and cured ham on toasted bread.","Tasty Italian toasts.","Italian dish",15,320,"F","bruschetta prosciutto mozzarella","e",
+   ["country bread|country bread|8|slices","mozzarella|mozzarella|1|","cured ham|cured ham|4|slices","cherry tomato|cherry tomatoes|150|g","olive oil|olive oil|3|tbsp","basil|basil||"],
+   ["Toast the bread.","Top with mozzarella, halved cherry tomatoes and cured ham.","Drizzle with oil and add the basil."]],
+  ["Avocado and egg bruschetta","Avocado and egg","A brunch version, with mashed avocado and a poached egg.","Avocado and egg toasts, perfect for brunch.","",20,320,"F","avocado egg toast","vh",
+   ["country bread|country bread|4|slices","avocado|avocados|2|","egg|eggs|4|","lemon|lemons|0.5|","piment d'espelette|piment d'espelette||","salt|salt||"],
+   ["Toast the bread.","Mash the avocados with the lemon juice and the salt.","Poach the eggs for 3 min in simmering water with a splash of vinegar.|Cooking|3","Spread on the avocado, add the egg and sprinkle with chilli."]]
+ ]},
+ {"q":"Tomato tart","a":["tomato mustard tart","tomato and mustard tart"],"fr":"Tarte à la tomate","r":[
+  ["Tomato and mustard tart","The classic","","A crisp pastry case, mustard, tomatoes and cheese, baked in the oven.","",45,380,"F","tomato mustard tart","vob",
+   ["shortcrust pastry|shortcrust pastries|1|","tomato|tomatoes|5|","mustard|mustard|3|tbsp","grated emmental|grated emmental|80|g","olive oil|olive oil|2|tbsp","dried provençal herbs|dried provençal herbs|1|tsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C. Line a tin with the pastry.","Spread the base with mustard and sprinkle with emmental.","Arrange the sliced tomatoes on top, drizzle with oil, add the herbs, salt and pepper.","Bake for 35 min.|Oven|35"]],
+  ["Thin tomato and goat's cheese tart","With goat's cheese","Puff pastry, goat's cheese and honey.","A thin sweet and savoury tart with tomato, goat's cheese and honey.","",30,360,"F","tomato goat cheese tart","vo",
+   ["puff pastry|puff pastries|1|","tomato|tomatoes|4|","goat's cheese log|goat's cheese logs|1|","honey|honey|1|tbsp","thyme|thyme||","olive oil|olive oil|1|tbsp"],
+   ["Preheat the oven to 210 °C. Roll out the pastry on a baking tray.","Arrange the sliced tomatoes and goat's cheese on top.","Drizzle with oil and honey, and sprinkle with thyme.","Bake for 25 min.|Oven|25"]],
+  ["Tomato and tuna tart","With tuna","Tuna under the tomatoes.","The tomato tart as a full meal, with tuna.","",45,420,"F","tomato tuna tart","ob",
+   ["shortcrust pastry|shortcrust pastries|1|","tomato|tomatoes|4|","tuna in water|tuna in water|200|g","mustard|mustard|2|tbsp","crème fraîche|crème fraîche|10|cl","egg|eggs|2|","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C. Roll out the pastry and spread it with mustard.","Mix the flaked tuna, eggs and cream with salt and pepper, and spread over the pastry.","Arrange the sliced tomatoes on top.","Bake for 35 min.|Oven|35"]]
+ ]},
+ {"q":"Vegetable quiche","a":["veggie quiche","salmon and spinach quiche","salmon quiche"],"fr":"Quiche aux légumes","r":[
+  ["Vegetable quiche","The classic","","A colourful quiche with courgettes, peppers and tomatoes.","",55,420,"F","vegetable quiche","vobh",
+   ["shortcrust pastry|shortcrust pastries|1|","courgette|courgettes|1|","red pepper|red peppers|1|","cherry tomato|cherry tomatoes|100|g","egg|eggs|3|","crème fraîche|crème fraîche|20|cl","milk|milk|10|cl","grated emmental|grated emmental|50|g","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C. Line a tin with the pastry.","Fry the diced courgette and pepper for 8 min.|Pan|8","Beat the eggs, cream, milk, emmental, salt and pepper.","Spread the vegetables and tomatoes over the pastry and pour over the mixture.","Bake for 35 min.|Oven|35"]],
+  ["Salmon and spinach quiche","Salmon and spinach","Salmon and spinach replace the summer vegetables.","A rich, filling quiche with salmon and spinach.","",55,480,"F","salmon spinach quiche","o",
+   ["shortcrust pastry|shortcrust pastries|1|","salmon fillet|salmon fillets|2|","spinach|spinach|200|g","egg|eggs|3|","crème fraîche|crème fraîche|20|cl","milk|milk|10|cl","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C. Line a tin with the pastry.","Wilt the spinach for 3 min and drain it well.|Pan|3","Spread the spinach and the diced raw salmon over the pastry.","Pour over the eggs beaten with the cream and milk, and season with salt and pepper.","Bake for 35 min.|Oven|35"]],
+  ["Crustless vegetable quiche","No pastry","No pastry, so it is lighter.","A light quiche, baked straight in the dish.","",45,260,"F","crustless vegetable quiche","voh",
+   ["courgette|courgettes|2|","red pepper|red peppers|1|","egg|eggs|4|","milk|milk|25|cl","flour|flour|40|g","grated emmental|grated emmental|40|g","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 180 °C.","Fry the diced vegetables for 8 min.|Pan|8","Beat the eggs with the flour, milk, emmental, salt and pepper, and add the vegetables.","Pour into an oiled dish and bake for 35 min.|Oven|35"]]
+ ]},
+ {"q":"Savoury cake","a":["ham and olive cake","cake salé","ham olive loaf"],"fr":"Cake salé","r":[
+  ["Ham and olive savoury cake","The classic","","The savoury loaf cake for nibbles and picnics, with ham and olives.","",60,320,"F","savory ham olive loaf cake","obcf",
+   ["flour|flour|200|g","egg|eggs|3|","milk|milk|10|cl","olive oil|olive oil|10|cl","diced ham|diced ham|150|g","green olive|green olives|100|g","grated emmental|grated emmental|80|g","baking powder|baking powder|1|tsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 180 °C.","Mix the flour, baking powder, eggs, milk and oil.","Add the ham, the chopped olives, the emmental, salt and pepper.","Pour into a loaf tin and bake for 45 min.|Oven|45"]],
+  ["Feta, sun-dried tomato and basil cake","Vegetarian","Feta and sun-dried tomatoes replace the ham and olives.","A Mediterranean savoury cake.","",60,320,"F","feta sundried tomato loaf","voc",
+   ["flour|flour|200|g","egg|eggs|3|","milk|milk|10|cl","olive oil|olive oil|10|cl","feta|feta|150|g","sun-dried tomato|sun-dried tomatoes|80|g","basil|basil||","baking powder|baking powder|1|tsp","salt|salt||"],
+   ["Preheat the oven to 180 °C.","Make the batter with the flour, baking powder, eggs, milk and oil.","Add the diced feta, the sun-dried tomatoes and the basil.","Bake for 45 min.|Oven|45"]],
+  ["Tuna and tomato cake","With tuna","Tuna and tomato purée.","A soft, budget-friendly savoury cake with tuna.","",60,330,"F","tuna tomato loaf","obc",
+   ["flour|flour|200|g","egg|eggs|3|","milk|milk|10|cl","olive oil|olive oil|8|cl","tuna in water|tuna in water|200|g","tomato purée|tomato purée|2|tbsp","grated emmental|grated emmental|60|g","baking powder|baking powder|1|tsp","salt|salt||"],
+   ["Preheat the oven to 180 °C.","Make the batter and add the tomato purée.","Add the flaked tuna and the emmental.","Bake for 45 min.|Oven|45"]]
+ ]},
+ {"q":"Chicken wrap","a":["wrap","wraps","chicken salad wrap"],"fr":"Wrap au poulet","r":[
+  ["Chicken wrap","The classic","","A tortilla filled with chicken, salad and yoghurt sauce, rolled up tightly.","",20,450,"F","chicken wrap","cfh",
+   ["flour tortilla|flour tortillas|4|","chicken breast|chicken breasts|2|","lettuce|lettuces|4|leaves","tomato|tomatoes|2|","carrot|carrots|1|","greek yoghurt|greek yoghurts|1|","lemon|lemons|0.5|","paprika|paprika|1|tsp","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Cut the chicken into strips and brown it with the paprika for 8 min.|Pan|8","Mix the yoghurt, the lemon juice and the salt.","Fill the tortillas with lettuce, tomato, grated carrot, chicken and sauce.","Roll them up tightly and cut in half."]],
+  ["Tuna wrap","With tuna","Tuna and light mayonnaise replace the chicken.","A quick tuna wrap, with no cooking.","",10,420,"F","tuna wrap","cb",
+   ["flour tortilla|flour tortillas|4|","tuna in water|tuna in water|200|g","sweetcorn|sweetcorn|100|g","lettuce|lettuces|4|leaves","tomato|tomatoes|2|","mayonnaise|mayonnaise|2|tbsp","fromage blanc|fromage blanc|2|tbsp"],
+   ["Mix the tuna with the sweetcorn, mayonnaise and fromage blanc.","Fill the tortillas with lettuce, tomato and tuna.","Roll them up and cut in half."]],
+  ["Hummus and vegetable wrap","Vegetarian","Hummus and grilled vegetables replace the chicken.","A colourful, filling wrap with hummus.","",20,400,"F","hummus veggie wrap","vch",
+   ["flour tortilla|flour tortillas|4|","hummus|hummus|8|tbsp","courgette|courgettes|1|","red pepper|red peppers|1|","baby spinach|baby spinach|60|g","feta|feta|80|g","olive oil|olive oil|1|tbsp"],
+   ["Grill the courgette and pepper strips in the oil for 8 min.|Pan|8","Spread the tortillas with hummus.","Add the spinach, the grilled vegetables and the feta, then roll up."]]
+ ]},
+ {"q":"Club sandwich","a":["sandwich","chicken club sandwich"],"fr":"Club sandwich","r":[
+  ["Club sandwich","The classic","","The triple-decker sandwich: chicken, bacon, egg, tomato and lettuce.","American dish",25,620,"F","club sandwich","c",
+   ["sliced bread|sliced bread|12|slices","chicken breast|chicken breasts|2|","bacon|bacon|8|slices","egg|eggs|2|","tomato|tomatoes|2|","lettuce|lettuces|4|leaves","mayonnaise|mayonnaise|3|tbsp","salt|salt||"],
+   ["Cook the chicken for 10 min and slice it. Grill the bacon for 4 min.|Pan|14","Hard-boil the eggs for 10 min and cut into slices.|Eggs|10","Toast the bread and spread it with mayonnaise.","Build 3 layers: chicken and lettuce, then bacon, tomato and egg.","Cut into triangles and hold together with cocktail sticks."]],
+  ["Tuna club sandwich","With tuna","Tuna replaces the chicken and bacon.","The club sandwich with tuna and salad.","",15,520,"F","tuna club sandwich","cb",
+   ["sliced bread|sliced bread|12|slices","tuna in water|tuna in water|200|g","egg|eggs|2|","tomato|tomatoes|2|","cucumber|cucumbers|0.5|","lettuce|lettuces|4|leaves","mayonnaise|mayonnaise|3|tbsp"],
+   ["Hard-boil the eggs for 10 min.|Eggs|10","Mix the tuna with the mayonnaise.","Toast the bread and build the layers with the tuna, salad vegetables and egg."]],
+  ["Vegetarian club sandwich","Vegetarian","Egg, avocado and cheese replace the meat.","A veggie club with avocado and cheddar.","",15,500,"F","vegetarian club sandwich avocado","vc",
+   ["sliced bread|sliced bread|12|slices","avocado|avocados|2|","egg|eggs|2|","cheddar|cheddar|4|slices","tomato|tomatoes|2|","lettuce|lettuces|4|leaves","mayonnaise|mayonnaise|2|tbsp"],
+   ["Hard-boil the eggs for 10 min.|Eggs|10","Mash the avocados.","Toast the bread and build the layers with the avocado, cheddar, egg and salad vegetables."]]
+ ]},
+ {"q":"Avocado toast","a":["avocado on toast","smashed avocado toast"],"fr":"Avocado toast","r":[
+  ["Avocado toast","The classic","","Toasted bread, avocado mashed with lemon and a touch of chilli.","",10,280,"F","avocado toast","vch",
+   ["wholemeal bread|wholemeal bread|4|slices","avocado|avocados|2|","lemon|lemons|0.5|","piment d'espelette|piment d'espelette||","sesame seed|sesame seeds|1|tsp","salt|salt||"],
+   ["Toast the bread.","Mash the avocados with the lemon juice and the salt.","Spread on the avocado and sprinkle with chilli and sesame seeds."]],
+  ["Poached egg avocado toast","With an egg","A poached egg on the avocado.","The perfect brunch: avocado and a runny poached egg.","",15,360,"F","avocado toast poached egg","vh",
+   ["wholemeal bread|wholemeal bread|4|slices","avocado|avocados|2|","egg|eggs|4|","lemon|lemons|0.5|","vinegar|vinegar|1|tbsp","salt|salt||","pepper|pepper||"],
+   ["Toast the bread and spread it with avocado mashed with lemon.","Poach the eggs for 3 min in simmering water with the vinegar.|Cooking|3","Put an egg on each slice, then add salt and pepper."]],
+  ["Smoked salmon avocado toast","With smoked salmon","Smoked salmon and dill.","The smart avocado toast, with smoked salmon.","",10,340,"F","avocado toast smoked salmon","ch",
+   ["wholemeal bread|wholemeal bread|4|slices","avocado|avocados|2|","smoked salmon|smoked salmon|100|g","lemon|lemons|0.5|","dill|dill||","pepper|pepper||"],
+   ["Toast the bread.","Mash the avocados with the lemon juice and spread them on the bread.","Add the smoked salmon and dill, then pepper."]]
+ ]}
+]

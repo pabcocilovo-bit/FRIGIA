@@ -1,0 +1,112 @@
+[
+ {"q":"Crêpes","a":["crepes","french pancakes"],"fr":"Crêpes","r":[
+  ["Crêpes","The classic","","The foolproof crêpe batter, thin and light, for a snack or Candlemas.","",40,220,"F","french crepes","vdbf",
+   ["flour|flour|250|g","egg|eggs|4|","milk|milk|50|cl","melted butter|melted butter|30|g","sugar|sugar|1|tbsp","salt|salt||"],
+   ["Put the flour, sugar and a pinch of salt in a mixing bowl, and make a well in the middle.","Add the eggs, then the milk a little at a time, whisking to avoid lumps.","Add the melted butter and leave to rest for 30 min if you can.|Rest|30","Cook the crêpes in a hot, lightly buttered pan, 1 min on each side."]],
+  ["Dairy-free crêpes","Dairy-free","Cow's milk is replaced by oat milk and the butter by oil.","Just as thin, with no dairy.","",40,200,"F","dairy free crepes","vdbf",
+   ["flour|flour|250|g","egg|eggs|3|","oat milk|oat milk|50|cl","sunflower oil|sunflower oil|2|tbsp","sugar|sugar|1|tbsp","salt|salt||"],
+   ["Mix the flour, sugar and salt, then add the eggs.","Pour in the oat milk a little at a time, whisking, then add the oil.","Leave to rest for 30 min.|Rest|30","Cook the crêpes in a hot, oiled pan."]],
+  ["Buckwheat galettes with ham, egg and emmental","Savoury galettes","Buckwheat flour, with ham, egg and cheese.","The classic Breton galettes: ham, egg and emmental.","Breton speciality",40,420,"F","buckwheat galette ham egg cheese","bf",
+   ["buckwheat flour|buckwheat flour|250|g","egg|eggs|5|","ham|ham|4|slices","grated emmental|grated emmental|100|g","butter|butter|30|g","salt|salt||"],
+   ["Mix the flour, 1 egg, a pinch of salt and 60 cl of cold water. Leave to rest for 1 h.|Rest|60","Cook a galette in a buttered pan for 2 min.|Pan|2","Flip it, add the emmental and ham, and crack an egg into the middle.","Fold the edges into a square and cook until the white is set.|Pan|3"]]
+ ]},
+ {"q":"Waffles","a":["gaufres","waffle"],"fr":"Gaufres","r":[
+  ["Waffles","The classic","","Waffles that are crisp outside and soft inside.","",40,300,"F","waffles","vdbf",
+   ["flour|flour|250|g","egg|eggs|3|","milk|milk|50|cl","melted butter|melted butter|80|g","sugar|sugar|30|g","baking powder|baking powder|1|tsp","vanilla sugar|vanilla sugar|1|","salt|salt||"],
+   ["Mix the flour, baking powder, sugars and salt.","Add the egg yolks, then the milk and melted butter.","Whisk the egg whites until stiff and fold them in gently.","Cook in the hot waffle iron for 3 to 4 min.|Waffle iron|4"]],
+  ["Liège waffles","From Liège","A yeast dough with pearl sugar that caramelises.","Thick Belgian waffles with caramelised pearl sugar.","Belgian speciality",120,380,"M","liege waffles pearl sugar","vd",
+   ["flour|flour|400|g","egg|eggs|3|","warm milk|warm milk|15|cl","soft butter|soft butter|200|g","fresh yeast|fresh yeast|10|g","pearl sugar|pearl sugar|150|g","salt|salt||"],
+   ["Dissolve the yeast in the warm milk.","Mix the flour, eggs, milk and salt, then work in the soft butter.","Leave to rise for 1 h somewhere warm.|Rising|60","Add the pearl sugar, shape into balls and cook them for 4 min in the waffle iron.|Waffle iron|4"]],
+  ["Light waffles","Lighter","Less butter, and fromage blanc in the batter.","Soft, lighter waffles.","",35,220,"F","light waffles","vdhf",
+   ["flour|flour|200|g","egg|eggs|2|","semi-skimmed milk|semi-skimmed milk|30|cl","fromage blanc|fromage blanc|100|g","melted butter|melted butter|30|g","sugar|sugar|20|g","baking powder|baking powder|1|tsp"],
+   ["Mix the flour, baking powder and sugar.","Add the eggs, fromage blanc, milk and melted butter.","Cook for 4 min in the hot waffle iron.|Waffle iron|4"]]
+ ]},
+ {"q":"Pancakes","a":["american pancakes","pancake"],"fr":"Pancakes","r":[
+  ["Pancakes","The classic","","Thick, fluffy pancakes to serve with maple syrup.","American dish",25,280,"F","fluffy pancakes","vdbf",
+   ["flour|flour|250|g","egg|eggs|2|","milk|milk|30|cl","melted butter|melted butter|40|g","sugar|sugar|30|g","baking powder|baking powder|2|tsp","salt|salt||","maple syrup|maple syrup||"],
+   ["Mix the flour, baking powder, sugar and a pinch of salt.","Add the eggs, milk and melted butter, and mix just enough.","Pour a small ladle of batter into a hot buttered pan.","Flip when bubbles appear, after 2 min, and cook for 1 min on the other side.|Pan|3","Serve with the maple syrup."]],
+  ["Banana pancakes","Banana","A mashed banana replaces some of the sugar.","Soft banana pancakes.","",25,270,"F","banana pancakes","vdbfh",
+   ["flour|flour|200|g","banana|bananas|2|","egg|eggs|2|","milk|milk|25|cl","baking powder|baking powder|2|tsp","butter|butter|10|g"],
+   ["Mash the bananas and mix them with the eggs and milk.","Add the flour and baking powder.","Cook small pancakes for 2 min on each side in a buttered pan.|Pan|4"]],
+  ["Healthy oat pancakes","Healthy","The flour is replaced by blitzed porridge oats.","Wholesome, filling pancakes with no added sugar.","",20,240,"F","oat pancakes healthy","vdhf",
+   ["porridge oat|porridge oats|150|g","banana|bananas|1|","egg|eggs|2|","milk|milk|20|cl","baking powder|baking powder|1|tsp","blueberry|blueberries|100|g"],
+   ["Blitz the porridge oats with the banana, eggs, milk and baking powder.","Add the blueberries.","Cook for 2 min on each side in a non-stick pan.|Pan|4"]]
+ ]},
+ {"q":"French toast","a":["pain perdu"],"fr":"Pain perdu","r":[
+  ["French toast","The classic","","The no-waste dessert: stale bread soaked in sweet milk and eggs, then browned in butter.","",15,320,"F","french toast pain perdu","vdbf",
+   ["stale bread|stale bread|8|slices","egg|eggs|2|","milk|milk|25|cl","sugar|sugar|40|g","vanilla sugar|vanilla sugar|1|","butter|butter|30|g","cinnamon|cinnamon||"],
+   ["Mix the milk, eggs, sugars and a little cinnamon.","Soak the slices of bread on both sides.","Brown them in the butter for 2 min on each side.|Pan|4","Sprinkle with a little sugar and serve hot."]],
+  ["Brioche French toast","Brioche","Brioche replaces the bread, with a touch of caramel.","An even more indulgent version, with caramelised brioche.","",15,420,"F","brioche french toast","vdf",
+   ["brioche|brioche|8|slices","egg|eggs|2|","milk|milk|20|cl","sugar|sugar|50|g","butter|butter|30|g"],
+   ["Mix the milk, eggs and half the sugar.","Quickly dip the slices of brioche.","Brown them in the butter, sprinkle with the rest of the sugar and let it caramelise for 1 min on each side.|Pan|5"]],
+  ["Savoury French toast","Savoury","A savoury version with cheese and ham.","French toast as an evening meal, topped with melted cheese.","",20,420,"F","savory french toast ham cheese","bf",
+   ["stale bread|stale bread|8|slices","egg|eggs|3|","milk|milk|20|cl","ham|ham|4|slices","grated emmental|grated emmental|80|g","butter|butter|20|g","salt|salt||","pepper|pepper||"],
+   ["Beat the eggs with the milk, salt and pepper.","Soak the bread and brown it in the butter for 2 min on one side.|Pan|2","Flip it, add the ham and emmental, cover and cook for 3 min.|Pan|3"]]
+ ]},
+ {"q":"Chocolate cake","a":["chocolate fondant","chocolate sponge"],"fr":"Gâteau au chocolat","r":[
+  ["Chocolate cake","The classic","","The cake that is gooey in the middle, everyone's favourite dessert.","",40,420,"F","chocolate cake","vodf",
+   ["dark chocolate|dark chocolate|200|g","butter|butter|150|g","sugar|sugar|120|g","egg|eggs|4|","flour|flour|60|g"],
+   ["Preheat the oven to 180 °C.","Melt the chocolate and butter together.","Whisk the eggs with the sugar, then add the chocolate and flour.","Pour into a buttered tin and bake for 22 min: the centre should still wobble.|Oven|22"]],
+  ["Lighter chocolate cake","Lighter","The butter is replaced by apple purée.","The gooey cake, in a lighter version.","",40,280,"F","light chocolate cake applesauce","vodh",
+   ["dark chocolate|dark chocolate|150|g","apple purée|apple purée|150|g","sugar|sugar|60|g","egg|eggs|3|","flour|flour|50|g"],
+   ["Preheat the oven to 180 °C.","Melt the chocolate and mix it with the apple purée.","Add the eggs beaten with the sugar, then the flour.","Bake for 25 min.|Oven|25"]],
+  ["Gluten-free chocolate cake","Gluten-free","The flour is replaced by ground almonds.","A gooey chocolate and almond cake, gluten-free.","",40,460,"F","flourless chocolate almond cake","vod",
+   ["dark chocolate|dark chocolate|200|g","butter|butter|120|g","sugar|sugar|100|g","egg|eggs|4|","ground almonds|ground almonds|80|g"],
+   ["Preheat the oven to 170 °C.","Melt the chocolate and butter.","Whisk the eggs with the sugar, add the chocolate, then the ground almonds.","Bake for 25 min.|Oven|25"]]
+ ]},
+ {"q":"Brownies","a":["brownie","walnut brownies"],"fr":"Brownie","r":[
+  ["Walnut brownies","The classic","","A dense, fudgy brownie with crunchy walnuts.","American dish",35,450,"F","chocolate brownie walnuts","vodf",
+   ["dark chocolate|dark chocolate|200|g","butter|butter|150|g","brown sugar|brown sugar|150|g","egg|eggs|3|","flour|flour|80|g","walnut|walnuts|80|g","salt|salt||"],
+   ["Preheat the oven to 180 °C.","Melt the chocolate and butter.","Whisk the eggs with the sugar, then add the chocolate, flour, a pinch of salt and the chopped walnuts.","Pour into a square tin and bake for 20 min.|Oven|20","Leave to cool before cutting into squares."]],
+  ["Banana brownies","Banana","Banana replaces some of the butter and sugar.","A soft, no-waste brownie made with very ripe bananas.","",35,330,"F","banana brownie","vodfh",
+   ["dark chocolate|dark chocolate|150|g","banana|bananas|2|","butter|butter|60|g","brown sugar|brown sugar|60|g","egg|eggs|2|","flour|flour|60|g"],
+   ["Preheat the oven to 180 °C.","Melt the chocolate with the butter.","Mash the bananas and mix with the eggs, sugar, chocolate and flour.","Bake for 22 min.|Oven|22"]],
+  ["Gluten-free brownies","Gluten-free","The flour is replaced by ground almonds.","A fudgy almond brownie, gluten-free.","",35,480,"F","gluten free brownie","vod",
+   ["dark chocolate|dark chocolate|200|g","butter|butter|120|g","brown sugar|brown sugar|120|g","egg|eggs|3|","ground almonds|ground almonds|80|g","hazelnut|hazelnuts|50|g"],
+   ["Preheat the oven to 180 °C.","Melt the chocolate and butter.","Add the eggs beaten with the sugar, the ground almonds and the chopped hazelnuts.","Bake for 20 min.|Oven|20"]]
+ ]},
+ {"q":"Cookies","a":["cookie","chocolate chip cookies"],"fr":"Cookies","r":[
+  ["Chocolate chip cookies","The classic","","Cookies that are crisp at the edges and soft in the middle.","American dish",25,220,"F","chocolate chip cookies","vodf",
+   ["flour|flour|200|g","soft butter|soft butter|100|g","brown sugar|brown sugar|100|g","egg|eggs|1|","chocolate chip|chocolate chips|120|g","baking powder|baking powder|0.5|tsp","salt|salt||"],
+   ["Preheat the oven to 180 °C.","Mix the soft butter and sugar, then add the egg.","Add the flour, baking powder, a pinch of salt and the chocolate chips.","Shape into balls and place them well apart on a baking tray.","Bake for 10 min: they should stay soft in the middle.|Oven|10"]],
+  ["Oatmeal cookies","Oaty","Porridge oats and raisins replace some of the flour.","Rustic cookies with oats and raisins.","",25,200,"F","oatmeal raisin cookies","vodh",
+   ["porridge oat|porridge oats|120|g","flour|flour|100|g","soft butter|soft butter|90|g","brown sugar|brown sugar|80|g","egg|eggs|1|","raisin|raisins|60|g","cinnamon|cinnamon|0.5|tsp"],
+   ["Preheat the oven to 180 °C.","Mix the butter and sugar, then add the egg.","Add the flour, oats, cinnamon and raisins.","Drop small heaps onto a baking tray and bake for 12 min.|Oven|12"]],
+  ["Double chocolate cookies","Double chocolate","Cocoa in the dough and white chocolate chunks.","Cocoa cookies with melting white chocolate.","",25,240,"F","double chocolate cookies","vodf",
+   ["flour|flour|170|g","cocoa powder|cocoa powder|30|g","soft butter|soft butter|100|g","brown sugar|brown sugar|110|g","egg|eggs|1|","white chocolate|white chocolate|100|g","baking powder|baking powder|0.5|tsp"],
+   ["Preheat the oven to 180 °C.","Mix the butter and sugar, then the egg.","Add the flour, cocoa, baking powder and the white chocolate in pieces.","Shape into balls and bake for 10 min.|Oven|10"]]
+ ]},
+ {"q":"Muffins","a":["muffin","blueberry muffins"],"fr":"Muffins","r":[
+  ["Blueberry muffins","The classic","","Well-risen, soft muffins full of blueberries.","American dish",35,280,"F","blueberry muffins","vodf",
+   ["flour|flour|250|g","sugar|sugar|120|g","egg|eggs|2|","milk|milk|15|cl","melted butter|melted butter|80|g","blueberry|blueberries|150|g","baking powder|baking powder|2|tsp"],
+   ["Preheat the oven to 190 °C.","Mix the flour, sugar and baking powder in one bowl, and the eggs, milk and butter in another.","Pour the liquid onto the flour and barely mix, then add the blueberries.","Fill muffin cases three-quarters full and bake for 20 min.|Oven|20"]],
+  ["Chocolate muffins","Chocolate","Cocoa and chocolate chips replace the blueberries.","All-chocolate muffins, just like from the bakery.","",35,320,"F","chocolate muffins","vodf",
+   ["flour|flour|220|g","cocoa powder|cocoa powder|30|g","sugar|sugar|120|g","egg|eggs|2|","milk|milk|15|cl","melted butter|melted butter|80|g","chocolate chip|chocolate chips|100|g","baking powder|baking powder|2|tsp"],
+   ["Preheat the oven to 190 °C.","Mix the dry ingredients, then the liquids separately.","Combine the two without overmixing, and add the chocolate chips.","Fill the cases and bake for 20 min.|Oven|20"]],
+  ["Courgette and feta savoury muffins","Savoury","A savoury version, for party snacks or the lunch box.","Savoury muffins with courgette and feta.","",35,220,"F","savory zucchini feta muffins","voc",
+   ["flour|flour|200|g","courgette|courgettes|1|","feta|feta|100|g","egg|eggs|2|","milk|milk|15|cl","olive oil|olive oil|6|tbsp","baking powder|baking powder|2|tsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 190 °C. Grate the courgette and squeeze out the water.","Mix the flour, baking powder, salt and pepper, then the eggs, milk and oil.","Add the courgette and the diced feta.","Fill the cases and bake for 22 min.|Oven|22"]]
+ ]},
+ {"q":"Lemon cake","a":["lemon loaf","lemon drizzle cake"],"fr":"Cake au citron","r":[
+  ["Lemon cake","The classic","","A moist, fragrant cake topped with a lemon glaze.","",60,320,"F","lemon loaf cake","vod",
+   ["flour|flour|200|g","sugar|sugar|180|g","egg|eggs|3|","melted butter|melted butter|120|g","lemon|lemons|2|","baking powder|baking powder|2|tsp","icing sugar|icing sugar|80|g"],
+   ["Preheat the oven to 180 °C.","Whisk the eggs and sugar, then add the melted butter and the zest and juice of one lemon.","Add the flour and baking powder, and pour into a loaf tin.","Bake for 40 min.|Oven|40","Mix the icing sugar with the juice of the other lemon and pour over the cooled cake."]],
+  ["Lemon and poppy seed cake","Poppy seed","Poppy seeds add some crunch.","The lemon cake, with poppy seeds.","",60,330,"F","lemon poppy seed cake","vod",
+   ["flour|flour|200|g","sugar|sugar|160|g","egg|eggs|3|","melted butter|melted butter|120|g","lemon|lemons|2|","poppy seed|poppy seeds|2|tbsp","baking powder|baking powder|2|tsp"],
+   ["Preheat the oven to 180 °C.","Mix the eggs and sugar, then the butter, and the zest and juice of the lemons.","Add the flour, baking powder and poppy seeds.","Bake for 40 min in a loaf tin.|Oven|40"]],
+  ["Light lemon cake","Lighter","The butter is replaced by yogurt.","The lemon cake, soft and lighter.","",55,240,"F","light lemon yogurt cake","vodh",
+   ["flour|flour|200|g","sugar|sugar|120|g","egg|eggs|3|","natural yogurt|natural yogurts|1|","sunflower oil|sunflower oil|4|tbsp","lemon|lemons|2|","baking powder|baking powder|2|tsp"],
+   ["Preheat the oven to 180 °C.","Mix the eggs, sugar, yogurt, oil, and the zest and juice of the lemons.","Add the flour and baking powder.","Bake for 40 min.|Oven|40"]]
+ ]},
+ {"q":"Yogurt cake","a":["french yogurt cake"],"fr":"Gâteau au yaourt","r":[
+  ["Yogurt cake","The classic","","The first cake everyone learns, soft and foolproof.","",45,280,"F","yogurt cake","vodbf",
+   ["natural yogurt|natural yogurts|1|","flour|flour|210|g","sugar|sugar|180|g","egg|eggs|3|","sunflower oil|sunflower oil|6|cl","baking powder|baking powder|1|tsp","vanilla sugar|vanilla sugar|1|"],
+   ["Preheat the oven to 180 °C.","Pour the yogurt into a mixing bowl.","Add the eggs, sugar, flour, baking powder, vanilla sugar and oil, mixing as you go.","Pour into a buttered tin and bake for 35 min.|Oven|35"]],
+  ["Apple and yogurt cake","With apples","Thin slices of apple are added to the batter.","The yogurt cake, with soft apples.","",50,280,"F","apple yogurt cake","vodbf",
+   ["natural yogurt|natural yogurts|1|","flour|flour|210|g","sugar|sugar|180|g","egg|eggs|3|","sunflower oil|sunflower oil|6|cl","apple|apples|2|","baking powder|baking powder|1|tsp"],
+   ["Preheat the oven to 180 °C.","Make the yogurt cake batter.","Add the peeled apples in small pieces.","Bake for 40 min.|Oven|40"]],
+  ["Marble yogurt cake","Marbled","Half the batter is flavoured with cocoa.","The yogurt cake, marbled with chocolate.","",45,300,"F","marble yogurt cake","vodbf",
+   ["natural yogurt|natural yogurts|1|","flour|flour|210|g","sugar|sugar|180|g","egg|eggs|3|","sunflower oil|sunflower oil|6|cl","cocoa powder|cocoa powder|2|tbsp","baking powder|baking powder|1|tsp"],
+   ["Preheat the oven to 180 °C.","Make the yogurt cake batter and divide it in two.","Add the cocoa to one half.","Pour the two batters into a tin, alternating them, and bake for 35 min.|Oven|35"]]
+ ]}
+]

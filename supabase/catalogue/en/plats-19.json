@@ -1,0 +1,112 @@
+[
+ {"q":"Osso buco","a":["ossobuco","osso bucco","braised veal shank"],"fr":"Osso buco","r":[
+  ["Osso buco alla milanese","The classic","","Slices of veal shank simmered in tomato, with a lemon gremolata.","Italian dish",135,480,"M","osso buco","",
+   ["veal shank|veal shanks|4|","chopped tomatoes|chopped tomatoes|400|g","carrot|carrots|2|","onion|onions|1|","celery stick|celery sticks|1|","white wine|white wine|15|cl","flour|flour|2|tbsp","lemon|lemons|1|","parsley|parsley||","garlic|garlic|1|clove"],
+   ["Lightly flour the slices of veal and brown them in an oiled casserole dish.|Cooking|8","Take them out and fry the diced onion, carrots and celery.","Put the meat back, then add the wine, tomatoes and 20 cl of water.","Cover and simmer gently for 1 hour 45 minutes.|Cooking|105","Chop the parsley with the garlic and the lemon zest: this is the gremolata.","Sprinkle the gremolata over the osso buco just before serving."]],
+  ["Turkey osso buco","With turkey","With turkey osso buco, which is quicker and cheaper.","The osso buco made with turkey, simmered in tomato.","",85,380,"F","turkey osso buco","b",
+   ["turkey osso buco|turkey osso buco|4|","chopped tomatoes|chopped tomatoes|400|g","carrot|carrots|2|","onion|onions|1|","white wine|white wine|10|cl","lemon|lemons|1|","parsley|parsley||"],
+   ["Brown the turkey in an oiled casserole dish.|Cooking|8","Add the diced onion and carrots and fry for 3 minutes.","Add the wine, tomatoes and 15 cl of water.","Cover and simmer for 1 hour.|Cooking|60","Sprinkle with chopped parsley and lemon zest."]],
+  ["White osso buco","No tomato","Simmered in white wine and stock, with no tomato.","The old-fashioned osso buco, in a white lemon sauce.","",135,450,"M","osso buco bianco","",
+   ["veal shank|veal shanks|4|","onion|onions|1|","carrot|carrots|2|","white wine|white wine|25|cl","chicken stock cube|chicken stock cubes|1|","flour|flour|2|tbsp","lemon|lemons|1|","parsley|parsley||"],
+   ["Flour the veal and brown it in a casserole dish.|Cooking|8","Add the onion and carrots, then the wine, stock cube and 20 cl of water.","Cover and simmer for 1 hour 45 minutes.|Cooking|105","Add the lemon zest and juice and the chopped parsley before serving."]]
+ ]},
+ {"q":"Duck parmentier","a":["duck confit shepherd's pie","duck hachis parmentier"],"fr":"Parmentier de canard","r":[
+  ["Duck parmentier","The classic","","Shredded duck confit under homemade mash, baked until golden.","South-West French dish",75,620,"M","duck parmentier","o",
+   ["duck confit leg|duck confit legs|3|","potato|potatoes|1000|g","milk|milk|20|cl","butter|butter|40|g","shallot|shallots|2|","parsley|parsley||","breadcrumbs|breadcrumbs|2|tbsp"],
+   ["Boil the potatoes in salted water for 20 minutes.|Cooking|20","Warm the duck legs, remove the skin and shred the meat.","Fry the shallots in 1 tbsp of duck fat, then add the duck and parsley.","Mash the potatoes with the milk and butter.","Preheat the oven to 200 °C. Put the duck in a dish and cover with the mash and breadcrumbs.","Bake for 20 minutes.|Oven|20"]],
+  ["Sweet potato duck parmentier","Sweet potato","The mash is half sweet potato.","A sweet and savoury parmentier, with orange mash.","",75,600,"M","duck sweet potato parmentier","o",
+   ["duck confit leg|duck confit legs|3|","sweet potato|sweet potatoes|2|","potato|potatoes|500|g","butter|butter|30|g","shallot|shallots|2|","parsley|parsley||"],
+   ["Boil the sweet potatoes and potatoes, cut into pieces, for 20 minutes.|Cooking|20","Shred the duck without the skin and fry it with the shallots and parsley.","Mash the vegetables with the butter.","Layer the parmentier in a dish and bake for 20 minutes at 200 °C.|Oven|20"]],
+  ["Chicken parmentier","With chicken","Roast chicken replaces the duck, for a lighter dish.","The chicken parmentier, great for using up a roast chicken.","",60,450,"F","chicken parmentier","obf",
+   ["cooked chicken|cooked chicken|400|g","potato|potatoes|1000|g","milk|milk|20|cl","butter|butter|30|g","onion|onions|1|","grated emmental|grated emmental|60|g"],
+   ["Boil the potatoes for 20 minutes and mash them with the milk and butter.|Cooking|20","Shred the chicken and fry it with the onion.","Layer in a dish: the chicken first, then the mash and emmental.","Bake for 20 minutes at 200 °C.|Oven|20"]]
+ ]},
+ {"q":"Duck breast","a":["magret de canard","pan-fried duck breast","magret"],"fr":"Magret de canard","r":[
+  ["Pan-fried duck breast","The classic","","Duck breast seared skin-side down and pink in the middle, with potatoes sautéed in its fat.","South-West French dish",40,650,"M","seared duck breast","",
+   ["duck breast|duck breasts|2|","potato|potatoes|800|g","garlic|garlic|2|clove","parsley|parsley||","salt|salt||","pepper|pepper||"],
+   ["Score the skin of the duck breasts without cutting into the meat.","Cook them skin-side down for 8 minutes over a medium heat, pouring off the fat as you go.|Pan|8","Turn them over for 4 minutes, then rest for 5 minutes under foil.|Pan|4","Sauté the diced potatoes in the fat for 20 minutes.|Pan|20","Add the chopped garlic and parsley, and serve with the sliced duck."]],
+  ["Honey duck breast","With honey","Glazed with a honey and vinegar sauce.","The sweet and savoury duck breast, glazed with honey.","",30,600,"M","honey glazed duck breast","",
+   ["duck breast|duck breasts|2|","honey|honey|3|tbsp","balsamic vinegar|balsamic vinegar|2|tbsp","salt|salt||","pepper|pepper||"],
+   ["Score the skin and cook skin-side down for 8 minutes, pouring off the fat as you go.|Pan|8","Turn over and cook for 4 minutes.|Pan|4","Pour off the fat, add the honey and vinegar and glaze the duck for 1 minute.","Rest for 5 minutes, slice and spoon over the sauce."]],
+  ["Orange duck breast","With orange","With an orange sauce.","The great classic duck à l'orange, made with duck breast.","",35,600,"M","duck breast orange sauce","",
+   ["duck breast|duck breasts|2|","orange|oranges|3|","sugar|sugar|1|tbsp","vinegar|vinegar|1|tbsp","salt|salt||"],
+   ["Cook the duck breasts for 8 minutes skin-side down and 4 minutes meat-side down, then rest.|Pan|12","Caramelise the sugar with the vinegar.","Add the juice of 2 oranges and the zest of one, and reduce for 5 minutes.|Cooking|5","Serve the sliced duck with the sauce and wedges of the last orange."]]
+ ]},
+ {"q":"Lemon chicken","a":["chicken with lemon","lemon and thyme chicken"],"fr":"Poulet au citron","r":[
+  ["Lemon and thyme chicken","The classic","","Chicken thighs roasted with lemon, garlic and thyme.","",60,450,"F","lemon chicken thighs","ohb",
+   ["chicken thigh|chicken thighs|4|","lemon|lemons|2|","garlic|garlic|4|clove","thyme|thyme||","olive oil|olive oil|3|tbsp","potato|potatoes|600|g"],
+   ["Preheat the oven to 200 °C.","Cut the potatoes into wedges and one lemon into slices.","Put everything in a dish with the chicken, garlic, thyme, oil and the juice of the other lemon.","Bake for 45 minutes, basting from time to time.|Oven|45"]],
+  ["Chinese-style lemon chicken","Chinese-style","Fried chicken pieces in a lemon sauce.","The lemon chicken from the Chinese takeaway, crispy and glazed.","Chinese-inspired",30,480,"M","chinese lemon chicken","",
+   ["chicken breast|chicken breasts|3|","cornflour|cornflour|4|tbsp","egg|eggs|1|","lemon|lemons|2|","sugar|sugar|3|tbsp","soy sauce|soy sauce|1|tbsp","oil|oil|5|tbsp","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Cut the chicken into pieces, dip them in the beaten egg, then in 3 tbsp of cornflour.","Fry them for 6 minutes in hot oil until golden.|Pan|6","Heat the lemon juice, sugar, soy sauce and the rest of the cornflour mixed with 10 cl of water until thickened.","Coat the chicken in the sauce and serve with the rice."]],
+  ["Chicken tagine with preserved lemon","Preserved lemon","Simmered with olives and preserved lemon.","Moroccan-style chicken, tender and fragrant.","Moroccan-inspired",70,430,"F","chicken preserved lemon olives","h",
+   ["chicken thigh|chicken thighs|4|","preserved lemon|preserved lemons|2|","green olive|green olives|100|g","onion|onions|2|","ginger|ginger|1|tsp","turmeric|turmeric|1|tsp","coriander|coriander||"],
+   ["Brown the chicken in an oiled casserole dish.|Cooking|8","Add the sliced onions, ginger and turmeric.","Add 30 cl of water, cover and simmer for 40 minutes.|Cooking|40","Add the preserved lemons, cut into quarters, and the olives, and cook for 10 minutes.|Cooking|10","Sprinkle with coriander."]]
+ ]},
+ {"q":"Chicken wings","a":["wings","baked chicken wings","marinated chicken wings"],"fr":"Ailes de poulet","r":[
+  ["Baked marinated chicken wings","The classic","","Chicken wings marinated in paprika and honey, roasted until sticky.","",60,420,"F","baked chicken wings","obf",
+   ["chicken wing|chicken wings|1000|g","honey|honey|2|tbsp","soy sauce|soy sauce|3|tbsp","paprika|paprika|2|tsp","garlic|garlic|2|clove","oil|oil|2|tbsp"],
+   ["Mix the honey, soy sauce, paprika, crushed garlic and oil.","Coat the wings in this marinade and leave in the fridge for 30 minutes.|Rest|30","Preheat the oven to 220 °C.","Spread the wings out on a baking tray and bake for 35 minutes, turning them over halfway.|Oven|35"]],
+  ["Buffalo chicken wings","Buffalo","With a hot butter sauce.","The American chicken wings in hot sauce.","American recipe",50,450,"F","buffalo wings","o",
+   ["chicken wing|chicken wings|1000|g","hot sauce|hot sauce|8|tbsp","butter|butter|40|g","paprika|paprika|1|tsp","garlic powder|garlic powder|1|tsp"],
+   ["Preheat the oven to 220 °C.","Season the wings with the paprika, garlic powder and salt.","Bake for 40 minutes, turning them over halfway.|Oven|40","Melt the butter with the hot sauce and toss the hot wings in it."]],
+  ["Caramel chicken wings","Vietnamese-style","Glazed with caramel and fish sauce.","Sweet and savoury Vietnamese-style chicken wings.","Vietnamese-inspired",45,430,"F","caramel chicken wings","b",
+   ["chicken wing|chicken wings|1000|g","sugar|sugar|4|tbsp","fish sauce|fish sauce|3|tbsp","garlic|garlic|3|clove","ginger|ginger|1|tsp","spring onion|spring onions|2|"],
+   ["Make a brown caramel with the sugar and 2 tbsp of water.","Off the heat, add the fish sauce and 10 cl of water.","Add the wings, garlic and ginger, and simmer for 30 minutes, stirring.|Cooking|30","Reduce until the wings are glazed, then sprinkle with spring onion."]]
+ ]},
+ {"q":"Rougail saucisse","a":["rougail","sausage rougail","reunion sausage stew"],"fr":"Rougail saucisse","r":[
+  ["Sausage rougail","The classic","","The dish from Réunion: smoked sausages simmered in a tomato sauce with ginger and chilli.","Réunion recipe",50,620,"F","rougail saucisse","b",
+   ["smoked sausage|smoked sausages|6|","tomato|tomatoes|6|","onion|onions|2|","garlic|garlic|3|clove","ginger|ginger|1|tsp","turmeric|turmeric|1|tsp","chilli|chillies|1|","rice|rice|250|g"],
+   ["Blanch the sausages in boiling water for 5 minutes, then slice them.|Cooking|5","Brown them in a casserole dish.","Add the sliced onions, garlic, ginger, turmeric and chilli.","Add the diced tomatoes and simmer for 25 minutes.|Simmer|25","Serve with white rice."]],
+  ["Prawn rougail","Prawns","Prawns replace the sausages.","A lighter rougail, with prawns.","Réunion recipe",30,400,"F","shrimp rougail","h",
+   ["peeled prawn|peeled prawns|500|g","tomato|tomatoes|5|","onion|onions|2|","garlic|garlic|2|clove","ginger|ginger|1|tsp","turmeric|turmeric|1|tsp","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Fry the onions, garlic, ginger and turmeric.","Add the diced tomatoes and simmer for 15 minutes.|Simmer|15","Add the prawns and cook for 4 minutes.|Cooking|4"]],
+  ["Lentil rougail","Vegetarian","Lentils in a rougail sauce, with no meat.","A spicy, filling vegetarian rougail.","",45,380,"F","lentil tomato curry","vhb",
+   ["red lentil|red lentils|250|g","tomato|tomatoes|4|","onion|onions|2|","garlic|garlic|2|clove","ginger|ginger|1|tsp","turmeric|turmeric|1|tsp","rice|rice|200|g"],
+   ["Fry the onions, garlic, ginger and turmeric.","Add the diced tomatoes, lentils and 50 cl of water.","Simmer for 20 minutes.|Simmer|20","Serve with rice."]]
+ ]},
+ {"q":"Chicken colombo","a":["colombo","colombo curry","caribbean chicken curry"],"fr":"Colombo de poulet","r":[
+  ["Chicken colombo","The classic","","The Caribbean chicken curry, with potatoes and vegetables, flavoured with colombo spice mix.","Caribbean recipe",60,480,"F","chicken colombo curry","b",
+   ["chicken thigh|chicken thighs|4|","colombo spice mix|colombo spice mix|2|tbsp","potato|potatoes|3|","courgette|courgettes|1|","onion|onions|2|","garlic|garlic|3|clove","lime|limes|1|"],
+   ["Rub the chicken with the lime juice, the garlic and 1 tbsp of colombo.","Brown it in a casserole dish with the onions.|Cooking|8","Add the rest of the colombo, the potatoes and courgette in pieces, and 40 cl of water.","Cover and simmer for 40 minutes.|Simmer|40"]],
+  ["Pork colombo","With pork","With pork shoulder.","The Caribbean pork colombo, slowly simmered.","Caribbean recipe",90,560,"F","pork colombo","b",
+   ["pork shoulder|pork shoulders|800|g","colombo spice mix|colombo spice mix|2|tbsp","potato|potatoes|3|","aubergine|aubergines|1|","onion|onions|2|","garlic|garlic|3|clove"],
+   ["Cut the pork into cubes and brown it with the onions.|Cooking|8","Add the garlic, the colombo, then 50 cl of water.","Simmer for 45 minutes.|Simmer|45","Add the potatoes and aubergine in pieces and cook for 25 minutes.|Cooking|25"]],
+  ["Vegetable colombo","Vegetarian","Chickpeas and vegetables instead of meat.","A vegetarian colombo with vegetables and chickpeas.","",45,380,"F","vegetable colombo curry","vhb",
+   ["chickpea|chickpeas|400|g","sweet potato|sweet potatoes|1|","courgette|courgettes|1|","aubergine|aubergines|1|","colombo spice mix|colombo spice mix|2|tbsp","coconut milk|coconut milk|20|cl","onion|onions|1|"],
+   ["Fry the onion with the colombo.","Add the diced sweet potato, courgette and aubergine.","Add the coconut milk and 20 cl of water, and simmer for 25 minutes.|Simmer|25","Add the chickpeas and cook for 5 minutes.|Cooking|5"]]
+ ]},
+ {"q":"Lamb navarin","a":["navarin","lamb stew","navarin d'agneau"],"fr":"Navarin d'agneau","r":[
+  ["Spring lamb navarin","The classic","","The lamb stew with baby spring vegetables: carrots, turnips and peas.","French dish",120,550,"M","lamb navarin stew","",
+   ["lamb shoulder|lamb shoulders|1000|g","carrot|carrots|4|","turnip|turnips|4|","frozen pea|frozen peas|200|g","onion|onions|2|","chopped tomatoes|chopped tomatoes|200|g","flour|flour|1|tbsp","bouquet garni|bouquets garnis|1|"],
+   ["Cut the lamb into pieces and brown it in a casserole dish.|Cooking|8","Add the onions, sprinkle with flour and stir.","Add the tomatoes, bouquet garni and 50 cl of water, and simmer for 1 hour.|Simmer|60","Add the carrots and turnips in pieces, and cook for 30 minutes.|Cooking|30","Add the peas 10 minutes before the end.|Cooking|10"]],
+  ["Lamb navarin with potatoes","With potatoes","With potatoes instead of turnips.","A more family-friendly navarin, with potatoes.","",120,580,"M","lamb potato stew","",
+   ["lamb shoulder|lamb shoulders|1000|g","potato|potatoes|600|g","carrot|carrots|3|","onion|onions|2|","chopped tomatoes|chopped tomatoes|200|g","flour|flour|1|tbsp","thyme|thyme||"],
+   ["Brown the lamb pieces in a casserole dish.|Cooking|8","Add the onions, flour, tomatoes, thyme and 50 cl of water.","Simmer for 1 hour.|Simmer|60","Add the potatoes and carrots and cook for 30 minutes.|Cooking|30"]],
+  ["Pressure cooker lamb navarin","Quick","Cooked in a pressure cooker, in less time.","The navarin made quickly for a weeknight.","",50,550,"F","lamb stew pressure cooker","",
+   ["lamb shoulder|lamb shoulders|1000|g","carrot|carrots|4|","turnip|turnips|3|","frozen pea|frozen peas|200|g","onion|onions|2|","chopped tomatoes|chopped tomatoes|200|g"],
+   ["Brown the lamb in the pressure cooker with the onions.|Cooking|8","Add the tomatoes, carrots, turnips and 30 cl of water.","Close the lid and cook for 25 minutes once it starts to hiss.|Cooking|25","Add the peas and cook for 5 minutes with the lid off.|Cooking|5"]]
+ ]},
+ {"q":"Veal Marengo","a":["marengo","veal stew","sauté de veau marengo"],"fr":"Veau Marengo","r":[
+  ["Veal Marengo","The classic","","Veal stew simmered in tomato and white wine, with mushrooms.","French dish",105,450,"F","veal marengo stew","",
+   ["stewing veal|stewing veal|1000|g","chopped tomatoes|chopped tomatoes|400|g","button mushroom|button mushrooms|250|g","onion|onions|2|","white wine|white wine|20|cl","flour|flour|1|tbsp","bouquet garni|bouquets garnis|1|"],
+   ["Brown the veal pieces in an oiled casserole dish.|Cooking|8","Add the onions, sprinkle with flour and stir.","Add the wine, tomatoes, bouquet garni and 20 cl of water.","Simmer for 1 hour 15 minutes.|Simmer|75","Add the sliced mushrooms and cook for 15 minutes.|Cooking|15"]],
+  ["Chicken Marengo","With chicken","Chicken replaces the veal, for a quicker dish.","The original Marengo recipe, made with chicken.","",60,420,"F","chicken marengo","b",
+   ["chicken thigh|chicken thighs|4|","chopped tomatoes|chopped tomatoes|400|g","button mushroom|button mushrooms|250|g","onion|onions|2|","white wine|white wine|15|cl","garlic|garlic|2|clove"],
+   ["Brown the chicken in a casserole dish.|Cooking|8","Add the onions and garlic, then the wine and tomatoes.","Simmer for 30 minutes.|Simmer|30","Add the mushrooms and cook for 15 minutes.|Cooking|15"]],
+  ["Turkey Marengo","With turkey","With diced turkey, which is lighter.","A light, budget-friendly Marengo, made with turkey.","",55,350,"F","turkey tomato stew","hb",
+   ["diced turkey|diced turkey|800|g","chopped tomatoes|chopped tomatoes|400|g","button mushroom|button mushrooms|250|g","onion|onions|2|","white wine|white wine|10|cl"],
+   ["Brown the turkey in a casserole dish.|Cooking|6","Add the onions, wine and tomatoes.","Simmer for 30 minutes.|Simmer|30","Add the mushrooms and cook for 15 minutes.|Cooking|15"]]
+ ]},
+ {"q":"Jambalaya","a":["chicken and chorizo jambalaya","cajun rice"],"fr":"Jambalaya","r":[
+  ["Jambalaya","The classic","","The Louisiana Cajun rice with chicken, chorizo and prawns, cooked in a single pot.","Louisiana recipe",50,580,"M","jambalaya","",
+   ["rice|rice|300|g","chicken breast|chicken breasts|2|","chorizo|chorizo|100|g","peeled prawn|peeled prawns|200|g","green pepper|green peppers|1|","onion|onions|1|","chopped tomatoes|chopped tomatoes|400|g","paprika|paprika|2|tsp","chicken stock cube|chicken stock cubes|1|"],
+   ["Brown the diced chicken and the sliced chorizo in a casserole dish.|Cooking|6","Add the diced onion and pepper, and the paprika.","Add the rice, tomatoes, stock cube and 50 cl of water.","Cover and cook gently for 20 minutes.|Cooking|20","Add the prawns and cook for 5 minutes.|Cooking|5"]],
+  ["Prawn jambalaya","Prawns","Just prawns, with no meat.","The seafood jambalaya, with prawns.","",40,450,"M","shrimp jambalaya","",
+   ["rice|rice|300|g","peeled prawn|peeled prawns|400|g","green pepper|green peppers|1|","onion|onions|1|","chopped tomatoes|chopped tomatoes|400|g","paprika|paprika|2|tsp","vegetable stock cube|vegetable stock cubes|1|"],
+   ["Fry the onion and pepper with the paprika.","Add the rice, tomatoes, stock cube and 50 cl of water.","Cover and cook for 20 minutes.|Cooking|20","Add the prawns and cook for 5 minutes.|Cooking|5"]],
+  ["Vegetarian jambalaya","Vegetarian","With kidney beans instead of meat.","A vegetarian jambalaya, with kidney beans and vegetables.","",40,420,"F","vegetarian jambalaya","vhb",
+   ["rice|rice|300|g","kidney bean|kidney beans|400|g","green pepper|green peppers|1|","red pepper|red peppers|1|","onion|onions|1|","chopped tomatoes|chopped tomatoes|400|g","paprika|paprika|2|tsp","vegetable stock cube|vegetable stock cubes|1|"],
+   ["Fry the onion and peppers with the paprika.","Add the rice, tomatoes, stock cube and 50 cl of water.","Cover and cook for 20 minutes.|Cooking|20","Add the drained kidney beans and cook for 5 minutes.|Cooking|5"]]
+ ]}
+]

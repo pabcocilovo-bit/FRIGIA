@@ -1,0 +1,957 @@
+[
+ {
+  "q": "Ratatouille",
+  "a": [
+   "ratatouille niçoise"
+  ],
+  "fr": "Ratatouille",
+  "r": [
+   [
+    "Ratatouille",
+    "The classic",
+    "",
+    "Sun-ripened vegetables slowly simmered in olive oil and herbes de Provence.",
+    "Niçoise speciality",
+    75,
+    220,
+    "F",
+    "ratatouille provencal vegetables",
+    "vbh",
+    [
+     "aubergine|aubergines|2|",
+     "courgette|courgettes|2|",
+     "red pepper|red peppers|1|",
+     "yellow pepper|yellow peppers|1|",
+     "tomato|tomatoes|4|",
+     "onion|onions|2|",
+     "garlic|garlic|3|clove",
+     "olive oil|olive oil|4|tbsp",
+     "herbes de provence|herbes de provence|1|tsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Cut all the vegetables into dice of the same size.",
+     "Fry the onions and garlic in the oil for 5 min in a casserole dish.|Cooking|5",
+     "Add the peppers and aubergines and cook for 10 min, stirring.|Cooking|10",
+     "Add the courgettes, tomatoes, herbs, salt and pepper.",
+     "Simmer covered for 45 min, then uncovered for 10 min to reduce.|Simmer|55"
+    ]
+   ],
+   [
+    "Oven-baked ratatouille",
+    "Oven-baked",
+    "The vegetables roast in the oven instead of simmering.",
+    "Roasted, caramelised vegetables with almost nothing to do.",
+    "",
+    60,
+    230,
+    "F",
+    "roasted ratatouille vegetables tray",
+    "vobh",
+    [
+     "aubergine|aubergines|1|",
+     "courgette|courgettes|2|",
+     "red pepper|red peppers|2|",
+     "cherry tomato|cherry tomatoes|250|g",
+     "red onion|red onions|2|",
+     "garlic|garlic|3|clove",
+     "olive oil|olive oil|4|tbsp",
+     "herbes de provence|herbes de provence|1|tsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 200 °C.",
+     "Cut the vegetables into big chunks and put them on a tray with the garlic and cherry tomatoes.",
+     "Drizzle with oil, add the herbs, salt and pepper, and mix.",
+     "Bake for 45 min, stirring halfway.|Oven|45"
+    ]
+   ],
+   [
+    "Tian provençal",
+    "Tian",
+    "The vegetables are sliced and arranged in a spiral before going in the oven.",
+    "Ratatouille made elegant: slices of vegetables slowly cooked in the oven.",
+    "Provençal speciality",
+    75,
+    210,
+    "F",
+    "tian provencal vegetables",
+    "voh",
+    [
+     "aubergine|aubergines|1|",
+     "courgette|courgettes|2|",
+     "tomato|tomatoes|4|",
+     "onion|onions|2|",
+     "garlic|garlic|2|clove",
+     "olive oil|olive oil|4|tbsp",
+     "thyme|thyme||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 180 °C. Soften the sliced onions for 10 min in 1 tbsp of oil and spread them over the bottom of a dish.|Pan|10",
+     "Cut the aubergine, courgettes and tomatoes into thin slices.",
+     "Arrange them upright in the dish, alternating the vegetables.",
+     "Drizzle with oil, add the chopped garlic, thyme, salt and pepper.",
+     "Bake for 1 h, covered with foil for the first 30 min.|Oven|60"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Gratin de courgettes",
+  "a": [
+   "courgette gratin",
+   "zucchini gratin"
+  ],
+  "fr": "Gratin de courgettes",
+  "r": [
+   [
+    "Courgette gratin",
+    "The classic",
+    "",
+    "Soft courgettes in a creamy mixture, browned with emmental.",
+    "",
+    40,
+    320,
+    "F",
+    "zucchini gratin cheese",
+    "vobf",
+    [
+     "courgette|courgettes|4|",
+     "egg|eggs|2|",
+     "crème fraîche|crème fraîche|20|cl",
+     "grated emmental|grated emmental|80|g",
+     "garlic|garlic|1|clove",
+     "olive oil|olive oil|1|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 200 °C. Cut the courgettes into slices.",
+     "Fry them in a pan with the oil and garlic for 8 min.|Pan|8",
+     "Beat the eggs with the cream, half the emmental, salt and pepper.",
+     "Put the courgettes in a dish, pour over the mixture and sprinkle with the rest of the emmental.",
+     "Bake for 25 min.|Oven|25"
+    ]
+   ],
+   [
+    "Lighter courgette gratin",
+    "Lighter",
+    "The cream is replaced with milk and fromage blanc.",
+    "The courgette gratin made lighter, and still nicely golden.",
+    "",
+    40,
+    220,
+    "F",
+    "light zucchini bake",
+    "vobh",
+    [
+     "courgette|courgettes|4|",
+     "egg|eggs|2|",
+     "fromage blanc|fromage blanc|150|g",
+     "milk|milk|10|cl",
+     "grated parmesan|grated parmesan|30|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 200 °C. Cut the courgettes into slices and fry them for 8 min with no added fat.|Pan|8",
+     "Beat the eggs with the fromage blanc, milk, salt and pepper.",
+     "Put the courgettes in a dish, pour over the mixture and sprinkle with parmesan.",
+     "Bake for 25 min.|Oven|25"
+    ]
+   ],
+   [
+    "Courgette and goat's cheese gratin",
+    "With goat's cheese",
+    "Goat's cheese replaces the emmental, with thyme.",
+    "A fragrant gratin with melted goat's cheese and thyme.",
+    "",
+    40,
+    360,
+    "F",
+    "zucchini goat cheese gratin",
+    "vo",
+    [
+     "courgette|courgettes|4|",
+     "goat's cheese log|goat's cheese logs|1|",
+     "egg|eggs|2|",
+     "crème fraîche|crème fraîche|15|cl",
+     "thyme|thyme||",
+     "olive oil|olive oil|1|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 200 °C. Cut the courgettes into slices and fry them in the oil for 8 min.|Pan|8",
+     "Beat the eggs with the cream, thyme, salt and pepper.",
+     "Put the courgettes in a dish, pour over the mixture and lay the goat's cheese slices on top.",
+     "Bake for 25 min.|Oven|25"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Soupe à l'oignon",
+  "a": [
+   "french onion soup",
+   "onion soup"
+  ],
+  "fr": "Soupe à l'oignon",
+  "r": [
+   [
+    "French onion soup",
+    "The classic",
+    "",
+    "Slowly caramelised onions in a broth, under a cheesy toasted croûton.",
+    "",
+    70,
+    420,
+    "F",
+    "french onion soup",
+    "voe",
+    [
+     "onion|onions|6|",
+     "butter|butter|40|g",
+     "plain flour|plain flour|1|tbsp",
+     "white wine|white wine|10|cl",
+     "vegetable stock cube|vegetable stock cubes|1|",
+     "baguette|baguettes|0.5|",
+     "grated gruyère|grated gruyère|100|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Slice the onions finely and soften them in the butter over a low heat for 30 min, until nicely golden.|Cooking|30",
+     "Sprinkle with flour, stir, then pour in the white wine and 1.2 l of water with the stock cube.",
+     "Simmer for 20 min, then add salt and pepper.|Simmer|20",
+     "Pour into bowls, add slices of toasted bread and cover with gruyère.",
+     "Put under the oven grill for 5 min.|Grill|5"
+    ]
+   ],
+   [
+    "Lighter onion soup",
+    "Lighter",
+    "No cheesy croûton, and less butter.",
+    "All the sweetness of caramelised onions, as a light soup.",
+    "",
+    60,
+    180,
+    "F",
+    "light onion soup bowl",
+    "vbhe",
+    [
+     "onion|onions|6|",
+     "olive oil|olive oil|2|tbsp",
+     "vegetable stock cube|vegetable stock cubes|1|",
+     "thyme|thyme||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Slice the onions and brown them in the oil over a low heat for 30 min.|Cooking|30",
+     "Add 1.2 l of water, the stock cube and the thyme.",
+     "Simmer for 20 min, then add salt and pepper.|Simmer|20"
+    ]
+   ],
+   [
+    "Cider onion soup",
+    "With cider",
+    "The white wine is replaced with cider, Normandy style.",
+    "A mild, fruity onion soup, topped with melted camembert.",
+    "Norman speciality",
+    70,
+    440,
+    "F",
+    "onion soup cider",
+    "voe",
+    [
+     "onion|onions|6|",
+     "butter|butter|40|g",
+     "dry cider|dry cider|25|cl",
+     "vegetable stock cube|vegetable stock cubes|1|",
+     "baguette|baguettes|0.5|",
+     "camembert|camemberts|0.5|",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Soften the sliced onions in the butter over a low heat for 30 min.|Cooking|30",
+     "Pour in the cider, let it reduce for 5 min, then add 1 l of water and the stock cube.|Cooking|5",
+     "Simmer for 20 min.|Simmer|20",
+     "Pour into bowls, add toasted bread and slices of camembert, and put under the grill for 5 min.|Grill|5"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Velouté de potiron",
+  "a": [
+   "pumpkin soup",
+   "squash soup"
+  ],
+  "fr": "Velouté de potiron",
+  "r": [
+   [
+    "Creamy pumpkin soup",
+    "The classic",
+    "",
+    "A smooth, velvety orange soup, very mellow, with a touch of cream.",
+    "",
+    40,
+    200,
+    "F",
+    "pumpkin soup bowl",
+    "vbfhe",
+    [
+     "pumpkin|pumpkins|1000|g",
+     "potato|potatoes|1|",
+     "onion|onions|1|",
+     "crème fraîche|crème fraîche|10|cl",
+     "vegetable stock cube|vegetable stock cubes|1|",
+     "butter|butter|20|g",
+     "nutmeg|nutmeg||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Peel the pumpkin and the potato and cut them into cubes.",
+     "Fry the onion in the butter for 3 min in a saucepan.|Cooking|3",
+     "Add the vegetables, cover with water, add the stock cube and cook for 25 min.|Cooking|25",
+     "Blend, adding the cream, nutmeg, salt and pepper."
+    ]
+   ],
+   [
+    "Coconut pumpkin soup",
+    "With coconut milk",
+    "Coconut milk and a little curry replace the cream.",
+    "A mild, exotic soup with coconut milk and curry.",
+    "",
+    40,
+    240,
+    "F",
+    "pumpkin coconut curry soup",
+    "vbhe",
+    [
+     "pumpkin|pumpkins|1000|g",
+     "onion|onions|1|",
+     "coconut milk|coconut milk|20|cl",
+     "curry powder|curry powder|1|tsp",
+     "ginger|ginger||",
+     "vegetable stock cube|vegetable stock cubes|1|",
+     "olive oil|olive oil|1|tbsp",
+     "salt|salt||"
+    ],
+    [
+     "Fry the onion in the oil with the curry powder and a little grated ginger for 3 min.|Cooking|3",
+     "Add the cubed pumpkin, cover with water, add the stock cube and cook for 25 min.|Cooking|25",
+     "Blend with the coconut milk and add salt."
+    ]
+   ],
+   [
+    "Pumpkin and chestnut soup",
+    "With chestnuts",
+    "Cooked chestnuts add a festive taste and a richer texture.",
+    "The autumn soup, with chestnuts for extra sweetness.",
+    "",
+    40,
+    280,
+    "F",
+    "pumpkin chestnut soup",
+    "vhe",
+    [
+     "pumpkin|pumpkins|800|g",
+     "cooked chestnut|cooked chestnuts|200|g",
+     "onion|onions|1|",
+     "crème fraîche|crème fraîche|10|cl",
+     "vegetable stock cube|vegetable stock cubes|1|",
+     "butter|butter|20|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Fry the onion in the butter for 3 min.|Cooking|3",
+     "Add the cubed pumpkin and the chestnuts, cover with water, add the stock cube and cook for 25 min.|Cooking|25",
+     "Blend with the cream, then add salt and pepper."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Cassoulet",
+  "a": [
+   "homemade cassoulet"
+  ],
+  "fr": "Cassoulet",
+  "r": [
+   [
+    "Cassoulet",
+    "The classic",
+    "",
+    "Tender white beans, Toulouse sausage and duck confit, browned in the oven.",
+    "South-West speciality",
+    180,
+    850,
+    "M",
+    "cassoulet beans sausage duck",
+    "o",
+    [
+     "dried white bean|dried white beans|500|g",
+     "toulouse sausage|toulouse sausages|4|",
+     "duck confit leg|duck confit legs|2|",
+     "smoked belly pork|smoked belly pork|150|g",
+     "chopped tomato|chopped tomatoes|400|g",
+     "onion|onions|2|",
+     "carrot|carrots|2|",
+     "garlic|garlic|4|clove",
+     "bouquet garni|bouquets garnis|1|",
+     "breadcrumb|breadcrumbs|3|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "The day before, soak the beans in cold water.",
+     "Boil the beans for 1 h in water with the carrot, onion and bouquet garni.|Cooking|60",
+     "Brown the diced belly pork, the sausages and the duck in a pan.",
+     "Preheat the oven to 160 °C. In a dish, mix the drained beans, the tomatoes, the garlic and the meats, and add a little cooking water.",
+     "Sprinkle with breadcrumbs and bake for 1 h 30, breaking the crust twice.|Oven|90"
+    ]
+   ],
+   [
+    "Quick cassoulet",
+    "Quick",
+    "With tinned beans, it is ready in 45 minutes.",
+    "The taste of cassoulet without spending the whole day on it.",
+    "South-West speciality",
+    45,
+    780,
+    "F",
+    "quick cassoulet beans",
+    "ob",
+    [
+     "white bean|white beans|800|g",
+     "toulouse sausage|toulouse sausages|4|",
+     "bacon lardon|bacon lardons|100|g",
+     "chopped tomato|chopped tomatoes|400|g",
+     "onion|onions|1|",
+     "garlic|garlic|2|clove",
+     "breadcrumb|breadcrumbs|2|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 200 °C.",
+     "Brown the sausages cut into chunks, the lardons and the onion for 10 min.|Pan|10",
+     "Add the drained beans, the tomatoes and the garlic, then add salt and pepper.",
+     "Pour into a dish, sprinkle with breadcrumbs and bake for 25 min.|Oven|25"
+    ]
+   ],
+   [
+    "Vegetarian cassoulet",
+    "Vegetarian",
+    "The meat is replaced with vegetables and smoked paprika.",
+    "Beans simmered with tomato and smoked paprika, browned just like the real thing.",
+    "",
+    60,
+    520,
+    "F",
+    "vegetarian bean cassoulet",
+    "vobh",
+    [
+     "white bean|white beans|800|g",
+     "carrot|carrots|2|",
+     "leek|leeks|1|",
+     "chopped tomato|chopped tomatoes|400|g",
+     "onion|onions|1|",
+     "garlic|garlic|2|clove",
+     "smoked paprika|smoked paprika|1|tsp",
+     "breadcrumb|breadcrumbs|3|tbsp",
+     "olive oil|olive oil|2|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 180 °C.",
+     "Fry the onion, leek and diced carrots in the oil for 10 min.|Pan|10",
+     "Add the beans, tomatoes, garlic, paprika, salt and pepper, and simmer for 10 min.|Simmer|10",
+     "Pour into a dish, cover with breadcrumbs and bake for 30 min.|Oven|30"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Choucroute",
+  "a": [
+   "sauerkraut with sausages",
+   "choucroute garnie"
+  ],
+  "fr": "Choucroute",
+  "r": [
+   [
+    "Choucroute garnie",
+    "The classic",
+    "",
+    "Fermented cabbage simmered in white wine, with sausages, bacon and potatoes.",
+    "Alsatian speciality",
+    120,
+    780,
+    "F",
+    "choucroute sauerkraut sausages",
+    "",
+    [
+     "raw sauerkraut|raw sauerkraut|1200|g",
+     "strasbourg sausage|strasbourg sausages|4|",
+     "montbéliard sausage|montbéliard sausages|2|",
+     "smoked bacon|smoked bacon|300|g",
+     "potato|potatoes|8|",
+     "onion|onions|1|",
+     "white wine|white wine|25|cl",
+     "juniper berry|juniper berries|6|",
+     "lard|lard|1|tbsp",
+     "pepper|pepper||"
+    ],
+    [
+     "Rinse the sauerkraut and drain it well.",
+     "Fry the onion in the lard, add the sauerkraut, the juniper, the wine and 25 cl of water.",
+     "Add the bacon and simmer covered for 1 h.|Simmer|60",
+     "Add the Montbéliard sausages and the peeled potatoes, and cook for 30 min.|Cooking|30",
+     "Add the Strasbourg sausages 10 min before the end.|Cooking|10"
+    ]
+   ],
+   [
+    "Seafood choucroute",
+    "Seafood",
+    "The cured meats are replaced with fish.",
+    "A light choucroute with salmon, cod and prawns.",
+    "Alsatian speciality",
+    60,
+    480,
+    "M",
+    "fish sauerkraut",
+    "h",
+    [
+     "cooked sauerkraut|cooked sauerkraut|1000|g",
+     "salmon fillet|salmon fillets|2|",
+     "cod fillet|cod fillets|2|",
+     "prawn|prawns|8|",
+     "potato|potatoes|6|",
+     "white wine|white wine|20|cl",
+     "crème fraîche|crème fraîche|10|cl",
+     "butter|butter|20|g",
+     "pepper|pepper||"
+    ],
+    [
+     "Heat the sauerkraut with the white wine for 20 min, covered.|Cooking|20",
+     "Steam the potatoes for 25 min.|Cooking|25",
+     "Lay the fish and prawns on the sauerkraut and cook for 10 min, covered.|Cooking|10",
+     "Heat the cream with the butter and a little cooking juice, and pour over the fish."
+    ]
+   ],
+   [
+    "Quick choucroute",
+    "Quick",
+    "With ready-cooked sauerkraut, it is ready in 35 minutes.",
+    "Choucroute for a weeknight.",
+    "",
+    35,
+    700,
+    "F",
+    "quick sauerkraut sausage",
+    "b",
+    [
+     "cooked sauerkraut|cooked sauerkraut|1000|g",
+     "strasbourg sausage|strasbourg sausages|4|",
+     "smoked sausage|smoked sausages|2|",
+     "potato|potatoes|6|",
+     "white wine|white wine|15|cl",
+     "pepper|pepper||"
+    ],
+    [
+     "Boil the potatoes in salted water for 20 min.|Cooking|20",
+     "Heat the sauerkraut with the white wine and the smoked sausages for 20 min, covered.|Cooking|20",
+     "Add the Strasbourg sausages 8 min before the end and serve with the potatoes.|Cooking|8"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Rôti de porc",
+  "a": [
+   "roast pork",
+   "pork roast with mustard"
+  ],
+  "fr": "Rôti de porc",
+  "r": [
+   [
+    "Roast pork",
+    "The classic",
+    "",
+    "A tender, golden roast with its juices and soft potatoes.",
+    "",
+    80,
+    520,
+    "F",
+    "roast pork loin",
+    "obf",
+    [
+     "pork roast|pork roasts|1000|g",
+     "potato|potatoes|800|g",
+     "onion|onions|2|",
+     "garlic|garlic|3|clove",
+     "thyme|thyme||",
+     "olive oil|olive oil|2|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 200 °C.",
+     "Rub the roast with oil, salt, pepper and thyme, and brown it on all sides in a casserole dish.",
+     "Add the onions in wedges, the garlic, the potatoes in chunks and a glass of water.",
+     "Bake for 1 h, basting with the juices twice.|Oven|60",
+     "Rest for 10 min before slicing.|Rest|10"
+    ]
+   ],
+   [
+    "Mustard roast pork",
+    "With mustard",
+    "The roast is coated in mustard and served with a creamy sauce.",
+    "A very tender roast with a creamy mustard sauce.",
+    "",
+    80,
+    580,
+    "F",
+    "pork roast mustard sauce",
+    "of",
+    [
+     "pork roast|pork roasts|1000|g",
+     "mustard|mustard|3|tbsp",
+     "crème fraîche|crème fraîche|20|cl",
+     "onion|onions|1|",
+     "white wine|white wine|10|cl",
+     "olive oil|olive oil|1|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 200 °C.",
+     "Brush the roast with 2 tbsp of mustard, then add salt and pepper.",
+     "Put it in a dish with the sliced onion, the wine and a drizzle of oil. Bake for 1 h.|Oven|60",
+     "Pour the juices into a saucepan with the cream and the rest of the mustard, and thicken for 3 min.|Sauce|3"
+    ]
+   ],
+   [
+    "Honey and spice roast pork",
+    "Honey and spice",
+    "A glaze of honey, soy and spices caramelises the roast.",
+    "A glazed roast, sweet and savoury and full of flavour.",
+    "",
+    80,
+    560,
+    "F",
+    "honey glazed pork roast",
+    "o",
+    [
+     "pork roast|pork roasts|1000|g",
+     "honey|honey|3|tbsp",
+     "soy sauce|soy sauce|3|tbsp",
+     "garlic|garlic|2|clove",
+     "allspice|allspice|1|tsp",
+     "potato|potatoes|800|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 190 °C.",
+     "Mix the honey, soy sauce, chopped garlic and spices.",
+     "Put the roast in a dish with the potatoes in chunks and brush it with the sauce.",
+     "Bake for 1 h, basting every 20 min.|Oven|60"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Lapin à la moutarde",
+  "a": [
+   "rabbit with mustard",
+   "rabbit"
+  ],
+  "fr": "Lapin à la moutarde",
+  "r": [
+   [
+    "Rabbit with mustard",
+    "The classic",
+    "",
+    "Tender rabbit simmered in a creamy mustard sauce.",
+    "",
+    75,
+    520,
+    "M",
+    "rabbit mustard sauce",
+    "",
+    [
+     "rabbit pieces|rabbit pieces|1|",
+     "mustard|mustard|4|tbsp",
+     "crème fraîche|crème fraîche|20|cl",
+     "white wine|white wine|20|cl",
+     "shallot|shallots|3|",
+     "butter|butter|30|g",
+     "thyme|thyme||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Brush the rabbit pieces with the mustard.",
+     "Brown them in the butter in a casserole dish, with the sliced shallots.",
+     "Pour in the white wine, add the thyme, salt and pepper, then cover and simmer for 50 min.|Simmer|50",
+     "Add the cream and let it reduce for 5 min.|Cooking|5"
+    ]
+   ],
+   [
+    "Rabbit with prunes",
+    "With prunes",
+    "Prunes and a little beer give a sweet and savoury sauce.",
+    "Flemish-style rabbit, tender and gently sweet.",
+    "",
+    80,
+    540,
+    "M",
+    "rabbit prunes stew",
+    "",
+    [
+     "rabbit pieces|rabbit pieces|1|",
+     "prune|prunes|16|",
+     "blonde beer|blonde beer|33|cl",
+     "onion|onions|2|",
+     "mustard|mustard|1|tbsp",
+     "butter|butter|30|g",
+     "plain flour|plain flour|1|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Brown the rabbit in the butter with the sliced onions.",
+     "Sprinkle with flour, add the beer and mustard, then add salt and pepper.",
+     "Simmer for 40 min, add the prunes and cook for another 20 min.|Simmer|60"
+    ]
+   ],
+   [
+    "Chicken with mustard",
+    "With chicken",
+    "The rabbit is replaced with chicken thighs.",
+    "All the sauce of rabbit with mustard, made with chicken.",
+    "",
+    45,
+    500,
+    "F",
+    "chicken mustard cream",
+    "bf",
+    [
+     "chicken thigh|chicken thighs|8|",
+     "mustard|mustard|3|tbsp",
+     "crème fraîche|crème fraîche|20|cl",
+     "white wine|white wine|10|cl",
+     "shallot|shallots|2|",
+     "butter|butter|20|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Brown the chicken in the butter for 10 min with the shallots.|Cooking|10",
+     "Pour in the wine, cover and cook for 25 min.|Cooking|25",
+     "Add the cream and mustard and thicken for 5 min.|Cooking|5"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Poulet à la crème",
+  "a": [
+   "creamy chicken and mushrooms",
+   "creamy chicken",
+   "chicken in cream sauce"
+  ],
+  "fr": "Poulet à la crème",
+  "r": [
+   [
+    "Creamy chicken and mushrooms",
+    "The classic",
+    "",
+    "Tender pieces of chicken in a creamy mushroom sauce.",
+    "",
+    30,
+    520,
+    "F",
+    "chicken mushroom cream sauce",
+    "bf",
+    [
+     "chicken breast|chicken breasts|4|",
+     "button mushroom|button mushrooms|300|g",
+     "crème fraîche|crème fraîche|20|cl",
+     "shallot|shallots|2|",
+     "butter|butter|20|g",
+     "parsley|parsley||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Cut the chicken into pieces and brown it in the butter for 6 min. Set aside.|Pan|6",
+     "Fry the shallots and the sliced mushrooms for 8 min.|Pan|8",
+     "Put the chicken back, add the cream, salt and pepper, and simmer for 5 min.|Simmer|5",
+     "Sprinkle with parsley and serve with rice or pasta."
+    ]
+   ],
+   [
+    "Lighter creamy chicken",
+    "Lighter",
+    "The cream is replaced with light cream and a little stock.",
+    "The same mild sauce, but lighter.",
+    "",
+    30,
+    380,
+    "F",
+    "light creamy chicken",
+    "bfh",
+    [
+     "chicken breast|chicken breasts|4|",
+     "button mushroom|button mushrooms|300|g",
+     "light cream|light cream|20|cl",
+     "chicken stock cube|chicken stock cubes|1|",
+     "shallot|shallots|2|",
+     "olive oil|olive oil|1|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Brown the chicken pieces in the oil for 6 min.|Pan|6",
+     "Add the shallots and mushrooms and cook for 8 min.|Pan|8",
+     "Pour in 10 cl of water with the crumbled stock cube and the cream, and thicken for 5 min.|Simmer|5"
+    ]
+   ],
+   [
+    "Creamy mustard chicken",
+    "With mustard",
+    "Wholegrain mustard lifts the sauce.",
+    "Creamy chicken, lifted with wholegrain mustard.",
+    "",
+    25,
+    540,
+    "F",
+    "chicken creamy mustard sauce",
+    "bf",
+    [
+     "chicken breast|chicken breasts|4|",
+     "crème fraîche|crème fraîche|20|cl",
+     "wholegrain mustard|wholegrain mustard|2|tbsp",
+     "onion|onions|1|",
+     "butter|butter|20|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Brown the chicken pieces in the butter for 6 min with the sliced onion.|Pan|6",
+     "Add the cream and mustard, then salt and pepper.",
+     "Simmer for 8 min.|Simmer|8"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Endives au jambon",
+  "a": [
+   "endive gratin",
+   "endives with ham"
+  ],
+  "fr": "Endives au jambon",
+  "r": [
+   [
+    "Endives with ham",
+    "The classic",
+    "",
+    "Soft endives rolled in ham, baked under a béchamel.",
+    "Speciality of the North",
+    60,
+    480,
+    "F",
+    "endives ham gratin bechamel",
+    "obf",
+    [
+     "chicory|chicories|8|",
+     "cooked ham|cooked ham|8|slices",
+     "butter|butter|40|g",
+     "plain flour|plain flour|40|g",
+     "milk|milk|50|cl",
+     "grated emmental|grated emmental|80|g",
+     "nutmeg|nutmeg||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Steam or boil the chicory for 20 min, then press them well to drain.|Cooking|20",
+     "Make a béchamel: melt the butter, add the flour, then the milk, whisking for 5 min. Add nutmeg, salt and pepper.|Béchamel|5",
+     "Preheat the oven to 200 °C. Roll each chicory in a slice of ham and arrange them in a dish.",
+     "Cover with béchamel and sprinkle with emmental.",
+     "Bake for 25 min.|Oven|25"
+    ]
+   ],
+   [
+    "Lighter endives with ham",
+    "Lighter",
+    "The béchamel is made with semi-skimmed milk, without butter.",
+    "The comforting gratin, in a lighter version.",
+    "Speciality of the North",
+    55,
+    330,
+    "F",
+    "light endive ham gratin",
+    "obh",
+    [
+     "chicory|chicories|8|",
+     "cooked ham|cooked ham|8|slices",
+     "semi-skimmed milk|semi-skimmed milk|50|cl",
+     "cornflour|cornflour|2|tbsp",
+     "grated emmental|grated emmental|40|g",
+     "nutmeg|nutmeg||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Steam the chicory for 20 min and drain well.|Cooking|20",
+     "Mix the cornflour with a little cold milk, add the rest of the milk and thicken for 3 min, stirring.|Sauce|3",
+     "Preheat the oven to 200 °C. Roll the chicory in the ham and arrange them in a dish.",
+     "Cover with the sauce, sprinkle with emmental and bake for 20 min.|Oven|20"
+    ]
+   ],
+   [
+    "Endives with ham and maroilles",
+    "With maroilles",
+    "Maroilles replaces the emmental, for a gratin true to the North.",
+    "The chicory gratin with the character of maroilles.",
+    "Speciality of the North",
+    60,
+    540,
+    "F",
+    "endive gratin strong cheese",
+    "o",
+    [
+     "chicory|chicories|8|",
+     "cooked ham|cooked ham|8|slices",
+     "maroilles|maroilles|0.5|",
+     "butter|butter|40|g",
+     "plain flour|plain flour|40|g",
+     "milk|milk|50|cl",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Boil the chicory for 20 min and drain well.|Cooking|20",
+     "Make the béchamel with the butter, flour and milk.",
+     "Preheat the oven to 200 °C. Roll the chicory in the ham, arrange them in a dish and cover with béchamel.",
+     "Add the sliced maroilles and bake for 25 min.|Oven|25"
+    ]
+   ]
+  ]
+ }
+]

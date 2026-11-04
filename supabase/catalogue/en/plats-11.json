@@ -1,0 +1,101 @@
+[
+ {"q":"Baked salmon","a":["salmon fillet","baked salmon with lemon"],"fr":"Saumon au four","r":[
+  ["Baked salmon fillets","The classic","","Tender salmon fillets baked in the oven with lemon, dill and a drizzle of olive oil.","",25,420,"F","baked salmon fillet lemon dill","oh",
+   ["salmon fillet|salmon fillets|4|","lemon|lemons|1|","dill|dill||","olive oil|olive oil|2|tbsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C.","Place the fillets in a dish, skin-side down.","Drizzle with oil, add lemon slices, the dill, salt and pepper.","Bake for 15 min: the middle should still be slightly translucent.|Oven|15"]],
+  ["Mustard and honey baked salmon","Mustard and honey","A mustard and honey glaze caramelises on top.","A sweet and savoury mustard and honey glazed salmon.","",25,450,"F","honey mustard salmon","o",
+   ["salmon fillet|salmon fillets|4|","wholegrain mustard|wholegrain mustard|2|tbsp","honey|honey|1|tbsp","lemon|lemons|0.5|","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C.","Mix the mustard, honey and the juice of the lemon.","Brush over the fillets, then add salt and pepper.","Bake for 15 min.|Oven|15"]],
+  ["Salmon and vegetable traybake","All in one","The vegetables cook on the same tray as the salmon.","The full meal on one tray: salmon, broccoli and potatoes.","",40,520,"F","salmon traybake vegetables","oh",
+   ["salmon fillet|salmon fillets|4|","baby potato|baby potatoes|600|g","broccoli|broccoli|1|","lemon|lemons|1|","olive oil|olive oil|3|tbsp","paprika|paprika|1|tsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C.","Put the halved potatoes on a tray with 2 tbsp of oil, salt and paprika. Bake for 20 min.|Oven|20","Add the broccoli florets and the salmon fillets, drizzled with oil and lemon.","Bake for another 15 min.|Oven|15"]]
+ ]},
+ {"q":"Baked cod","a":["cod fillet","baked cod with lemon butter"],"fr":"Dos de cabillaud","r":[
+  ["Baked cod with lemon butter","The classic","","Flaky cod baked in the oven with a lemon and parsley butter.","",25,320,"F","baked cod lemon butter","oh",
+   ["cod loin|cod loins|4|","butter|butter|40|g","lemon|lemons|1|","parsley|parsley||","garlic|garlic|1|clove","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C.","Place the cod in a dish and season with salt and pepper.","Melt the butter with the garlic, the lemon juice and the parsley, and pour over the fish.","Bake for 12 min.|Oven|12"]],
+  ["Provençal-style cod","Provençal","The fish cooks on a tomato and olive sauce.","A sunny cod dish with tomato, olives and thyme.","",30,300,"F","cod provencal tomato olives","oh",
+   ["cod loin|cod loins|4|","chopped tomatoes|chopped tomatoes|400|g","black olive|black olives|50|g","onion|onions|1|","garlic|garlic|2|clove","thyme|thyme||","olive oil|olive oil|2|tbsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C.","Fry the onion and garlic in the oil, then add the tomatoes, olives and thyme. Cook for 10 min.|Cooking|10","Pour into a dish, lay the cod on top, and season with salt and pepper.","Bake for 15 min.|Oven|15"]],
+  ["Parmesan-crusted cod","Crusted","A breadcrumb and parmesan crust makes the top crunchy.","Fish that is crunchy on top and tender inside, which kids like.","",25,380,"F","parmesan crusted cod","of",
+   ["cod loin|cod loins|4|","breadcrumbs|breadcrumbs|40|g","grated parmesan|grated parmesan|40|g","melted butter|melted butter|30|g","parsley|parsley||","salt|salt||"],
+   ["Preheat the oven to 200 °C.","Mix the breadcrumbs, parmesan, parsley and melted butter.","Place the cod in a dish, season with salt and cover with the mixture.","Bake for 15 min.|Oven|15"]]
+ ]},
+ {"q":"Moules marinières","a":["mussels","moules frites","mussels in white wine"],"fr":"Moules marinières","r":[
+  ["Mussels marinière","The classic","","Mussels steamed open in white wine, with shallots and parsley.","",25,380,"F","moules marinieres mussels","b",
+   ["mussel|mussels|2000|g","white wine|white wine|20|cl","shallot|shallots|3|","butter|butter|30|g","parsley|parsley||","pepper|pepper||"],
+   ["Scrub and rinse the mussels, and throw away any that are open.","Soften the sliced shallots in the butter in a large pot.","Add the wine and mussels, cover and cook for 6 min over a high heat, shaking the pot.|Cooking|6","Sprinkle with parsley and pepper. Serve with chips or bread."]],
+  ["Creamy mussels","Creamy","Crème fraîche thickens the sauce.","Moules marinières with a creamy sauce.","",25,460,"F","mussels cream sauce","",
+   ["mussel|mussels|2000|g","white wine|white wine|20|cl","crème fraîche|crème fraîche|20|cl","shallot|shallots|3|","butter|butter|20|g","parsley|parsley||","pepper|pepper||"],
+   ["Prepare the mussels.","Soften the shallots in the butter, add the wine and mussels, cover and cook for 6 min.|Cooking|6","Take out the mussels, add the cream to the juices and let it reduce for 3 min.|Cooking|3","Pour the sauce over the mussels and sprinkle with parsley."]],
+  ["Curried mussels","Curried","A coconut curry sauce replaces the wine.","Mussels in a coconut curry sauce.","",25,440,"F","mussels coconut curry","",
+   ["mussel|mussels|2000|g","coconut milk|coconut milk|20|cl","curry powder|curry powder|2|tsp","onion|onions|1|","garlic|garlic|1|clove","coriander|coriander||","olive oil|olive oil|1|tbsp"],
+   ["Prepare the mussels.","Fry the onion and garlic in the oil with the curry powder for 2 min.","Add the coconut milk and mussels, cover and cook for 6 min.|Cooking|6","Sprinkle with coriander."]]
+ ]},
+ {"q":"Garlic prawns","a":["gambas","sautéed prawns","garlic shrimp"],"fr":"Crevettes à l'ail","r":[
+  ["Garlic and parsley sautéed prawns","The classic","","Prawns pan-fried with garlic and parsley, in 10 minutes.","",10,220,"F","garlic shrimp","h",
+   ["raw prawn|raw prawns|500|g","garlic|garlic|4|clove","parsley|parsley||","olive oil|olive oil|3|tbsp","lemon|lemons|1|","dried chilli|dried chillies|1|","salt|salt||"],
+   ["Peel the prawns, keeping the tails on.","Heat the oil with the chopped garlic and the chilli for 1 min.","Add the prawns and sauté for 3 min, until pink.|Pan|3","Add the parsley, the lemon juice and the salt."]],
+  ["Creamy garlic prawns","Creamy","A creamy garlic sauce, to serve with pasta.","Prawns in a creamy garlic sauce, perfect over tagliatelle.","",15,380,"F","creamy garlic shrimp","",
+   ["raw prawn|raw prawns|500|g","garlic|garlic|3|clove","crème fraîche|crème fraîche|20|cl","grated parmesan|grated parmesan|30|g","butter|butter|20|g","parsley|parsley||","salt|salt||"],
+   ["Sauté the prawns in the butter for 3 min. Set aside.|Pan|3","Fry the garlic for 1 min, add the cream and parmesan, and let it thicken for 3 min.|Cooking|3","Put the prawns back in and sprinkle with parsley."]],
+  ["Prawn curry","Curry","A coconut curry sauce, to serve with rice.","Prawns in a mild coconut curry.","Indian-inspired dish",20,380,"F","shrimp coconut curry","",
+   ["raw prawn|raw prawns|500|g","coconut milk|coconut milk|40|cl","chopped tomatoes|chopped tomatoes|200|g","onion|onions|1|","curry powder|curry powder|2|tsp","ginger|ginger|1|tsp","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Fry the onion, ginger and curry powder in the oil for 3 min.|Cooking|3","Add the tomatoes and coconut milk, and cook for 10 min.|Cooking|10","Add the prawns and cook for 4 min.|Cooking|4"]]
+ ]},
+ {"q":"Brandade","a":["salt cod brandade","brandade de morue"],"fr":"Brandade de morue","r":[
+  ["Salt cod brandade","The classic","","Salt cod mixed into a garlic and olive oil mash, then browned in the oven.","Speciality from Nîmes",60,480,"M","brandade cod potato gratin","o",
+   ["salt cod|salt cod|500|g","potato|potatoes|700|g","milk|milk|30|cl","garlic|garlic|3|clove","olive oil|olive oil|8|cl","breadcrumbs|breadcrumbs|2|tbsp","pepper|pepper||"],
+   ["The day before, soak the cod in cold water, changing the water 3 times.","Poach the cod for 10 min in the milk, then flake it.|Cooking|10","Boil the potatoes for 20 min and mash them.|Cooking|20","Mix the mash, cod, chopped garlic, oil and a little of the cooking milk. Add pepper.","Pour into a dish, sprinkle with breadcrumbs and bake for 20 min at 200 °C.|Oven|20"]],
+  ["Quick cod brandade","Quick","Fresh cod replaces the salt cod: no soaking.","Brandade without waiting a day, made with fresh cod.","",45,420,"F","quick cod potato brandade","ob",
+   ["cod loin|cod loins|500|g","potato|potatoes|700|g","milk|milk|30|cl","garlic|garlic|2|clove","olive oil|olive oil|6|cl","grated emmental|grated emmental|40|g","salt|salt||","pepper|pepper||"],
+   ["Boil the potatoes for 20 min.|Cooking|20","Poach the cod for 8 min in the milk, then crumble it.|Cooking|8","Mash the potatoes with the fish, garlic, oil and a little milk. Add salt and pepper.","Pour into a dish, sprinkle with emmental and bake for 15 min at 200 °C.|Oven|15"]],
+  ["Salmon brandade","Salmon","Salmon replaces the cod.","A mild salmon brandade that everyone likes.","",45,500,"F","salmon potato brandade","of",
+   ["salmon fillet|salmon fillets|3|","potato|potatoes|700|g","milk|milk|25|cl","crème fraîche|crème fraîche|10|cl","dill|dill||","breadcrumbs|breadcrumbs|2|tbsp","salt|salt||","pepper|pepper||"],
+   ["Boil the potatoes for 20 min.|Cooking|20","Poach the salmon for 8 min in the milk and flake it.|Cooking|8","Mash the potatoes with the salmon, cream and dill, then add salt and pepper.","Pour into a dish, sprinkle with breadcrumbs and bake for 15 min at 200 °C.|Oven|15"]]
+ ]},
+ {"q":"Fish en papillote","a":["fish parcels","salmon en papillote","cod en papillote","papillote"],"fr":"Poisson en papillote","r":[
+  ["Cod and vegetable parcels","The classic","","Fish steamed in its parcel, with julienned vegetables and lemon.","",30,240,"F","fish en papillote vegetables","oh",
+   ["cod loin|cod loins|4|","courgette|courgettes|1|","carrot|carrots|2|","lemon|lemons|1|","olive oil|olive oil|2|tbsp","thyme|thyme||","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C.","Cut the vegetables into thin matchsticks and divide them between 4 sheets of baking paper.","Place the fish on top and add a slice of lemon, the thyme, the oil, salt and pepper.","Close up the parcels and bake for 18 min.|Oven|18"]],
+  ["Salmon parcels","Salmon","Salmon replaces the cod, with leeks.","Tender salmon in a parcel on a bed of leeks.","",30,400,"F","salmon en papillote leek","oh",
+   ["salmon fillet|salmon fillets|4|","leek|leeks|2|","lemon|lemons|1|","light cream|light cream|8|cl","dill|dill||","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C.","Soften the sliced leeks in a pan for 5 min.|Pan|5","Divide them between 4 parcels, add the salmon, a little cream, the dill, the lemon, salt and pepper.","Close up and bake for 15 min.|Oven|15"]],
+  ["Asian pollock parcels","Asian-style","Soy sauce, ginger and lime flavour the fish.","A parcel flavoured with ginger and soy.","",25,260,"F","asian fish parcel ginger soy","oh",
+   ["pollock fillet|pollock fillets|4|","soy sauce|soy sauce|3|tbsp","ginger|ginger|1|tsp","lime|limes|1|","spring onion|spring onions|2|","pak choi|pak choi|2|"],
+   ["Preheat the oven to 200 °C.","Put the sliced pak choi on 4 sheets of paper, then the fish.","Drizzle with soy sauce, and add the ginger, lime and spring onion.","Close up and bake for 15 min.|Oven|15"]]
+ ]},
+ {"q":"Salmon tartare","a":["fish tartare","salmon tartar"],"fr":"Tartare de saumon","r":[
+  ["Salmon tartare","The classic","","Raw salmon cut by hand, with lime, shallot and herbs.","",20,300,"F","salmon tartare","ce",
+   ["extra-fresh salmon fillet|extra-fresh salmon fillets|3|","lime|limes|2|","shallot|shallots|1|","chives|chives||","olive oil|olive oil|2|tbsp","salt|salt||","pepper|pepper||"],
+   ["Cut the salmon into small, even cubes.","Mix with the chopped shallot, chives, oil, the juice of the limes, salt and pepper.","Chill for 10 min before serving.|Chill|10"]],
+  ["Salmon and avocado tartare","With avocado","A layer of avocado and mango under the salmon.","A fresh, colourful tartare of salmon, avocado and mango.","",20,380,"F","salmon avocado tartare","ce",
+   ["extra-fresh salmon fillet|extra-fresh salmon fillets|3|","avocado|avocados|2|","mango|mangoes|1|","lime|limes|2|","coriander|coriander||","olive oil|olive oil|2|tbsp","salt|salt||"],
+   ["Cut the salmon, avocado and mango into small cubes.","Season the salmon with the oil, half the lime juice and the salt, and the avocado with the rest of the lime.","Build in a ring mould: avocado, mango, then salmon, and sprinkle with coriander."]],
+  ["Asian salmon tartare","Asian-style","Seasoned with soy sauce, sesame and ginger.","A Japanese-style tartare with soy and sesame.","",20,320,"F","asian salmon tartare sesame","ce",
+   ["extra-fresh salmon fillet|extra-fresh salmon fillets|3|","soy sauce|soy sauce|2|tbsp","sesame oil|sesame oil|1|tbsp","ginger|ginger|1|tsp","lime|limes|1|","sesame seed|sesame seeds|1|tbsp","spring onion|spring onions|1|"],
+   ["Cut the salmon into small cubes.","Mix with the soy sauce, sesame oil, ginger, the lime juice and the sliced spring onion.","Sprinkle with sesame seeds and serve well chilled."]]
+ ]},
+ {"q":"Baked sea bream","a":["sea bream","dorade","baked sea bass","whole baked fish"],"fr":"Dorade au four","r":[
+  ["Baked sea bream","The classic","","A whole sea bream roasted in the oven with lemon, fennel and herbs.","",40,300,"F","baked sea bream","oh",
+   ["gutted sea bream|gutted sea breams|2|","lemon|lemons|2|","fennel|fennel|1|","garlic|garlic|3|clove","thyme|thyme||","olive oil|olive oil|4|tbsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C.","Put the sliced fennel in the bottom of a dish with 2 tbsp of oil.","Slip lemon slices, garlic and thyme inside the fish, and season with salt and pepper.","Lay them on the fennel, drizzle with the rest of the oil and bake for 25 min.|Oven|25"]],
+  ["Baked sea bream with potatoes","With potatoes","Potatoes cook under the fish.","A full meal: sea bream on a bed of potatoes.","",55,420,"F","sea bream potatoes oven","o",
+   ["gutted sea bream|gutted sea breams|2|","potato|potatoes|800|g","cherry tomato|cherry tomatoes|200|g","lemon|lemons|1|","olive oil|olive oil|4|tbsp","thyme|thyme||","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C.","Put the thinly sliced potatoes in a dish with the oil, salt and thyme. Bake for 20 min.|Oven|20","Add the sea bream stuffed with lemon, and the cherry tomatoes.","Bake for another 25 min.|Oven|25"]],
+  ["Pan-grilled sea bream","Pan-grilled","Sea bream fillets grilled skin-side down.","Fillets with crispy skin, in 10 minutes.","",15,280,"F","grilled sea bream fillet","h",
+   ["sea bream fillet|sea bream fillets|4|","lemon|lemons|1|","olive oil|olive oil|2|tbsp","fleur de sel|fleur de sel||","pepper|pepper||"],
+   ["Lightly score the skin of the fillets.","Cook them skin-side down for 4 min in very hot oil.|Pan|4","Flip them for 1 min, then serve with the lemon and fleur de sel.|Pan|1"]]
+ ]},
+ {"q":"Fish and chips","a":["fish & chips","fried fish"],"fr":"Fish and chips","r":[
+  ["Fish and chips","The classic","","White fish in a crispy beer batter, with chips.","English dish",45,720,"M","fish and chips","f",
+   ["cod fillet|cod fillets|4|","flour|flour|150|g","lager|lager|25|cl","baking powder|baking powder|1|tsp","potato|potatoes|1000|g","frying oil|frying oil|100|cl","lemon|lemons|1|","salt|salt||"],
+   ["Cut the potatoes into chips and fry them for 6 min at 160 °C, then drain.|Frying|6","Mix the flour, baking powder, salt and cold lager.","Dip the fish in a little flour and then in the batter, and fry for 5 min at 180 °C.|Frying|5","Fry the chips again for 3 min at 180 °C until golden.|Frying|3","Serve with lemon."]],
+  ["Oven-baked fish and chips","Oven-baked","The fish is breaded and the chips are baked, with no deep-frying.","A lighter fish and chips, all in the oven.","",45,520,"F","oven baked fish and chips","ofh",
+   ["cod fillet|cod fillets|4|","breadcrumbs|breadcrumbs|80|g","egg|eggs|1|","flour|flour|3|tbsp","potato|potatoes|1000|g","olive oil|olive oil|4|tbsp","lemon|lemons|1|","salt|salt||"],
+   ["Preheat the oven to 220 °C. Cut the potatoes into chips, toss with 3 tbsp of oil and some salt, and bake for 20 min.|Oven|20","Dip the fish in the flour, the beaten egg and then the breadcrumbs.","Put it on another tray, drizzle with oil and bake everything for 15 min.|Oven|15"]],
+  ["Homemade pollock fish fingers","Breaded","Breaded pan-fried fish sticks, for kids.","Homemade fish fingers, crunchy and golden.","",25,420,"F","homemade fish fingers","bf",
+   ["pollock fillet|pollock fillets|500|g","breadcrumbs|breadcrumbs|100|g","egg|eggs|2|","flour|flour|4|tbsp","olive oil|olive oil|4|tbsp","lemon|lemons|1|","salt|salt||"],
+   ["Cut the fish into sticks and add salt.","Dip them in the flour, the beaten egg and then the breadcrumbs.","Brown them in the oil for 3 min on each side.|Pan|6","Serve with lemon."]]
+ ]}
+]

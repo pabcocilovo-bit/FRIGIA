@@ -1,0 +1,907 @@
+[
+ {
+  "q": "Steak tartare",
+  "a": [
+   "tartare",
+   "beef tartare"
+  ],
+  "fr": "Tartare de bœuf",
+  "r": [
+   [
+    "Steak tartare",
+    "The classic",
+    "",
+    "Raw beef chopped by hand and seasoned with capers, gherkins, shallot and egg yolk.",
+    "French bistro dish",
+    20,
+    380,
+    "M",
+    "steak tartare",
+    "c",
+    [
+     "extra-fresh beef|extra-fresh beef|500|g",
+     "shallot|shallots|1|",
+     "capers|capers|1|tbsp",
+     "gherkin|gherkins|4|",
+     "egg|eggs|4|",
+     "mustard|mustard|1|tbsp",
+     "worcestershire sauce|worcestershire sauce|1|tsp",
+     "parsley|parsley||"
+    ],
+    [
+     "Chop the beef with a knife as finely as you can. Keep it cold.",
+     "Chop the shallot, capers, gherkins and parsley.",
+     "Mix the beef with the mustard, Worcestershire sauce and chopped extras, then season with salt and pepper.",
+     "Shape into 4 portions and top each with an egg yolk.",
+     "Serve straight away, nice and cold, with chips or a salad."
+    ]
+   ],
+   [
+    "Italian-style steak tartare",
+    "Italian-style",
+    "With parmesan, pesto and sun-dried tomatoes.",
+    "A fresh Italian-style tartare, with basil and parmesan.",
+    "",
+    20,
+    400,
+    "M",
+    "italian beef tartare",
+    "c",
+    [
+     "extra-fresh beef|extra-fresh beef|500|g",
+     "parmesan|parmesan|40|g",
+     "sun-dried tomato|sun-dried tomatoes|40|g",
+     "pesto|pesto|2|tbsp",
+     "rocket|rocket|50|g",
+     "olive oil|olive oil|2|tbsp"
+    ],
+    [
+     "Chop the beef with a knife.",
+     "Chop the sun-dried tomatoes.",
+     "Mix the beef with the pesto, tomatoes, oil, salt and pepper.",
+     "Serve with the rocket and shavings of parmesan."
+    ]
+   ],
+   [
+    "Seared steak tartare",
+    "Seared",
+    "Seared for 30 seconds on each side.",
+    "The tartare that is just seared on the outside.",
+    "",
+    20,
+    400,
+    "M",
+    "seared beef tartare",
+    "",
+    [
+     "extra-fresh beef|extra-fresh beef|500|g",
+     "shallot|shallots|1|",
+     "capers|capers|1|tbsp",
+     "mustard|mustard|1|tbsp",
+     "parsley|parsley||",
+     "butter|butter|20|g"
+    ],
+    [
+     "Chop the beef with a knife and mix with the shallot, capers, mustard and parsley.",
+     "Shape into 4 thick patties.",
+     "Sear for 30 seconds on each side in very hot butter.|Pan|1",
+     "Serve straight away."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Beef carpaccio",
+  "a": [
+   "carpaccio",
+   "beef carpaccio with parmesan"
+  ],
+  "fr": "Carpaccio de bœuf",
+  "r": [
+   [
+    "Beef carpaccio",
+    "The classic",
+    "",
+    "Very thin slices of raw beef with olive oil, lemon, parmesan and rocket.",
+    "Italian dish",
+    20,
+    280,
+    "M",
+    "beef carpaccio",
+    "che",
+    [
+     "beef fillet|beef fillet|400|g",
+     "parmesan|parmesan|50|g",
+     "rocket|rocket|60|g",
+     "lemon|lemons|1|",
+     "olive oil|olive oil|4|tbsp",
+     "capers|capers|1|tbsp"
+    ],
+    [
+     "Put the beef in the freezer for 1 h so it is easy to slice.",
+     "Cut it into the thinnest slices you can.",
+     "Spread them out on plates.",
+     "Drizzle with the oil and lemon juice, and season with salt and pepper.",
+     "Add the rocket, capers and shavings of parmesan."
+    ]
+   ],
+   [
+    "Salmon carpaccio",
+    "Salmon",
+    "With fresh salmon.",
+    "A fresh salmon carpaccio with lime and dill.",
+    "",
+    20,
+    260,
+    "M",
+    "salmon carpaccio",
+    "che",
+    [
+     "fresh salmon|fresh salmon|400|g",
+     "lime|limes|2|",
+     "dill|dill||",
+     "olive oil|olive oil|3|tbsp",
+     "pink peppercorn|pink peppercorns|1|tsp"
+    ],
+    [
+     "Put the salmon in the freezer for 1 h.",
+     "Cut it into very thin slices and spread them out on plates.",
+     "Drizzle with the oil and lime juice.",
+     "Sprinkle with dill and pink peppercorns."
+    ]
+   ],
+   [
+    "Courgette carpaccio",
+    "Vegetarian",
+    "Raw courgettes in thin ribbons.",
+    "A fresh, light vegetarian carpaccio of courgettes.",
+    "",
+    15,
+    150,
+    "F",
+    "zucchini carpaccio",
+    "vche",
+    [
+     "courgette|courgettes|3|",
+     "parmesan|parmesan|40|g",
+     "lemon|lemons|1|",
+     "olive oil|olive oil|3|tbsp",
+     "fresh mint|fresh mint||"
+    ],
+    [
+     "Slice the courgettes into very thin ribbons with a peeler.",
+     "Spread them out on plates.",
+     "Drizzle with the oil and lemon juice, and season with salt and pepper.",
+     "Sprinkle with parmesan and mint."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Thai soup",
+  "a": [
+   "tom kha kai",
+   "tom yum",
+   "thai coconut soup",
+   "coconut lemongrass soup"
+  ],
+  "fr": "Soupe thaï",
+  "r": [
+   [
+    "Thai chicken and coconut soup",
+    "The classic",
+    "",
+    "Tom kha kai: chicken in a coconut broth with lemongrass and lime.",
+    "Thai recipe",
+    30,
+    380,
+    "F",
+    "tom kha gai",
+    "h",
+    [
+     "chicken breast|chicken breasts|2|",
+     "coconut milk|coconut milk|40|cl",
+     "chicken stock cube|chicken stock cubes|1|",
+     "lemongrass|lemongrass|2|",
+     "fresh ginger|fresh ginger|1|",
+     "button mushroom|button mushrooms|150|g",
+     "lime|limes|2|",
+     "fish sauce|fish sauce|2|tbsp",
+     "coriander|coriander||"
+    ],
+    [
+     "Bring 50 cl of water to a simmer with the stock cube, bruised lemongrass and sliced ginger.|Cooking|10",
+     "Add the coconut milk and the chicken in thin strips, and cook for 8 min.|Cooking|8",
+     "Add the sliced mushrooms and cook for 3 min.|Cooking|3",
+     "Off the heat, add the lime juice and fish sauce.",
+     "Sprinkle with coriander."
+    ]
+   ],
+   [
+    "Thai prawn soup",
+    "Prawns",
+    "Tom yum: a spicy broth with prawns.",
+    "A hot and sour Thai soup with prawns.",
+    "Thai recipe",
+    25,
+    220,
+    "F",
+    "tom yum shrimp",
+    "h",
+    [
+     "peeled prawn|peeled prawns|300|g",
+     "chicken stock cube|chicken stock cubes|1|",
+     "lemongrass|lemongrass|2|",
+     "cherry tomato|cherry tomatoes|150|g",
+     "button mushroom|button mushrooms|150|g",
+     "chilli|chillies|1|",
+     "lime|limes|2|",
+     "fish sauce|fish sauce|2|tbsp"
+    ],
+    [
+     "Bring 1 litre of water to a simmer with the stock cube, lemongrass and chilli.|Cooking|10",
+     "Add the mushrooms and tomatoes, and cook for 3 min.",
+     "Add the prawns and cook for 3 min.|Cooking|3",
+     "Off the heat, add the lime juice and fish sauce."
+    ]
+   ],
+   [
+    "Vegetarian Thai soup",
+    "Vegetarian",
+    "With tofu and vegetables.",
+    "A coconut and lemongrass soup with tofu.",
+    "",
+    25,
+    300,
+    "F",
+    "vegetarian thai coconut soup",
+    "vh",
+    [
+     "firm tofu|firm tofu|200|g",
+     "coconut milk|coconut milk|40|cl",
+     "vegetable stock cube|vegetable stock cubes|1|",
+     "lemongrass|lemongrass|2|",
+     "fresh ginger|fresh ginger|1|",
+     "button mushroom|button mushrooms|150|g",
+     "lime|limes|2|",
+     "soy sauce|soy sauce|2|tbsp"
+    ],
+    [
+     "Bring 50 cl of water to a simmer with the stock cube, lemongrass and ginger.|Cooking|10",
+     "Add the coconut milk, diced tofu and mushrooms.",
+     "Cook for 8 min.|Cooking|8",
+     "Add the lime juice and soy sauce."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Blinis",
+  "a": [
+   "blini",
+   "homemade blinis",
+   "salmon blinis"
+  ],
+  "fr": "Blinis",
+  "r": [
+   [
+    "Homemade blinis",
+    "The classic",
+    "",
+    "Small, thick, fluffy pancakes to top with cream and smoked salmon.",
+    "",
+    40,
+    180,
+    "F",
+    "blinis smoked salmon",
+    "e",
+    [
+     "flour|flour|150|g",
+     "egg|eggs|2|",
+     "milk|milk|20|cl",
+     "baking powder|baking powder|1|tsp",
+     "melted butter|melted butter|20|g",
+     "crème fraîche|crème fraîche|10|cl",
+     "smoked salmon|smoked salmon|4|slices",
+     "dill|dill||"
+    ],
+    [
+     "Mix the flour, baking powder, egg yolks, milk and melted butter.",
+     "Whisk the whites until stiff and fold them in.",
+     "Cook small rounds of batter for 1 min on each side in a buttered pan.|Pan|2",
+     "Top each blini with crème fraîche, salmon and dill."
+    ]
+   ],
+   [
+    "Goat's cheese blinis",
+    "Vegetarian",
+    "Topped with a herby goat's cheese cream.",
+    "Party blinis with fresh goat's cheese.",
+    "",
+    35,
+    170,
+    "F",
+    "blinis goat cheese",
+    "ve",
+    [
+     "flour|flour|150|g",
+     "egg|eggs|2|",
+     "milk|milk|20|cl",
+     "baking powder|baking powder|1|tsp",
+     "fresh goat's cheese|fresh goat's cheeses|150|g",
+     "chives|chives||"
+    ],
+    [
+     "Make the blini batter and cook the blinis.|Pan|2",
+     "Mix the fresh goat's cheese with the chopped chives.",
+     "Top each blini.",
+     "Season with pepper and serve."
+    ]
+   ],
+   [
+    "Buckwheat blinis",
+    "Buckwheat",
+    "With buckwheat flour, Russian-style.",
+    "Buckwheat blinis, with a more rustic flavour.",
+    "Russian inspired",
+    90,
+    170,
+    "M",
+    "buckwheat blinis",
+    "e",
+    [
+     "buckwheat flour|buckwheat flour|100|g",
+     "flour|flour|50|g",
+     "fresh yeast|fresh yeast|5|g",
+     "milk|milk|25|cl",
+     "egg|eggs|2|",
+     "crème fraîche|crème fraîche|10|cl",
+     "smoked salmon|smoked salmon|4|slices"
+    ],
+    [
+     "Dissolve the yeast in the lukewarm milk, then add the flours and egg yolks.",
+     "Leave to rise for 1 h.|Rising|60",
+     "Fold in the whisked egg whites.",
+     "Cook the blinis for 1 min on each side and top with crème fraîche and salmon.|Pan|2"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Pain d'épices",
+  "a": [
+   "french spice bread",
+   "honey spice cake",
+   "gingerbread loaf"
+  ],
+  "fr": "Pain d'épices",
+  "r": [
+   [
+    "Pain d'épices",
+    "The classic",
+    "",
+    "Soft honey spice bread flavoured with cinnamon, ginger and aniseed.",
+    "Dijon speciality",
+    80,
+    280,
+    "F",
+    "french gingerbread loaf",
+    "vod",
+    [
+     "flour|flour|250|g",
+     "honey|honey|250|g",
+     "milk|milk|15|cl",
+     "egg|eggs|1|",
+     "brown sugar|brown sugar|60|g",
+     "baking powder|baking powder|2|tsp",
+     "mixed spice|mixed spice|2|tsp",
+     "cinnamon|cinnamon|1|tsp"
+    ],
+    [
+     "Preheat the oven to 160 °C.",
+     "Heat the milk with the honey and sugar, without letting it boil.",
+     "Mix the flour, baking powder and spices, then add the honey milk and the egg.",
+     "Pour into a buttered loaf tin and bake for 1 h.|Oven|60",
+     "Wrap and leave for a day: it is even better."
+    ]
+   ],
+   [
+    "Orange pain d'épices",
+    "Orange",
+    "With orange zest and peel.",
+    "A Christmas spice bread flavoured with orange.",
+    "",
+    80,
+    290,
+    "F",
+    "orange gingerbread",
+    "vod",
+    [
+     "flour|flour|250|g",
+     "honey|honey|250|g",
+     "milk|milk|15|cl",
+     "egg|eggs|1|",
+     "orange|oranges|1|",
+     "baking powder|baking powder|2|tsp",
+     "mixed spice|mixed spice|2|tsp"
+    ],
+    [
+     "Preheat the oven to 160 °C.",
+     "Heat the milk with the honey and the orange zest.",
+     "Mix the flour, baking powder and spices, then add the milk, egg and orange juice.",
+     "Pour into a tin and bake for 1 h.|Oven|60"
+    ]
+   ],
+   [
+    "Old-fashioned pain d'épices",
+    "Egg-free",
+    "Egg-free, with just honey and milk.",
+    "The old-fashioned egg-free spice bread.",
+    "",
+    75,
+    270,
+    "F",
+    "eggless gingerbread loaf",
+    "vod",
+    [
+     "rye flour|rye flour|250|g",
+     "honey|honey|250|g",
+     "milk|milk|20|cl",
+     "bicarbonate of soda|bicarbonate of soda|1|tsp",
+     "mixed spice|mixed spice|2|tsp"
+    ],
+    [
+     "Preheat the oven to 160 °C.",
+     "Heat the milk with the honey.",
+     "Mix the flour, bicarbonate of soda and spices, then add the honey milk.",
+     "Pour into a tin and bake for 1 h.|Oven|60"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Chocolate tart",
+  "a": [
+   "chocolate ganache tart",
+   "dark chocolate tart"
+  ],
+  "fr": "Tarte au chocolat",
+  "r": [
+   [
+    "Chocolate tart",
+    "The classic",
+    "",
+    "A sweet shortcrust base with a rich dark chocolate ganache.",
+    "",
+    50,
+    450,
+    "M",
+    "chocolate tart",
+    "vod",
+    [
+     "sweet shortcrust pastry|sweet shortcrust pastries|1|",
+     "dark chocolate|dark chocolate|200|g",
+     "double cream|double cream|20|cl",
+     "butter|butter|30|g",
+     "egg|eggs|1|"
+    ],
+    [
+     "Preheat the oven to 180 °C. Blind bake the pastry for 20 min.|Oven|20",
+     "Heat the cream and pour it over the chopped chocolate.",
+     "Stir, then add the butter and the beaten egg.",
+     "Pour into the pastry case and bake for 10 min at 150 °C.|Oven|10",
+     "Leave to cool for at least 1 h."
+    ]
+   ],
+   [
+    "Chocolate caramel tart",
+    "Caramel",
+    "With a layer of salted butter caramel.",
+    "A chocolate tart with a caramel centre.",
+    "",
+    60,
+    520,
+    "M",
+    "chocolate caramel tart",
+    "vod",
+    [
+     "sweet shortcrust pastry|sweet shortcrust pastries|1|",
+     "dark chocolate|dark chocolate|200|g",
+     "double cream|double cream|30|cl",
+     "sugar|sugar|100|g",
+     "salted butter|salted butter|40|g"
+    ],
+    [
+     "Blind bake the pastry for 20 min at 180 °C.|Oven|20",
+     "Make a caramel with the sugar, add 10 cl of hot cream and the butter. Pour it into the pastry case.",
+     "Heat the rest of the cream and melt the chocolate in it.",
+     "Pour the ganache over the caramel and leave to set for 2 h in the fridge."
+    ]
+   ],
+   [
+    "No-bake chocolate tart",
+    "No-bake",
+    "A biscuit base and a ganache.",
+    "A quick chocolate tart, no oven needed.",
+    "",
+    25,
+    480,
+    "F",
+    "no bake chocolate tart",
+    "vcd",
+    [
+     "digestive biscuit|digestive biscuits|200|g",
+     "melted butter|melted butter|80|g",
+     "dark chocolate|dark chocolate|200|g",
+     "double cream|double cream|20|cl"
+    ],
+    [
+     "Crush the biscuits, mix with the melted butter and press into a tin.",
+     "Heat the cream and pour it over the chocolate.",
+     "Stir and pour over the base.",
+     "Leave to set for 2 h in the fridge."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Yule log",
+  "a": [
+   "bûche de Noël",
+   "chocolate yule log",
+   "christmas log",
+   "swiss roll cake"
+  ],
+  "fr": "Bûche de Noël",
+  "r": [
+   [
+    "Chocolate yule log",
+    "The classic",
+    "",
+    "A rolled sponge filled and covered with chocolate ganache, for Christmas dinner.",
+    "Christmas tradition",
+    70,
+    420,
+    "D",
+    "chocolate yule log",
+    "vod",
+    [
+     "egg|eggs|4|",
+     "sugar|sugar|100|g",
+     "flour|flour|100|g",
+     "dark chocolate|dark chocolate|250|g",
+     "double cream|double cream|40|cl",
+     "icing sugar|icing sugar|2|tbsp"
+    ],
+    [
+     "Preheat the oven to 200 °C. Whisk the eggs and sugar until the mixture triples in volume, then fold in the flour.",
+     "Spread on a tray lined with baking paper and bake for 8 min.|Oven|8",
+     "Roll up the warm sponge in a damp tea towel and leave to cool.",
+     "Heat the cream, pour it over the chocolate and leave to cool until the ganache thickens.",
+     "Unroll the sponge, spread with a third of the ganache, roll up and cover with the rest.",
+     "Draw lines with a fork and dust with icing sugar."
+    ]
+   ],
+   [
+    "Chestnut yule log",
+    "Chestnut",
+    "Filled with chestnut cream.",
+    "The yule log with chestnut cream, soft and melting.",
+    "",
+    60,
+    440,
+    "D",
+    "chestnut yule log",
+    "vod",
+    [
+     "egg|eggs|4|",
+     "sugar|sugar|100|g",
+     "flour|flour|100|g",
+     "chestnut cream|chestnut cream|300|g",
+     "double cream|double cream|20|cl",
+     "dark chocolate|dark chocolate|100|g"
+    ],
+    [
+     "Make the rolled sponge and bake for 8 min at 200 °C.|Oven|8",
+     "Roll it up in a damp tea towel.",
+     "Whip the cream and fold it into the chestnut cream.",
+     "Fill the sponge, roll it up and cover with melted chocolate."
+    ]
+   ],
+   [
+    "Quick ice cream yule log",
+    "Frozen",
+    "With ice cream and biscuits, no baking.",
+    "An easy ice cream log to make the day before.",
+    "",
+    20,
+    380,
+    "F",
+    "ice cream yule log",
+    "vcd",
+    [
+     "vanilla ice cream|vanilla ice cream|50|cl",
+     "chocolate ice cream|chocolate ice cream|50|cl",
+     "sponge finger|sponge fingers|12|",
+     "dark chocolate|dark chocolate|100|g"
+    ],
+    [
+     "Line a loaf tin with cling film.",
+     "Layer softened vanilla ice cream, sponge fingers and chocolate ice cream.",
+     "Freeze for 6 h.",
+     "Turn out and cover with melted chocolate just before serving."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Gâteau basque",
+  "a": [
+   "basque cake",
+   "basque custard cake",
+   "cherry basque cake"
+  ],
+  "fr": "Gâteau basque",
+  "r": [
+   [
+    "Custard gâteau basque",
+    "The classic",
+    "",
+    "A thick shortbread-style cake filled with custard and flavoured with almond.",
+    "Basque speciality",
+    90,
+    420,
+    "M",
+    "gateau basque",
+    "vod",
+    [
+     "flour|flour|250|g",
+     "soft butter|soft butter|150|g",
+     "sugar|sugar|200|g",
+     "egg|eggs|5|",
+     "ground almonds|ground almonds|50|g",
+     "milk|milk|40|cl",
+     "cornflour|cornflour|30|g",
+     "baking powder|baking powder|1|tsp"
+    ],
+    [
+     "Make the custard: heat the milk, whisk 2 eggs with 80 g of sugar and the cornflour, pour in the milk, then thicken over the heat. Leave to cool.|Cooking|5",
+     "Mix the butter and the rest of the sugar with 2 eggs, the flour, ground almonds and baking powder.",
+     "Chill the dough for 1 h.",
+     "Preheat the oven to 180 °C. Press two thirds of the dough into a tin, add the custard and cover with the rest of the dough.",
+     "Brush with the last egg, mark with a fork and bake for 40 min.|Oven|40"
+    ]
+   ],
+   [
+    "Cherry gâteau basque",
+    "Cherry",
+    "Filled with black cherry jam.",
+    "The gâteau basque filled with black cherry jam.",
+    "Basque speciality",
+    80,
+    430,
+    "M",
+    "cherry gateau basque",
+    "vod",
+    [
+     "flour|flour|250|g",
+     "soft butter|soft butter|150|g",
+     "sugar|sugar|120|g",
+     "egg|eggs|3|",
+     "ground almonds|ground almonds|50|g",
+     "black cherry jam|black cherry jam|300|g",
+     "baking powder|baking powder|1|tsp"
+    ],
+    [
+     "Mix the butter and sugar with 2 eggs, the flour, ground almonds and baking powder. Chill for 1 h.",
+     "Preheat the oven to 180 °C.",
+     "Press two thirds of the dough into a tin and cover with the jam.",
+     "Top with the rest of the dough, brush with egg and bake for 40 min.|Oven|40"
+    ]
+   ],
+   [
+    "Chocolate gâteau basque",
+    "Chocolate",
+    "Filled with chocolate custard.",
+    "The chocolate version of the gâteau basque.",
+    "",
+    90,
+    460,
+    "M",
+    "chocolate gateau basque",
+    "vod",
+    [
+     "flour|flour|250|g",
+     "soft butter|soft butter|150|g",
+     "sugar|sugar|200|g",
+     "egg|eggs|5|",
+     "ground almonds|ground almonds|50|g",
+     "milk|milk|40|cl",
+     "cornflour|cornflour|30|g",
+     "dark chocolate|dark chocolate|100|g"
+    ],
+    [
+     "Make a custard and stir in the chocolate at the end of cooking. Leave to cool.|Cooking|5",
+     "Make the shortbread dough and chill it for 1 h.",
+     "Assemble the cake: dough, custard, dough.",
+     "Brush with egg and bake for 40 min at 180 °C.|Oven|40"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Apple cake",
+  "a": [
+   "easy apple cake",
+   "moist apple cake",
+   "invisible apple cake"
+  ],
+  "fr": "Gâteau aux pommes",
+  "r": [
+   [
+    "Moist apple cake",
+    "The classic",
+    "",
+    "A simple cake full of soft apples, perfect for tea time.",
+    "",
+    60,
+    280,
+    "F",
+    "apple cake",
+    "vodbf",
+    [
+     "apple|apples|4|",
+     "egg|eggs|3|",
+     "sugar|sugar|120|g",
+     "flour|flour|150|g",
+     "melted butter|melted butter|100|g",
+     "baking powder|baking powder|2|tsp",
+     "milk|milk|5|cl"
+    ],
+    [
+     "Preheat the oven to 180 °C.",
+     "Whisk the eggs and sugar, then add the flour, baking powder, melted butter and milk.",
+     "Peel the apples, cut them into pieces and add them to the batter.",
+     "Pour into a buttered tin and bake for 40 min.|Oven|40"
+    ]
+   ],
+   [
+    "Invisible apple cake",
+    "Invisible",
+    "Thin apple slices stacked with very little batter.",
+    "The cake of soft apple layers, with almost no batter.",
+    "",
+    75,
+    220,
+    "M",
+    "apple layer cake invisible",
+    "vodb",
+    [
+     "apple|apples|6|",
+     "egg|eggs|2|",
+     "sugar|sugar|60|g",
+     "flour|flour|80|g",
+     "milk|milk|15|cl",
+     "melted butter|melted butter|30|g"
+    ],
+    [
+     "Preheat the oven to 180 °C.",
+     "Mix the eggs, sugar, flour, milk and melted butter.",
+     "Slice the apples very thinly and mix them into the batter.",
+     "Pack into a loaf tin and bake for 50 min.|Oven|50"
+    ]
+   ],
+   [
+    "Apple yoghurt cake",
+    "With yoghurt",
+    "Based on a yoghurt cake.",
+    "The apple yoghurt cake, measured with the pot.",
+    "",
+    55,
+    260,
+    "F",
+    "apple yogurt cake",
+    "vodbf",
+    [
+     "apple|apples|3|",
+     "plain yoghurt|plain yoghurts|1|",
+     "egg|eggs|3|",
+     "sugar|sugar|150|g",
+     "flour|flour|200|g",
+     "sunflower oil|sunflower oil|6|cl",
+     "baking powder|baking powder|2|tsp"
+    ],
+    [
+     "Preheat the oven to 180 °C.",
+     "Mix the yoghurt, sugar, eggs, flour, baking powder and oil.",
+     "Add the diced apples.",
+     "Pour into a tin and bake for 40 min.|Oven|40"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Lemon mousse",
+  "a": [
+   "light lemon mousse",
+   "lemon dessert"
+  ],
+  "fr": "Mousse au citron",
+  "r": [
+   [
+    "Lemon mousse",
+    "The classic",
+    "",
+    "A light, tangy lemon mousse to serve in glasses.",
+    "",
+    25,
+    250,
+    "F",
+    "lemon mousse",
+    "vcd",
+    [
+     "lemon|lemons|3|",
+     "egg|eggs|3|",
+     "sugar|sugar|100|g",
+     "double cream|double cream|20|cl",
+     "cornflour|cornflour|1|tbsp"
+    ],
+    [
+     "Whisk the yolks, sugar, cornflour, and the juice and zest of the lemons.",
+     "Thicken over a low heat, stirring, then leave to cool.|Cooking|5",
+     "Whip the cream and whisk the whites until stiff.",
+     "Gently fold the whipped cream, then the whites, into the lemon cream.",
+     "Spoon into glasses and chill for 3 h."
+    ]
+   ],
+   [
+    "Lime and coconut mousse",
+    "Lime and coconut",
+    "With lime and coconut cream.",
+    "A tropical mousse with lime and coconut.",
+    "",
+    20,
+    260,
+    "F",
+    "lime coconut mousse",
+    "vcd",
+    [
+     "lime|limes|3|",
+     "coconut cream|coconut cream|20|cl",
+     "sweetened condensed milk|sweetened condensed milk|200|g",
+     "double cream|double cream|15|cl"
+    ],
+    [
+     "Mix the condensed milk with the juice and zest of the limes.",
+     "Whip the double cream and coconut cream together, both well chilled.",
+     "Gently fold into the lime mixture.",
+     "Spoon into glasses and chill for 3 h."
+    ]
+   ],
+   [
+    "Quick lemon mousse",
+    "Egg-free",
+    "With fromage blanc and cream.",
+    "A quick egg-free lemon mousse.",
+    "",
+    15,
+    220,
+    "F",
+    "eggless lemon mousse",
+    "vcd",
+    [
+     "lemon|lemons|2|",
+     "fromage blanc|fromage blanc|300|g",
+     "double cream|double cream|20|cl",
+     "icing sugar|icing sugar|60|g"
+    ],
+    [
+     "Mix the fromage blanc, icing sugar, and the juice and zest of the lemons.",
+     "Whip the cream.",
+     "Gently fold it in.",
+     "Spoon into glasses and chill for 2 h."
+    ]
+   ]
+  ]
+ }
+]

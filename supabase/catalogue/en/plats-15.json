@@ -1,0 +1,112 @@
+[
+ {"q":"Madeleines","a":["madeleine","homemade madeleines"],"fr":"Madeleines","r":[
+  ["Madeleines","The classic","","Little golden madeleines with their characteristic bump, flavoured with butter and lemon.","Speciality of Lorraine",80,110,"F","french madeleines","vodbf",
+   ["flour|flour|150|g","egg|eggs|3|","sugar|sugar|130|g","melted butter|melted butter|120|g","baking powder|baking powder|1|tsp","lemon|lemons|1|","salt|salt||"],
+   ["Whisk the eggs and sugar until the mixture turns pale.","Add the lemon zest, flour, baking powder and a pinch of salt, then the melted butter.","Chill the batter for 1 h. This is the secret of the bump.|Rest|60","Preheat the oven to 220 °C. Fill the buttered moulds three-quarters full.","Bake for 5 min, turn the oven down to 180 °C and bake for another 5 min.|Oven|10"]],
+  ["Chocolate madeleines","Chocolate","With cocoa in the batter and a chocolate base.","Cocoa madeleines, with a chocolate shell at the bottom of the mould.","",90,140,"M","chocolate madeleines","vodbf",
+   ["flour|flour|130|g","cocoa powder|cocoa powder|20|g","egg|eggs|3|","sugar|sugar|120|g","melted butter|melted butter|120|g","baking powder|baking powder|1|tsp","dark chocolate|dark chocolate|100|g"],
+   ["Whisk the eggs and sugar, then add the flour, cocoa, baking powder and melted butter.","Chill for 1 h.|Rest|60","Preheat the oven to 220 °C. Fill the buttered moulds and bake for 5 min, then 5 min at 180 °C.|Oven|10","Melt the chocolate, pour a little into each clean mould and set the madeleines on top.","Leave to set in the fridge for 20 min before turning out.|Rest|20"]],
+  ["Honey madeleines","With honey","Some of the sugar is replaced with honey.","Softer madeleines with a lovely honey flavour.","",80,115,"F","honey madeleines","vodbf",
+   ["flour|flour|150|g","egg|eggs|3|","sugar|sugar|90|g","honey|honey|40|g","melted butter|melted butter|120|g","baking powder|baking powder|1|tsp"],
+   ["Whisk the eggs and sugar, then add the honey.","Add the flour and baking powder, then the lukewarm melted butter.","Chill for 1 h.|Rest|60","Preheat the oven to 220 °C, fill the buttered moulds and bake for 5 min, then 5 min at 180 °C.|Oven|10"]]
+ ]},
+ {"q":"Pound cake","a":["quatre-quarts","quatre quarts","breton cake"],"fr":"Quatre-quarts","r":[
+  ["Quatre-quarts pound cake","The classic","","The Breton cake made with four ingredients in equal weights: eggs, sugar, flour and butter.","Breton speciality",60,330,"F","pound cake","vodbf",
+   ["egg|eggs|4|","sugar|sugar|200|g","flour|flour|200|g","melted butter|melted butter|200|g","baking powder|baking powder|1|tsp","salt|salt||"],
+   ["Preheat the oven to 180 °C and butter a loaf tin.","Whisk the eggs and sugar until pale.","Add the flour, baking powder and a pinch of salt, then the melted butter.","Pour into the tin and bake for 40 min. A knife blade should come out dry.|Oven|40"]],
+  ["Apple pound cake","With apples","With diced apples in the batter.","A soft pound cake with pieces of tender apple.","",70,320,"F","apple pound cake","vodbf",
+   ["egg|eggs|3|","sugar|sugar|150|g","flour|flour|150|g","melted butter|melted butter|150|g","baking powder|baking powder|1|tsp","apple|apples|3|","cinnamon|cinnamon|1|tsp"],
+   ["Preheat the oven to 180 °C. Peel and dice the apples.","Whisk the eggs and sugar, add the flour, baking powder and cinnamon, then the melted butter.","Fold in the apples and pour into a buttered tin.","Bake for 45 min.|Oven|45"]],
+  ["Orange pound cake","Orange","Flavoured with orange zest and juice.","A very gentle pound cake with an orange scent.","",60,330,"F","orange pound cake","vodbf",
+   ["egg|eggs|4|","sugar|sugar|200|g","flour|flour|200|g","melted butter|melted butter|180|g","baking powder|baking powder|1|tsp","orange|oranges|1|"],
+   ["Preheat the oven to 180 °C.","Whisk the eggs and sugar, then add the orange zest and juice.","Add the flour and baking powder, then the melted butter.","Pour into a buttered loaf tin and bake for 40 min.|Oven|40"]]
+ ]},
+ {"q":"Marble cake","a":["marbled cake","chocolate and vanilla marble cake","marbré"],"fr":"Gâteau marbré","r":[
+  ["Marble cake","The classic","","The vanilla and chocolate loaf cake with pretty swirls, just like the one from tea time.","",75,340,"F","marble cake","vodbf",
+   ["melted butter|melted butter|180|g","sugar|sugar|180|g","egg|eggs|4|","flour|flour|220|g","baking powder|baking powder|2|tsp","milk|milk|5|cl","cocoa powder|cocoa powder|25|g","vanilla sugar|vanilla sugar|1|"],
+   ["Preheat the oven to 180 °C and butter a loaf tin.","Whisk the melted butter, sugar and vanilla sugar, then add the eggs one by one.","Add the flour, baking powder and milk.","Split the batter in two and add the cocoa to one half.","Pour the batters into the tin in alternating layers and run a fork through to marble.","Bake for 45 min.|Oven|45"]],
+  ["Yoghurt marble cake","Lighter","Less butter: a yoghurt keeps it soft.","A lighter marble cake that is just as soft.","",70,260,"F","marble cake slice","vodbhf",
+   ["plain yoghurt|plain yoghurts|1|","sugar|sugar|140|g","egg|eggs|3|","flour|flour|220|g","sunflower oil|sunflower oil|5|cl","baking powder|baking powder|2|tsp","cocoa powder|cocoa powder|20|g"],
+   ["Preheat the oven to 180 °C.","Mix the yoghurt, sugar and eggs, then the flour, baking powder and oil.","Split the batter in two and add the cocoa to one half.","Pour in alternating layers into an oiled tin and marble with a fork.","Bake for 40 min.|Oven|40"]],
+  ["Orange and cocoa marble cake","Orange","The pale part is flavoured with orange.","The chocolate and orange duo in a very simple marble cake.","",75,340,"F","orange chocolate marble cake","vodbf",
+   ["melted butter|melted butter|180|g","sugar|sugar|180|g","egg|eggs|4|","flour|flour|220|g","baking powder|baking powder|2|tsp","orange|oranges|1|","cocoa powder|cocoa powder|25|g"],
+   ["Preheat the oven to 180 °C.","Whisk the melted butter and sugar, add the eggs, then the flour and baking powder.","Split the batter: orange zest and juice in one half, cocoa in the other.","Pour in alternating layers into a buttered tin and marble with a fork.","Bake for 45 min.|Oven|45"]]
+ ]},
+ {"q":"Banana bread","a":["banana cake","banana loaf"],"fr":"Banana bread","r":[
+  ["Banana bread","The classic","","The American loaf cake made with very ripe bananas, soft and fragrant.","American recipe",70,290,"F","banana bread","vodbf",
+   ["banana|bananas|3|","egg|eggs|2|","brown sugar|brown sugar|100|g","melted butter|melted butter|80|g","flour|flour|220|g","baking powder|baking powder|2|tsp","cinnamon|cinnamon|1|tsp"],
+   ["Preheat the oven to 180 °C.","Mash the bananas with a fork.","Mix them with the eggs, sugar and melted butter.","Add the flour, baking powder and cinnamon without mixing too much.","Pour into a buttered loaf tin and bake for 50 min.|Oven|50"]],
+  ["Chocolate chip banana bread","Chocolate","With chocolate chips.","The indulgent banana bread, full of melting chocolate chips.","",70,340,"F","chocolate chip banana bread","vodbf",
+   ["banana|bananas|3|","egg|eggs|2|","brown sugar|brown sugar|90|g","melted butter|melted butter|80|g","flour|flour|220|g","baking powder|baking powder|2|tsp","chocolate chip|chocolate chips|100|g"],
+   ["Preheat the oven to 180 °C.","Mash the bananas and mix them with the eggs, sugar and melted butter.","Add the flour and baking powder, then the chocolate chips.","Pour into a loaf tin and bake for 50 min.|Oven|50"]],
+  ["No added sugar banana bread","No added sugar","Very ripe bananas are enough to sweeten it.","A soft, light cake sweetened only by the fruit.","",70,210,"F","healthy banana bread oats","vodhbf",
+   ["banana|bananas|4|","egg|eggs|2|","coconut oil|coconut oil|4|tbsp","wholemeal flour|wholemeal flour|150|g","rolled oats|rolled oats|60|g","baking powder|baking powder|2|tsp","cinnamon|cinnamon|1|tsp"],
+   ["Preheat the oven to 180 °C.","Mash the bananas and mix them with the eggs and melted oil.","Add the flour, oats, baking powder and cinnamon.","Pour into a loaf tin and bake for 45 min.|Oven|45"]]
+ ]},
+ {"q":"Cheesecake","a":["cheese cake","new york cheesecake","homemade cheesecake"],"fr":"Cheesecake","r":[
+  ["New York cheesecake","The classic","","The creamy cheesecake on a biscuit base, baked gently in the oven.","New York recipe",90,480,"M","new york cheesecake","vod",
+   ["plain biscuit|plain biscuits|200|g","melted butter|melted butter|80|g","cream cheese|cream cheese|600|g","sugar|sugar|150|g","egg|eggs|3|","crème fraîche|crème fraîche|20|cl","lemon|lemons|1|"],
+   ["Preheat the oven to 160 °C. Crush the biscuits and mix them with the melted butter.","Press this mixture into the bottom of a springform tin.","Whisk the cream cheese, sugar, cream and lemon zest, then the eggs one by one.","Pour over the base and bake for 1 h.|Oven|60","Leave to cool in the oven with the door ajar, then chill for at least 4 h."]],
+  ["No-bake cheesecake","No oven","Set in the fridge, with no oven.","A fresh, light cheesecake you make the day before.","",30,420,"F","no bake cheesecake","vcd",
+   ["plain biscuit|plain biscuits|200|g","melted butter|melted butter|80|g","cream cheese|cream cheese|400|g","whole liquid cream|whole liquid cream|25|cl","icing sugar|icing sugar|80|g","lemon|lemons|1|"],
+   ["Crush the biscuits, mix with the melted butter and press into the bottom of a springform tin.","Whip the very cold cream until thick.","Mix the cream cheese, icing sugar and lemon juice, then fold in the whipped cream.","Spread over the base and leave to set in the fridge for at least 6 h."]],
+  ["Berry cheesecake","Berries","With a berry sauce on top.","The creamy cheesecake, covered with a berry sauce.","",100,500,"M","berry cheesecake","vod",
+   ["plain biscuit|plain biscuits|200|g","melted butter|melted butter|80|g","cream cheese|cream cheese|600|g","sugar|sugar|180|g","egg|eggs|3|","crème fraîche|crème fraîche|20|cl","frozen mixed berries|frozen mixed berries|300|g"],
+   ["Preheat the oven to 160 °C. Press the crushed biscuits and butter into the bottom of a tin.","Whisk the cream cheese, 150 g of sugar and the cream, then the eggs.","Pour over the base and bake for 1 h. Leave to cool, then chill for 4 h.|Oven|60","Cook the berries for 10 min with the rest of the sugar, then leave to cool.|Cooking|10","Cover the cheesecake with the sauce just before serving."]]
+ ]},
+ {"q":"Carrot cake","a":["carrot loaf","carrot cake with cream cheese frosting"],"fr":"Carrot cake","r":[
+  ["Carrot cake","The classic","","The soft cake with carrots and spices, with its cream cheese frosting.","Anglo-Saxon recipe",80,450,"M","carrot cake frosting","vod",
+   ["carrot|carrots|3|","egg|eggs|3|","brown sugar|brown sugar|150|g","sunflower oil|sunflower oil|15|cl","flour|flour|250|g","baking powder|baking powder|2|tsp","cinnamon|cinnamon|2|tsp","cream cheese|cream cheese|200|g","icing sugar|icing sugar|60|g"],
+   ["Preheat the oven to 180 °C. Finely grate the carrots.","Whisk the eggs, brown sugar and oil.","Add the flour, baking powder and cinnamon, then the carrots.","Pour into a buttered tin and bake for 45 min. Leave to cool.|Oven|45","Whisk the cream cheese and icing sugar, and spread this frosting over the cake."]],
+  ["Walnut carrot cake","With walnuts","With chopped walnuts in the batter and on the frosting.","The carrot cake, even more indulgent, with crunchy walnuts.","",80,500,"M","walnut carrot cake","vod",
+   ["carrot|carrots|3|","egg|eggs|3|","brown sugar|brown sugar|150|g","sunflower oil|sunflower oil|15|cl","flour|flour|250|g","baking powder|baking powder|2|tsp","cinnamon|cinnamon|2|tsp","walnut|walnuts|80|g","cream cheese|cream cheese|200|g","icing sugar|icing sugar|60|g"],
+   ["Preheat the oven to 180 °C. Grate the carrots and roughly chop the walnuts.","Whisk the eggs, sugar and oil, then add the flour, baking powder and cinnamon.","Add the carrots and two-thirds of the walnuts.","Pour into a tin and bake for 45 min. Leave to cool.|Oven|45","Cover with the cream cheese and icing sugar frosting, then the rest of the walnuts."]],
+  ["Light carrot cake","Lighter","No frosting, with less sugar and oil.","A soft carrot cake for an everyday snack.","",65,280,"F","healthy carrot cake loaf","vodhbf",
+   ["carrot|carrots|3|","egg|eggs|3|","brown sugar|brown sugar|90|g","sunflower oil|sunflower oil|8|cl","plain yoghurt|plain yoghurts|1|","flour|flour|220|g","baking powder|baking powder|2|tsp","cinnamon|cinnamon|2|tsp"],
+   ["Preheat the oven to 180 °C. Grate the carrots.","Whisk the eggs, sugar, oil and yoghurt.","Add the flour, baking powder and cinnamon, then the carrots.","Pour into a loaf tin and bake for 45 min.|Oven|45"]]
+ ]},
+ {"q":"Financiers","a":["financier","almond financiers","almond cakes"],"fr":"Financiers","r":[
+  ["Almond financiers","The classic","","Little almond and brown butter cakes, crisp outside and soft inside.","",40,130,"F","almond financiers","vod",
+   ["ground almond|ground almonds|100|g","icing sugar|icing sugar|150|g","flour|flour|50|g","egg white|egg whites|4|","butter|butter|120|g"],
+   ["Preheat the oven to 200 °C.","Heat the butter until it is golden and smells of hazelnuts.|Cooking|5","Mix the ground almonds, icing sugar and flour, then the unwhisked egg whites.","Add the lukewarm brown butter and fill the buttered moulds.","Bake for 12 min.|Oven|12"]],
+  ["Raspberry financiers","Raspberries","With a raspberry in the middle of each financier.","The almond financiers, with a tart raspberry.","",40,135,"F","raspberry financiers","vod",
+   ["ground almond|ground almonds|100|g","icing sugar|icing sugar|150|g","flour|flour|50|g","egg white|egg whites|4|","butter|butter|120|g","raspberry|raspberries|125|g"],
+   ["Preheat the oven to 200 °C and brown the butter.|Cooking|5","Mix the ground almonds, icing sugar, flour and egg whites.","Add the brown butter and fill the moulds.","Press one or two raspberries into each financier.","Bake for 14 min.|Oven|14"]],
+  ["Chocolate financiers","Chocolate","With cocoa in the batter and chocolate chips.","Chocolate financiers, to use up the egg whites.","",40,150,"F","chocolate financiers","vod",
+   ["ground almond|ground almonds|80|g","icing sugar|icing sugar|150|g","flour|flour|40|g","cocoa powder|cocoa powder|20|g","egg white|egg whites|4|","butter|butter|120|g","chocolate chip|chocolate chips|50|g"],
+   ["Preheat the oven to 200 °C and brown the butter.|Cooking|5","Mix the ground almonds, icing sugar, flour, cocoa and egg whites.","Add the brown butter, then the chocolate chips.","Fill the buttered moulds and bake for 12 min.|Oven|12"]]
+ ]},
+ {"q":"Shortbread","a":["sablés","butter biscuits","shortbread biscuits"],"fr":"Sablés","r":[
+  ["Butter shortbread","The classic","","Little pure butter shortbread biscuits, cut out with a cutter.","",50,90,"F","butter shortbread cookies","vodbf",
+   ["flour|flour|250|g","soft butter|soft butter|125|g","sugar|sugar|100|g","egg|eggs|1|","vanilla sugar|vanilla sugar|1|","salt|salt||"],
+   ["Mix the soft butter, sugar, vanilla sugar and a pinch of salt.","Add the egg, then the flour, and shape into a ball without overworking it.","Chill for 30 min.|Rest|30","Preheat the oven to 180 °C. Roll out the dough and cut out the biscuits.","Bake for 10 min. They should stay pale.|Oven|10"]],
+  ["Lemon shortbread","Lemon","With the zest of a lemon in the dough.","Fresh shortbread flavoured with lemon.","",50,90,"F","lemon shortbread cookies","vodbf",
+   ["flour|flour|250|g","soft butter|soft butter|125|g","sugar|sugar|100|g","egg|eggs|1|","lemon|lemons|1|"],
+   ["Mix the soft butter, sugar and lemon zest.","Add the egg, then the flour, and shape into a ball.","Chill for 30 min.|Rest|30","Preheat the oven to 180 °C, roll out the dough and cut out the biscuits.","Bake for 10 min.|Oven|10"]],
+  ["Chocolate shortbread","Chocolate","With cocoa and chocolate chips.","Cocoa shortbread with chips, for chocolate lovers.","",50,105,"F","chocolate shortbread cookies","vodbf",
+   ["flour|flour|220|g","cocoa powder|cocoa powder|30|g","soft butter|soft butter|125|g","sugar|sugar|100|g","egg|eggs|1|","chocolate chip|chocolate chips|60|g"],
+   ["Mix the soft butter and sugar, then the egg.","Add the flour, cocoa and chocolate chips, and shape into a ball.","Chill for 30 min.|Rest|30","Preheat the oven to 180 °C, roll out the dough and cut out the biscuits.","Bake for 10 min.|Oven|10"]]
+ ]},
+ {"q":"Brioche","a":["homemade brioche","soft brioche"],"fr":"Brioche","r":[
+  ["Homemade brioche","The classic","","A soft, stringy brioche for weekend breakfast.","",180,320,"M","homemade brioche","vodf",
+   ["flour|flour|500|g","baker's yeast|baker's yeast|10|g","egg|eggs|4|","milk|milk|10|cl","sugar|sugar|60|g","soft butter|soft butter|150|g","salt|salt||"],
+   ["Dissolve the yeast in the lukewarm milk.","Mix the flour, sugar, 1 tsp of salt, 3 eggs and the milk, then knead for 10 min.|Kneading|10","Add the soft butter in pieces and keep kneading until the dough is smooth.","Leave to rise for 1 h 30 under a tea towel.|Rise|90","Shape 6 balls into a loaf tin and leave to rise for another 45 min.|Rise|45","Preheat the oven to 180 °C, brush with the last beaten egg and bake for 30 min.|Oven|30"]],
+  ["Chocolate chip brioche","Chocolate","With chocolate chips in the dough.","The soft tea-time brioche, full of chocolate chips.","",180,360,"M","chocolate chip brioche","vodf",
+   ["flour|flour|500|g","baker's yeast|baker's yeast|10|g","egg|eggs|4|","milk|milk|10|cl","sugar|sugar|60|g","soft butter|soft butter|150|g","chocolate chip|chocolate chips|120|g","salt|salt||"],
+   ["Dissolve the yeast in the lukewarm milk, then knead with the flour, sugar, salt and 3 eggs.|Kneading|10","Add the soft butter, then the chocolate chips, while kneading.","Leave to rise for 1 h 30.|Rise|90","Shape into a loaf tin and leave to rise for 45 min.|Rise|45","Brush with the last egg and bake for 30 min at 180 °C.|Oven|30"]],
+  ["Braided brioche","Braided","Shaped into a braid and sprinkled with pearl sugar.","A beautiful braided brioche for the middle of the table.","",180,330,"D","braided brioche","vodf",
+   ["flour|flour|500|g","baker's yeast|baker's yeast|10|g","egg|eggs|4|","milk|milk|10|cl","sugar|sugar|60|g","soft butter|soft butter|150|g","pearl sugar|pearl sugar|30|g","salt|salt||"],
+   ["Dissolve the yeast in the lukewarm milk, then knead with the flour, sugar, salt and 3 eggs.|Kneading|10","Add the soft butter and knead until the dough is smooth.","Leave to rise for 1 h 30.|Rise|90","Divide the dough into 3 ropes and braid them on a baking tray. Leave to rise for 45 min.|Rise|45","Brush with beaten egg, sprinkle with pearl sugar and bake for 25 min at 180 °C.|Oven|25"]]
+ ]},
+ {"q":"Beignets","a":["sugar doughnuts","fritters"],"fr":"Beignets","r":[
+  ["Sugar doughnuts","The classic","","Soft doughnuts, deep-fried until golden and rolled in sugar.","",150,280,"M","sugar donuts","vdf",
+   ["flour|flour|400|g","baker's yeast|baker's yeast|10|g","milk|milk|20|cl","egg|eggs|2|","sugar|sugar|100|g","melted butter|melted butter|50|g","frying oil|frying oil|100|cl","salt|salt||"],
+   ["Dissolve the yeast in the lukewarm milk.","Mix the flour, 50 g of sugar, a pinch of salt, the eggs, the milk and the melted butter, and knead for 5 min.","Leave to rise for 1 h 30.|Rise|90","Roll out the dough to 1 cm, cut out rounds and leave to rise for 30 min.|Rise|30","Fry the doughnuts for 2 min on each side in the hot oil.|Frying|4","Drain them and roll them in the rest of the sugar."]],
+  ["Apple fritters","With apples","Apple rings coated in batter.","Carnival apple fritters, crisp and soft.","",40,250,"F","apple fritters","vdbf",
+   ["apple|apples|4|","flour|flour|150|g","egg|eggs|2|","milk|milk|15|cl","sugar|sugar|30|g","icing sugar|icing sugar|2|tbsp","frying oil|frying oil|100|cl"],
+   ["Mix the flour, sugar, eggs and milk into a smooth batter.","Peel the apples, remove the core and cut into rings.","Dip the rings in the batter.","Fry them for 2 min on each side in the hot oil.|Frying|4","Drain and dust with icing sugar."]],
+  ["Banana fritters","Banana","Pieces of banana in a light batter.","Golden banana fritters, as in the Caribbean.","Caribbean-inspired",30,240,"F","banana fritters","vdbf",
+   ["banana|bananas|4|","flour|flour|150|g","egg|eggs|1|","milk|milk|15|cl","sugar|sugar|30|g","cinnamon|cinnamon|1|tsp","frying oil|frying oil|100|cl"],
+   ["Mash 2 bananas and mix them with the flour, sugar, cinnamon, egg and milk.","Cut the other bananas into slices and add them to the batter.","Fry spoonfuls of batter for 2 min on each side.|Frying|4","Drain on kitchen paper and serve warm."]]
+ ]}
+]

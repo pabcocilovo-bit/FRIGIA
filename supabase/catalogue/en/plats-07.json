@@ -1,0 +1,112 @@
+[
+ {"q":"Cantonese fried rice","a":["egg fried rice","fried rice","riz cantonais"],"fr":"Riz cantonais","r":[
+  ["Cantonese fried rice","The classic","","The takeaway favourite: fried rice with ham, eggs, peas and soy sauce.","Chinese dish",20,480,"F","cantonese fried rice","bf",
+   ["cooked rice|cooked rice|600|g","diced ham|diced ham|150|g","egg|eggs|3|","pea|peas|150|g","spring onion|spring onions|2|","soy sauce|soy sauce|3|tbsp","olive oil|olive oil|2|tbsp"],
+   ["Beat the eggs and cook them as a thin omelette in 1 tbsp of oil, then cut it into strips.|Pan|2","Stir-fry the cold rice in the rest of the oil for 5 minutes over a high heat.|Wok|5","Add the ham, peas and spring onions for 3 minutes.|Wok|3","Add the soy sauce and the omelette, and mix."]],
+  ["Prawn Cantonese fried rice","With prawns","Prawns replace the ham.","Fried rice with juicy prawns.","Chinese dish",20,460,"F","shrimp fried rice","",
+   ["cooked rice|cooked rice|600|g","prawn|prawns|250|g","egg|eggs|3|","pea|peas|150|g","spring onion|spring onions|2|","soy sauce|soy sauce|3|tbsp","olive oil|olive oil|2|tbsp"],
+   ["Scramble the eggs in 1 tbsp of oil. Set aside.|Pan|2","Stir-fry the prawns for 2 minutes, then the rice for 5 minutes over a high heat.|Wok|7","Add the peas, spring onions, eggs and soy sauce."]],
+  ["Vegetable fried rice","Vegetarian","The ham is replaced by crunchy vegetables.","A fried rice full of vegetables, ready in 15 minutes.","Chinese dish",15,400,"F","vegetable fried rice","vbh",
+   ["cooked rice|cooked rice|600|g","carrot|carrots|2|","red pepper|red peppers|1|","pea|peas|100|g","egg|eggs|2|","soy sauce|soy sauce|3|tbsp","olive oil|olive oil|2|tbsp"],
+   ["Stir-fry the diced carrots and pepper in the oil for 4 minutes.|Wok|4","Add the rice and stir-fry for 5 minutes.|Wok|5","Push the rice to the side, scramble the eggs, then mix in the peas and soy sauce."]]
+ ]},
+ {"q":"Stir-fried noodles","a":["chow mein","noodle stir-fry","wok noodles","chinese noodles"],"fr":"Nouilles sautées","r":[
+  ["Chicken stir-fried noodles","The classic","","Wok-fried noodles with chicken, crunchy vegetables and a soy and honey sauce.","Chinese dish",20,520,"F","chicken stir fry noodles","f",
+   ["chinese noodle|chinese noodles|300|g","chicken breast|chicken breasts|2|","carrot|carrots|2|","red pepper|red peppers|1|","spring onion|spring onions|2|","soy sauce|soy sauce|4|tbsp","honey|honey|1|tbsp","garlic|garlic|1|clove","olive oil|olive oil|2|tbsp"],
+   ["Cook the noodles following the packet and rinse them in cold water.|Cooking|4","Stir-fry the chicken strips with the garlic in the oil for 5 minutes.|Wok|5","Add the julienned vegetables and cook for 4 minutes.|Wok|4","Add the noodles, soy sauce and honey, and stir-fry for 2 minutes.|Wok|2"]],
+  ["Prawn stir-fried noodles","With prawns","Prawns replace the chicken.","A noodle stir-fry with prawns and ginger.","Chinese dish",20,480,"F","shrimp noodles","",
+   ["chinese noodle|chinese noodles|300|g","prawn|prawns|300|g","pak choi|pak choi|2|","carrot|carrots|1|","ginger|ginger|1|tsp","soy sauce|soy sauce|4|tbsp","olive oil|olive oil|2|tbsp"],
+   ["Cook the noodles and rinse them.|Cooking|4","Stir-fry the prawns with the ginger for 3 minutes.|Wok|3","Add the sliced vegetables for 3 minutes, then the noodles and soy sauce for 2 minutes.|Wok|5"]],
+  ["Vegetable stir-fried noodles","Vegetarian","Just vegetables, with tofu if you like.","An all-veg stir-fry with crunchy vegetables.","Chinese dish",20,420,"F","vegetable stir fry noodles","vbh",
+   ["chinese noodle|chinese noodles|300|g","firm tofu|firm tofu|200|g","broccoli|broccoli|1|","carrot|carrots|2|","mushroom|mushrooms|150|g","soy sauce|soy sauce|4|tbsp","olive oil|olive oil|2|tbsp"],
+   ["Cook the noodles and rinse them.|Cooking|4","Brown the cubed tofu in the oil for 5 minutes.|Wok|5","Add the sliced vegetables and the small broccoli florets for 5 minutes.|Wok|5","Add the noodles and soy sauce for 2 minutes.|Wok|2"]]
+ ]},
+ {"q":"Pad thai","a":["phad thai","pad thaï"],"fr":"Pad thaï","r":[
+  ["Chicken pad thai","The classic","","Thai-style fried rice noodles: chicken, egg, peanuts and lime.","Thai dish",30,560,"M","chicken pad thai","",
+   ["rice noodle|rice noodles|250|g","chicken breast|chicken breasts|2|","egg|eggs|2|","beansprout|beansprouts|150|g","peanut|peanuts|40|g","lime|limes|2|","soy sauce|soy sauce|3|tbsp","brown sugar|brown sugar|1|tbsp","spring onion|spring onions|2|","olive oil|olive oil|2|tbsp"],
+   ["Soak the noodles in hot water for 10 minutes, then drain them.|Soaking|10","Stir-fry the chicken strips in the oil for 5 minutes.|Wok|5","Push them to the side and scramble the eggs.","Add the noodles, soy sauce, sugar and the juice of one lime, and stir-fry for 3 minutes.|Wok|3","Add the beansprouts and spring onions, and serve with the crushed peanuts and lime."]],
+  ["Prawn pad thai","With prawns","Prawns replace the chicken, as in Bangkok.","The classic pad thai from the streets of Bangkok.","Thai dish",30,520,"M","shrimp pad thai","",
+   ["rice noodle|rice noodles|250|g","prawn|prawns|300|g","egg|eggs|2|","beansprout|beansprouts|150|g","peanut|peanuts|40|g","lime|limes|2|","soy sauce|soy sauce|3|tbsp","brown sugar|brown sugar|1|tbsp","olive oil|olive oil|2|tbsp"],
+   ["Soak the noodles for 10 minutes and drain them.|Soaking|10","Stir-fry the prawns for 3 minutes, then scramble the eggs next to them.|Wok|3","Add the noodles, soy sauce, sugar and lime juice for 3 minutes.|Wok|3","Add the beansprouts and peanuts."]],
+  ["Tofu pad thai","Vegetarian","Browned tofu replaces the meat.","The all-veg pad thai, with crispy tofu.","Thai dish",30,500,"M","tofu pad thai","vh",
+   ["rice noodle|rice noodles|250|g","firm tofu|firm tofu|250|g","egg|eggs|2|","beansprout|beansprouts|150|g","peanut|peanuts|40|g","lime|limes|2|","soy sauce|soy sauce|4|tbsp","brown sugar|brown sugar|1|tbsp","olive oil|olive oil|2|tbsp"],
+   ["Soak the noodles for 10 minutes.|Soaking|10","Brown the cubed tofu in the oil for 6 minutes.|Wok|6","Scramble the eggs next to it, then add the noodles, soy sauce, sugar and lime for 3 minutes.|Wok|3","Add the beansprouts and peanuts."]]
+ ]},
+ {"q":"Teriyaki chicken","a":["teriyaki","poulet teriyaki","chicken teriyaki"],"fr":"Poulet teriyaki","r":[
+  ["Teriyaki chicken","The classic","","Glazed chicken in a sweet and salty soy sauce, served with rice.","Japanese dish",25,500,"F","chicken teriyaki rice","f",
+   ["chicken thigh|chicken thighs|6|","soy sauce|soy sauce|5|tbsp","honey|honey|2|tbsp","rice vinegar|rice vinegar|1|tbsp","ginger|ginger|1|tsp","garlic|garlic|1|clove","sesame seed|sesame seeds|1|tbsp","olive oil|olive oil|1|tbsp"],
+   ["Mix the soy sauce, honey, vinegar, ginger and garlic.","Brown the chopped chicken in the oil for 8 minutes.|Pan|8","Pour in the sauce and let it caramelise for 5 minutes, coating the chicken well.|Pan|5","Sprinkle with sesame seeds and serve with rice."]],
+  ["Teriyaki salmon","With salmon","Salmon fillets replace the chicken.","Glazed, tender salmon in teriyaki sauce.","Japanese dish",20,520,"F","salmon teriyaki","",
+   ["salmon fillet|salmon fillets|4|","soy sauce|soy sauce|4|tbsp","honey|honey|2|tbsp","ginger|ginger|1|tsp","sesame seed|sesame seeds|1|tbsp","olive oil|olive oil|1|tbsp"],
+   ["Mix the soy sauce, honey and ginger.","Cook the salmon skin-side down for 4 minutes, then turn it over for 2 minutes.|Pan|6","Pour in the sauce and let it reduce for 2 minutes, spooning it over the salmon.|Pan|2","Sprinkle with sesame seeds."]],
+  ["Teriyaki tofu","Vegetarian","Crispy tofu replaces the chicken.","The all-veg teriyaki, with glazed tofu.","Japanese dish",25,420,"F","tofu teriyaki","vh",
+   ["firm tofu|firm tofu|400|g","cornflour|cornflour|2|tbsp","soy sauce|soy sauce|4|tbsp","honey|honey|2|tbsp","broccoli|broccoli|1|","sesame seed|sesame seeds|1|tbsp","olive oil|olive oil|2|tbsp"],
+   ["Cut the tofu into cubes and roll them in the cornflour.","Brown them in the oil for 8 minutes.|Pan|8","Steam the broccoli for 6 minutes.|Steam|6","Pour the soy sauce and honey over the tofu, let it caramelise for 2 minutes, and serve with the broccoli.|Pan|2"]]
+ ]},
+ {"q":"Caramel pork","a":["vietnamese caramel pork","porc au caramel"],"fr":"Porc au caramel","r":[
+  ["Caramel pork","The classic","","Tender pieces of pork, glazed in a fish sauce caramel.","Vietnamese dish",60,560,"M","vietnamese caramel pork","",
+   ["pork shoulder|pork shoulder|800|g","sugar|sugar|80|g","fish sauce|fish sauce|3|tbsp","onion|onions|2|","garlic|garlic|3|clove","soy sauce|soy sauce|2|tbsp","pepper|pepper||"],
+   ["Cut the pork into cubes.","Make a caramel with the sugar and 2 tbsp of water, until it is amber.|Caramel|5","Add the pork, the sliced onions and the garlic, and stir well.","Pour in the fish sauce, soy sauce and 20 cl of water, and simmer for 45 minutes until the sauce is syrupy.|Simmer|45"]],
+  ["Caramel chicken","With chicken","The pork is replaced by chicken thighs.","The same glazed caramel, with chicken, and quicker.","Vietnamese dish",35,500,"F","caramel chicken","f",
+   ["chicken thigh|chicken thighs|8|","sugar|sugar|60|g","fish sauce|fish sauce|2|tbsp","soy sauce|soy sauce|2|tbsp","onion|onions|1|","garlic|garlic|2|clove","ginger|ginger|1|tsp"],
+   ["Chop the chicken into pieces.","Make an amber caramel with the sugar and a little water.|Caramel|5","Add the chicken, onion, garlic and ginger, then the fish sauce, soy sauce and 10 cl of water.","Simmer for 25 minutes.|Simmer|25"]],
+  ["Quick caramel pork","Quick","With thinly sliced tenderloin, it is ready in 25 minutes.","Caramel pork for a weeknight.","Vietnamese dish",25,520,"F","quick caramel pork","",
+   ["pork tenderloin|pork tenderloins|1|","brown sugar|brown sugar|3|tbsp","soy sauce|soy sauce|3|tbsp","fish sauce|fish sauce|1|tbsp","garlic|garlic|2|clove","olive oil|olive oil|1|tbsp"],
+   ["Cut the tenderloin into thin slices.","Sear them in the oil for 4 minutes.|Pan|4","Add the sugar, garlic, soy sauce and fish sauce, and let it caramelise for 5 minutes.|Pan|5"]]
+ ]},
+ {"q":"Bo bun","a":["bobun","beef bo bun","vietnamese vermicelli bowl"],"fr":"Bo bun","r":[
+  ["Beef bo bun","The classic","","Rice vermicelli, lemongrass beef, fresh vegetables and herbs, with a fish sauce dressing.","Vietnamese dish",30,520,"M","bo bun beef vermicelli bowl","",
+   ["rice vermicelli|rice vermicelli|200|g","beef steak|beef steaks|400|g","carrot|carrots|2|","cucumber|cucumbers|0.5|","lettuce|lettuces|0.5|","mint|mint||","coriander|coriander||","peanut|peanuts|40|g","fish sauce|fish sauce|4|tbsp","lime|limes|2|","sugar|sugar|2|tbsp","lemongrass|lemongrass|1|"],
+   ["Make the sauce: fish sauce, the juice of the limes, sugar and 8 tbsp of water.","Cook the vermicelli for 3 minutes and rinse them in cold water.|Cooking|3","Stir-fry the beef strips with the chopped lemongrass for 3 minutes over a high heat.|Wok|3","In bowls, layer the lettuce, vermicelli, julienned vegetables, beef, herbs and peanuts, then add the sauce."]],
+  ["Chicken bo bun","With chicken","Marinated chicken replaces the beef.","The chicken bo bun, fresh and fragrant.","Vietnamese dish",30,480,"M","chicken vermicelli bowl","h",
+   ["rice vermicelli|rice vermicelli|200|g","chicken breast|chicken breasts|2|","carrot|carrots|2|","cucumber|cucumbers|0.5|","lettuce|lettuces|0.5|","mint|mint||","peanut|peanuts|40|g","fish sauce|fish sauce|4|tbsp","lime|limes|2|","sugar|sugar|2|tbsp"],
+   ["Make the sauce: fish sauce, the juice of the limes, sugar and water.","Cook the vermicelli and rinse them.|Cooking|3","Stir-fry the chicken strips for 6 minutes.|Wok|6","Build the bowls and drizzle with the sauce."]],
+  ["Vegetarian bo bun","Vegetarian","Tofu replaces the meat.","The all-veg bo bun, with browned tofu.","Vietnamese dish",30,460,"M","vegetarian vermicelli bowl tofu","vh",
+   ["rice vermicelli|rice vermicelli|200|g","firm tofu|firm tofu|250|g","carrot|carrots|2|","cucumber|cucumbers|0.5|","lettuce|lettuces|0.5|","mint|mint||","peanut|peanuts|40|g","soy sauce|soy sauce|4|tbsp","lime|limes|2|","sugar|sugar|1|tbsp"],
+   ["Make the sauce with the soy sauce, the juice of the limes, the sugar and a little water.","Cook the vermicelli and rinse them.|Cooking|3","Brown the cubed tofu for 6 minutes.|Pan|6","Build the bowls with the vegetables, herbs and peanuts."]]
+ ]},
+ {"q":"Poke bowl","a":["poke","salmon poke bowl","salmon bowl"],"fr":"Poke bowl","r":[
+  ["Salmon poke bowl","The classic","","Vinegared rice, raw salmon marinated in soy, avocado, cucumber and sesame.","Hawaiian dish",25,580,"F","salmon poke bowl","ch",
+   ["sushi rice|sushi rice|250|g","extra-fresh salmon fillet|extra-fresh salmon fillets|2|","avocado|avocados|1|","cucumber|cucumbers|0.5|","edamame bean|edamame beans|100|g","soy sauce|soy sauce|3|tbsp","rice vinegar|rice vinegar|2|tbsp","sesame seed|sesame seeds|1|tbsp","spring onion|spring onions|1|"],
+   ["Cook the rice, mix it with the rice vinegar and leave it to cool a little.|Cooking|15","Cut the salmon into cubes and marinate it in the soy sauce for 10 minutes.|Marinate|10","Slice the avocado and cucumber.","In bowls, arrange the rice, salmon, vegetables, edamame, sesame seeds and spring onion."]],
+  ["Chicken poke bowl","With chicken","Teriyaki-style chicken replaces the raw fish.","A cooked poke bowl, with glazed chicken.","",25,560,"F","chicken poke bowl","cf",
+   ["rice|rice|250|g","chicken breast|chicken breasts|2|","avocado|avocados|1|","sweetcorn|sweetcorn|100|g","carrot|carrots|1|","soy sauce|soy sauce|3|tbsp","honey|honey|1|tbsp","sesame seed|sesame seeds|1|tbsp","olive oil|olive oil|1|tbsp"],
+   ["Cook the rice.|Cooking|12","Brown the diced chicken for 6 minutes, then glaze it with the soy sauce and honey for 2 minutes.|Pan|8","Grate the carrot and slice the avocado.","Build the bowls and sprinkle with sesame seeds."]],
+  ["Vegetarian poke bowl","Vegetarian","Marinated tofu replaces the salmon.","A colourful, filling bowl, with tofu.","",25,500,"F","tofu poke bowl","vch",
+   ["rice|rice|250|g","firm tofu|firm tofu|250|g","avocado|avocados|1|","edamame bean|edamame beans|100|g","red cabbage|red cabbages|0.25|","mango|mangoes|1|","soy sauce|soy sauce|3|tbsp","sesame seed|sesame seeds|1|tbsp"],
+   ["Cook the rice.|Cooking|12","Cut the tofu into cubes and marinate it in the soy sauce for 10 minutes.|Marinate|10","Slice the avocado and mango, and shred the cabbage.","Build the bowls and sprinkle with sesame seeds."]]
+ ]},
+ {"q":"Ramen","a":["homemade ramen","ramen soup"],"fr":"Ramen","r":[
+  ["Chicken ramen","The classic","","A broth flavoured with soy and ginger, noodles, chicken, a soft-boiled egg and vegetables.","Japanese dish",40,520,"M","chicken ramen bowl","",
+   ["ramen noodle|ramen noodles|300|g","chicken breast|chicken breasts|2|","egg|eggs|4|","chicken stock cube|chicken stock cubes|2|","soy sauce|soy sauce|4|tbsp","ginger|ginger|1|tsp","garlic|garlic|2|clove","mushroom|mushrooms|150|g","pak choi|pak choi|2|","spring onion|spring onions|2|"],
+   ["Boil the eggs for 6 minutes 30 seconds, then cool them.|Eggs|6","Heat 1.5 l of water with the stock cubes, soy sauce, ginger and garlic.","Poach the chicken in the broth for 12 minutes, then slice it.|Cooking|12","Add the mushrooms and pak choi for 3 minutes, and cook the noodles separately.|Cooking|3","Serve the noodles in bowls with the broth, chicken, halved egg and spring onion."]],
+  ["Vegetarian miso ramen","Vegetarian","A miso broth replaces the chicken broth.","A comforting ramen with miso, tofu and vegetables.","Japanese dish",30,460,"M","miso ramen vegetarian","v",
+   ["ramen noodle|ramen noodles|300|g","miso paste|miso paste|3|tbsp","firm tofu|firm tofu|200|g","egg|eggs|4|","vegetable stock cube|vegetable stock cubes|2|","mushroom|mushrooms|150|g","spinach|spinach|100|g","soy sauce|soy sauce|2|tbsp","spring onion|spring onions|2|"],
+   ["Boil the eggs for 6 minutes 30 seconds and cool them.|Eggs|6","Heat 1.5 l of water with the stock cubes, then add the mushrooms and cubed tofu for 5 minutes.|Cooking|5","Off the heat, stir the miso into the broth and add the soy sauce and spinach.","Cook the noodles and serve with the broth, egg and spring onion."]],
+  ["Quick ramen","Quick","With ready-made stock and leftover vegetables, in 15 minutes.","A steaming bowl of ramen in 15 minutes.","Japanese dish",15,420,"F","quick ramen","b",
+   ["ramen noodle|ramen noodles|300|g","chicken stock cube|chicken stock cubes|2|","soy sauce|soy sauce|3|tbsp","egg|eggs|4|","carrot|carrots|1|","spring onion|spring onions|2|"],
+   ["Heat 1.2 l of water with the stock cubes and soy sauce.","Add the julienned carrot and the noodles, and cook for 4 minutes.|Cooking|4","Crack the eggs into the broth and let them poach for 3 minutes.|Cooking|3","Serve with the sliced spring onion."]]
+ ]},
+ {"q":"Thai green curry","a":["green curry","chicken green curry"],"fr":"Curry vert thaï","r":[
+  ["Thai green chicken curry","The classic","","Chicken and vegetables in coconut milk, flavoured with green curry paste and basil.","Thai dish",30,520,"F","thai green curry chicken","",
+   ["chicken breast|chicken breasts|3|","green curry paste|green curry paste|2|tbsp","coconut milk|coconut milk|40|cl","courgette|courgettes|1|","green bean|green beans|150|g","soy sauce|soy sauce|1|tbsp","lime|limes|1|","basil|basil||","olive oil|olive oil|1|tbsp"],
+   ["Fry the curry paste in the oil for 1 minute.","Add the chicken strips and brown them for 4 minutes.|Cooking|4","Pour in the coconut milk, add the vegetables and cook for 12 minutes.|Cooking|12","Add the soy sauce, the juice of the lime and the basil. Serve with rice."]],
+  ["Thai green prawn curry","With prawns","Prawns replace the chicken.","Green curry with juicy prawns.","Thai dish",25,460,"F","thai green curry shrimp","",
+   ["prawn|prawns|400|g","green curry paste|green curry paste|2|tbsp","coconut milk|coconut milk|40|cl","red pepper|red peppers|1|","mangetout|mangetout|150|g","lime|limes|1|","basil|basil||","olive oil|olive oil|1|tbsp"],
+   ["Fry the curry paste in the oil for 1 minute, then pour in the coconut milk.","Add the pepper and mangetout, and cook for 8 minutes.|Cooking|8","Add the prawns for 3 minutes, then the lime and basil.|Cooking|3"]],
+  ["Light Thai green curry","Lighter","Half coconut milk, half stock.","All the flavour of green curry, but lighter.","Thai dish",30,380,"F","light thai green curry","h",
+   ["chicken breast|chicken breasts|3|","green curry paste|green curry paste|2|tbsp","light coconut milk|light coconut milk|20|cl","chicken stock cube|chicken stock cubes|1|","broccoli|broccoli|1|","courgette|courgettes|1|","lime|limes|1|","basil|basil||"],
+   ["Heat the curry paste in a casserole dish with a little coconut milk for 1 minute.","Add the rest of the coconut milk, 20 cl of water and the stock cube.","Add the chicken strips and the vegetables, and cook for 15 minutes.|Cooking|15","Add the lime and basil."]]
+ ]},
+ {"q":"Sweet and sour chicken","a":["sweet and sour pork","poulet aigre-doux","sweet & sour chicken"],"fr":"Poulet aigre-doux","r":[
+  ["Sweet and sour chicken","The classic","","Crispy chicken in a sweet and sour sauce with pineapple and peppers.","Chinese dish",30,540,"F","sweet and sour chicken","f",
+   ["chicken breast|chicken breasts|3|","cornflour|cornflour|3|tbsp","pineapple|pineapple|200|g","red pepper|red peppers|1|","green pepper|green peppers|1|","onion|onions|1|","ketchup|ketchup|3|tbsp","rice vinegar|rice vinegar|2|tbsp","sugar|sugar|2|tbsp","soy sauce|soy sauce|2|tbsp","olive oil|olive oil|3|tbsp"],
+   ["Mix the ketchup, vinegar, sugar, soy sauce and 10 cl of water.","Dice the chicken, roll it in the cornflour and brown it in the oil for 6 minutes. Set aside.|Pan|6","Stir-fry the chopped peppers and onion for 4 minutes, then add the pineapple.|Wok|4","Pour in the sauce, let it thicken for 2 minutes and add the chicken. Serve with rice.|Wok|2"]],
+  ["Sweet and sour pork","With pork","Pork tenderloin replaces the chicken.","The Chinese restaurant classic, with pork.","Chinese dish",30,580,"F","sweet and sour pork","",
+   ["pork tenderloin|pork tenderloins|1|","cornflour|cornflour|3|tbsp","pineapple|pineapple|200|g","red pepper|red peppers|1|","onion|onions|1|","ketchup|ketchup|3|tbsp","rice vinegar|rice vinegar|2|tbsp","sugar|sugar|2|tbsp","olive oil|olive oil|3|tbsp"],
+   ["Make the sauce: ketchup, vinegar, sugar and 10 cl of water.","Dice the pork, coat it in the cornflour and brown it for 6 minutes.|Pan|6","Stir-fry the pepper, onion and pineapple for 4 minutes.|Wok|4","Add the sauce and the pork, and let it thicken for 2 minutes.|Wok|2"]],
+  ["Light sweet and sour chicken","Lighter","The chicken is not coated in cornflour, and the sauce is less sweet.","The sweet and sour in a light version, with more vegetables.","Chinese dish",25,400,"F","light sweet sour chicken","h",
+   ["chicken breast|chicken breasts|3|","pineapple|pineapple|150|g","red pepper|red peppers|1|","broccoli|broccoli|1|","pineapple juice|pineapple juice|10|cl","soy sauce|soy sauce|2|tbsp","rice vinegar|rice vinegar|1|tbsp","cornflour|cornflour|1|tsp","olive oil|olive oil|1|tbsp"],
+   ["Brown the diced chicken in the oil for 6 minutes.|Pan|6","Add the pepper, small broccoli florets and the pineapple, and cook for 5 minutes.|Wok|5","Mix the pineapple juice, soy sauce, vinegar and cornflour, pour it in and let it thicken for 2 minutes.|Wok|2"]]
+ ]}
+]

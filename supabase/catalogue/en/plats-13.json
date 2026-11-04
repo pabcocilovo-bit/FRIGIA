@@ -1,0 +1,101 @@
+[
+ {"q":"Omelette","a":["mushroom omelette","cheese omelette","plain omelette"],"fr":"Omelette","r":[
+  ["French omelette with herbs","The classic","","A soft, runny omelette with fresh herbs.","",10,260,"F","french omelette herbs","vbfh",
+   ["egg|eggs|8|","butter|butter|20|g","chive|chives||","parsley|parsley||","salt|salt||","pepper|pepper||"],
+   ["Beat the eggs with the chopped herbs, salt and pepper.","Melt the butter in a frying pan over a medium heat.","Pour in the eggs and push the edges towards the centre with a spatula for 2 min.|Pan|2","Fold the omelette while the top is still runny."]],
+  ["Mushroom and cheese omelette","Mushroom and cheese","Fried mushrooms and gruyère.","A filled omelette, perfect for a quick dinner.","",15,340,"F","mushroom cheese omelette","vbf",
+   ["egg|eggs|8|","button mushroom|button mushrooms|200|g","grated gruyère|grated gruyère|60|g","butter|butter|20|g","salt|salt||","pepper|pepper||"],
+   ["Fry the sliced mushrooms in the butter until golden, about 5 min.|Pan|5","Pour in the beaten eggs, seasoned with salt and pepper.","Add the gruyère and cook for 3 min, then fold the omelette.|Pan|3"]],
+  ["Spanish omelette","Tortilla","Soft potatoes and onions, cooked on both sides.","The Spanish tortilla, thick and soft.","Spanish dish",40,380,"F","spanish tortilla potato omelette","vbfc",
+   ["egg|eggs|6|","potato|potatoes|4|","onion|onions|1|","olive oil|olive oil|10|cl","salt|salt||"],
+   ["Cut the potatoes into thin slices and the onion into rings.","Cook them gently in the oil for 20 min without browning, then drain.|Pan|20","Mix with the beaten eggs and the salt.","Pour into an oiled frying pan and cook for 5 min, flip onto a plate and cook for another 4 min.|Pan|9"]]
+ ]},
+ {"q":"Scrambled eggs","a":["creamy scrambled eggs"],"fr":"Œufs brouillés","r":[
+  ["Creamy scrambled eggs","The classic","","Gently scrambled eggs, creamy and soft.","",10,240,"F","creamy scrambled eggs","vbfh",
+   ["egg|eggs|8|","butter|butter|20|g","crème fraîche|crème fraîche|2|tbsp","chive|chives||","salt|salt||","pepper|pepper||"],
+   ["Lightly beat the eggs.","Cook them over a low heat with the butter, stirring all the time, for 4 min.|Pan|4","Take off the heat while they are still a little runny and add the cream, salt, pepper and chives."]],
+  ["Scrambled eggs with smoked salmon","With smoked salmon","Smoked salmon and dill, on toast.","The smart brunch: scrambled eggs and smoked salmon.","",10,320,"F","scrambled eggs smoked salmon toast","",
+   ["egg|eggs|8|","smoked salmon|smoked salmon|120|g","butter|butter|20|g","dill|dill||","country bread|country bread|4|slices","salt|salt||","pepper|pepper||"],
+   ["Toast the bread.","Scramble the eggs over a low heat with the butter for 4 min.|Pan|4","Serve on the bread with the salmon in strips and the dill."]],
+  ["Mexican scrambled eggs","Mexican style","Tomato, onion and chilli, served with tortillas.","Huevos a la mexicana, colourful and a little spicy.","Mexican dish",15,300,"F","mexican scrambled eggs","vb",
+   ["egg|eggs|8|","tomato|tomatoes|2|","onion|onions|1|","green chilli|green chillies|1|","olive oil|olive oil|1|tbsp","tortilla|tortillas|4|","salt|salt||"],
+   ["Fry the diced onion, tomato and chilli in the oil for 5 min.|Pan|5","Add the beaten eggs and stir gently for 3 min.|Pan|3","Add salt and serve with warm tortillas."]]
+ ]},
+ {"q":"Devilled eggs","a":["eggs mimosa","oeufs mimosa","egg mayonnaise"],"fr":"Œufs mimosa","r":[
+  ["Eggs mimosa","The classic","","The timeless starter: hard-boiled eggs filled with a mayonnaise stuffing.","",25,220,"F","deviled eggs mimosa","vcbfe",
+   ["egg|eggs|8|","mayonnaise|mayonnaise|4|tbsp","mustard|mustard|1|tsp","chive|chives||","salt|salt||","pepper|pepper||"],
+   ["Boil the eggs for 10 min in boiling water, then cool them.|Eggs|10","Peel them and cut in half. Take out the yolks.","Mash the yolks with the mayonnaise, mustard, salt and pepper.","Fill the whites and sprinkle with chives."]],
+  ["Tuna eggs mimosa","With tuna","Tuna in the filling, for a more filling starter.","Eggs mimosa filled with tuna.","",25,260,"F","tuna stuffed eggs","cbe",
+   ["egg|eggs|8|","tuna in water|tuna in water|100|g","mayonnaise|mayonnaise|3|tbsp","chive|chives||","salt|salt||","pepper|pepper||"],
+   ["Boil the eggs for 10 min, cool and peel them.|Eggs|10","Mash the yolks with the tuna, mayonnaise, salt and pepper.","Fill the whites and add the chives."]],
+  ["Light eggs mimosa","Lighter","The mayonnaise is replaced with fromage blanc.","Eggs mimosa in a light version.","",25,160,"F","light deviled eggs","vchbe",
+   ["egg|eggs|8|","fromage blanc|fromage blanc|100|g","mustard|mustard|1|tsp","paprika|paprika||","salt|salt||","pepper|pepper||"],
+   ["Boil the eggs for 10 min, cool and peel them.|Eggs|10","Mash the yolks with the fromage blanc and mustard, then add salt and pepper.","Fill the whites and sprinkle with paprika."]]
+ ]},
+ {"q":"Buddha bowl","a":["vegetarian bowl","grain bowl","bowl"],"fr":"Buddha bowl","r":[
+  ["Buddha bowl","The classic","","A colourful, filling bowl: quinoa, roasted chickpeas, vegetables, avocado and tahini sauce.","",35,560,"F","buddha bowl","vch",
+   ["quinoa|quinoa|200|g","chickpea|chickpeas|250|g","sweet potato|sweet potatoes|1|","avocado|avocados|1|","red cabbage|red cabbages|0.25|","carrot|carrots|2|","tahini|tahini|3|tbsp","lemon|lemons|1|","olive oil|olive oil|2|tbsp","paprika|paprika|1|tsp","salt|salt||"],
+   ["Preheat the oven to 200 °C. Put the diced sweet potato and the chickpeas on a baking tray with the oil, paprika and salt. Bake for 25 min.|Oven|25","Cook the quinoa for 12 min.|Cooking|12","Mix the tahini, the lemon juice and a little water to make the sauce.","Build the bowls with the quinoa, grated vegetables, avocado, chickpeas and sweet potato, then add the sauce."]],
+  ["Chicken buddha bowl","With chicken","Grilled chicken replaces the chickpeas.","A filling, high-protein bowl with chicken.","",30,580,"F","chicken buddha bowl","ch",
+   ["brown rice|brown rice|200|g","chicken breast|chicken breasts|2|","broccoli|broccoli|1|","avocado|avocados|1|","edamame|edamame|100|g","soy sauce|soy sauce|2|tbsp","sesame seed|sesame seeds|1|tbsp","olive oil|olive oil|1|tbsp"],
+   ["Cook the rice.|Cooking|25","Grill the sliced chicken for 10 min.|Pan|10","Steam the broccoli for 6 min.|Steam|6","Build the bowls and drizzle with soy sauce and sesame seeds."]],
+  ["Salmon buddha bowl","With salmon","Cooked salmon replaces the chickpeas.","A fresh bowl with salmon, avocado and cucumber.","",30,600,"F","salmon buddha bowl","ch",
+   ["rice|rice|200|g","salmon fillet|salmon fillets|2|","avocado|avocados|1|","cucumber|cucumbers|0.5|","carrot|carrots|1|","edamame|edamame|100|g","soy sauce|soy sauce|2|tbsp","sesame seed|sesame seeds|1|tbsp"],
+   ["Cook the rice.|Cooking|12","Pan-fry the salmon for 8 min and flake it.|Pan|8","Cut up the vegetables.","Build the bowls and season with soy sauce and sesame seeds."]]
+ ]},
+ {"q":"Cauliflower cheese","a":["cauliflower gratin","gratin de chou-fleur"],"fr":"Gratin de chou-fleur","r":[
+  ["Cauliflower cheese","The classic","","Soft cauliflower under a béchamel sauce browned with emmental.","",45,320,"F","cauliflower cheese gratin","vobf",
+   ["cauliflower|cauliflowers|1|","butter|butter|30|g","flour|flour|30|g","milk|milk|50|cl","grated emmental|grated emmental|80|g","nutmeg|nutmeg||","salt|salt||","pepper|pepper||"],
+   ["Cook the cauliflower florets for 10 min in salted water.|Cooking|10","Make a béchamel with the butter, flour and milk, then add the nutmeg, salt and pepper.","Preheat the oven to 200 °C. Put the cauliflower in a dish and cover with the béchamel.","Sprinkle with emmental and bake for 20 min.|Oven|20"]],
+  ["Cauliflower and broccoli gratin","With broccoli","Half cauliflower, half broccoli.","A green and white gratin of cauliflower and broccoli.","",45,320,"F","cauliflower broccoli gratin","vobf",
+   ["cauliflower|cauliflowers|0.5|","broccoli|broccoli|1|","crème fraîche|crème fraîche|20|cl","egg|eggs|2|","grated emmental|grated emmental|80|g","salt|salt||","pepper|pepper||"],
+   ["Cook the vegetable florets for 8 min.|Cooking|8","Preheat the oven to 200 °C. Beat the eggs with the cream, salt and pepper.","Put the vegetables in a dish, then pour over the mixture and add the emmental.","Bake for 20 min.|Oven|20"]],
+  ["Spiced roast cauliflower","Roasted","The cauliflower roasts in the oven with spices, with no béchamel.","A golden, crunchy cauliflower with spices.","",35,180,"F","roasted spiced cauliflower","vobh",
+   ["cauliflower|cauliflowers|1|","olive oil|olive oil|3|tbsp","cumin|cumin|1|tsp","turmeric|turmeric|1|tsp","greek yoghurt|greek yoghurts|1|","lemon|lemons|0.5|","salt|salt||"],
+   ["Preheat the oven to 220 °C.","Toss the cauliflower florets with the oil, spices and salt.","Bake for 25 min, until golden.|Oven|25","Serve with the lemony yoghurt."]]
+ ]},
+ {"q":"Roast vegetables","a":["roasted vegetables","oven-baked vegetables"],"fr":"Légumes rôtis","r":[
+  ["Oven-roasted vegetables","The classic","","Seasonal vegetables roasted in the oven, golden and caramelised.","",45,200,"F","roasted vegetables tray","vobh",
+   ["carrot|carrots|3|","courgette|courgettes|2|","red pepper|red peppers|1|","red onion|red onions|2|","potato|potatoes|3|","olive oil|olive oil|4|tbsp","dried provençal herbs|dried provençal herbs|1|tsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 210 °C.","Cut the vegetables into pieces of the same size.","Toss them on a baking tray with the oil, herbs, salt and pepper.","Bake for 35 min, stirring halfway through.|Oven|35"]],
+  ["Pan-fried vegetables","In a pan","The vegetables are fried in a pan.","A colourful stir-fry, ready in 20 minutes.","",20,160,"F","sauteed vegetables","vbh",
+   ["courgette|courgettes|2|","red pepper|red peppers|1|","mushroom|mushrooms|200|g","onion|onions|1|","garlic|garlic|1|clove","olive oil|olive oil|3|tbsp","salt|salt||","pepper|pepper||"],
+   ["Dice the vegetables.","Fry the onion and pepper in the oil for 5 min.|Pan|5","Add the courgettes and mushrooms and cook for 10 min over a high heat.|Pan|10","Add the garlic, salt and pepper."]],
+  ["Honey-roasted winter vegetables","Winter veg","Squash, parsnips and carrots glazed with honey.","Roasted root vegetables, sweet and savoury.","",50,230,"F","honey roasted root vegetables","vobh",
+   ["butternut squash|butternut squashes|1|","parsnip|parsnips|3|","carrot|carrots|3|","red onion|red onions|1|","honey|honey|2|tbsp","olive oil|olive oil|3|tbsp","thyme|thyme||","salt|salt||"],
+   ["Preheat the oven to 200 °C.","Cut the vegetables into pieces and toss them with the oil, honey, thyme and salt.","Bake for 40 min.|Oven|40"]]
+ ]},
+ {"q":"Stuffed tomatoes","a":["stuffed vegetables","tomates farcies"],"fr":"Tomates farcies","r":[
+  ["Stuffed tomatoes","The classic","","Tomatoes filled with a meat and herb stuffing, baked in the oven with rice.","",75,480,"F","stuffed tomatoes","obf",
+   ["tomato|tomatoes|8|","sausage meat|sausage meat|400|g","onion|onions|1|","garlic|garlic|2|clove","parsley|parsley||","breadcrumbs|breadcrumbs|2|tbsp","rice|rice|120|g","olive oil|olive oil|2|tbsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 180 °C. Cut the tops off the tomatoes, scoop them out and keep the pulp.","Mix the sausage meat with the onion, garlic, parsley and breadcrumbs.","Fill the tomatoes and put the tops back on.","Put the raw rice in the bottom of the dish with the pulp and 20 cl of water, set the tomatoes on top and drizzle with oil.","Bake for 1 h.|Oven|60"]],
+  ["Provençal stuffed vegetables","Petits farcis","Stuffed tomatoes, courgettes and peppers.","The petits farcis of Nice, with all the vegetables of the sun.","Speciality of Nice",75,460,"M","provencal stuffed vegetables","o",
+   ["tomato|tomatoes|4|","round courgette|round courgettes|4|","red pepper|red peppers|2|","minced beef|minced beef|400|g","onion|onions|1|","garlic|garlic|2|clove","grated parmesan|grated parmesan|40|g","breadcrumbs|breadcrumbs|3|tbsp","olive oil|olive oil|3|tbsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 180 °C. Scoop out the vegetables.","Fry the onion, garlic and chopped vegetable flesh, then mix with the meat, parmesan and breadcrumbs.","Fill the vegetables and drizzle with oil.","Bake for 1 h.|Oven|60"]],
+  ["Vegetarian stuffed tomatoes","Vegetarian","A rice, feta and herb stuffing replaces the meat.","Tomatoes stuffed with rice and feta, Greek style.","Greek-inspired",60,360,"F","vegetarian stuffed tomatoes rice feta","voh",
+   ["tomato|tomatoes|8|","rice|rice|150|g","feta|feta|100|g","onion|onions|1|","mint|mint||","parsley|parsley||","olive oil|olive oil|3|tbsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 180 °C. Scoop out the tomatoes and chop the pulp.","Mix the raw rice with the pulp, chopped onion, feta, herbs and oil.","Fill the tomatoes three-quarters full and arrange them in a dish with 10 cl of water.","Bake for 50 min.|Oven|50"]]
+ ]},
+ {"q":"Stuffed courgettes","a":["stuffed zucchini","courgettes farcies"],"fr":"Courgettes farcies","r":[
+  ["Meat-stuffed courgettes","The classic","","Courgettes filled with seasoned minced meat and browned with cheese.","",50,420,"F","stuffed zucchini meat","obf",
+   ["courgette|courgettes|4|","minced beef|minced beef|400|g","onion|onions|1|","chopped tomato|chopped tomatoes|200|g","grated emmental|grated emmental|60|g","garlic|garlic|1|clove","olive oil|olive oil|1|tbsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C. Cut the courgettes in half and scoop them out.","Fry the onion, garlic, chopped courgette flesh and meat for 8 min, then add the tomatoes.|Pan|8","Fill the courgettes and sprinkle with emmental.","Bake for 30 min.|Oven|30"]],
+  ["Goat's cheese stuffed courgettes","With goat's cheese","A goat's cheese and herb stuffing, vegetarian.","Soft courgettes with goat's cheese and thyme.","",45,320,"F","zucchini stuffed goat cheese","vo",
+   ["courgette|courgettes|4|","fresh goat's cheese|fresh goat's cheeses|200|g","egg|eggs|1|","breadcrumbs|breadcrumbs|3|tbsp","thyme|thyme||","olive oil|olive oil|1|tbsp","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C. Cut the courgettes in half and scoop them out.","Mix the chopped flesh with the goat's cheese, egg, thyme, salt and pepper.","Fill the courgettes, sprinkle with breadcrumbs and drizzle with oil.","Bake for 30 min.|Oven|30"]],
+  ["Tuna stuffed courgettes","With tuna","A tuna and tomato stuffing.","Budget-friendly stuffed courgettes with tuna.","",45,340,"F","zucchini stuffed tuna","ob",
+   ["courgette|courgettes|4|","tuna in water|tuna in water|200|g","tomato|tomatoes|2|","onion|onions|1|","egg|eggs|1|","grated emmental|grated emmental|50|g","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C. Cut the courgettes in half and scoop them out.","Mix the chopped flesh, the tuna, the diced tomatoes and onion, and the egg.","Fill the courgettes and sprinkle with emmental.","Bake for 30 min.|Oven|30"]]
+ ]},
+ {"q":"Mashed potatoes","a":["mash","mashed potato","crushed potatoes"],"fr":"Purée maison","r":[
+  ["Homemade mashed potatoes","The classic","","A smooth, creamy mash with butter and milk.","",30,280,"F","mashed potatoes","vbf",
+   ["potato|potatoes|1000|g","milk|milk|25|cl","butter|butter|60|g","nutmeg|nutmeg||","salt|salt||","pepper|pepper||"],
+   ["Peel the potatoes and cook them for 20 min in salted water.|Cooking|20","Drain them and mash them with a potato masher.","Add the butter, then the hot milk little by little, stirring.","Add salt and pepper and a little nutmeg."]],
+  ["Crushed potatoes with olive oil","Crushed","Roughly crushed, with olive oil and herbs.","Rustic crushed potatoes with olive oil and chives.","",30,240,"F","crushed potatoes olive oil","vbh",
+   ["potato|potatoes|1000|g","olive oil|olive oil|6|tbsp","chive|chives||","fleur de sel|fleur de sel||","pepper|pepper||"],
+   ["Cook the potatoes with their skins on for 25 min.|Cooking|25","Crush them roughly with a fork and the oil.","Add the chives, fleur de sel and pepper."]],
+  ["Sweet potato mash","Sweet potato","Half sweet potato for an orange mash.","A sweet, colourful mash.","",30,250,"F","sweet potato mash","vbfh",
+   ["sweet potato|sweet potatoes|600|g","potato|potatoes|400|g","milk|milk|15|cl","butter|butter|30|g","salt|salt||"],
+   ["Cook the peeled vegetables for 20 min.|Cooking|20","Mash them with the butter and hot milk.","Add salt."]]
+ ]}
+]

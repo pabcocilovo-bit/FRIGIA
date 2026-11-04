@@ -1,0 +1,949 @@
+[
+ {
+  "q": "Spaghetti bolognese",
+  "a": [
+   "spaghetti bolognaise",
+   "bolognese",
+   "bolognese sauce",
+   "spaghetti bolo",
+   "spag bol"
+  ],
+  "fr": "Spaghetti bolognaise",
+  "r": [
+   [
+    "Spaghetti bolognese",
+    "The classic",
+    "",
+    "A slow-simmered meat and tomato sauce on al dente spaghetti.",
+    "Italian dish",
+    50,
+    620,
+    "F",
+    "spaghetti bolognese",
+    "bf",
+    [
+     "spaghetti|spaghetti|400|g",
+     "minced beef|minced beef|400|g",
+     "chopped tomato|chopped tomatoes|800|g",
+     "onion|onions|1|",
+     "carrot|carrots|1|",
+     "garlic|garlic|2|clove",
+     "olive oil|olive oil|2|tbsp",
+     "oregano|oregano||",
+     "grated parmesan|grated parmesan|40|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Fry the onion, the diced carrot and the garlic in the oil for 5 min.|Cooking|5",
+     "Add the meat and brown it for 5 min, breaking it up.|Cooking|5",
+     "Pour in the tomatoes, add the oregano, salt and pepper, and simmer for 30 min.|Simmer|30",
+     "Cook the spaghetti in boiling salted water according to the packet.|Pasta|10",
+     "Serve the sauce on the pasta with the parmesan."
+    ]
+   ],
+   [
+    "Lentil spaghetti bolognese",
+    "Vegetarian",
+    "The meat is replaced with red lentils.",
+    "A hearty veggie bolognese made with red lentils.",
+    "",
+    40,
+    520,
+    "F",
+    "lentil bolognese pasta",
+    "vbfh",
+    [
+     "spaghetti|spaghetti|400|g",
+     "red lentil|red lentils|150|g",
+     "chopped tomato|chopped tomatoes|800|g",
+     "onion|onions|1|",
+     "carrot|carrots|1|",
+     "garlic|garlic|2|clove",
+     "olive oil|olive oil|2|tbsp",
+     "oregano|oregano||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Fry the onion, carrot and garlic in the oil for 5 min.|Cooking|5",
+     "Add the rinsed lentils, the tomatoes, 30 cl of water, the oregano, salt and pepper.",
+     "Simmer for 20 min, stirring.|Simmer|20",
+     "Cook the spaghetti and serve with the sauce.|Pasta|10"
+    ]
+   ],
+   [
+    "Lighter spaghetti bolognese",
+    "Lighter",
+    "Made with 5% fat beef and more vegetables.",
+    "The usual bolognese, with more vegetables and less fat.",
+    "",
+    45,
+    480,
+    "F",
+    "light bolognese vegetables",
+    "bfh",
+    [
+     "spaghetti|spaghetti|350|g",
+     "5% fat minced beef|5% fat minced beef|350|g",
+     "chopped tomato|chopped tomatoes|800|g",
+     "courgette|courgettes|1|",
+     "carrot|carrots|2|",
+     "onion|onions|1|",
+     "garlic|garlic|1|clove",
+     "olive oil|olive oil|1|tbsp",
+     "basil|basil||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Fry the onion, carrots and courgette, all diced small, in the oil for 8 min.|Cooking|8",
+     "Add the meat and brown it for 5 min.|Cooking|5",
+     "Add the tomatoes and garlic, season, and simmer for 25 min.|Simmer|25",
+     "Cook the spaghetti and serve with the basil.|Pasta|10"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Pâtes carbonara",
+  "a": [
+   "carbonara",
+   "spaghetti carbonara"
+  ],
+  "fr": "Pâtes carbonara",
+  "r": [
+   [
+    "Spaghetti carbonara",
+    "The classic",
+    "",
+    "The real carbonara: eggs, pecorino and guanciale, with no cream.",
+    "Italian dish",
+    20,
+    650,
+    "F",
+    "spaghetti carbonara",
+    "",
+    [
+     "spaghetti|spaghetti|400|g",
+     "guanciale|guanciale|150|g",
+     "egg yolk|egg yolks|4|",
+     "egg|eggs|1|",
+     "grated pecorino|grated pecorino|60|g",
+     "pepper|pepper||"
+    ],
+    [
+     "Cook the spaghetti in boiling salted water.|Pasta|10",
+     "Brown the guanciale slices in a pan for 5 min, with no added fat.|Pan|5",
+     "Beat the yolks, the whole egg, the pecorino and plenty of pepper.",
+     "Drain the pasta, keeping a little cooking water, and put it in the pan off the heat.",
+     "Pour in the eggs, stirring quickly, with a little cooking water to make a creamy sauce."
+    ]
+   ],
+   [
+    "French-style carbonara",
+    "French style",
+    "With lardons and cream, the way it is often made in France.",
+    "The creamy French carbonara, with lardons and cream.",
+    "",
+    20,
+    700,
+    "F",
+    "creamy carbonara bacon",
+    "bf",
+    [
+     "spaghetti|spaghetti|400|g",
+     "bacon lardon|bacon lardons|200|g",
+     "crème fraîche|crème fraîche|20|cl",
+     "egg yolk|egg yolks|2|",
+     "grated parmesan|grated parmesan|50|g",
+     "onion|onions|1|",
+     "pepper|pepper||"
+    ],
+    [
+     "Cook the pasta.|Pasta|10",
+     "Fry the lardons and the sliced onion for 6 min.|Pan|6",
+     "Add the cream and heat for 2 min.|Cooking|2",
+     "Mix the drained pasta with the sauce, then stir in the yolks and parmesan off the heat."
+    ]
+   ],
+   [
+    "Courgette carbonara",
+    "Vegetarian",
+    "The lardons are replaced with nicely browned courgettes.",
+    "A green, creamy carbonara with no meat.",
+    "",
+    20,
+    560,
+    "F",
+    "zucchini carbonara pasta",
+    "vh",
+    [
+     "spaghetti|spaghetti|400|g",
+     "courgette|courgettes|2|",
+     "egg yolk|egg yolks|3|",
+     "egg|eggs|1|",
+     "grated parmesan|grated parmesan|60|g",
+     "olive oil|olive oil|2|tbsp",
+     "garlic|garlic|1|clove",
+     "pepper|pepper||"
+    ],
+    [
+     "Cook the spaghetti.|Pasta|10",
+     "Brown the diced courgettes with the garlic in the oil for 8 min.|Pan|8",
+     "Beat the yolks, the egg, the parmesan and the pepper.",
+     "Mix the pasta with the courgettes off the heat, then with the eggs and a little cooking water."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Lasagnes",
+  "a": [
+   "lasagne",
+   "lasagna",
+   "beef lasagne"
+  ],
+  "fr": "Lasagnes",
+  "r": [
+   [
+    "Lasagne bolognese",
+    "The classic",
+    "",
+    "Layers of pasta, bolognese and béchamel, browned with parmesan.",
+    "Italian dish",
+    90,
+    680,
+    "M",
+    "beef lasagna",
+    "obf",
+    [
+     "lasagne sheet|lasagne sheets|12|",
+     "minced beef|minced beef|500|g",
+     "chopped tomato|chopped tomatoes|800|g",
+     "onion|onions|1|",
+     "garlic|garlic|2|clove",
+     "butter|butter|50|g",
+     "plain flour|plain flour|50|g",
+     "milk|milk|70|cl",
+     "grated parmesan|grated parmesan|60|g",
+     "olive oil|olive oil|2|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Fry the onion and garlic in the oil, add the meat, then the tomatoes. Simmer for 25 min.|Simmer|25",
+     "Make a béchamel: melt the butter, add the flour, then the milk, whisking for 5 min. Add salt and pepper.|Béchamel|5",
+     "Preheat the oven to 180 °C. In a dish, alternate bolognese, lasagne sheets and béchamel, in 3 layers.",
+     "Finish with béchamel and the parmesan.",
+     "Bake for 40 min.|Oven|40"
+    ]
+   ],
+   [
+    "Vegetable lasagne",
+    "Vegetarian",
+    "The meat is replaced with courgettes, aubergines and peppers.",
+    "Soft lasagne with sun-ripened vegetables.",
+    "",
+    80,
+    520,
+    "M",
+    "vegetable lasagna",
+    "voh",
+    [
+     "lasagne sheet|lasagne sheets|12|",
+     "courgette|courgettes|2|",
+     "aubergine|aubergines|1|",
+     "red pepper|red peppers|1|",
+     "chopped tomato|chopped tomatoes|800|g",
+     "mozzarella|mozzarellas|2|",
+     "butter|butter|40|g",
+     "plain flour|plain flour|40|g",
+     "milk|milk|60|cl",
+     "olive oil|olive oil|2|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Fry the diced vegetables in the oil for 15 min, add the tomatoes and cook for 10 min.|Cooking|25",
+     "Make a béchamel with the butter, flour and milk.",
+     "Preheat the oven to 180 °C. Alternate vegetables, lasagne sheets and béchamel in a dish.",
+     "Finish with sliced mozzarella and bake for 40 min.|Oven|40"
+    ]
+   ],
+   [
+    "Salmon and spinach lasagne",
+    "Salmon and spinach",
+    "The beef is replaced with salmon and spinach.",
+    "A creamy lasagne with salmon and spinach.",
+    "",
+    70,
+    600,
+    "M",
+    "salmon spinach lasagna",
+    "o",
+    [
+     "lasagne sheet|lasagne sheets|12|",
+     "salmon fillet|salmon fillets|3|",
+     "spinach|spinach|400|g",
+     "crème fraîche|crème fraîche|20|cl",
+     "butter|butter|40|g",
+     "plain flour|plain flour|40|g",
+     "milk|milk|60|cl",
+     "grated parmesan|grated parmesan|50|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Wilt the spinach in a pan for 5 min.|Pan|5",
+     "Make a béchamel, then add the cream, salt and pepper.",
+     "Preheat the oven to 180 °C. Cut the raw salmon into small cubes.",
+     "Alternate lasagne sheets, spinach, salmon and béchamel in a dish, then sprinkle with parmesan.",
+     "Bake for 35 min.|Oven|35"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Pâtes au pesto",
+  "a": [
+   "pesto pasta",
+   "pesto",
+   "homemade pesto"
+  ],
+  "fr": "Pâtes au pesto",
+  "r": [
+   [
+    "Pesto pasta",
+    "The classic",
+    "",
+    "A homemade basil, pine nut and parmesan pesto on hot pasta.",
+    "Italian dish",
+    15,
+    560,
+    "F",
+    "pasta basil pesto",
+    "vbf",
+    [
+     "pasta|pasta|400|g",
+     "basil|basil|50|g",
+     "pine nut|pine nuts|30|g",
+     "grated parmesan|grated parmesan|50|g",
+     "garlic|garlic|1|clove",
+     "olive oil|olive oil|10|cl",
+     "salt|salt||"
+    ],
+    [
+     "Cook the pasta in boiling salted water.|Pasta|10",
+     "Blend the basil, pine nuts, garlic, parmesan and oil, and add salt.",
+     "Drain the pasta, keeping a little water, and mix with the pesto and a little cooking water."
+    ]
+   ],
+   [
+    "Red pesto pasta",
+    "Red pesto",
+    "The basil is replaced with sun-dried tomatoes.",
+    "A red pesto with sun-dried tomatoes, full of sunshine.",
+    "Italian dish",
+    15,
+    580,
+    "F",
+    "red pesto pasta",
+    "vbf",
+    [
+     "pasta|pasta|400|g",
+     "sun-dried tomato|sun-dried tomatoes|100|g",
+     "almond|almonds|30|g",
+     "grated parmesan|grated parmesan|40|g",
+     "garlic|garlic|1|clove",
+     "olive oil|olive oil|8|cl",
+     "salt|salt||"
+    ],
+    [
+     "Cook the pasta.|Pasta|10",
+     "Blend the drained sun-dried tomatoes, almonds, garlic, parmesan and oil.",
+     "Mix with the pasta and a little cooking water."
+    ]
+   ],
+   [
+    "Pesto pasta with chicken and cherry tomatoes",
+    "With chicken",
+    "Pan-fried chicken and cherry tomatoes round off the pasta.",
+    "A colourful, filling dish with pesto and chicken.",
+    "",
+    25,
+    620,
+    "F",
+    "pesto chicken pasta tomatoes",
+    "f",
+    [
+     "pasta|pasta|350|g",
+     "chicken breast|chicken breasts|2|",
+     "cherry tomato|cherry tomatoes|200|g",
+     "pesto|pestos|4|tbsp",
+     "olive oil|olive oil|1|tbsp",
+     "grated parmesan|grated parmesan|30|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Cook the pasta.|Pasta|10",
+     "Brown the diced chicken in the oil for 8 min.|Pan|8",
+     "Add the halved cherry tomatoes for 2 min.|Pan|2",
+     "Mix with the pasta, the pesto and the parmesan."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Pâtes au saumon",
+  "a": [
+   "salmon pasta",
+   "salmon tagliatelle",
+   "smoked salmon pasta"
+  ],
+  "fr": "Pâtes au saumon",
+  "r": [
+   [
+    "Salmon tagliatelle",
+    "The classic",
+    "",
+    "Tagliatelle in a creamy salmon sauce with lemon and dill.",
+    "",
+    20,
+    620,
+    "F",
+    "salmon cream tagliatelle",
+    "f",
+    [
+     "tagliatelle|tagliatelle|400|g",
+     "salmon fillet|salmon fillets|2|",
+     "crème fraîche|crème fraîche|20|cl",
+     "lemon|lemons|1|",
+     "dill|dill||",
+     "shallot|shallots|1|",
+     "olive oil|olive oil|1|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Cook the tagliatelle.|Pasta|10",
+     "Fry the shallot in the oil, add the diced salmon and cook for 4 min.|Pan|4",
+     "Add the cream, the lemon zest and a little juice, the dill, salt and pepper.",
+     "Mix with the drained pasta."
+    ]
+   ],
+   [
+    "Smoked salmon pasta",
+    "With smoked salmon",
+    "Smoked salmon replaces the fresh salmon: nothing to cook.",
+    "Even quicker, with smoked salmon and cream.",
+    "",
+    15,
+    600,
+    "F",
+    "smoked salmon pasta",
+    "",
+    [
+     "pasta|pasta|400|g",
+     "smoked salmon|smoked salmon|200|g",
+     "crème fraîche|crème fraîche|20|cl",
+     "lemon|lemons|1|",
+     "chives|chives||",
+     "pepper|pepper||"
+    ],
+    [
+     "Cook the pasta.|Pasta|10",
+     "Heat the cream with the lemon zest and some pepper.",
+     "Mix the pasta with the cream, then the smoked salmon in strips and the chives."
+    ]
+   ],
+   [
+    "Lighter salmon pasta",
+    "Lighter",
+    "The cream is replaced with light soft cheese and spinach.",
+    "A light, green version with salmon and spinach.",
+    "",
+    20,
+    480,
+    "F",
+    "light salmon spinach pasta",
+    "h",
+    [
+     "wholewheat pasta|wholewheat pasta|350|g",
+     "salmon fillet|salmon fillets|2|",
+     "baby spinach|baby spinach|100|g",
+     "light soft cheese|light soft cheese|100|g",
+     "lemon|lemons|1|",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Cook the pasta.|Pasta|10",
+     "Cook the diced salmon in a pan for 4 min, then add the spinach for 1 min.|Pan|5",
+     "Mix with the pasta, the soft cheese, a little cooking water and the lemon juice."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "One pot pasta",
+  "a": [
+   "one pot",
+   "one-pot pasta"
+  ],
+  "fr": "One pot pasta",
+  "r": [
+   [
+    "Tomato and basil one pot pasta",
+    "The classic",
+    "",
+    "Everything cooked in one pan: pasta, tomato and basil, in 15 minutes.",
+    "Italian dish",
+    15,
+    480,
+    "F",
+    "one pot pasta tomato basil",
+    "vbf",
+    [
+     "spaghetti|spaghetti|400|g",
+     "cherry tomato|cherry tomatoes|300|g",
+     "onion|onions|1|",
+     "garlic|garlic|2|clove",
+     "basil|basil||",
+     "olive oil|olive oil|2|tbsp",
+     "grated parmesan|grated parmesan|40|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Put the raw spaghetti, the halved tomatoes, the sliced onion, the garlic, the oil and the basil in a large pan.",
+     "Pour in 1 l of water, then add salt and pepper.",
+     "Bring to the boil and cook for 12 min, stirring often, until the water is absorbed.|Cooking|12",
+     "Serve with the parmesan."
+    ]
+   ],
+   [
+    "Chorizo one pot pasta",
+    "With chorizo",
+    "Chorizo flavours the pasta and the sauce.",
+    "The spicy version of the one pot, with chorizo and peppers.",
+    "",
+    15,
+    600,
+    "F",
+    "one pot pasta chorizo",
+    "bf",
+    [
+     "penne|penne|400|g",
+     "chorizo|chorizos|120|g",
+     "chopped tomato|chopped tomatoes|400|g",
+     "red pepper|red peppers|1|",
+     "onion|onions|1|",
+     "salt|salt||"
+    ],
+    [
+     "Put the pasta, the sliced chorizo, the tomatoes, the sliced pepper and the onion in a pan.",
+     "Pour in 80 cl of water and add a little salt.",
+     "Simmer for 12 min, stirring often.|Cooking|12"
+    ]
+   ],
+   [
+    "Creamy mushroom one pot pasta",
+    "Mushrooms and cream",
+    "Mushrooms and a little cream make the pasta creamy.",
+    "A mild one pot with mushrooms.",
+    "",
+    15,
+    560,
+    "F",
+    "creamy mushroom one pot pasta",
+    "vf",
+    [
+     "tagliatelle|tagliatelle|400|g",
+     "button mushroom|button mushrooms|250|g",
+     "onion|onions|1|",
+     "garlic|garlic|1|clove",
+     "crème fraîche|crème fraîche|10|cl",
+     "vegetable stock cube|vegetable stock cubes|1|",
+     "grated parmesan|grated parmesan|40|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Put the pasta, the sliced mushrooms, the onion, the garlic and the crumbled stock cube in a pan.",
+     "Pour in 90 cl of water and cook for 12 min, stirring.|Cooking|12",
+     "Add the cream and parmesan, season with pepper and serve."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Pâtes aux champignons",
+  "a": [
+   "creamy mushroom pasta",
+   "mushroom cream pasta"
+  ],
+  "fr": "Pâtes aux champignons",
+  "r": [
+   [
+    "Creamy mushroom pasta",
+    "The classic",
+    "",
+    "Pasta in a creamy sauce with mushrooms and garlic.",
+    "",
+    20,
+    580,
+    "F",
+    "creamy mushroom pasta",
+    "vbf",
+    [
+     "pasta|pasta|400|g",
+     "button mushroom|button mushrooms|400|g",
+     "crème fraîche|crème fraîche|20|cl",
+     "garlic|garlic|2|clove",
+     "butter|butter|20|g",
+     "parsley|parsley||",
+     "grated parmesan|grated parmesan|40|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Cook the pasta.|Pasta|10",
+     "Brown the sliced mushrooms in the butter with the garlic for 8 min.|Pan|8",
+     "Add the cream, salt and pepper, and thicken for 2 min.|Cooking|2",
+     "Mix with the pasta, the parsley and the parmesan."
+    ]
+   ],
+   [
+    "Mushroom and ham pasta",
+    "With ham",
+    "Diced ham is added to the sauce.",
+    "The creamy classic, with extra ham.",
+    "",
+    20,
+    620,
+    "F",
+    "pasta ham mushroom cream",
+    "bf",
+    [
+     "pasta|pasta|400|g",
+     "button mushroom|button mushrooms|250|g",
+     "diced ham|diced ham|150|g",
+     "crème fraîche|crème fraîche|20|cl",
+     "butter|butter|20|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Cook the pasta.|Pasta|10",
+     "Brown the mushrooms in the butter for 6 min, then add the ham for 2 min.|Pan|8",
+     "Pour in the cream and mix with the pasta."
+    ]
+   ],
+   [
+    "Cream-free mushroom pasta",
+    "Cream-free",
+    "The cream is replaced with olive oil and parmesan.",
+    "Pasta with pan-fried mushrooms, garlic and parsley, and lighter.",
+    "",
+    20,
+    460,
+    "F",
+    "garlic mushroom pasta",
+    "vbh",
+    [
+     "pasta|pasta|400|g",
+     "mushroom|mushrooms|400|g",
+     "garlic|garlic|3|clove",
+     "olive oil|olive oil|4|tbsp",
+     "parsley|parsley||",
+     "grated parmesan|grated parmesan|30|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Cook the pasta.|Pasta|10",
+     "Brown the mushrooms in the oil over a high heat for 8 min, then add the garlic and parsley.|Pan|8",
+     "Mix with the pasta, a little cooking water and the parmesan."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Penne all'arrabbiata",
+  "a": [
+   "arrabbiata",
+   "pasta arrabbiata",
+   "penne arrabiata"
+  ],
+  "fr": "Penne all'arrabbiata",
+  "r": [
+   [
+    "Penne all'arrabbiata",
+    "The classic",
+    "",
+    "A tomato sauce spiced up with chilli and garlic, simple and full of flavour.",
+    "Italian dish",
+    20,
+    450,
+    "F",
+    "penne arrabbiata",
+    "vbh",
+    [
+     "penne|penne|400|g",
+     "chopped tomato|chopped tomatoes|400|g",
+     "garlic|garlic|3|clove",
+     "dried chilli|dried chillies|1|",
+     "olive oil|olive oil|3|tbsp",
+     "parsley|parsley||",
+     "salt|salt||"
+    ],
+    [
+     "Cook the penne.|Pasta|10",
+     "Fry the sliced garlic and the crumbled chilli in the oil for 1 min.",
+     "Add the tomatoes, season with salt and reduce for 10 min.|Cooking|10",
+     "Mix with the penne and the parsley."
+    ]
+   ],
+   [
+    "Tuna penne arrabbiata",
+    "With tuna",
+    "Tuna is added to the spicy tomato sauce.",
+    "Arrabbiata with tuna, for a more filling dish.",
+    "",
+    20,
+    520,
+    "F",
+    "tuna arrabbiata pasta",
+    "b",
+    [
+     "penne|penne|400|g",
+     "tuna in water|tuna in water|200|g",
+     "chopped tomato|chopped tomatoes|400|g",
+     "garlic|garlic|2|clove",
+     "dried chilli|dried chillies|1|",
+     "olive oil|olive oil|2|tbsp",
+     "salt|salt||"
+    ],
+    [
+     "Cook the penne.|Pasta|10",
+     "Fry the garlic and chilli in the oil, add the tomatoes and cook for 10 min.|Cooking|10",
+     "Add the flaked tuna, then the pasta."
+    ]
+   ],
+   [
+    "Mild penne arrabbiata",
+    "For kids",
+    "No chilli, with a touch of cream and parmesan.",
+    "The garlic tomato sauce, without the heat, for the whole family.",
+    "",
+    20,
+    500,
+    "F",
+    "tomato pasta kids",
+    "vbf",
+    [
+     "penne|penne|400|g",
+     "chopped tomato|chopped tomatoes|400|g",
+     "garlic|garlic|1|clove",
+     "crème fraîche|crème fraîche|5|cl",
+     "grated parmesan|grated parmesan|40|g",
+     "olive oil|olive oil|2|tbsp",
+     "salt|salt||"
+    ],
+    [
+     "Cook the penne.|Pasta|10",
+     "Fry the garlic in the oil, add the tomatoes and cook for 10 min.|Cooking|10",
+     "Add the cream, then mix with the pasta and the parmesan."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Risotto aux champignons",
+  "a": [
+   "mushroom risotto",
+   "risotto"
+  ],
+  "fr": "Risotto aux champignons",
+  "r": [
+   [
+    "Mushroom risotto",
+    "The classic",
+    "",
+    "Creamy rice cooked slowly in stock, with mushrooms and parmesan.",
+    "Italian dish",
+    35,
+    560,
+    "M",
+    "mushroom risotto",
+    "v",
+    [
+     "arborio rice|arborio rice|320|g",
+     "button mushroom|button mushrooms|300|g",
+     "shallot|shallots|2|",
+     "white wine|white wine|10|cl",
+     "vegetable stock cube|vegetable stock cubes|2|",
+     "grated parmesan|grated parmesan|60|g",
+     "butter|butter|40|g",
+     "olive oil|olive oil|1|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Heat 1 l of water with the stock cubes and keep it simmering.",
+     "Brown the sliced mushrooms in half the butter for 6 min. Set aside.|Pan|6",
+     "Fry the shallot in the oil, add the rice and toast it for 2 min, then pour in the wine.",
+     "Add the stock a ladle at a time, stirring, for 18 min.|Cooking|18",
+     "Off the heat, add the mushrooms, the rest of the butter and the parmesan."
+    ]
+   ],
+   [
+    "Chicken and mushroom risotto",
+    "With chicken",
+    "Pan-fried chicken makes the risotto more filling.",
+    "A creamy, filling risotto with chicken and mushrooms.",
+    "Italian dish",
+    35,
+    620,
+    "M",
+    "chicken mushroom risotto",
+    "f",
+    [
+     "arborio rice|arborio rice|320|g",
+     "chicken breast|chicken breasts|2|",
+     "button mushroom|button mushrooms|250|g",
+     "onion|onions|1|",
+     "chicken stock cube|chicken stock cubes|2|",
+     "grated parmesan|grated parmesan|50|g",
+     "butter|butter|30|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Keep 1 l of stock simmering.",
+     "Brown the diced chicken and the mushrooms for 8 min. Set aside.|Pan|8",
+     "Fry the onion, add the rice for 2 min, then the stock a ladle at a time for 18 min.|Cooking|18",
+     "Add the chicken, mushrooms, butter and parmesan."
+    ]
+   ],
+   [
+    "Oven-baked mushroom risotto",
+    "Oven-baked",
+    "The risotto cooks in the oven, with no stirring.",
+    "The creamy risotto, without standing over the pan.",
+    "",
+    40,
+    540,
+    "F",
+    "baked mushroom risotto",
+    "vo",
+    [
+     "arborio rice|arborio rice|300|g",
+     "button mushroom|button mushrooms|300|g",
+     "onion|onions|1|",
+     "vegetable stock cube|vegetable stock cubes|2|",
+     "grated parmesan|grated parmesan|60|g",
+     "butter|butter|30|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 180 °C.",
+     "In an ovenproof casserole dish, fry the onion and mushrooms in the butter, then add the rice.",
+     "Pour in 90 cl of boiling water with the stock cubes, cover and bake for 25 min.|Oven|25",
+     "Add the parmesan, stir well and serve."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Gnocchis",
+  "a": [
+   "gnocchi",
+   "pan-fried gnocchi"
+  ],
+  "fr": "Gnocchis",
+  "r": [
+   [
+    "Pan-fried gnocchi with tomato sauce and mozzarella",
+    "The classic",
+    "",
+    "Gnocchi browned in a pan, in a tomato sauce with melting mozzarella.",
+    "Italian dish",
+    20,
+    520,
+    "F",
+    "gnocchi tomato mozzarella",
+    "vbf",
+    [
+     "gnocchi|gnocchi|800|g",
+     "chopped tomato|chopped tomatoes|400|g",
+     "mozzarella|mozzarellas|1|",
+     "garlic|garlic|1|clove",
+     "basil|basil||",
+     "olive oil|olive oil|2|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Brown the gnocchi in the oil in a pan for 6 min.|Pan|6",
+     "Add the garlic and tomatoes, season, and cook for 5 min.|Cooking|5",
+     "Add the mozzarella in pieces and the basil, and cover for 2 min so that it melts.|Cooking|2"
+    ]
+   ],
+   [
+    "Gnocchi with cream and gorgonzola",
+    "With gorgonzola",
+    "A creamy gorgonzola sauce replaces the tomato.",
+    "Soft gnocchi in an Italian blue cheese sauce.",
+    "Italian dish",
+    15,
+    620,
+    "F",
+    "gnocchi gorgonzola cream",
+    "v",
+    [
+     "gnocchi|gnocchi|800|g",
+     "gorgonzola|gorgonzola|120|g",
+     "crème fraîche|crème fraîche|15|cl",
+     "walnut|walnuts|30|g",
+     "pepper|pepper||"
+    ],
+    [
+     "Boil the gnocchi in boiling water for 2 min, until they float.|Cooking|2",
+     "Melt the gorgonzola in the cream over a low heat.",
+     "Mix with the gnocchi, add the crushed walnuts and some pepper."
+    ]
+   ],
+   [
+    "Pan-fried gnocchi with vegetables",
+    "With vegetables",
+    "Pan-fried courgettes and cherry tomatoes go with the gnocchi.",
+    "A light, colourful dish, ready in 20 minutes.",
+    "",
+    20,
+    440,
+    "F",
+    "gnocchi vegetables pan",
+    "vbh",
+    [
+     "gnocchi|gnocchi|800|g",
+     "courgette|courgettes|2|",
+     "cherry tomato|cherry tomatoes|200|g",
+     "garlic|garlic|1|clove",
+     "olive oil|olive oil|3|tbsp",
+     "grated parmesan|grated parmesan|30|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Brown the gnocchi in 2 tbsp of oil for 6 min. Set aside.|Pan|6",
+     "Fry the diced courgettes with the garlic for 6 min.|Pan|6",
+     "Add the cherry tomatoes and the gnocchi for 2 min, then the parmesan.|Pan|2"
+    ]
+   ]
+  ]
+ }
+]

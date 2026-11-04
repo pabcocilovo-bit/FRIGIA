@@ -3,6 +3,9 @@
 // sont tirés de ces plats. Vérifie aussi chaque recette, comme le serveur le fait pour l'IA.
 //
 // Lancer : npm run catalogue  → supabase/catalogue/sql/catalogue-01.sql, -02… (à coller dans Supabase, dans l'ordre)
+// L'appli en anglais : npm run catalogue -- --en  → sql/catalogue-en-01.sql… depuis supabase/catalogue/en/plats-*.json
+//   (chaque plat y a son nom anglais « q » et son nom français « fr »). Les lignes vont sous les clés françaises précédées
+//   de « en: » (api/_catalog.ts) : Explorer range les plats anglais comme les français. Les noms anglais sont des alias.
 //
 // Une recette, dans le fichier : [titre, variante, ce qui change, accroche, origine, minutes, kcal, difficulté (F, M ou D),
 //   photo en anglais, repères, ingrédients, étapes]
@@ -11,17 +14,21 @@
 // - étape : "texte" ou "texte|minuteur|minutes"
 import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { CATALOG_SERVES, type CatalogRecipe, catalogKey } from "../api/_catalog.js";
+import { CATALOG_SERVES, type CatalogRecipe, catalogKey, EN } from "../api/_catalog.js";
 import { parse, type RawRecipe } from "../api/_recipe.js";
 
 type Compact = [string, string, string, string, string, number, number, "F" | "M" | "D", string, string, string[], string[]];
-type Dish = { q: string; a?: string[]; r: Compact[] };
+type Dish = { q: string; a?: string[]; fr?: string; r: Compact[] };
 type Row = { key: string; query: string; aliases: string[]; kind: "dish" | "list"; recipes: CatalogRecipe[] };
 
-const DIR = "supabase/catalogue";
+const ROOT = "supabase/catalogue";
+const ENGLISH = process.argv.includes("--en");
+const DIR = ENGLISH ? join(ROOT, "en") : ROOT;
+const pre = ENGLISH ? EN : "";
+const CLASSIC = ENGLISH ? "The classic" : "La classique";
 // Ce que fait une recette en pièces, pour 4 portions (Hugo, 28 octobre) : « Crêpes » → 15 crêpes. Titre → [nombre, une, plusieurs]
 const PIECES = JSON.parse(readFileSync(join(DIR, "pieces.json"), "utf8")) as Record<string, [number, string, string]>;
-const UNITS = ["g", "ml", "cl", "c. à s.", "c. à c.", "gousse", "feuilles", "tranches", ""];
+const UNITS = ENGLISH ? ["g", "ml", "cl", "tbsp", "tsp", "clove", "leaves", "slices", ""] : ["g", "ml", "cl", "c. à s.", "c. à c.", "gousse", "feuilles", "tranches", ""];
 const DIFF = { F: "Facile", M: "Moyen", D: "Difficile" } as const;
 const errors: string[] = [];
 
@@ -75,14 +82,16 @@ const files = readdirSync(DIR).filter(f => /^plats-\d+\.json$/.test(f)).sort();
 for (const f of files) {
   const dishes = JSON.parse(readFileSync(join(DIR, f), "utf8")) as Dish[];
   for (const d of dishes) {
-    const key = catalogKey(d.q);
+    // En anglais : la clé du plat français (Explorer le retrouve pareil), le nom anglais en alias
+    const key = pre + catalogKey(ENGLISH ? d.fr ?? "" : d.q);
     const where = `${f} ${d.q}`;
+    if (ENGLISH && !d.fr) { errors.push(`${where} : « fr » manquant`); continue; }
     if (taken.has(key)) { errors.push(`${where} : déjà dans le catalogue (${key})`); continue; }
     const recipes = d.r.map(c => recipe(c, where)).filter(r => r !== null);
-    if (recipes.length !== 3 || recipes[0].variant !== "La classique" || recipes.slice(1).some(r => !r.variant || !r.change)) {
+    if (recipes.length !== 3 || recipes[0].variant !== CLASSIC || recipes.slice(1).some(r => !r.variant || !r.change)) {
       errors.push(`${where} : la classique puis 2 variantes (avec ce qui change)`);
     }
-    const aliases = [...new Set((d.a ?? []).map(catalogKey))].filter(a => a && a !== key && !taken.has(a));
+    const aliases = [...new Set([...(ENGLISH ? [d.q] : []), ...(d.a ?? [])].map(a => pre + catalogKey(a)))].filter(a => a !== pre && a !== key && !taken.has(a));
     for (const k of [key, ...aliases]) taken.add(k);
     all.push(...recipes);
     rows.push({ key, query: d.q, aliases, kind: "dish", recipes: recipes.map(r => without(r, ["tags"])) });
@@ -109,6 +118,30 @@ const FAMILIES: Record<string, string[]> = {
     "roquefort", "gorgonzola", "ricotta", "maroille", "cheddar", "pecorino", "burrata", "halloumi"],
   "poisson": ["saumon", "cabillaud", "thon", "colin", "merlu", "dorade", "lieu", "truite", "sardine", "maquereau", "lotte", "sole", "bar"],
 };
+// En anglais : les mêmes réserves (sous leur clé française), cherchées par leur nom anglais et trouvées par les mots anglais
+const LIST_EN: Record<string, string[]> = {
+  "recettes rapides": ["quick recipes", "quick", "quick and easy", "fast"], "recettes healthy": ["healthy recipes", "healthy", "light", "low calorie"],
+  "recettes petit budget": ["budget recipes", "budget", "cheap", "cheap meals"], "plats en famille qui plaisent aux enfants": ["family dishes kids love", "family", "kids", "for kids"],
+  desserts: ["desserts", "dessert", "sweet"], "entrées": ["starters", "starter"], plats: ["main dishes", "mains", "main"],
+  "végétarien": ["vegetarian", "veggie", "meat free"],
+};
+const FAMILIES_EN: Record<string, string[]> = {
+  "pâtes": ["pasta", "spaghetti", "penne", "tagliatelle", "fusilli", "macaroni", "linguine", "farfalle", "lasagne", "rigatoni", "conchiglie"],
+  fromage: ["cheese", "emmental", "comte", "gruyere", "mozzarella", "parmesan", "goat cheese", "goats cheese", "feta", "reblochon", "raclette",
+    "camembert", "roquefort", "gorgonzola", "ricotta", "cheddar", "pecorino", "burrata", "halloumi"],
+  poivron: ["bell pepper", "red pepper", "green pepper", "yellow pepper", "pepper strip"],
+  poisson: ["salmon", "cod", "tuna", "hake", "sea bream", "pollock", "trout", "sardine", "mackerel", "monkfish", "sole", "sea bass", "haddock", "fish"],
+};
+const ING_EN: Record<string, string> = {
+  poulet: "chicken", saumon: "salmon", thon: "tuna", cabillaud: "cod", crevette: "prawn", boeuf: "beef", "steak haché": "minced beef", porc: "pork",
+  jambon: "ham", lardon: "bacon", chorizo: "chorizo", saucisse: "sausage", dinde: "turkey", oeuf: "egg", "pâtes": "pasta", riz: "rice",
+  "pomme de terre": "potato", "patate douce": "sweet potato", courgette: "courgette", aubergine: "aubergine", tomate: "tomato", poivron: "pepper",
+  carotte: "carrot", brocoli: "broccoli", "chou-fleur": "cauliflower", "épinard": "spinach", champignon: "mushroom", poireau: "leek",
+  potiron: "pumpkin", butternut: "butternut squash", lentille: "lentil", "pois chiche": "chickpea", "haricot vert": "green bean",
+  avocat: "avocado", fromage: "cheese", poisson: "fish", mozzarella: "mozzarella", "chèvre": "goat cheese", feta: "feta", parmesan: "parmesan",
+  tofu: "tofu", quinoa: "quinoa", semoule: "couscous", chocolat: "chocolate", pomme: "apple", banane: "banana", citron: "lemon",
+  fraise: "strawberry", poire: "pear", "noix de coco": "coconut", "crème": "cream", "lait de coco": "coconut milk", curry: "curry",
+};
 const INGREDIENTS = ["poulet", "saumon", "thon", "cabillaud", "crevette", "boeuf", "steak haché", "porc", "jambon", "lardon", "chorizo",
   "saucisse", "dinde", "oeuf", "pâtes", "riz", "pomme de terre", "patate douce", "courgette", "aubergine", "tomate", "poivron",
   "carotte", "brocoli", "chou-fleur", "épinard", "champignon", "poireau", "potiron", "butternut", "lentille", "pois chiche",
@@ -119,6 +152,16 @@ const words = (s: string) => catalogKey(s).split(" ");
 // pour les pâtes, ni la pomme de terre pour la pomme
 const contains = (r: CatalogRecipe & { tags: string }, ing: string) => {
   const family = FAMILIES[ing] ?? [ing];
+  if (ENGLISH) {
+    const fam = FAMILIES_EN[ing] ?? [ING_EN[ing] ?? ing];
+    return (r.items as { name: string }[]).some(i => {
+      const k = catalogKey(i.name), n = k.split(" ");
+      // « chicken stock », « tomato paste » ne comptent pas, ni « coconut milk » pour la noix de coco
+      if (/ (stock|paste|puree|concentrate|powder|flake)$/.test(k) || /^stock /.test(k)) return false;
+      if (ing === "noix de coco" && k.includes("milk")) return false;
+      return fam.some(f => words(f).every(x => n.includes(x)));
+    });
+  }
   return (r.items as { name: string }[]).some(i => {
     const k = catalogKey(i.name), n = k.split(" ");
     if (/^(bouillon|concentre|fond) /.test(k) || (/^pate /.test(k) && !/^pate complete/.test(k))) return false;
@@ -129,16 +172,19 @@ const contains = (r: CatalogRecipe & { tags: string }, ing: string) => {
 const lists: [string, string[], (r: CatalogRecipe & { tags: string }) => boolean][] = [
   ...LISTS, ...INGREDIENTS.map(i => [i, [], (r: CatalogRecipe & { tags: string }) => contains(r, i)] as [string, string[], (r: CatalogRecipe & { tags: string }) => boolean]),
 ];
-for (const [q, alias, test] of lists) {
-  const key = catalogKey(q);
+for (const [fq, falias, test] of lists) {
+  // En anglais : la clé française, la recherche et les alias en anglais
+  const key = pre + catalogKey(fq);
+  const alias = ENGLISH ? LIST_EN[fq] ?? [ING_EN[fq] ?? fq] : falias;
+  const q = ENGLISH ? alias[0] : fq;
   // Un plat porte déjà ce nom : sa recherche montre ce plat (à vérifier si c'est voulu)
   if (taken.has(key)) { console.log(`« ${q} » : déjà un plat`); continue; }
   // Les classiques d'abord, puis les variantes, mélangées de façon stable d'un lancement à l'autre (pas toujours les premiers plats écrits)
   const mix = (r: CatalogRecipe) => [...`${key}${r.title}`].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
   const found = all.filter(test)
-    .sort((a, b) => Number(b.variant === "La classique") - Number(a.variant === "La classique") || mix(a) - mix(b)).slice(0, MAX);
+    .sort((a, b) => Number(b.variant === CLASSIC) - Number(a.variant === CLASSIC) || mix(a) - mix(b)).slice(0, MAX);
   if (found.length < 3) continue;
-  const aliases = [...new Set(alias.map(catalogKey))].filter(a => a !== key && !taken.has(a));
+  const aliases = [...new Set(alias.map(a => pre + catalogKey(a)))].filter(a => a !== key && !taken.has(a));
   for (const k of [key, ...aliases]) taken.add(k);
   // Dans une réserve, chaque recette est un plat à part entière : sans « Plus légère »
   rows.push({ key, query: q, aliases, kind: "list", recipes: found.map(r => without(r, ["tags", "variant", "change"])) });
@@ -151,9 +197,11 @@ if (errors.length) {
 }
 
 // Le SQL, en fichiers d'environ 400 Ko (l'éditeur de Supabase n'aime pas les très gros collages)
-const out = join(DIR, "sql");
-rmSync(out, { recursive: true, force: true });
+const out = join(ROOT, "sql");
+const prefix = ENGLISH ? "catalogue-en-" : "catalogue-";
 mkdirSync(out, { recursive: true });
+// Seulement les fichiers de cette langue : le français et l'anglais se génèrent à part
+for (const f of readdirSync(out)) if (f.startsWith(prefix) && (ENGLISH || !f.startsWith("catalogue-en-"))) rmSync(join(out, f));
 const sqlText = (s: string) => `'${s.replace(/'/g, "''")}'`;
 const statement = (r: Row) => {
   const json = JSON.stringify(r.recipes);
@@ -171,8 +219,8 @@ for (const r of rows) {
   size += s.length;
 }
 chunks.forEach((c, i) => {
-  const name = `catalogue-${String(i + 1).padStart(2, "0")}.sql`;
-  writeFileSync(join(out, name), `-- Catalogue d'Explorer, partie ${i + 1} sur ${chunks.length} (généré par npm run catalogue, ne pas modifier à la main)\n` +
+  const name = `${prefix}${String(i + 1).padStart(2, "0")}.sql`;
+  writeFileSync(join(out, name), `-- Catalogue d'Explorer${ENGLISH ? " en anglais" : ""}, partie ${i + 1} sur ${chunks.length} (généré par npm run catalogue, ne pas modifier à la main)\n` +
     `-- À lancer après la migration 20261030000000_catalogue_recettes.sql : SQL Editor > New query > coller > Run.\nbegin;\n${c.join("")}commit;\n`);
 });
 const dishes = rows.filter(r => r.kind === "dish").length;

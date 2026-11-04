@@ -1,0 +1,112 @@
+[
+ {"q":"Raclette","a":["homemade raclette","raclette dinner"],"fr":"Raclette","r":[
+  ["Raclette","The classic","","Raclette cheese melted over potatoes, with cured meats and gherkins.","Savoyard speciality",40,850,"F","raclette dinner","f",
+   ["raclette cheese|raclette cheese|800|g","potato|potatoes|1200|g","cured ham|cured ham|8|slices","rosette sausage|rosette sausage|150|g","cooked ham|cooked ham|4|slices","gherkin|gherkins|16|","pickled onion|pickled onions|8|"],
+   ["Boil the potatoes in their skins for 25 minutes in salted water.|Cooking|25","Keep them warm in a tea towel.","Put the cured meats, the gherkins and the pickled onions on the table.","Everyone melts their own cheese in the raclette machine and pours it over their potatoes."]],
+  ["Oven-baked raclette","No machine","The cheese melts in the oven, right on the potatoes.","Raclette with no machine, baked in the oven in one dish.","",45,800,"F","baked raclette potatoes","of",
+   ["raclette cheese|raclette cheese|600|g","potato|potatoes|1000|g","cured ham|cured ham|8|slices","onion|onions|1|","gherkin|gherkins|12|"],
+   ["Boil the potatoes for 20 minutes, then halve them.|Cooking|20","Preheat the oven to 220 °C.","Arrange them in a dish with the sliced onion and cover with slices of cheese.","Bake for 10 minutes, until the cheese is melting.|Oven|10","Serve with the cured ham and the gherkins."]],
+  ["Vegetarian raclette","Vegetarian","Grilled vegetables instead of cured meats.","A meat-free raclette, with roasted vegetables.","",45,700,"F","vegetarian raclette vegetables","v",
+   ["raclette cheese|raclette cheese|700|g","potato|potatoes|1000|g","button mushroom|button mushrooms|250|g","red pepper|red peppers|2|","courgette|courgettes|1|","gherkin|gherkins|12|"],
+   ["Boil the potatoes for 25 minutes.|Cooking|25","Cut the vegetables into pieces and roast them for 15 minutes in a pan or on the machine's grill.|Pan|15","Put everything on the table with the gherkins.","Everyone melts their cheese over their potatoes and vegetables."]]
+ ]},
+ {"q":"Cheese fondue","a":["fondue","fondue savoyarde","savoyard fondue"],"fr":"Fondue savoyarde","r":[
+  ["Savoyard cheese fondue","The classic","","Three cheeses melted in white wine, for dipping cubes of bread.","Savoyard speciality",30,820,"M","cheese fondue","v",
+   ["grated comté|grated comté|300|g","beaufort|beaufort|300|g","grated emmental|grated emmental|200|g","dry white wine|dry white wine|40|cl","garlic|garlic|1|clove","cornflour|cornflour|1|tbsp","country bread|country bread|1|"],
+   ["Cut the bread into cubes, the day before if possible.","Rub the fondue pot with the garlic.","Heat the wine in the pot, then add the cheeses little by little, stirring in a figure of eight.","Mix the cornflour with a little wine and add it to thicken.","Put the pot on the burner and dip the bread with the forks."]],
+  ["Alcohol-free cheese fondue","No wine","The wine is replaced by stock and lemon juice.","A fondue for the whole family, with no wine.","",30,780,"M","family cheese fondue","vf",
+   ["grated comté|grated comté|300|g","grated emmental|grated emmental|300|g","vegetable stock|vegetable stock|1|","lemon|lemons|1|","cornflour|cornflour|1|tbsp","garlic|garlic|1|clove","country bread|country bread|1|"],
+   ["Make 35 cl of stock and add the lemon juice.","Rub the fondue pot with garlic and heat the stock in it.","Add the cheeses little by little, stirring, then the cornflour mixed with a little water.","Serve with the cubed bread."]],
+  ["Mushroom cheese fondue","Mushroom","With ceps or pan-fried mushrooms.","A woodland fondue with mushrooms.","",35,840,"M","mushroom cheese fondue","v",
+   ["grated comté|grated comté|300|g","beaufort|beaufort|300|g","dry white wine|dry white wine|40|cl","button mushroom|button mushrooms|250|g","garlic|garlic|1|clove","cornflour|cornflour|1|tbsp","country bread|country bread|1|"],
+   ["Fry the sliced mushrooms for 8 minutes and chop them roughly.|Pan|8","Heat the wine in the pot rubbed with garlic.","Add the cheeses little by little, then the cornflour mixed with a little water.","Add the mushrooms and serve with the bread."]]
+ ]},
+ {"q":"Croziflette","a":["crozets","crozet gratin","savoyard crozets"],"fr":"Croziflette","r":[
+  ["Croziflette","The classic","","Like a tartiflette, but with crozets, the small square pasta from Savoie.","Savoyard speciality",50,780,"F","croziflette crozets reblochon","o",
+   ["crozets|crozets|400|g","reblochon|reblochons|1|","bacon lardon|bacon lardons|200|g","onion|onions|2|","crème fraîche|crème fraîche|20|cl","white wine|white wine|10|cl"],
+   ["Preheat the oven to 200 °C. Cook the crozets for 15 minutes in salted water.|Cooking|15","Brown the bacon and the sliced onions, then deglaze with the white wine.|Pan|8","Mix the crozets, the bacon, the onions and the cream in a dish.","Lay the halved reblochon on top, rind side up.","Bake for 20 minutes.|Oven|20"]],
+  ["Ham crozet gratin","With ham","With ham and Emmental.","A milder crozet gratin, with ham.","",45,680,"F","crozets gratin ham","of",
+   ["crozets|crozets|400|g","cooked ham|cooked ham|4|slices","crème fraîche|crème fraîche|25|cl","grated emmental|grated emmental|120|g","onion|onions|1|"],
+   ["Preheat the oven to 200 °C. Cook the crozets for 15 minutes.|Cooking|15","Soften the sliced onion.","Mix the crozets, the diced ham, the onion and the cream in a dish.","Cover with Emmental and bake for 20 minutes.|Oven|20"]],
+  ["Vegetarian croziflette","Vegetarian","With mushrooms instead of bacon.","The meat-free croziflette, with mushrooms.","",50,700,"F","vegetarian croziflette","vo",
+   ["crozets|crozets|400|g","reblochon|reblochons|1|","button mushroom|button mushrooms|300|g","onion|onions|2|","crème fraîche|crème fraîche|20|cl"],
+   ["Cook the crozets for 15 minutes.|Cooking|15","Fry the sliced mushrooms and onions.|Pan|10","Mix everything with the cream in a dish and lay the reblochon on top.","Bake for 20 minutes at 200 °C.|Oven|20"]]
+ ]},
+ {"q":"Tarte flambée","a":["flammekueche","flammenkuche","alsatian flatbread"],"fr":"Tarte flambée","r":[
+  ["Tarte flambée","The classic","","The very thin Alsatian dough topped with cream, onions and bacon, baked in a very hot oven.","Alsatian speciality",40,520,"F","flammekueche","obf",
+   ["pizza dough|pizza doughs|2|","fromage blanc|fromage blanc|200|g","crème fraîche|crème fraîche|10|cl","onion|onions|2|","bacon lardon|bacon lardons|200|g","nutmeg|nutmeg||"],
+   ["Preheat the oven to 250 °C.","Mix the fromage blanc, the cream, salt, pepper and a little nutmeg.","Roll the doughs out very thinly on baking trays and cover with this mixture.","Scatter over the thinly sliced onions and the bacon.","Bake for 12 minutes.|Oven|12"]],
+  ["Cheesy tarte flambée","Cheesy","With Emmental on top.","The tarte flambée with a cheese topping, even more gooey.","",40,600,"F","gratinee flammekueche cheese","obf",
+   ["pizza dough|pizza doughs|2|","fromage blanc|fromage blanc|200|g","crème fraîche|crème fraîche|10|cl","onion|onions|2|","bacon lardon|bacon lardons|200|g","grated emmental|grated emmental|100|g"],
+   ["Preheat the oven to 250 °C.","Roll the doughs out thinly and cover with the fromage blanc and cream mixture.","Add the onions, the bacon and the Emmental.","Bake for 12 minutes.|Oven|12"]],
+  ["Goat's cheese tarte flambée","Vegetarian","With goat's cheese and honey, no bacon.","A vegetarian tarte flambée with goat's cheese and onions.","",35,480,"F","goat cheese flatbread","vo",
+   ["pizza dough|pizza doughs|2|","fromage blanc|fromage blanc|200|g","goat's cheese log|goat's cheese logs|1|","red onion|red onions|2|","honey|honey|2|tbsp"],
+   ["Preheat the oven to 250 °C.","Roll the doughs out thinly and cover with the fromage blanc.","Add the sliced onions and the rounds of goat's cheese.","Bake for 12 minutes and drizzle with honey when it comes out.|Oven|12"]]
+ ]},
+ {"q":"Pissaladière","a":["nicoise onion tart","onion tart","french onion tart"],"fr":"Pissaladière","r":[
+  ["Pissaladière","The classic","","The tart from Nice with melted onions, anchovies and black olives.","Speciality of Nice",80,380,"M","pissaladiere","o",
+   ["pizza dough|pizza doughs|1|","onion|onions|1000|g","anchovy in oil|anchovies in oil|12|","black olive|black olives|16|","olive oil|olive oil|4|tbsp","thyme|thyme||"],
+   ["Slice the onions finely.","Soften them for 40 minutes over a low heat in the oil with the thyme, without browning them.|Cooking|40","Preheat the oven to 220 °C and roll the dough out on a baking tray.","Spread the onions over, make a criss-cross of anchovies and add the olives.","Bake for 20 minutes.|Oven|20"]],
+  ["Alsatian onion tart","Alsatian","The onions are bound with eggs and cream.","The creamy onion tart from Alsace.","Alsatian speciality",70,420,"M","alsatian onion tart","vob",
+   ["shortcrust pastry|shortcrust pastries|1|","onion|onions|800|g","egg|eggs|3|","crème fraîche|crème fraîche|20|cl","butter|butter|30|g","nutmeg|nutmeg||"],
+   ["Soften the sliced onions for 25 minutes in the butter.|Cooking|25","Preheat the oven to 200 °C and line a tin with the pastry.","Beat the eggs with the cream, salt, pepper and nutmeg.","Spread the onions over the pastry and pour over the mixture.","Bake for 30 minutes.|Oven|30"]],
+  ["Pissaladière without anchovies","Vegetarian","No anchovies, with sun-dried tomatoes.","A vegetarian pissaladière with onions and olives.","",80,350,"M","onion olive tart","vob",
+   ["pizza dough|pizza doughs|1|","onion|onions|1000|g","black olive|black olives|20|","sun-dried tomato|sun-dried tomatoes|60|g","olive oil|olive oil|4|tbsp","thyme|thyme||"],
+   ["Soften the sliced onions for 40 minutes over a low heat with the oil and the thyme.|Cooking|40","Preheat the oven to 220 °C and roll out the dough.","Spread the onions over, add the olives and the sun-dried tomato strips.","Bake for 20 minutes.|Oven|20"]]
+ ]},
+ {"q":"Soupe au pistou","a":["pistou soup","provencal vegetable soup","pistou"],"fr":"Soupe au pistou","r":[
+  ["Soupe au pistou","The classic","","The Provençal soup of summer vegetables and beans, with its basil pistou.","Provençal speciality",60,380,"F","soupe au pistou","vb",
+   ["courgette|courgettes|2|","green bean|green beans|200|g","white bean|white beans|400|g","potato|potatoes|2|","carrot|carrots|2|","tomato|tomatoes|2|","small pasta|small pasta|80|g","basil|basil||","garlic|garlic|3|clove","parmesan|parmesan|50|g","olive oil|olive oil|6|tbsp"],
+   ["Cut all the vegetables into small dice.","Put them in 2 litres of salted water and cook for 30 minutes.|Cooking|30","Add the drained white beans and the pasta, and leave for 10 minutes.|Cooking|10","Pound the basil, the garlic, the parmesan and the olive oil together: this is the pistou.","Stir in the pistou off the heat, just before serving."]],
+  ["Quick pistou soup","Quick","With frozen vegetables and ready-made pesto.","Pistou soup in 25 minutes.","",25,350,"F","quick vegetable bean soup pesto","vb",
+   ["frozen soup vegetables|frozen soup vegetables|600|g","white bean|white beans|400|g","small pasta|small pasta|80|g","pesto|pesto|4|tbsp","vegetable stock cube|vegetable stock cubes|1|"],
+   ["Bring 1.5 litres of water to the boil with the stock cube.","Add the vegetables and cook for 12 minutes.|Cooking|12","Add the beans and the pasta, and leave for 8 minutes.|Cooking|8","Stir in the pesto off the heat."]],
+  ["Green minestrone with pistou","Extra greens","With peas, broad beans and spinach.","An all-green spring soup, with pistou.","",45,320,"F","green minestrone pistou","vh",
+   ["courgette|courgettes|2|","frozen pea|frozen peas|150|g","frozen broad bean|frozen broad beans|150|g","baby spinach|baby spinach|100|g","leek|leeks|1|","basil|basil||","garlic|garlic|2|clove","olive oil|olive oil|5|tbsp"],
+   ["Fry the sliced leek in a little oil.","Add the diced courgettes and 1.5 litres of salted water, and cook for 15 minutes.|Cooking|15","Add the peas and the broad beans for 8 minutes, then the spinach.|Cooking|8","Blend the basil, the garlic and the oil, and add this pistou just before serving."]]
+ ]},
+ {"q":"Bouillabaisse","a":["fish soup","marseille fish stew","provencal fish soup"],"fr":"Bouillabaisse","r":[
+  ["Bouillabaisse","The classic","","The Marseille fish soup with saffron, served with rouille and croutons.","Speciality of Marseille",75,480,"D","bouillabaisse","",
+   ["white fish fillet|white fish fillets|800|g","mussel|mussels|500|g","potato|potatoes|4|","tomato|tomatoes|3|","fennel|fennels|1|","onion|onions|2|","saffron|saffron||","garlic|garlic|3|clove","mayonnaise|mayonnaise|4|tbsp","baguette|baguettes|1|"],
+   ["Fry the onions, the sliced fennel and 2 cloves of garlic in olive oil.","Add the diced tomatoes, the saffron and 1.5 litres of water, and cook for 20 minutes.|Cooking|20","Add the sliced potatoes and leave for 15 minutes.|Cooking|15","Add the fish, cut into pieces, and the mussels, and leave for 8 minutes.|Cooking|8","Mix the mayonnaise with the remaining crushed garlic and a little saffron: this is the rouille.","Serve with toasted baguette and the rouille."]],
+  ["Blended fish soup","Blended","The fish is blended into a smooth soup.","The velvety fish soup, with croutons and cheese.","",50,350,"M","fish soup rouille","h",
+   ["white fish fillet|white fish fillets|600|g","tomato|tomatoes|3|","onion|onions|2|","fennel|fennels|1|","saffron|saffron||","tomato purée|tomato purée|1|tbsp","baguette|baguettes|1|","grated emmental|grated emmental|80|g"],
+   ["Fry the onions and the fennel, then add the tomatoes and the purée.","Add 1.2 litres of water, the saffron and the fish, and cook for 25 minutes.|Cooking|25","Blend finely and strain if you like.","Serve with toasted baguette and the Emmental."]],
+  ["Easy bouillabaisse","Easy","With cod and prawns, in less time.","A simplified bouillabaisse for a weeknight.","",40,400,"F","easy fish stew saffron","h",
+   ["cod fillet|cod fillets|4|","peeled prawn|peeled prawns|200|g","potato|potatoes|3|","chopped tomato|chopped tomatoes|400|g","onion|onions|1|","saffron|saffron||","garlic|garlic|2|clove"],
+   ["Fry the onion and the garlic, then add the tomatoes, the saffron and 80 cl of water.","Add the sliced potatoes and leave for 15 minutes.|Cooking|15","Add the cod, cut into pieces, and the prawns, and leave for 6 minutes.|Cooking|6","Serve with toasted bread."]]
+ ]},
+ {"q":"Provençal daube","a":["daube","beef daube","beef stew in red wine"],"fr":"Daube provençale","r":[
+  ["Provençal daube","The classic","","Beef marinated in red wine and slowly simmered with orange and olives.","Provençal speciality",210,580,"M","provencal beef daube","",
+   ["braising beef|braising beef|1200|g","red wine|red wine|75|cl","carrot|carrots|3|","onion|onions|2|","bacon lardon|bacon lardons|150|g","orange|oranges|1|","black olive|black olives|80|g","garlic|garlic|3|clove","bouquet garni|bouquets garnis|1|"],
+   ["Marinate the beef pieces overnight in the wine with the carrots, the onions, the garlic, the bouquet garni and the orange zest.","Drain the meat and brown it with the bacon in a casserole dish.|Cooking|10","Add the marinade and bring to a simmer.","Cover and leave to simmer for 3 hours over a very low heat.|Cooking|180","Add the olives 15 minutes before the end."]],
+  ["Quick Provençal daube","Pressure cooker","No marinating, cooked in a pressure cooker.","All the flavour of a daube, in one hour.","",75,560,"F","beef stew red wine olives","",
+   ["braising beef|braising beef|1000|g","red wine|red wine|50|cl","carrot|carrots|3|","onion|onions|2|","orange|oranges|1|","black olive|black olives|80|g","garlic|garlic|2|clove"],
+   ["Brown the beef pieces in the pressure cooker.|Cooking|10","Add the onions, the carrots, the garlic, the wine and the orange zest.","Close the lid and cook for 50 minutes after the pressure whistle.|Cooking|50","Add the olives and leave for 5 minutes with the lid off."]],
+  ["Beef cheek daube","Beef cheek","With beef cheeks, even more tender.","An ultra-tender daube made with beef cheeks.","",240,560,"M","braised beef cheeks","",
+   ["beef cheek|beef cheeks|1200|g","red wine|red wine|75|cl","carrot|carrots|3|","onion|onions|2|","chopped tomato|chopped tomatoes|200|g","orange|oranges|1|","bouquet garni|bouquets garnis|1|"],
+   ["Brown the cheek pieces in a casserole dish.|Cooking|10","Add the onions, the carrots, the tomatoes, the wine, the zest and the bouquet garni.","Cover and leave to simmer for 3 hours 30 over a very low heat.|Cooking|210","Serve with fresh pasta or mash."]]
+ ]},
+ {"q":"Piperade","a":["basque piperade","basque peppers and tomatoes"],"fr":"Piperade","r":[
+  ["Piperade","The classic","","The soft peppers and tomatoes of the Basque Country, with Bayonne ham.","Basque speciality",45,280,"F","piperade basque","h",
+   ["green pepper|green peppers|2|","red pepper|red peppers|2|","tomato|tomatoes|5|","onion|onions|2|","garlic|garlic|2|clove","bayonne ham|bayonne ham|4|slices","espelette pepper|espelette pepper|1|tsp","olive oil|olive oil|3|tbsp"],
+   ["Slice the onions and the peppers, and dice the tomatoes.","Soften the onions and the peppers for 15 minutes in the oil.|Pan|15","Add the tomatoes, the garlic and the espelette pepper, and leave for 15 minutes.|Cooking|15","Fry the ham for a few seconds in a pan and lay it on the piperade."]],
+  ["Piperade with eggs","With eggs","Scrambled eggs stirred into the piperade.","The piperade with its eggs, as a complete dish.","",40,300,"F","piperade eggs","vhb",
+   ["green pepper|green peppers|2|","red pepper|red peppers|2|","tomato|tomatoes|5|","onion|onions|2|","egg|eggs|6|","espelette pepper|espelette pepper|1|tsp"],
+   ["Soften the sliced onions and peppers for 15 minutes.|Pan|15","Add the tomatoes and the pepper, and leave for 10 minutes.|Cooking|10","Pour in the beaten eggs and stir gently until creamy.","Serve straight away."]],
+  ["Vegetarian piperade","Vegetarian","No ham, with rice.","The vegetarian piperade, served with rice.","",45,320,"F","vegetarian piperade rice","vhb",
+   ["green pepper|green peppers|2|","red pepper|red peppers|2|","tomato|tomatoes|5|","onion|onions|2|","garlic|garlic|2|clove","espelette pepper|espelette pepper|1|tsp","rice|rice|200|g"],
+   ["Cook the rice.|Cooking|12","Soften the onions and the peppers for 15 minutes.|Pan|15","Add the tomatoes, the garlic and the pepper, and leave for 15 minutes.|Cooking|15","Serve with the rice."]]
+ ]},
+ {"q":"Potée auvergnate","a":["potée","cabbage and pork stew","auvergne hotpot"],"fr":"Potée auvergnate","r":[
+  ["Auvergne potée","The classic","","Cabbage, vegetables and salted pork simmered together for a complete winter dish.","Speciality of the Auvergne",150,650,"F","potee auvergnate cabbage pork","b",
+   ["green cabbage|green cabbages|1|","lightly salted pork shoulder|lightly salted pork shoulders|1|","morteau sausage|morteau sausages|1|","potato|potatoes|6|","carrot|carrots|4|","turnip|turnips|2|","onion|onions|1|","bouquet garni|bouquets garnis|1|"],
+   ["Soak the pork in cold water for 2 hours to remove the salt.","Put it in a large pot of cold water with the onion and the bouquet garni, and cook for 1 hour.|Cooking|60","Add the cabbage, cut into quarters and blanched for 5 minutes, the carrots and the turnips.","Cook for 30 minutes.|Cooking|30","Add the potatoes and the pricked sausage, and leave for 30 minutes.|Cooking|30"]],
+  ["Sausage potée","With sausages","Just with sausages, so it is quicker.","A simplified potée for a weeknight.","",60,580,"F","cabbage sausage stew","b",
+   ["green cabbage|green cabbages|1|","toulouse sausage|toulouse sausages|4|","potato|potatoes|6|","carrot|carrots|3|","onion|onions|1|","vegetable stock cube|vegetable stock cubes|1|"],
+   ["Cut the cabbage into strips and blanch for 5 minutes.|Cooking|5","Brown the sausages in a casserole dish.|Cooking|6","Add the cabbage, the carrots, the potatoes, the onion, the stock cube and 50 cl of water.","Cover and leave to simmer for 40 minutes.|Cooking|40"]],
+  ["Vegetable potée","Vegetarian","No meat, with white beans.","A comforting potée with winter vegetables.","",50,320,"F","vegetable cabbage stew","vhb",
+   ["green cabbage|green cabbages|0.5|","potato|potatoes|4|","carrot|carrots|3|","leek|leeks|2|","white bean|white beans|400|g","vegetable stock cube|vegetable stock cubes|1|"],
+   ["Cut all the vegetables into pieces.","Put them in a casserole dish with the stock cube and 1 litre of water.","Leave to simmer for 35 minutes.|Cooking|35","Add the white beans and leave for 5 minutes.|Cooking|5"]]
+ ]}
+]

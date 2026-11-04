@@ -1,0 +1,112 @@
+[
+ {"q":"Apple tart","a":["tarte aux pommes","french apple tart"],"fr":"Tarte aux pommes","r":[
+  ["Apple tart","The classic","","Crisp pastry, homemade apple purée and golden slices of apple.","",60,320,"F","french apple tart","vodbf",
+   ["shortcrust pastry|shortcrust pastries|1|","apple|apples|6|","sugar|sugar|60|g","butter|butter|30|g","vanilla sugar|vanilla sugar|1|"],
+   ["Preheat the oven to 200 °C. Roll the pastry out into a tin.","Make a quick purée with 3 diced apples, half the sugar and a little water, for 10 min.|Cooking|10","Spread the purée over the pastry and arrange the other 3 apples on top in thin slices.","Sprinkle with the rest of the sugar and dot with small pieces of butter.","Bake for 35 min.|Oven|35"]],
+  ["Thin apple tart","Thin tart","Thin puff pastry, with no purée.","A light, crisp tart, ready in 30 minutes.","",30,280,"F","thin apple tart puff pastry","vod",
+   ["puff pastry|puff pastries|1|","apple|apples|4|","sugar|sugar|40|g","butter|butter|20|g"],
+   ["Preheat the oven to 200 °C. Lay the pastry on a baking tray and prick it with a fork.","Cut the apples into very thin slices and arrange them in a rosette.","Sprinkle with sugar and dot with butter.","Bake for 25 min.|Oven|25"]],
+  ["Normandy apple tart","Normandy-style","A cream and egg custard covers the apples.","The Normandy apple tart, with its golden cream topping.","Norman speciality",60,380,"F","normandy apple tart cream","vod",
+   ["shortcrust pastry|shortcrust pastries|1|","apple|apples|4|","egg|eggs|2|","crème fraîche|crème fraîche|20|cl","sugar|sugar|80|g","vanilla sugar|vanilla sugar|1|"],
+   ["Preheat the oven to 200 °C. Roll the pastry out into a tin.","Arrange the apples in thin wedges.","Bake for 15 min.|Oven|15","Beat the eggs, cream and sugars, pour over the apples and bake for another 25 min.|Oven|25"]]
+ ]},
+ {"q":"Tarte tatin","a":["upside-down apple tart","tatin"],"fr":"Tarte tatin","r":[
+  ["Tarte tatin","The classic","","The upside-down tart: caramelised apples under crisp pastry.","",70,380,"M","tarte tatin","vod",
+   ["shortcrust pastry|shortcrust pastries|1|","apple|apples|7|","sugar|sugar|120|g","butter|butter|60|g"],
+   ["Preheat the oven to 190 °C.","Make an amber caramel with the sugar in a pan that can go on the hob, then add the butter.|Caramel|6","Pack the apple wedges tightly into the caramel and cook for 10 min.|Cooking|10","Cover with the pastry, tucking in the edges, and bake for 30 min.|Oven|30","Leave to cool for 10 min, then turn out onto a plate.|Rest|10"]],
+  ["Pear tarte tatin","Pear","Pears replace the apples.","The tatin with a twist, made with caramelised pears.","",60,370,"M","pear tarte tatin","vod",
+   ["puff pastry|puff pastries|1|","pear|pears|6|","sugar|sugar|100|g","butter|butter|50|g"],
+   ["Preheat the oven to 190 °C.","Make a caramel with the sugar, then add the butter.|Caramel|6","Arrange the pear wedges in the caramel and cover with the pastry.","Bake for 30 min, then turn out.|Oven|30"]],
+  ["Tomato tarte tatin","Savoury","A savoury version, with slow-roasted tomatoes and parmesan.","A sweet and savoury tatin made with tomatoes.","",50,320,"F","tomato tarte tatin","vo",
+   ["puff pastry|puff pastries|1|","tomato|tomatoes|6|","onion|onions|1|","sugar|sugar|1|tbsp","olive oil|olive oil|2|tbsp","grated parmesan|grated parmesan|30|g","thyme|thyme||","salt|salt||"],
+   ["Preheat the oven to 200 °C.","Caramelise the sliced onion with the oil and sugar in a pan that can go on the hob, for 5 min.|Cooking|5","Arrange the halved tomatoes skin-side down, and add the thyme, parmesan and salt.","Cover with the pastry and bake for 30 min, then turn out.|Oven|30"]]
+ ]},
+ {"q":"Lemon tart","a":["lemon meringue pie","tarte au citron"],"fr":"Tarte au citron","r":[
+  ["Lemon meringue tart","The classic","","A tangy lemon curd under a light, golden meringue.","",80,380,"M","lemon meringue tart","vod",
+   ["sweet shortcrust pastry|sweet shortcrust pastries|1|","lemon|lemons|4|","egg|eggs|3|","sugar|sugar|200|g","butter|butter|80|g","cornflour|cornflour|1|tbsp"],
+   ["Preheat the oven to 180 °C. Blind-bake the pastry for 20 min.|Oven|20","Heat the lemon juice and zest with 100 g of sugar, the yolks, the cornflour and the butter, stirring until thick.|Curd|5","Pour onto the pastry.","Whisk the whites until stiff with the rest of the sugar and spread over the curd.","Brown for 5 min under the oven grill.|Grill|5"]],
+  ["Lemon tart","No meringue","No meringue: just the lemon curd.","The simple lemon tart, tangy and melting.","",60,340,"F","lemon tart","vod",
+   ["sweet shortcrust pastry|sweet shortcrust pastries|1|","lemon|lemons|4|","egg|eggs|3|","sugar|sugar|150|g","butter|butter|100|g"],
+   ["Blind-bake the pastry for 20 min at 180 °C.|Oven|20","Thicken the lemon juice and zest with the sugar and eggs, stirring over a low heat.|Curd|5","Take off the heat and stir in the butter in pieces.","Pour onto the pastry and leave to set for 2 h in the fridge.|Chill|120"]],
+  ["Key lime pie","Lime","Lime replaces lemon, with a biscuit base.","A fresh lime tart, key lime pie style.","American dish",40,400,"F","key lime pie","vod",
+   ["digestive biscuit|digestive biscuits|200|g","melted butter|melted butter|80|g","lime|limes|4|","condensed milk|condensed milk|400|g","egg yolk|egg yolks|3|"],
+   ["Preheat the oven to 170 °C.","Crush the biscuits, mix them with the melted butter and press into a tin.","Mix the condensed milk, yolks, and the juice and zest of the limes, and pour onto the base.","Bake for 15 min, then leave to set for 3 h in the fridge.|Oven|15"]]
+ ]},
+ {"q":"Clafoutis","a":["cherry clafoutis","clafouti"],"fr":"Clafoutis","r":[
+  ["Cherry clafoutis","The classic","","The dessert from the Limousin: cherries in a soft baked custard.","Limousin speciality",50,280,"F","cherry clafoutis","vodf",
+   ["cherry|cherries|500|g","egg|eggs|3|","flour|flour|80|g","sugar|sugar|80|g","milk|milk|30|cl","butter|butter|20|g","vanilla sugar|vanilla sugar|1|"],
+   ["Preheat the oven to 180 °C. Butter a dish and spread the cherries in it.","Whisk the eggs with the sugars, then add the flour and the milk.","Pour over the cherries.","Bake for 35 min.|Oven|35"]],
+  ["Apricot clafoutis","Apricot","Apricots replace the cherries, with ground almonds.","The summer clafoutis, with apricots and almonds.","",50,300,"F","apricot clafoutis","vodf",
+   ["apricot|apricots|600|g","egg|eggs|3|","flour|flour|50|g","ground almonds|ground almonds|40|g","sugar|sugar|80|g","milk|milk|30|cl","butter|butter|20|g"],
+   ["Preheat the oven to 180 °C. Arrange the halved apricots in a buttered dish.","Mix the eggs, sugar, flour, ground almonds and milk.","Pour over and bake for 35 min.|Oven|35"]],
+  ["Savoury clafoutis","Savoury","A savoury version with cherry tomatoes and goat's cheese.","An evening clafoutis with cherry tomatoes and goat's cheese.","",45,320,"F","savory clafoutis tomato goat cheese","vo",
+   ["cherry tomato|cherry tomatoes|300|g","soft goat's cheese|soft goat's cheeses|100|g","egg|eggs|3|","flour|flour|60|g","milk|milk|30|cl","basil|basil||","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 180 °C. Put the tomatoes in an oiled dish.","Whisk the eggs, flour and milk, then add the crumbled goat's cheese, basil, salt and pepper.","Pour over and bake for 30 min.|Oven|30"]]
+ ]},
+ {"q":"Crumble","a":["apple crumble"],"fr":"Crumble","r":[
+  ["Apple crumble","The classic","","Soft apples under a crunchy, buttery topping.","",45,340,"F","apple crumble","vodbf",
+   ["apple|apples|6|","flour|flour|120|g","cold butter|cold butter|100|g","brown sugar|brown sugar|100|g","cinnamon|cinnamon|1|tsp"],
+   ["Preheat the oven to 180 °C.","Cut the apples into pieces and put them in a dish with the cinnamon and 20 g of sugar.","Rub the flour, the rest of the sugar and the diced butter together with your fingertips.","Spread over the apples and bake for 30 min.|Oven|30"]],
+  ["Apple and berry crumble","With berries","Mixed berries are added to the apples.","A tangy crumble with apples and mixed berries.","",45,330,"F","apple berry crumble","vod",
+   ["apple|apples|3|","mixed berries|mixed berries|300|g","flour|flour|120|g","cold butter|cold butter|100|g","brown sugar|brown sugar|100|g"],
+   ["Preheat the oven to 180 °C.","Mix the diced apples and mixed berries in a dish.","Rub together the flour, sugar and butter, and spread over the fruit.","Bake for 30 min.|Oven|30"]],
+  ["Healthy oat crumble","Healthy","Porridge oats, and less butter and sugar.","A crunchy, lighter crumble made with porridge oats.","",45,260,"F","oat crumble healthy","vodh",
+   ["apple|apples|4|","pear|pears|2|","porridge oat|porridge oats|80|g","ground almonds|ground almonds|40|g","butter|butter|50|g","honey|honey|2|tbsp","cinnamon|cinnamon|1|tsp"],
+   ["Preheat the oven to 180 °C.","Put the chopped fruit in a dish with the cinnamon.","Mix the oats, ground almonds, melted butter and honey, and spread over the fruit.","Bake for 30 min.|Oven|30"]]
+ ]},
+ {"q":"Chocolate mousse","a":["mousse au chocolat"],"fr":"Mousse au chocolat","r":[
+  ["Chocolate mousse","The classic","","The airy dark chocolate mousse, with just eggs and chocolate.","",20,300,"F","chocolate mousse","vdf",
+   ["dark chocolate|dark chocolate|200|g","egg|eggs|6|","sugar|sugar|30|g","salt|salt||"],
+   ["Melt the chocolate in a bowl over simmering water and leave to cool slightly.","Separate the whites from the yolks, and stir the yolks into the chocolate.","Whisk the whites until stiff with a pinch of salt, then add the sugar.","Gently fold the whites into the chocolate.","Chill for at least 3 h.|Chill|180"]],
+  ["Milk chocolate mousse","Milk chocolate","Milk chocolate makes it sweeter.","A sweet, indulgent mousse that kids love.","",20,320,"F","milk chocolate mousse","vdf",
+   ["milk chocolate|milk chocolate|200|g","egg|eggs|5|","double cream|double cream|10|cl"],
+   ["Melt the chocolate with the cream.","Add the egg yolks.","Whisk the whites until stiff and fold them in.","Chill for 3 h.|Chill|180"]],
+  ["Vegan chocolate mousse","Vegan","Chickpea water replaces the egg whites.","A light chocolate mousse with no eggs.","",20,220,"F","vegan aquafaba chocolate mousse","vdh",
+   ["dark chocolate|dark chocolate|150|g","chickpea water|chickpea water|15|cl","sugar|sugar|20|g"],
+   ["Melt the chocolate and leave to cool slightly.","Whisk the chickpea water until stiff, then add the sugar.","Gently fold in the chocolate.","Chill for 3 h.|Chill|180"]]
+ ]},
+ {"q":"Tiramisu","a":["coffee tiramisu"],"fr":"Tiramisu","r":[
+  ["Tiramisu","The classic","","Coffee-soaked biscuits, a mascarpone cream and a dusting of cocoa.","Italian dessert",30,450,"F","tiramisu","vd",
+   ["mascarpone|mascarpone|250|g","egg|eggs|3|","sugar|sugar|80|g","sponge finger|sponge fingers|20|","strong coffee|strong coffee|30|cl","cocoa powder|cocoa powder|2|tbsp"],
+   ["Whisk the yolks with the sugar, then add the mascarpone.","Whisk the whites until stiff and fold them in.","Quickly dip the sponge fingers in the cold coffee and line a dish with them.","Alternate cream and sponge fingers, finishing with cream.","Chill for 6 h, then dust with cocoa.|Chill|360"]],
+  ["Strawberry tiramisu","Strawberry","Strawberries replace the coffee and cocoa.","The spring tiramisu, with strawberries.","",30,400,"F","strawberry tiramisu","vdf",
+   ["mascarpone|mascarpone|250|g","egg|eggs|3|","sugar|sugar|80|g","sponge finger|sponge fingers|20|","strawberry|strawberries|400|g","orange juice|orange juice|20|cl"],
+   ["Make the mascarpone cream as for the classic tiramisu.","Dip the sponge fingers in the orange juice.","Alternate sponge fingers, chopped strawberries and cream.","Chill for 4 h.|Chill|240"]],
+  ["Whipped cream tiramisu","No raw eggs","The cream is made with whipped cream.","A tiramisu with no raw eggs, ideal for pregnant women.","",25,460,"F","eggless tiramisu","vd",
+   ["mascarpone|mascarpone|250|g","double cream|double cream|20|cl","sugar|sugar|60|g","sponge finger|sponge fingers|20|","strong coffee|strong coffee|30|cl","cocoa powder|cocoa powder|2|tbsp"],
+   ["Whisk the very cold cream with the mascarpone and sugar until firm.","Dip the sponge fingers in the coffee and alternate them with the cream.","Chill for 6 h, then dust with cocoa.|Chill|360"]]
+ ]},
+ {"q":"Crème brûlée","a":["creme brulee"],"fr":"Crème brûlée","r":[
+  ["Crème brûlée","The classic","","A silky vanilla custard under a thin layer of caramelised sugar.","",70,380,"M","creme brulee","vod",
+   ["double cream|double cream|50|cl","egg yolk|egg yolks|5|","sugar|sugar|80|g","vanilla pod|vanilla pods|1|","brown sugar|brown sugar|4|tbsp"],
+   ["Preheat the oven to 100 °C.","Heat the cream with the split vanilla pod.","Whisk the yolks and sugar, then pour in the hot cream, stirring.","Divide between ramekins and bake for 1 h.|Oven|60","Leave to cool in the fridge for 3 h, sprinkle with brown sugar and caramelise with a blowtorch or under the grill.|Chill|180"]],
+  ["Coffee crème brûlée","Coffee","Coffee flavours the custard.","The crème brûlée, with coffee.","",70,380,"M","coffee creme brulee","vod",
+   ["double cream|double cream|50|cl","egg yolk|egg yolks|5|","sugar|sugar|80|g","instant coffee|instant coffee|2|tsp","brown sugar|brown sugar|4|tbsp"],
+   ["Preheat the oven to 100 °C.","Heat the cream with the coffee.","Mix with the beaten yolks and the sugar, and pour into ramekins.","Bake for 1 h, leave to cool and caramelise the top.|Oven|60"]],
+  ["Pistachio crème brûlée","Pistachio","Pistachio paste flavours the custard.","A green, indulgent crème brûlée made with pistachio.","",70,420,"M","pistachio creme brulee","vod",
+   ["double cream|double cream|50|cl","egg yolk|egg yolks|5|","sugar|sugar|70|g","pistachio paste|pistachio paste|40|g","brown sugar|brown sugar|4|tbsp"],
+   ["Preheat the oven to 100 °C.","Heat the cream and add the pistachio paste.","Mix with the yolks and sugar, and pour into ramekins.","Bake for 1 h, leave to cool and caramelise.|Oven|60"]]
+ ]},
+ {"q":"Rice pudding","a":["riz au lait"],"fr":"Riz au lait","r":[
+  ["Rice pudding","The classic","","The creamy vanilla rice pudding of our childhood.","",45,320,"F","rice pudding","vdbf",
+   ["short-grain rice|short-grain rice|120|g","whole milk|whole milk|1000|ml","sugar|sugar|80|g","vanilla pod|vanilla pods|1|"],
+   ["Rinse the rice and blanch it for 2 min in boiling water.|Cooking|2","Heat the milk with the split vanilla pod.","Add the drained rice and cook for 35 min over a low heat, stirring often.|Cooking|35","Add the sugar at the end and leave to cool slightly."]],
+  ["Coconut rice pudding","Coconut milk","Coconut milk replaces some of the milk.","An exotic rice pudding with coconut and mango.","",45,360,"F","coconut rice pudding mango","vd",
+   ["short-grain rice|short-grain rice|120|g","coconut milk|coconut milk|40|cl","milk|milk|60|cl","sugar|sugar|60|g","mango|mangoes|1|"],
+   ["Heat the milk and coconut milk.","Add the rinsed rice and cook for 35 min over a low heat, stirring.|Cooking|35","Add the sugar, leave to cool and serve with the diced mango."]],
+  ["Caramel rice pudding","Caramel","A salted butter caramel tops the rice pudding.","Rice pudding with a salted butter caramel.","",50,400,"F","rice pudding salted caramel","vdf",
+   ["short-grain rice|short-grain rice|120|g","whole milk|whole milk|1000|ml","sugar|sugar|120|g","salted butter|salted butter|30|g","double cream|double cream|10|cl"],
+   ["Cook the rice in the milk for 35 min over a low heat with 40 g of sugar.|Cooking|35","Make a caramel with the rest of the sugar, then add the butter and the cream.|Caramel|5","Serve the rice pudding topped with caramel."]]
+ ]},
+ {"q":"Custard flan","a":["flan patissier","french flan"],"fr":"Flan pâtissier","r":[
+  ["Custard flan","The classic","","The bakery flan: a firm vanilla custard on crisp pastry.","",80,340,"M","french custard flan","vodf",
+   ["shortcrust pastry|shortcrust pastries|1|","whole milk|whole milk|750|ml","egg|eggs|3|","sugar|sugar|150|g","cornflour|cornflour|70|g","vanilla pod|vanilla pods|1|"],
+   ["Preheat the oven to 180 °C. Roll the pastry out into a deep tin.","Heat the milk with the vanilla.","Whisk the eggs, sugar and cornflour, pour in the hot milk and put back on the heat, stirring until thick.|Custard|4","Pour onto the pastry and bake for 45 min.|Oven|45","Leave to cool, then chill for 4 h.|Chill|240"]],
+  ["Crustless flan","No pastry","No pastry, so lighter.","The creamy flan, baked straight in the dish.","",60,240,"F","crustless custard flan","vodh",
+   ["milk|milk|750|ml","egg|eggs|3|","sugar|sugar|100|g","cornflour|cornflour|60|g","vanilla sugar|vanilla sugar|2|"],
+   ["Preheat the oven to 180 °C.","Make the thick custard as for the custard flan.","Pour into a buttered dish and bake for 40 min.|Oven|40","Leave to cool, then chill.|Chill|180"]],
+  ["Coconut flan","Coconut","Desiccated coconut and coconut milk flavour the flan.","A coconut flan, like in the French Caribbean.","",60,360,"F","coconut flan","vod",
+   ["milk|milk|50|cl","coconut milk|coconut milk|25|cl","egg|eggs|3|","sugar|sugar|120|g","desiccated coconut|desiccated coconut|60|g","cornflour|cornflour|60|g"],
+   ["Preheat the oven to 180 °C.","Heat the milks, add the eggs beaten with the sugar and cornflour, and thicken.|Custard|4","Add the coconut, pour into a dish and bake for 40 min.|Oven|40"]]
+ ]}
+]

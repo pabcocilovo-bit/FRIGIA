@@ -1,0 +1,112 @@
+[
+ {"q":"Bibimbap","a":["korean rice bowl"],"fr":"Bibimbap","r":[
+  ["Bibimbap","The classic","","The Korean bowl: rice, marinated beef, stir-fried vegetables, a fried egg and chilli sauce.","Korean recipe",45,580,"M","bibimbap","",
+   ["rice|rice|300|g","minced beef|minced beef|300|g","carrot|carrots|2|","courgette|courgettes|1|","baby spinach|baby spinach|150|g","egg|eggs|4|","soy sauce|soy sauce|4|tbsp","korean chilli paste|korean chilli paste|2|tbsp","sesame oil|sesame oil|2|tbsp"],
+   ["Cook the rice.|Cooking|12","Fry the beef with 2 tbsp of soy sauce and 1 tbsp of sesame oil.|Pan|6","Stir-fry the carrots and courgette sticks separately, then the spinach.|Pan|8","Fry the eggs.|Pan|4","Put the rice in bowls, arrange the vegetables and the beef in sections, and top with the egg.","Serve with the chilli paste mixed with the rest of the soy sauce."]],
+  ["Tofu bibimbap","Vegetarian","Golden tofu instead of beef.","The vegetarian bibimbap, with crispy tofu.","",40,500,"M","tofu bibimbap","vh",
+   ["rice|rice|300|g","firm tofu|firm tofu|300|g","carrot|carrots|2|","courgette|courgettes|1|","baby spinach|baby spinach|150|g","egg|eggs|4|","soy sauce|soy sauce|4|tbsp","korean chilli paste|korean chilli paste|2|tbsp"],
+   ["Cook the rice.|Cooking|12","Brown the diced tofu with 2 tbsp of soy sauce.|Pan|8","Stir-fry the carrots, the courgette and the spinach.|Pan|8","Assemble the bowls with the rice, the vegetables, the tofu and a fried egg.","Serve with the chilli sauce."]],
+  ["Chicken bibimbap","With chicken","With chicken marinated in soy sauce.","A milder bibimbap, with chicken.","",45,540,"M","chicken bibimbap bowl","",
+   ["rice|rice|300|g","chicken breast|chicken breasts|2|","carrot|carrots|2|","cucumber|cucumbers|1|","baby spinach|baby spinach|150|g","egg|eggs|4|","soy sauce|soy sauce|4|tbsp","honey|honey|1|tbsp"],
+   ["Cook the rice.|Cooking|12","Brown the chicken strips with the soy sauce and the honey.|Pan|8","Stir-fry the carrots and the spinach, and cut the cucumber into sticks.","Assemble the bowls and add a fried egg."]]
+ ]},
+ {"q":"Gyoza","a":["gyozas","japanese dumplings","potstickers","dumplings","steamed dumplings"],"fr":"Gyozas","r":[
+  ["Pork gyoza","The classic","","Japanese dumplings fried on the bottom and steamed on top, filled with pork and cabbage.","Japanese recipe",60,320,"D","pork gyoza dumplings","e",
+   ["gyoza wrapper|gyoza wrappers|30|","minced pork|minced pork|300|g","chinese cabbage|chinese cabbages|0.25|","ginger|ginger|1|tsp","garlic|garlic|1|clove","soy sauce|soy sauce|4|tbsp","sesame oil|sesame oil|1|tbsp"],
+   ["Chop the cabbage finely, salt it and squeeze out the water.","Mix it with the pork, the garlic, the ginger, 1 tbsp of soy sauce and the sesame oil.","Put a spoonful of filling on each wrapper, wet the edge and pleat to seal.","Brown the gyoza for 3 minutes in an oiled frying pan.|Pan|3","Pour in 10 cl of water, cover and leave for 5 minutes.|Steam|5","Serve with the rest of the soy sauce."]],
+  ["Vegetable gyoza","Vegetarian","Filled with vegetables and tofu.","Vegetarian gyoza with cabbage, carrot and tofu.","",60,250,"D","vegetable gyoza","ve",
+   ["gyoza wrapper|gyoza wrappers|30|","firm tofu|firm tofu|150|g","chinese cabbage|chinese cabbages|0.25|","carrot|carrots|1|","button mushroom|button mushrooms|100|g","soy sauce|soy sauce|4|tbsp","ginger|ginger|1|tsp"],
+   ["Chop the cabbage, the carrot and the mushrooms and fry them for 5 minutes.|Pan|5","Mix with the mashed tofu, the ginger and 1 tbsp of soy sauce.","Fill and seal the wrappers.","Brown for 3 minutes, then add 10 cl of water, cover and leave for 5 minutes.|Steam|5"]],
+  ["Prawn gyoza","Prawn","Filled with prawns.","Delicate gyoza with prawns and chives.","",60,260,"D","shrimp gyoza","e",
+   ["gyoza wrapper|gyoza wrappers|30|","peeled prawn|peeled prawns|300|g","chive|chives||","ginger|ginger|1|tsp","soy sauce|soy sauce|4|tbsp","sesame oil|sesame oil|1|tbsp"],
+   ["Chop the prawns and mix them with the chives, the ginger, the oil and 1 tbsp of soy sauce.","Fill and seal the wrappers.","Brown for 3 minutes in an oiled frying pan.|Pan|3","Add 10 cl of water, cover and leave for 5 minutes.|Steam|5"]]
+ ]},
+ {"q":"Maki","a":["makis","sushi","homemade sushi","california roll","california rolls"],"fr":"Makis","r":[
+  ["Salmon maki","The classic","","Rolls of vinegared rice and nori seaweed, with salmon and cucumber.","Japanese recipe",70,350,"D","salmon maki sushi","c",
+   ["sushi rice|sushi rice|300|g","rice vinegar|rice vinegar|5|tbsp","sugar|sugar|1|tbsp","nori sheet|nori sheets|5|","fresh salmon|fresh salmon|250|g","cucumber|cucumbers|1|","soy sauce|soy sauce|4|tbsp"],
+   ["Rinse the rice until the water runs clear, then cook it for 12 minutes with 36 cl of water, covered.|Cooking|12","Leave to rest for 10 minutes, then mix with the vinegar, the sugar and a pinch of salt. Leave to cool.","Cut the salmon and the cucumber into sticks.","Spread a thin layer of rice on a nori sheet and lay the salmon and cucumber along one edge.","Roll up tightly with a bamboo mat, then cut into 6 with a wet knife.","Serve with the soy sauce."]],
+  ["California rolls","California","Rice on the outside, with avocado and crab sticks.","Inside-out rolls with avocado and crab sticks, rolled in sesame seeds.","",70,380,"D","california roll","c",
+   ["sushi rice|sushi rice|300|g","rice vinegar|rice vinegar|5|tbsp","sugar|sugar|1|tbsp","nori sheet|nori sheets|4|","avocado|avocados|2|","crab stick|crab sticks|8|","sesame seed|sesame seeds|3|tbsp"],
+   ["Make the vinegared rice and leave it to cool.|Cooking|12","Spread the rice on a nori sheet, sprinkle with sesame seeds and flip it over onto cling film.","Lay the avocado and the crab sticks, cut into sticks, on the nori.","Roll up tightly and cut into 8."]],
+  ["Vegetarian maki","Vegetarian","With avocado, cucumber and carrot.","All-vegetable maki, fresh and colourful.","",60,280,"D","vegetable maki","vc",
+   ["sushi rice|sushi rice|300|g","rice vinegar|rice vinegar|5|tbsp","sugar|sugar|1|tbsp","nori sheet|nori sheets|5|","avocado|avocados|1|","cucumber|cucumbers|1|","carrot|carrots|1|"],
+   ["Make the vinegared rice and leave it to cool.|Cooking|12","Cut the avocado, the cucumber and the carrot into sticks.","Spread the rice on the nori, lay the vegetables along one edge and roll up tightly.","Cut into 6 and serve with soy sauce."]]
+ ]},
+ {"q":"Pho","a":["phở","pho soup","beef pho","vietnamese noodle soup"],"fr":"Phở","r":[
+  ["Beef pho","The classic","","The Vietnamese soup with a star anise broth, rice noodles and beef.","Vietnamese recipe",60,420,"M","pho bo beef noodle soup","h",
+   ["rice noodle|rice noodles|250|g","thinly sliced beef|thinly sliced beef|300|g","beef stock cube|beef stock cubes|2|","onion|onions|1|","fresh ginger|fresh ginger|1|","star anise|star anise|2|","fish sauce|fish sauce|3|tbsp","bean sprout|bean sprouts|150|g","coriander|coriander||","lime|limes|1|"],
+   ["Dry-fry the halved onion and ginger in a pan until charred.|Pan|5","Put them in 1.5 litres of water with the stock cubes, the star anise and the fish sauce, and simmer for 40 minutes.|Simmer|40","Cook the noodles according to the packet.","Slice the raw beef very thinly.","Put the noodles and the beef in bowls and pour the boiling broth over them: it cooks the meat.","Serve with the bean sprouts, the coriander and the lime."]],
+  ["Chicken pho","With chicken","With chicken poached in the broth.","The chicken version, which is milder.","",50,380,"M","pho ga chicken noodle soup","h",
+   ["rice noodle|rice noodles|250|g","chicken breast|chicken breasts|2|","chicken stock cube|chicken stock cubes|2|","onion|onions|1|","fresh ginger|fresh ginger|1|","star anise|star anise|2|","fish sauce|fish sauce|2|tbsp","coriander|coriander||"],
+   ["Dry-fry the onion and ginger until charred.|Pan|5","Put them in 1.5 litres of water with the stock cubes, the star anise and the fish sauce.","Poach the chicken for 20 minutes in this broth, then shred it.|Cooking|20","Cook the noodles and divide them between the bowls with the chicken.","Pour over the hot broth and sprinkle with coriander."]],
+  ["Vegetarian pho","Vegetarian","A vegetable broth with tofu and mushrooms.","A fragrant meat-free pho, with tofu.","",45,330,"M","vegetarian pho","vh",
+   ["rice noodle|rice noodles|250|g","firm tofu|firm tofu|200|g","shiitake mushroom|shiitake mushrooms|150|g","vegetable stock cube|vegetable stock cubes|2|","fresh ginger|fresh ginger|1|","star anise|star anise|2|","soy sauce|soy sauce|3|tbsp","coriander|coriander||"],
+   ["Dry-fry the ginger until charred, then put it in 1.5 litres of water with the stock cubes, the star anise and the soy sauce.","Simmer for 25 minutes with the mushrooms.|Simmer|25","Brown the diced tofu.|Pan|6","Cook the noodles, divide them between the bowls with the tofu and pour over the broth."]]
+ ]},
+ {"q":"Chicken satay","a":["satay","satay skewers","peanut chicken"],"fr":"Poulet satay","r":[
+  ["Chicken satay skewers","The classic","","Curry-marinated chicken skewers with a peanut sauce.","Indonesian recipe",45,480,"F","chicken satay skewers","",
+   ["chicken breast|chicken breasts|4|","peanut butter|peanut butter|4|tbsp","coconut milk|coconut milk|20|cl","soy sauce|soy sauce|3|tbsp","curry powder|curry powder|2|tsp","lime|limes|1|","rice|rice|250|g"],
+   ["Cut the chicken into strips and marinate for 20 minutes with 10 cl of coconut milk, the curry powder and 1 tbsp of soy sauce.|Rest|20","Thread the chicken onto skewers and grill for 10 minutes, turning them.|Pan|10","Heat the peanut butter with the rest of the coconut milk, the soy sauce and the lime juice.","Serve the skewers with the sauce and rice."]],
+  ["Chicken satay in sauce","In a sauce","The chicken simmers in the peanut sauce.","A creamy peanut chicken, with rice.","",30,520,"F","peanut chicken curry","",
+   ["chicken breast|chicken breasts|4|","peanut butter|peanut butter|4|tbsp","coconut milk|coconut milk|40|cl","soy sauce|soy sauce|2|tbsp","curry powder|curry powder|2|tsp","onion|onions|1|","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Brown the diced chicken with the onion and the curry powder.|Pan|6","Add the coconut milk, the peanut butter and the soy sauce.","Leave to simmer for 10 minutes.|Cooking|10"]],
+  ["Tofu satay","Vegetarian","Tofu instead of chicken.","Tofu skewers with peanut sauce.","",35,430,"F","tofu satay","vh",
+   ["firm tofu|firm tofu|400|g","peanut butter|peanut butter|4|tbsp","coconut milk|coconut milk|20|cl","soy sauce|soy sauce|3|tbsp","curry powder|curry powder|1|tsp","lime|limes|1|","rice|rice|250|g"],
+   ["Cut the tofu into cubes and marinate for 15 minutes with the soy sauce and the curry powder.|Rest|15","Brown it for 8 minutes in a pan.|Pan|8","Heat the peanut butter with the coconut milk and the lime juice.","Serve the tofu covered in sauce, with rice."]]
+ ]},
+ {"q":"Chop suey","a":["chicken chop suey","chinese stir-fried vegetables","chinese chicken and vegetables"],"fr":"Chop suey","r":[
+  ["Chicken chop suey","The classic","","The Chinese stir-fry of chicken and crunchy vegetables, with bean sprouts and soy sauce.","Chinese-inspired",30,380,"F","chicken chop suey","h",
+   ["chicken breast|chicken breasts|3|","bean sprout|bean sprouts|200|g","carrot|carrots|2|","chinese cabbage|chinese cabbages|0.25|","button mushroom|button mushrooms|150|g","soy sauce|soy sauce|4|tbsp","cornflour|cornflour|1|tbsp","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Cut the chicken into strips and brown for 5 minutes over a high heat, then remove it.|Pan|5","Stir-fry the carrot sticks, the cabbage and the sliced mushrooms for 5 minutes.|Pan|5","Add the bean sprouts and the chicken.","Mix the cornflour with the soy sauce and 10 cl of water, pour it in and stir until it thickens."]],
+  ["Prawn chop suey","Prawn","Prawns instead of chicken.","A light chop suey with prawns.","",25,320,"F","shrimp chop suey","h",
+   ["peeled prawn|peeled prawns|400|g","bean sprout|bean sprouts|200|g","carrot|carrots|2|","red pepper|red peppers|1|","soy sauce|soy sauce|4|tbsp","cornflour|cornflour|1|tbsp","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Stir-fry the carrots and the pepper strips for 5 minutes.|Pan|5","Add the prawns and the bean sprouts, and cook for 3 minutes.|Pan|3","Add the soy sauce mixed with the cornflour and 10 cl of water, and stir until it thickens."]],
+  ["Vegetarian chop suey","Vegetarian","With tofu and more vegetables.","A stir-fry of crunchy vegetables with tofu.","",25,300,"F","vegetable chop suey tofu","vhb",
+   ["firm tofu|firm tofu|300|g","bean sprout|bean sprouts|200|g","carrot|carrots|2|","broccoli|broccoli|1|","chinese cabbage|chinese cabbages|0.25|","soy sauce|soy sauce|4|tbsp","cornflour|cornflour|1|tbsp","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Brown the diced tofu and remove it.|Pan|6","Stir-fry the carrots, the broccoli and the cabbage for 5 minutes.|Pan|5","Add the bean sprouts, the tofu and the soy sauce thickened with the cornflour."]]
+ ]},
+ {"q":"Biryani","a":["biriyani","chicken biryani","indian rice"],"fr":"Biryani","r":[
+  ["Chicken biryani","The classic","","The spiced Indian rice dish cooked with chicken marinated in yoghurt.","Indian recipe",75,560,"M","chicken biryani","",
+   ["basmati rice|basmati rice|300|g","chicken thigh|chicken thighs|4|","plain yoghurt|plain yoghurts|1|","onion|onions|2|","garam masala|garam masala|2|tsp","turmeric|turmeric|1|tsp","ginger|ginger|1|tsp","coriander|coriander||"],
+   ["Cut the chicken into pieces and marinate for 30 minutes with the yoghurt and the spices.|Rest|30","Brown the sliced onions in a casserole dish, then take out half of them.|Cooking|10","Add the chicken and its marinade and cook for 10 minutes.|Cooking|10","Cover with the rinsed rice and 55 cl of water, without stirring.","Cover and cook for 20 minutes over a low heat.|Cooking|20","Sprinkle with the reserved onions and coriander."]],
+  ["Vegetable biryani","Vegetarian","With vegetables and chickpeas.","A fragrant vegetarian biryani.","",60,460,"M","vegetable biryani","vh",
+   ["basmati rice|basmati rice|300|g","cauliflower|cauliflowers|0.5|","carrot|carrots|2|","frozen pea|frozen peas|100|g","chickpea|chickpeas|250|g","onion|onions|2|","garam masala|garam masala|2|tsp","plain yoghurt|plain yoghurts|1|"],
+   ["Brown the onions in a casserole dish.|Cooking|10","Add the carrots, the cauliflower, the spices and the yoghurt, and cook for 10 minutes.|Cooking|10","Add the chickpeas and the peas, then the rinsed rice and 55 cl of water.","Cover and cook for 20 minutes over a low heat.|Cooking|20"]],
+  ["Lamb biryani","With lamb","With slow-cooked lamb.","The special-occasion biryani, with lamb.","",120,620,"D","lamb biryani","",
+   ["basmati rice|basmati rice|300|g","lamb shoulder|lamb shoulders|700|g","plain yoghurt|plain yoghurts|1|","onion|onions|2|","garam masala|garam masala|2|tsp","ginger|ginger|1|tsp","garlic|garlic|3|clove"],
+   ["Cut the lamb into cubes and marinate for 30 minutes with the yoghurt and the spices.|Rest|30","Brown the onions, add the lamb and the garlic, and leave to simmer for 50 minutes with 20 cl of water.|Cooking|50","Cover with the rinsed rice and 55 cl of water.","Cook for 20 minutes over a low heat, covered.|Cooking|20"]]
+ ]},
+ {"q":"Naan","a":["naans","cheese naan","indian bread","naan bread"],"fr":"Naans","r":[
+  ["Plain naan","The classic","","Soft Indian breads cooked in a frying pan, to serve with a curry.","Indian recipe",90,250,"F","naan bread","vbf",
+   ["flour|flour|400|g","plain yoghurt|plain yoghurts|1|","fresh yeast|fresh yeast|7|g","milk|milk|10|cl","melted butter|melted butter|30|g","salt|salt||"],
+   ["Dissolve the yeast in the lukewarm milk.","Mix with the flour, the yoghurt, a pinch of salt and 5 cl of water, and knead for 5 minutes.","Leave to rise for 1 hour.|Rising|60","Divide into 8 and roll each ball into an oval.","Cook for 2 minutes on each side in a very hot frying pan.|Pan|4","Brush with melted butter."]],
+  ["Cheese naan","Cheese","Stuffed with melted cheese.","Naans stuffed with cheese, ultra gooey.","",90,340,"M","cheese naan","vbf",
+   ["flour|flour|400|g","plain yoghurt|plain yoghurts|1|","fresh yeast|fresh yeast|7|g","milk|milk|10|cl","cheese portion|cheese portions|8|","melted butter|melted butter|30|g"],
+   ["Make the dough as for plain naans and leave to rise for 1 hour.|Rising|60","Roll out 8 discs and put a cheese portion in the middle of each.","Fold over to close and flatten gently.","Cook for 3 minutes on each side in a frying pan.|Pan|6","Brush with butter."]],
+  ["Garlic naan","Garlic","Brushed with garlic and coriander butter.","Naans flavoured with garlic and herbs.","",90,260,"F","garlic naan","vbf",
+   ["flour|flour|400|g","plain yoghurt|plain yoghurts|1|","fresh yeast|fresh yeast|7|g","milk|milk|10|cl","melted butter|melted butter|40|g","garlic|garlic|3|clove","coriander|coriander||"],
+   ["Make the dough and leave to rise for 1 hour.|Rising|60","Roll out 8 naans.","Cook them for 2 minutes on each side.|Pan|4","Brush with melted butter mixed with the crushed garlic and the coriander."]]
+ ]},
+ {"q":"Chana masala","a":["chickpea curry","chana","curried chickpeas"],"fr":"Chana masala","r":[
+  ["Chickpea curry","The classic","","Chickpeas simmered in a tomato sauce with Indian spices.","Indian-inspired",30,380,"F","chana masala","vhb",
+   ["chickpea|chickpeas|800|g","chopped tomato|chopped tomatoes|400|g","onion|onions|2|","garlic|garlic|3|clove","ginger|ginger|1|tsp","garam masala|garam masala|2|tsp","cumin|cumin|1|tsp","basmati rice|basmati rice|250|g"],
+   ["Cook the rice.|Cooking|12","Fry the onions, the garlic, the ginger and the spices.","Add the tomatoes and leave to simmer for 10 minutes.|Cooking|10","Add the drained chickpeas and leave for 10 minutes.|Cooking|10"]],
+  ["Coconut chickpea curry","Coconut","With coconut milk for a milder sauce.","A creamy chickpea curry, mild enough for kids.","",30,450,"F","coconut chickpea curry","vbf",
+   ["chickpea|chickpeas|800|g","coconut milk|coconut milk|40|cl","chopped tomato|chopped tomatoes|200|g","onion|onions|1|","curry powder|curry powder|2|tsp","baby spinach|baby spinach|100|g","basmati rice|basmati rice|250|g"],
+   ["Cook the rice.|Cooking|12","Fry the onion with the curry powder.","Add the tomatoes, the coconut milk and the chickpeas, and leave to simmer for 15 minutes.|Cooking|15","Add the spinach 2 minutes before the end."]],
+  ["Chickpea and sweet potato curry","Sweet potato","With diced sweet potato.","A hearty, filling curry with sweet potato.","",40,430,"F","chickpea sweet potato curry","vhb",
+   ["chickpea|chickpeas|400|g","sweet potato|sweet potatoes|2|","coconut milk|coconut milk|40|cl","onion|onions|1|","curry powder|curry powder|2|tsp","basmati rice|basmati rice|250|g"],
+   ["Fry the onion with the curry powder.","Add the diced sweet potato and the coconut milk.","Leave to simmer for 20 minutes.|Cooking|20","Add the chickpeas and leave for 5 minutes. Serve with the rice.|Cooking|5"]]
+ ]},
+ {"q":"Bulgogi","a":["beef bulgogi","korean beef"],"fr":"Bulgogi","r":[
+  ["Beef bulgogi","The classic","","Sweet and salty marinated Korean beef, seared and served with rice.","Korean recipe",40,480,"F","beef bulgogi","",
+   ["thinly sliced beef|thinly sliced beef|500|g","soy sauce|soy sauce|5|tbsp","brown sugar|brown sugar|2|tbsp","pear|pears|1|","garlic|garlic|3|clove","sesame oil|sesame oil|1|tbsp","spring onion|spring onions|3|","rice|rice|250|g"],
+   ["Grate the pear and mix it with the soy sauce, the sugar, the garlic and the sesame oil.","Cut the beef into thin slices and marinate for 20 minutes.|Rest|20","Cook the rice.|Cooking|12","Sear the beef for 3 minutes over a very high heat.|Pan|3","Sprinkle with spring onion and serve with the rice."]],
+  ["Chicken bulgogi","With chicken","With chicken thighs.","The bulgogi marinade on chicken.","",40,450,"F","chicken bulgogi","",
+   ["boneless chicken thigh|boneless chicken thighs|6|","soy sauce|soy sauce|5|tbsp","brown sugar|brown sugar|2|tbsp","garlic|garlic|3|clove","ginger|ginger|1|tsp","sesame oil|sesame oil|1|tbsp","rice|rice|250|g"],
+   ["Mix the soy sauce, the sugar, the garlic, the ginger and the oil.","Cut the chicken into strips and marinate for 20 minutes.|Rest|20","Brown it for 8 minutes in a pan.|Pan|8","Serve with rice."]],
+  ["Bulgogi bowl","Bowl","Served in a bowl with crunchy vegetables and an egg.","A complete Korean bowl with bulgogi beef.","",40,560,"F","bulgogi rice bowl","",
+   ["thinly sliced beef|thinly sliced beef|400|g","soy sauce|soy sauce|5|tbsp","brown sugar|brown sugar|2|tbsp","garlic|garlic|2|clove","carrot|carrots|2|","cucumber|cucumbers|1|","egg|eggs|4|","rice|rice|250|g"],
+   ["Marinate the sliced beef with the soy sauce, the sugar and the garlic for 20 minutes.|Rest|20","Cook the rice, grate the carrot and slice the cucumber.|Cooking|12","Sear the beef for 3 minutes and fry the eggs.|Pan|3","Assemble the bowls: rice, beef, vegetables and egg."]]
+ ]}
+]

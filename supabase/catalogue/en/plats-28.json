@@ -1,0 +1,112 @@
+[
+ {"q":"Strawberry tart","a":["tarte aux fraises","strawberry custard tart"],"fr":"Tarte aux fraises","r":[
+  ["Strawberry tart","The classic","","A shortcrust base, vanilla custard and fresh strawberries.","French pastry",70,380,"M","strawberry tart","vod",
+   ["shortcrust pastry|shortcrust pastry|1|","strawberry|strawberries|500|g","milk|milk|50|cl","egg|eggs|3|","sugar|sugar|80|g","cornflour|cornflour|40|g","vanilla sugar|vanilla sugar|1|"],
+   ["Preheat the oven to 180 °C. Line a tin with the pastry, prick it and blind bake it for 20 min.|Oven|20","Heat the milk. Whisk the eggs, the sugar, the vanilla sugar and the cornflour.","Pour the hot milk over, put back on the heat and whisk until the custard thickens.|Cooking|3","Let the custard cool, then spread it over the tart base.","Arrange the halved strawberries on top and keep it chilled."]],
+  ["Quick strawberry tart","Quick","With mascarpone instead of custard.","A strawberry tart with no custard to cook, ready in 40 minutes.","",40,420,"F","easy strawberry mascarpone tart","vod",
+   ["shortcrust pastry|shortcrust pastry|1|","strawberry|strawberries|500|g","mascarpone|mascarpone|250|g","whipping cream|whipping cream|15|cl","icing sugar|icing sugar|50|g"],
+   ["Blind bake the pastry for 20 min at 180 °C and let it cool.|Oven|20","Whisk the mascarpone, the cold cream and the icing sugar until firm.","Spread it over the tart base.","Arrange the strawberries on top."]],
+  ["No-bake strawberry tart","No oven","With a crushed biscuit base.","A fresh strawberry tart that needs no oven.","",30,400,"F","no bake strawberry tart","vcd",
+   ["digestive biscuit|digestive biscuits|200|g","melted butter|melted butter|80|g","strawberry|strawberries|500|g","fromage blanc|fromage blanc|250|g","whipping cream|whipping cream|15|cl","icing sugar|icing sugar|50|g"],
+   ["Crush the biscuits, mix them with the melted butter and press into the bottom of a tin.","Chill for 30 min to harden.","Whip the cream and fold it into the fromage blanc and the icing sugar.","Spread over the base and arrange the strawberries on top."]]
+ ]},
+ {"q":"Tarte Bourdaloue","a":["pear tart","pear and almond tart","pear frangipane tart"],"fr":"Tarte Bourdaloue","r":[
+  ["Tarte Bourdaloue","The classic","","A pear tart on a golden almond cream.","French pastry",60,420,"M","pear almond tart","vod",
+   ["shortcrust pastry|shortcrust pastry|1|","pear in syrup|pears in syrup|8|","ground almond|ground almonds|100|g","soft butter|soft butter|80|g","sugar|sugar|80|g","egg|eggs|2|","flaked almond|flaked almonds|20|g"],
+   ["Preheat the oven to 180 °C and line a tin with the pastry.","Mix the soft butter, the sugar, the ground almonds and the eggs.","Spread this cream over the pastry.","Slice the drained pear halves and arrange them in a rosette.","Sprinkle with flaked almonds and bake for 35 min.|Oven|35"]],
+  ["Pear and chocolate tart","Chocolate","With chocolate in the almond cream.","Pear and chocolate together in a rich tart.","",60,470,"M","pear chocolate tart","vod",
+   ["shortcrust pastry|shortcrust pastry|1|","pear in syrup|pears in syrup|8|","ground almond|ground almonds|80|g","dark chocolate|dark chocolate|100|g","butter|butter|60|g","sugar|sugar|60|g","egg|eggs|2|"],
+   ["Preheat the oven to 180 °C and line a tin with the pastry.","Melt the chocolate with the butter and mix with the sugar, the eggs and the ground almonds.","Spread over the pastry and lay the sliced pears on top.","Bake for 35 min.|Oven|35"]],
+  ["Thin pear tart","Thin tart","On puff pastry, with no cream.","A thin, crisp tart with fresh pears.","",40,280,"F","thin pear tart","vodb",
+   ["puff pastry|puff pastry|1|","pear|pears|4|","sugar|sugar|30|g","butter|butter|20|g","cinnamon|cinnamon|1|tsp"],
+   ["Preheat the oven to 200 °C. Roll the pastry out onto a tray.","Peel the pears and slice them thinly.","Arrange them on the pastry, sprinkle with sugar and cinnamon, and dot with butter.","Bake for 25 min.|Oven|25"]]
+ ]},
+ {"q":"Far breton","a":["far with prunes","prune far","breton custard cake"],"fr":"Far breton","r":[
+  ["Far breton with prunes","The classic","","The thick Breton custard cake with prunes, golden and soft.","Breton speciality",70,300,"F","far breton prunes","vodbf",
+   ["flour|flour|200|g","sugar|sugar|120|g","egg|eggs|4|","milk|milk|75|cl","butter|butter|40|g","prune|prunes|200|g","salt|salt||"],
+   ["Preheat the oven to 200 °C. Butter a dish.","Mix the flour, the sugar and a pinch of salt, then add the eggs one by one.","Pour in the milk little by little, whisking.","Spread the prunes in the dish and pour in the batter.","Dot with butter and bake for 45 min.|Oven|45"]],
+  ["Plain far breton","Plain","Without prunes, with vanilla.","The plain vanilla far, for people who do not like prunes.","",65,280,"F","plain far breton","vodbf",
+   ["flour|flour|200|g","sugar|sugar|120|g","egg|eggs|4|","milk|milk|75|cl","butter|butter|40|g","vanilla pod|vanilla pods|1|"],
+   ["Preheat the oven to 200 °C. Heat the milk with the split vanilla pod and leave to infuse.","Mix the flour, the sugar and the eggs, then the milk.","Pour into a buttered dish and dot with butter.","Bake for 45 min.|Oven|45"]],
+  ["Apple far","With apples","With pan-fried apples.","A soft far with caramelised apples.","",70,300,"F","apple far breton","vodbf",
+   ["flour|flour|200|g","sugar|sugar|120|g","egg|eggs|4|","milk|milk|75|cl","butter|butter|40|g","apple|apples|3|"],
+   ["Fry the sliced apples for 5 min in a little butter.|Pan|5","Make the batter: flour, sugar, eggs, then milk.","Put the apples in a buttered dish and pour in the batter.","Bake for 45 min at 200 °C.|Oven|45"]]
+ ]},
+ {"q":"Churros","a":["churro","homemade churros"],"fr":"Churros","r":[
+  ["Churros","The classic","","Crispy ridged Spanish fritters rolled in cinnamon sugar.","Spanish recipe",30,300,"M","churros cinnamon sugar","vdf",
+   ["flour|flour|200|g","butter|butter|30|g","sugar|sugar|80|g","cinnamon|cinnamon|1|tsp","frying oil|frying oil|100|cl","salt|salt||"],
+   ["Bring 25 cl of water to the boil with the butter and a pinch of salt.","Tip in the flour all at once and stir until the dough forms a ball.","Put the dough in a piping bag with a star nozzle.","Pipe 10 cm lengths into the hot oil and fry them for 3 min.|Frying|3","Drain and roll them in the sugar mixed with the cinnamon."]],
+  ["Churros with chocolate sauce","Chocolate sauce","With a hot chocolate sauce for dipping.","Churros with thick hot chocolate, as in Spain.","Spanish recipe",35,420,"M","churros chocolate sauce","vdf",
+   ["flour|flour|200|g","butter|butter|30|g","sugar|sugar|60|g","frying oil|frying oil|100|cl","dark chocolate|dark chocolate|150|g","milk|milk|20|cl"],
+   ["Make the dough: bring the water, butter and salt to the boil, then add the flour all at once.","Fry lengths of dough for 3 min.|Frying|3","Roll them in the sugar.","Melt the chocolate in the hot milk and serve for dipping."]],
+  ["Baked churros","Oven-baked","Baked rather than fried.","Lighter churros, golden from the oven.","",40,220,"M","baked churros","vodf",
+   ["flour|flour|150|g","butter|butter|60|g","egg|eggs|2|","sugar|sugar|60|g","cinnamon|cinnamon|1|tsp"],
+   ["Preheat the oven to 200 °C. Bring 25 cl of water to the boil with the butter.","Add the flour all at once, then the eggs one by one off the heat.","Pipe lengths onto a tray with a star nozzle.","Bake for 20 min.|Oven|20","Roll in the cinnamon sugar."]]
+ ]},
+ {"q":"Cupcakes","a":["cupcake","vanilla cupcakes","chocolate cupcakes"],"fr":"Cupcakes","r":[
+  ["Vanilla cupcakes","The classic","","Soft vanilla cakes with a buttercream frosting.","American recipe",50,350,"M","vanilla cupcakes frosting","vodf",
+   ["flour|flour|200|g","sugar|sugar|150|g","soft butter|soft butter|200|g","egg|eggs|2|","milk|milk|10|cl","baking powder|baking powder|2|tsp","icing sugar|icing sugar|200|g","vanilla sugar|vanilla sugar|1|"],
+   ["Preheat the oven to 180 °C.","Whisk 100 g of butter with the sugar, then add the eggs, the flour, the baking powder, the milk and the vanilla sugar.","Fill paper cases two-thirds full and bake for 20 min.|Oven|20","Whisk the rest of the butter with the icing sugar to make the frosting.","Decorate the cooled cupcakes."]],
+  ["Chocolate cupcakes","Chocolate","With cocoa and a chocolate frosting.","All-chocolate cupcakes for birthdays.","",50,380,"M","chocolate cupcakes","vodf",
+   ["flour|flour|180|g","cocoa powder|cocoa powder|30|g","sugar|sugar|150|g","soft butter|soft butter|100|g","egg|eggs|2|","milk|milk|10|cl","baking powder|baking powder|2|tsp","dark chocolate|dark chocolate|150|g","single cream|single cream|15|cl"],
+   ["Preheat the oven to 180 °C. Mix the butter and the sugar, then add the eggs, the flour, the cocoa, the baking powder and the milk.","Fill paper cases and bake for 20 min.|Oven|20","Melt the chocolate in the hot cream and chill until thick.","Decorate the cooled cupcakes."]],
+  ["Lemon cupcakes","Lemon","With a lemony cream cheese frosting.","Fresh, tangy lemon cupcakes.","",50,340,"M","lemon cupcakes","vodf",
+   ["flour|flour|200|g","sugar|sugar|150|g","soft butter|soft butter|100|g","egg|eggs|2|","lemon|lemons|2|","baking powder|baking powder|2|tsp","cream cheese|cream cheese|150|g","icing sugar|icing sugar|80|g"],
+   ["Preheat the oven to 180 °C. Mix the butter, the sugar, the eggs, the flour, the baking powder, and the zest and juice of one lemon.","Fill paper cases and bake for 20 min.|Oven|20","Whisk the cream cheese with the icing sugar and the zest of the second lemon.","Decorate the cooled cupcakes."]]
+ ]},
+ {"q":"Doughnuts","a":["donuts","donut","homemade doughnuts"],"fr":"Donuts","r":[
+  ["Glazed doughnuts","The classic","","Soft ring doughnuts with a sugar glaze.","American recipe",150,320,"M","glazed donuts","vdf",
+   ["flour|flour|400|g","yeast|yeast|10|g","milk|milk|20|cl","egg|eggs|1|","sugar|sugar|50|g","melted butter|melted butter|50|g","icing sugar|icing sugar|200|g","frying oil|frying oil|100|cl"],
+   ["Mix the yeast into the warm milk, then knead with the flour, the sugar, the egg and the butter.","Leave to rise for 1 h 30.|Rising|90","Roll out to 1 cm thick and cut out rings. Leave to rise for 30 min.|Rising|30","Fry for 1 min on each side.|Frying|2","Dip the tops in the icing sugar mixed with 3 tbsp of water."]],
+  ["Chocolate doughnuts","Chocolate","With a chocolate glaze.","Doughnuts covered in melting chocolate.","",150,370,"M","chocolate glazed donuts","vdf",
+   ["flour|flour|400|g","yeast|yeast|10|g","milk|milk|20|cl","egg|eggs|1|","sugar|sugar|50|g","melted butter|melted butter|50|g","dark chocolate|dark chocolate|150|g","frying oil|frying oil|100|cl"],
+   ["Make the dough and leave to rise for 1 h 30.|Rising|90","Cut out rings and leave to rise for 30 min.|Rising|30","Fry for 1 min on each side.|Frying|2","Dip the tops in the melted chocolate."]],
+  ["Baked doughnuts","Oven-baked","Baked in a doughnut tin.","Lighter doughnuts with no frying.","",30,230,"F","baked donuts","vodbf",
+   ["flour|flour|200|g","sugar|sugar|80|g","egg|eggs|2|","milk|milk|12|cl","melted butter|melted butter|50|g","baking powder|baking powder|2|tsp","icing sugar|icing sugar|100|g"],
+   ["Preheat the oven to 180 °C.","Mix all the ingredients except the icing sugar.","Fill a buttered doughnut tin and bake for 12 min.|Oven|12","Dip the tops in the icing sugar mixed with a little water."]]
+ ]},
+ {"q":"Chocolate éclairs","a":["eclairs","éclairs","coffee eclairs"],"fr":"Éclairs au chocolat","r":[
+  ["Chocolate éclairs","The classic","","Long choux buns filled with chocolate custard and iced with chocolate.","French pastry",90,380,"D","chocolate eclairs","vod",
+   ["flour|flour|100|g","butter|butter|80|g","egg|eggs|7|","milk|milk|50|cl","sugar|sugar|80|g","cornflour|cornflour|40|g","dark chocolate|dark chocolate|200|g"],
+   ["Preheat the oven to 180 °C. Bring 15 cl of water, the butter and a pinch of salt to the boil, tip in the flour and stir until the dough comes away from the pan.","Off the heat, add 4 eggs one by one. Pipe 12 cm lengths onto a tray.","Bake for 30 min without opening the oven.|Oven|30","Make a custard with the milk, 3 eggs, the sugar and the cornflour, and stir in 100 g of chocolate.|Cooking|5","Fill the cold éclairs and cover them with the rest of the melted chocolate."]],
+  ["Coffee éclairs","Coffee","With a coffee custard and icing.","The coffee éclairs from the bakery.","",90,360,"D","coffee eclairs","vod",
+   ["flour|flour|100|g","butter|butter|80|g","egg|eggs|7|","milk|milk|50|cl","sugar|sugar|80|g","cornflour|cornflour|40|g","instant coffee|instant coffee|2|tbsp","icing sugar|icing sugar|150|g"],
+   ["Make the choux pastry and bake the éclairs for 30 min.|Oven|30","Make a custard and flavour it with 1 tbsp of instant coffee.|Cooking|5","Fill the cold éclairs.","Mix the icing sugar with the rest of the coffee dissolved in a little water and spread it over the éclairs."]],
+  ["Cream-filled éclairs","Whipped cream","Filled with whipped cream, which is easier.","Light éclairs filled with whipped cream and iced with chocolate.","",70,330,"M","cream filled eclairs","vod",
+   ["flour|flour|100|g","butter|butter|80|g","egg|eggs|4|","whipping cream|whipping cream|30|cl","icing sugar|icing sugar|40|g","dark chocolate|dark chocolate|100|g"],
+   ["Make the choux pastry and bake the éclairs for 30 min.|Oven|30","Whip the very cold cream with the icing sugar.","Fill the cold éclairs.","Cover with melted chocolate."]]
+ ]},
+ {"q":"Homemade ice cream","a":["ice cream","no-churn ice cream","vanilla ice cream"],"fr":"Glace maison","r":[
+  ["No-churn vanilla ice cream","The classic","","A creamy vanilla ice cream made with condensed milk, with no machine.","",15,330,"F","no churn vanilla ice cream","vcdf",
+   ["whipping cream|whipping cream|50|cl","condensed milk|condensed milk|400|g","vanilla pod|vanilla pods|1|"],
+   ["Whip the very cold cream until stiff.","Mix the condensed milk with the vanilla seeds.","Gently fold in the whipped cream.","Pour into a tub and freeze for 6 h."]],
+  ["No-churn chocolate ice cream","Chocolate","With melted chocolate.","A smooth chocolate ice cream, no machine needed.","",15,380,"F","no churn chocolate ice cream","vcdf",
+   ["whipping cream|whipping cream|50|cl","condensed milk|condensed milk|400|g","dark chocolate|dark chocolate|100|g","cocoa powder|cocoa powder|2|tbsp"],
+   ["Melt the chocolate and let it cool a little.","Mix the condensed milk, the chocolate and the cocoa.","Whip the cream and fold it in.","Freeze for 6 h."]],
+  ["Banana ice cream","One ingredient","Frozen bananas blended on their own.","A quick, light banana ice cream.","",5,120,"F","banana nice cream","vcdhbf",
+   ["frozen banana|frozen bananas|4|","cocoa powder|cocoa powder|1|tbsp"],
+   ["Slice the bananas before freezing them.","Blend them until they have an ice cream texture.","Add the cocoa if you like.","Serve straight away."]]
+ ]},
+ {"q":"Sorbet","a":["homemade sorbet","lemon sorbet","strawberry sorbet","mango sorbet"],"fr":"Sorbet","r":[
+  ["Lemon sorbet","The classic","","A fresh, tangy lemon sorbet, with no ice cream maker.","",20,150,"F","lemon sorbet","vcdh",
+   ["lemon|lemons|5|","sugar|sugar|200|g","egg white|egg whites|1|"],
+   ["Heat 50 cl of water with the sugar until it dissolves, then let it cool.","Add the juice of the lemons and the zest of one.","Freeze for 2 h, then beat with a fork.","Whisk the egg white until stiff, fold it in and freeze for another 4 h, beating twice."]],
+  ["Strawberry sorbet","Strawberry","Made with blended strawberries.","A fruity pink strawberry sorbet.","",15,140,"F","strawberry sorbet","vcdhf",
+   ["strawberry|strawberries|500|g","sugar|sugar|120|g","lemon|lemons|1|"],
+   ["Blend the strawberries with the sugar and the lemon juice.","Pour into a tub and freeze.","Beat with a fork every hour for 4 h.","Serve in scoops."]],
+  ["Mango sorbet","Mango","With frozen mango, blended in minutes.","A quick mango sorbet, ready in 5 minutes.","",5,130,"F","mango sorbet","vcdh",
+   ["frozen mango|frozen mango|500|g","honey|honey|2|tbsp","lime|limes|1|"],
+   ["Blend the frozen mango with the honey and the lime juice.","Blend until smooth.","Serve straight away or freeze for 30 min."]]
+ ]},
+ {"q":"Chocolate pudding","a":["chocolate cream dessert","chocolate custard","homemade chocolate pots"],"fr":"Crème au chocolat","r":[
+  ["Chocolate cream dessert","The classic","","A smooth, creamy chocolate dessert, like the ones in shop-bought pots.","",15,250,"F","chocolate pudding cups","vcdbf",
+   ["milk|milk|50|cl","dark chocolate|dark chocolate|100|g","sugar|sugar|50|g","cornflour|cornflour|30|g","cocoa powder|cocoa powder|1|tbsp"],
+   ["Mix the cornflour and the cocoa with a little cold milk.","Heat the rest of the milk with the sugar and the chopped chocolate.","Add the cornflour mixture and stir until the cream thickens.|Cooking|3","Pour into pots and chill for 2 h."]],
+  ["Vanilla cream dessert","Vanilla","Flavoured with vanilla, with no chocolate.","The classic vanilla cream dessert.","",15,220,"F","vanilla pudding","vcdbf",
+   ["milk|milk|50|cl","sugar|sugar|60|g","cornflour|cornflour|35|g","egg|eggs|1|","vanilla pod|vanilla pods|1|"],
+   ["Heat the milk with the split vanilla pod.","Whisk the egg, the sugar and the cornflour.","Pour the hot milk over and put back on the heat, stirring until it thickens.|Cooking|3","Pour into pots and chill for 2 h."]],
+  ["Dairy-free chocolate pudding","Dairy-free","Made with oat milk, with no dairy.","A lactose-free chocolate cream.","",15,230,"F","vegan chocolate pudding","vcdb",
+   ["oat milk|oat milk|50|cl","dark chocolate|dark chocolate|100|g","sugar|sugar|40|g","cornflour|cornflour|30|g"],
+   ["Mix the cornflour with a little cold milk.","Heat the rest of the milk with the sugar and the chocolate.","Add the cornflour mixture and stir until it thickens.|Cooking|3","Pour into pots and chill for 2 h."]]
+ ]}
+]

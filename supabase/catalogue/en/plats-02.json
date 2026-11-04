@@ -1,0 +1,993 @@
+[
+ {
+  "q": "Gratin dauphinois",
+  "a": [
+   "potato gratin",
+   "homemade gratin dauphinois"
+  ],
+  "fr": "Gratin dauphinois",
+  "r": [
+   [
+    "Gratin dauphinois",
+    "The classic",
+    "",
+    "Soft potatoes cooked slowly in milk and cream, flavoured with garlic.",
+    "Dauphiné speciality",
+    80,
+    420,
+    "F",
+    "potato gratin dauphinois",
+    "vobf",
+    [
+     "potato|potatoes|1200|g",
+     "milk|milk|50|cl",
+     "single cream|single cream|30|cl",
+     "garlic|garlic|2|clove",
+     "butter|butter|20|g",
+     "nutmeg|nutmeg||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 160 °C. Peel the potatoes and cut them into thin slices, without washing them.",
+     "Heat the milk, cream and crushed garlic with salt, pepper and nutmeg. Add the potatoes and simmer for 10 min, stirring.|Simmer|10",
+     "Butter a gratin dish and pour everything in.",
+     "Bake for 1 h, until the top is golden and a knife slides in easily.|Oven|60"
+    ]
+   ],
+   [
+    "Lighter gratin dauphinois",
+    "Lighter",
+    "The cream is replaced with extra milk, and the butter is left out.",
+    "The same melt-in-the-mouth texture with just milk: lighter and still delicious.",
+    "Dauphiné speciality",
+    80,
+    300,
+    "F",
+    "light potato gratin",
+    "vobh",
+    [
+     "potato|potatoes|1200|g",
+     "semi-skimmed milk|semi-skimmed milk|80|cl",
+     "garlic|garlic|2|clove",
+     "nutmeg|nutmeg||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 160 °C. Cut the peeled potatoes into thin slices.",
+     "Simmer the milk with the crushed garlic, salt, pepper and nutmeg, add the potatoes and cook for 15 min.|Simmer|15",
+     "Pour into a gratin dish.",
+     "Bake for 1 h, until golden.|Oven|60"
+    ]
+   ],
+   [
+    "Cheesy gratin dauphinois",
+    "Cheesy",
+    "A layer of grated comté browns on top.",
+    "The classic, with a golden, stretchy comté topping.",
+    "",
+    80,
+    520,
+    "F",
+    "cheese potato gratin",
+    "vof",
+    [
+     "potato|potatoes|1200|g",
+     "milk|milk|50|cl",
+     "single cream|single cream|30|cl",
+     "grated comté|grated comté|100|g",
+     "garlic|garlic|2|clove",
+     "nutmeg|nutmeg||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 160 °C. Cut the peeled potatoes into thin slices.",
+     "Simmer the milk, cream and garlic with salt, pepper and nutmeg. Add the potatoes and cook for 10 min.|Simmer|10",
+     "Pour into a dish and cover with grated comté.",
+     "Bake for 1 h, until the cheese is nicely browned.|Oven|60"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Blanquette de veau",
+  "a": [
+   "blanquette",
+   "veal blanquette"
+  ],
+  "fr": "Blanquette de veau",
+  "r": [
+   [
+    "Veal blanquette",
+    "The classic",
+    "",
+    "Grandma's blanquette: tender veal in a creamy lemon sauce, with mushrooms and carrots.",
+    "",
+    120,
+    560,
+    "M",
+    "veal blanquette stew",
+    "",
+    [
+     "veal shoulder|veal shoulders|1000|g",
+     "carrot|carrots|3|",
+     "onion|onions|1|",
+     "button mushroom|button mushrooms|250|g",
+     "crème fraîche|crème fraîche|20|cl",
+     "egg yolk|egg yolks|1|",
+     "lemon|lemons|1|",
+     "butter|butter|40|g",
+     "plain flour|plain flour|40|g",
+     "bouquet garni|bouquets garnis|1|",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Cut the meat into large cubes and put it in a casserole dish with the sliced carrots, the onion and the bouquet garni. Cover with cold salted water.",
+     "Bring to the boil, skim, then cover and simmer for 1 h 30.|Simmer|90",
+     "Fry the sliced mushrooms in a little butter for 5 min.|Pan|5",
+     "In a saucepan, melt the rest of the butter, add the flour, then 50 cl of the cooking stock, whisking until thickened.",
+     "Off the heat, add the cream, the egg yolk and the lemon juice.",
+     "Drain the meat and carrots, stir them into the sauce with the mushrooms and serve with rice."
+    ]
+   ],
+   [
+    "Lighter veal blanquette",
+    "Lighter",
+    "The cream is replaced with fromage blanc and there is no roux.",
+    "All the gentleness of blanquette, with a lighter fromage blanc sauce.",
+    "",
+    110,
+    400,
+    "M",
+    "light veal stew",
+    "h",
+    [
+     "veal shoulder|veal shoulders|1000|g",
+     "carrot|carrots|3|",
+     "onion|onions|1|",
+     "button mushroom|button mushrooms|250|g",
+     "fromage blanc|fromage blanc|200|g",
+     "cornflour|cornflour|2|tbsp",
+     "lemon|lemons|1|",
+     "bouquet garni|bouquets garnis|1|",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Put the cubed meat, sliced carrots, onion and bouquet garni in a casserole dish. Cover with cold salted water.",
+     "Bring to the boil, skim and simmer for 1 h 30.|Simmer|90",
+     "Add the sliced mushrooms 15 min before the end.",
+     "Mix the cornflour with a little cold water, add it to 50 cl of stock and thicken for 2 min, stirring.",
+     "Off the heat, add the fromage blanc and lemon juice, then mix with the meat and vegetables."
+    ]
+   ],
+   [
+    "Chicken blanquette",
+    "With chicken",
+    "The veal is replaced with chicken, which cooks twice as fast.",
+    "A quicker, cheaper blanquette made with chicken thighs.",
+    "",
+    60,
+    520,
+    "F",
+    "chicken blanquette creamy",
+    "bf",
+    [
+     "chicken thigh|chicken thighs|8|",
+     "carrot|carrots|3|",
+     "onion|onions|1|",
+     "button mushroom|button mushrooms|250|g",
+     "crème fraîche|crème fraîche|20|cl",
+     "lemon|lemons|1|",
+     "butter|butter|30|g",
+     "plain flour|plain flour|30|g",
+     "chicken stock cube|chicken stock cubes|1|",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Put the chicken, sliced carrots, onion and stock cube in a casserole dish. Cover with water.",
+     "Cover and simmer for 40 min.|Simmer|40",
+     "Fry the sliced mushrooms in a little butter for 5 min.|Pan|5",
+     "Make a roux with the butter and flour, then add 40 cl of stock, whisking.",
+     "Add the cream and lemon juice, then the chicken, carrots and mushrooms. Serve with rice."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Bœuf bourguignon",
+  "a": [
+   "boeuf bourguignon",
+   "bourguignon",
+   "beef burgundy"
+  ],
+  "fr": "Bœuf bourguignon",
+  "r": [
+   [
+    "Beef bourguignon",
+    "The classic",
+    "",
+    "The ultimate slow-cooked dish: tender beef in red wine, with lardons, mushrooms and baby onions.",
+    "Burgundy speciality",
+    210,
+    650,
+    "M",
+    "beef bourguignon stew",
+    "",
+    [
+     "braising beef|braising beef|1200|g",
+     "red wine|red wine|75|cl",
+     "bacon lardon|bacon lardons|150|g",
+     "carrot|carrots|3|",
+     "onion|onions|2|",
+     "button mushroom|button mushrooms|250|g",
+     "garlic|garlic|2|clove",
+     "plain flour|plain flour|2|tbsp",
+     "olive oil|olive oil|2|tbsp",
+     "bouquet garni|bouquets garnis|1|",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Cut the beef into large cubes and brown them in batches in the oil in a casserole dish. Set aside.",
+     "Fry the lardons, the sliced onions and the sliced carrots for 5 min.|Cooking|5",
+     "Put the meat back, sprinkle with flour and stir for 1 min.",
+     "Pour in the wine, add the garlic, bouquet garni, salt and pepper. Top up with water to cover.",
+     "Cover and simmer on a low heat for 3 h.|Simmer|180",
+     "Add the mushrooms 30 min before the end. Serve with potatoes or pasta."
+    ]
+   ],
+   [
+    "Quick beef bourguignon",
+    "Quick",
+    "Cooked in a pressure cooker: 1 h instead of 3 h.",
+    "The taste of bourguignon for a weeknight, thanks to the pressure cooker.",
+    "Burgundy speciality",
+    75,
+    620,
+    "F",
+    "quick beef stew red wine",
+    "",
+    [
+     "braising beef|braising beef|1000|g",
+     "red wine|red wine|50|cl",
+     "bacon lardon|bacon lardons|150|g",
+     "carrot|carrots|3|",
+     "onion|onions|2|",
+     "button mushroom|button mushrooms|200|g",
+     "plain flour|plain flour|2|tbsp",
+     "olive oil|olive oil|2|tbsp",
+     "bouquet garni|bouquets garnis|1|",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Brown the cubed beef in the oil, straight in the pressure cooker, then the lardons and onions.",
+     "Sprinkle with flour, stir, then add the wine, sliced carrots, bouquet garni, salt and pepper.",
+     "Close the lid and cook for 45 min once the valve starts to hiss.|Pressure cooker|45",
+     "Open, add the sliced mushrooms and simmer uncovered for 10 min.|Cooking|10"
+    ]
+   ],
+   [
+    "Vegetable bourguignon",
+    "Vegetarian",
+    "Mushrooms and root vegetables replace the meat.",
+    "A rich, fragrant red wine sauce full of mushrooms and tender vegetables.",
+    "",
+    75,
+    380,
+    "F",
+    "vegetable bourguignon mushrooms",
+    "vh",
+    [
+     "button mushroom|button mushrooms|500|g",
+     "carrot|carrots|4|",
+     "parsnip|parsnips|2|",
+     "onion|onions|2|",
+     "red wine|red wine|50|cl",
+     "tomato purée|tomato purée|1|tbsp",
+     "plain flour|plain flour|2|tbsp",
+     "olive oil|olive oil|2|tbsp",
+     "thyme|thyme||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Fry the sliced onions in the oil for 5 min in a casserole dish.|Cooking|5",
+     "Add the carrots and parsnips in big chunks, then the mushrooms, halved. Brown for 10 min.|Cooking|10",
+     "Sprinkle with flour, add the tomato purée, then the wine and 20 cl of water.",
+     "Add the thyme, salt and pepper, cover and simmer for 45 min.|Simmer|45"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Pot-au-feu",
+  "a": [
+   "pot au feu",
+   "french beef stew"
+  ],
+  "fr": "Pot-au-feu",
+  "r": [
+   [
+    "Pot-au-feu",
+    "The classic",
+    "",
+    "The Sunday family dish: beef cooked for hours in a fragrant broth, with its vegetables.",
+    "",
+    240,
+    580,
+    "F",
+    "pot au feu beef vegetables",
+    "f",
+    [
+     "beef short rib|beef short ribs|800|g",
+     "beef chuck|beef chuck|800|g",
+     "marrow bone|marrow bones|4|",
+     "carrot|carrots|6|",
+     "leek|leeks|3|",
+     "turnip|turnips|4|",
+     "potato|potatoes|8|",
+     "onion|onions|1|",
+     "clove|cloves|2|",
+     "bouquet garni|bouquets garnis|1|",
+     "coarse salt|coarse salt||"
+    ],
+    [
+     "Put the meat in a large pot, cover with cold water and bring to the boil. Skim.",
+     "Add the onion studded with the cloves, the bouquet garni and the coarse salt. Simmer for 2 h.|Simmer|120",
+     "Add the carrots, leeks and turnips cut into chunks, and the marrow bones. Cook for 45 min.|Cooking|45",
+     "Cook the potatoes separately in a little stock for 25 min.|Cooking|25",
+     "Serve the meat and vegetables with coarse salt, mustard and gherkins, and the broth on the side."
+    ]
+   ],
+   [
+    "Chicken pot-au-feu",
+    "With chicken",
+    "A hen or chicken replaces the beef: it is the poule au pot.",
+    "A lighter, quicker version with a whole chicken and its vegetables.",
+    "",
+    120,
+    480,
+    "F",
+    "chicken pot au feu",
+    "bfh",
+    [
+     "whole chicken|whole chickens|1|",
+     "carrot|carrots|6|",
+     "leek|leeks|3|",
+     "turnip|turnips|3|",
+     "potato|potatoes|8|",
+     "onion|onions|1|",
+     "clove|cloves|2|",
+     "bouquet garni|bouquets garnis|1|",
+     "coarse salt|coarse salt||"
+    ],
+    [
+     "Put the chicken in a pot, cover with cold water and bring to the boil. Skim.",
+     "Add the onion studded with the cloves, the bouquet garni and the salt. Simmer for 45 min.|Simmer|45",
+     "Add the carrots, leeks, turnips and potatoes. Cook for another 40 min.|Cooking|40",
+     "Carve the chicken and serve it with the vegetables and a little broth."
+    ]
+   ],
+   [
+    "Pressure cooker pot-au-feu",
+    "Quick",
+    "In a pressure cooker, the meat is ready in 1 h instead of 3.",
+    "The real pot-au-feu, even on a weekday.",
+    "",
+    80,
+    560,
+    "F",
+    "pressure cooker pot au feu",
+    "f",
+    [
+     "beef short rib|beef short ribs|700|g",
+     "beef chuck|beef chuck|700|g",
+     "carrot|carrots|5|",
+     "leek|leeks|2|",
+     "turnip|turnips|3|",
+     "potato|potatoes|6|",
+     "onion|onions|1|",
+     "bouquet garni|bouquets garnis|1|",
+     "coarse salt|coarse salt||"
+    ],
+    [
+     "Put the meat in the pressure cooker with the onion, bouquet garni and salt. Cover with water and skim as it comes to the boil.",
+     "Close the lid and cook for 40 min once the valve starts to hiss.|Pressure cooker|40",
+     "Open, add all the vegetables in big chunks, close and cook for 15 min.|Pressure cooker|15",
+     "Serve with mustard and gherkins."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Hachis parmentier",
+  "a": [
+   "parmentier",
+   "shepherd's pie",
+   "cottage pie"
+  ],
+  "fr": "Hachis parmentier",
+  "r": [
+   [
+    "Hachis parmentier",
+    "The classic",
+    "",
+    "Golden homemade mash on top of seasoned minced meat: pure comfort.",
+    "",
+    60,
+    620,
+    "F",
+    "shepherds pie beef mash",
+    "obf",
+    [
+     "potato|potatoes|1000|g",
+     "minced beef|minced beef|500|g",
+     "onion|onions|2|",
+     "milk|milk|20|cl",
+     "butter|butter|50|g",
+     "grated emmental|grated emmental|60|g",
+     "garlic|garlic|1|clove",
+     "parsley|parsley||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Boil the peeled potatoes in salted water for 20 min.|Cooking|20",
+     "Fry the sliced onions and the garlic, then the meat for 8 min. Add salt, pepper and parsley.|Pan|8",
+     "Mash the potatoes with the butter and hot milk.",
+     "Preheat the oven to 200 °C. Put the meat in a dish, cover with mash and sprinkle with emmental.",
+     "Bake for 20 min, until the top is golden.|Oven|20"
+    ]
+   ],
+   [
+    "Sweet potato hachis parmentier",
+    "Sweet potato",
+    "The mash is made with half sweet potato, which is sweeter and more colourful.",
+    "An orange, slightly sweet mash on minced meat: kids love it.",
+    "",
+    60,
+    560,
+    "F",
+    "sweet potato shepherds pie",
+    "of",
+    [
+     "sweet potato|sweet potatoes|600|g",
+     "potato|potatoes|400|g",
+     "minced beef|minced beef|500|g",
+     "onion|onions|2|",
+     "milk|milk|15|cl",
+     "butter|butter|30|g",
+     "grated emmental|grated emmental|50|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Boil the peeled sweet potatoes and potatoes in salted water for 20 min.|Cooking|20",
+     "Fry the onions, then the meat for 8 min, with salt and pepper.|Pan|8",
+     "Mash the vegetables with the butter and milk.",
+     "Preheat the oven to 200 °C. Put the meat in a dish, cover with mash and emmental.",
+     "Bake for 20 min.|Oven|20"
+    ]
+   ],
+   [
+    "Vegetarian lentil hachis parmentier",
+    "Vegetarian",
+    "Lentils and carrots replace the minced meat.",
+    "Lentils simmered with carrots and tomato, under a golden mash.",
+    "",
+    60,
+    520,
+    "F",
+    "lentil shepherds pie vegetarian",
+    "vobh",
+    [
+     "potato|potatoes|1000|g",
+     "green lentil|green lentils|250|g",
+     "carrot|carrots|2|",
+     "onion|onions|1|",
+     "tomato purée|tomato purée|2|tbsp",
+     "milk|milk|20|cl",
+     "butter|butter|40|g",
+     "grated emmental|grated emmental|50|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Boil the lentils in unsalted water for 25 min.|Cooking|25",
+     "Boil the peeled potatoes in salted water for 20 min, then mash them with the butter and milk.|Cooking|20",
+     "Fry the diced onion and carrots for 10 min, then add the drained lentils and the tomato purée.|Pan|10",
+     "Preheat the oven to 200 °C. Put the lentils in a dish, cover with mash and emmental.",
+     "Bake for 20 min.|Oven|20"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Quiche lorraine",
+  "a": [
+   "quiche"
+  ],
+  "fr": "Quiche lorraine",
+  "r": [
+   [
+    "Quiche lorraine",
+    "The classic",
+    "",
+    "The real quiche lorraine: crisp pastry, lardons and a creamy egg filling.",
+    "Lorraine speciality",
+    50,
+    560,
+    "F",
+    "quiche lorraine",
+    "obf",
+    [
+     "shortcrust pastry|shortcrust pastries|1|",
+     "bacon lardon|bacon lardons|200|g",
+     "egg|eggs|3|",
+     "crème fraîche|crème fraîche|20|cl",
+     "milk|milk|20|cl",
+     "nutmeg|nutmeg||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 200 °C. Roll the pastry into a tin and prick the base.",
+     "Fry the lardons in a pan for 5 min with no added fat, and spread them over the pastry.|Pan|5",
+     "Beat the eggs with the cream, milk, a little salt, pepper and the nutmeg.",
+     "Pour over the lardons and bake for 35 min, until golden.|Oven|35"
+    ]
+   ],
+   [
+    "Lighter quiche lorraine",
+    "Lighter",
+    "The cream is replaced with milk and the lardons with ham.",
+    "All the flavour of quiche, with a lighter filling.",
+    "",
+    50,
+    420,
+    "F",
+    "light ham quiche",
+    "obh",
+    [
+     "shortcrust pastry|shortcrust pastries|1|",
+     "diced ham|diced ham|150|g",
+     "egg|eggs|3|",
+     "semi-skimmed milk|semi-skimmed milk|40|cl",
+     "nutmeg|nutmeg||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 200 °C. Roll the pastry into a tin and prick the base.",
+     "Spread the diced ham over the pastry.",
+     "Beat the eggs with the milk, nutmeg, salt and pepper.",
+     "Pour in and bake for 35 min.|Oven|35"
+    ]
+   ],
+   [
+    "Leek and goat's cheese quiche",
+    "Vegetarian",
+    "The lardons are replaced with softened leeks and goat's cheese.",
+    "A mild, fragrant quiche with soft leeks and goat's cheese.",
+    "",
+    55,
+    500,
+    "F",
+    "leek goat cheese quiche",
+    "vo",
+    [
+     "shortcrust pastry|shortcrust pastries|1|",
+     "leek|leeks|2|",
+     "goat's cheese log|goat's cheese logs|1|",
+     "egg|eggs|3|",
+     "crème fraîche|crème fraîche|20|cl",
+     "milk|milk|10|cl",
+     "butter|butter|20|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 200 °C. Roll the pastry into a tin.",
+     "Slice the leeks and soften them in the butter for 10 min.|Pan|10",
+     "Beat the eggs with the cream, milk, salt and pepper.",
+     "Spread the leeks over the pastry, pour in the filling and add the goat's cheese in slices.",
+     "Bake for 35 min.|Oven|35"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Croque-monsieur",
+  "a": [
+   "croque monsieur",
+   "croque"
+  ],
+  "fr": "Croque-monsieur",
+  "r": [
+   [
+    "Croque-monsieur",
+    "The classic",
+    "",
+    "The golden, melting croque, with ham, emmental and a touch of béchamel.",
+    "",
+    20,
+    450,
+    "F",
+    "croque monsieur ham cheese",
+    "bf",
+    [
+     "sandwich bread|sandwich breads|8|slices",
+     "cooked ham|cooked ham|4|slices",
+     "grated emmental|grated emmental|120|g",
+     "butter|butter|30|g",
+     "milk|milk|15|cl",
+     "plain flour|plain flour|1|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Make a small béchamel: melt 15 g of butter, add the flour, then the milk, whisking for 3 min.|Béchamel|3",
+     "Preheat the oven to 220 °C. Lightly butter the outside of the bread slices.",
+     "Top 4 slices with béchamel, ham and emmental, then cover with the other slices.",
+     "Add a little béchamel and emmental on top.",
+     "Bake for 10 min, until nicely golden.|Oven|10"
+    ]
+   ],
+   [
+    "Croque-madame",
+    "With an egg",
+    "A fried egg is placed on top of the croque.",
+    "The croque-monsieur, topped with a runny fried egg.",
+    "",
+    25,
+    540,
+    "F",
+    "croque madame egg",
+    "bf",
+    [
+     "sandwich bread|sandwich breads|8|slices",
+     "cooked ham|cooked ham|4|slices",
+     "grated emmental|grated emmental|120|g",
+     "egg|eggs|4|",
+     "butter|butter|30|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 220 °C. Butter the outside of the bread slices.",
+     "Top 4 slices with ham and emmental, cover with the other slices and sprinkle with emmental.",
+     "Bake for 10 min.|Oven|10",
+     "Meanwhile, fry the eggs for 3 min.|Pan|3",
+     "Put an egg on each croque and serve."
+    ]
+   ],
+   [
+    "Vegetarian croque-monsieur",
+    "Vegetarian",
+    "The ham is replaced with tomato and mushrooms.",
+    "A tasty croque with mushrooms, tomato and emmental.",
+    "",
+    20,
+    400,
+    "F",
+    "vegetarian toasted sandwich mushroom",
+    "vbf",
+    [
+     "sandwich bread|sandwich breads|8|slices",
+     "button mushroom|button mushrooms|150|g",
+     "tomato|tomatoes|2|",
+     "grated emmental|grated emmental|120|g",
+     "butter|butter|30|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Fry the sliced mushrooms in a little butter for 5 min.|Pan|5",
+     "Preheat the oven to 220 °C. Butter the outside of the bread slices.",
+     "Top 4 slices with mushrooms, tomato slices and emmental, then cover.",
+     "Sprinkle with emmental and bake for 10 min.|Oven|10"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Coq au vin",
+  "a": [
+   "chicken in red wine"
+  ],
+  "fr": "Coq au vin",
+  "r": [
+   [
+    "Coq au vin",
+    "The classic",
+    "",
+    "The great slow-cooked classic: tender chicken in a red wine sauce, with lardons and mushrooms.",
+    "",
+    120,
+    620,
+    "M",
+    "coq au vin chicken red wine",
+    "",
+    [
+     "chicken pieces|chicken pieces|1|",
+     "red wine|red wine|75|cl",
+     "bacon lardon|bacon lardons|150|g",
+     "button mushroom|button mushrooms|250|g",
+     "onion|onions|2|",
+     "carrot|carrots|2|",
+     "garlic|garlic|2|clove",
+     "plain flour|plain flour|2|tbsp",
+     "olive oil|olive oil|2|tbsp",
+     "bouquet garni|bouquets garnis|1|",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Brown the chicken pieces in the oil in a casserole dish. Set aside.",
+     "Fry the lardons, onions and carrots for 5 min.|Cooking|5",
+     "Put the chicken back, sprinkle with flour and stir.",
+     "Pour in the wine, add the garlic, bouquet garni, salt and pepper. Cover and simmer for 1 h 15.|Simmer|75",
+     "Add the mushrooms and cook for another 20 min.|Cooking|20"
+    ]
+   ],
+   [
+    "Coq au vin blanc",
+    "White wine",
+    "The red wine is replaced with white wine and a little cream.",
+    "A milder version made with white wine, in a creamy sauce.",
+    "",
+    90,
+    580,
+    "M",
+    "chicken white wine cream",
+    "",
+    [
+     "chicken pieces|chicken pieces|1|",
+     "white wine|white wine|50|cl",
+     "bacon lardon|bacon lardons|150|g",
+     "button mushroom|button mushrooms|250|g",
+     "onion|onions|2|",
+     "crème fraîche|crème fraîche|10|cl",
+     "olive oil|olive oil|2|tbsp",
+     "thyme|thyme||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Brown the chicken in the oil in a casserole dish, then the lardons and onions.",
+     "Pour in the white wine, add the thyme, salt and pepper. Cover and simmer for 50 min.|Simmer|50",
+     "Add the sliced mushrooms and cook for 15 min.|Cooking|15",
+     "Add the cream and let it reduce for 5 min.|Cooking|5"
+    ]
+   ],
+   [
+    "Quick chicken in red wine",
+    "Quick",
+    "With boneless thighs, it is ready in under an hour.",
+    "The taste of the classic, on a weeknight.",
+    "",
+    50,
+    560,
+    "F",
+    "quick chicken red wine stew",
+    "",
+    [
+     "chicken thigh|chicken thighs|8|",
+     "red wine|red wine|40|cl",
+     "bacon lardon|bacon lardons|100|g",
+     "button mushroom|button mushrooms|200|g",
+     "onion|onions|1|",
+     "plain flour|plain flour|1|tbsp",
+     "olive oil|olive oil|1|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Brown the chicken in the oil for 8 min, then the lardons and the sliced onion.|Cooking|8",
+     "Sprinkle with flour, pour in the wine, add salt and pepper.",
+     "Add the mushrooms, cover and simmer for 30 min.|Simmer|30"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Poulet basquaise",
+  "a": [
+   "basquaise",
+   "basque chicken"
+  ],
+  "fr": "Poulet basquaise",
+  "r": [
+   [
+    "Chicken basquaise",
+    "The classic",
+    "",
+    "Chicken simmered with peppers, tomatoes and Espelette pepper: the sunshine of the Basque Country.",
+    "Basque speciality",
+    70,
+    480,
+    "F",
+    "basque chicken peppers",
+    "bf",
+    [
+     "chicken pieces|chicken pieces|1|",
+     "red pepper|red peppers|2|",
+     "green pepper|green peppers|1|",
+     "tomato|tomatoes|4|",
+     "onion|onions|2|",
+     "garlic|garlic|2|clove",
+     "white wine|white wine|10|cl",
+     "olive oil|olive oil|3|tbsp",
+     "espelette pepper|espelette pepper||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Brown the chicken pieces in the oil in a casserole dish. Set aside.",
+     "Fry the onions, garlic and sliced peppers for 10 min.|Cooking|10",
+     "Add the chopped tomatoes, the wine, the Espelette pepper, salt and pepper.",
+     "Put the chicken back, cover and simmer for 45 min.|Simmer|45"
+    ]
+   ],
+   [
+    "Quick chicken basquaise",
+    "Quick",
+    "Chicken breasts and tinned tomatoes: ready in 30 minutes.",
+    "The flavours of basquaise, for a busy evening.",
+    "Basque speciality",
+    30,
+    400,
+    "F",
+    "quick chicken peppers tomato",
+    "bfh",
+    [
+     "chicken breast|chicken breasts|4|",
+     "red pepper|red peppers|2|",
+     "chopped tomato|chopped tomatoes|400|g",
+     "onion|onions|1|",
+     "garlic|garlic|1|clove",
+     "olive oil|olive oil|2|tbsp",
+     "espelette pepper|espelette pepper||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Cut the chicken into pieces and brown it in the oil for 5 min.|Pan|5",
+     "Add the onion, garlic and sliced peppers, and cook for 8 min.|Cooking|8",
+     "Pour in the tomatoes, add the Espelette pepper, salt and pepper, and simmer for 15 min.|Simmer|15"
+    ]
+   ],
+   [
+    "Vegetable and chickpea basquaise",
+    "Vegetarian",
+    "The chicken is replaced with chickpeas.",
+    "Slow-cooked piperade and tender chickpeas, for a sunny veggie dish.",
+    "Basque speciality",
+    35,
+    380,
+    "F",
+    "basque peppers chickpeas stew",
+    "vbh",
+    [
+     "chickpea|chickpeas|400|g",
+     "red pepper|red peppers|2|",
+     "green pepper|green peppers|1|",
+     "tomato|tomatoes|4|",
+     "onion|onions|1|",
+     "garlic|garlic|2|clove",
+     "olive oil|olive oil|2|tbsp",
+     "espelette pepper|espelette pepper||",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Fry the onion, garlic and sliced peppers in the oil for 10 min.|Cooking|10",
+     "Add the chopped tomatoes, the Espelette pepper, salt and pepper, and simmer for 15 min.|Simmer|15",
+     "Add the drained chickpeas and cook for another 5 min.|Cooking|5"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Poulet rôti",
+  "a": [
+   "roast chicken",
+   "sunday roast chicken"
+  ],
+  "fr": "Poulet rôti",
+  "r": [
+   [
+    "Roast chicken",
+    "The classic",
+    "",
+    "A golden, crispy chicken with homemade gravy and roast potatoes.",
+    "",
+    90,
+    620,
+    "F",
+    "roast chicken potatoes",
+    "obf",
+    [
+     "whole chicken|whole chickens|1|",
+     "potato|potatoes|800|g",
+     "butter|butter|40|g",
+     "garlic|garlic|4|clove",
+     "thyme|thyme||",
+     "olive oil|olive oil|2|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 210 °C. Take the chicken out of the fridge 30 min beforehand.",
+     "Rub the chicken with the soft butter, salt, pepper and thyme. Put the garlic inside.",
+     "Place it in a dish, surrounded by the potatoes cut into chunks and tossed in oil.",
+     "Pour a glass of water into the dish and bake for 1 h 15, basting every 20 min.|Oven|75",
+     "Rest for 10 min under a sheet of foil before carving.|Rest|10"
+    ]
+   ],
+   [
+    "Lemon and herb roast chicken",
+    "Lemon and herbs",
+    "The chicken is flavoured with lemon, garlic and rosemary.",
+    "A fresh roast chicken with lemon and rosemary.",
+    "",
+    90,
+    580,
+    "F",
+    "lemon herb roast chicken",
+    "oh",
+    [
+     "whole chicken|whole chickens|1|",
+     "lemon|lemons|2|",
+     "garlic|garlic|4|clove",
+     "rosemary|rosemary||",
+     "potato|potatoes|800|g",
+     "olive oil|olive oil|3|tbsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 210 °C.",
+     "Put a lemon cut into quarters, the garlic and the rosemary inside the chicken. Rub it with oil, salt and pepper.",
+     "Surround it with the potatoes and the other lemon in wedges.",
+     "Bake for 1 h 15, basting regularly.|Oven|75",
+     "Rest for 10 min before serving.|Rest|10"
+    ]
+   ],
+   [
+    "Roast chicken legs",
+    "Quick",
+    "Legs instead of a whole chicken: half the cooking time.",
+    "The taste of Sunday chicken, in 45 minutes.",
+    "",
+    45,
+    560,
+    "F",
+    "roasted chicken legs",
+    "obf",
+    [
+     "chicken leg|chicken legs|4|",
+     "potato|potatoes|800|g",
+     "garlic|garlic|3|clove",
+     "thyme|thyme||",
+     "olive oil|olive oil|3|tbsp",
+     "paprika|paprika|1|tsp",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Preheat the oven to 220 °C.",
+     "Mix the oil, paprika, thyme, salt and pepper, and brush over the legs.",
+     "Put them in a dish with the potatoes in wedges and the garlic.",
+     "Bake for 40 min, until the skin is really crispy.|Oven|40"
+    ]
+   ]
+  ]
+ }
+]
