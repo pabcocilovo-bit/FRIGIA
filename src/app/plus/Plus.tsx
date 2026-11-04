@@ -14,10 +14,11 @@ import { PLUS_ART } from "./art";
 import { CodeSheet, type CodeProblem } from "./CodeSheet";
 import { cleanCode, redeemCode } from "../../lib/codes";
 import { WHY, checkoutChoice, isYearly, longDate, priceText, rememberCheckout, useSubscription, type PaywallState, type Why } from "./subscription";
+import { locale, t } from "../../lib/i18n";
 import "./plus.css";
 
 const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).join(" ");
-const failText = (e: unknown) => (e instanceof Error && e.message ? e.message : "Ça n'a pas marché. Réessaie.");
+const failText = (e: unknown) => (e instanceof Error && e.message ? e.message : t("Ça n'a pas marché. Réessaie.", "That didn't work. Try again."));
 
 /** Ouvre la page de paiement Stripe pour la formule choisie (ou le portail pour changer de carte). */
 async function goToCheckout(plan: PlanChoice, go: string | undefined) {
@@ -32,10 +33,12 @@ async function goToCheckout(plan: PlanChoice, go: string | undefined) {
 // ─── Passe à Plus ────────────────────────────────────────────────────────────
 
 // Ce que Plus comprend (plus de colonne Gratuit : la formule gratuite est retirée depuis le 23 octobre)
-const FEATS = ["Scans illimités du frigo, des placards et des tickets", "Le mode famille : les goûts de chacun, les portions calculées",
-  "Le planning de la semaine et ses courses", "Ton bilan d'économies et ton budget courses", "Tous tes scans et tes favoris gardés"];
+const FEATS = t(["Scans illimités du frigo, des placards et des tickets", "Le mode famille : les goûts de chacun, les portions calculées",
+  "Le planning de la semaine et ses courses", "Ton bilan d'économies et ton budget courses", "Tous tes scans et tes favoris gardés"],
+["Unlimited scans of your fridge, cupboards and receipts", "Family mode: everyone's tastes, portions worked out",
+  "The weekly plan and its shopping", "Your savings report and grocery budget", "All your scans and favourites kept"]);
 
-const DATE = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long" });
+const DATE = new Intl.DateTimeFormat(locale, { day: "numeric", month: "long" });
 
 export function Paywall({ locked, trial, onCode }: {
   /** L'essai est fini, sans abonnement : pas de « Fermer », seulement s'abonner (ou son compte) */
@@ -54,7 +57,7 @@ export function Paywall({ locked, trial, onCode }: {
   const later = trial && trial - now > 48 * 3600e3 ? DATE.format(new Date(trial)) : null;
   const why = locked ? WHY.fin
     : state.why && state.why !== "def" && state.why !== "fin" ? WHY[state.why as Why] ?? WHY.def
-      : trial ? `${trialText(trial, now)}. ${later ? `Abonne-toi maintenant : rien à payer avant le ${later}.` : "Abonne-toi pour garder Frigia ensuite."}` : WHY.def;
+      : trial ? `${trialText(trial, now)}. ${later ? t(`Abonne-toi maintenant : rien à payer avant le ${later}.`, `Subscribe now: nothing to pay before ${later}.`) : t("Abonne-toi pour garder Frigia ensuite.", "Subscribe to keep Frigia afterwards.")}` : WHY.def;
   const [plan, setPlan] = useState<PlanChoice>("year");
   // Prix fondateur tant qu'il reste des places parmi les 500 premiers abonnés annuels
   const [founder, setFounder] = useState(true);
@@ -90,21 +93,21 @@ export function Paywall({ locked, trial, onCode }: {
       setFounder(o.founderLeft > 0);
       if (o.creatorOffer) { setOffer(true); setPlan("month"); }
       // Code déjà mis (à l'inscription ou ici avant) : gardé sur le compte, on ne le redemande pas
-      if (o.usedCode) { setCodeOk(`Code ${o.usedCode} déjà sur ton compte${o.creatorOffer ? " : 1 mois offert sur le mensuel" : ""}.`); setCodeOpen(false); }
+      if (o.usedCode) { setCodeOk(t(`Code ${o.usedCode} déjà sur ton compte${o.creatorOffer ? " : 1 mois offert sur le mensuel" : ""}.`, `Code ${o.usedCode} already on your account${o.creatorOffer ? ": 1 free month on the monthly plan" : ""}.`)); setCodeOpen(false); }
     }).catch(() => {});
     return () => { live = false; };
   }, []);
 
-  const yearPrice = founder ? "29,99 €/an" : "39,99 €/an";
+  const yearPrice = founder ? t("29,99 €/an", "€29.99/year") : t("39,99 €/an", "€39.99/year");
   const pay = async () => {
     setBusy(true);
     try { await goToCheckout(plan, state.go); } catch (e) { setBusy(false); showToast(failText(e)); }
   };
 
   return (
-    <section className="fa ob-screen scr-paywall" aria-label="Passe à Frigia Plus">
+    <section className="fa ob-screen scr-paywall" aria-label={t("Passe à Frigia Plus", "Upgrade to Frigia Plus")}>
       <div className="pw-top">
-        {locked ? <span /> : <RoundButton icon="x" label="Fermer" tone="glass" onClick={back} />}
+        {locked ? <span /> : <RoundButton icon="x" label={t("Fermer", "Close")} tone="glass" onClick={back} />}
         <span />
       </div>
       <div className="scroll">
@@ -115,37 +118,37 @@ export function Paywall({ locked, trial, onCode }: {
             <img className="plate" src="/landing/wrap-proteine.jpg" alt="" />
           </div>
           <div className="pw-h">
-            <span className="label">Pour toute la famille</span>
+            <span className="label">{t("Pour toute la famille", "For the whole family")}</span>
             <h2>Frigia <em>Plus</em></h2>
             <p>{why}</p>
           </div>
           <ul className="pw-feats">
-            {FEATS.map(t => <li key={t}><Icon name="check" />{t}</li>)}
+            {FEATS.map(f => <li key={f}><Icon name="check" />{f}</li>)}
           </ul>
-          <div className="offers" role="radiogroup" aria-label="Formule">
+          <div className="offers" role="radiogroup" aria-label={t("Formule", "Plan")}>
             <button type="button" role="radio" aria-checked={plan === "year"} className={cx("offer", plan === "year" && "on")} onClick={() => setPlan("year")}>
               <span className="rd" />
               {founder
-                ? <div><span className="lockpill">Prix fondateur</span><b>Annuel</b><small>Pour les 500 premiers abonnés</small></div>
-                : <div><b>Annuel</b></div>}
+                ? <div><span className="lockpill">{t("Prix fondateur", "Founder price")}</span><b>{t("Annuel", "Yearly")}</b><small>{t("Pour les 500 premiers abonnés", "For the first 500 subscribers")}</small></div>
+                : <div><b>{t("Annuel", "Yearly")}</b></div>}
               {/* Écart maquette : barré à 83,88 € (12 × 6,99 € en mensuel) au lieu de 39,99 €, demandé par Hugo pour l'impact */}
-              <span className="pr">{founder ? <><span className="was"><s>83,88 €</s> en mensuel</span>29,99 €/an</> : "39,99 €/an"}</span>
+              <span className="pr">{founder ? <><span className="was"><s>{t("83,88 €", "€83.88")}</s>{t(" en mensuel", " monthly")}</span>{t("29,99 €/an", "€29.99/year")}</> : t("39,99 €/an", "€39.99/year")}</span>
             </button>
             <button type="button" role="radio" aria-checked={plan === "month"} className={cx("offer", plan === "month" && "on")} onClick={() => setPlan("month")}>
               <span className="rd" />
               {offer
-                ? <div><span className="lockpill">1 mois offert</span><b>Mensuel</b><small>3 mois pour 13,98 €, puis 6,99 €/mois</small></div>
-                : <div><b>Mensuel</b><small>Sans engagement</small></div>}
-              <span className="pr">{offer ? <><s>20,97 €</s>13,98 €</> : "6,99 €/mois"}</span>
+                ? <div><span className="lockpill">{t("1 mois offert", "1 month free")}</span><b>{t("Mensuel", "Monthly")}</b><small>{t("3 mois pour 13,98 €, puis 6,99 €/mois", "3 months for €13.98, then €6.99/month")}</small></div>
+                : <div><b>{t("Mensuel", "Monthly")}</b><small>{t("Sans engagement", "No commitment")}</small></div>}
+              <span className="pr">{offer ? <><s>{t("20,97 €", "€20.97")}</s>{t("13,98 €", "€13.98")}</> : t("6,99 €/mois", "€6.99/month")}</span>
             </button>
           </div>
           <div className="code">
-            {!codeOk && <button type="button" className="tg" onClick={() => { setCodeOpen(o => !o); setTimeout(() => codeRef.current?.focus(), 50); }}>J'ai un code : 7 jours d'essai en plus</button>}
+            {!codeOk && <button type="button" className="tg" onClick={() => { setCodeOpen(o => !o); setTimeout(() => codeRef.current?.focus(), 50); }}>{t("J'ai un code : 7 jours d'essai en plus", "I have a code: 7 extra trial days")}</button>}
             {codeOpen && (
               <div className="row">
-                <input ref={codeRef} placeholder="Ton code, ex. MARIE" aria-label="Code ami ou créateur" autoComplete="off" autoCapitalize="characters"
+                <input ref={codeRef} placeholder={t("Ton code, ex. MARIE", "Your code, e.g. MARIE")} aria-label={t("Code ami ou créateur", "Friend or creator code")} autoComplete="off" autoCapitalize="characters"
                   value={codeIn} onChange={e => setCodeIn(e.target.value)} onKeyDown={e => { if (e.key === "Enter") void apply(); }} />
-                <button type="button" onClick={() => void apply()}>Appliquer</button>
+                <button type="button" onClick={() => void apply()}>{t("Appliquer", "Apply")}</button>
               </div>
             )}
             {codeOk && <div className="ok"><Icon name="check" /><span>{codeOk}</span></div>}
@@ -153,9 +156,9 @@ export function Paywall({ locked, trial, onCode }: {
         </div>
       </div>
       <div className="pw-foot">
-        <Pill tone="cream" disabled={busy} onClick={pay}>Passer à Plus · {plan === "year" ? yearPrice : offer ? "13,98 € pour 3 mois" : "6,99 €/mois"}</Pill>
-        <small>{later ? `Rien à payer avant le ${later}. ` : ""}Sans engagement. Paiement sécurisé par Stripe.</small>
-        {locked && <button type="button" className="link pw-acct" onClick={() => navigate("/reglages")}>Mon compte</button>}
+        <Pill tone="cream" disabled={busy} onClick={pay}>{t("Passer à Plus", "Upgrade to Plus")} · {plan === "year" ? yearPrice : offer ? t("13,98 € pour 3 mois", "€13.98 for 3 months") : t("6,99 €/mois", "€6.99/month")}</Pill>
+        <small>{later ? t(`Rien à payer avant le ${later}. `, `Nothing to pay before ${later}. `) : ""}{t("Sans engagement. Paiement sécurisé par Stripe.", "No commitment. Secure payment by Stripe.")}</small>
+        {locked && <button type="button" className="link pw-acct" onClick={() => navigate("/reglages")}>{t("Mon compte", "My account")}</button>}
       </div>
       <CodeSheet problem={problem}
         onFix={() => { setProblem(null); setTimeout(() => { codeRef.current?.focus(); codeRef.current?.select(); }, 350); }}
@@ -218,9 +221,9 @@ export function PayReturn() {
   };
 
   return (
-    <section className={cx("fa ob-screen scr-payfail on", ko && "ko")} aria-label={ko ? "Paiement refusé" : "Paiement en cours"}>
+    <section className={cx("fa ob-screen scr-payfail on", ko && "ko")} aria-label={ko ? t("Paiement refusé", "Payment declined") : t("Paiement en cours", "Payment in progress")}>
       <div className="fg-top">
-        <button type="button" className="fg-x" aria-label="Fermer" onClick={() => navigate("/plus", { replace: true, state: { go: checkoutChoice().go } })}><Icon name="x" /></button>
+        <button type="button" className="fg-x" aria-label={t("Fermer", "Close")} onClick={() => navigate("/plus", { replace: true, state: { go: checkoutChoice().go } })}><Icon name="x" /></button>
       </div>
       <div className="scroll">
         <div className="pf-body">
@@ -233,21 +236,21 @@ export function PayReturn() {
             <span className="pf-badge"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" /></svg></span>
           </div>
           <div className="pf-wait" aria-live="polite">
-            <h2>{card ? <>On valide <em>ta carte</em></> : <>On attend <em>ta banque</em></>}</h2>
-            <p>Ça prend quelques secondes. Si ta banque t'envoie une notification, valide-la.</p>
+            <h2>{card ? t(<>On valide <em>ta carte</em></>, <>Checking <em>your card</em></>) : t(<>On attend <em>ta banque</em></>, <>Waiting for <em>your bank</em></>)}</h2>
+            <p>{t("Ça prend quelques secondes. Si ta banque t'envoie une notification, valide-la.", "It takes a few seconds. If your bank sends you a notification, approve it.")}</p>
             <span className="pf-dots"><i /><i /><i /></span>
           </div>
           <div className="pf-ko" role={ko ? "alert" : undefined}>
-            <h2>Paiement <em>refusé</em></h2>
-            <p>{expired ? `Ta carte bancaire a expiré fin ${expired}.` : "Ta banque n'a pas validé le paiement."} Rien n'a été débité.</p>
-            <p className="pf-keep"><Icon name="check" /><span>Tes scans, tes favoris et ta cuisine restent sur ton compte.</span></p>
+            <h2>{t(<>Paiement <em>refusé</em></>, <>Payment <em>declined</em></>)}</h2>
+            <p>{expired ? t(`Ta carte bancaire a expiré fin ${expired}.`, `Your card expired at the end of ${expired}.`) : t("Ta banque n'a pas validé le paiement.", "Your bank didn't approve the payment.")} {t("Rien n'a été débité.", "Nothing was charged.")}</p>
+            <p className="pf-keep"><Icon name="check" /><span>{t("Tes scans, tes favoris et ta cuisine restent sur ton compte.", "Your scans, favourites and kitchen stay on your account.")}</span></p>
           </div>
         </div>
       </div>
       <div className="sf-foot pf-foot">
-        <Pill block disabled={busy} onClick={updateCard}>Mettre à jour ma carte</Pill>
-        <button type="button" className="link" onClick={() => navigate("/", { replace: true })}>Plus tard</button>
-        <span className="pf-safe"><Icon name="lock" />Paiement sécurisé par Stripe</span>
+        <Pill block disabled={busy} onClick={updateCard}>{t("Mettre à jour ma carte", "Update my card")}</Pill>
+        <button type="button" className="link" onClick={() => navigate("/", { replace: true })}>{t("Plus tard", "Later")}</button>
+        <span className="pf-safe"><Icon name="lock" />{t("Paiement sécurisé par Stripe", "Secure payment by Stripe")}</span>
       </div>
     </section>
   );
@@ -256,8 +259,8 @@ export function PayReturn() {
 // ─── Bienvenue dans Plus ─────────────────────────────────────────────────────
 
 function validLabel(sub: Subscription): string {
-  if (sub.plan === "founder") return "Prix fondateur · valable jusqu'au";
-  return isYearly(sub) ? "Annuel · valable jusqu'au" : "Mensuel · prochain paiement le";
+  if (sub.plan === "founder") return t("Prix fondateur · valable jusqu'au", "Founder price · valid until");
+  return isYearly(sub) ? t("Annuel · valable jusqu'au", "Yearly · valid until") : t("Mensuel · prochain paiement le", "Monthly · next payment on");
 }
 
 export function PlusWelcome({ user, name }: { user: User; name: string | null }) {
@@ -266,26 +269,26 @@ export function PlusWelcome({ user, name }: { user: User; name: string | null })
   const later = () => navigate(checkoutChoice().go || "/", { replace: true });
 
   return (
-    <section className="fa ob-screen scr-plusok play" aria-label="Bienvenue dans Frigia Plus">
+    <section className="fa ob-screen scr-plusok play" aria-label={t("Bienvenue dans Frigia Plus", "Welcome to Frigia Plus")}>
       <div className="po-main">
         <div className="po-h">
-          <h2>Bienvenue dans <em>Plus</em>&nbsp;!</h2>
-          <p>Merci{name ? ` ${name}` : ""}. Toute la famille mange mieux, et ton frigo ne gâche plus rien.</p>
+          <h2>{t(<>Bienvenue dans <em>Plus</em>&nbsp;!</>, <>Welcome to <em>Plus</em>!</>)}</h2>
+          <p>{t(`Merci${name ? ` ${name}` : ""}. Toute la famille mange mieux, et ton frigo ne gâche plus rien.`, `Thank you${name ? ` ${name}` : ""}. The whole family eats better, and your fridge wastes nothing.`)}</p>
         </div>
         <div className="po-art" dangerouslySetInnerHTML={{ __html: PLUS_ART }} />
         {sub !== null && (
           <div className="po-valid" style={sub ? undefined : { visibility: "hidden" }}>
-            <span className="label">{sub ? validLabel(sub) : "Prix fondateur · valable jusqu'au"}</span>
+            <span className="label">{sub ? validLabel(sub) : t("Prix fondateur · valable jusqu'au", "Founder price · valid until")}</span>
             <b>{sub ? longDate(sub.periodEnd, true) : "…"}</b>
           </div>
         )}
-        <ul className="po-unl" aria-label="Ce qui est débloqué">
-          {["Scans illimités", "Mode famille", "Planning", "Courses de la semaine"].map(t => <li key={t}><Icon name="check" />{t}</li>)}
+        <ul className="po-unl" aria-label={t("Ce qui est débloqué", "What's unlocked")}>
+          {t(["Scans illimités", "Mode famille", "Planning", "Courses de la semaine"], ["Unlimited scans", "Family mode", "Meal plan", "Weekly shopping"]).map(f => <li key={f}><Icon name="check" />{f}</li>)}
         </ul>
       </div>
       <div className="po-foot">
-        <Pill block icon="users" onClick={() => navigate("/famille/proche", { replace: true })}>Ajouter ma famille</Pill>
-        <button type="button" className="po-later" onClick={later}>Plus tard</button>
+        <Pill block icon="users" onClick={() => navigate("/famille/proche", { replace: true })}>{t("Ajouter ma famille", "Add my family")}</Pill>
+        <button type="button" className="po-later" onClick={later}>{t("Plus tard", "Later")}</button>
       </div>
     </section>
   );
@@ -293,22 +296,23 @@ export function PlusWelcome({ user, name }: { user: User; name: string | null })
 
 // ─── Résilier (« Gérer » dans Famille) : 3 clics, aussi visibles que « Garder Plus » ──
 
-const REASONS = [
-  "C'est trop cher pour moi",
-  "Je ne cuisine pas assez souvent",
-  "Les recettes ne me plaisent pas",
-  "Le scan se trompe trop",
-  "Autre chose",
+// [gardée en français, affichée] : la raison part en français (tableau de bord, Stripe)
+const REASONS: [string, string][] = [
+  ["C'est trop cher pour moi", t("C'est trop cher pour moi", "It's too expensive for me")],
+  ["Je ne cuisine pas assez souvent", t("Je ne cuisine pas assez souvent", "I don't cook often enough")],
+  ["Les recettes ne me plaisent pas", t("Les recettes ne me plaisent pas", "I don't like the recipes")],
+  ["Le scan se trompe trop", t("Le scan se trompe trop", "The scan makes too many mistakes")],
+  ["Autre chose", t("Autre chose", "Something else")],
 ];
 
 type Step = "offer" | "why" | "done";
 const isPaused = (sub: Subscription) => !!sub.pauseUntil && !sub.cancelAtPeriodEnd;
 
 function doneText(sub: Subscription): string {
-  if (!isPaused(sub)) return `Plus reste actif jusqu'au ${longDate(sub.periodEnd)}. Ensuite, il faudra te réabonner pour scanner.`;
+  if (!isPaused(sub)) return t(`Plus reste actif jusqu'au ${longDate(sub.periodEnd)}. Ensuite, il faudra te réabonner pour scanner.`, `Plus stays active until ${longDate(sub.periodEnd)}. After that, you'll need to subscribe again to scan.`);
   return isYearly(sub)
-    ? `Plus se met en veille un mois. Ton année est prolongée d'autant : renouvelée le ${longDate(sub.periodEnd)}.`
-    : `Pas de paiement le ${longDate(sub.pauseFrom ?? sub.periodEnd)}. Plus reprend tout seul le ${longDate(sub.pauseUntil ?? sub.periodEnd)}.`;
+    ? t(`Plus se met en veille un mois. Ton année est prolongée d'autant : renouvelée le ${longDate(sub.periodEnd)}.`, `Plus sleeps for a month. Your year is extended by as much: renews on ${longDate(sub.periodEnd)}.`)
+    : t(`Pas de paiement le ${longDate(sub.pauseFrom ?? sub.periodEnd)}. Plus reprend tout seul le ${longDate(sub.pauseUntil ?? sub.periodEnd)}.`, `No payment on ${longDate(sub.pauseFrom ?? sub.periodEnd)}. Plus resumes on its own on ${longDate(sub.pauseUntil ?? sub.periodEnd)}.`);
 }
 
 /** saved : les euros sauvés depuis le début (le bilan : seulement ce qui était « À finir ») */
@@ -323,13 +327,13 @@ export function Cancel({ user, saved }: { user: User; saved: number }) {
   const shown: Step = step ?? (sub && (sub.cancelAtPeriodEnd || sub.pauseUntil) ? "done" : "offer");
 
   const close = () => (location.key === "default" ? navigate("/famille/abonnement", { replace: true }) : navigate(-1));
-  const keep = () => { showToast("Plus continue, rien ne change"); setTimeout(close, 500); };
+  const keep = () => { showToast(t("Plus continue, rien ne change", "Plus continues, nothing changes")); setTimeout(close, 500); };
 
   useEffect(() => {
     if (sub === null) navigate("/famille/abonnement", { replace: true });
   }, [sub, navigate]);
   useEffect(() => {
-    if (failed && sub === undefined) showToast("Ça n'a pas marché. Réessaie.");
+    if (failed && sub === undefined) showToast(t("Ça n'a pas marché. Réessaie.", "That didn't work. Try again."));
   }, [failed, sub]);
 
   const run = async (action: "cancel" | "undo" | "pause" | "resume", then: () => void) => {
@@ -352,13 +356,13 @@ export function Cancel({ user, saved }: { user: User; saved: number }) {
   const founder = sub?.plan === "founder";
 
   return (
-    <section className="fa ob-screen scr-cancel play" aria-label="Résilier Frigia Plus">
+    <section className="fa ob-screen scr-cancel play" aria-label={t("Résilier Frigia Plus", "Cancel Frigia Plus")}>
       <div className="cx-back" aria-hidden="true" onClick={close}>
-        <span className="label">Ton abonnement</span>
+        <span className="label">{t("Ton abonnement", "Your subscription")}</span>
         <b>Frigia <em>Plus</em></b>
-        <span>{sub ? (sub.cancelAtPeriodEnd ? `Se termine le ${longDate(sub.periodEnd)}` : sub.pauseUntil ? (isYearly(sub) ? `En pause jusqu'au ${longDate(sub.pauseUntil)}` : "En pause") : priceText(sub)) : ""}</span>
+        <span>{sub ? (sub.cancelAtPeriodEnd ? t(`Se termine le ${longDate(sub.periodEnd)}`, `Ends on ${longDate(sub.periodEnd)}`) : sub.pauseUntil ? (isYearly(sub) ? t(`En pause jusqu'au ${longDate(sub.pauseUntil)}`, `Paused until ${longDate(sub.pauseUntil)}`) : t("En pause", "Paused")) : priceText(sub)) : ""}</span>
       </div>
-      <button type="button" className="fg-x cx-x" aria-label="Fermer" onClick={close}><Icon name="x" /></button>
+      <button type="button" className="fg-x cx-x" aria-label={t("Fermer", "Close")} onClick={close}><Icon name="x" /></button>
       <div className="cx-sheet">
         <span className="grab" />
 
@@ -369,37 +373,37 @@ export function Cancel({ user, saved }: { user: User; saved: number }) {
               <i className="d1" /><i className="d2" />
             </div>
             {/* La maquette dit « Continue de sauver 22,60 € par mois » : on montre le vrai total du bilan, et rien sous 1 € */}
-            {saved >= 1 ? <h2>Tu as déjà sauvé <em>{euros(saved)}</em></h2> : <h2>Continue avec <em>Plus</em></h2>}
-            <p>{saved >= 1 ? "Avec Frigia, sur ce que tu avais à finir. " : ""}Sans Plus, plus de scans ni de recettes, et ta semaine s'arrête.{founder ? " Et ton prix fondateur ne reviendra pas." : ""}</p>
+            {saved >= 1 ? <h2>{t(<>Tu as déjà sauvé <em>{euros(saved)}</em></>, <>You've already saved <em>{euros(saved)}</em></>)}</h2> : <h2>{t(<>Continue avec <em>Plus</em></>, <>Keep going with <em>Plus</em></>)}</h2>}
+            <p>{saved >= 1 ? t("Avec Frigia, sur ce que tu avais à finir. ", "With Frigia, on what you had to use up. ") : ""}{t("Sans Plus, plus de scans ni de recettes, et ta semaine s'arrête.", "Without Plus, no more scans or recipes, and your week stops.")}{founder ? t(" Et ton prix fondateur ne reviendra pas.", " And your founder price won't come back.") : ""}</p>
             {sub?.canPause && (
               <button type="button" className="cx-pause" disabled={busy} onClick={() => run("pause", () => setStep("done"))}>
                 <span><Icon name="clock" /></span>
-                <div><b>Une pause d'un mois</b>Rien à payer, tout reste là</div>
+                <div><b>{t("Une pause d'un mois", "A one-month pause")}</b>{t("Rien à payer, tout reste là", "Nothing to pay, everything stays")}</div>
                 <Icon name="next" />
               </button>
             )}
           </div></div>
           <div className="cx-foot">
-            <Pill block onClick={keep}>Garder Plus</Pill>
-            <button type="button" className="pill block cx-no" disabled={!sub} onClick={() => setStep("why")}>Oui, résilier</button>
+            <Pill block onClick={keep}>{t("Garder Plus", "Keep Plus")}</Pill>
+            <button type="button" className="pill block cx-no" disabled={!sub} onClick={() => setStep("why")}>{t("Oui, résilier", "Yes, cancel")}</button>
           </div>
         </div>
 
         <div className={cx("cx-step", shown === "why" && "on")}>
-          <button type="button" className="cx-bk" aria-label="Retour" onClick={() => setStep("offer")}><Icon name="back" /></button>
+          <button type="button" className="cx-bk" aria-label={t("Retour", "Back")} onClick={() => setStep("offer")}><Icon name="back" /></button>
           <div className="cx-scroll"><div className="cx-in">
-            <h2>Pourquoi tu <em>pars ?</em></h2>
-            <p>Facultatif. Ta réponse nous aide à améliorer Frigia.</p>
-            <div className="cx-why" role="radiogroup" aria-label="Pourquoi tu pars">
-              {REASONS.map(r => (
+            <h2>{t(<>Pourquoi tu <em>pars ?</em></>, <>Why are you <em>leaving?</em></>)}</h2>
+            <p>{t("Facultatif. Ta réponse nous aide à améliorer Frigia.", "Optional. Your answer helps us improve Frigia.")}</p>
+            <div className="cx-why" role="radiogroup" aria-label={t("Pourquoi tu pars", "Why you're leaving")}>
+              {REASONS.map(([r, label]) => (
                 <button key={r} type="button" role="radio" aria-checked={reason === r} className={reason === r ? "on" : undefined}
-                  onClick={() => setReason(reason === r ? null : r)}>{r}</button>
+                  onClick={() => setReason(reason === r ? null : r)}>{label}</button>
               ))}
             </div>
           </div></div>
           <div className="cx-foot">
-            <button type="button" className="pill block cx-conf" disabled={busy} onClick={() => run("cancel", () => setStep("done"))}>Confirmer la résiliation</button>
-            <button type="button" className="pill block cx-line" onClick={keep}>Finalement, je garde Plus</button>
+            <button type="button" className="pill block cx-conf" disabled={busy} onClick={() => run("cancel", () => setStep("done"))}>{t("Confirmer la résiliation", "Confirm cancellation")}</button>
+            <button type="button" className="pill block cx-line" onClick={keep}>{t("Finalement, je garde Plus", "Actually, I'll keep Plus")}</button>
           </div>
         </div>
 
@@ -409,16 +413,16 @@ export function Cancel({ user, saved }: { user: User; saved: number }) {
               <span className="fg-tile" dangerouslySetInnerHTML={{ __html: LOGO_SYMBOL }} />
               <span className={cx("cx-badge", paused && "pz")}><Icon name={paused ? "clock" : "check"} /></span>
             </div>
-            <h2>{paused ? <>Bonne <em>pause</em></> : <>C'est <em>noté</em></>}</h2>
+            <h2>{paused ? t(<>Bonne <em>pause</em></>, <>Enjoy the <em>break</em></>) : t(<>C'est <em>noté</em></>, <>All <em>set</em></>)}</h2>
             <p>{sub ? doneText(sub) : ""}</p>
             <p className="cx-note">{paused
-              ? "Tes favoris, ta semaine et ta famille t'attendent. On te prévient la veille de la reprise."
-              : "Rien ne disparaît : tes favoris, ta liste et tes scans restent là. Un email de confirmation est parti."}</p>
+              ? t("Tes favoris, ta semaine et ta famille t'attendent. On te prévient la veille de la reprise.", "Your favourites, week and family are waiting. We'll let you know the day before it resumes.")
+              : t("Rien ne disparaît : tes favoris, ta liste et tes scans restent là. Un email de confirmation est parti.", "Nothing disappears: your favourites, list and scans stay. A confirmation email is on its way.")}</p>
           </div></div>
           <div className="cx-foot">
-            <Pill block onClick={close}>Retour à mon compte</Pill>
+            <Pill block onClick={close}>{t("Retour à mon compte", "Back to my account")}</Pill>
             <button type="button" className="pill block cx-line" disabled={busy} onClick={() => run(paused ? "resume" : "undo", keep)}>
-              <span>{paused ? "Reprendre maintenant" : "Je change d'avis"}</span>
+              <span>{paused ? t("Reprendre maintenant", "Resume now") : t("Je change d'avis", "I changed my mind")}</span>
             </button>
           </div>
         </div>
@@ -432,8 +436,8 @@ export function Cancel({ user, saved }: { user: User; saved: number }) {
 export function HelloSheet({ name, onScan, onClose }: { name: string | null; onScan: () => void; onClose: () => void }) {
   const [on, setOn] = useState(false);
   useEffect(() => {
-    const t = setTimeout(() => setOn(true), 350);
-    return () => clearTimeout(t);
+    const tm = setTimeout(() => setOn(true), 350);
+    return () => clearTimeout(tm);
   }, []);
   const hide = () => { setOn(false); setTimeout(onClose, 300); };
 
@@ -441,16 +445,16 @@ export function HelloSheet({ name, onScan, onClose }: { name: string | null; onS
     // Posée par-dessus l'accueil, hors de son bloc : le style .fa vient de cet emballage
     <div className="fa">
     <div className={cx("ob-hello", on && "on")} aria-hidden={!on} onClick={e => { if (e.target === e.currentTarget) hide(); }}>
-      <div className="sheet" role="dialog" aria-label="Bienvenue">
+      <div className="sheet" role="dialog" aria-label={t("Bienvenue", "Welcome")}>
         <span className="grab" />
         <div className="top">
           <img className="plate" src="/landing/pasta-legumes.jpg" alt="" />
-          <h2>Bienvenue{name ? <> <em>{name}</em></> : null}&nbsp;!</h2>
+          <h2>{t(<>Bienvenue{name ? <> <em>{name}</em></> : null}&nbsp;!</>, <>Welcome{name ? <> <em>{name}</em></> : null}!</>)}</h2>
         </div>
-        <p>Ton Frigia est prêt. Ouvre ton frigo, prends une photo, et trois recettes arrivent.</p>
-        <div className="qd"><Icon name="gift" /><span>7 jours pour tout essayer, sans carte bancaire</span></div>
-        <Pill block icon="cam" onClick={onScan}>Scanner mon frigo</Pill>
-        <button type="button" className="later" onClick={hide}>Plus tard</button>
+        <p>{t("Ton Frigia est prêt. Ouvre ton frigo, prends une photo, et trois recettes arrivent.", "Your Frigia is ready. Open your fridge, take a photo, and three recipes arrive.")}</p>
+        <div className="qd"><Icon name="gift" /><span>{t("7 jours pour tout essayer, sans carte bancaire", "7 days to try everything, no card needed")}</span></div>
+        <Pill block icon="cam" onClick={onScan}>{t("Scanner mon frigo", "Scan my fridge")}</Pill>
+        <button type="button" className="later" onClick={hide}>{t("Plus tard", "Later")}</button>
       </div>
     </div>
     </div>
