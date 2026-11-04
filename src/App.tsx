@@ -360,7 +360,8 @@ return (
           if (!added.length) showToast(`${item.name.charAt(0).toUpperCase() + item.name.slice(1)} : déjà dans ta liste${item.qty ? ", quantité ajoutée" : ""}`);
           return list.find(x => !x.done && same(x.name, item.name))?.id ?? null;
         }}
-        onClearDone={() => home.setShopping(l => l.filter(x => !x.done))} />} />
+        onClearDone={() => home.setShopping(l => l.filter(x => !x.done))}
+        onClearAll={() => home.setShopping([])} />} />
       <Route path="/famille" element={<Family user={user} name={name} isPlus={isPlus} avatar={avatarSrc}
         dishes={dishes} onAvatar={onAvatar} onName={onName} onSignOut={account.onSignOut} />} />
       <Route path="/famille/foyer" element={<FamilyHousehold isPlus={isPlus} avatar={avatarSrc} household={household} />} />
