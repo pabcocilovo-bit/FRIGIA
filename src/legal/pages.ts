@@ -1,4 +1,5 @@
 import source from "./pages-legales.md?raw";
+import { t } from "../lib/i18n";
 
 // Les 4 pages légales, lues dans pages-legales.md (la même source que les Réglages de l'appli).
 // Le fichier n'utilise que : ## titre, _date_, **L'essentiel**, ### intertitre, - liste, paragraphes et **gras**.
@@ -15,9 +16,10 @@ export type LegalPage = { key: LegalKey; slug: string; tab: string; title: strin
 
 // Dans l'ordre du fichier Markdown
 const META: { key: LegalKey; slug: string; tab: string }[] = [
-  { key: "cgu", slug: "cgu", tab: "Conditions" },
-  { key: "confidentialite", slug: "confidentialite", tab: "Confidentialité" },
-  { key: "mentions", slug: "mentions-legales", tab: "Mentions légales" },
+  // Le texte des pages reste en français (droit français) : seuls les onglets sont traduits
+  { key: "cgu", slug: "cgu", tab: t("Conditions", "Terms") },
+  { key: "confidentialite", slug: "confidentialite", tab: t("Confidentialité", "Privacy") },
+  { key: "mentions", slug: "mentions-legales", tab: t("Mentions légales", "Legal notice") },
   { key: "cookies", slug: "cookies", tab: "Cookies" },
 ];
 

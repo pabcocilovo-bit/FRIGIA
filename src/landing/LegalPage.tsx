@@ -1,5 +1,6 @@
 import { LEGAL, type LegalPage as Page } from "../legal/pages";
 import { LegalBody } from "./legal";
+import { t } from "../lib/i18n";
 
 // Page légale autonome (/cgu, /confidentialite, /mentions-legales, /cookies), écrite en HTML au build.
 // Aucun JavaScript : de simples liens, lisibles par tout le monde et par les robots.
@@ -8,8 +9,8 @@ export function LegalPage({ page }: { page: Page }) {
     <div className="lp">
       <header className="nav">
         <div className="container">
-          <a className="home" href="/" aria-label="Frigia, accueil"><img src="/landing/frigia-logo.svg" alt="Frigia" width={84} height={30} /></a>
-          <div className="right"><a className="btn btn-fill" href="/">Retour à l'accueil</a></div>
+          <a className="home" href="/" aria-label={t("Frigia, accueil", "Frigia, home")}><img src="/landing/frigia-logo.svg" alt="Frigia" width={84} height={30} /></a>
+          <div className="right"><a className="btn btn-fill" href="/">{t("Retour à l'accueil", "Back to home")}</a></div>
         </div>
       </header>
       <main className="container legal-page lp-legal">

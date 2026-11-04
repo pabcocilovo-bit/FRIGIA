@@ -3,6 +3,7 @@ import { supabase } from "../supabase";
 import { Sheet } from "./Sheet";
 import type { LegalKey } from "./legal";
 import { trialPitch } from "../lib/alpha";
+import { t } from "../lib/i18n";
 
 // Inscription et connexion depuis la landing, avec la logique Supabase de l'ancienne version.
 // Provisoire : dans la refonte, « Commencer » ouvrira le parcours d'inscription de l'appli (questions, compte, code par email).
@@ -17,7 +18,7 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const errorText = (e: unknown) => (e instanceof Error && e.message) || "Une erreur est survenue. Réessaie.";
+const errorText = (e: unknown) => (e instanceof Error && e.message) || t("Une erreur est survenue. Réessaie.", "Something went wrong. Try again.");
 
 // onWaitlist : en mode liste d'attente, la connexion ne mène plus à l'inscription mais à la liste
 export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, onClose, onWaitlist }: {
@@ -45,10 +46,10 @@ export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, 
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!email || !pw) { setMsg("Remplis ton email et ton mot de passe."); return; }
+    if (!email || !pw) { setMsg(t("Remplis ton email et ton mot de passe.", "Fill in your email and password.")); return; }
     setMsg("");
     if (mode === "signup") {
-      if (pw.length < 8) { setMsg("Ton mot de passe doit faire au moins 8 caractères."); return; }
+      if (pw.length < 8) { setMsg(t("Ton mot de passe doit faire au moins 8 caractères.", "Your password must be at least 8 characters.")); return; }
       setStep("review");
       return;
     }
@@ -81,26 +82,26 @@ export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, 
 
   if (step === "check-mail") {
     return (
-      <Sheet label="Vérifie tes emails" onClose={onClose}>
-        <h2>Regarde <em>tes emails</em></h2>
-        <p className="intro">On t'a envoyé un lien à <b>{email}</b> pour confirmer ton compte. Pense aux spams.</p>
-        <button className="btn btn-fill full" onClick={onClose}>C'est noté</button>
+      <Sheet label={t("Vérifie tes emails", "Check your emails")} onClose={onClose}>
+        <h2>{t(<>Regarde <em>tes emails</em></>, <>Check <em>your emails</em></>)}</h2>
+        <p className="intro">{t(<>On t'a envoyé un lien à <b>{email}</b> pour confirmer ton compte. Pense aux spams.</>, <>We've sent a link to <b>{email}</b> to confirm your account. Check your spam folder.</>)}</p>
+        <button className="btn btn-fill full" onClick={onClose}>{t("C'est noté", "Got it")}</button>
       </Sheet>
     );
   }
 
   if (step === "review") {
     return (
-      <Sheet label="Vérifie ton email" onClose={onClose}>
-        <h2>C'est bien <em>ton email</em> ?</h2>
-        <p className="intro">Tu y recevras tes reçus et de quoi récupérer ton compte.</p>
+      <Sheet label={t("Vérifie ton email", "Check your email")} onClose={onClose}>
+        <h2>{t(<>C'est bien <em>ton email</em> ?</>, <>Is this <em>your email</em>?</>)}</h2>
+        <p className="intro">{t("Tu y recevras tes reçus et de quoi récupérer ton compte.", "You'll get your receipts there, and what you need to recover your account.")}</p>
         <div className="stack">
           <div className="email-box">{email}</div>
           {msg && <p className="msg" role="alert">{msg}</p>}
           <button className="btn btn-fill full" onClick={confirmSignup} disabled={loading || !captchaToken}>
-            {loading ? "Création…" : "Créer mon compte"}
+            {loading ? t("Création…", "Creating…") : t("Créer mon compte", "Create my account")}
           </button>
-          <button className="back" onClick={() => setStep("form")}>Corriger l'email</button>
+          <button className="back" onClick={() => setStep("form")}>{t("Corriger l'email", "Fix the email")}</button>
         </div>
       </Sheet>
     );
@@ -108,36 +109,37 @@ export function AuthSheet({ initialMode, captchaToken, onResetCaptcha, onLegal, 
 
   const signup = mode === "signup";
   return (
-    <Sheet label={signup ? "Crée ton compte" : "Connexion"} onClose={onClose}>
-      <h2>{signup ? <>Crée ton <em>compte</em></> : <>Content de te <em>revoir</em></>}</h2>
-      <p className="intro">{signup ? `${trialPitch()}, sans carte bancaire.` : "Connecte-toi pour retrouver tes recettes."}</p>
+    <Sheet label={signup ? t("Crée ton compte", "Create your account") : t("Connexion", "Log in")} onClose={onClose}>
+      <h2>{signup ? t(<>Crée ton <em>compte</em></>, <>Create your <em>account</em></>) : t(<>Content de te <em>revoir</em></>, <>Good to see you <em>again</em></>)}</h2>
+      <p className="intro">{signup ? t(`${trialPitch()}, sans carte bancaire.`, `${trialPitch()}, no card needed.`) : t("Connecte-toi pour retrouver tes recettes.", "Log in to get back to your recipes.")}</p>
       <div className="stack">
-        <button className="btn btn-google full" onClick={google} disabled={loading}><GoogleIcon />Continuer avec Google</button>
-        <div className="or">ou avec ton email</div>
+        <button className="btn btn-google full" onClick={google} disabled={loading}><GoogleIcon />{t("Continuer avec Google", "Continue with Google")}</button>
+        <div className="or">{t("ou avec ton email", "or with your email")}</div>
         <form className="stack" onSubmit={submit} noValidate>
-          <label>Email<input type="email" autoComplete="email" inputMode="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="camille@email.fr" /></label>
-          <label>Mot de passe<input type="password" autoComplete={signup ? "new-password" : "current-password"} value={pw} onChange={e => setPw(e.target.value)} placeholder={signup ? "8 caractères minimum" : "Ton mot de passe"} /></label>
+          <label>{t("Email", "Email")}<input type="email" autoComplete="email" inputMode="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="camille@email.fr" /></label>
+          <label>{t("Mot de passe", "Password")}<input type="password" autoComplete={signup ? "new-password" : "current-password"} value={pw} onChange={e => setPw(e.target.value)} placeholder={signup ? t("8 caractères minimum", "At least 8 characters") : t("Ton mot de passe", "Your password")} /></label>
           {msg && <p className="msg" role="alert">{msg}</p>}
           <button type="submit" className="btn btn-fill full" disabled={loading || (!signup && !captchaToken)}>
-            {loading ? "…" : signup ? "Continuer" : "Se connecter"}
+            {loading ? "…" : signup ? t("Continuer", "Continue") : t("Se connecter", "Log in")}
           </button>
         </form>
         {signup && (
           <div className="perks">
-            <div><i>✓</i>7 jours pour tout essayer</div>
-            <div><i>✓</i>Sans carte bancaire</div>
-            <div><i>✓</i>Rien à télécharger</div>
+            <div><i>✓</i>{t("7 jours pour tout essayer", "7 days to try everything")}</div>
+            <div><i>✓</i>{t("Sans carte bancaire", "No card needed")}</div>
+            <div><i>✓</i>{t("Rien à télécharger", "Nothing to download")}</div>
           </div>
         )}
         <p className="switch">
           {signup
-            ? <>Déjà un compte ? <button onClick={() => switchMode("login")}>Se connecter</button></>
+            ? <>{t("Déjà un compte ?", "Already have an account?")} <button onClick={() => switchMode("login")}>{t("Se connecter", "Log in")}</button></>
             : onWaitlist
-              ? <>Pas encore invité ? <button onClick={onWaitlist}>Rejoins la liste d'attente</button></>
-              : <>Pas encore de compte ? <button onClick={() => switchMode("signup")}>Créer un compte</button></>}
+              ? <>{t("Pas encore invité ?", "Not invited yet?")} <button onClick={onWaitlist}>{t("Rejoins la liste d'attente", "Join the waiting list")}</button></>
+              : <>{t("Pas encore de compte ?", "No account yet?")} <button onClick={() => switchMode("signup")}>{t("Créer un compte", "Create an account")}</button></>}
         </p>
         {signup && (
-          <p className="fine">En continuant, tu acceptes les <button onClick={() => onLegal("cgu")}>conditions d'utilisation</button> et la <button onClick={() => onLegal("confidentialite")}>politique de confidentialité</button>.</p>
+          <p className="fine">{t(<>En continuant, tu acceptes les <button onClick={() => onLegal("cgu")}>conditions d'utilisation</button> et la <button onClick={() => onLegal("confidentialite")}>politique de confidentialité</button>.</>,
+            <>By continuing, you accept the <button onClick={() => onLegal("cgu")}>terms of use</button> and the <button onClick={() => onLegal("confidentialite")}>privacy policy</button> (in French).</>)}</p>
         )}
       </div>
     </Sheet>

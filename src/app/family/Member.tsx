@@ -15,8 +15,8 @@ import "../library/library.css";
 import "../scan/scan.css";
 import "./family.css";
 
-const ALLERGIES: [string, string][] = ALLERGY_KEYS.map(k => [k, cap(allergyName(k))]);
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+const ALLERGIES: [string, string][] = ALLERGY_KEYS.map(k => [k, cap(allergyName(k))]);
 
 export function Member({ household, onSave, onRemove, onMyAllergies }: {
   household: Person[];

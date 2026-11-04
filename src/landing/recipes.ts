@@ -1,6 +1,9 @@
 // Le frigo de l'exemple et les recettes que Frigia en tirerait. Mêmes 8 ingrédients que l'écran
 // « C'est bien ça ? » de l'appli et que la photo du hero, pour que tout se tienne sur la page.
-export const FRIDGE = ["Courgettes", "Tomates cerises", "Poivrons", "Œufs", "Brocoli", "Carottes", "Champignons", "Lait"];
+import { t } from "../lib/i18n";
+
+export const FRIDGE = t(["Courgettes", "Tomates cerises", "Poivrons", "Œufs", "Brocoli", "Carottes", "Champignons", "Lait"],
+  ["Courgettes", "Cherry tomatoes", "Peppers", "Eggs", "Broccoli", "Carrots", "Mushrooms", "Milk"]);
 
 // frigo : vu sur la photo · placard : fond de placard (pâtes, huile, ail…) · achat : à acheter
 export type Where = "frigo" | "placard" | "achat";
@@ -8,7 +11,7 @@ export type Where = "frigo" | "placard" | "achat";
 export type Ing = { name: string; qty: number | null; unit?: string; where: Where };
 export type Recipe = { id: string; photo: string; name: string; minutes: number; ings: Ing[]; steps: string[] };
 
-export const RECIPES: Record<string, Recipe> = {
+const RECIPES_FR: Record<string, Recipe> = {
   omelette: {
     id: "omelette", photo: "omelette-tomates", name: "Omelette poivrons et champignons", minutes: 15,
     ings: [
@@ -103,8 +106,105 @@ export const RECIPES: Record<string, Recipe> = {
   },
 };
 
+const RECIPES_EN: Record<string, Recipe> = {
+  omelette: {
+    id: "omelette", photo: "omelette-tomates", name: "Pepper and mushroom omelette", minutes: 15,
+    ings: [
+      { name: "Eggs", qty: 2, where: "frigo" },
+      { name: "Peppers", qty: 0.5, where: "frigo" },
+      { name: "Mushrooms", qty: 2, where: "frigo" },
+      { name: "Cherry tomatoes", qty: 4, where: "frigo" },
+      { name: "Olive oil", qty: null, unit: "a drizzle", where: "placard" },
+    ],
+    steps: [
+      "Cut the pepper into strips and slice the mushrooms.",
+      "Fry them for 5 min in a pan with a drizzle of oil.",
+      "Beat the eggs with salt and pepper, pour them over the vegetables.",
+      "Add the halved cherry tomatoes and cover for 3 min over a low heat.",
+    ],
+  },
+  wraps: {
+    id: "wraps", photo: "wrap-proteine", name: "Egg and salad wraps", minutes: 15,
+    ings: [
+      { name: "Eggs", qty: 1, where: "frigo" },
+      { name: "Carrots", qty: 0.5, where: "frigo" },
+      { name: "Cherry tomatoes", qty: 3, where: "frigo" },
+      { name: "Flour tortillas", qty: 2, where: "achat" },
+    ],
+    steps: [
+      "Boil the eggs for 9 min, then peel them.",
+      "Grate the carrots and quarter the cherry tomatoes.",
+      "Fill each tortilla with sliced egg and salad.",
+      "Roll up tightly and cut in half.",
+    ],
+  },
+  salade: {
+    id: "salade", photo: "salade-caprese", name: "Cherry tomato and mozzarella salad", minutes: 10,
+    ings: [
+      { name: "Cherry tomatoes", qty: 8, where: "frigo" },
+      { name: "Mozzarella", qty: 60, unit: "g", where: "achat" },
+      { name: "Olive oil", qty: null, unit: "a drizzle", where: "placard" },
+    ],
+    steps: [
+      "Halve the cherry tomatoes and dice the mozzarella.",
+      "Mix with a drizzle of oil, salt and pepper.",
+      "Leave in the fridge for 5 min before serving.",
+    ],
+  },
+  penne: {
+    id: "penne", photo: "pasta-legumes", name: "Roasted vegetable penne", minutes: 25,
+    ings: [
+      { name: "Courgettes", qty: 0.5, where: "frigo" },
+      { name: "Peppers", qty: 0.5, where: "frigo" },
+      { name: "Cherry tomatoes", qty: 5, where: "frigo" },
+      { name: "Mushrooms", qty: 2, where: "frigo" },
+      { name: "Penne", qty: 80, unit: "g", where: "placard" },
+      { name: "Garlic", qty: 0.5, unit: "clove", where: "placard" },
+    ],
+    steps: [
+      "Preheat the oven to 200 °C.",
+      "Cut the vegetables into chunks, mix them with the garlic, oil and salt.",
+      "Roast for 20 min, stirring halfway.",
+      "Meanwhile, cook the penne, then mix it with the vegetables.",
+    ],
+  },
+  gratin: {
+    id: "gratin", photo: "gratin-courgettes", name: "Courgette gratin", minutes: 35,
+    ings: [
+      { name: "Courgettes", qty: 1, where: "frigo" },
+      { name: "Eggs", qty: 1, where: "frigo" },
+      { name: "Milk", qty: 8, unit: "cl", where: "frigo" },
+      { name: "Grated cheese", qty: 30, unit: "g", where: "achat" },
+    ],
+    steps: [
+      "Preheat the oven to 200 °C and slice the courgettes.",
+      "Fry them for 5 min in a pan so they release their water.",
+      "Beat the eggs with the milk, salt and pepper.",
+      "Put the courgettes in a dish, pour over the mixture, cover with cheese and bake for 25 min.",
+    ],
+  },
+  soupe: {
+    id: "soupe", photo: "soupe-detox", name: "Green courgette and broccoli soup", minutes: 25,
+    ings: [
+      { name: "Courgettes", qty: 0.5, where: "frigo" },
+      { name: "Broccoli", qty: 0.25, where: "frigo" },
+      { name: "Carrots", qty: 0.5, where: "frigo" },
+      { name: "Milk", qty: 5, unit: "cl", where: "frigo" },
+      { name: "Garlic", qty: 0.5, unit: "clove", where: "placard" },
+    ],
+    steps: [
+      "Cut the vegetables into chunks and crush the garlic.",
+      "Cover with salted water and simmer for 20 min with the lid on.",
+      "Blend with the milk until really smooth.",
+      "Add pepper and serve piping hot.",
+    ],
+  },
+};
+export const RECIPES = t(RECIPES_FR, RECIPES_EN);
+
 export type Envie = "rapide" | "enfants" | "gaspi" | "vege";
-export const ENVIES: [Envie, string][] = [["rapide", "Rapide"], ["enfants", "Les enfants adorent"], ["gaspi", "Anti-gaspi"], ["vege", "Végé"]];
+export const ENVIES: [Envie, string][] = t<[Envie, string][]>([["rapide", "Rapide"], ["enfants", "Les enfants adorent"], ["gaspi", "Anti-gaspi"], ["vege", "Végé"]],
+  [["rapide", "Quick"], ["enfants", "Kids love it"], ["gaspi", "Zero waste"], ["vege", "Veggie"]]);
 export const IDEAS: Record<Envie, string[]> = {
   rapide: ["omelette", "wraps", "salade"],
   enfants: ["penne", "gratin", "wraps"],

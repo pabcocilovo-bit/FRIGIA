@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import { LEGAL, legalPage, type Block, type LegalKey } from "../legal/pages";
 import { Sheet } from "./Sheet";
+import { t } from "../lib/i18n";
 
 export type { LegalKey };
 
@@ -20,7 +21,7 @@ export function LegalBody({ blocks }: { blocks: Block[] }) {
     if (b.t === "h") return <h3 key={i}>{b.text}</h3>;
     if (b.t === "p") return <p key={i}><Inline text={b.text} /></p>;
     const list = <ul>{b.items.map((it, j) => <li key={j}><Inline text={it} /></li>)}</ul>;
-    return b.essentiel ? <div key={i} className="essentiel"><b>L'essentiel</b>{list}</div> : <Fragment key={i}>{list}</Fragment>;
+    return b.essentiel ? <div key={i} className="essentiel"><b>{t("L'essentiel", "In short")}</b>{list}</div> : <Fragment key={i}>{list}</Fragment>;
   });
 }
 
