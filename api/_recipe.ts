@@ -76,7 +76,8 @@ function missingFromTitle(title: string, names: string[]): string[] {
 
 // Une viande ou un poisson par plat, deux au plus (poulet et chorizo) : l'IA en mettait parfois 4 dans une recette (Hugo, 28 octobre).
 // Le bouillon, le fond ou la sauce ne comptent pas. Sauf les plats qui en demandent plusieurs.
-const MEATS = /^ (poulet|dinde|canard|pintade|caille|boeuf|veau|steak|viande|porc|lardon|jambon|bacon|pancetta|saucisse|saucisson|chorizo|merguez|chipolata|knack|andouille|boudin|chair a saucisse|travers|echine|palette|poitrine|lard|agneau|mouton|gigot|lapin|magret|escalope|cuisse|aile|blanc de|filet de|saumon|thon|cabillaud|colin|lieu|merlu|truite|dorade|bar|sardine|maquereau|morue|lotte|sole|crevette|moule|calamar|encornet|seiche|saint jacques|noix de saint|gambas|langoustine|homard|crabe|surimi|anchois) /;
+const MEATS = /^ (poulet|dinde|canard|pintade|caille|boeuf|veau|steak|viande|porc|lardon|jambon|bacon|pancetta|saucisse|saucisson|chorizo|merguez|chipolata|knack|andouille|boudin|chair a saucisse|travers|echine|palette|poitrine|lard|agneau|mouton|gigot|lapin|magret|escalope|cuisse|aile|blanc de|filet de|saumon|thon|cabillaud|colin|lieu|merlu|truite|dorade|bar|sardine|maquereau|morue|lotte|sole|crevette|moule|calamar|encornet|seiche|saint jacques|noix de saint|gambas|langoustine|homard|crabe|surimi|anchois|chicken|turkey|duck|beef|veal|pork|ham|sausage|chorizo|salami|lamb|mince|rabbit|salmon|tuna|cod|haddock|hake|trout|mackerel|prawn|shrimp|mussel|squid|scallop|crab|lobster|anchov) /;
+// (la 2e moitié : les mêmes en anglais, pour les recettes de l'appli en anglais)
 const MANY = / (paella|choucroute|cassoulet|couscous royal|pot au feu|potee|jambalaya|bouillabaisse|garbure|paupiette|cordon bleu|saltimbocca|surf|mixed grill|brochette|planche|plateau|grillade|barbecue|tapas|antipasti) /;
 export function tooManyMeats(title: string, names: string[]): boolean {
   if (MANY.test(` ${words(title).replace(/-/g, " ").trim()} `)) return false;

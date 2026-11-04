@@ -20,11 +20,19 @@ export function siteOrigin(req: Req): string {
 export function preflight(req: Req, res: Res, methods = "POST"): boolean {
   res.setHeader("Access-Control-Allow-Origin", siteOrigin(req));
   res.setHeader("Access-Control-Allow-Methods", `${methods}, OPTIONS`);
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Frigia-Lang");
   if (req.method === "OPTIONS") { res.status(200).end(); return true; }
   if (!methods.split(", ").includes(req.method ?? "")) { res.status(405).json({ error: "Method not allowed" }); return true; }
   return false;
 }
+
+// ─── Langue : l'appli envoie X-Frigia-Lang (fr ou en), le français par défaut ───
+export type Lang = "fr" | "en";
+export const langOf = (req: Req): Lang => (String(req.headers["x-frigia-lang"] ?? "").toLowerCase() === "en" ? "en" : "fr");
+/** say(lang)("Réessaie", "Try again") : le message dans la langue de l'appli */
+export const say = (lang: Lang) => (fr: string, en: string) => (lang === "en" ? en : fr);
+/** À la fin d'une demande à l'IA quand l'appli est en anglais : les consignes restent en français, la réponse est en anglais. */
+export const AI_ENGLISH = `LANGUE (OBLIGATOIRE) : l'utilisateur lit l'anglais. Écris en anglais britannique simple tout le texte qu'il lit : titres, intro, noms d'ingrédients ("name", "plural"), "missing", étapes, libellés des minuteurs, "variant", "change", noms des pièces ("one", "many"). Unités en anglais : "g", "ml", "cl", "tbsp", "tsp", "clove", "slices", "leaves", ou "" pour un nombre de pièces. Restent telles quelles : les clés JSON, et "difficulty" qui vaut toujours "Facile", "Moyen" ou "Difficile". Les exemples en français ci-dessus montrent seulement la forme.`;
 
 export const adminClient = (): SupabaseClient => createClient(process.env.VITE_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
   auth: { autoRefreshToken: false, persistSession: false },

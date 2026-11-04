@@ -6,6 +6,7 @@ import { apiPrefs, getCachedProfile } from "./profile";
 import { recentRecipeTitles } from "./library";
 import { ingredientIcon, recipeIcon } from "./recipes";
 import { isEn, t } from "./i18n";
+import { LANG_HEADER } from "./api";
 
 /** Réduit la photo à 1200 px de côté au plus, en JPEG. */
 export function compressImage(f: Blob): Promise<{ base64: string; type: string }> {
@@ -61,7 +62,7 @@ async function post(path: string, body: unknown): Promise<{ response: Response |
   const { data: { session } } = await supabase.auth.getSession();
   const response = await fetch(path, {
     method: "POST",
-    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}` },
+    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${session?.access_token}`, ...LANG_HEADER },
     body: JSON.stringify(body),
   }).catch(() => null);
   const data = response ? await response.json().catch(() => ({})) : {};

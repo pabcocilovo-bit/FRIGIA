@@ -5,7 +5,7 @@
 // une nouvelle appelle l'IA, dans la limite des « autres idées » (20 par heure), puis rejoint le catalogue.
 // Appelé par api/recipes.ts quand la demande a un « query » : Vercel Hobby limite le nombre de fonctions (12).
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Req, Res } from "./_shared.js";
+import { AI_ENGLISH, langOf, say, type Req, type Res } from "./_shared.js";
 import { askClaude, checkIdeasLimit, dishPhoto, prefLines, type Prefs } from "./_ai.js";
 import { CATALOG_SERVES, type CatalogRecipe, catalogServed, constraintsOf, findInCatalog, keepInCatalog } from "./_catalog.js";
 import { parse, type RawRecipe, salvage, shape, str, strs } from "./_recipe.js";
@@ -26,8 +26,10 @@ export type DishBody = {
  *  Les recettes sont neutres, pour 4 portions : l'appli recalcule les portions et coche ce qu'il y a dans Ma cuisine. */
 export async function dish(req: Req, res: Res, userId: string, admin: SupabaseClient) {
   const body = (req.body ?? {}) as DishBody;
+  // L'appli en anglais : le catalogue anglais (clés « en:… ») et l'IA en anglais
+  const lang = langOf(req), en = lang === "en", tx = say(lang);
   const query = str(body.query, 80);
-  if (query.replace(/[^\p{L}\p{N}]/gu, "").length < 2) return res.status(400).json({ error: "Écris le nom d'une recette" });
+  if (query.replace(/[^\p{L}\p{N}]/gu, "").length < 2) return res.status(400).json({ error: tx("Écris le nom d'une recette", "Type the name of a recipe") });
 
   const eaters = (Array.isArray(body.eaters) ? body.eaters : []).slice(0, 12).map(e => ({
     name: str(e?.name, 20) || "Quelqu'un", allergies: strs(e?.allergies, 10, 30),
@@ -36,7 +38,7 @@ export async function dish(req: Req, res: Res, userId: string, admin: SupabaseCl
 
   // Déjà cherché : les recettes du catalogue, avec leur photo (trouvée une fois, puis gardée)
   const catalogOnly = body.catalogOnly === true;
-  const known = await findInCatalog(admin, query, constraints, { skip: strs(body.skip, 30, 120), loose: catalogOnly });
+  const known = await findInCatalog(admin, query, constraints, { skip: strs(body.skip, 30, 120), loose: catalogOnly, lang });
   if (known.row && known.recipes) {
     // La photo IA tout de suite (12 s au plus, Hugo, 28 octobre), Pexels en attendant si elle tarde
     const ai = photosNow(admin, known.recipes);
@@ -56,7 +58,7 @@ export async function dish(req: Req, res: Res, userId: string, admin: SupabaseCl
   }
 
   if (catalogOnly) return res.json({ recipes: [] });
-  if (!(await checkIdeasLimit(admin, userId))) return res.status(429).json({ error: "Limite atteinte. Réessaie dans une heure.", code: "rate" });
+  if (!(await checkIdeasLimit(admin, userId))) return res.status(429).json({ error: tx("Limite atteinte. Réessaie dans une heure.", "Limit reached. Try again in an hour."), code: "rate" });
   const servings = CATALOG_SERVES;
   // Seulement ce qui change la recette pour tout le monde : régime, allergies, pas de four (pas les goûts de chacun)
   const lines = prefLines(body.prefs).filter(l => /^(ALIMENTATION|ALLERGIES|PAS DE FOUR)/.test(l));
@@ -76,7 +78,7 @@ Si c'est un ingrédient, une envie ou une catégorie (« saumon », « healthy �
     lines.length ? `À RESPECTER, même pour la recette classique (adapte-la si besoin) :\n${lines.join("\n")}` : "",
     familyLines.length ? `LE FOYER :\n${familyLines.join("\n")}` : "",
     `Pour chaque recette :
-- "title" : nom court et appétissant, en français (« Tartiflette au reblochon », « Tartiflette légère au yaourt »).
+- "title" : nom court et appétissant, en ${en ? "anglais" : "français"} (« Tartiflette au reblochon », « Tartiflette légère au yaourt »).
 - "variant" : voir plus haut. "change" : pour une variante, 1 phrase courte sur ce qui change par rapport à la classique (« La crème est remplacée par du fromage blanc. »), sinon "".
 - "intro" : 1 ou 2 phrases simples qui donnent envie, au tutoiement.
 - "origin" : "" pour un plat courant en France, sinon 2 à 4 mots ("Spécialité savoyarde", "Plat indien").
@@ -87,15 +89,16 @@ Si c'est un ingrédient, une envie ou une catégorie (« saumon », « healthy �
 - "makes" : pour une recette qui se fait en pièces (crêpes, galettes, pancakes, cookies, muffins, nems, tacos, wraps, burgers, brochettes…), combien elle en fait avec ces quantités : {"n": 12, "one": "crêpe", "many": "crêpes"}. Sinon null.
 - "steps" : 3 à 8 étapes au tutoiement, phrases courtes, avec quantités, températures et durées. Une étape qui attend (four, cuisson, repos) a un "timer" : {"label":"Four","min":25}, sinon null.`,
     `JSON uniquement : {"recipes":[{"title":"Tartiflette au reblochon","variant":"La classique","change":"","intro":"…","origin":"Spécialité savoyarde","minutes":60,"calories":750,"difficulty":"Facile","imageSearch":"tartiflette potato gratin","veg":false,"oven":true,"cold":false,"dessert":false,"ingredients":[{"name":"pomme de terre","plural":"pommes de terre","qty":800,"unit":"g","have":false}],"steps":[{"text":"…","timer":null}]}]}`,
+    en ? AI_ENGLISH : "",
   ].filter(Boolean).join("\n");
 
   const answer = await askClaude<{ recipes?: (RawRecipe & { variant?: unknown; change?: unknown; dessert?: unknown })[] }>([{ type: "text", text: prompt }], 7000);
-  if (!answer.ok) return res.status(502).json({ error: "Service IA temporairement indisponible." });
+  if (!answer.ok) return res.status(502).json({ error: tx("Service IA temporairement indisponible.", "The AI service is temporarily unavailable.") });
   const found = (Array.isArray(answer.json?.recipes) ? answer.json.recipes : salvage(answer.text)) as (RawRecipe & { variant?: unknown; change?: unknown; dessert?: unknown })[];
   const valid = found.map(r => ({ raw: r, p: parse(r) })).filter(x => x.p !== null).slice(0, 3);
   if (!valid.length) {
     console.warn(`dish « ${query} » : aucune recette valide`, answer.text.slice(0, 1500));
-    return res.status(422).json({ error: "Pas de recette trouvée. Essaie un autre nom.", code: "none" });
+    return res.status(422).json({ error: tx("Pas de recette trouvée. Essaie un autre nom.", "No recipe found. Try another name."), code: "none" });
   }
   const recipes = await Promise.all(valid.map(({ raw, p }) => shape(raw, p!.items, p!.steps, servings, {
     // Ce qui manque dépend de chacun : l'appli le calcule avec Ma cuisine

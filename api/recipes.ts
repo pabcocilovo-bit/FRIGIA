@@ -1,7 +1,7 @@
 // Scan, 2e partie : la liste d'ingrédients (vérifiée par le compte) devient 3 recettes, ou 2 « autres idées ».
 // Réservé à Frigia Plus (et aux 7 jours d'essai). Avec le jeton d'une photo, la limite par heure ne recompte pas ;
 // sans jeton (ingrédients tapés à la main), c'est un scan de plus dans la limite.
-import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
+import { adminClient, AI_ENGLISH, authUser, isPlus, langOf, preflight, say, type Req, type Res } from "./_shared.js";
 import { askClaude, checkIdeasLimit, checkKeyLimit, checkRateLimit, checkScanToken, prefLines, type Prefs } from "./_ai.js";
 import { norm, parse, type RawRecipe, salvage, shape, str, strs } from "./_recipe.js";
 import { dish } from "./_dish.js";
@@ -49,11 +49,13 @@ export default async function handler(req: Req, res: Res) {
   const admin = adminClient();
   const user = await authUser(req, admin);
   if (!user) return res.status(401).json({ error: "Invalid token" });
+  // La langue de l'appli (X-Frigia-Lang) : les recettes de l'IA et les messages en anglais
+  const lang = langOf(req), en = lang === "en", tx = say(lang);
 
   const body = (req.body ?? {}) as Body;
   const plus = isPlus(user);
   // Essai fini, sans Plus : « Passe à Plus »
-  if (!plus) return res.status(403).json({ error: "Ton essai est terminé.", code: "quota" });
+  if (!plus) return res.status(403).json({ error: tx("Ton essai est terminé.", "Your trial is over."), code: "quota" });
   // Explorer : une recette demandée par son nom (api/_dish.ts)
   if (typeof (req.body as { query?: unknown } | undefined)?.query === "string") return dish(req, res, user.id, admin);
   // Explorer, la page d'accueil en rangées (api/_browse.ts) : le catalogue seulement, jamais l'IA
@@ -61,7 +63,7 @@ export default async function handler(req: Req, res: Res) {
   // Une recette du scan mise en favori ou cuisinée (api/_fridge.ts)
   const promote = (req.body as { promote?: unknown } | undefined)?.promote;
   if (typeof promote === "string") {
-    await promoteScanRecipe(admin, str(promote, 80));
+    await promoteScanRecipe(admin, str(promote, 80), lang);
     return res.status(200).json({ ok: true });
   }
   // Les photos IA des anciens scans et favoris (api/_images.ts, restyle)
@@ -88,7 +90,7 @@ export default async function handler(req: Req, res: Res) {
     .map(i => ({ name: str(i?.name, 60), qty: str(i?.qty, 30), finish: i?.finish === true }))
     .filter(i => i.name)
     .slice(0, 40);
-  if (list.length === 0 && !empty) return res.status(400).json({ error: "Aucun ingrédient" });
+  if (list.length === 0 && !empty) return res.status(400).json({ error: tx("Aucun ingrédient", "No ingredients") });
   const pantry = (Array.isArray(body.pantry) ? body.pantry : [])
     .map(i => ({ name: str(i?.name, 60), qty: str(i?.qty, 30) }))
     .filter(i => i.name)
@@ -99,7 +101,7 @@ export default async function handler(req: Req, res: Res) {
   // Ingrédients tapés à la main (pas de photo) : c'est un scan, compté dans la limite par heure
   const fromPhoto = checkScanToken(body.token, user.id);
   if (!(fromPhoto || body.more ? await checkIdeasLimit(admin, user.id) : await checkRateLimit(admin, user.id))) {
-    return res.status(429).json({ error: "Limite atteinte. Réessaie dans une heure.", code: "rate" });
+    return res.status(429).json({ error: tx("Limite atteinte. Réessaie dans une heure.", "Limit reached. Try again in an hour."), code: "rate" });
   }
   const fail = (status: number, error: string, code?: string) => res.status(status).json({ error, ...(code ? { code } : {}) });
 
@@ -159,13 +161,13 @@ export default async function handler(req: Req, res: Res) {
     "N'UTILISE PAS TOUT LE FRIGO : chaque recette prend seulement 3 à 6 ingrédients disponibles qui vont ensemble, pas toute la liste. Les 3 recettes se partagent le frigo : un ingrédient peut n'apparaître dans aucune. Ne mélange jamais sucré et salé (pas de pain au chocolat, viennoiserie, biscuit, yaourt sucré, confiture ou dessert dans un plat salé).",
     "UNE VIANDE OU UN POISSON PAR PLAT, deux au plus (poulet et chorizo, pâtes au jambon et lardons) : jamais 3 viandes ou poissons différents dans la même recette. Les autres restent pour une autre recette.",
     "UNE SEULE BASE PAR PLAT : jamais deux féculents principaux ensemble (pas de pâtes avec des gnocchis, pas de riz avec des pommes de terre, pas de pâtes avec du pain). Un produit tout prêt (gnocchis à la sauce, pâtes farcies, raviolis, plat cuisiné) est la base du plat à lui seul : on le complète avec des légumes, une protéine ou une garniture, jamais avec un autre produit tout prêt ni un autre féculent.",
-    meal === "d" ? `VARIÉTÉ : ${count > 1 ? `${count} desserts de types différents (pas deux gâteaux, pas deux crèmes), ` : ""}des desserts qu'on connaît et qu'on a envie de manger.` : count < 2 ? "" : `VARIÉTÉ : ${count} plats de types différents (pas deux plats de pâtes, pas deux poêlées, pas deux plats d'œufs), avec des bases différentes (pâtes, riz, pommes de terre, pain, légumineuses…). ${count > 2 ? "Au moins 2 recettes" : "Au moins 1 recette"} sont des plats du quotidien qu'on connaît en France. La dernière peut venir d'ailleurs : aujourd'hui, inspire-toi de la cuisine ${style} si les ingrédients s'y prêtent.`,
+    meal === "d" ? `VARIÉTÉ : ${count > 1 ? `${count} desserts de types différents (pas deux gâteaux, pas deux crèmes), ` : ""}des desserts qu'on connaît et qu'on a envie de manger.` : count < 2 ? "" : `VARIÉTÉ : ${count} plats de types différents (pas deux plats de pâtes, pas deux poêlées, pas deux plats d'œufs), avec des bases différentes (pâtes, riz, pommes de terre, pain, légumineuses…). ${count > 2 ? "Au moins 2 recettes" : "Au moins 1 recette"} sont des plats du quotidien qu'on connaît ${en ? "partout" : "en France"}. La dernière peut venir d'ailleurs : aujourd'hui, inspire-toi de la cuisine ${style} si les ingrédients s'y prêtent.`,
     meal === "d" ? "" : eggLine,
     lines.length ? `PRÉFÉRENCES (à respecter) :\n${lines.join("\n")}` : "",
     familyLines.length ? `LE FOYER :\n${familyLines.join("\n")}` : "",
     avoid.length ? `DÉJÀ PROPOSÉES RÉCEMMENT, À NE PAS REPROPOSER, ni une variante proche (le même plat avec les mêmes ingrédients principaux sous un autre nom) : ${avoid.join(" ; ")}.` : "",
     `Pour chaque recette :
-- "title" : nom court et appétissant, en français. Il décrit exactement le plat : tout ce qu'il nomme (base comme wrap, pâtes, riz, ou ingrédient) est dans "ingredients". Vérifie-le avant de répondre : un titre « aux petits pois » demande des petits pois dans "ingredients". Pas de « wrap » sans galette, pas de « gratin » sans four. Le titre est définitif : jamais d'hésitation ni de correction dedans (pas de « ... non : »), choisis le plat avant de l'écrire.
+- "title" : nom court et appétissant, en ${en ? "anglais" : "français"}. Il décrit exactement le plat : tout ce qu'il nomme (base comme wrap, pâtes, riz, ou ingrédient) est dans "ingredients". Vérifie-le avant de répondre : un titre « aux petits pois » demande des petits pois dans "ingredients". Pas de « wrap » sans galette, pas de « gratin » sans four. Le titre est définitif : jamais d'hésitation ni de correction dedans (pas de « ... non : »), choisis le plat avant de l'écrire.
 - "intro" : 1 ou 2 phrases simples qui donnent envie, au tutoiement. Pour un plat peu connu en France, dis d'abord en quelques mots ce que c'est (« La shakshuka, ce sont des œufs pochés dans une sauce tomate épicée. »).
 - "origin" : "" pour un plat courant en France. Pour une spécialité d'un pays ou d'une région, 2 à 4 mots : "Spécialité libanaise", "Plat indien", "Recette basque".
 - "minutes" : durée totale. "calories" : kcal par portion. "difficulty" : "Facile", "Moyen" ou "Difficile".
@@ -176,6 +178,7 @@ export default async function handler(req: Req, res: Res) {
 - "missing" : les ingrédients à acheter avec leur article, en minuscules ("le parmesan et le basilic"), ou "" s'il ne manque rien.
 - "steps" : 3 à 7 étapes au tutoiement, phrases courtes, avec quantités, températures et durées. Une étape qui attend (four, cuisson, repos) a un "timer" : {"label":"Four","min":20}, sinon null.`,
     `JSON uniquement : {"recipes":[{"title":"Penne aux légumes rôtis","intro":"Les légumes rôtissent pendant que les pâtes cuisent.","minutes":25,"calories":540,"difficulty":"Facile","imageSearch":"vegetable pasta","origin":"","veg":true,"oven":true,"cold":false,"ingredients":[{"name":"penne","plural":"penne","qty":200,"unit":"g","have":true},{"name":"courgette","plural":"courgettes","qty":1,"unit":"","have":true},{"name":"parmesan","plural":"parmesan","qty":30,"unit":"g","have":false}],"missing":"le parmesan","steps":[{"text":"Préchauffe le four à 220 °C. Coupe la courgette en gros morceaux.","timer":null},{"text":"Enfourne les légumes avec un filet d'huile.","timer":{"label":"Four","min":20}}]}]}`,
+    en ? AI_ENGLISH : "",
   ].filter(Boolean).join("\n");
 
   // Une recette sans ses ingrédients ou ses étapes (réponse de l'IA incomplète) n'est jamais montrée :
@@ -224,7 +227,7 @@ export default async function handler(req: Req, res: Res) {
   const fridgeAsk = {
     fridge: list, pantry: pantry.map(i => i.name), dislikes, avoid,
     constraints: constraintsOf(body.prefs, eaters.flatMap(e => e.allergies)),
-    noShop, quick: asked.includes("rapide"), light: asked.includes("healthy"), kids: asked.includes("enfants"),
+    noShop, quick: asked.includes("rapide"), light: asked.includes("healthy"), kids: asked.includes("enfants"), lang,
   };
   const useCatalog = !empty && dishes > 0 && !asked.includes("proteine");
   const known = useCatalog
@@ -240,13 +243,13 @@ export default async function handler(req: Req, res: Res) {
       .catch(e => { console.error("catalogue (complément):", e instanceof Error ? e.message : e); return []; })
     : [];
   const fromCatalog = [...known, ...fill];
-  if (!mains && !sweets && !fromCatalog.length) return fail(502, "Service IA temporairement indisponible.");
+  if (!mains && !sweets && !fromCatalog.length) return fail(502, tx("Service IA temporairement indisponible.", "The AI service is temporarily unavailable."));
   const raw = [...(mains ?? []).map(r => ({ ...r, dessert: false })), ...(sweets ?? []).map(r => ({ ...r, dessert: true }))];
   if (raw.length === 0 && !fromCatalog.length) {
-    if (noShop) return fail(422, "Pas assez d'ingrédients pour cuisiner sans courses. Ajoute ce que tu as, ou décoche « Zéro course ».", "none");
+    if (noShop) return fail(422, tx("Pas assez d'ingrédients pour cuisiner sans courses. Ajoute ce que tu as, ou décoche « Zéro course ».", "Not enough ingredients to cook without shopping. Add what you have, or untick \"No shopping\"."), "none");
     return fail(422, !dishes
-      ? "Pas de dessert trouvé avec ces ingrédients. Ajoute-en un ou deux, ou choisis des plats."
-      : "Pas de plat trouvé avec ces ingrédients. Ajoute-en un ou deux, ou choisis des desserts.", "none");
+      ? tx("Pas de dessert trouvé avec ces ingrédients. Ajoute-en un ou deux, ou choisis des plats.", "No dessert found with these ingredients. Add one or two, or pick mains.")
+      : tx("Pas de plat trouvé avec ces ingrédients. Ajoute-en un ou deux, ou choisis des desserts.", "No dish found with these ingredients. Add one or two, or pick desserts."), "none");
   }
 
   // Les photos IA, en même temps que Pexels (shape) : même style que le catalogue (Hugo, 27 octobre). Pexels reste si l'IA tarde.
@@ -272,6 +275,6 @@ export default async function handler(req: Req, res: Res) {
   (recipes as { items?: { have?: boolean }[]; dessert?: boolean }[]).sort((a, b) => toBuy(a) - toBuy(b));
 
   // Les recettes nouvelles rejoignent la réserve du scan, après la réponse
-  waitUntil(keepScanRecipes(admin, recipes as unknown as Scanned[], eaters.map(e => e.name)).catch(e => console.error("recipe_catalog (scan):", e instanceof Error ? e.message : e)));
+  waitUntil(keepScanRecipes(admin, recipes as unknown as Scanned[], eaters.map(e => e.name), lang).catch(e => console.error("recipe_catalog (scan):", e instanceof Error ? e.message : e)));
   res.json({ recipes });
 }

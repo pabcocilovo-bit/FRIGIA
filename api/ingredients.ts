@@ -2,7 +2,7 @@
 // Réservé à Frigia Plus (et aux 7 jours d'essai) : l'essai fini, le scan est refusé (code « quota »).
 // Un ticket de caisse : son total, sa date et l'enseigne aussi, pour le budget courses (Frigia Plus).
 // Le jeton renvoyé permet de demander les recettes de cette photo (/api/recipes) sans recompter de scan.
-import { adminClient, authUser, isPlus, preflight, type Req, type Res } from "./_shared.js";
+import { adminClient, authUser, isPlus, langOf, preflight, say, type Req, type Res } from "./_shared.js";
 import { askClaude, checkRateLimit, scanToken, SUPPORTED_TYPES } from "./_ai.js";
 
 type Body = { imageBase64?: string; mediaType?: string; source?: string };
@@ -23,17 +23,19 @@ export default async function handler(req: Req, res: Res) {
   const admin = adminClient();
   const user = await authUser(req, admin);
   if (!user) return res.status(401).json({ error: "Invalid token" });
+  // L'appli en anglais : les noms des aliments et les messages en anglais
+  const lang = langOf(req), en = lang === "en", tx = say(lang);
 
   if (!(await checkRateLimit(admin, user.id))) {
-    return res.status(429).json({ error: "Limite atteinte. Réessaie dans une heure.", code: "rate" });
+    return res.status(429).json({ error: tx("Limite atteinte. Réessaie dans une heure.", "Limit reached. Try again in an hour."), code: "rate" });
   }
 
   const { imageBase64, mediaType, source } = (req.body ?? {}) as Body;
   if (!imageBase64) return res.status(400).json({ error: "Missing imageBase64" });
-  if (imageBase64.length > 4 * 1024 * 1024) return res.status(400).json({ error: "Image trop lourde" });
+  if (imageBase64.length > 4 * 1024 * 1024) return res.status(400).json({ error: tx("Image trop lourde", "Image too large") });
 
   // Essai fini, sans Plus : « Passe à Plus »
-  if (!isPlus(user)) return res.status(403).json({ error: "Ton essai est terminé.", code: "quota" });
+  if (!isPlus(user)) return res.status(403).json({ error: tx("Ton essai est terminé.", "Your trial is over."), code: "quota" });
 
   const chosen = source && source in SOURCES ? source : "frigo";
   const media = SUPPORTED_TYPES.includes(mediaType ?? "") ? mediaType! : "image/jpeg";
@@ -44,8 +46,8 @@ export default async function handler(req: Req, res: Res) {
         type: "text",
         text: `Voici ${SOURCES[src]}. Liste les produits alimentaires qu'on y voit, frais ou en paquet : légumes, viandes, laitages, pâtes, conserves, mais aussi biscuits, gâteaux, chocolat, chips ou bonbons (pas les boissons alcoolisées, pas les produits ménagers).
 Pour chaque aliment :
-- "name" : son nom en français, court, avec une majuscule, au pluriel s'il y en a plusieurs ("Courgettes", "Tomates cerises", "Lait").
-- "qty" : la quantité, très courte ("3", "2 barquettes", "1 bouteille", "500 g"). Compte ce qui se compte (fruits, légumes, œufs, pots). Sinon estime d'après la taille de l'emballage ("1 paquet", "environ 200 g"). Chaîne vide seulement si rien ne permet de le dire.
+- "name" : ${en ? `son nom en ANGLAIS britannique, court, avec une majuscule, au pluriel s'il y en a plusieurs ("Courgettes", "Cherry tomatoes", "Milk")` : `son nom en français, court, avec une majuscule, au pluriel s'il y en a plusieurs ("Courgettes", "Tomates cerises", "Lait")`}.
+- "qty" : la quantité, très courte${en ? ', en anglais ("3", "2 punnets", "1 bottle", "500 g", "about 200 g")' : ' ("3", "2 barquettes", "1 bouteille", "500 g")'}. Compte ce qui se compte (fruits, légumes, œufs, pots). Sinon estime d'après la taille de l'emballage ("1 paquet", "environ 200 g"). Chaîne vide seulement si rien ne permet de le dire.
 ${ticket ? "" : `- "x" et "y" : la position du centre de l'aliment sur la photo, en pourcentage de la largeur et de la hauteur (0 à 100).\n`}Regroupe les doublons. 20 aliments au plus, les plus utiles pour cuisiner d'abord.
 Si la photo ne permet pas de repérer d'aliment, renvoie une liste vide et "problem" : "floue" (photo floue ou bougée), "sombre" (trop sombre) ou "vide" (aucun aliment sur la photo).
 ${ticket ? `"total" : le montant total payé en euros, un nombre (62.4), ou null s'il est illisible ou coupé.
@@ -78,13 +80,13 @@ JSON uniquement : {"ingredients":[{"name":"Courgettes","qty":"3"${ticket ? "" : 
   };
 
   let found = await ask(chosen);
-  if (!found) return res.status(502).json({ error: "Service IA temporairement indisponible." });
+  if (!found) return res.status(502).json({ error: tx("Service IA temporairement indisponible.", "The AI service is temporarily unavailable.") });
   // La photo ne montre pas ce qui a été choisi (un placard pris en mode Frigo…) : l'appli range au bon endroit.
   // Rien trouvé avec le mauvais mode : on relit la photo avec le bon.
   const seen = found.seen && found.seen !== chosen ? found.seen : undefined;
   if (seen && found.ingredients.length === 0) found = (await ask(seen)) ?? found;
   if (found.ingredients.length === 0) {
-    return res.status(422).json({ error: "Photo illisible", code: "unclear", problem: found.problem, ...(seen ? { seen } : {}) });
+    return res.status(422).json({ error: tx("Photo illisible", "Unreadable photo"), code: "unclear", problem: found.problem, ...(seen ? { seen } : {}) });
   }
   res.json({ ingredients: found.ingredients, token: scanToken(user.id), ...(seen ? { seen } : {}), ...(found.receipt ? { ticket: found.receipt } : {}) });
 }

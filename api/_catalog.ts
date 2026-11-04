@@ -15,6 +15,12 @@ export type CatalogRow = { key: string; kind: "dish" | "list"; recipes: CatalogR
 const LEADING = ["le", "la", "les", "l", "un", "une", "des", "du", "de", "d", "recette", "recettes"];
 
 /** « Les Tartiflettes » et « tartiflette » donnent la même clé : minuscules, sans accent ni pluriel. */
+/** Le catalogue anglais (l'appli en anglais) : les mêmes lignes, sous des clés « en:… ». catalogKey ne donne jamais « : »,
+ *  donc une clé française ne peut pas commencer pareil. Le français ne lit jamais ces lignes. */
+export const EN = "en:";
+export type CatalogLang = "fr" | "en";
+export const langKey = (lang: CatalogLang | undefined, key: string) => (lang === "en" ? EN + key : key);
+
 export function catalogKey(query: string): string {
   const w = query.toLowerCase().replace(/œ/g, "oe").replace(/æ/g, "ae").normalize("NFD").replace(/[̀-ͯ]/g, "")
     .replace(/[^a-z0-9]+/g, " ").trim().split(" ").filter(Boolean);
@@ -76,16 +82,16 @@ export function parts(base: string): string[] {
 /** Les recettes déjà gardées pour cette recherche, et la clé où garder les nouvelles.
  *  error : la table n'est pas là (migration pas lancée) ou la base ne répond pas : on cherche sans catalogue. */
 /** loose : un ingrédient de Ma cuisine (« filet de poulet ») peut prendre la réserve d'un mot de son nom (« poulet »). */
-export async function findInCatalog(admin: SupabaseClient, query: string, constraints: string, opts: { skip?: string[]; loose?: boolean } = {}):
+export async function findInCatalog(admin: SupabaseClient, query: string, constraints: string, opts: { skip?: string[]; loose?: boolean; lang?: CatalogLang } = {}):
   Promise<{ key: string; row?: CatalogRow; recipes?: CatalogRecipe[]; error?: boolean }> {
   // La clé n'a que des lettres, des chiffres et des espaces (catalogKey) : rien à échapper dans le filtre
-  const base = catalogKey(query);
+  const bare = catalogKey(query), base = langKey(opts.lang, bare);
   const { data, error } = await admin.from("recipe_catalog").select("key, kind, recipes")
     .or(`key.eq."${base}",aliases.cs.{"${base}"}`).limit(1);
   if (error) { console.error("recipe_catalog:", error.message); return { key: constraints ? `${base}|${constraints}` : base, error: true }; }
   let main = data?.[0] as CatalogRow | undefined;
   if (!main && opts.loose && base.includes(" ")) {
-    const subs = parts(base);
+    const subs = parts(bare).map(k => langKey(opts.lang, k));
     const more = await admin.from("recipe_catalog").select("key, kind, recipes").or(subs.map(k => `key.eq."${k}"`).join(",")).limit(subs.length);
     main = ((more.data ?? []) as CatalogRow[]).sort((a, b) => subs.indexOf(a.key) - subs.indexOf(b.key))[0];
   }

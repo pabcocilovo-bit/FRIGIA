@@ -79,7 +79,7 @@ export function recipeLines(r: GeneratedRecipe, servings: number, found?: Detect
 export function piecesText(r: GeneratedRecipe, servings: number): string | null {
   if (!r.makes) return null;
   const n = Math.max(1, Math.round(r.makes.n * servings / (r.serves || servings || 1)));
-  return `Environ ${n} ${n > 1 ? r.makes.many : r.makes.one}`;
+  return `${t("Environ", "About")} ${n} ${n > 1 ? r.makes.many : r.makes.one}`;
 }
 
 /** « 6 sur 8 » : ce que tu as déjà, sur le total (0 sur 0 quand on ne sait pas). */
