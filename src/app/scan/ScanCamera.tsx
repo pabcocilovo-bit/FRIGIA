@@ -9,14 +9,19 @@ import { getScan, setScan, useScan } from "./store";
 import { same } from "../../lib/shopping";
 import { Guide } from "./Guide";
 import { SCAN_GUIDE, setGuideState } from "./guideSteps";
+import { t } from "../../lib/i18n";
 import "./scan.css";
 
-const MODES: [ScanSource, string][] = [["frigo", "Frigo"], ["placard", "Placard"], ["ticket", "Ticket de caisse"]];
-const HINTS: Record<ScanSource, string> = {
+const MODES: [ScanSource, string][] = [["frigo", t("Frigo", "Fridge")], ["placard", t("Placard", "Cupboard")], ["ticket", t("Ticket de caisse", "Receipt")]];
+const HINTS: Record<ScanSource, string> = t({
   frigo: "Ouvre bien la porte et recule d'un pas",
   placard: "Ouvre grand le placard, toutes les étagères dans le cadre",
   ticket: "Pose le ticket à plat, sous une bonne lumière",
-};
+}, {
+  frigo: "Open the door wide and step back",
+  placard: "Open the cupboard wide, all the shelves in the frame",
+  ticket: "Lay the receipt flat, in good light",
+});
 
 type Torch = MediaTrackCapabilities & { torch?: boolean };
 
@@ -37,8 +42,9 @@ function grab(video: HTMLVideoElement): Promise<Blob | null> {
 }
 
 /** Photo des placards ratée, depuis « Tes placards » : on reste sur la caméra avec une phrase */
-const PLACARD_FAIL = { floue: "Photo floue : reprends-la sans bouger.", sombre: "Trop sombre : allume la lumière et reprends-la.",
-  vide: "Frigia ne voit rien sur la photo. Ouvre grand le placard." } as const;
+const PLACARD_FAIL = t({ floue: "Photo floue : reprends-la sans bouger.", sombre: "Trop sombre : allume la lumière et reprends-la.",
+  vide: "Frigia ne voit rien sur la photo. Ouvre grand le placard." }, { floue: "Blurry photo: retake it holding still.", sombre: "Too dark: turn on the light and retake it.",
+  vide: "Frigia can't see anything in the photo. Open the cupboard wide." });
 
 export function ScanCamera({ userId, guide, soon = [], onOutOfScans, onPlacards }: {
   userId: string;
@@ -149,7 +155,7 @@ export function ScanCamera({ userId, guide, soon = [], onOutOfScans, onPlacards 
       if (r.status === "quota") onOutOfScans();
       else if (r.status === "error") {
         if (!navigator.onLine) openOffline();
-        else showToast(r.rate ? RATE_TEXT : "Frigia ne répond pas. Réessaie dans un instant.");
+        else showToast(r.rate ? RATE_TEXT : t("Frigia ne répond pas. Réessaie dans un instant.", "Frigia isn't responding. Try again in a moment."));
       }
     }
   };
@@ -175,14 +181,14 @@ export function ScanCamera({ userId, guide, soon = [], onOutOfScans, onPlacards 
   const dots = (found ?? []).filter(i => i.x != null && i.y != null).slice(0, 8);
 
   return (
-    <section ref={screen} className={"fa scan-screen scr-scan" + (analyzing ? " analyzing" : "")} aria-label="Scan du frigo">
+    <section ref={screen} className={"fa scan-screen scr-scan" + (analyzing ? " analyzing" : "")} aria-label={t("Scan du frigo", "Fridge scan")}>
       <div className="cam">
         <video ref={video} playsInline muted autoPlay hidden={!live || !!shot} />
         {shot && <img className="cam-blur" src={shot} alt="" />}
       </div>
       {shot && (
         <div className="cam-shot" style={box ? { width: box.w, height: box.h } : { visibility: "hidden" }}>
-          <img src={shot} alt="Photo de ton frigo" onLoad={e => {
+          <img src={shot} alt={t("Photo de ton frigo", "Photo of your fridge")} onLoad={e => {
             const im = e.currentTarget, W = screen.current?.clientWidth ?? 0, H = screen.current?.clientHeight ?? 0;
             const k = Math.min(W / im.naturalWidth, H / im.naturalHeight);
             setBox({ w: Math.round(im.naturalWidth * k), h: Math.round(im.naturalHeight * k) });
@@ -196,30 +202,30 @@ export function ScanCamera({ userId, guide, soon = [], onOutOfScans, onPlacards 
         </div>
       )}
       <div className="cam-top">
-        <RoundButton icon="x" label="Fermer" tone="dark" onClick={() => (forPlacards ? back() : navigate("/"))} />
+        <RoundButton icon="x" label={t("Fermer", "Close")} tone="dark" onClick={() => (forPlacards ? back() : navigate("/"))} />
         {torch !== null
-          ? <RoundButton icon="flash" label={torch ? "Éteindre le flash" : "Flash"} tone="dark" aria-pressed={torch} onClick={toggleTorch} />
+          ? <RoundButton icon="flash" label={torch ? t("Éteindre le flash", "Turn off the flash") : "Flash"} tone="dark" aria-pressed={torch} onClick={toggleTorch} />
           : <span style={{ width: 40 }} aria-hidden="true" />}
       </div>
       <div className="hint">{HINTS[forPlacards ? "placard" : scan.source]}</div>
       <div className="frame"><i className="tl" /><i className="tr" /><i className="bl" /><i className="br" /></div>
       <div className="cam-bot">
-        {forPlacards ? <div className="modes"><span className="mode on">Placards</span></div> : <div className="modes" role="tablist">
+        {forPlacards ? <div className="modes"><span className="mode on">{t("Placards", "Cupboards")}</span></div> : <div className="modes" role="tablist">
           {MODES.map(([s, label]) => (
             <button key={s} type="button" role="tab" aria-selected={scan.source === s} className={"mode" + (scan.source === s ? " on" : "")} onClick={() => setScan({ source: s })}>{label}</button>
           ))}
         </div>}
         <div className="controls">
-          <button type="button" className="gal" aria-label="Choisir une photo" onClick={() => gallery.current?.click()}>
+          <button type="button" className="gal" aria-label={t("Choisir une photo", "Choose a photo")} onClick={() => gallery.current?.click()}>
             {scan.photo ? <img src={scan.photo} alt="" /> : <span style={{ display: "grid", placeItems: "center", width: "100%", height: "100%", background: "rgba(247,241,230,.12)" }}><Icon name="image" /></span>}
           </button>
-          <button type="button" className="shutter" aria-label="Prendre la photo" onClick={shoot} />
-          <RoundButton icon="flip" label="Changer de caméra" tone="dark" onClick={() => setFacing(f => (f === "environment" ? "user" : "environment"))} />
+          <button type="button" className="shutter" aria-label={t("Prendre la photo", "Take the photo")} onClick={shoot} />
+          <RoundButton icon="flip" label={t("Changer de caméra", "Switch camera")} tone="dark" onClick={() => setFacing(f => (f === "environment" ? "user" : "environment"))} />
         </div>
       </div>
       <div className="an" aria-live="polite">
-        <span className="label">Analyse en cours</span>
-        <b>{found ? `${n} trouvé${n > 1 ? "s" : ""}, je vérifie les quantités…` : "Je repère tes ingrédients…"}</b>
+        <span className="label">{t("Analyse en cours", "Analyzing")}</span>
+        <b>{found ? t(`${n} trouvé${n > 1 ? "s" : ""}, je vérifie les quantités…`, `${n} found, checking the quantities…`) : t("Je repère tes ingrédients…", "Spotting your ingredients…")}</b>
         <div className="bar"><i className={found ? "done" : undefined} /></div>
       </div>
       <input ref={capture} type="file" accept="image/*" capture="environment" hidden onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; if (f) crop(f); }} />

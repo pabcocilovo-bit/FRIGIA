@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { Icon } from "../ui/components";
 import { useBack } from "./nav";
+import { t } from "../lib/i18n";
 
 export function GreenHead({ title, sub, back = true, right, children }: {
   title: ReactNode; sub?: ReactNode; back?: boolean; right?: ReactNode; children?: ReactNode;
@@ -11,7 +12,7 @@ export function GreenHead({ title, sub, back = true, right, children }: {
   return (
     <header className="v3head">
       <div className="v3head-row">
-        {back ? <button type="button" className="v3head-back" aria-label="Retour" onClick={goBack}><Icon name="back" /></button> : <span />}
+        {back ? <button type="button" className="v3head-back" aria-label={t("Retour", "Back")} onClick={goBack}><Icon name="back" /></button> : <span />}
         <h1>{title}</h1>
         {right ?? <span />}
       </div>

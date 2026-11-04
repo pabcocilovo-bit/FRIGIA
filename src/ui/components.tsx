@@ -3,6 +3,7 @@ import { useEffect, useId, type ButtonHTMLAttributes, type InputHTMLAttributes, 
 import { createPortal } from "react-dom";
 import { ICONS, type IconName as ProtoIcon } from "./icons";
 import { APP_ICONS } from "./icons-app";
+import { t } from "../lib/i18n";
 import "./ui.css";
 
 export type IconName = ProtoIcon | keyof typeof APP_ICONS;
@@ -83,7 +84,7 @@ export function BandFoot({ children }: { children: ReactNode }) {
 
 /** Jauge des scans gratuits qui restent. */
 export function QuotaBar({ left, total }: { left: number; total: number }) {
-  return <span className="quota-bar" role="progressbar" aria-label="Scans gratuits restants" aria-valuemin={0} aria-valuemax={total} aria-valuenow={left}><b style={{ width: `${Math.min(100, (left / total) * 100)}%` }} /></span>;
+  return <span className="quota-bar" role="progressbar" aria-label={t("Scans gratuits restants", "Free scans left")} aria-valuemin={0} aria-valuemax={total} aria-valuenow={left}><b style={{ width: `${Math.min(100, (left / total) * 100)}%` }} /></span>;
 }
 
 /** Pastilles des initiales, qui se chevauchent (qui mange ce soir). */
@@ -119,11 +120,11 @@ export function ScreenHeader({ title, sub, left, right, children }: {
 // V3 (maquette de Hugo, 25 octobre) : Accueil, Explorer, le scan, Planning, Ma cuisine. La famille passe dans « Mon profil », en haut de l'accueil.
 export type TabId = "home" | "explore" | "plan" | "list";
 const TABS: { id: TabId; label: string; icon: IconName; plusOnly?: boolean }[] = [
-  { id: "home", label: "Accueil", icon: "home" },
-  { id: "explore", label: "Explorer", icon: "search" },
-  { id: "plan", label: "Planning", icon: "cal", plusOnly: true },
+  { id: "home", label: t("Accueil", "Home"), icon: "home" },
+  { id: "explore", label: t("Explorer", "Explore"), icon: "search" },
+  { id: "plan", label: t("Planning", "Planner"), icon: "cal", plusOnly: true },
   // Écart maquette : « Courses » devient « Ma cuisine » (frigo et placards pour tous, les courses en Plus), demandé par Hugo les 16 et 19 octobre
-  { id: "list", label: "Ma cuisine", icon: "fridge" },
+  { id: "list", label: t("Ma cuisine", "My kitchen"), icon: "fridge" },
 ];
 
 /** Barre d'onglets verte, le scan au milieu. Un cadenas doré marque les onglets Plus quand on est en Gratuit. */
@@ -139,7 +140,7 @@ export function TabBar({ active, isPlus, onTab, onScan }: {
   return (
     <nav className="tabbar" aria-label="Navigation">
       {TABS.slice(0, 2).map(tab)}
-      <button type="button" className="tab-scan" aria-label="Scanner mon frigo" onClick={onScan}><Icon name="cam" /></button>
+      <button type="button" className="tab-scan" aria-label={t("Scanner mon frigo", "Scan my fridge")} onClick={onScan}><Icon name="cam" /></button>
       {TABS.slice(2).map(tab)}
     </nav>
   );

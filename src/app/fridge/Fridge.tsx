@@ -23,6 +23,7 @@ import { setScan } from "../scan/store";
 import { showToast } from "../toast";
 import "../scan/scan.css";
 import "./fridge.css";
+import { t } from "../../lib/i18n";
 
 const DAY = 864e5;
 const daysSince = (at: number) => Math.max(0, Math.round((new Date().setHours(0, 0, 0, 0) - new Date(at).setHours(0, 0, 0, 0)) / DAY));
@@ -34,10 +35,13 @@ type Filter = "tout" | Place | "finir";
 const FILTERS: [Filter, string][] = [["tout", "Tout"], ["frigo", "Frigo"], ["placard", "Placards"], ["finir", "À finir"]];
 
 // Les placards se scannent rarement : ce qu'on y a presque toujours, à ajouter d'un geste
-const BASICS: [string, string][] = [
+const BASICS: [string, string][] = t([
   ["Pâtes", "500 g"], ["Riz", "1 paquet"], ["Huile d'olive", "1 bouteille"], ["Farine", "1 paquet"], ["Sucre", "1 paquet"],
   ["Tomates en conserve", "1 boîte"], ["Lentilles", "1 sachet"], ["Oignons", "3"], ["Pommes de terre", "1 kg"], ["Thon en boîte", "1 boîte"],
-];
+], [
+  ["Pasta", "500 g"], ["Rice", "1 pack"], ["Olive oil", "1 bottle"], ["Flour", "1 bag"], ["Sugar", "1 bag"],
+  ["Tinned tomatoes", "1 tin"], ["Lentils", "1 bag"], ["Onions", "3"], ["Potatoes", "1 kg"], ["Tinned tuna", "1 tin"],
+]);
 
 /** Les deux pages de l'onglet : Ma cuisine, Courses */
 export function FridgeTabs({ on }: { on: "cuisine" | "courses" }) {

@@ -208,3 +208,6 @@
 .fa .lg-contact{margin:10px 0 0;font-size:13.5px;color:var(--muted)}
 .fa .lg-contact a{color:var(--sage-deep);font-weight:600}
 @media (prefers-reduced-motion:reduce){.fa .lg-page{animation:none}}
+/* Le choix de la langue */
+.fa .st-langs{margin-top:14px}
+.fa .st-langs .st-row.on b{color:var(--sage-deep)}

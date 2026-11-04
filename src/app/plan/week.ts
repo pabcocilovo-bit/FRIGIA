@@ -4,9 +4,14 @@ import type { MealKey, PlanDay, Slot, Week } from "../../lib/home";
 import type { DetectedIngredient, GeneratedRecipe, HistoryEntry } from "../../lib/types";
 import { daysAgo, type WeekDay } from "../format";
 import { haveCount, minutesOf, words } from "../scan/portions";
+import { isEn, locale, t } from "../../lib/i18n";
 
 export const MEALS: MealKey[] = ["m", "s"];
-export const MEAL_NAME: Record<MealKey, string> = { m: "midi", s: "soir" };
+export const MEAL_NAME: Record<MealKey, string> = t({ m: "midi", s: "soir" }, { m: "lunch", s: "dinner" });
+/** « ce soir », « jeudi midi » / « tonight », « Thursday lunch » */
+export const slotWhen = (days: WeekDay[], i: number, m: MealKey) => isEn
+  ? (i === 0 ? (m === "s" ? "tonight" : "this lunchtime") : `${days[i].long} ${MEAL_NAME[m]}`)
+  : (i === 0 ? `ce ${MEAL_NAME[m]}` : `${days[i].long.toLowerCase()} ${MEAL_NAME[m]}`);
 /** Une case de la semaine : le plat du midi ou du soir, ou le dessert qui l'accompagne (md, sd). */
 export type SlotKey = MealKey | "md" | "sd";
 export const dessertKey = (m: MealKey): "md" | "sd" => (m === "m" ? "md" : "sd");
@@ -45,11 +50,11 @@ export function finishes(r: GeneratedRecipe, found: DetectedIngredient[]): strin
 export function status(r: GeneratedRecipe, found: DetectedIngredient[]): { text: string; warn: boolean; missing: number } {
   const { have, total } = haveCount(r, found);
   const missing = total - have;
-  if (missing > 0) return { text: r.missing && r.missing.length <= 24 ? `Manque ${r.missing}` : `Manque ${missing} ingrédient${missing > 1 ? "s" : ""}`, warn: true, missing };
-  if (!total && r.missing) return { text: `Manque ${r.missing}`, warn: true, missing: 1 };
+  if (missing > 0) return { text: r.missing && r.missing.length <= 24 ? t(`Manque ${r.missing}`, `Missing ${r.missing}`) : t(`Manque ${missing} ingrédient${missing > 1 ? "s" : ""}`, `Missing ${missing} ingredient${missing > 1 ? "s" : ""}`), warn: true, missing };
+  if (!total && r.missing) return { text: t(`Manque ${r.missing}`, `Missing ${r.missing}`), warn: true, missing: 1 };
   const fin = finishes(r, found);
-  if (fin.length) return { text: `À finir : ${fin.slice(0, 2).join(", ").toLowerCase()}`, warn: false, missing: 0 };
-  return { text: "Tu as tout", warn: false, missing: 0 };
+  if (fin.length) return { text: t("À finir : ", "Use up: ") + fin.slice(0, 2).join(", ").toLowerCase(), warn: false, missing: 0 };
+  return { text: t("Tu as tout", "You have everything"), warn: false, missing: 0 };
 }
 
 export const dayOf = (w: Week, key: string): PlanDay => w.days[key] ?? {};
@@ -180,7 +185,7 @@ export function placedText(w: Week, days: WeekDay[], title: string): string | nu
   const at = findTitle(w, days, title);
   if (!at) return null;
   const m = mealOfKey(at[1]);
-  return `Prévu ${at[1] !== m ? "en dessert " : ""}${at[0] === 0 ? `ce ${MEAL_NAME[m]}` : `${days[at[0]].long.toLowerCase()} ${MEAL_NAME[m]}`} · changer`;
+  return t(`Prévu ${at[1] !== m ? "en dessert " : ""}${slotWhen(days, at[0], m)} · changer`, `Planned ${at[1] !== m ? "as dessert " : ""}${at[0] === 0 ? "" : "for "}${slotWhen(days, at[0], m)} · change`);
 }
 
 /** « Frigo scanné hier » (un scan de la semaine), sinon rien. */
@@ -189,7 +194,7 @@ export function scannedText(history: HistoryEntry[]): string | null {
   if (!d) return null;
   const n = daysAgo(d);
   if (n > 7) return null;
-  return n <= 0 ? "Frigo scanné aujourd'hui" : n === 1 ? "Frigo scanné hier" : `Frigo scanné ${d.toLocaleDateString("fr-FR", { weekday: "long" })}`;
+  return n <= 0 ? t("Frigo scanné aujourd'hui", "Fridge scanned today") : n === 1 ? t("Frigo scanné hier", "Fridge scanned yesterday") : t("Frigo scanné ", "Fridge scanned on ") + d.toLocaleDateString(locale, { weekday: "long" });
 }
 
 /** Ce qui est « À finir » dans le dernier scan de la semaine. */

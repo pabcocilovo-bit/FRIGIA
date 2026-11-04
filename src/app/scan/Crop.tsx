@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { Icon } from "../../ui/components";
 import { getScan, setScan } from "./store";
+import { t } from "../../lib/i18n";
 import "./scan.css";
 
 type Ins = { t: number; l: number; r: number; b: number };
@@ -96,11 +97,11 @@ export function Crop() {
   }
 
   return (
-    <section className="fa scan-screen scr-crop" aria-label="Recadrer la photo">
-      <div className="cr-head"><b>Recadre ta photo</b><span>{getScan().source === "ticket" ? "Garde tout le ticket dans le cadre" : "Garde toutes les étagères dans le cadre"}</span></div>
+    <section className="fa scan-screen scr-crop" aria-label={t("Recadrer la photo", "Crop the photo")}>
+      <div className="cr-head"><b>{t("Recadre ta photo", "Crop your photo")}</b><span>{getScan().source === "ticket" ? t("Garde tout le ticket dans le cadre", "Keep the whole receipt in the frame") : t("Garde toutes les étagères dans le cadre", "Keep all the shelves in the frame")}</span></div>
       <div className="cr-stage" ref={stage} onPointerMove={move} onPointerUp={() => { drag.current = null; }} onPointerCancel={() => { drag.current = null; }}>
         <div className="cr-frame" ref={frame} style={fit}>
-          <img ref={img} src={url} alt="Photo du frigo à recadrer" style={pic}
+          <img ref={img} src={url} alt={t("Photo du frigo à recadrer", "Fridge photo to crop")} style={pic}
             onLoad={e => setNat({ w: e.currentTarget.naturalWidth, h: e.currentTarget.naturalHeight })} />
           <div className="cr-box" style={box}>
             {["tl", "tr", "bl", "br"].map(h => (
@@ -114,11 +115,11 @@ export function Crop() {
         </div>
       </div>
       <div className="cr-bar">
-        <button type="button" className="cr-txt" onClick={() => { setScan({ pick: null }); navigate(-1); }}>Annuler</button>
-        <button type="button" className="cr-ic" aria-label="Tourner à gauche" onClick={() => setRot(r => r - 90)}><Icon name="rotl" /></button>
-        <button type="button" className="cr-ic" aria-label="Revenir à la photo d'origine" disabled={untouched} onClick={() => { setRot(0); setIns(START); }}><Icon name="redo" /></button>
-        <button type="button" className="cr-ic" aria-label="Tourner à droite" onClick={() => setRot(r => r + 90)}><Icon name="rotr" /></button>
-        <button type="button" className="cr-txt cr-ok" onClick={go}>Analyser</button>
+        <button type="button" className="cr-txt" onClick={() => { setScan({ pick: null }); navigate(-1); }}>{t("Annuler", "Cancel")}</button>
+        <button type="button" className="cr-ic" aria-label={t("Tourner à gauche", "Rotate left")} onClick={() => setRot(r => r - 90)}><Icon name="rotl" /></button>
+        <button type="button" className="cr-ic" aria-label={t("Revenir à la photo d'origine", "Back to the original photo")} disabled={untouched} onClick={() => { setRot(0); setIns(START); }}><Icon name="redo" /></button>
+        <button type="button" className="cr-ic" aria-label={t("Tourner à droite", "Rotate right")} onClick={() => setRot(r => r + 90)}><Icon name="rotr" /></button>
+        <button type="button" className="cr-txt cr-ok" onClick={go}>{t("Analyser", "Analyze")}</button>
       </div>
     </section>
   );

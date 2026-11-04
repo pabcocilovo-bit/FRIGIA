@@ -3,6 +3,7 @@
 import type { User } from "./types";
 import { postApi } from "./api";
 import { ALPHA_END } from "./alpha";
+import { t } from "./i18n";
 
 export const TRIAL_DAYS = 7;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -44,8 +45,8 @@ export function trialText(end: number, now = Date.now()): string {
   // (une marge d'une minute : un « maintenant » lu quelques secondes plus tôt ne compte pas un jour de plus)
   const days = Math.ceil((end - now - 60e3) / DAY_MS);
   // L'alpha : la date plutôt qu'un compte de jours (src/lib/alpha.ts)
-  if (end === ALPHA_END && days > 1) return "Gratuit jusqu'au 30 novembre";
-  return days <= 1 ? "Dernier jour d'essai" : `Encore ${days} jours d'essai`;
+  if (end === ALPHA_END && days > 1) return t("Gratuit jusqu'au 30 novembre", "Free until November 30");
+  return days <= 1 ? t("Dernier jour d'essai", "Last day of trial") : t(`Encore ${days} jours d'essai`, `${days} trial days left`);
 }
 
 // ─── Stripe ──────────────────────────────────────────────────────────────────
@@ -66,7 +67,7 @@ export type Subscription = {
 async function post<T>(path: string, body?: unknown): Promise<T> {
   const res = await postApi(path, body);
   const json = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error((json as { error?: string }).error || "Ça n'a pas marché. Réessaie.");
+  if (!res.ok) throw new Error((json as { error?: string }).error || t("Ça n'a pas marché. Réessaie.", "That didn't work. Try again."));
   return json as T;
 }
 

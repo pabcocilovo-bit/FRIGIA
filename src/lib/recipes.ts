@@ -1,5 +1,13 @@
 // Recettes : icônes, texte à partager, photo du plat.
 import type { GeneratedRecipe } from "./types";
+import { isEn, t } from "./i18n";
+
+/** La difficulté gardée avec la recette (« Facile », « Moyen », « Difficile », en français), dans la langue de l'appli. */
+export function diffText(d: string | undefined): string {
+  if (!d || !isEn) return d ?? "";
+  const k = d.toLowerCase();
+  return k.startsWith("facile") || k === "easy" ? "Easy" : k.startsWith("moyen") || k === "medium" ? "Medium" : k.startsWith("diffic") || k === "hard" ? "Hard" : d;
+}
 
 /** Une durée lisible : « 45 min », et en heures au-delà de 60 min (Hugo, 28 octobre) : « 1 h », « 1 h 30 ». */
 export function minText(min: number): string {
@@ -78,21 +86,21 @@ export function recipeIcon(title: string) {
 export function buildShareText(r: GeneratedRecipe): string {
   const lines: string[] = [];
   lines.push(r.title);
-  lines.push(`⏱ ${timeText(r.time)}  🔥 ${r.cal} kcal  📊 ${r.diff}`);
+  lines.push(`⏱ ${timeText(r.time)}  🔥 ${r.cal} kcal  📊 ${diffText(r.diff)}`);
   if (r.recipeIngredients && r.recipeIngredients.length > 0) {
     lines.push("");
-    lines.push("🛒 Ingrédients :");
+    lines.push(t("🛒 Ingrédients :", "🛒 Ingredients:"));
     r.recipeIngredients.forEach(ing => lines.push(`${ingredientIcon(ing.name)} ${ing.name}${ing.qty ? ` — ${ing.qty}` : ""}`));
   }
   if (r.steps && r.steps.length > 0) {
     lines.push("");
-    lines.push("👨‍🍳 Étapes :");
+    lines.push(t("👨‍🍳 Étapes :", "👨‍🍳 Steps:"));
     r.steps.forEach((step, i) => lines.push(`${i + 1}. ${step}`));
   }
   lines.push("");
   lines.push("———");
-  lines.push("Recette générée avec Frigia 🍽️");
-  lines.push("Votre chef IA personnel — frigia.fr");
+  lines.push(t("Recette générée avec Frigia 🍽️", "Recipe made with Frigia 🍽️"));
+  lines.push(t("Votre chef IA personnel — frigia.fr", "Your personal AI chef — frigia.fr"));
   return lines.join("\n");
 }
 

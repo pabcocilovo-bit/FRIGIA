@@ -5,6 +5,7 @@ import type { ApiEater } from "./household";
 import { apiPrefs, getCachedProfile } from "./profile";
 import { recentRecipeTitles } from "./library";
 import { ingredientIcon, recipeIcon } from "./recipes";
+import { isEn, t } from "./i18n";
 
 /** Réduit la photo à 1200 px de côté au plus, en JPEG. */
 export function compressImage(f: Blob): Promise<{ base64: string; type: string }> {
@@ -29,7 +30,7 @@ export function compressImage(f: Blob): Promise<{ base64: string; type: string }
 }
 
 /** La limite du serveur (api/_ai.ts) : 5 scans par heure. */
-export const RATE_TEXT = "Tu as fait 5 scans cette heure-ci. Réessaie un peu plus tard.";
+export const RATE_TEXT = t("Tu as fait 5 scans cette heure-ci. Réessaie un peu plus tard.", "You've done 5 scans this hour. Try again a bit later.");
 
 export type ScanSource = "frigo" | "placard" | "ticket";
 export type Envie = "rapide" | "healthy" | "proteine" | "gourmand" | "enfants" | "gaspi";
@@ -120,7 +121,7 @@ type RawRecipe = {
 };
 
 /** Quantité écrite pour les anciens écrans (Tes scans, partage) : « 200 g », « 2 », « un peu ». */
-const qtyLabel = (i: RawItem) => (i.qty == null ? "un peu" : `${String(i.qty).replace(".", ",")}${i.unit ? " " + i.unit : ""}`);
+const qtyLabel = (i: RawItem) => (i.qty == null ? t("un peu", "a little") : `${isEn ? String(i.qty) : String(i.qty).replace(".", ",")}${i.unit ? " " + i.unit : ""}`);
 
 function toRecipe(r: RawRecipe): GeneratedRecipe {
   return {

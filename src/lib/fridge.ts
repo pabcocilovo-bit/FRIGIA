@@ -13,11 +13,12 @@ const item = (name: string, qty: string, from: FridgeItem["from"], extra: Partia
   ({ id: crypto.randomUUID(), name: cap(name.trim()), qty: qty.trim(), at: Date.now(), from, ...extra });
 
 // Rangés aux placards (le reste va au frigo) : l'épicerie, le pain, et les légumes qui se gardent dehors
-const OUTSIDE = ["pomme", "terre", "patate", "oignon", "echalote", "ail", "banane", "courge", "potiron", "butternut", "citron", "orange", "clementine", "kiwi"];
-const COLD = ["creme", "fraiche", "lait", "beurre", "yaourt", "fromage", "oeuf", "jambon", "compote", "jus"];
+const OUTSIDE = ["pomme", "terre", "patate", "oignon", "echalote", "ail", "banane", "courge", "potiron", "butternut", "citron", "orange", "clementine", "kiwi",
+  "potatoe", "onion", "shallot", "garlic", "banana", "squash", "pumpkin", "lemon", "lime", "sweet"];
+const COLD = ["creme", "fraiche", "lait", "beurre", "yaourt", "fromage", "oeuf", "jambon", "compote", "jus", "cream", "milk", "butter", "yogurt", "cheese", "egg", "ham", "juice"];
 export function guessPlace(name: string): Place {
   const w = norm(name);
-  if (w.some(x => COLD.includes(x)) && !w.includes("conserve")) return "frigo";
+  if (w.some(x => COLD.includes(x)) && !w.includes("conserve") && !w.includes("tinned")) return "frigo";
   if (["Épicerie", "Boulangerie"].includes(aisleOf(name))) return "placard";
   return w.length && OUTSIDE.includes(w[0]) ? "placard" : "frigo";
 }
@@ -83,7 +84,7 @@ export function fromShopping(f: Fridge, shop: { id: string; name: string; qty: s
 }
 
 // Le sel, l'huile, les pâtes : jamais retirés du frigo par une recette
-const KEEP = ["sel", "poivre", "eau", "huile", "epice", "farine", "sucre"];
+const KEEP = ["sel", "poivre", "eau", "huile", "epice", "farine", "sucre", "salt", "water", "oil", "spice", "flour", "sugar"];
 
 /** Une recette est cuisinée : les produits qu'elle utilise (ceux qu'on avait) sortent du frigo. */
 export function cookFrom(f: Fridge, r: GeneratedRecipe): Fridge {

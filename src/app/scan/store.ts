@@ -6,15 +6,16 @@ import type { Meal } from "../../lib/types";
 import type { Fridge } from "../../lib/home";
 import { pantryOf } from "../../lib/fridge";
 import { same } from "../../lib/shopping";
+import { t } from "../../lib/i18n";
 
 /** Le menu choisi après « C'est bien ça ? » : combien de recettes, et combien de desserts parmi elles */
 export type MenuId = "plats" | "plats-dessert" | "plat-dessert" | "desserts" | "semaine";
 export const MENUS: { id: MenuId; label: string; sub: string; n: number; desserts: number; plus?: boolean }[] = [
-  { id: "plats", label: "3 plats", sub: "Trois idées de plats, au choix", n: 3, desserts: 0 },
-  { id: "plats-dessert", label: "2 plats et 1 dessert", sub: "Deux idées de plats, et le dessert", n: 3, desserts: 1 },
-  { id: "plat-dessert", label: "1 plat et 1 dessert", sub: "Le repas complet, sans hésiter", n: 2, desserts: 1 },
-  { id: "desserts", label: "3 desserts", sub: "Trois idées sucrées", n: 3, desserts: 3 },
-  { id: "semaine", label: "Pour la semaine", sub: "Batch cooking : des plats qui se gardent", n: 3, desserts: 0, plus: true },
+  { id: "plats", label: t("3 plats", "3 mains"), sub: t("Trois idées de plats, au choix", "Three main-dish ideas to choose from"), n: 3, desserts: 0 },
+  { id: "plats-dessert", label: t("2 plats et 1 dessert", "2 mains and 1 dessert"), sub: t("Deux idées de plats, et le dessert", "Two main-dish ideas, and dessert"), n: 3, desserts: 1 },
+  { id: "plat-dessert", label: t("1 plat et 1 dessert", "1 main and 1 dessert"), sub: t("Le repas complet, sans hésiter", "The full meal, no hesitating"), n: 2, desserts: 1 },
+  { id: "desserts", label: t("3 desserts", "3 desserts"), sub: t("Trois idées sucrées", "Three sweet ideas"), n: 3, desserts: 3 },
+  { id: "semaine", label: t("Pour la semaine", "For the week"), sub: t("Batch cooking : des plats qui se gardent", "Batch cooking: dishes that keep"), n: 3, desserts: 0, plus: true },
 ];
 export const menuOf = (id: MenuId) => MENUS.find(m => m.id === id) ?? MENUS[0];
 /** Le repas qui va avec le menu : la semaine, le dessert, ou des plats pour ce midi (avant 16 h) ou ce soir */
@@ -97,19 +98,28 @@ export const madeKey = (s: ScanState) => JSON.stringify([s.ingredients.map(i => 
   s.off, s.empty, s.servings, s.guests, s.away]);
 
 /** « Ce midi », « ce soir », « la semaine » dans les phrases. */
-export const MEAL_WORDS: Record<Meal, { pour: string; qui: string; feat: string }> = {
+export const MEAL_WORDS: Record<Meal, { pour: string; qui: string; feat: string }> = t({
   m: { pour: "pour ce midi", qui: "Qui mange ce midi ?", feat: "Idéal ce midi" },
   s: { pour: "pour ce soir", qui: "Qui mange ce soir ?", feat: "Idéal ce soir" },
   w: { pour: "pour la semaine", qui: "Qui mange cette semaine ?", feat: "À cuisiner en premier" },
   d: { pour: "pour le dessert", qui: "Qui prend un dessert ?", feat: "Idéal en dessert" },
-};
+}, {
+  m: { pour: "for lunch", qui: "Who's eating at lunch?", feat: "Perfect for lunch" },
+  s: { pour: "for tonight", qui: "Who's eating tonight?", feat: "Perfect for tonight" },
+  w: { pour: "for the week", qui: "Who's eating this week?", feat: "Cook this first" },
+  d: { pour: "for dessert", qui: "Who's having dessert?", feat: "Perfect for dessert" },
+});
 
 /** « Tes placards » : ce qu'on a presque toujours, en pastilles « + Riz » [nom rangé dans Ma cuisine, nom affiché]. Les plats :
  *  les accompagnements ; les desserts : de quoi pâtisser. Demandé par Hugo les 22 et 23 octobre (une étape à part). */
-const IDEAS_PLATS: [string, string][] = [["Pâtes", "Pâtes"], ["Riz", "Riz"], ["Pommes de terre", "Pommes de terre"], ["Semoule", "Semoule"],
-  ["Pain", "Pain"], ["Quinoa", "Quinoa"], ["Lentilles", "Lentilles"], ["Huile d'olive", "Huile d'olive"], ["Tomates en conserve", "Tomates en conserve"]];
-const IDEAS_DESSERTS: [string, string][] = [["Farine", "Farine"], ["Sucre", "Sucre"], ["Chocolat", "Chocolat"], ["Levure chimique", "Levure"],
-  ["Flocons d'avoine", "Flocons d'avoine"], ["Poudre d'amande", "Poudre d'amande"], ["Miel", "Miel"]];
+const IDEAS_PLATS: [string, string][] = t([["Pâtes", "Pâtes"], ["Riz", "Riz"], ["Pommes de terre", "Pommes de terre"], ["Semoule", "Semoule"],
+  ["Pain", "Pain"], ["Quinoa", "Quinoa"], ["Lentilles", "Lentilles"], ["Huile d'olive", "Huile d'olive"], ["Tomates en conserve", "Tomates en conserve"]],
+[["Pasta", "Pasta"], ["Rice", "Rice"], ["Potatoes", "Potatoes"], ["Couscous", "Couscous"], ["Bread", "Bread"], ["Quinoa", "Quinoa"], ["Lentils", "Lentils"],
+  ["Olive oil", "Olive oil"], ["Tinned tomatoes", "Tinned tomatoes"]]);
+const IDEAS_DESSERTS: [string, string][] = t([["Farine", "Farine"], ["Sucre", "Sucre"], ["Chocolat", "Chocolat"], ["Levure chimique", "Levure"],
+  ["Flocons d'avoine", "Flocons d'avoine"], ["Poudre d'amande", "Poudre d'amande"], ["Miel", "Miel"]],
+[["Flour", "Flour"], ["Sugar", "Sugar"], ["Chocolate", "Chocolate"], ["Baking powder", "Baking powder"], ["Oats", "Oats"],
+  ["Ground almonds", "Ground almonds"], ["Honey", "Honey"]]);
 /** Les pastilles à ajouter : selon le menu (des desserts dedans : de quoi pâtisser aussi), sans ce qui est déjà aux placards ou dans la liste */
 export function placardIdeas(kitchen: Fridge, s: ScanState): [string, string][] {
   const m = menuOf(s.menu);

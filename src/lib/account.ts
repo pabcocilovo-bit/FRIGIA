@@ -2,6 +2,7 @@
 import { supabase } from "../supabase";
 import type { Prefs, User } from "./types";
 import { postApi } from "./api";
+import { t } from "./i18n";
 
 const key = (name: string, userId: string) => `frigia_${name}_${userId}`;
 
@@ -149,7 +150,7 @@ export async function downloadMyData(u: User) {
 export async function sendSupportMessage(u: User, kind: "contact" | "bug" | "idea", topic: string, message: string, appInfo?: string) {
   const res = await postApi("/api/support", { kind, topic, message, appInfo }).catch(() => null);
   if (res?.ok) return;
-  if (res?.status === 429) throw new Error("Trop de messages");
+  if (res?.status === 429) throw new Error(t("Trop de messages", "Too many messages"));
   const { error } = await supabase.from("support_messages").insert({
     user_id: u.id, email: u.email ?? null, kind, topic, message, app_info: appInfo ?? null,
   });
@@ -159,10 +160,10 @@ export async function sendSupportMessage(u: User, kind: "contact" | "bug" | "ide
 /** Supprime le compte côté serveur. Lève une erreur avec le message à afficher. */
 export async function deleteAccount() {
   const { data: { session } } = await supabase.auth.getSession();
-  if (!session?.access_token) throw new Error("Non authentifié");
+  if (!session?.access_token) throw new Error(t("Non authentifié", "Not signed in"));
   const res = await postApi("/api/delete-account");
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Erreur serveur");
+  if (!res.ok) throw new Error(json.error || t("Erreur serveur", "Server error"));
 }
 
 /** Déconnecte. « local » : seulement ce téléphone, sans demander au serveur (compte déjà supprimé). */

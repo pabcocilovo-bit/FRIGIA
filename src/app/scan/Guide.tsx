@@ -4,6 +4,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react";
 import { Icon } from "../../ui/components";
 import type { GuideStep } from "./guideSteps";
+import { t } from "../../lib/i18n";
 
 type Place = { hole: { left: number; top: number; width: number; height: number; borderRadius: number }; tip: { left: number; top: number }; arr: number };
 
@@ -75,8 +76,8 @@ export function Guide({ host, steps, delay, onDone, onSkip }: {
         <p>{st.text}</p>
         <div className="gd-f">
           <span className="gd-dots">{steps.map((_, j) => <i key={j} className={j === i ? "on" : undefined} />)}</span>
-          <button type="button" className="gd-skip" onClick={() => { setOn(false); onSkip(); }}>Passer</button>
-          <button type="button" className="pill sage gd-next" onClick={next}>{st.cam && <Icon name="cam" />}{st.btn ?? "Suivant"}</button>
+          <button type="button" className="gd-skip" onClick={() => { setOn(false); onSkip(); }}>{t("Passer", "Skip")}</button>
+          <button type="button" className="pill sage gd-next" onClick={next}>{st.cam && <Icon name="cam" />}{st.btn ?? t("Suivant", "Next")}</button>
         </div>
       </div>
     </div>
