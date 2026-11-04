@@ -26,6 +26,13 @@ export default defineConfig(({ mode }) => {
           globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
           // Notifications (étape 12) : réception et clic
           importScripts: ['push-sw.js'],
+          // Vercel (cleanUrls) redirige /index.html vers / : le service worker garde la page sous « / » pour ne jamais
+          // servir une réponse redirigée, que Safari refuse (« Response served by service worker has redirections »)
+          navigateFallback: '/',
+          manifestTransforms: [async entries => ({
+            manifest: entries.map(e => (e.url === 'index.html' ? { ...e, url: '/' } : e)),
+            warnings: [],
+          })],
           // Les pages légales et llms.txt sont de vraies pages : le service worker ne doit pas les remplacer par l'appli
           navigateFallbackDenylist: [/^\/(cgu|confidentialite|mentions-legales|cookies)(\.html)?$/, /^\/llms\.txt$/],
           runtimeCaching: [{

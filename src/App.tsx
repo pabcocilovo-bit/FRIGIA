@@ -166,7 +166,8 @@ export default function Frigia() {
       setProfileMissing(false);
       // Supabase annonce aussi « personne de connecté » à l'ouverture : on ne sort pas des écrans d'inscription
       // Déconnexion voulue : Bienvenue, une fois la session vidée à l'écran (effet plus bas)
-      if (!signOutTo.current && !OB_PATHS.includes(window.location.pathname)) navigate("/", { replace: true });
+      // (sauf /admin : le retour de TikTok s'y affiche aussi pour un créateur sans compte)
+      if (!signOutTo.current && !OB_PATHS.includes(window.location.pathname) && window.location.pathname !== "/admin") navigate("/", { replace: true });
       library.clear();
       cooked.clear();
       home.clear();

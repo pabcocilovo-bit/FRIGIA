@@ -8,6 +8,9 @@ type Result = { status: "wait" } | { status: "ok"; handle: string; kind: string 
 
 // Le code ne sert qu'une fois : une seule demande, même si React lance l'effet deux fois
 let pending: ReturnType<typeof socialConnect> | null = null;
+// L'adresse est lue une seule fois par chargement : si la page se remonte (connexion qui finit de charger),
+// la deuxième lecture tomberait sur « /admin » déjà nettoyé et afficherait une erreur à tort
+let returned: ReturnType<typeof readReturn> | null = null;
 
 /** Ce que TikTok a mis dans l'adresse, lu une fois (puis retiré de l'adresse) */
 function readReturn(): { code: string; state: string } | { error: string } {
@@ -15,13 +18,16 @@ function readReturn(): { code: string; state: string } | { error: string } {
   history.replaceState(null, "", "/admin");
   const code = q.get("code"), state = q.get("state");
   if (q.get("error") || !code || !state) {
-    return { error: q.get("error") === "access_denied" ? "Tu as refusé l'autorisation : rien n'a été relié." : "TikTok n'a pas donné l'autorisation." };
+    const err = q.get("error"), detail = q.get("error_description");
+    if (err === "access_denied") return { error: "Tu as refusé l'autorisation : rien n'a été relié." };
+    // Le code d'erreur de TikTok, pour savoir quoi corriger (ex. non_sandbox_target, invalid_scope)
+    return { error: `TikTok n'a pas donné l'autorisation${err ? ` (${err}${detail ? ` : ${detail}` : ""})` : ""}.` };
   }
   return { code, state };
 }
 
 export default function Callback({ admin }: { admin: boolean }) {
-  const [ret] = useState(readReturn);
+  const [ret] = useState(() => (returned ??= readReturn()));
   const [res, setRes] = useState<Result>(() => ("error" in ret ? { status: "error", message: ret.error } : { status: "wait" }));
   useEffect(() => {
     if ("error" in ret) return;
