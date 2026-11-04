@@ -5,9 +5,9 @@
 export type Lang = "fr" | "en";
 
 const KEY = "frigia_lang";
-/** Tant que la traduction n'est pas finie, l'anglais ne vient que d'un choix explicite (?lang=en, ou les Réglages
- *  sur la préversion) : un téléphone en anglais garde le français. À passer à true quand tout est traduit. */
-export const AUTO_LANG = false;
+/** Un téléphone en anglais ouvre l'appli en anglais (tout est traduit depuis le 4 novembre). À false, l'anglais ne viendrait
+ *  que d'un choix explicite (?lang=en) et la ligne Langue des Réglages serait cachée. */
+export const AUTO_LANG = true;
 
 function read(): Lang {
   try {
