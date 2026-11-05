@@ -21,7 +21,7 @@ import { useOpenPaywall } from "./plus/subscription";
 import { inFridge, minutesOf } from "./scan/portions";
 import { plural } from "./format";
 import { diffText, minText, timeText } from "../lib/recipes";
-import { t } from "../lib/i18n";
+import { lang, t } from "../lib/i18n";
 
 const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/œ/g, "oe").trim();
 const words = (r: GeneratedRecipe) => [r.title, ...(r.items?.map(i => i.name) ?? r.recipeIngredients?.map(i => i.name) ?? [])].join(" ");
@@ -58,13 +58,15 @@ type Cached = Record<string, { at: number; recipes: GeneratedRecipe[] }>;
 function readCache(): Cached {
   try { return JSON.parse(localStorage.getItem(CACHE) ?? "{}") as Cached; } catch { return {}; }
 }
+// La langue dans la clé : une recherche faite en français ne revient pas en anglais
+const cacheKey = (q: string) => `${lang}:${norm(q)}`;
 function cached(q: string): GeneratedRecipe[] | null {
-  const e = readCache()[norm(q)];
+  const e = readCache()[cacheKey(q)];
   return e && Date.now() - e.at < DAY ? e.recipes : null;
 }
 function remember(q: string, recipes: GeneratedRecipe[]) {
   const all = readCache();
-  all[norm(q)] = { at: Date.now(), recipes };
+  all[cacheKey(q)] = { at: Date.now(), recipes };
   // Les 15 dernières recherches
   const kept = Object.entries(all).sort((a, b) => b[1].at - a[1].at).slice(0, 15);
   try { localStorage.setItem(CACHE, JSON.stringify(Object.fromEntries(kept))); } catch { /* plein ou navigation privée */ }
@@ -293,7 +295,7 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
 
   // Les rangées du jour (Plus) : selon Ma cuisine et les allergies du foyer
   const allergies = household.length ? apiEaters(household) : undefined;
-  const sig = JSON.stringify([mine, allergies?.map(e => e.allergies)]);
+  const sig = JSON.stringify([lang, mine, allergies?.map(e => e.allergies)]);
   const saved = useMemo(() => readRows(sig), [sig]);
   const [rows, setRows] = useState<{ sig: string; data: Browse | null } | null>(null);
   // undefined : en chargement ; null : pas de rangées (pas Plus, ou le serveur n'a pas répondu)
