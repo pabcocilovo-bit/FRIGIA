@@ -215,3 +215,25 @@ export function engagementOf(list: Video[]): number | null {
   const views = list.reduce((t, v) => t + v.views, 0);
   return views > 0 ? list.reduce((t, v) => t + v.likes + v.comments + v.shares, 0) / views : null;
 }
+
+// ─── Courses (dashboard > Courses, 5 novembre) ───────────────────────────────
+
+export type ShopTop = { item: string; ajouts: number; comptes: number; coches: number };
+export type ShopDay = { jour: string; ajouts: number; coches: number; courses: number };
+export type Shopping = {
+  depuis: string | null;
+  ajouts: number; ajouts_recette: number; coches: number; decoches: number; retraits: number;
+  utilisateurs: number; actifs_30j: number;
+  courses: number; articles_par_course: number | null;
+  fidelite: { courses: number; revenus: number };
+  top: ShopTop[]; par_jour: ShopDay[];
+};
+
+export async function loadShopping(days: number): Promise<{ ok: true; data: Shopping } | { ok: false; message: string }> {
+  const { data, error } = await supabase.rpc("admin_courses", { p_days: days });
+  if (error) {
+    const missing = error.code === "PGRST202" || /admin_courses/.test(error.message);
+    return { ok: false, message: missing ? "Lance d'abord courses-suivi.sql dans Supabase (SQL Editor)." : error.message };
+  }
+  return { ok: true, data: data as Shopping };
+}
