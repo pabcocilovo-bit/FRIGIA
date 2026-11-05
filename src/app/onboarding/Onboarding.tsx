@@ -1,4 +1,4 @@
-// Inscription et connexion (prototype V3, écrans A à K) : Bienvenue, les 3 questions, Ton Frigia est prêt,
+// Inscription et connexion (prototype V3, écrans A à K) : Bienvenue, les 4 questions (la 4e, le foyer, facultative), Ton Frigia est prêt,
 // Crée ton compte, email, code par email, connexion, mot de passe oublié, accès à la caméra.
 import { useEffect, useId, useRef, useState, type CSSProperties, type InputHTMLAttributes, type ReactNode, type Ref } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
@@ -10,7 +10,8 @@ import { DIET_NAMES, dietLabel, firstName } from "../format";
 import { LOGO_SYMBOL, LOGO_WORD } from "../logo";
 import { useBack } from "../nav";
 import { showToast } from "../toast";
-import { getSignupEmail, resetAnswers, setSignupEmail, useAnswers } from "./answers";
+import { type FamPerson, getSignupEmail, resetAnswers, setSignupEmail, useAnswers, useFamily } from "./answers";
+import { type Member, setPendingFamily } from "../../lib/home";
 import { useCaptcha } from "./captcha";
 import { authMessage, isEmailNotConfirmed, JETABLE, looksLikeEmail } from "./errors";
 import { withGoogle } from "./oauth";
@@ -195,7 +196,8 @@ function Option({ on, icon, title, sub, onClick }: { on: boolean; icon: IconName
   );
 }
 
-export function QGoal() {
+/** signedIn : déjà connecté (goûts à remplir), trois questions seulement : pas celle du foyer, il se règle dans Mon foyer. */
+export function QGoal({ signedIn }: { signedIn?: boolean }) {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [a, patch] = useAnswers();
@@ -208,7 +210,7 @@ export function QGoal() {
   };
   return (
     <Screen cls="ob" label={t("Ton objectif", "Your goal")}>
-      <ObHead from={0} to={15} label={t("Question 1 sur 3", "Question 1 of 3")} title={t(<>Qu'est-ce qui compte <em>le plus</em> ?</>, <>What matters <em>most</em>?</>)} sub={t("Choisis tout ce qui te parle.", "Pick everything that speaks to you.")} />
+      <ObHead from={0} to={12} label={t(`Question 1 sur ${signedIn ? 3 : 4}`, `Question 1 of ${signedIn ? 3 : 4}`)} title={t(<>Qu'est-ce qui compte <em>le plus</em> ?</>, <>What matters <em>most</em>?</>)} sub={t("Choisis tout ce qui te parle.", "Pick everything that speaks to you.")} />
       <div className="scroll"><div className="ob-body">
         <div className="ob-opts">
           {GOALS.map(g => <Option key={g.v} on={a.goals.includes(g.v)} icon={g.icon} title={g.t} sub={g.s} onClick={() => toggle(g.v)} />)}
@@ -230,6 +232,8 @@ const DIET_TILES: { v: string; icon: IconName }[] = [
 const capFirst = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const ALLERGIES: [string, string][] = ALLERGY_KEYS.filter(k => k !== "gluten").map(k => [k, capFirst(allergyName(k))]);
 const VEG = ["vege", "vegan", "pesce"];
+// Pour les proches : toutes les allergies, gluten compris (pas de régime à leur fiche)
+const FAM_ALLERGIES: [string, string][] = ALLERGY_KEYS.map(k => [k, capFirst(allergyName(k))]);
 
 export function QDiet({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
   const navigate = useNavigate();
@@ -253,7 +257,7 @@ export function QDiet({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
 
   return (
     <Screen cls="ob" label={t("Régime alimentaire", "Diet")}>
-      <ObHead from={15} to={30} single={single} label={t("Question 2 sur 3", "Question 2 of 3")} title={t(<>Quel est ton <em>régime alimentaire</em>&nbsp;?</>, <>What's your <em>diet</em>?</>)} sub={t("On te propose seulement des recettes qui te vont.", "We only suggest recipes that suit you.")} />
+      <ObHead from={12} to={24} single={single} label={t(`Question 2 sur ${onSave ? 3 : 4}`, `Question 2 of ${onSave ? 3 : 4}`)} title={t(<>Quel est ton <em>régime alimentaire</em>&nbsp;?</>, <>What's your <em>diet</em>?</>)} sub={t("On te propose seulement des recettes qui te vont.", "We only suggest recipes that suit you.")} />
       <div className="scroll"><div className="ob-body">
         <div className="ob-tiles">
           {DIET_TILES.map(dt => {
@@ -319,7 +323,7 @@ export function QTime({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
     : [...a.equipment.filter(x => !(v === NO_OVEN && x === "four") && !(v === "four" && x === NO_OVEN)), v] });
 
   const next = async () => {
-    if (!onSave) { navigate("/pret"); return; }
+    if (!onSave) { navigate("/questions/4", { state }); return; }
     setSaving(true);
     await onSave(a);
     navigate(edit ? "/famille/preferences" : "/", { replace: true });
@@ -327,7 +331,7 @@ export function QTime({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
 
   return (
     <Screen cls="ob" label={t("Temps et équipement", "Time and equipment")}>
-      <ObHead from={30} to={45} single={single} label={t("Question 3 sur 3", "Question 3 of 3")} title={t(<>Le soir, tu as <em>combien de temps</em> pour&nbsp;cuisiner&nbsp;?</>, <>In the evening, <em>how much time</em> do you have to cook?</>)} sub={t("Les recettes qui rentrent dans ton temps passent en premier.", "Recipes that fit your time come first.")} />
+      <ObHead from={24} to={36} single={single} label={t(`Question 3 sur ${onSave ? 3 : 4}`, `Question 3 of ${onSave ? 3 : 4}`)} title={t(<>Le soir, tu as <em>combien de temps</em> pour&nbsp;cuisiner&nbsp;?</>, <>In the evening, <em>how much time</em> do you have to cook?</>)} sub={t("Les recettes qui rentrent dans ton temps passent en premier.", "Recipes that fit your time come first.")} />
       <div className="scroll"><div className="ob-body">
         <div className="ob-opts">
           {TIMES.map(tm => <Option key={tm.v} on={time === tm.v} icon={tm.icon} title={tm.t} sub={tm.s} onClick={() => { patch({ weeknight_time: tm.v }); setTip(TIME_TIP[tm.v]); }} />)}
@@ -341,7 +345,94 @@ export function QTime({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
       </div></div>
       {edit
         ? <SaveBar disabled={!time} loading={saving} onClick={next} />
-        : <GoBar title={t("Voir mon Frigia", "See my Frigia")} sub={time ? t("3 questions sur 3", "3 questions of 3") : t("Choisis ton temps du soir", "Pick your evening time")} disabled={!time} loading={saving} onClick={next} />}
+        : <GoBar title={onSave ? t("Voir mon Frigia", "See my Frigia") : t("Continuer", "Continue")} sub={time ? (onSave ? t("3 questions sur 3", "3 questions of 3") : t("Plus qu'une, facultative", "One more, optional")) : t("Choisis ton temps du soir", "Pick your evening time")} disabled={!time} loading={saving} onClick={next} />}
+    </Screen>
+  );
+}
+
+// ─── D bis · Ton foyer (facultatif) ──────────────────────────────────────────
+// Hugo, 5 novembre : le foyer dès l'inscription, sans obliger. Combien d'adultes et d'enfants (et leur âge, pour les portions) ;
+// le « + » ouvre les prénoms et les allergies de chacun. Le reste (appétit, ce qu'il n'aime pas) se règle dans Mon foyer.
+
+const FAM_MAX = 8;
+const famName = (f: FamPerson[], i: number) => {
+  const p = f[i], n = f.slice(0, i + 1).filter(x => x.kid === p.kid).length;
+  return p.name.trim() || (p.kid ? t(`Enfant ${n}`, `Child ${n}`) : t(`Adulte ${n + 1}`, `Adult ${n + 1}`));
+};
+/** Les fiches de Mon foyer : un prénom par défaut (« Adulte 2 », « Enfant 1 ») quand il n'est pas donné */
+const famMembers = (f: FamPerson[]): Member[] => f.map((p, i) => ({
+  id: crypto.randomUUID(), name: capFirst(famName(f, i)).slice(0, 20), kid: p.kid, age: p.kid ? p.age : 0, allergies: p.allergies, dislikes: [],
+}));
+const famLine = (f: FamPerson[]) => {
+  const adults = 1 + f.filter(p => !p.kid).length, kids = f.filter(p => p.kid).length;
+  return t(`${adults} adulte${adults > 1 ? "s" : ""}${kids ? ` et ${kids} enfant${kids > 1 ? "s" : ""}` : ""}`, `${adults} adult${adults > 1 ? "s" : ""}${kids ? ` and ${kids} child${kids > 1 ? "ren" : ""}` : ""}`);
+};
+
+function Counter({ title, sub, value, min, onChange }: { title: string; sub: string; value: number; min: number; onChange: (n: number) => void }) {
+  return (
+    <div className="ob-cnt">
+      <span className="tx"><b>{title}</b><small>{sub}</small></span>
+      <div className="stepper">
+        <button type="button" aria-label={t(`Moins : ${title}`, `Fewer: ${title}`)} disabled={value <= min} onClick={() => onChange(value - 1)}><Icon name="minus" /></button>
+        <output aria-live="polite">{value}</output>
+        <button type="button" aria-label={t(`Plus : ${title}`, `More: ${title}`)} disabled={value >= FAM_MAX} onClick={() => onChange(value + 1)}><Icon name="plus" /></button>
+      </div>
+    </div>
+  );
+}
+
+export function QFamily() {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const [fam, setFam] = useFamily();
+  const [open, setOpen] = useState(() => fam.some(p => p.name || p.allergies.length));
+  const adults = fam.filter(p => !p.kid).length, kids = fam.filter(p => p.kid);
+  // Ajouter ou retirer garde les fiches déjà remplies (on retire la dernière de son groupe)
+  const resize = (kid: boolean, n: number) => {
+    const mine = fam.filter(p => p.kid === kid);
+    if (n > mine.length) setFam([...fam, ...Array.from({ length: n - mine.length }, () => ({ kid, age: 6, name: "", allergies: [] }))]);
+    else { const drop = new Set(mine.slice(n)); setFam(fam.filter(p => !drop.has(p))); }
+  };
+  const edit = (p: FamPerson, patch: Partial<FamPerson>) => setFam(fam.map(x => (x === p ? { ...x, ...patch } : x)));
+  const allergy = (p: FamPerson, v: string) => edit(p, { allergies: p.allergies.includes(v) ? p.allergies.filter(x => x !== v) : [...p.allergies, v] });
+
+  return (
+    <Screen cls="ob" label={t("Ton foyer", "Your household")}>
+      <ObHead from={36} to={48} label={t("Question 4 sur 4 · facultative", "Question 4 of 4 · optional")} title={t(<>Qui mange <em>avec toi</em>&nbsp;?</>, <>Who eats <em>with you</em>?</>)} sub={t("Les portions et les allergies s'adaptent à toute la table.", "Servings and allergies adapt to the whole table.")} />
+      <div className="scroll"><div className="ob-body">
+        <div className="ob-fam">
+          <Counter title={t("Adultes", "Adults")} sub={t("Toi compris", "Including you")} value={1 + adults} min={1} onChange={n => resize(false, n - 1)} />
+          <Counter title={t("Enfants", "Children")} sub={t("Moins de 18 ans", "Under 18")} value={kids.length} min={0} onChange={n => resize(true, n)} />
+          {kids.map((p, i) => (
+            <div key={i} className="ob-cnt ob-kid">
+              <span className="tx"><b>{famName(fam, fam.indexOf(p))}</b><small>{t(`${p.age} an${p.age > 1 ? "s" : ""}`, `${p.age} year${p.age > 1 ? "s" : ""} old`)}</small></span>
+              <div className="stepper">
+                <button type="button" aria-label={t("Plus jeune", "Younger")} disabled={p.age <= 1} onClick={() => edit(p, { age: p.age - 1 })}><Icon name="minus" /></button>
+                <button type="button" aria-label={t("Plus âgé", "Older")} disabled={p.age >= 17} onClick={() => edit(p, { age: p.age + 1 })}><Icon name="plus" /></button>
+              </div>
+            </div>
+          ))}
+        </div>
+        {fam.length > 0 && (open ? <>
+          <h3>{t("Prénoms et allergies", "Names and allergies")}</h3>
+          {fam.map((p, i) => (
+            <div key={i} className="ob-who">
+              <div className="ob-input"><Icon name="user" />
+                <input autoComplete="off" autoCapitalize="words" maxLength={20} placeholder={famName(fam.map(x => ({ ...x, name: "" })), i)}
+                  aria-label={t("Prénom", "First name")} value={p.name} onChange={e => edit(p, { name: e.target.value })} />
+              </div>
+              <div className="ob-chips">
+                <Chip on={!p.allergies.length} onClick={() => edit(p, { allergies: [] })}>{t("Sans allergie", "No allergies")}</Chip>
+                {FAM_ALLERGIES.map(([v, l]) => <Chip key={v} on={p.allergies.includes(v)} onClick={() => allergy(p, v)}>{l}</Chip>)}
+              </div>
+            </div>
+          ))}
+        </> : (
+          <button type="button" className="ob-more" onClick={() => setOpen(true)}><Icon name="plus" /><span>{t("Ajouter leurs prénoms et allergies", "Add their names and allergies")}</span></button>
+        ))}
+        <p className="ob-note"><Icon name="users" /><span>{t(<>Tu pourras tout changer dans <b>Mon profil, Mon foyer</b>, et ajouter ce que chacun n'aime pas.</>, <>You can change it all in <b>My profile, My household</b>, and add what each person doesn't like.</>)}</span></p>
+      </div></div>
+      <GoBar title={t("Voir mon Frigia", "See my Frigia")} sub={fam.length ? famLine(fam) : t("Juste toi ? Continue, c'est facultatif", "Just you? Carry on, it's optional")} onClick={() => navigate("/pret", { state })} />
     </Screen>
   );
 }
@@ -349,7 +440,7 @@ export function QTime({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
 // ─── E · Ton Frigia est prêt ─────────────────────────────────────────────────
 
 /** Le résumé : seulement ce que Frigia fera vraiment des réponses (5 lignes au plus). */
-function summary(a: Profile): string[] {
+function summary(a: Profile, fam: FamPerson[]): string[] {
   const G: Record<string, string> = t({
     gaspi: "Ce qui se garde le moins passe en premier", temps: "Les recettes rapides passent devant", sain: "Les recettes équilibrées passent devant",
     budget: "Des recettes avec ce que tu as déjà", idees: "Des idées qui changent à chaque photo",
@@ -359,6 +450,7 @@ function summary(a: Profile): string[] {
   });
   const low = (s: string) => (isEn ? s : s.toLowerCase());
   let L = [t("Trois recettes à chaque photo du frigo", "Three recipes with every fridge photo"), ...a.goals.slice(0, 2).map(g => G[g]).filter(Boolean)];
+  if (fam.length) L.splice(1, 0, t(`Des portions pour ${famLine(fam)}`, `Servings for ${famLine(fam)}`));
   if (a.weeknight_time === "15") L.push(t("Prêt en moins de 15 minutes en semaine", "Ready in under 15 minutes on weekdays"));
   if (a.weeknight_time === "30") L.push(t("Une demi-heure maximum en semaine", "Half an hour max on weekdays"));
   if (a.diet.join() !== "tout" && a.diet.length) L.push(t("Régime noté : ", "Diet noted: ") + a.diet.map(d => low(DIET_NAMES[d] ?? d)).join(", "));
@@ -371,7 +463,8 @@ function summary(a: Profile): string[] {
 export function Ready() {
   const navigate = useNavigate();
   const [a] = useAnswers();
-  const [lines] = useState(() => summary(a));
+  const [fam] = useFamily();
+  const [lines] = useState(() => summary(a, fam));
   const [shown, setShown] = useState(0);
   const [done, setDone] = useState(false);
   useEffect(() => {
@@ -382,7 +475,7 @@ export function Ready() {
 
   return (
     <Screen cls={cx("ob scr-ready", done && "done")} label={t("Ton Frigia est prêt", "Your Frigia is ready")}>
-      <ObHead from={45} to={60} />
+      <ObHead from={48} to={60} />
       <div className="ob-rbody">
         <div className="ob-plates">
           <img className="plate" src="/landing/salade-caprese.jpg" alt="" />
@@ -394,7 +487,7 @@ export function Ready() {
           {lines.map((l, i) => <li key={l} className={cx(i < shown && "in")}><i><Icon name="check" /></i><span>{l}</span></li>)}
         </ul>
       </div>
-      <GoBar plain title={t("Créer mon compte", "Create my account")} sub={`${trialPitch()}${t(", sans carte bancaire", ", no card needed")}`} onClick={() => { setPendingProfile(a); navigate("/compte"); }} />
+      <GoBar plain title={t("Créer mon compte", "Create my account")} sub={`${trialPitch()}${t(", sans carte bancaire", ", no card needed")}`} onClick={() => { setPendingProfile(a); setPendingFamily(famMembers(fam)); navigate("/compte"); }} />
     </Screen>
   );
 }
