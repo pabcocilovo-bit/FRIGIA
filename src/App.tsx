@@ -358,6 +358,7 @@ return (
           home.setShopping(l => l.map(x => (x.id === id ? { ...x, done: !x.done } : x)));
           if (it) home.setFridge(f => fromShopping(f, { ...it, done: !it.done }));
         }}
+        onRemove={id => home.setShopping(l => l.filter(x => x.id !== id))}
         onAdd={item => {
           const { list, added } = addToList(home.shopping, [item], BY_HAND);
           home.setShopping(list);
