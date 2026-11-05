@@ -112,4 +112,12 @@ export async function loadHome(userId: string, onCached: (h: Home) => void, onLo
   await Promise.all(cached.pending.map(p => sendPart(userId, p, merged[p])));
 }
 
+// Le foyer de la question 4, en attente du compte : il rejoint Mon foyer à la première connexion (App.tsx)
+const PENDING_FAMILY = "frigia_pending_family";
+export const setPendingFamily = (m: Member[]) => { try { if (m.length) localStorage.setItem(PENDING_FAMILY, JSON.stringify(m)); else localStorage.removeItem(PENDING_FAMILY); } catch { /* navigation privée */ } };
+export const clearPendingFamily = () => { try { localStorage.removeItem(PENDING_FAMILY); } catch { /* rien */ } };
+export function takePendingFamily(): Member[] {
+  try { const v = JSON.parse(localStorage.getItem(PENDING_FAMILY) || "[]"); return Array.isArray(v) ? v : []; } catch { return []; } finally { clearPendingFamily(); }
+}
+
 export const clearHomeCache = (userId: string) => { try { localStorage.removeItem(key(userId)); } catch { /* rien */ } };

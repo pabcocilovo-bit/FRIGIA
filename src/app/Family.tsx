@@ -109,6 +109,8 @@ export function FamilyHousehold({ isPlus, avatar, household }: { isPlus: boolean
       <GreenHead title={t("Mon foyer", "My household")} sub={t("Membres et profils alimentaires", "Members and dietary profiles")} />
       <div className="v3-body pbody">
         {isPlus ? <>
+          {/* L'appétit de chacun compte dans les portions : à dire, il ne se voit qu'en ouvrant une fiche (Hugo, 5 novembre) */}
+          <p className="intro">{t("Touche quelqu'un pour régler son appétit, ses allergies et ce qu'il n'aime pas : les portions suivent.", "Tap someone to set their appetite, allergies and dislikes: servings follow.")}</p>
           <div className="plist">
             {household.map(p => {
               const sub = memberSub(p), pp = p.me && avatar;

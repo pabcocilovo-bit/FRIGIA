@@ -8,7 +8,7 @@ import { useCooked } from "./hooks/useCooked";
 import { useHome } from "./hooks/useHome";
 import { people } from "./lib/household";
 import { addToList, BY_HAND, same } from "./lib/shopping";
-import type { Member as HomeMember } from "./lib/home";
+import { clearPendingFamily, ME, type Member as HomeMember, takePendingFamily } from "./lib/home";
 import { useSession } from "./hooks/useSession";
 import { isStandalone } from "./landing/browser";
 import { setAccess, signupOpen, WAITLIST_URL } from "./lib/launch";
@@ -32,7 +32,7 @@ import { showToast } from "./app/toast";
 import {
   EMPTY_PROFILE, clearPendingProfile, fetchProfile, hasPendingProfile, fromOldPrefs, getCachedProfile, saveProfile, takePendingProfile, type Profile,
 } from "./lib/profile";
-import { Camera, EmailSignup, Forgot, Login, QDiet, QGoal, QTime, Ready, Signup, VerifyEmail, Welcome } from "./app/onboarding/Onboarding";
+import { Camera, EmailSignup, Forgot, Login, QDiet, QFamily, QGoal, QTime, Ready, Signup, VerifyEmail, Welcome } from "./app/onboarding/Onboarding";
 import { oauthError, takeOAuthIntent } from "./app/onboarding/oauth";
 import { resetAnswers, setSignupEmail } from "./app/onboarding/answers";
 import { firstName } from "./app/format";
@@ -72,9 +72,9 @@ import { lang, t } from "./lib/i18n";
 
 // Écrans de l'inscription et de la connexion (étape 4). Connecté, seuls les questions, la caméra
 // et le mot de passe oublié (le code connecte avant le nouveau mot de passe) restent ouverts.
-const OB_PATHS = ["/bienvenue", "/questions/1", "/questions/2", "/questions/3", "/pret", "/compte", "/compte/email", "/compte/code", "/connexion", "/mot-de-passe", "/camera"];
+const OB_PATHS = ["/bienvenue", "/questions/1", "/questions/2", "/questions/3", "/questions/4", "/pret", "/compte", "/compte/email", "/compte/code", "/connexion", "/mot-de-passe", "/camera"];
 // Les écrans qui créent un compte (Bienvenue y mène aussi, dans l'appli installée)
-const SIGNUP_PATHS = ["/bienvenue", "/questions/1", "/questions/2", "/questions/3", "/pret", "/compte", "/compte/email"];
+const SIGNUP_PATHS = ["/bienvenue", "/questions/1", "/questions/2", "/questions/3", "/questions/4", "/pret", "/compte", "/compte/email"];
 const OB_SIGNED_IN = ["/questions/1", "/questions/2", "/questions/3", "/mot-de-passe", "/camera"];
 
 /** Prénom donné à Google (ou à l'inscription), pour le profil. */
@@ -110,6 +110,14 @@ export default function Frigia() {
   const waitScan = (el: React.ReactElement) => (library.ready ? el : null);
   const cooked = useCooked(userId);
   const home = useHome(userId);
+  const [homeFor, setHomeFor] = useState<string | null>(null);
+  // Juste après l'inscription : le foyer de la question 4 (sauf si le compte en a déjà un)
+  useEffect(() => {
+    if (!userId || homeFor !== userId) return;
+    const fam = takePendingFamily();
+    if (fam.length) home.setMembers(list => (list.some(m => m.id !== ME) ? list : [...list, ...fam]));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [homeFor, userId]);
 
   /** Charge les goûts du compte, une fois par connexion. Juste après l'inscription, les réponses aux questions deviennent le profil. */
   const loadProfile = async (u: User) => {
@@ -146,7 +154,8 @@ export default function Frigia() {
       if ((lang === "en" || u.user_metadata?.lang === "en") && u.user_metadata?.lang !== lang) void supabase.auth.updateUser({ data: { lang } }).catch(() => { /* réessayé à la prochaine ouverture */ });
       void library.load(u.id);
       void cooked.load(u.id);
-      void home.load(u.id);
+      // Le foyer de la question 4 rejoint Mon foyer une fois le compte chargé (effet plus bas)
+      void home.load(u.id).then(() => setHomeFor(u.id));
       // Réponses aux questions en attente : c'est un compte tout neuf (même rendu que la connexion, pas de passage par l'accueil)
       if (profileFor.current !== u.id && hasPendingProfile()) setGoCamera(true);
       void loadProfile(u);
@@ -238,9 +247,10 @@ if (!user || obPath) {
   const closed = (path: string) => !user && !signupOpen() && SIGNUP_PATHS.includes(path);
   const screens: [string, React.ReactNode][] = [
     ["/bienvenue", <Welcome />],
-    ["/questions/1", <QGoal />],
+    ["/questions/1", <QGoal signedIn={!!user} />],
     ["/questions/2", <QDiet onSave={user ? saveTastes : undefined} />],
     ["/questions/3", <QTime onSave={user ? saveTastes : undefined} />],
+    ["/questions/4", <QFamily />],
     ["/pret", <Ready />],
     ["/compte", <Signup />],
     ["/compte/email", <EmailSignup />],
@@ -261,7 +271,7 @@ if (!user || obPath) {
           ? <Navigate to="/bienvenue" replace />
           : <><Analytics /><Suspense fallback={null}><Landing
               onStart={() => { resetAnswers(); navigate("/questions/1"); }}
-              onLogin={() => { clearPendingProfile(); navigate("/connexion"); }}
+              onLogin={() => { clearPendingProfile(); clearPendingFamily(); navigate("/connexion"); }}
             /></Suspense></>} />
         {/* Tant que la session n'est pas lue, une page de l'appli (/famille…) attend au lieu de renvoyer à l'accueil */}
         <Route path="*" element={sessionReady ? <Navigate to="/" replace /> : null} />
@@ -338,7 +348,7 @@ return (
   // Retour de la page Stripe : « On attend ta banque » tout de suite, sans l'écran d'ouverture
   <AppFrame splash={location.pathname !== "/plus/paiement"}>
     <Routes>
-      <Route path="/" element={<Home user={user} isPlus={isPlus} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household}
+      <Route path="/" element={<Home user={user} isPlus={isPlus} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household} homeReady={homeFor === userId}
         week={home.week} onWeek={home.setWeek} kitchen={home.fridge} shopping={home.shopping} budget={home.budget} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/espace" element={<Space isPlus={isPlus} history={history} favorites={favorites} cooked={cooked.meals} shopping={home.shopping}
         budget={home.budget} onBudget={home.setBudget} onOpenRecipe={r => openRecipe(r)} />} />
