@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { Icon, LockPill, RoundButton } from "../../ui/components";
 import type { ScanSource } from "../../lib/scan";
-import { getScan, setScan, useScan } from "./store";
+import { datesStep, getScan, setScan, useScan } from "./store";
 import { Guide } from "./Guide";
 import { ItemEdit } from "../fridge/ItemEdit";
 import { qtyOf } from "../../lib/fridge";
@@ -67,7 +67,7 @@ export function Ingredients({ guide, userId, isPlus, onSpend }: {
     }
     // Compté une fois : revenir sur cette page ne le recompte pas
     if (scan.ticket) setScan({ ticket: null });
-    navigate("/scan/menu");
+    navigate(datesStep(getScan()) ? "/scan/dates" : "/scan/menu");
   };
   // Sans jeton, aucune photo n'a été lue : les ingrédients ont été tapés à la main
   const remove = (i: number) => setScan({ ingredients: getScan().ingredients.filter((_, k) => k !== i) });
@@ -134,7 +134,7 @@ export function Ingredients({ guide, userId, isPlus, onSpend }: {
           </div>
         </div>
         <button type="button" className="gobar" disabled={n === 0} onClick={go}>
-          <span><b>{t("Continuer", "Continue")}</b><small>{t("Puis tu choisis ton menu", "Then you pick your menu")}</small></span>
+          <span><b>{t("Continuer", "Continue")}</b><small>{datesStep(scan) ? t("Puis les dates de péremption", "Then the use-by dates") : t("Puis tu choisis ton menu", "Then you pick your menu")}</small></span>
           <span className="go"><Icon name="arrow" /></span>
         </button>
       </div>

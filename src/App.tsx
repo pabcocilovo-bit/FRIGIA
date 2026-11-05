@@ -48,6 +48,7 @@ import { AddIngredient } from "./app/scan/AddIngredient";
 import { rememberMine } from "./app/scan/catalog";
 import { Ingredients } from "./app/scan/Ingredients";
 import { Menu } from "./app/scan/Menu";
+import { Dates } from "./app/scan/Dates";
 import { Prep } from "./app/scan/Prep";
 import { Results } from "./app/scan/Results";
 import { Recipe, type RecipeState } from "./app/scan/Recipe";
@@ -399,6 +400,7 @@ return (
       <Route path="/scan/ajouter" element={<AddIngredient mine={home.fridge.mine ?? []} onMine={names => home.setFridge(f => ({ ...f, mine: rememberMine(f.mine ?? [], names) }))} />} />
       <Route path="/scan/ingredients" element={<Ingredients guide={guide === "ingr"} userId={user.id} isPlus={isPlus}
         onSpend={s => home.setBudget(b => addSpend(b, s))} />} />
+      <Route path="/scan/dates" element={<Dates kitchen={home.fridge} />} />
       <Route path="/scan/menu" element={<Menu isPlus={isPlus} household={household} avatar={avatarSrc} />} />
       <Route path="/scan/placards" element={<Placards isPlus={isPlus} household={household} kitchen={home.fridge} onFridge={home.setFridge} />} />
       <Route path="/scan/preparation" element={<Prep isPlus={isPlus} household={household} kitchen={home.fridge} onReady={e => {
@@ -406,7 +408,7 @@ return (
         // Le frigo prend ce que le scan a vu (pas un scan « frigo vide », qui n'a rien vu).
         // Sans photo (« Que cuisiner avec ? », ingrédients tapés) : ajoutés, chacun garde sa place.
         const s = getScan();
-        if (e.ingredients.length) home.setFridge(f => (s.merge ? fromList(f, e.ingredients) : fromScan(f, e.ingredients, s.source)));
+        if (e.ingredients.length) home.setFridge(f => (s.merge ? fromList(f, e.ingredients) : fromScan(f, e.ingredients, s.source, s.dates)));
       }} onOutOfScans={onOutOfScans} />} />
       <Route path="/recettes/:id" element={waitScan(<Results history={history} isPlus={isPlus} household={household} kitchen={home.fridge} week={home.week} onWeek={home.setWeek} onNewIdeas={updateScanRecipes} />)} />
       <Route path="/recettes/:id/:n" element={waitScan(<Recipe history={history} isPlus={isPlus} household={household} shopping={home.shopping} fridge={home.fridge} onAddMissing={addMissing} week={home.week} onWeek={home.setWeek} avatar={avatarSrc} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />)} />

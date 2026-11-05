@@ -231,9 +231,9 @@ body:has(.fa-app){background:#EFE3D0}
 .fa .litem{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);width:100%;text-align:left}
 .fa .litem:last-child{border-bottom:0}
 /* Une ligne = l'article (cocher) + sa croix (le retirer sans l'acheter) */
-.fa .lrow{display:flex;align-items:center;border-bottom:1px solid var(--line)}
-.fa .lrow:last-child{border-bottom:0}
-.fa .lrow .litem{border-bottom:0;flex:1;min-width:0}
+.fa .lsrow{display:flex;align-items:center;border-bottom:1px solid var(--line)}
+.fa .lsrow:last-child{border-bottom:0}
+.fa .lsrow .litem{border-bottom:0;flex:1;min-width:0}
 .fa .ldel{flex:none;width:34px;height:34px;margin:0 -8px 0 4px;display:grid;place-items:center;border-radius:10px;color:var(--muted)}
 .fa .ldel svg{width:15px;height:15px}
 .fa .ldel:active{background:var(--line)}
