@@ -135,7 +135,7 @@ export function ScanCamera({ userId, guide, soon = [], onOutOfScans, onPlacards 
       }, 1300 + Math.min(r.ingredients.length, 8) * 120);
     } else if (r.status === "ok") {
       const found = r.ingredients.map(i => (soon.some(n => same(n, i.name)) ? { ...i, finish: true } : i));
-      setScan({ photo: url, ingredients: found, token: r.token, ticket: r.ticket ?? null, ticketOff: false, guests: 0, empty: false, merge: false, off: [],
+      setScan({ photo: url, ingredients: found, token: r.token, ticket: r.ticket ?? null, ticketOff: false, guests: 0, empty: false, merge: false, off: [], dates: {},
         ...(r.seen ? { source: r.seen, switched: getScan().source } : { switched: null }) });
       setFound(found);
       // Les pastilles apparaissent sur la photo, puis la liste

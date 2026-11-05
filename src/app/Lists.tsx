@@ -99,7 +99,7 @@ export function Courses({ isPlus, items, onToggle, onRemove, onAdd, onClearDone,
               <span className="label">{aisleName(aisle)}</span>
               <div className="litems">
                 {group.map(it => (
-                  <div key={it.id} className="lrow">
+                  <div key={it.id} className="lsrow">
                     <button type="button" className={"litem" + (it.done ? " done" : "") + (flash.includes(it.id) ? " new" : "")}
                       aria-pressed={it.done} onClick={() => onToggle(it.id)}>
                       <span className="ck"><Icon name="check" /></span>

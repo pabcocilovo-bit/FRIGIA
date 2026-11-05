@@ -30,23 +30,24 @@ export const pantryOf = (f: Fridge, without: { name: string }[] = []): { name: s
 export const qtyOf = (q: string | undefined) => (q === "à la main" ? "" : q ?? "");
 
 /** Ajoute des produits ; déjà là : la quantité et la date sont mises à jour. */
-export function addItems(f: Fridge, add: { name: string; qty: string; finish?: boolean }[], from: FridgeItem["from"], extra: Partial<FridgeItem> = {}): Fridge {
+export function addItems(f: Fridge, add: { name: string; qty: string; finish?: boolean; until?: number }[], from: FridgeItem["from"], extra: Partial<FridgeItem> = {}): Fridge {
   const items = [...f.items];
   for (const a of add) {
     if (!a.name.trim()) continue;
     const i = items.findIndex(x => same(x.name, a.name));
-    const next = item(a.name, a.qty, from, { place: guessPlace(a.name), ...extra, ...(a.finish ? { finish: true } : {}) });
+    const next = item(a.name, a.qty, from, { place: guessPlace(a.name), ...extra, ...(a.finish ? { finish: true } : {}), ...(a.until ? { until: a.until } : {}) });
     if (i >= 0) items[i] = { ...next, id: items[i].id, qty: a.qty.trim() || items[i].qty, finish: a.finish || items[i].finish || undefined, place: extra.place ?? items[i].place ?? next.place,
-      since: items[i].since ?? items[i].at, ...(items[i].until ? { until: items[i].until } : {}) };
+      since: items[i].since ?? items[i].at, ...(a.until ?? items[i].until ? { until: a.until ?? items[i].until } : {}) };
     else items.push(next);
   }
   return { ...f, items };
 }
 
 /** Le scan est fini. Frigo : ce qui est au frigo est remplacé par ce que la photo a vu. Placards : pareil pour les placards.
- *  Ticket : tout s'ajoute, rangé d'après le nom. */
-export function fromScan(f: Fridge, found: DetectedIngredient[], source: ScanSource): Fridge {
-  const add = found.map(i => ({ name: i.name, qty: qtyOf(i.qty), finish: i.finish }));
+ *  Ticket : tout s'ajoute, rangé d'après le nom. dates : les dates lues sur les emballages juste après le scan (Dates.tsx). */
+export function fromScan(f: Fridge, found: DetectedIngredient[], source: ScanSource, dates: Record<string, number> = {}): Fridge {
+  const dateOf = (name: string) => Object.entries(dates).find(([n]) => same(n, name))?.[1];
+  const add = found.map(i => ({ name: i.name, qty: qtyOf(i.qty), finish: i.finish, until: dateOf(i.name) }));
   if (source === "ticket") return addItems(f, add, "scan");
   const place: Place = source === "frigo" ? "frigo" : "placard";
   const kept = { ...f, items: f.items.filter(x => placeOf(x) !== place) };
@@ -55,7 +56,7 @@ export function fromScan(f: Fridge, found: DetectedIngredient[], source: ScanSou
   const before = f.items.filter(x => placeOf(x) === place);
   const next = { ...added, items: added.items.map(x => {
     const b = before.find(y => same(y.name, x.name));
-    return b && !kept.items.includes(x) ? { ...x, since: b.since ?? b.at, ...(b.until ? { until: b.until } : {}) } : x;
+    return b && !kept.items.includes(x) ? { ...x, since: b.since ?? b.at, ...(x.until ?? b.until ? { until: x.until ?? b.until } : {}) } : x;
   }) };
   return place === "frigo" ? { ...next, seen: Date.now() } : { ...next, seenPlacard: Date.now() };
 }

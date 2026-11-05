@@ -3,8 +3,9 @@
 import { useSyncExternalStore } from "react";
 import type { Envie, Receipt, ScanIngredient, ScanSource } from "../../lib/scan";
 import type { Meal } from "../../lib/types";
-import type { Fridge } from "../../lib/home";
-import { pantryOf } from "../../lib/fridge";
+import type { Fridge, Place } from "../../lib/home";
+import { guessPlace, pantryOf } from "../../lib/fridge";
+import { shelfDays } from "../../lib/shelf";
 import { same } from "../../lib/shopping";
 import { t } from "../../lib/i18n";
 
@@ -60,6 +61,8 @@ export type ScanState = {
   guests: number;
   /** Frigia Plus : les membres du foyer qui ne mangent pas là (« Qui mange ce soir ? ») */
   away: string[];
+  /** « Et les dates de péremption ? » (Dates.tsx) : la date lue sur l'emballage, par nom d'ingrédient. Elle part dans Ma cuisine avec le scan. */
+  dates: Record<string, number>;
   /** Les recettes déjà créées pour ces choix : revenir sur le menu les rouvre sans refaire de scan */
   made: { key: string; id: string } | null;
 };
@@ -73,7 +76,7 @@ const savedServings = () => {
 
 let state: ScanState = {
   meal: "s", menu: "plats", source: "frigo", switched: null, photo: null, pick: null, pending: null, ingredients: [], token: null, ticket: null, ticketOff: false, problem: "floue", empty: false, merge: false,
-  off: [], forPlacards: false, envies: ["rapide"], noShop: false, servings: savedServings(), guests: 0, away: [], made: null,
+  off: [], forPlacards: false, envies: ["rapide"], noShop: false, servings: savedServings(), guests: 0, away: [], made: null, dates: {},
 };
 const listeners = new Set<() => void>();
 
@@ -137,3 +140,9 @@ export function pantryFor(kitchen: Fridge, s: ScanState, list: { name: string }[
   if (s.source === "placard") return [];
   return pantryOf(kitchen, list).filter(x => !s.off.some(o => same(o, x.name)));
 }
+
+const placeFor = (s: ScanState, name: string): Place => (s.source === "frigo" ? "frigo" : guessPlace(name));
+/** Combien de jours un ingrédient du scan se garde (null : pas d'estimation, placards…), pour « Et les dates de péremption ? » */
+export const keepOf = (s: ScanState, name: string) => shelfDays({ name, place: placeFor(s, name) });
+/** L'étape des dates a lieu après un scan du frigo ou un ticket (pas les placards, ni des ingrédients tapés), s'il y a du frais */
+export const datesStep = (s: ScanState) => !s.merge && !s.empty && s.source !== "placard" && s.ingredients.some(i => keepOf(s, i.name) != null);
