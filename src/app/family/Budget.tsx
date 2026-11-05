@@ -44,7 +44,7 @@ function Summary({ budget, meals }: { budget: BudgetT; meals: CookedMeal[] }) {
   </>;
 }
 
-/** La carte de l'onglet Famille. Gratuit : l'invitation à Plus. */
+/** La carte du budget (Mon espace Frigia, et l'accueil si choisi). Gratuit : l'invitation à Plus. */
 export function BudgetCard({ isPlus, budget, meals }: { isPlus: boolean; budget: BudgetT; meals: CookedMeal[] }) {
   const navigate = useNavigate();
   const openPaywall = useOpenPaywall();

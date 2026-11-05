@@ -1,5 +1,6 @@
 // Mon espace Frigia (V3, maquette de Hugo du 25 octobre) : tout le suivi au même endroit.
-// Tes économies, tes courses, tes derniers scans, tes favoris et tes statistiques. L'accueil y mène par « Mon espace Frigia ».
+// Tes économies, ton budget courses, tes courses, tes derniers scans, tes favoris et tes statistiques. L'accueil y mène par « Mon espace Frigia ».
+// Le budget peut aussi aller sur l'accueil (Hugo, 5 novembre).
 import { useNavigate } from "react-router";
 import { Icon, LockPill } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry } from "../lib/types";
@@ -14,6 +15,10 @@ import { useOpenScan } from "./offline";
 import { useRecipePhoto } from "./photo";
 import { useOpenPaywall } from "./plus/subscription";
 import { timeText } from "../lib/recipes";
+import type { Budget } from "../lib/budget";
+import { BudgetCard } from "./family/Budget";
+import { showToast } from "./toast";
+import "./family/family.css";
 
 function ScanRow({ entry, locked, onClick }: { entry: HistoryEntry; locked: boolean; onClick: () => void }) {
   const first = entry.recipes[0];
@@ -39,9 +44,10 @@ function FavCard({ recipe, fav, onClick }: { recipe: GeneratedRecipe; fav: boole
   );
 }
 
-export function Space({ isPlus, history, favorites, cooked, shopping, onOpenRecipe }: {
+export function Space({ isPlus, history, favorites, cooked, shopping, budget, onBudget, onOpenRecipe }: {
   isPlus: boolean; history: HistoryEntry[]; favorites: GeneratedRecipe[];
   cooked: CookedMeal[]; shopping: ShopItem[];
+  budget: Budget; onBudget: (u: (b: Budget) => Budget) => void;
   onOpenRecipe: (r: GeneratedRecipe) => void;
 }) {
   const navigate = useNavigate();
@@ -57,6 +63,11 @@ export function Space({ isPlus, history, favorites, cooked, shopping, onOpenReci
   const recent = history.find(e => e.recipes.length > 0 && (isPlus || daysAgo(e.date) <= 7));
   const favs = favorites.length > 0 ? favorites.slice(0, 3) : recent ? recent.recipes.slice(0, 3) : [];
   const bilan = () => (isPlus ? navigate("/bilan") : openPaywall("bilan"));
+  const onHome = !!budget.home;
+  const pin = () => {
+    onBudget(b => ({ ...b, home: !onHome }));
+    showToast(onHome ? t("Budget retiré de l'accueil", "Budget removed from home") : t("Budget ajouté à l'accueil", "Budget added to home"));
+  };
 
   return (
     <div className="fa fa-app" aria-label={t("Mon espace Frigia", "My Frigia space")}>
@@ -78,6 +89,10 @@ export function Space({ isPlus, history, favorites, cooked, shopping, onOpenReci
             <Icon name="next" />
           </button>
         )}
+
+        {/* Le budget courses (Plus) : la carte du mois, et le choix de l'avoir aussi sur l'accueil */}
+        <div className="sp-hd"><h2 className="sp-sec">{t("Ton budget courses", "Your grocery budget")}</h2>{isPlus && <button type="button" className="sp-all" onClick={pin}>{onHome ? t("Retirer de l'accueil", "Remove from home") : t("Ajouter à l'accueil", "Add to home")}</button>}</div>
+        <BudgetCard isPlus={isPlus} budget={budget} meals={cooked} />
 
         {/* La liste de courses : cochée au magasin, elle range tout dans Ma cuisine */}
         <h2 className="sp-sec">{t("Tes courses", "Your shopping")}</h2>

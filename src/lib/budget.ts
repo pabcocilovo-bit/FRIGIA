@@ -8,8 +8,9 @@ import { isEn, locale } from "./i18n";
 export type Spend = { id: string; eur: number; at: number; label: string; from: "ticket" | "main" };
 /** Jeté : un produit de Ma cuisine dont la date est passée, noté « Jeté » (Ton bilan : ce qui a fini à la poubelle). */
 export type Tossed = { id: string; name: string; kg: number; eur: number; at: number };
-/** monthly : le budget du mois (null : pas encore fixé). tossed : pour tous, gardé ici avec l'argent pour ne pas ajouter de colonne. */
-export type Budget = { monthly: number | null; spends: Spend[]; tossed: Tossed[] };
+/** monthly : le budget du mois (null : pas encore fixé). tossed : pour tous, gardé ici avec l'argent pour ne pas ajouter de colonne.
+ *  home : la carte du budget aussi sur l'accueil (choisi dans Mon espace Frigia, Hugo le 5 novembre). */
+export type Budget = { monthly: number | null; spends: Spend[]; tossed: Tossed[]; home?: boolean };
 export const EMPTY_BUDGET: Budget = { monthly: null, spends: [], tossed: [] };
 
 const YEAR = 400 * 864e5;
@@ -24,7 +25,7 @@ export function cleanBudget(b: unknown, now = Date.now()): Budget {
   const tossed = (Array.isArray(o.tossed) ? o.tossed : []).filter((t): t is Tossed =>
     !!t && typeof t.id === "string" && typeof t.name === "string" && typeof t.kg === "number" && typeof t.eur === "number"
     && typeof t.at === "number" && now - t.at < YEAR);
-  return { monthly, spends, tossed };
+  return { monthly, spends, tossed, ...(o.home === true ? { home: true } : {}) };
 }
 
 const sameMonth = (at: number, now: Date) => { const d = new Date(at); return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth(); };
