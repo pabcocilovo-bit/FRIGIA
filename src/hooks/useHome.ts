@@ -2,15 +2,18 @@
 // Chaque changement est gardé tout de suite sur le téléphone, puis envoyé sur le compte (regroupé, une fois par demi-seconde).
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cachePart, EMPTY_HOME, type Home, loadHome, type Part, sendPart } from "../lib/home";
+import { logShop } from "../lib/shopEvents";
 
 export type Update<T> = T | ((prev: T) => T);
 
 export function useHome(userId: string | undefined) {
   const [home, setHome] = useState<Home>(EMPTY_HOME);
   const timers = useRef<Partial<Record<Part, ReturnType<typeof setTimeout>>>>({});
+  // La liste telle qu'elle était au dernier envoi : ce qui a changé depuis est noté pour le suivi (lib/shopEvents.ts)
+  const shopBase = useRef<Home["shopping"] | null>(null);
 
-  const load = useCallback((id: string) => loadHome(id, setHome, setHome), []);
-  const clear = useCallback(() => setHome(EMPTY_HOME), []);
+  const load = useCallback((id: string) => { shopBase.current = null; return loadHome(id, setHome, setHome); }, []);
+  const clear = useCallback(() => { shopBase.current = null; setHome(EMPTY_HOME); }, []);
   useEffect(() => () => Object.values(timers.current).forEach(clearTimeout), []);
 
   const set = useCallback(<P extends Part>(part: P, update: Update<Home[P]>) => {
@@ -20,7 +23,14 @@ export function useHome(userId: string | undefined) {
       if (userId) {
         cachePart(userId, part, value);
         clearTimeout(timers.current[part]);
-        timers.current[part] = setTimeout(() => void sendPart(userId, part, value), 500);
+        if (part === "shopping") shopBase.current ??= prev.shopping;
+        timers.current[part] = setTimeout(() => {
+          void sendPart(userId, part, value);
+          if (part === "shopping" && shopBase.current) {
+            logShop(shopBase.current, value as Home["shopping"]);
+            shopBase.current = value as Home["shopping"];
+          }
+        }, 500);
       }
       return { ...prev, [part]: value };
     });

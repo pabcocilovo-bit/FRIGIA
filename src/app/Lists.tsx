@@ -14,9 +14,11 @@ import { t } from "../lib/i18n";
 
 /** 7 · Liste de courses : les manquants des recettes, rangés par rayon. On coche en faisant les courses, on envoie la liste.
  *  Ouverte à tous depuis le 21 octobre (choix de Hugo) : Plus garde la liste de la semaine en un appui, depuis le Planning. */
-export function Courses({ isPlus, items, onToggle, onAdd, onClearDone, onClearAll }: {
+export function Courses({ isPlus, items, onToggle, onRemove, onAdd, onClearDone, onClearAll }: {
   isPlus: boolean; items: ShopItem[];
   onToggle: (id: string) => void;
+  /** La croix d'un article : il sort de la liste sans être acheté (Hugo, 5 novembre) */
+  onRemove: (id: string) => void;
   /** Un article tapé à la main (« 2 citrons ») ; renvoie son id */
   onAdd: (item: { name: string; qty: string }) => string | null;
   /** Retire ce qui est déjà dans le panier */
@@ -97,12 +99,17 @@ export function Courses({ isPlus, items, onToggle, onAdd, onClearDone, onClearAl
               <span className="label">{aisleName(aisle)}</span>
               <div className="litems">
                 {group.map(it => (
-                  <button key={it.id} type="button" className={"litem" + (it.done ? " done" : "") + (flash.includes(it.id) ? " new" : "")}
-                    aria-pressed={it.done} onClick={() => onToggle(it.id)}>
-                    <span className="ck"><Icon name="check" /></span>
-                    <span className="nm"><b>{it.name}</b><small>{fromText(it.from)}</small></span>
-                    <span className="q">{it.qty}</span>
-                  </button>
+                  <div key={it.id} className="lrow">
+                    <button type="button" className={"litem" + (it.done ? " done" : "") + (flash.includes(it.id) ? " new" : "")}
+                      aria-pressed={it.done} onClick={() => onToggle(it.id)}>
+                      <span className="ck"><Icon name="check" /></span>
+                      <span className="nm"><b>{it.name}</b><small>{fromText(it.from)}</small></span>
+                      <span className="q">{it.qty}</span>
+                    </button>
+                    <button type="button" className="ldel" aria-label={t(`Retirer ${it.name} de la liste`, `Remove ${it.name} from the list`)} onClick={() => onRemove(it.id)}>
+                      <Icon name="x" />
+                    </button>
+                  </div>
                 ))}
               </div>
             </div>
