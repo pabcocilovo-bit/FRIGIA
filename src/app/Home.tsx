@@ -1,6 +1,6 @@
-// 1 · Accueil. V3 (maquette de Hugo, 25 octobre) : l'en-tête avec « Mon profil », la carte du scan, la recherche (Explorer),
-// les recettes de la semaine, le prochain repas prévu, puis « Mon espace Frigia » (économies, scans, favoris, courses : Space.tsx).
-import { type FormEvent, useMemo, useRef, useState } from "react";
+// 1 · Accueil. V3 (maquette de Hugo, 25 octobre) : l'en-tête avec « Mon profil », la carte du scan (sans recherche : Explorer la fait, Hugo le 5 novembre),
+// les recettes de la semaine, le prochain repas prévu, le budget si choisi dans Mon espace, puis « Mon espace Frigia » (économies, scans, favoris, courses : Space.tsx).
+import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { Icon } from "../ui/components";
 import type { GeneratedRecipe, HistoryEntry, User } from "../lib/types";
@@ -24,6 +24,9 @@ import { cookedSlot, MEAL_NAME, mealOfKey, nextUp, options, recipePath } from ".
 import { BetaCard } from "./beta/BetaCard";
 import { diffText, timeText } from "../lib/recipes";
 import { t } from "../lib/i18n";
+import type { Budget } from "../lib/budget";
+import { BudgetCard } from "./family/Budget";
+import "./family/family.css";
 
 export function Avatar({ user, name, photo, className, onClick, label }: {
   user: User; name?: string; photo: string | null; className: string; onClick?: () => void; label: string;
@@ -62,8 +65,10 @@ function WeekRecipes({ kitchen, onOpen }: { kitchen: Fridge; onOpen: (r: Generat
   );
 }
 
-export function Home({ user, isPlus, avatar, history, favorites, cooked, household, week, onWeek, kitchen, shopping, onOpenRecipe }: {
+export function Home({ user, isPlus, avatar, history, favorites, cooked, household, week, onWeek, kitchen, shopping, budget, onOpenRecipe }: {
   user: User | null; isPlus: boolean;
+  /** Le budget courses : sa carte sur l'accueil quand elle y a été ajoutée (Mon espace Frigia) */
+  budget: Budget;
   avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
   household: Person[];
   week: Week; onWeek: (w: Week) => void;
@@ -85,7 +90,6 @@ export function Home({ user, isPlus, avatar, history, favorites, cooked, househo
   const notifs = useNotifs();
   const [tn, setTn] = useState(false);
   const [swap, setSwap] = useState<{ i: number; meal: MealKey } | null>(null);
-  const [q, setQ] = useState("");
   // Le prochain repas prévu : ce midi, ce soir, le dessert une fois le plat cuisiné, sinon demain ou plus loin
   const today = new Date().toDateString();
   // Le soir est passé : repas du soir cuisiné, ou après 21 h. Avant, rien de prévu ce soir : « Qu'est-ce qu'on mange ce soir ? »
@@ -114,7 +118,6 @@ export function Home({ user, isPlus, avatar, history, favorites, cooked, househo
   // La cloche : les notifs non lues (« Il te reste 3 scans » ne compte plus en Plus)
   const unread = (notifs ?? []).filter(x => !x.read && !(isPlus && x.kind === "scans")).length;
   // La recherche ouvre Explorer avec ce qu'on a tapé
-  const search = (e: FormEvent) => { e.preventDefault(); navigate(q.trim() ? `/explorer?q=${encodeURIComponent(q.trim())}` : "/explorer"); };
 
   return (
     <div className="fa fa-app hm3" aria-label={t("Accueil", "Home")}>
@@ -146,12 +149,6 @@ export function Home({ user, isPlus, avatar, history, favorites, cooked, househo
           <button type="button" className="hm-scan" onClick={openScan}><Icon name="cam" /><span>{t("Scanner mon frigo", "Scan my fridge")}</span><Icon name="arrow" /></button>
         </section>
 
-        <form className="hm-search" role="search" onSubmit={search}>
-          <label><Icon name="search" /><input type="search" enterKeyHint="search" autoComplete="off" placeholder={t("Ou cherche : saumon, pâtes, burger…", "Or search: salmon, pasta, burger…")}
-            aria-label={t("Chercher une recette", "Search for a recipe")} value={q} onChange={e => setQ(e.target.value)} /></label>
-          <button type="button" className="hm-filter" aria-label={t("Filtres", "Filters")} onClick={() => navigate("/explorer?filtres=1")}><Icon name="sliders" /></button>
-        </form>
-
         {/* Bêta : le questionnaire, proposé à partir du 5e jour */}
         <BetaCard user={user} uses={history.length + cooked.length} />
 
@@ -178,6 +175,10 @@ export function Home({ user, isPlus, avatar, history, favorites, cooked, househo
             </button>
           )}
         </section>
+
+        {isPlus && budget.home && <section className="hm-bud" aria-label={t("Budget courses", "Grocery budget")}>
+          <BudgetCard isPlus budget={budget} meals={cooked} />
+        </section>}
 
         <button type="button" className="hm-space" onClick={() => navigate("/espace")}>
           <span className="hm-space-ic"><Icon name="grid" /></span>
