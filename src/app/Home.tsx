@@ -26,6 +26,7 @@ import { diffText, timeText } from "../lib/recipes";
 import { t } from "../lib/i18n";
 import type { Budget } from "../lib/budget";
 import { BudgetCard } from "./family/Budget";
+import { HouseholdCard } from "./family/HouseholdCard";
 import "./family/family.css";
 
 export function Avatar({ user, name, photo, className, onClick, label }: {
@@ -65,8 +66,10 @@ function WeekRecipes({ kitchen, onOpen }: { kitchen: Fridge; onOpen: (r: Generat
   );
 }
 
-export function Home({ user, isPlus, avatar, history, favorites, cooked, household, week, onWeek, kitchen, shopping, budget, onOpenRecipe }: {
+export function Home({ user, isPlus, avatar, history, favorites, cooked, household, homeReady, week, onWeek, kitchen, shopping, budget, onOpenRecipe }: {
   user: User | null; isPlus: boolean;
+  /** Le foyer du compte est chargé : la carte « Ton foyer » ne s'affiche pas sur une liste encore vide */
+  homeReady: boolean;
   /** Le budget courses : sa carte sur l'accueil quand elle y a été ajoutée (Mon espace Frigia) */
   budget: Budget;
   avatar: string | null; history: HistoryEntry[]; favorites: GeneratedRecipe[];
@@ -151,6 +154,8 @@ export function Home({ user, isPlus, avatar, history, favorites, cooked, househo
 
         {/* Bêta : le questionnaire, proposé à partir du 5e jour */}
         <BetaCard user={user} uses={history.length + cooked.length} />
+        {/* Comptes d'avant la question du foyer : ajouter son foyer, ou découvrir l'appétit de chacun */}
+        {isPlus && user && homeReady && <HouseholdCard userId={user.id} household={household} />}
 
         <WeekRecipes kitchen={kitchen} onOpen={onOpenRecipe} />
 

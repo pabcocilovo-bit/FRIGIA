@@ -347,7 +347,7 @@ return (
   // Retour de la page Stripe : « On attend ta banque » tout de suite, sans l'écran d'ouverture
   <AppFrame splash={location.pathname !== "/plus/paiement"}>
     <Routes>
-      <Route path="/" element={<Home user={user} isPlus={isPlus} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household}
+      <Route path="/" element={<Home user={user} isPlus={isPlus} avatar={avatarSrc} history={history} favorites={favorites} cooked={cooked.meals} household={household} homeReady={homeFor === userId}
         week={home.week} onWeek={home.setWeek} kitchen={home.fridge} shopping={home.shopping} budget={home.budget} onOpenRecipe={r => openRecipe(r)} />} />
       <Route path="/espace" element={<Space isPlus={isPlus} history={history} favorites={favorites} cooked={cooked.meals} shopping={home.shopping}
         budget={home.budget} onBudget={home.setBudget} onOpenRecipe={r => openRecipe(r)} />} />

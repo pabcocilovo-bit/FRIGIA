@@ -23,7 +23,7 @@ export function useAnswers(): [Profile, (patch: Partial<Profile>) => void] {
 export const resetAnswers = (from: Profile = EMPTY_PROFILE) => { set(from); setFamily([]); };
 
 // Question 4 (Hugo, 5 novembre) : qui mange avec toi. Les autres que toi ; le prénom et les allergies sont facultatifs.
-export type FamPerson = { kid: boolean; age: number; name: string; allergies: string[] };
+export type FamPerson = { kid: boolean; age: number; name: string; allergies: string[]; appetite?: number };
 const FAM = "frigia_ob_family";
 const readFamily = (): FamPerson[] => {
   try { const v = JSON.parse(sessionStorage.getItem(FAM) || "[]"); return Array.isArray(v) ? v : []; } catch { return []; }

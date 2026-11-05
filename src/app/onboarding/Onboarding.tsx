@@ -12,6 +12,7 @@ import { useBack } from "../nav";
 import { showToast } from "../toast";
 import { type FamPerson, getSignupEmail, resetAnswers, setSignupEmail, useAnswers, useFamily } from "./answers";
 import { type Member, setPendingFamily } from "../../lib/home";
+import { APPETITE, appetiteOf } from "../../lib/household";
 import { useCaptcha } from "./captcha";
 import { authMessage, isEmailNotConfirmed, JETABLE, looksLikeEmail } from "./errors";
 import { withGoogle } from "./oauth";
@@ -352,7 +353,7 @@ export function QTime({ onSave }: { onSave?: (p: Profile) => Promise<void> }) {
 
 // ─── D bis · Ton foyer (facultatif) ──────────────────────────────────────────
 // Hugo, 5 novembre : le foyer dès l'inscription, sans obliger. Combien d'adultes et d'enfants (et leur âge, pour les portions) ;
-// le « + » ouvre les prénoms et les allergies de chacun. Le reste (appétit, ce qu'il n'aime pas) se règle dans Mon foyer.
+// le « + » ouvre le prénom, l'appétit et les allergies de chacun. Ce qu'il n'aime pas se règle dans Mon foyer.
 
 const FAM_MAX = 8;
 const famName = (f: FamPerson[], i: number) => {
@@ -362,6 +363,7 @@ const famName = (f: FamPerson[], i: number) => {
 /** Les fiches de Mon foyer : un prénom par défaut (« Adulte 2 », « Enfant 1 ») quand il n'est pas donné */
 const famMembers = (f: FamPerson[]): Member[] => f.map((p, i) => ({
   id: crypto.randomUUID(), name: capFirst(famName(f, i)).slice(0, 20), kid: p.kid, age: p.kid ? p.age : 0, allergies: p.allergies, dislikes: [],
+  ...(p.appetite != null ? { appetite: p.appetite } : {}),
 }));
 const famLine = (f: FamPerson[]) => {
   const adults = 1 + f.filter(p => !p.kid).length, kids = f.filter(p => p.kid).length;
@@ -414,12 +416,19 @@ export function QFamily() {
           ))}
         </div>
         {fam.length > 0 && (open ? <>
-          <h3>{t("Prénoms et allergies", "Names and allergies")}</h3>
+          <h3>{t("Prénoms, appétit et allergies", "Names, appetite and allergies")}</h3>
           {fam.map((p, i) => (
             <div key={i} className="ob-who">
               <div className="ob-input"><Icon name="user" />
                 <input autoComplete="off" autoCapitalize="words" maxLength={20} placeholder={famName(fam.map(x => ({ ...x, name: "" })), i)}
                   aria-label={t("Prénom", "First name")} value={p.name} onChange={e => edit(p, { name: e.target.value })} />
+              </div>
+              <div className="ob-cnt ob-app">
+                <span className="tx"><b>{APPETITE[appetiteOf(p) - 1].label}</b><small>{t("Appétit", "Appetite")}</small></span>
+                <div className="stepper">
+                  <button type="button" aria-label={t("Mange moins", "Eats less")} disabled={appetiteOf(p) <= 1} onClick={() => edit(p, { appetite: appetiteOf(p) - 1 })}><Icon name="minus" /></button>
+                  <button type="button" aria-label={t("Mange plus", "Eats more")} disabled={appetiteOf(p) >= 5} onClick={() => edit(p, { appetite: appetiteOf(p) + 1 })}><Icon name="plus" /></button>
+                </div>
               </div>
               <div className="ob-chips">
                 <Chip on={!p.allergies.length} onClick={() => edit(p, { allergies: [] })}>{t("Sans allergie", "No allergies")}</Chip>
@@ -428,9 +437,9 @@ export function QFamily() {
             </div>
           ))}
         </> : (
-          <button type="button" className="ob-more" onClick={() => setOpen(true)}><Icon name="plus" /><span>{t("Ajouter leurs prénoms et allergies", "Add their names and allergies")}</span></button>
+          <button type="button" className="ob-more" onClick={() => setOpen(true)}><Icon name="plus" /><span>{t("Prénoms, appétit et allergies", "Names, appetite and allergies")}</span></button>
         ))}
-        <p className="ob-note"><Icon name="users" /><span>{t(<>Tu pourras tout changer dans <b>Mon profil, Mon foyer</b>, et ajouter ce que chacun n'aime pas.</>, <>You can change it all in <b>My profile, My household</b>, and add what each person doesn't like.</>)}</span></p>
+        <p className="ob-note"><Icon name="users" /><span>{t(<>L'appétit compte dans les portions : un enfant de moins de 12 ans a un petit appétit, sauf si tu le changes. Tout se modifie dans <b>Mon profil, Mon foyer</b>.</>, <>Appetite counts in servings: a child under 12 has a small appetite unless you change it. Everything can be changed in <b>My profile, My household</b>.</>)}</span></p>
       </div></div>
       <GoBar title={t("Voir mon Frigia", "See my Frigia")} sub={fam.length ? famLine(fam) : t("Juste toi ? Continue, c'est facultatif", "Just you? Carry on, it's optional")} onClick={() => navigate("/pret", { state })} />
     </Screen>

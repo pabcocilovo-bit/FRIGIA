@@ -232,3 +232,7 @@ body:has(.ob-screen){background:#EFE3D0}
 .fa .ob-who .ob-input{background:var(--bg)}
 .fa .ob-who .ob-chips .chip{background:var(--surface)}
 .fa .ob-who .ob-chips .chip.on{background:var(--sage);color:var(--on)}
+.fa .ob-who .ob-app{background:var(--hi-soft);box-shadow:none;padding:8px 8px 8px 14px}
+.fa .ob-who .ob-app b{font:400 19px/1.1 var(--serif);color:#7A5212}
+.fa .ob-who .ob-app small{color:#7A5212;opacity:.8}
+.fa .ob-who .ob-app .stepper{background:var(--card)}
