@@ -1,0 +1,112 @@
+[
+ {"q":"Pork chops","a":["pork chop","grilled pork chops","pork cutlets"],"fr":"Côtes de porc","r":[
+  ["Pork chops with mustard sauce","The classic","","Pan-fried pork chops with a creamy wholegrain mustard sauce.","",25,480,"F","pork chops mustard sauce","bf",
+   ["pork chop|pork chops|4|","wholegrain mustard|wholegrain mustard|2|tbsp","crème fraîche|crème fraîche|20|cl","shallot|shallots|1|","butter|butter|20|g","white wine|white wine|5|cl"],
+   ["Fry the chops for 5 min on each side in the butter.|Pan|10","Take them out and fry the chopped shallot.","Add the white wine, then the cream and the mustard, and cook for 2 min.","Put the chops back in the sauce for 2 min."]],
+  ["Marinated pork chops","Marinated","Marinated in honey and soy sauce, then grilled.","Glazed pork chops, sweet and salty.","",35,450,"F","glazed pork chops","bf",
+   ["pork chop|pork chops|4|","honey|honey|2|tbsp","soy sauce|soy sauce|3|tbsp","garlic|garlic|2|clove","paprika|paprika|1|tsp"],
+   ["Mix the honey, the soy sauce, the crushed garlic and the paprika.","Marinate the chops for 20 min.|Rest|20","Grill them for 5 min on each side.|Pan|10","Brush with the rest of the marinade at the end of cooking."]],
+  ["Pork chops with apples","With apples","With caramelised apple wedges.","Normandy-style pork chops with apples.","Normandy-inspired",30,500,"F","pork chops apples","bf",
+   ["pork chop|pork chops|4|","apple|apples|3|","butter|butter|30|g","crème fraîche|crème fraîche|10|cl","cider|cider|10|cl"],
+   ["Fry the chops for 5 min on each side in the butter and take them out.|Pan|10","Fry the apple wedges for 5 min.|Pan|5","Add the cider, then the cream.","Put the chops back in the sauce for 2 min."]]
+ ]},
+ {"q":"Pork ribs","a":["ribs","spare ribs","baked ribs","barbecue ribs"],"fr":"Travers de porc","r":[
+  ["Glazed pork ribs","The classic","","Tender pork ribs glazed with honey and barbecue sauce.","",120,620,"F","bbq pork ribs","o",
+   ["pork ribs|pork ribs|1500|g","barbecue sauce|barbecue sauce|10|tbsp","honey|honey|2|tbsp","soy sauce|soy sauce|2|tbsp","garlic|garlic|2|clove","paprika|paprika|1|tsp"],
+   ["Preheat the oven to 160 °C.","Put the ribs in a dish, add 10 cl of water, cover with foil and bake for 1 h 15.|Oven|75","Mix the barbecue sauce, the honey, the soy sauce, the garlic and the paprika.","Brush the ribs with the sauce and put them back uncovered for 30 min at 200 °C, brushing twice more.|Oven|30"]],
+  ["Chinese-style pork ribs","Chinese style","Glazed with hoisin sauce and five-spice.","Sticky Chinese-style ribs.","Chinese-inspired",120,600,"F","chinese pork ribs","o",
+   ["pork ribs|pork ribs|1500|g","hoisin sauce|hoisin sauce|6|tbsp","honey|honey|2|tbsp","soy sauce|soy sauce|3|tbsp","five-spice|five-spice|1|tsp","ginger|ginger|1|tsp"],
+   ["Cook the ribs covered for 1 h 15 at 160 °C with a little water.|Oven|75","Mix the hoisin sauce, the honey, the soy sauce and the spices.","Brush the ribs with it.","Put them back for 30 min at 200 °C, brushing now and then.|Oven|30"]],
+  ["Braised pork ribs","Braised","Slowly cooked in a casserole with potatoes.","Tender braised ribs with their potatoes.","",100,650,"F","braised pork ribs potatoes","b",
+   ["pork ribs|pork ribs|1200|g","potato|potatoes|800|g","onion|onions|2|","thyme|thyme||","white wine|white wine|15|cl"],
+   ["Cut the ribs into pieces and brown them in a casserole.|Cooking|10","Add the onions, the thyme, the wine and 20 cl of water, and simmer for 45 min.|Cooking|45","Add the potatoes in chunks.","Cook for 30 min with the lid on.|Cooking|30"]]
+ ]},
+ {"q":"Sausage and mash","a":["sausages and mash","bangers and mash","toulouse sausages","sausages with onion gravy"],"fr":"Saucisses purée","r":[
+  ["Sausage and mash","The classic","","Browned Toulouse sausages with homemade mash and onion gravy.","",40,720,"F","sausage mash onion gravy","bf",
+   ["toulouse sausage|toulouse sausages|4|","potato|potatoes|1000|g","milk|milk|20|cl","butter|butter|40|g","onion|onions|2|","beef stock cube|beef stock cubes|1|"],
+   ["Boil the potatoes for 20 min in salted water.|Cooking|20","Brown the sausages for 15 min in a pan, turning them.|Pan|15","Take them out and soften the sliced onions in the pan, then add the stock cube and 20 cl of water, and let it reduce.|Cooking|8","Mash the potatoes with the milk and the butter.","Serve the sausages on the mash, covered with gravy."]],
+  ["Sausages with onions and wine","With wine","Simmered in red wine with onions.","Old-fashioned sausages in a red wine sauce.","",45,650,"F","sausages red wine onions","b",
+   ["toulouse sausage|toulouse sausages|4|","onion|onions|3|","red wine|red wine|20|cl","flour|flour|1|tbsp","thyme|thyme||","potato|potatoes|800|g"],
+   ["Brown the sausages and take them out.|Pan|8","Soften the onions, sprinkle with flour, then add the wine and 10 cl of water.","Put the sausages back with the thyme and simmer for 25 min.|Cooking|25","Serve with steamed potatoes."]],
+  ["Chicken sausages with carrot mash","Lighter","Chicken sausages and a carrot and potato mash.","A lighter, more colourful version.","",40,480,"F","chicken sausages carrot mash","hbf",
+   ["chicken sausage|chicken sausages|8|","carrot|carrots|4|","potato|potatoes|500|g","milk|milk|15|cl","butter|butter|15|g"],
+   ["Boil the carrots and the potatoes for 20 min.|Cooking|20","Brown the sausages for 10 min.|Pan|10","Mash the vegetables with the milk and the butter.","Serve the sausages with the mash."]]
+ ]},
+ {"q":"Roast beef","a":["roast beef joint","roasted beef","rosbif"],"fr":"Rôti de bœuf","r":[
+  ["Roast beef","The classic","","A beef joint seared then roasted in the oven, pink in the middle, with potatoes.","",60,520,"M","roast beef","o",
+   ["beef joint|beef joints|1|","new potato|new potatoes|800|g","garlic|garlic|4|clove","thyme|thyme||","olive oil|olive oil|3|tbsp","butter|butter|20|g"],
+   ["Take the beef out of the fridge 1 h before. Preheat the oven to 220 °C.","Put the potatoes in a dish with the oil, the garlic and the thyme, and bake for 15 min.|Oven|15","Sear the beef on all sides in the butter.|Pan|5","Put it on the potatoes and bake for 15 min per 500 g for pink meat.|Oven|30","Rest it for 10 min under foil before slicing."]],
+  ["Mustard-crusted roast beef","Mustard crust","Brushed with mustard and herbs.","A fragrant joint with a mustard and herb crust.","",60,500,"M","mustard herb crusted roast beef","o",
+   ["beef joint|beef joints|1|","mustard|mustard|2|tbsp","herbes de provence|herbes de provence|1|tbsp","breadcrumb|breadcrumbs|2|tbsp","green bean|green beans|500|g"],
+   ["Preheat the oven to 220 °C. Sear the beef on all sides.|Pan|5","Brush it with mustard and roll it in the herbs and breadcrumbs.","Bake for 30 min.|Oven|30","Boil the green beans for 8 min.|Cooking|8","Rest the beef for 10 min before slicing."]],
+  ["Cold roast beef","Cold","Served cold in thin slices.","Cold roast beef with mayonnaise and salad, for summer.","",50,420,"M","cold roast beef slices","oc",
+   ["beef joint|beef joints|1|","mayonnaise|mayonnaise|4|tbsp","gherkin|gherkins|12|","salad leaves|salad leaves|1|"],
+   ["Preheat the oven to 220 °C. Sear the beef.|Pan|5","Bake for 25 min.|Oven|25","Let it cool completely, then chill it.","Cut it into thin slices and serve with mayonnaise, gherkins and salad."]]
+ ]},
+ {"q":"Veal paupiettes","a":["paupiettes","paupiette","turkey paupiettes"],"fr":"Paupiettes de veau","r":[
+  ["Veal paupiettes","The classic","","Paupiettes browned then simmered with carrots and mushrooms.","",60,450,"F","veal paupiettes","",
+   ["veal paupiette|veal paupiettes|4|","carrot|carrots|3|","button mushroom|button mushrooms|200|g","onion|onions|1|","white wine|white wine|15|cl","tomato purée|tomato purée|1|tbsp","bouquet garni|bouquet garni|1|"],
+   ["Brown the paupiettes on all sides in a casserole.|Cooking|8","Add the sliced onion and the sliced carrots.","Add the wine, the purée, the bouquet garni and 20 cl of water.","Cover and simmer for 30 min.|Cooking|30","Add the mushrooms and cook for 10 min.|Cooking|10"]],
+  ["Turkey paupiettes in cream","Turkey and cream","Turkey paupiettes in a cream sauce.","Milder turkey paupiettes with cream.","",50,420,"F","turkey paupiettes cream","bf",
+   ["turkey paupiette|turkey paupiettes|4|","button mushroom|button mushrooms|200|g","shallot|shallots|2|","crème fraîche|crème fraîche|20|cl","white wine|white wine|10|cl"],
+   ["Brown the paupiettes.|Cooking|8","Add the shallots, the wine and 15 cl of water, and simmer for 25 min.|Cooking|25","Add the mushrooms and the cream.","Cook for 10 min.|Cooking|10"]],
+  ["Paupiettes in tomato sauce","In tomato sauce","Simmered in a tomato sauce.","Paupiettes in tomato sauce, served with pasta.","",50,430,"F","paupiettes tomato sauce","b",
+   ["veal paupiette|veal paupiettes|4|","chopped tomato|chopped tomatoes|400|g","onion|onions|1|","garlic|garlic|2|clove","green olive|green olives|60|g"],
+   ["Brown the paupiettes.|Cooking|8","Add the onion and the garlic, then the tomatoes.","Simmer for 30 min.|Cooking|30","Add the olives 5 min before the end."]]
+ ]},
+ {"q":"Lamb tagine","a":["lamb tagine with prunes","tagine","lamb with prunes"],"fr":"Tajine d'agneau","r":[
+  ["Lamb tagine with prunes","The classic","","Tender lamb simmered with spices, prunes and toasted almonds.","Moroccan recipe",120,620,"M","lamb tagine prunes","",
+   ["lamb shoulder|lamb shoulders|1000|g","prune|prunes|200|g","onion|onions|2|","honey|honey|2|tbsp","cinnamon|cinnamon|1|tsp","ras el hanout|ras el hanout|2|tsp","almond|almonds|50|g"],
+   ["Cut the lamb into pieces and brown it with the onions.|Cooking|10","Add the spices and 40 cl of water, cover and simmer for 1 h 15.|Cooking|75","Add the prunes and the honey, and cook for 20 min.|Cooking|20","Toast the almonds in a dry pan and sprinkle them over."]],
+  ["Lamb tagine with vegetables","With vegetables","With carrots, courgettes and chickpeas.","A complete lamb tagine with vegetables.","",110,560,"M","lamb vegetable tagine","",
+   ["lamb shoulder|lamb shoulders|800|g","carrot|carrots|3|","courgette|courgettes|2|","chickpea|chickpeas|400|g","onion|onions|2|","ras el hanout|ras el hanout|2|tsp"],
+   ["Brown the lamb with the onions.|Cooking|10","Add the spices, the carrots and 40 cl of water, and simmer for 1 h.|Cooking|60","Add the courgettes and the chickpeas.","Cook for 25 min.|Cooking|25"]],
+  ["Lamb tagine with apricots","With apricots","With dried apricots.","A sweet and savoury tagine with apricots.","",120,600,"M","lamb apricot tagine","",
+   ["lamb shoulder|lamb shoulders|1000|g","dried apricot|dried apricots|150|g","onion|onions|2|","ginger|ginger|1|tsp","cinnamon|cinnamon|1|tsp","coriander|coriander||"],
+   ["Brown the lamb with the onions.|Cooking|10","Add the spices and 40 cl of water, and simmer for 1 h 15.|Cooking|75","Add the apricots and cook for 20 min.|Cooking|20","Sprinkle with coriander."]]
+ ]},
+ {"q":"Chicken skewers","a":["chicken kebabs","grilled chicken skewers","barbecue skewers","turkey skewers"],"fr":"Brochettes de poulet","r":[
+  ["Marinated chicken skewers","The classic","","Chicken skewers marinated in lemon and paprika, with peppers and onions.","",45,350,"F","grilled chicken skewers","hbf",
+   ["chicken breast|chicken breasts|4|","red pepper|red peppers|1|","red onion|red onions|1|","lemon|lemons|1|","paprika|paprika|2|tsp","olive oil|olive oil|3|tbsp","garlic|garlic|1|clove"],
+   ["Cut the chicken into cubes and marinate it for 20 min with the oil, the lemon, the paprika and the garlic.|Rest|20","Cut the pepper and the onion into chunks.","Thread the chicken and the vegetables onto skewers, alternating them.","Grill them for 12 min, turning them.|Pan|12"]],
+  ["Yoghurt chicken skewers","With yoghurt","Marinated in yoghurt and spices, Indian style.","Tender, fragrant skewers with a yoghurt sauce.","",45,320,"F","yogurt marinated chicken skewers","h",
+   ["chicken breast|chicken breasts|4|","plain yoghurt|plain yoghurts|2|","curry powder|curry powder|2|tsp","lemon|lemons|1|","garlic|garlic|1|clove","cucumber|cucumbers|1|"],
+   ["Mix 1 yoghurt with the curry powder, the lemon juice and the garlic.","Marinate the cubed chicken for 30 min.|Rest|30","Thread onto skewers and grill for 12 min.|Pan|12","Serve with the other yoghurt mixed with grated cucumber."]],
+  ["Honey chicken skewers","With honey","Glazed with honey and soy sauce.","Sweet and salty skewers that kids like.","",40,360,"F","honey soy chicken skewers","bf",
+   ["chicken breast|chicken breasts|4|","honey|honey|3|tbsp","soy sauce|soy sauce|3|tbsp","sesame seed|sesame seeds|1|tbsp","rice|rice|250|g"],
+   ["Marinate the cubed chicken for 20 min with the honey and the soy sauce.|Rest|20","Cook the rice.|Cooking|12","Thread onto skewers and grill for 12 min, brushing with the marinade.|Pan|12","Sprinkle with sesame seeds."]]
+ ]},
+ {"q":"Tandoori chicken","a":["tandoori","chicken tandoori","tandoori chicken thighs"],"fr":"Poulet tandoori","r":[
+  ["Tandoori chicken","The classic","","Chicken thighs marinated in yoghurt and tandoori spices, then roasted in the oven.","Indian dish",60,420,"F","tandoori chicken","oh",
+   ["chicken thigh|chicken thighs|4|","plain yoghurt|plain yoghurts|2|","tandoori spice mix|tandoori spice mix|2|tbsp","lemon|lemons|1|","garlic|garlic|2|clove","ginger|ginger|1|tsp","basmati rice|basmati rice|250|g"],
+   ["Score the thighs and marinate them for at least 1 h with the yoghurt, the spices, the lemon, the garlic and the ginger.|Rest|60","Preheat the oven to 220 °C.","Put the thighs on a tray and bake for 40 min.|Oven|40","Cook the rice.|Cooking|12"]],
+  ["Tandoori chicken skewers","Skewers","Cubes of chicken breast on skewers.","Quick tandoori skewers to grill.","",40,360,"F","tandoori chicken skewers","h",
+   ["chicken breast|chicken breasts|4|","plain yoghurt|plain yoghurts|1|","tandoori spice mix|tandoori spice mix|2|tbsp","lemon|lemons|1|","red onion|red onions|1|"],
+   ["Marinate the cubed chicken for 30 min with the yoghurt, the spices and the lemon.|Rest|30","Thread it onto skewers with chunks of onion.","Grill for 12 min, turning them.|Pan|12","Serve with a salad."]],
+  ["Tandoori cauliflower","Vegetarian","A cauliflower roasted in tandoori marinade.","The tandoori marinade on roasted cauliflower.","",50,220,"F","tandoori cauliflower","voh",
+   ["cauliflower|cauliflowers|1|","plain yoghurt|plain yoghurts|1|","tandoori spice mix|tandoori spice mix|2|tbsp","lemon|lemons|1|","coriander|coriander||"],
+   ["Preheat the oven to 210 °C.","Cut the cauliflower into florets and coat them in the yoghurt mixed with the spices and the lemon.","Bake for 35 min.|Oven|35","Sprinkle with coriander."]]
+ ]},
+ {"q":"Turkey escalopes","a":["turkey escalope","turkey in cream sauce","turkey cutlets"],"fr":"Escalope de dinde","r":[
+  ["Turkey escalopes in cream sauce","The classic","","Browned turkey escalopes covered in a creamy mushroom sauce.","",25,380,"F","turkey escalope cream sauce","hbf",
+   ["turkey escalope|turkey escalopes|4|","button mushroom|button mushrooms|200|g","crème fraîche|crème fraîche|15|cl","shallot|shallots|1|","butter|butter|15|g"],
+   ["Fry the escalopes for 4 min on each side in the butter and take them out.|Pan|8","Fry the shallot and the mushrooms for 5 min.|Pan|5","Add the cream and cook for 2 min.","Put the escalopes back in the sauce for 2 min."]],
+  ["Lemon turkey escalopes","Lemon","With a light lemon and caper sauce.","Light escalopes with lemon and capers.","",20,300,"F","turkey piccata lemon capers","hb",
+   ["turkey escalope|turkey escalopes|4|","lemon|lemons|1|","caper|capers|1|tbsp","flour|flour|2|tbsp","butter|butter|20|g"],
+   ["Dust the escalopes lightly with flour.","Fry them for 3 min on each side in the butter.|Pan|6","Add the lemon juice, the capers and 5 cl of water.","Let it reduce for 1 min."]],
+  ["Curried turkey escalopes","Curry","With a coconut curry sauce.","Turkey escalopes in a mild curry sauce.","",25,380,"F","turkey curry coconut","bf",
+   ["turkey escalope|turkey escalopes|4|","coconut milk|coconut milk|20|cl","curry powder|curry powder|2|tsp","onion|onions|1|","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Cut the turkey into strips and brown it with the onion.|Pan|6","Add the curry powder and the coconut milk.","Simmer for 8 min.|Cooking|8"]]
+ ]},
+ {"q":"Honey chicken","a":["honey soy chicken","honey garlic chicken","honey glazed chicken"],"fr":"Poulet au miel","r":[
+  ["Honey and soy chicken","The classic","","Chicken pieces glazed with honey, soy sauce and garlic, served with rice.","",25,450,"F","honey soy chicken","bf",
+   ["chicken breast|chicken breasts|4|","honey|honey|3|tbsp","soy sauce|soy sauce|4|tbsp","garlic|garlic|2|clove","sesame seed|sesame seeds|1|tbsp","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Cut the chicken into pieces and brown it for 6 min.|Pan|6","Add the honey, the soy sauce and the garlic.","Let it reduce for 3 min until the chicken is glazed.|Cooking|3","Sprinkle with sesame seeds."]],
+  ["Oven-baked honey chicken thighs","Oven-baked","Thighs roasted in the oven with honey and mustard.","Golden chicken thighs with honey and mustard.","",55,480,"F","honey mustard chicken thighs","obf",
+   ["chicken thigh|chicken thighs|4|","honey|honey|3|tbsp","mustard|mustard|2|tbsp","potato|potatoes|600|g","olive oil|olive oil|2|tbsp"],
+   ["Preheat the oven to 200 °C.","Mix the honey and the mustard and brush it over the thighs.","Put them in a dish with the potato wedges and the oil.","Bake for 45 min, basting now and then.|Oven|45"]],
+  ["Honey and lemon chicken","Lemon","With a honey and lemon sauce.","A fresh, mild chicken with honey and lemon.","",25,420,"F","honey lemon chicken","b",
+   ["chicken breast|chicken breasts|4|","honey|honey|3|tbsp","lemon|lemons|1|","garlic|garlic|1|clove","thyme|thyme||"],
+   ["Cut the chicken into pieces and brown it.|Pan|6","Add the honey, the lemon zest and juice, the garlic and the thyme.","Let it reduce for 3 min.|Cooking|3","Serve with rice or vegetables."]]
+ ]}
+]

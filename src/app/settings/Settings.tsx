@@ -1,11 +1,12 @@
 // 22 · Tes réglages et Ton compte (prototype V3). On y arrive par la roue dentée de Famille.
-// Pas encore là : Langue (l'appli n'existe qu'en français).
+// Langue : français ou anglais (lib/i18n), depuis le 4 novembre.
 import { useState } from "react";
+import { AUTO_LANG, lang, setLang, t, type Lang } from "../../lib/i18n";
 import { useNavigate } from "react-router";
 import type { User } from "../../lib/types";
 import { downloadMyData, hasGoogle, isOAuthUser, linkGoogle, passwordChangedAt, unlinkGoogle } from "../../lib/account";
-import { Icon, RoundButton, ScreenHeader } from "../../ui/components";
-import { agoText } from "../format";
+import { Icon, RoundButton, ScreenHeader, Sheet } from "../../ui/components";
+import { agoText, MONTHS } from "../format";
 import { useBack } from "../nav";
 import { useOpenPaywall, type PaywallState } from "../plus/subscription";
 import { trialText, trialUntil } from "../../lib/billing";
@@ -15,7 +16,6 @@ import { AccountSheet, ContactSheet, DeleteSheet, ProfileDot, type AccountMode, 
 import { NotifSettingsCard } from "../notifs/NotifSettings";
 import "./settings.css";
 
-const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 
 /** Ce qui est commun aux deux écrans : le compte, et ce qu'on fait en le quittant. */
 export type AccountProps = {
@@ -47,13 +47,15 @@ export function Settings({ user, name, avatar, isPlus, onSignOut, onDelete, onGo
   const [trial] = useState(() => trialUntil(user));
   const [send, setSend] = useState<SendMode | null>(null);
   const [del, setDel] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const legal = (page: string) => navigate(`/infos-legales/${page}`);
+  const LANGS: [Lang, string][] = [["fr", "Français"], ["en", "English"]];
 
   return (
-    <div className="fa fa-app st-page" aria-label="Tes réglages">
-      <ScreenHeader title={<>Tes <em>réglages</em></>} left={<RoundButton icon="back" label="Retour" big onClick={back} />} />
+    <div className="fa fa-app st-page" aria-label={t("Tes réglages", "Your settings")}>
+      <ScreenHeader title={t(<>Tes <em>réglages</em></>, <>Your <em>settings</em></>)} left={<RoundButton icon="back" label={t("Retour", "Back")} big onClick={back} />} />
       <div className="st-body">
-        <span className="st-sec">Ton compte</span>
+        <span className="st-sec">{t("Ton compte", "Your account")}</span>
         <div className="st-card">
           <button type="button" className="st-row st-me" onClick={() => navigate("/reglages/compte")}>
             <ProfileDot className="pi" name={name} photo={avatar} />
@@ -61,38 +63,51 @@ export function Settings({ user, name, avatar, isPlus, onSignOut, onDelete, onGo
             <Icon name="next" className="st-chev" />
           </button>
           {/* En essai (ou essai fini) : s'abonner ; abonné : gérer ou résilier */}
-          <Row icon="sparkle" title="Abonnement" value={trial ? trialText(trial) : isPlus ? "Plus" : "Aucun"} onClick={() => (isPlus && !trial ? navigate("/resilier") : openPaywall("def"))} />
-          {(trial || !isPlus) && <Row icon="gift" title="Utiliser un code" value="7 jours en plus" onClick={() => navigate("/plus", { state: { why: "def", code: true } satisfies PaywallState })} />}
+          <Row icon="sparkle" title={t("Abonnement", "Subscription")} value={trial ? trialText(trial) : isPlus ? "Plus" : t("Aucun", "None")} onClick={() => (isPlus && !trial ? navigate("/resilier") : openPaywall("def"))} />
+          {(trial || !isPlus) && <Row icon="gift" title={t("Utiliser un code", "Use a code")} value={t("7 jours en plus", "7 extra days")} onClick={() => navigate("/plus", { state: { why: "def", code: true } satisfies PaywallState })} />}
         </div>
 
         <span className="st-sec">Notifications</span>
         <NotifSettingsCard userId={user.id} />
 
-        <span className="st-sec">L'app</span>
+        <span className="st-sec">{t("L'app", "The app")}</span>
         <div className="st-card">
-          <Row icon="sun" title="Apparence" value="Clair" onClick={() => showToast("Le mode sombre arrive bientôt")} />
+          {/* Tant que la traduction n'est pas finie, le choix n'apparaît qu'en anglais (ouvert par ?lang=en) */}
+          {(AUTO_LANG || lang === "en") && <Row icon="globe" title={t("Langue", "Language")} value={lang === "en" ? "English" : "Français"} onClick={() => setLangOpen(true)} />}
+          <Row icon="sun" title={t("Apparence", "Appearance")} value={t("Clair", "Light")} onClick={() => showToast(t("Le mode sombre arrive bientôt", "Dark mode is coming soon"))} />
         </div>
 
-        <span className="st-sec">Aide</span>
+        <span className="st-sec">{t("Aide", "Help")}</span>
         <div className="st-card">
-          <Row icon="help" title="Questions fréquentes" onClick={() => navigate("/aide")} />
-          <Row icon="msg" title="Nous écrire" value="Sous 24 h" onClick={() => setSend("contact")} />
-          <Row icon="alert" title="Signaler un problème" onClick={() => setSend("bug")} />
+          <Row icon="help" title={t("Questions fréquentes", "FAQ")} onClick={() => navigate("/aide")} />
+          <Row icon="msg" title={t("Nous écrire", "Contact us")} value={t("Sous 24 h", "Within 24 h")} onClick={() => setSend("contact")} />
+          <Row icon="alert" title={t("Signaler un problème", "Report a problem")} onClick={() => setSend("bug")} />
         </div>
 
-        <span className="st-sec">Légal</span>
+        <span className="st-sec">{t("Légal", "Legal")}</span>
         <div className="st-card">
-          <Row icon="shield" title="Confidentialité" onClick={() => legal("confidentialite")} />
-          <Row icon="book" title="Conditions d'utilisation et de vente" onClick={() => legal("cgu")} />
-          <Row icon="store" title="Mentions légales et cookies" onClick={() => legal("mentions")} />
+          <Row icon="shield" title={t("Confidentialité", "Privacy")} onClick={() => legal("confidentialite")} />
+          <Row icon="book" title={t("Conditions d'utilisation et de vente", "Terms of use and sale")} onClick={() => legal("cgu")} />
+          <Row icon="store" title={t("Mentions légales et cookies", "Legal notice and cookies")} onClick={() => legal("mentions")} />
         </div>
 
         <div className="st-card">
-          <button type="button" className="st-row st-out" onClick={onSignOut}><span className="pi"><Icon name="logout" /></span><b>Se déconnecter</b></button>
+          <button type="button" className="st-row st-out" onClick={onSignOut}><span className="pi"><Icon name="logout" /></span><b>{t("Se déconnecter", "Sign out")}</b></button>
         </div>
-        <button type="button" className="st-del" onClick={() => setDel(true)}>Supprimer mon compte</button>
+        <button type="button" className="st-del" onClick={() => setDel(true)}>{t("Supprimer mon compte", "Delete my account")}</button>
         <p className="st-ver"><span className="st-logo" />Frigia · version 1.0</p>
       </div>
+      <Sheet open={langOpen} onClose={() => setLangOpen(false)} label={t("Langue", "Language")}>
+        <h3 className="stitle">{t(<>La <em>langue</em></>, <>The <em>language</em></>)}</h3>
+        <div className="st-card st-langs">
+          {LANGS.map(([l, label]) => (
+            <button key={l} type="button" className={"st-row" + (l === lang ? " on" : "")} aria-pressed={l === lang}
+              onClick={() => { setLangOpen(false); setLang(l); }}>
+              <b>{label}</b>{l === lang && <Icon name="check" className="st-chev" />}
+            </button>
+          ))}
+        </div>
+      </Sheet>
       <ContactSheet mode={send} onClose={() => setSend(null)} user={user} />
       <DeleteSheet open={del} onClose={() => setDel(false)} isPlus={isPlus} user={user} onDelete={onDelete} onGone={onGone} savedKg={savedKg} />
     </div>
@@ -108,7 +123,7 @@ export function Account({ user, name, avatar, isPlus, onSignOut, onDelete, onGon
   const [del, setDel] = useState(false);
   const [busy, setBusy] = useState(false);
   const since = new Date(user.created_at);
-  const sinceText = `Depuis ${MONTHS[since.getMonth()]}${since.getFullYear() !== new Date().getFullYear() ? ` ${since.getFullYear()}` : ""}`;
+  const sinceText = `${t("Depuis", "Since")} ${MONTHS[since.getMonth()]}${since.getFullYear() !== new Date().getFullYear() ? ` ${since.getFullYear()}` : ""}`;
   const changed = passwordChangedAt(user);
   const google = hasGoogle(user);
 
@@ -118,19 +133,19 @@ export function Account({ user, name, avatar, isPlus, onSignOut, onDelete, onGon
     try {
       if (!google) { await linkGoogle(); return; } // part sur la page Google, revient ici
       await unlinkGoogle();
-      showToast("Google n'est plus relié");
+      showToast(t("Google n'est plus relié", "Google is no longer linked"));
     } catch (e) {
-      showToast(google && isOAuthUser(user) ? "Ajoute d'abord un mot de passe : sans Google, tu ne pourrais plus entrer" : authMessage(e));
+      showToast(google && isOAuthUser(user) ? t("Ajoute d'abord un mot de passe : sans Google, tu ne pourrais plus entrer", "Add a password first: without Google, you couldn't sign in anymore") : authMessage(e));
     } finally { setBusy(false); }
   };
 
   return (
-    <div className="fa fa-app st-page" aria-label="Ton compte">
-      <ScreenHeader title={<>Ton <em>compte</em></>} left={<RoundButton icon="back" label="Retour" big onClick={back} />} />
+    <div className="fa fa-app st-page" aria-label={t("Ton compte", "Your account")}>
+      <ScreenHeader title={t(<>Ton <em>compte</em></>, <>Your <em>account</em></>)} left={<RoundButton icon="back" label={t("Retour", "Back")} big onClick={back} />} />
       <div className="st-body ac-body">
         <div className="ac-me">
           <button type="button" className={"ac-av" + (avatar ? " has-pp" : "")} style={avatar ? { backgroundImage: `url(${avatar})` } : undefined}
-            aria-label="Changer ta photo de profil" onClick={() => setSheet("photo")}>
+            aria-label={t("Changer ta photo de profil", "Change your profile photo")} onClick={() => setSheet("photo")}>
             <span className="acL">{name.charAt(0).toUpperCase()}</span><i><Icon name="cam" /></i>
           </button>
           <div className="ac-who">
@@ -138,39 +153,39 @@ export function Account({ user, name, avatar, isPlus, onSignOut, onDelete, onGon
             <span className="acM">{user.email}</span>
             <span className="ac-tags">
               <span className="ac-tag">{sinceText}</span>
-              {trialUntil(user) ? <span className="ac-tag">Essai</span> : isPlus ? <span className="ac-tag gold"><Icon name="sparkle" />Plus</span> : <span className="ac-tag">Sans abonnement</span>}
+              {trialUntil(user) ? <span className="ac-tag">{t("Essai", "Trial")}</span> : isPlus ? <span className="ac-tag gold"><Icon name="sparkle" />Plus</span> : <span className="ac-tag">{t("Sans abonnement", "No subscription")}</span>}
             </span>
           </div>
         </div>
 
-        <span className="st-sec">Tes infos</span>
+        <span className="st-sec">{t("Tes infos", "Your details")}</span>
         <div className="st-card">
-          <Row icon="user" title="Prénom" value={name} onClick={() => setSheet("name")} />
+          <Row icon="user" title={t("Prénom", "First name")} value={name} onClick={() => setSheet("name")} />
           <button type="button" className="st-row" onClick={() => setSheet("email")}>
             <span className="pi"><Icon name="mail" /></span><b>Email</b><span className="st-v ac-cut">{user.email}</span><Icon name="next" className="st-chev" />
           </button>
         </div>
 
-        <span className="st-sec">Connexion</span>
+        <span className="st-sec">{t("Connexion", "Sign-in")}</span>
         <div className="st-card">
-          <Row icon="lock" title="Mot de passe" sub={changed ? `Changé ${agoText(changed).toLowerCase()}` : undefined} onClick={() => setSheet("pass")} />
+          <Row icon="lock" title={t("Mot de passe", "Password")} sub={changed ? t(`Changé ${agoText(changed).toLowerCase()}`, `Changed ${agoText(changed).toLowerCase()}`) : undefined} onClick={() => setSheet("pass")} />
           <div className="st-row">
             <span className="pi ac-g"><Icon name="google" /></span>
-            <b>Google<small>{google ? user.email : "Pour entrer en un geste"}</small></b>
+            <b>Google<small>{google ? user.email : t("Pour entrer en un geste", "Sign in with one tap")}</small></b>
             <button type="button" className={"ac-link" + (google ? " on" : "")} onClick={() => void toggleGoogle()}>
-              {google ? <><Icon name="check" />Relié</> : "Relier"}
+              {google ? <><Icon name="check" />{t("Relié", "Linked")}</> : t("Relier", "Link")}
             </button>
           </div>
         </div>
 
-        <span className="st-sec">Tes données</span>
+        <span className="st-sec">{t("Tes données", "Your data")}</span>
         <div className="st-card">
-          <Row icon="share" title="Télécharger mes données" sub="Un fichier avec tout ton compte" onClick={() => downloadMyData(user).catch(() => showToast("Le fichier n'a pas pu être préparé. Réessaie"))} />
-          <Row icon="shield" title="Ce qu'on fait de tes données" onClick={() => navigate("/infos-legales/confidentialite")} />
+          <Row icon="share" title={t("Télécharger mes données", "Download my data")} sub={t("Un fichier avec tout ton compte", "A file with your whole account")} onClick={() => downloadMyData(user).catch(() => showToast(t("Le fichier n'a pas pu être préparé. Réessaie", "The file couldn't be prepared. Try again")))} />
+          <Row icon="shield" title={t("Ce qu'on fait de tes données", "What we do with your data")} onClick={() => navigate("/infos-legales/confidentialite")} />
         </div>
 
-        <button type="button" className="ac-out" onClick={onSignOut}><Icon name="logout" />Se déconnecter</button>
-        <button type="button" className="st-del" onClick={() => setDel(true)}>Supprimer mon compte</button>
+        <button type="button" className="ac-out" onClick={onSignOut}><Icon name="logout" />{t("Se déconnecter", "Sign out")}</button>
+        <button type="button" className="st-del" onClick={() => setDel(true)}>{t("Supprimer mon compte", "Delete my account")}</button>
       </div>
       <AccountSheet mode={sheet} onClose={() => setSheet(null)} onMode={setSheet} user={user} name={name} avatar={avatar} dishes={dishes} onAvatar={onAvatar} onName={onName} />
       <DeleteSheet open={del} onClose={() => setDel(false)} isPlus={isPlus} user={user} onDelete={onDelete} onGone={onGone} savedKg={savedKg} />

@@ -1,0 +1,96 @@
+[
+ {
+  "q": "Tartiflette",
+  "a": [
+   "tartiflette savoyarde"
+  ],
+  "fr": "Tartiflette",
+  "r": [
+   [
+    "Tartiflette with reblochon",
+    "The classic",
+    "",
+    "The great Savoyard classic: soft potatoes, bacon lardons and a reblochon that melts and browns.",
+    "Savoyard speciality",
+    60,
+    750,
+    "F",
+    "tartiflette potato gratin",
+    "obf",
+    [
+     "potato|potatoes|1000|g",
+     "reblochon|reblochons|1|",
+     "bacon lardon|bacon lardons|200|g",
+     "onion|onions|2|",
+     "crème fraîche|crème fraîche|20|cl",
+     "white wine|white wine|10|cl",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Boil the whole potatoes in salted water for 20 min.|Cooking|20",
+     "Preheat the oven to 200 °C. Cut the potatoes into slices.",
+     "Fry the sliced onions and the lardons in a pan for 8 min, then pour in the white wine.|Pan|8",
+     "In a dish, layer potatoes, lardons and cream. Place the reblochon on top, cut in half, rind up.",
+     "Bake for 25 min, until nicely golden.|Oven|25"
+    ]
+   ],
+   [
+    "Lighter tartiflette",
+    "Lighter",
+    "The cream is replaced with fromage blanc and the reblochon is halved.",
+    "All the indulgence of tartiflette, but lighter for a weekday.",
+    "Savoyard speciality",
+    55,
+    520,
+    "F",
+    "light tartiflette potato",
+    "oh",
+    [
+     "potato|potatoes|1000|g",
+     "reblochon|reblochons|1|",
+     "diced ham|diced ham|150|g",
+     "onion|onions|2|",
+     "fromage blanc|fromage blanc|200|g",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Boil the potatoes in salted water for 20 min.|Cooking|20",
+     "Preheat the oven to 200 °C. Cut the potatoes into slices.",
+     "Fry the sliced onions with the ham in a pan for 5 min.|Pan|5",
+     "Mix the fromage blanc with salt and pepper, then stir in the potatoes, onion and ham.",
+     "Pour into a dish, add half a reblochon in slices and bake for 25 min.|Oven|25"
+    ]
+   ],
+   [
+    "Mushroom tartiflette",
+    "Vegetarian",
+    "The lardons are replaced with well-browned mushrooms.",
+    "Golden mushrooms instead of lardons: the reblochon does the rest.",
+    "Savoyard speciality",
+    60,
+    680,
+    "F",
+    "mushroom tartiflette gratin",
+    "vo",
+    [
+     "potato|potatoes|1000|g",
+     "reblochon|reblochons|1|",
+     "button mushroom|button mushrooms|300|g",
+     "onion|onions|2|",
+     "crème fraîche|crème fraîche|20|cl",
+     "salt|salt||",
+     "pepper|pepper||"
+    ],
+    [
+     "Boil the potatoes in salted water for 20 min.|Cooking|20",
+     "Preheat the oven to 200 °C. Cut the potatoes into slices.",
+     "Brown the sliced mushrooms and the onions in a pan for 10 min.|Pan|10",
+     "Layer potatoes, mushrooms and cream in a dish, then place the reblochon on top, cut in half.",
+     "Bake for 25 min.|Oven|25"
+    ]
+   ]
+  ]
+ }
+]

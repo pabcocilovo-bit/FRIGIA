@@ -2,27 +2,30 @@
 // avec sa photo, prend une des places quand elle colle au frigo (presque tout est là). L'IA fait les autres.
 // Jamais avec une allergie ou un « sans gluten » : le catalogue n'a pas de recette faite pour (fits, api/_catalog.ts).
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { CATALOG_SERVES, type CatalogRecipe, catalogKey, fits } from "./_catalog.js";
+import { CATALOG_SERVES, type CatalogLang, type CatalogRecipe, catalogKey, EN, fits, langKey } from "./_catalog.js";
 import { norm } from "./_recipe.js";
 
 type Item = { name: string; plural?: string; qty?: number | null; unit?: string; have?: boolean };
 // Toujours dans les placards, ou presque : ils ne comptent ni comme « dans le frigo » ni comme « à acheter »
-const STAPLES = /^(sel|poivre|huile|eau|beurre|farine|sucre|ail|herbe|epice|bouillon|vinaigre|moutarde|levure|muscade|cumin|paprika|curry|thym|laurier|persil|ciboulette|basilic|origan|cannelle|vanille|sauce soja|piment|gingembre|coriandre|romarin|fine|noix de muscade|zeste)/;
+const STAPLES = /^(sel|poivre|huile|eau|beurre|farine|sucre|ail|herbe|epice|bouillon|vinaigre|moutarde|levure|muscade|cumin|paprika|curry|thym|laurier|persil|ciboulette|basilic|origan|cannelle|vanille|sauce soja|piment|gingembre|coriandre|romarin|fine|noix de muscade|zeste|salt|sea salt|pepper|black pepper|oil|olive oil|water|butter|flour|sugar|garlic|herb|spice|stock|vinegar|mustard|yeast|baking powder|nutmeg|bay|parsley|chive|basil|oregano|cinnamon|vanilla|soy sauce|chilli|chili|ginger|coriander|rosemary|zest)/;
 
 // Les recettes nouvelles du scan sont gardées à part (clé « frigo … », Hugo, 27 octobre) et ne ressortent qu'après
 // avoir fait leurs preuves : mises en favori ou cuisinées au moins une fois (hits, via promoteScanRecipe).
 const SCAN = "frigo ";
-export const scanKey = (title: string) => `${SCAN}${catalogKey(title)}`.slice(0, 200);
+export const scanKey = (title: string, lang?: CatalogLang) => langKey(lang, `${SCAN}${catalogKey(title)}`).slice(0, 200);
 
 // Les recettes écrites à l'avance (source « claude ») et celles du scan qui ont fait leurs preuves, gardées 10 minutes sur l'instance
-let cache: { at: number; recipes: CatalogRecipe[] } | null = null;
-async function load(admin: SupabaseClient): Promise<CatalogRecipe[]> {
-  if (cache && Date.now() - cache.at < 600_000) return cache.recipes;
-  const { data, error } = await admin.from("recipe_catalog").select("recipes").eq("kind", "dish")
-    .or(`source.eq.claude,and(key.like.${SCAN.trim()}*,hits.gte.1)`);
-  if (error) { console.error("recipe_catalog:", error.message); return cache?.recipes ?? []; }
+// Chaque langue a son catalogue (clés « en:… » pour l'anglais, api/_catalog.ts)
+const cache: Partial<Record<CatalogLang, { at: number; recipes: CatalogRecipe[] }>> = {};
+async function load(admin: SupabaseClient, lang: CatalogLang): Promise<CatalogRecipe[]> {
+  const c = cache[lang];
+  if (c && Date.now() - c.at < 600_000) return c.recipes;
+  const q = admin.from("recipe_catalog").select("recipes").eq("kind", "dish")
+    .or(`source.eq.claude,and(key.like."${langKey(lang, SCAN.trim())}*",hits.gte.1)`);
+  const { data, error } = await (lang === "en" ? q.like("key", `${EN}%`) : q.not("key", "like", `${EN}%`));
+  if (error) { console.error("recipe_catalog:", error.message); return c?.recipes ?? []; }
   const recipes = ((data ?? []) as { recipes: CatalogRecipe[] }[]).flatMap(r => r.recipes ?? []);
-  cache = { at: Date.now(), recipes };
+  cache[lang] = { at: Date.now(), recipes };
   return recipes;
 }
 
@@ -41,11 +44,12 @@ const inStock = (name: string, stock: string[]) => {
 };
 const staple = (name: string) => STAPLES.test(w(name).trim());
 // « Zéro course » : seuls sel, poivre, eau et huile sont sûrs d'être là (comme pour l'IA, api/recipes.ts)
-const basic = (name: string) => /^(sel|poivre|eau|huile)\b/.test(w(name).trim());
+const basic = (name: string) => /^(sel|poivre|eau|huile|salt|sea salt|pepper|black pepper|water|oil|olive oil)\b/.test(w(name).trim());
 
 type FridgeAsk = {
   fridge: { name: string; finish: boolean }[]; pantry: string[]; constraints: string; dislikes: string[]; avoid: string[];
   noShop: boolean; quick: boolean; light: boolean; kids: boolean;
+  lang?: CatalogLang;
 };
 
 /** Les plats du catalogue qui collent au frigo (au moins 2 produits du frigo, buy achats au plus), les mieux notés d'abord. */
@@ -55,7 +59,7 @@ async function rank(admin: SupabaseClient, o: FridgeAsk, buy: number): Promise<{
   const stock = [...fridge, ...o.pantry];
   const avoid = new Set(o.avoid.map(t => norm(t)));
   const scored: { r: CatalogRecipe; score: number }[] = [];
-  for (const r of await load(admin)) {
+  for (const r of await load(admin, o.lang ?? "fr")) {
     const items = (Array.isArray(r.items) ? r.items : []) as Item[];
     // Des plats salés seulement : les desserts du scan restent à l'IA
     if (!r.title || r.dessert === true || avoid.has(norm(r.title)) || (o.constraints && !fits(r, o.constraints))) continue;
@@ -120,7 +124,7 @@ const round = (q: number, unit: string) => (unit === "cl" ? (q >= 10 ? Math.roun
  * Les recettes que l'IA vient d'écrire pour un scan, gardées pour tout le monde : ramenées à 4 portions, sans rien du foyer
  * (ce qu'on a, ce qui manque, « sans champignons »). Une recette qui nomme quelqu'un du foyer n'est pas gardée.
  */
-export async function keepScanRecipes(admin: SupabaseClient, recipes: Scanned[], names: string[]) {
+export async function keepScanRecipes(admin: SupabaseClient, recipes: Scanned[], names: string[], lang?: CatalogLang) {
   const who = names.map(n => w(n)).filter(n => n.trim().length > 2);
   const rows = recipes.filter(r => r.title && !r.fromCatalog).flatMap(r => {
     const text = w([r.title, r.intro ?? "", ...(r.steps ?? []).map(x => x.text)].join(" "));
@@ -130,7 +134,7 @@ export async function keepScanRecipes(admin: SupabaseClient, recipes: Scanned[],
     // Les champs propres à ce scan ne suivent pas
     const rest: Record<string, unknown> = { ...r };
     for (const f of ["kids", "without", "missing", "fromCatalog"]) delete rest[f];
-    return [{ key: scanKey(r.title), query: r.title.slice(0, 200), kind: "dish", source: "ia",
+    return [{ key: scanKey(r.title, lang), query: r.title.slice(0, 200), kind: "dish", source: "ia",
       recipes: [{ ...rest, items, missing: "", serves: CATALOG_SERVES,
         ...(r.makes ? { makes: { ...r.makes, n: Math.max(1, Math.round(r.makes.n * k)) } } : {}) }] }];
   });
@@ -140,7 +144,7 @@ export async function keepScanRecipes(admin: SupabaseClient, recipes: Scanned[],
 }
 
 /** Mise en favori ou cuisinée : la recette du scan a fait ses preuves, le scan peut la proposer à d'autres. */
-export async function promoteScanRecipe(admin: SupabaseClient, title: string) {
-  const { error } = await admin.rpc("recipe_catalog_hit", { p_key: scanKey(title) });
+export async function promoteScanRecipe(admin: SupabaseClient, title: string, lang?: CatalogLang) {
+  const { error } = await admin.rpc("recipe_catalog_hit", { p_key: scanKey(title, lang) });
   if (error) console.error("recipe_catalog_hit:", error.message);
 }

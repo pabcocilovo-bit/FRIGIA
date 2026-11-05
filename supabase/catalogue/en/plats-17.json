@@ -1,0 +1,112 @@
+[
+ {"q":"Caprese salad","a":["caprese","tomato mozzarella salad"],"fr":"Salade caprese","r":[
+  ["Caprese salad","The classic","","Tomatoes, mozzarella and basil with a drizzle of olive oil: Italy in 10 minutes.","Italian salad",10,280,"F","caprese salad","vche",
+   ["tomato|tomatoes|4|","mozzarella|mozzarella|2|","basil|basil||","olive oil|olive oil|3|tbsp","salt|salt||","pepper|pepper||"],
+   ["Slice the tomatoes and the mozzarella.","Arrange them in alternating layers on a plate.","Scatter over the basil leaves.","Drizzle with olive oil and season with salt and pepper just before serving."]],
+  ["Burrata caprese","Burrata","With a creamy burrata in the middle.","The caprese made even softer and creamier with burrata.","",10,340,"F","burrata tomato salad","vce",
+   ["tomato|tomatoes|4|","burrata|burratas|2|","basil|basil||","olive oil|olive oil|3|tbsp","balsamic vinegar|balsamic vinegar|1|tbsp","salt|salt||","pepper|pepper||"],
+   ["Cut the tomatoes into wedges and put them in a dish.","Place the burratas in the middle.","Scatter over the basil and drizzle with olive oil and balsamic vinegar.","Season with salt and pepper just before serving."]],
+  ["Peach caprese","With peaches","Peaches replace some of the tomatoes.","A sweet and savoury summer salad with peaches and mozzarella.","",10,270,"F","peach mozzarella salad","vche",
+   ["tomato|tomatoes|2|","peach|peaches|2|","mozzarella|mozzarella|2|","basil|basil||","olive oil|olive oil|3|tbsp","salt|salt||","pepper|pepper||"],
+   ["Slice the tomatoes, peaches and mozzarella.","Arrange them in alternating layers on a plate.","Scatter over the basil and drizzle with olive oil.","Season with salt and pepper."]]
+ ]},
+ {"q":"Greek salad","a":["horiatiki"],"fr":"Salade grecque","r":[
+  ["Greek salad","The classic","","Tomatoes, cucumber, red onion, black olives and a nice big piece of feta.","Greek salad",15,320,"F","greek salad","vche",
+   ["tomato|tomatoes|4|","cucumber|cucumbers|1|","red onion|red onions|1|","feta|feta|200|g","black olive|black olives|80|g","oregano|oregano|1|tsp","olive oil|olive oil|4|tbsp","salt|salt||"],
+   ["Cut the tomatoes into wedges and the cucumber into slices.","Thinly slice the red onion.","Toss the vegetables with the olives, a little salt and the olive oil.","Put the feta on top in chunks and sprinkle with oregano."]],
+  ["Greek chickpea salad","More filling","With chickpeas to make it a meal.","The filling Greek salad, with chickpeas.","",15,420,"F","greek chickpea salad","vchb",
+   ["tomato|tomatoes|3|","cucumber|cucumbers|1|","chickpea|chickpeas|400|g","red onion|red onions|1|","feta|feta|150|g","black olive|black olives|60|g","olive oil|olive oil|4|tbsp","lemon|lemons|1|"],
+   ["Rinse and drain the chickpeas.","Chop the tomatoes, cucumber and onion.","Toss with the chickpeas, olives, olive oil and the lemon juice.","Crumble over the feta."]],
+  ["Greek chicken salad","With chicken","With oregano grilled chicken.","The Greek salad as a full meal, with chicken.","",25,430,"F","greek chicken salad","ch",
+   ["chicken breast|chicken breasts|2|","tomato|tomatoes|3|","cucumber|cucumbers|1|","red onion|red onions|1|","feta|feta|150|g","black olive|black olives|60|g","oregano|oregano|1|tsp","olive oil|olive oil|4|tbsp"],
+   ["Season the chicken with oregano and a drizzle of oil.","Grill it for 6 minutes on each side, then cut into strips.|Pan|12","Chop the tomatoes, cucumber and onion.","Toss with the olives and olive oil, then add the chicken and feta."]]
+ ]},
+ {"q":"Pasta salad","a":["cold pasta salad"],"fr":"Salade de pâtes","r":[
+  ["Pasta salad","The classic","","Cold pasta with cherry tomatoes, mozzarella, ham and basil.","",25,480,"F","pasta salad","cbf",
+   ["short pasta|short pasta|300|g","cherry tomato|cherry tomatoes|250|g","mozzarella|mozzarella|1|","cooked ham|cooked ham|4|slices","basil|basil||","olive oil|olive oil|4|tbsp","balsamic vinegar|balsamic vinegar|1|tbsp"],
+   ["Cook the pasta, then rinse it under cold water.|Cooking|10","Halve the cherry tomatoes and dice the mozzarella and ham.","Mix the oil and vinegar, then season with salt and pepper.","Toss everything together with the basil and keep in the fridge."]],
+  ["Tuna pasta salad","With tuna","With tuna, sweetcorn and hard-boiled eggs.","The picnic pasta salad, with tuna and sweetcorn.","",25,500,"F","tuna pasta salad","cbf",
+   ["short pasta|short pasta|300|g","tuna in brine|tuna in brine|280|g","sweetcorn|sweetcorn|140|g","egg|eggs|2|","tomato|tomatoes|2|","mayonnaise|mayonnaise|3|tbsp"],
+   ["Cook the pasta and rinse it under cold water.|Cooking|10","Boil the eggs for 10 minutes, peel them and chop.|Cooking|10","Dice the tomatoes and flake the tuna.","Toss everything together with the sweetcorn and mayonnaise."]],
+  ["Pesto pasta salad","Pesto","With pesto, cherry tomatoes and Parmesan.","A vegetarian pasta salad, green with pesto.","",20,470,"F","pesto pasta salad","vcbf",
+   ["short pasta|short pasta|300|g","pesto|pesto|4|tbsp","cherry tomato|cherry tomatoes|250|g","parmesan|parmesan|40|g","rocket|rocket|50|g"],
+   ["Cook the pasta and rinse it under cold water.|Cooking|10","Halve the cherry tomatoes.","Toss the pasta with the pesto and tomatoes.","Add the rocket and a few Parmesan shavings."]]
+ ]},
+ {"q":"Rice salad","a":["cold rice salad","tuna rice salad"],"fr":"Salade de riz","r":[
+  ["Tuna rice salad","The classic","","Cold rice with tuna, tomatoes, sweetcorn, pepper and hard-boiled eggs.","",30,450,"F","rice salad tuna","cbf",
+   ["rice|rice|250|g","tuna in brine|tuna in brine|280|g","tomato|tomatoes|2|","sweetcorn|sweetcorn|140|g","red pepper|red peppers|1|","egg|eggs|2|","oil|oil|3|tbsp","vinegar|vinegar|1|tbsp"],
+   ["Cook the rice, then rinse it under cold water.|Cooking|12","Boil the eggs for 10 minutes and cut into quarters.|Cooking|10","Dice the tomatoes and pepper, and flake the tuna.","Toss everything with the sweetcorn, oil and vinegar, then season with salt and pepper."]],
+  ["Vegetarian rice salad","No fish","With vegetables, feta and herbs.","A colourful rice salad, with no meat or fish.","",30,400,"F","vegetarian rice salad","vcbf",
+   ["rice|rice|250|g","tomato|tomatoes|2|","cucumber|cucumbers|1|","yellow pepper|yellow peppers|1|","feta|feta|150|g","black olive|black olives|50|g","olive oil|olive oil|3|tbsp","lemon|lemons|1|"],
+   ["Cook the rice, then rinse it under cold water.|Cooking|12","Dice the tomatoes, cucumber and pepper.","Toss the rice with the vegetables, olives and crumbled feta.","Dress with olive oil and lemon juice."]],
+  ["Curried chicken rice salad","Curried chicken","With chicken and a light curry sauce.","A fragrant rice salad with chicken and curry.","",30,480,"F","curry chicken rice salad","cb",
+   ["rice|rice|250|g","chicken breast|chicken breasts|2|","plain yoghurt|plain yoghurts|1|","curry powder|curry powder|2|tsp","raisin|raisins|40|g","red pepper|red peppers|1|","lemon|lemons|1|"],
+   ["Cook the rice, then rinse it under cold water.|Cooking|12","Fry the diced chicken in a pan for 8 minutes with 1 tsp of curry powder.|Pan|8","Mix the yoghurt with the rest of the curry powder and the lemon juice.","Toss the rice, chicken, diced pepper, raisins and sauce together."]]
+ ]},
+ {"q":"Warm goat's cheese salad","a":["chèvre chaud","goat's cheese toast"],"fr":"Salade de chèvre chaud","r":[
+  ["Warm goat's cheese salad","The classic","","Grilled goat's cheese toasts on a green salad, with a honey dressing.","French bistro dish",20,420,"F","warm goat cheese salad","voe",
+   ["goat's cheese log|goat's cheese logs|1|","baguette|baguettes|1|","green salad|green salad|1|","honey|honey|1|tbsp","olive oil|olive oil|3|tbsp","balsamic vinegar|balsamic vinegar|1|tbsp"],
+   ["Preheat the grill.","Cut the baguette into 8 slices and put a round of goat's cheese on each.","Grill for 5 minutes.|Oven|5","Mix the oil, vinegar and honey.","Serve the hot toasts on the dressed salad."]],
+  ["Goat's cheese with honey and walnuts","Honey and walnuts","The toasts are drizzled with honey and sprinkled with walnuts.","The warm goat's cheese salad made more indulgent, with honey and walnuts.","",20,480,"F","goat cheese toast honey walnuts","voe",
+   ["goat's cheese log|goat's cheese logs|1|","baguette|baguettes|1|","green salad|green salad|1|","honey|honey|3|tbsp","walnut kernel|walnut kernels|50|g","olive oil|olive oil|3|tbsp"],
+   ["Preheat the grill.","Put rounds of goat's cheese on slices of baguette and drizzle with a little honey.","Grill for 5 minutes.|Oven|5","Serve on the dressed salad, sprinkle with walnuts and drizzle with the rest of the honey."]],
+  ["Goat's cheese with bacon","With bacon","With fried bacon lardons on the salad.","The warm goat's cheese salad as a main course, with bacon.","",25,560,"F","goat cheese salad bacon","o",
+   ["goat's cheese log|goat's cheese logs|1|","baguette|baguettes|1|","green salad|green salad|1|","bacon lardon|bacon lardons|150|g","olive oil|olive oil|3|tbsp","balsamic vinegar|balsamic vinegar|1|tbsp"],
+   ["Preheat the grill.","Fry the bacon lardons until golden.|Pan|5","Put rounds of goat's cheese on the baguette and grill for 5 minutes.|Oven|5","Serve the toasts on the dressed salad, with the hot bacon."]]
+ ]},
+ {"q":"Grated carrot salad","a":["carottes râpées","carrot salad"],"fr":"Carottes râpées","r":[
+  ["Grated carrot salad","The classic","","The everyday starter: grated carrots with a lemon dressing and parsley.","",15,110,"F","grated carrot salad","vchbfe",
+   ["carrot|carrots|6|","lemon|lemons|1|","olive oil|olive oil|3|tbsp","mustard|mustard|1|tsp","parsley|parsley||","salt|salt||"],
+   ["Peel and finely grate the carrots.","Mix the lemon juice, mustard, oil and a little salt.","Pour this dressing over the carrots.","Add the chopped parsley and keep in the fridge."]],
+  ["Orange grated carrot salad","With orange","With orange juice in the dressing.","A sweet, fruity grated carrot salad that kids love.","",15,120,"F","carrot orange salad","vchbfe",
+   ["carrot|carrots|6|","orange|oranges|1|","olive oil|olive oil|2|tbsp","salt|salt||"],
+   ["Peel and grate the carrots.","Squeeze the orange and mix its juice with the oil and a little salt.","Pour over the carrots and toss.","Leave in the fridge for 15 minutes before serving."]],
+  ["Cumin grated carrot salad","Moroccan-style","With cumin and raisins.","Grated carrots flavoured with cumin, Moroccan style.","Moroccan-inspired",15,150,"F","moroccan carrot salad","vchbe",
+   ["carrot|carrots|6|","raisin|raisins|40|g","cumin|cumin|1|tsp","lemon|lemons|1|","olive oil|olive oil|3|tbsp","coriander|coriander||"],
+   ["Peel and grate the carrots.","Mix the lemon juice, oil and cumin.","Add the raisins and the chopped coriander.","Toss and leave in the fridge for 15 minutes."]]
+ ]},
+ {"q":"Celeriac remoulade","a":["céleri rémoulade","celery root remoulade"],"fr":"Céleri rémoulade","r":[
+  ["Celeriac remoulade","The classic","","Grated celeriac in a punchy mustardy remoulade sauce.","French starter",15,180,"F","celeriac remoulade","vcbe",
+   ["celeriac|celeriacs|1|","mayonnaise|mayonnaise|4|tbsp","mustard|mustard|1|tbsp","lemon|lemons|1|","salt|salt||","pepper|pepper||"],
+   ["Peel the celeriac and grate it finely.","Sprinkle it straight away with the lemon juice so it does not go brown.","Mix the mayonnaise and mustard, then season with salt and pepper.","Toss the celeriac with the sauce and keep in the fridge."]],
+  ["Apple celeriac remoulade","With apple","With a grated green apple.","A fresher celeriac remoulade, with apple.","",15,170,"F","celeriac apple slaw","vcbe",
+   ["celeriac|celeriacs|1|","green apple|green apples|1|","mayonnaise|mayonnaise|4|tbsp","mustard|mustard|1|tbsp","lemon|lemons|1|"],
+   ["Peel and grate the celeriac and apple, then sprinkle with the lemon juice.","Mix the mayonnaise and mustard.","Toss everything together, then season with salt and pepper.","Keep in the fridge."]],
+  ["Yoghurt celeriac remoulade","Lighter","Yoghurt replaces half the mayonnaise.","A lighter celeriac remoulade that is still just as creamy.","",15,110,"F","light celeriac remoulade","vchbe",
+   ["celeriac|celeriacs|1|","greek yoghurt|greek yoghurts|1|","mayonnaise|mayonnaise|2|tbsp","mustard|mustard|1|tbsp","lemon|lemons|1|"],
+   ["Peel and grate the celeriac, then sprinkle with the lemon juice.","Mix the yoghurt, mayonnaise and mustard.","Toss with the celeriac, then season with salt and pepper.","Keep in the fridge."]]
+ ]},
+ {"q":"Potato salad","a":["piémontaise","german potato salad"],"fr":"Salade de pommes de terre","r":[
+  ["Potato salad","The classic","","Warm potatoes, a shallot dressing and lots of chives.","",30,280,"F","potato salad","vchb",
+   ["potato|potatoes|800|g","shallot|shallots|2|","chives|chives||","oil|oil|4|tbsp","vinegar|vinegar|2|tbsp","mustard|mustard|1|tsp"],
+   ["Boil the potatoes in salted water for 20 minutes.|Cooking|20","Peel them while still warm and cut into slices.","Mix the mustard, vinegar, oil and chopped shallot.","Pour over the potatoes while still warm and sprinkle with chives."]],
+  ["Piedmontese potato salad","Piémontaise","With ham, eggs, tomatoes, gherkins and mayonnaise.","The complete potato salad of summer meals.","",35,420,"F","piemontaise potato salad","cbf",
+   ["potato|potatoes|800|g","cooked ham|cooked ham|4|slices","egg|eggs|3|","tomato|tomatoes|2|","gherkin|gherkins|8|","mayonnaise|mayonnaise|4|tbsp"],
+   ["Boil the potatoes in salted water for 20 minutes, then dice them.|Cooking|20","Boil the eggs for 10 minutes and chop them.|Cooking|10","Dice the ham, tomatoes and gherkins.","Toss everything with the mayonnaise and keep in the fridge."]],
+  ["Bacon potato salad","With bacon","With fried bacon lardons and onions.","A warm potato salad, German style.","German-inspired",30,420,"F","german potato salad bacon","b",
+   ["potato|potatoes|800|g","bacon lardon|bacon lardons|150|g","onion|onions|1|","vinegar|vinegar|3|tbsp","oil|oil|2|tbsp","mustard|mustard|1|tsp","chives|chives||"],
+   ["Boil the potatoes in salted water for 20 minutes, then cut into slices.|Cooking|20","Fry the bacon lardons and sliced onion until golden.|Pan|6","Deglaze the pan with the vinegar, then add the oil and mustard.","Pour over the warm potatoes and sprinkle with chives."]]
+ ]},
+ {"q":"Quinoa salad","a":["quinoa bowl","quinoa tabbouleh"],"fr":"Salade de quinoa","r":[
+  ["Quinoa salad","The classic","","Quinoa with cucumber, tomatoes, feta and herbs, a bit like a tabbouleh.","",25,380,"F","quinoa salad","vch",
+   ["quinoa|quinoa|200|g","cucumber|cucumbers|1|","cherry tomato|cherry tomatoes|250|g","feta|feta|150|g","fresh mint|fresh mint||","lemon|lemons|1|","olive oil|olive oil|3|tbsp"],
+   ["Rinse the quinoa, then cook it in salted water for 12 minutes. Drain and leave to cool.|Cooking|12","Dice the cucumber and halve the tomatoes.","Toss with the quinoa, the crumbled feta and the chopped mint.","Dress with lemon juice and olive oil."]],
+  ["Avocado quinoa salad","Avocado","With avocado, sweetcorn and kidney beans.","A Mexican-style quinoa salad, filling and vegan.","Mexican-inspired",25,450,"F","quinoa avocado black bean salad","vch",
+   ["quinoa|quinoa|200|g","avocado|avocados|2|","kidney bean|kidney beans|250|g","sweetcorn|sweetcorn|140|g","lime|limes|2|","coriander|coriander||","olive oil|olive oil|3|tbsp"],
+   ["Cook the quinoa for 12 minutes, drain and leave to cool.|Cooking|12","Rinse the kidney beans and sweetcorn.","Dice the avocados and sprinkle with lime juice.","Toss everything together with the coriander, oil and the rest of the juice."]],
+  ["Chicken quinoa salad","With chicken","With grilled chicken and raw vegetables.","The quinoa salad as a full meal, with chicken.","",30,470,"F","quinoa chicken salad","ch",
+   ["quinoa|quinoa|200|g","chicken breast|chicken breasts|2|","cucumber|cucumbers|1|","cherry tomato|cherry tomatoes|250|g","lemon|lemons|1|","olive oil|olive oil|3|tbsp"],
+   ["Cook the quinoa for 12 minutes, drain and leave to cool.|Cooking|12","Grill the chicken for 6 minutes on each side and cut into strips.|Pan|12","Chop the cucumber and tomatoes.","Toss everything with the lemon juice and oil."]]
+ ]},
+ {"q":"Coleslaw","a":["cabbage salad","cole slaw"],"fr":"Coleslaw","r":[
+  ["Coleslaw","The classic","","The American salad of white cabbage and carrots in a creamy dressing.","American recipe",15,190,"F","coleslaw","vcb",
+   ["white cabbage|white cabbages|0.5|","carrot|carrots|2|","mayonnaise|mayonnaise|4|tbsp","cider vinegar|cider vinegar|1|tbsp","sugar|sugar|1|tsp","salt|salt||"],
+   ["Slice the cabbage very finely.","Grate the carrots.","Mix the mayonnaise, vinegar, sugar and a little salt.","Toss everything together and leave in the fridge for 30 minutes."]],
+  ["Yoghurt coleslaw","Lighter","The dressing is made with yoghurt.","A light, crunchy coleslaw.","",15,100,"F","yogurt coleslaw","vchb",
+   ["white cabbage|white cabbages|0.5|","carrot|carrots|2|","greek yoghurt|greek yoghurts|1|","mustard|mustard|1|tsp","lemon|lemons|1|"],
+   ["Finely slice the cabbage and grate the carrots.","Mix the yoghurt, mustard and the lemon juice.","Toss everything together, then season with salt and pepper.","Leave in the fridge for 15 minutes."]],
+  ["Asian-style cabbage salad","Asian","With a soy, sesame and lime dressing.","A crunchy cabbage salad with Asian flavours.","Asian-inspired",15,150,"F","asian cabbage slaw","vchb",
+   ["red cabbage|red cabbages|0.5|","carrot|carrots|2|","soy sauce|soy sauce|2|tbsp","sesame oil|sesame oil|1|tbsp","lime|limes|1|","sesame seed|sesame seeds|1|tbsp"],
+   ["Finely slice the cabbage and grate the carrots.","Mix the soy sauce, sesame oil and the lime juice.","Toss everything with the dressing.","Sprinkle with sesame seeds."]]
+ ]}
+]

@@ -67,6 +67,7 @@ import { Inbox } from "./app/notifs/Inbox";
 import { NotifAsk } from "./app/notifs/NotifAsk";
 import { BetaSurvey } from "./app/beta/BetaSurvey";
 import { useNotifSync } from "./app/notifs/sync";
+import { lang, t } from "./lib/i18n";
 
 // Écrans de l'inscription et de la connexion (étape 4). Connecté, seuls les questions, la caméra
 // et le mot de passe oublié (le code connecte avant le nouveau mot de passe) restent ouverts.
@@ -140,6 +141,8 @@ export default function Frigia() {
         });
       }
       setUserId(u.id);
+      // La langue de l'appli, gardée sur le compte : les emails et les notifications partent dans cette langue (api/_shared.ts, userLang)
+      if ((lang === "en" || u.user_metadata?.lang === "en") && u.user_metadata?.lang !== lang) void supabase.auth.updateUser({ data: { lang } }).catch(() => { /* réessayé à la prochaine ouverture */ });
       void library.load(u.id);
       void cooked.load(u.id);
       void home.load(u.id);
@@ -155,8 +158,8 @@ export default function Frigia() {
         if (v.status === "ok") void supabase.auth.refreshSession();
       }).catch(() => { redeeming.current = null; /* réessayé à la prochaine ouverture */ });
       const oauth = takeOAuthIntent();
-      if (oauth === "signup") showToast(code ? "Compte Google relié, ton code est gardé" : "Compte Google relié : pas d'email à confirmer");
-      if (oauth === "login") { const n = firstName(u); showToast(n ? `Bon retour, ${n}` : "Bon retour"); }
+      if (oauth === "signup") showToast(code ? t("Compte Google relié, ton code est gardé", "Google account linked, your code is saved") : t("Compte Google relié : pas d'email à confirmer", "Google account linked: no email to confirm"));
+      if (oauth === "login") { const n = firstName(u); showToast(n ? t(`Bon retour, ${n}`, `Welcome back, ${n}`) : t("Bon retour", "Welcome back")); }
     },
     onSignedOut: () => {
       setUserId(undefined);
@@ -302,7 +305,7 @@ const dishes = [...favorites, ...history.flatMap(h => h.recipes)]
 const account = {
   user, name, avatar: avatarSrc, isPlus, savedKg: totalSaved(cooked.meals).kg,
   onSignOut: () => {
-    showToast(`À bientôt, ${name}`);
+    showToast(t(`À bientôt, ${name}`, `See you soon, ${name}`));
     setTimeout(() => { signOutTo.current = "/bienvenue"; void signOut(); }, 700);
   },
   onDelete: deleteAccount,
@@ -310,7 +313,7 @@ const account = {
     // Le compte n'existe plus : on efface le téléphone et la session sans demander au serveur
     clearLocalData();
     signOutTo.current = "/bienvenue";
-    void signOut("local").then(() => showToast("Ton compte Frigia est supprimé"));
+    void signOut("local").then(() => showToast(t("Ton compte Frigia est supprimé", "Your Frigia account is deleted")));
   },
 };
 // Le foyer (Plus) : toi, puis tes proches. En Gratuit, toi seul.
@@ -357,7 +360,7 @@ return (
         onAdd={item => {
           const { list, added } = addToList(home.shopping, [item], BY_HAND);
           home.setShopping(list);
-          if (!added.length) showToast(`${item.name.charAt(0).toUpperCase() + item.name.slice(1)} : déjà dans ta liste${item.qty ? ", quantité ajoutée" : ""}`);
+          if (!added.length) showToast(t(`${item.name.charAt(0).toUpperCase() + item.name.slice(1)} : déjà dans ta liste${item.qty ? ", quantité ajoutée" : ""}`, `${item.name.charAt(0).toUpperCase() + item.name.slice(1)}: already on your list${item.qty ? ", quantity added" : ""}`));
           return list.find(x => !x.done && same(x.name, item.name))?.id ?? null;
         }}
         onClearDone={() => home.setShopping(l => l.filter(x => !x.done))}
@@ -387,7 +390,7 @@ return (
           onPlacards={found => {
             // « Scanner mes placards » depuis « Tes placards » : ajoutés aux placards, rien d'autre ne bouge
             home.setFridge(f => addItems(f, found.map(i => ({ name: i.name, qty: qtyOf(i.qty) })), "scan", { place: "placard" }));
-            showToast(`${found.length} produit${found.length > 1 ? "s" : ""} vu${found.length > 1 ? "s" : ""}, rangé${found.length > 1 ? "s" : ""} aux placards`);
+            showToast(t(`${found.length} produit${found.length > 1 ? "s" : ""} vu${found.length > 1 ? "s" : ""}, rangé${found.length > 1 ? "s" : ""} aux placards`, `${found.length} product${found.length > 1 ? "s" : ""} spotted, put in the cupboards`));
           }} />} />
       <Route path="/scan/recadrer" element={<Crop />} />
       <Route path="/scan/rate" element={<ScanFail isPlus={isPlus} />} />

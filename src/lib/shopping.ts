@@ -1,25 +1,39 @@
 // Liste de courses : les manquants d'une recette arrivent rangés par rayon, sans doublon.
 import type { ShopItem } from "./home";
+import { isEn, t } from "./i18n";
 
 export const AISLES = ["Fruits et légumes", "Boucherie", "Poissonnerie", "Crèmerie", "Boulangerie", "Épicerie"] as const;
+/** Le nom du rayon à l'écran. Dans la liste, le rayon reste rangé en français (c'est la clé). */
+const AISLE_EN: Record<string, string> = {
+  "Fruits et légumes": "Fruit & veg", Boucherie: "Meat", Poissonnerie: "Fish", Crèmerie: "Dairy & eggs", Boulangerie: "Bakery", Épicerie: "Pantry",
+};
+export const aisleName = (a: string) => (isEn && AISLE_EN[a]) || a;
 
 /** Les mots d'un nom, sans accent ni pluriel (« Tomates cerises » → tomate, cerise) */
-export const norm = (s: string) => s.toLowerCase().replace(/œ/g, "oe").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z ]/g, " ")
+// (en anglais, « black pepper » est le poivre : pas un poivron)
+export const norm = (s: string) => s.toLowerCase().replace(/\b(black|ground|white|cracked) pepper/g, "poivre").replace(/œ/g, "oe").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z ]/g, " ")
   .split(" ").filter(w => w.length > 2).map(w => w.replace(/[sx]$/, ""));
 
 // Le premier rayon qui reconnaît un mot l'emporte (« blanc de poulet » : boucherie ; « crème » : crèmerie)
 const WORDS: [typeof AISLES[number], string[]][] = [
-  ["Poissonnerie", ["saumon", "thon", "cabillaud", "poisson", "crevette", "colin", "sardine", "maquereau", "truite", "lieu", "merlu", "moule", "gambas", "calamar"]],
+  ["Poissonnerie", ["saumon", "thon", "cabillaud", "poisson", "crevette", "colin", "sardine", "maquereau", "truite", "lieu", "merlu", "moule", "gambas", "calamar",
+    "salmon", "tuna", "cod", "fish", "prawn", "shrimp", "mackerel", "trout", "mussel", "squid"]],
   ["Boucherie", ["poulet", "boeuf", "porc", "veau", "agneau", "dinde", "lardon", "jambon", "saucisse", "merguez", "steak", "bacon", "chorizo",
-    "viande", "hache", "escalope", "canard", "magret", "cuisse", "volaille", "filet", "rotie"]],
+    "viande", "hache", "escalope", "canard", "magret", "cuisse", "volaille", "filet", "rotie",
+    "chicken", "beef", "pork", "lamb", "turkey", "ham", "sausage", "mince", "duck", "meat", "thigh", "breast"]],
   ["Crèmerie", ["lait", "creme", "yaourt", "skyr", "beurre", "oeuf", "fromage", "parmesan", "emmental", "comte", "mozzarella", "feta", "chevre",
-    "gruyere", "cheddar", "ricotta", "mascarpone", "raclette", "reblochon", "camembert", "brie", "roquefort", "burrata", "halloumi", "faisselle"]],
-  ["Boulangerie", ["pain", "baguette", "brioche", "burger", "pita", "naan"]],
+    "gruyere", "cheddar", "ricotta", "mascarpone", "raclette", "reblochon", "camembert", "brie", "roquefort", "burrata", "halloumi", "faisselle",
+    "milk", "cream", "yogurt", "yoghurt", "butter", "egg", "cheese", "goat"]],
+  ["Boulangerie", ["pain", "baguette", "brioche", "burger", "pita", "naan", "bread", "bun", "wrap", "tortilla"]],
   ["Fruits et légumes", ["tomate", "courgette", "oignon", "echalote", "carotte", "pomme", "terre", "poivron", "aubergine", "avocat", "citron",
     "banane", "concombre", "poireau", "champignon", "brocoli", "chou", "salade", "laitue", "epinard", "haricot", "radi", "navet", "fenouil",
     "potiron", "courge", "butternut", "betterave", "celeri", "legume", "fruit", "mangue", "orange", "poire", "peche", "abricot", "fraise",
     "framboise", "persil", "basilic", "coriandre", "menthe", "ciboulette", "aneth", "patate", "ail", "gingembre", "citronnelle", "endive",
-    "artichaut", "asperge", "blette", "roquette", "mache", "kiwi", "raisin", "melon", "cerise", "clementine", "pousse", "thym", "romarin"]],
+    "artichaut", "asperge", "blette", "roquette", "mache", "kiwi", "raisin", "melon", "cerise", "clementine", "pousse", "thym", "romarin",
+    "tomato", "tomatoe", "onion", "shallot", "carrot", "apple", "potato", "potatoe", "pepper", "aubergine", "avocado", "lemon", "lime", "cucumber",
+    "leek", "mushroom", "broccoli", "cabbage", "lettuce", "spinach", "bean", "radish", "fennel", "pumpkin", "squash", "beetroot", "celery",
+    "pear", "peach", "strawberry", "raspberrie", "parsley", "basil", "coriander", "mint", "chive", "dill", "garlic", "ginger", "rocket",
+    "grape", "cherrie", "thyme", "rosemary", "courgette", "zucchini", "vegetable", "fruit", "herb", "spring"]],
 ];
 
 export function aisleOf(name: string): string {
@@ -60,7 +74,9 @@ export function sumQty(a: string, b: string): string {
 }
 const recipeOf = (from: string) => from.split(" · ")[0];
 
+/** Rangé tel quel dans la liste (c'est la clé) ; à l'écran, fromText le traduit. */
 export const BY_HAND = "Ajouté à la main";
+export const fromText = (from: string) => isEn ? from.replace(BY_HAND, "Added by hand") : from;
 const onlyFrom = (x: ShopItem, from: string) => x.from.split(", ").every(f => recipeOf(f) === recipeOf(from));
 
 /** Ajoute des articles à la liste. Déjà là et pas encore acheté : une seule ligne, les quantités s'additionnent
@@ -96,19 +112,20 @@ export function byAisle(list: ShopItem[]): [string, ShopItem[]][] {
 /** Le texte envoyé par WhatsApp, SMS ou copié : ce qui reste à acheter, par rayon. */
 export function listText(list: ShopItem[]): string {
   const left = list.filter(x => !x.done);
-  return ["Ma liste de courses Frigia", ...byAisle(left).map(([a, items]) => `\n${a}\n${items.map(x => `- ${x.name}${x.qty ? ` (${x.qty})` : ""}`).join("\n")}`)].join("\n");
+  return [t("Ma liste de courses Frigia", "My Frigia shopping list"), ...byAisle(left).map(([a, items]) => `\n${aisleName(a)}\n${items.map(x => `- ${x.name}${x.qty ? ` (${x.qty})` : ""}`).join("\n")}`)].join("\n");
 }
 
 /** « Parmesan, citron et basilic » */
 export function joinNames(a: string[]): string {
   const l = a.map((x, i) => (i ? x.toLowerCase() : x));
-  return l.length > 1 ? `${l.slice(0, -1).join(", ")} et ${l[l.length - 1]}` : l[0] ?? "";
+  return l.length > 1 ? `${l.slice(0, -1).join(", ")} ${t("et", "and")} ${l[l.length - 1]}` : l[0] ?? "";
 }
 
-/** Ce qu'on tape à la main : « 500 g de farine » → farine, 500 g ; « 2 citrons » → citrons, 2 ; « lait » → lait. */
+/** Ce qu'on tape à la main : « 500 g de farine » → farine, 500 g ; « 2 citrons » → citrons, 2 ; « lait » → lait.
+ *  En anglais aussi : « 500 g of flour », « 2 tins tomatoes ». */
 export function typedItem(text: string): { name: string; qty: string } {
   const t = text.trim().replace(/\s+/g, " ");
-  const m = t.match(/^(\d+(?:[.,]\d+)?|½)\s*(kg|g|gr|l|cl|ml|dl|paquets?|bo[iî]tes?|pots?|sachets?|bouteilles?|bottes?|tranches?|gousses?|briques?)?\.?\s+(?:de |d'|d’)?(.+)$/i);
+  const m = t.match(/^(\d+(?:[.,]\d+)?|½)\s*(kg|g|gr|l|cl|ml|dl|paquets?|bo[iî]tes?|pots?|sachets?|bouteilles?|bottes?|tranches?|gousses?|briques?|packs?|tins?|cans?|jars?|bags?|bottles?|cartons?|cloves?|slices?)?\.?\s+(?:de |d'|d’|of )?(.+)$/i);
   if (!m) return { name: t, qty: "" };
   return { name: m[3], qty: m[2] ? `${m[1]} ${m[2].toLowerCase()}` : m[1] };
 }

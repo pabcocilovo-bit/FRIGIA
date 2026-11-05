@@ -4,6 +4,7 @@
 import { type CookedMeal, isMeal } from "../../lib/cooked";
 import { MONTHS, SHORT_MONTHS } from "../format";
 import { words } from "../scan/portions";
+import { isEn, t } from "../../lib/i18n";
 
 /** Au plus un an en arrière */
 export const MAX_MONTHS = 12;
@@ -62,10 +63,10 @@ export function sumOf(meals: CookedMeal[], mode: Mode): MonthSum {
     for (const it of m.items ?? []) {
       const k = words(it.name).join(" ");
       if (!k) continue;
-      const t = byKey.get(k) ?? { name: cap(it.name.trim()), n: 0, eur: 0 };
-      if (!seen.has(k)) { t.n++; seen.add(k); }
-      t.eur = r2(t.eur + it.eur);
-      byKey.set(k, t);
+      const tp = byKey.get(k) ?? { name: cap(it.name.trim()), n: 0, eur: 0 };
+      if (!seen.has(k)) { tp.n++; seen.add(k); }
+      tp.eur = r2(tp.eur + it.eur);
+      byKey.set(k, tp);
     }
   }
   return {
@@ -91,7 +92,7 @@ export function report(meals: CookedMeal[], off: number, now = new Date()): Repo
   if (off + 1 < months) {
     const prev = monthOf(now, off + 1);
     const before = total(mealsOf(meals, now, off + 1, off === 0 ? now.getDate() : undefined), mode);
-    cmp = { diff: r2(sum.eur - before), vs: off === 0 ? `au ${now.getDate()} ${SHORT_MONTHS[prev.getMonth()]}` : `en ${MONTHS[prev.getMonth()]}` };
+    cmp = { diff: r2(sum.eur - before), vs: off === 0 ? t(`au ${now.getDate()} ${SHORT_MONTHS[prev.getMonth()]}`, `by ${now.getDate()} ${SHORT_MONTHS[prev.getMonth()]}`) : t(`en ${MONTHS[prev.getMonth()]}`, `in ${MONTHS[prev.getMonth()]}`) };
   }
 
   // Trois mois : les trois derniers, ou le mois choisi et les deux suivants quand il est plus ancien
@@ -113,5 +114,5 @@ export function report(meals: CookedMeal[], off: number, now = new Date()): Repo
 }
 
 /** « 22,60 € », « 22 € » sur le graphique */
-export const eur = (n: number) => `${n.toFixed(2).replace(".", ",")} €`;
-export const eurShort = (n: number) => eur(n).replace(",00", "");
+export const eur = (n: number) => (isEn ? `€${n.toFixed(2)}` : `${n.toFixed(2).replace(".", ",")} €`);
+export const eurShort = (n: number) => eur(n).replace(isEn ? ".00" : ",00", "");

@@ -1,0 +1,112 @@
+[
+ {"q":"Stir-fried tofu","a":["crispy tofu","pan-fried tofu","tofu stir-fry"],"fr":"Tofu sauté","r":[
+  ["Stir-fried tofu with vegetables","The classic","","Crispy golden tofu stir-fried with vegetables in a soy and ginger sauce.","Asian-inspired",25,350,"F","crispy tofu stir fry","vhb",
+   ["firm tofu|firm tofu|400|g","cornflour|cornflour|2|tbsp","broccoli|broccoli|1|","red pepper|red peppers|1|","soy sauce|soy sauce|4|tbsp","ginger|ginger|1|tsp","oil|oil|3|tbsp","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Cut the tofu into cubes, pat it dry and roll it in the cornflour.","Fry it for 8 min in the hot oil until golden, then take it out.|Pan|8","Stir-fry the broccoli and the pepper for 5 min.|Pan|5","Put the tofu back in with the soy sauce and the ginger, and stir for 1 min."]],
+  ["Caramelised tofu","Caramelised","Glazed in a soy caramel sauce.","Vietnamese-style tofu, sweet and salty.","Vietnamese-inspired",25,380,"F","caramelized tofu","vb",
+   ["firm tofu|firm tofu|400|g","sugar|sugar|3|tbsp","soy sauce|soy sauce|4|tbsp","garlic|garlic|2|clove","spring onion|spring onions|3|","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Fry the cubed tofu in a pan until golden.|Pan|8","Make a caramel with the sugar, then add the soy sauce, the garlic and 5 cl of water.","Add the tofu and let it reduce until it is glazed. Sprinkle with spring onion."]],
+  ["Tofu curry","Curry","Simmered in a coconut curry sauce.","A mild tofu curry with coconut milk.","",25,420,"F","tofu coconut curry","vb",
+   ["firm tofu|firm tofu|400|g","coconut milk|coconut milk|40|cl","curry powder|curry powder|2|tsp","onion|onions|1|","baby spinach|baby spinach|100|g","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Fry the cubed tofu until golden and take it out.|Pan|8","Fry the onion with the curry powder, add the coconut milk and cook for 5 min.|Cooking|5","Add the tofu and the spinach, and cook for 3 min."]]
+ ]},
+ {"q":"Creamed spinach","a":["spinach in cream","épinards à la crème","spinach cream"],"fr":"Épinards à la crème","r":[
+  ["Creamed spinach","The classic","","Spinach cooked down in cream and nutmeg, to serve as a side.","",15,150,"F","creamed spinach","vbf",
+   ["baby spinach|baby spinach|600|g","crème fraîche|crème fraîche|15|cl","butter|butter|15|g","garlic|garlic|1|clove","nutmeg|nutmeg||"],
+   ["Melt the chopped garlic in the butter.","Add the spinach a handful at a time and let it wilt for 3 min.|Pan|3","Add the cream and the nutmeg.","Let it reduce for 3 min, then add salt and pepper.|Cooking|3"]],
+  ["Creamed spinach with eggs","With eggs","Eggs cooked in the middle of the spinach.","A complete dish of creamed spinach with baked eggs.","",20,280,"F","creamed spinach eggs","vhb",
+   ["frozen spinach|frozen spinach|600|g","crème fraîche|crème fraîche|15|cl","egg|eggs|4|","garlic|garlic|1|clove","nutmeg|nutmeg||"],
+   ["Heat the spinach with the garlic.|Pan|8","Add the cream and the nutmeg.","Make 4 wells and crack an egg into each.","Cover and cook for 5 min.|Cooking|5"]],
+  ["Spinach gratin","Baked","Baked in the oven with cheese.","Creamed spinach baked with emmental.","",30,240,"F","spinach gratin","vobf",
+   ["frozen spinach|frozen spinach|600|g","crème fraîche|crème fraîche|20|cl","egg|eggs|1|","grated emmental|grated emmental|80|g","nutmeg|nutmeg||"],
+   ["Preheat the oven to 200 °C.","Defrost the spinach and squeeze it dry.","Mix with the cream, the egg and the nutmeg, and pour into a dish.","Cover with the emmental and bake for 20 min.|Oven|20"]]
+ ]},
+ {"q":"Garlic green beans","a":["sautéed green beans","green beans with garlic","pan-fried green beans"],"fr":"Haricots verts à l'ail","r":[
+  ["Garlic green beans","The classic","","Crunchy green beans sautéed in butter with garlic and parsley.","",20,100,"F","garlic green beans","vhbf",
+   ["green bean|green beans|600|g","butter|butter|20|g","garlic|garlic|2|clove","parsley|parsley||","salt|salt||"],
+   ["Trim the beans and boil them for 8 min in salted water.|Cooking|8","Drain them and rinse in cold water.","Sauté them for 3 min in the butter with the chopped garlic.|Pan|3","Sprinkle with parsley."]],
+  ["Green beans with bacon","With bacon","With bacon lardons and onions.","Richer green beans with bacon.","",25,200,"F","green beans bacon","bf",
+   ["green bean|green beans|600|g","bacon lardon|bacon lardons|125|g","onion|onions|1|"],
+   ["Boil the beans for 8 min in salted water.|Cooking|8","Fry the bacon and the sliced onion until golden.|Pan|6","Add the drained beans.","Sauté for 3 min."]],
+  ["Green beans with almonds","With almonds","With toasted flaked almonds.","Crunchy green beans with almonds.","",20,150,"F","green beans almondine","vhb",
+   ["green bean|green beans|600|g","flaked almond|flaked almonds|40|g","butter|butter|20|g","lemon|lemons|0.5|"],
+   ["Boil the beans for 8 min in salted water.|Cooking|8","Toast the almonds in a dry pan.|Pan|2","Add the butter and the beans, and sauté for 3 min.","Squeeze over a little lemon juice."]]
+ ]},
+ {"q":"Peas and carrots","a":["buttered peas and carrots","petits pois carottes","french-style peas"],"fr":"Petits pois carottes","r":[
+  ["Peas and carrots","The classic","","Tender peas and carrots cooked with onion and butter.","",30,150,"F","peas and carrots","vhbf",
+   ["frozen pea|frozen peas|500|g","carrot|carrots|4|","onion|onions|1|","butter|butter|20|g","sugar|sugar|1|tsp"],
+   ["Soften the sliced onion in the butter.","Add the sliced carrots, the sugar and 15 cl of water, and cook for 10 min.|Cooking|10","Add the peas and cook for 10 min with the lid on.|Cooking|10","Add salt and pepper."]],
+  ["French-style peas","French style","With lettuce and small onions.","Old-fashioned braised peas with lettuce.","",30,170,"F","french style peas lettuce","vhb",
+   ["frozen pea|frozen peas|500|g","lettuce|lettuces|1|","pearl onion|pearl onions|8|","butter|butter|30|g","sugar|sugar|1|tsp"],
+   ["Fry the pearl onions in the butter.","Add the shredded lettuce, the peas, the sugar and 10 cl of water.","Cover and cook for 15 min.|Cooking|15","Add salt and pepper."]],
+  ["Peas with bacon","With bacon","With bacon lardons.","Richer peas and carrots with bacon.","",30,240,"F","peas carrots bacon","bf",
+   ["frozen pea|frozen peas|500|g","carrot|carrots|3|","bacon lardon|bacon lardons|125|g","onion|onions|1|"],
+   ["Fry the bacon and the onion until golden.|Pan|5","Add the carrots and 15 cl of water, and cook for 10 min.|Cooking|10","Add the peas and cook for 10 min.|Cooking|10","Add pepper and serve."]]
+ ]},
+ {"q":"Roasted butternut squash","a":["roast butternut squash","baked butternut squash","roasted squash"],"fr":"Butternut rôtie","r":[
+  ["Roasted butternut squash","The classic","","Butternut squash roasted in the oven with honey, thyme and olive oil.","",50,180,"F","roasted butternut squash","vohb",
+   ["butternut squash|butternut squashes|1|","olive oil|olive oil|3|tbsp","honey|honey|1|tbsp","thyme|thyme||","salt|salt||"],
+   ["Preheat the oven to 200 °C.","Peel the squash, remove the seeds and cut it into cubes.","Mix with the oil, the honey, the thyme and the salt.","Bake for 40 min, stirring halfway through.|Oven|40"]],
+  ["Stuffed butternut squash","Stuffed","Cut in half and stuffed with cheese.","Baked butternut squash halves stuffed with goat's cheese and walnuts.","",70,350,"F","stuffed butternut squash","vo",
+   ["butternut squash|butternut squashes|2|","goat's cheese log|goat's cheese logs|1|","walnut half|walnut halves|40|g","honey|honey|2|tbsp","thyme|thyme||"],
+   ["Preheat the oven to 200 °C. Cut the squashes in half and remove the seeds.","Bake them for 40 min, cut side up.|Oven|40","Top with slices of goat's cheese, the walnuts and the thyme.","Drizzle with honey and put back in the oven for 15 min.|Oven|15"]],
+  ["Spiced roasted butternut squash","Spiced","With cumin, paprika and chickpeas.","A spiced butternut squash that becomes a full meal with chickpeas.","",50,320,"F","spiced roasted squash chickpeas","vohb",
+   ["butternut squash|butternut squashes|1|","chickpea|chickpeas|400|g","cumin|cumin|1|tsp","paprika|paprika|1|tsp","olive oil|olive oil|3|tbsp","greek yoghurt|greek yoghurts|1|"],
+   ["Preheat the oven to 200 °C.","Cut the squash into cubes and mix with the chickpeas, the spices and the oil.","Bake for 40 min.|Oven|40","Serve with the yoghurt."]]
+ ]},
+ {"q":"Stuffed mushrooms","a":["baked stuffed mushrooms","champignons farcis"],"fr":"Champignons farcis","r":[
+  ["Stuffed mushrooms","The classic","","Big mushrooms stuffed with garlic, parsley and soft cheese, then baked until golden.","",30,180,"F","stuffed mushrooms","voe",
+   ["button mushroom|button mushrooms|12|","garlic and herb soft cheese|garlic and herb soft cheese|150|g","breadcrumb|breadcrumbs|2|tbsp","parsley|parsley||","olive oil|olive oil|1|tbsp"],
+   ["Preheat the oven to 200 °C.","Remove the mushroom stalks.","Fill the caps with soft cheese and sprinkle with breadcrumbs.","Drizzle with oil and bake for 15 min.|Oven|15","Sprinkle with parsley."]],
+  ["Sausage-stuffed mushrooms","With meat","Stuffed with sausage meat.","Rich stuffed mushrooms with meat.","",35,280,"F","sausage stuffed mushrooms","o",
+   ["button mushroom|button mushrooms|12|","sausage meat|sausage meat|250|g","shallot|shallots|1|","parsley|parsley||","breadcrumb|breadcrumbs|2|tbsp"],
+   ["Preheat the oven to 200 °C.","Chop the mushroom stalks and mix them with the sausage meat, the shallot and the parsley.","Stuff the caps and sprinkle with breadcrumbs.","Bake for 20 min.|Oven|20"]],
+  ["Goat's cheese stuffed mushrooms","With goat's cheese","With goat's cheese and honey.","Stuffed mushrooms with melting goat's cheese.","",25,200,"F","goat cheese stuffed mushrooms","voe",
+   ["button mushroom|button mushrooms|12|","goat's cheese log|goat's cheese logs|1|","honey|honey|1|tbsp","thyme|thyme||"],
+   ["Preheat the oven to 200 °C.","Remove the mushroom stalks.","Put a slice of goat's cheese in each cap, with a little thyme and honey.","Bake for 15 min.|Oven|15"]]
+ ]},
+ {"q":"Leeks vinaigrette","a":["leeks in vinaigrette","leeks with mustard dressing"],"fr":"Poireaux vinaigrette","r":[
+  ["Leeks vinaigrette","The classic","","Tender leeks in a mustard vinaigrette, topped with grated egg.","French bistro dish",30,200,"F","leeks vinaigrette","vchbe",
+   ["leek|leeks|6|","egg|eggs|2|","mustard|mustard|1|tbsp","vinegar|vinegar|2|tbsp","oil|oil|5|tbsp","shallot|shallots|1|"],
+   ["Cut the leeks into chunks and boil them for 15 min in salted water.|Cooking|15","Boil the eggs for 10 min.|Cooking|10","Make the vinaigrette with the mustard, the vinegar, the oil and the chopped shallot.","Drain the leeks, pour over the vinaigrette and grate the eggs on top."]],
+  ["Leeks vinaigrette with hazelnuts","With hazelnuts","With toasted hazelnuts.","Crunchy leeks vinaigrette with hazelnuts.","",25,230,"F","leeks hazelnut dressing","vche",
+   ["leek|leeks|6|","hazelnut|hazelnuts|40|g","mustard|mustard|1|tbsp","balsamic vinegar|balsamic vinegar|2|tbsp","olive oil|olive oil|4|tbsp"],
+   ["Boil the leeks in chunks for 15 min.|Cooking|15","Toast the hazelnuts in a dry pan and crush them.|Pan|3","Make the vinaigrette.","Pour it over the leeks and sprinkle with hazelnuts."]],
+  ["Grilled leeks","Grilled","Grilled in a pan after boiling.","Grilled, caramelised leeks with a vinaigrette.","",30,180,"F","grilled leeks","vhbe",
+   ["leek|leeks|6|","olive oil|olive oil|4|tbsp","lemon|lemons|1|","mustard|mustard|1|tsp","parsley|parsley||"],
+   ["Cut the leeks in half and boil them for 10 min.|Cooking|10","Drain them and grill them in a pan for 5 min.|Pan|5","Mix the oil, the lemon juice and the mustard.","Pour over the leeks and sprinkle with parsley."]]
+ ]},
+ {"q":"Asparagus","a":["white asparagus","green asparagus","asparagus with mousseline sauce"],"fr":"Asperges","r":[
+  ["Asparagus with mousseline sauce","The classic","","Perfectly cooked white asparagus with a light mousseline sauce.","",30,250,"M","white asparagus hollandaise","vh",
+   ["white asparagus|white asparagus|1000|g","egg|eggs|2|","butter|butter|80|g","single cream|single cream|10|cl","lemon|lemons|0.5|"],
+   ["Peel the asparagus and boil it for 15 min in salted water.|Cooking|15","Whisk the egg yolks with 2 tbsp of water over a pan of simmering water until thick.","Add the melted butter little by little, then the lemon juice.","Whip the cream and fold it into the sauce.","Serve the warm asparagus with the sauce."]],
+  ["Roasted green asparagus","Roasted green","Roasted in the oven with parmesan.","Crunchy green asparagus roasted with parmesan.","",20,150,"F","roasted green asparagus parmesan","voh",
+   ["green asparagus|green asparagus|500|g","parmesan|parmesan|40|g","olive oil|olive oil|2|tbsp","lemon|lemons|1|"],
+   ["Preheat the oven to 200 °C.","Snap off the hard ends of the asparagus.","Drizzle with oil and bake for 12 min.|Oven|12","Sprinkle with parmesan and squeeze over the lemon."]],
+  ["Asparagus with a soft-boiled egg","Soft-boiled egg","With a soft-boiled egg and cured ham.","A spring starter of asparagus, soft-boiled egg and cured ham.","",20,280,"F","asparagus soft boiled egg","h",
+   ["green asparagus|green asparagus|500|g","egg|eggs|4|","cured ham|cured ham|4|slices","olive oil|olive oil|2|tbsp"],
+   ["Boil the asparagus for 6 min in salted water.|Cooking|6","Boil the eggs for 6 min and peel them.|Cooking|6","Arrange the asparagus, ham and egg on each plate.","Drizzle with oil, then add salt and pepper."]]
+ ]},
+ {"q":"Roasted chickpeas","a":["crispy chickpeas","baked chickpeas","oven-roasted chickpeas"],"fr":"Pois chiches rôtis","r":[
+  ["Roasted chickpeas","The classic","","Crispy paprika chickpeas, for nibbling with drinks or sprinkling on a salad.","",40,180,"F","roasted chickpeas","vohbe",
+   ["chickpea|chickpeas|400|g","olive oil|olive oil|2|tbsp","paprika|paprika|1|tsp","cumin|cumin|1|tsp","salt|salt||"],
+   ["Preheat the oven to 200 °C.","Rinse the chickpeas and dry them well in a tea towel.","Mix them with the oil, the spices and the salt.","Spread them on a tray and bake for 30 min, stirring now and then.|Oven|30"]],
+  ["Honey roasted chickpeas","Sweet","With honey and cinnamon.","Sweet, crunchy chickpeas for a snack.","",40,200,"F","honey roasted chickpeas","vodhb",
+   ["chickpea|chickpeas|400|g","coconut oil|coconut oil|1|tbsp","honey|honey|2|tbsp","cinnamon|cinnamon|1|tsp"],
+   ["Preheat the oven to 200 °C.","Dry the chickpeas and bake them for 20 min with the oil.|Oven|20","Mix them with the honey and the cinnamon.","Put them back in the oven for 10 min.|Oven|10"]],
+  ["Chickpeas with spinach","Pan-fried","Pan-fried with spinach and garlic.","A quick dish of chickpeas with spinach.","",15,280,"F","chickpeas spinach skillet","vhb",
+   ["chickpea|chickpeas|800|g","baby spinach|baby spinach|200|g","garlic|garlic|2|clove","cumin|cumin|1|tsp","lemon|lemons|1|","olive oil|olive oil|2|tbsp"],
+   ["Fry the garlic and the cumin in the oil.","Add the chickpeas and fry them for 5 min until golden.|Pan|5","Add the spinach and let it wilt.","Squeeze over the lemon juice."]]
+ ]},
+ {"q":"Mushroom soup","a":["cream of mushroom soup","velouté de champignons"],"fr":"Velouté de champignons","r":[
+  ["Cream of mushroom soup","The classic","","A creamy soup made with button mushrooms and shallots.","",30,180,"F","mushroom soup","vbf",
+   ["button mushroom|button mushrooms|500|g","shallot|shallots|2|","potato|potatoes|1|","vegetable stock cube|vegetable stock cubes|1|","crème fraîche|crème fraîche|10|cl","butter|butter|20|g"],
+   ["Fry the shallots and the sliced mushrooms in the butter for 5 min.|Pan|5","Add the diced potato, the stock cube and 70 cl of water.","Simmer for 20 min.|Cooking|20","Blend with the cream, then add salt and pepper."]],
+  ["Mushroom and chestnut soup","With chestnuts","With cooked chestnuts.","An autumn soup with mushrooms and chestnuts.","",30,250,"F","mushroom chestnut soup","v",
+   ["button mushroom|button mushrooms|400|g","cooked chestnut|cooked chestnuts|200|g","onion|onions|1|","vegetable stock cube|vegetable stock cubes|1|","crème fraîche|crème fraîche|10|cl"],
+   ["Fry the onion and the mushrooms for 5 min.|Pan|5","Add the chestnuts, the stock cube and 80 cl of water.","Simmer for 20 min.|Cooking|20","Blend with the cream."]],
+  ["Light mushroom soup","Lighter","With milk instead of cream.","A lighter mushroom soup.","",30,110,"F","light mushroom soup","vhb",
+   ["button mushroom|button mushrooms|500|g","onion|onions|1|","vegetable stock cube|vegetable stock cubes|1|","semi-skimmed milk|semi-skimmed milk|20|cl","parsley|parsley||"],
+   ["Cook the onion and the mushrooms in a little water for 5 min.|Cooking|5","Add the stock cube and 60 cl of water, and simmer for 20 min.|Cooking|20","Blend with the milk.","Sprinkle with parsley."]]
+ ]}
+]

@@ -15,18 +15,24 @@ import { useOpenPaywall } from "../plus/subscription";
 import { showToast } from "../toast";
 import "../fridge/fridge.css";
 import { INGR_GUIDE, setGuideState } from "./guideSteps";
+import { locale, t } from "../../lib/i18n";
 import "./scan.css";
 
 // La photo ne montrait pas ce qui était choisi : où vont les produits, et « C'était bien… » pour revenir au choix de départ
-const SEEN: Record<ScanSource, string> = {
+const SEEN: Record<ScanSource, string> = t({
   frigo: "On dirait ton frigo : ces produits iront dans le frigo de Ma cuisine.",
   placard: "On dirait un placard : ces produits iront dans tes placards, pas dans le frigo.",
   ticket: "On dirait un ticket de caisse : ces produits s'ajoutent à Ma cuisine, sans rien remplacer.",
-};
-const WAS: Record<ScanSource, string> = { frigo: "C'était bien le frigo", placard: "C'était bien un placard", ticket: "C'était bien un ticket" };
+}, {
+  frigo: "Looks like your fridge: these items will go in the fridge in My kitchen.",
+  placard: "Looks like a cupboard: these items will go in your cupboards, not the fridge.",
+  ticket: "Looks like a receipt: these items get added to My kitchen, nothing is replaced.",
+});
+const WAS: Record<ScanSource, string> = t({ frigo: "C'était bien le frigo", placard: "C'était bien un placard", ticket: "C'était bien un ticket" },
+  { frigo: "It was the fridge", placard: "It was a cupboard", ticket: "It was a receipt" });
 
 /** « 21 oct. » */
-const dayTxt = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+const dayTxt = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString(locale, { day: "numeric", month: "short" });
 
 export function Stepper({ value, label, min, max, onChange }: { value: number; label: [string, string]; min: number; max: number; onChange: (n: number) => void }) {
   return (
@@ -56,8 +62,8 @@ export function Ingredients({ guide, userId, isPlus, onSpend }: {
   const go = () => {
     if (receipt && isPlus && !scan.ticketOff) {
       const at = ticketDay(receipt.date);
-      onSpend({ eur: receipt.eur, at, label: receipt.store || "Ticket de caisse", from: "ticket" });
-      showToast(`${eur(receipt.eur)} ajoutés à ton budget ${ofMonth(new Date(at))}`);
+      onSpend({ eur: receipt.eur, at, label: receipt.store || t("Ticket de caisse", "Receipt"), from: "ticket" });
+      showToast(t(`${eur(receipt.eur)} ajoutés à ton budget ${ofMonth(new Date(at))}`, `${eur(receipt.eur)} added to your ${ofMonth(new Date(at))} budget`));
     }
     // Compté une fois : revenir sur cette page ne le recompte pas
     if (scan.ticket) setScan({ ticket: null });
@@ -73,18 +79,18 @@ export function Ingredients({ guide, userId, isPlus, onSpend }: {
   const toggleFinish = (i: number) => setScan({ ingredients: getScan().ingredients.map((it, k) => (k === i ? { ...it, finish: !it.finish } : it)) });
 
   return (
-    <section ref={screen} className="fa scan-screen scr-ingr" aria-label="Ingrédients trouvés">
+    <section ref={screen} className="fa scan-screen scr-ingr" aria-label={t("Ingrédients trouvés", "Ingredients found")}>
       <div className="ingr-photo">{scan.photo && <img src={scan.photo} alt="" />}</div>
       <div className="ingr-top">
-        <RoundButton icon="back" label="Reprendre la photo" tone="dark" onClick={() => navigate("/scan", { replace: true })} />
-        <RoundButton icon="redo" label="Rescanner" tone="dark" onClick={() => navigate("/scan", { replace: true })} />
+        <RoundButton icon="back" label={t("Reprendre la photo", "Retake the photo")} tone="dark" onClick={() => navigate("/scan", { replace: true })} />
+        <RoundButton icon="redo" label={t("Rescanner", "Scan again")} tone="dark" onClick={() => navigate("/scan", { replace: true })} />
       </div>
       <div className="ingr-sheet">
         <div className="ingr-gh">
           <div className="grab" />
-          <span className="label">{n} ingrédient{n > 1 ? "s" : ""} {scan.token ? "trouvé" : "ajouté"}{n > 1 ? "s" : ""}</span>
-          <h2>C'est bien <em>ça&nbsp;?</em></h2>
-          <p>Retire ce qui n'y est plus, ajoute ce qui manque, et marque ce qui est à finir vite. Touche un nom ou une quantité pour le changer.</p>
+          <span className="label">{t(`${n} ingrédient${n > 1 ? "s" : ""} ${scan.token ? "trouvé" : "ajouté"}${n > 1 ? "s" : ""}`, `${n} ingredient${n > 1 ? "s" : ""} ${scan.token ? "found" : "added"}`)}</span>
+          <h2>{t(<>C'est bien <em>ça&nbsp;?</em></>, <>Is that <em>right?</em></>)}</h2>
+          <p>{t("Retire ce qui n'y est plus, ajoute ce qui manque, et marque ce qui est à finir vite. Touche un nom ou une quantité pour le changer.", "Remove what's gone, add what's missing, and mark what needs using up soon. Tap a name or a quantity to change it.")}</p>
           {scan.switched && !scan.merge && (
             <div className="seen" role="status">
               <Icon name="eye" /><span>{SEEN[scan.source]}</span>
@@ -96,13 +102,13 @@ export function Ingredients({ guide, userId, isPlus, onSpend }: {
           <div className="ingr-body">
             {receipt && (isPlus ? (
               <div className="toggle-row">
-                <div><b>Compter dans mon budget</b><span>{eur(receipt.eur)}{receipt.store ? ` chez ${receipt.store}` : ""}{receipt.date ? `, le ${dayTxt(receipt.date)}` : ""}</span></div>
-                <button type="button" className="sw" role="switch" aria-checked={!scan.ticketOff} aria-label="Compter dans mon budget"
+                <div><b>{t("Compter dans mon budget", "Count in my budget")}</b><span>{eur(receipt.eur)}{receipt.store ? t(` chez ${receipt.store}`, ` at ${receipt.store}`) : ""}{receipt.date ? t(`, le ${dayTxt(receipt.date)}`, `, on ${dayTxt(receipt.date)}`) : ""}</span></div>
+                <button type="button" className="sw" role="switch" aria-checked={!scan.ticketOff} aria-label={t("Compter dans mon budget", "Count in my budget")}
                   onClick={() => setScan({ ticketOff: !scan.ticketOff })} />
               </div>
             ) : (
               <button type="button" className="toggle-row" onClick={() => openPaywall("budget")}>
-                <div><b>Suis ton budget courses</b><span>Ce ticket fait {eur(receipt.eur)}. Avec Plus, il s'ajoute tout seul à ton budget du mois.</span></div>
+                <div><b>{t("Suis ton budget courses", "Track your grocery budget")}</b><span>{t(`Ce ticket fait ${eur(receipt.eur)}. Avec Plus, il s'ajoute tout seul à ton budget du mois.`, `This receipt comes to ${eur(receipt.eur)}. With Plus, it's added to your monthly budget automatically.`)}</span></div>
                 <LockPill />
               </button>
             ))}
@@ -112,23 +118,23 @@ export function Ingredients({ guide, userId, isPlus, onSpend }: {
                   <div key={it.name + i} className={"irow" + (it.finish ? " fin" : "") + (editing?.i === i ? " editing" : "")}>
                     <i />
                     {editing?.i === i ? <ItemEdit name={it.name} qty={qty} focus={editing.focus} onSave={(nm, q) => rename(i, nm, q)} onCancel={() => setEditing(null)} /> : <>
-                      <button type="button" className="inm" aria-label={`Changer le nom de ${it.name}`} onClick={() => setEditing({ i, focus: "name" })}><b>{it.name}</b></button>
-                      <button type="button" className={"iq" + (qty ? "" : " none")} aria-label={qty ? `Quantité de ${it.name} : ${qty}. Changer` : `Ajouter une quantité à ${it.name}`}
-                        onClick={() => setEditing({ i, focus: "qty" })}>{qty || "+ quantité"}</button>
+                      <button type="button" className="inm" aria-label={t(`Changer le nom de ${it.name}`, `Rename ${it.name}`)} onClick={() => setEditing({ i, focus: "name" })}><b>{it.name}</b></button>
+                      <button type="button" className={"iq" + (qty ? "" : " none")} aria-label={qty ? t(`Quantité de ${it.name} : ${qty}. Changer`, `Quantity of ${it.name}: ${qty}. Change`) : t(`Ajouter une quantité à ${it.name}`, `Add a quantity to ${it.name}`)}
+                        onClick={() => setEditing({ i, focus: "qty" })}>{qty || t("+ quantité", "+ quantity")}</button>
                     </>}
                     {editing?.i !== i && <>
-                    <button type="button" className="finb" aria-pressed={!!it.finish} aria-label={`${it.name} à finir`} onClick={() => toggleFinish(i)}>À finir</button>
-                    <button type="button" className="rm" aria-label={`Retirer ${it.name}`} onClick={() => remove(i)}><Icon name="x" /></button>
+                    <button type="button" className="finb" aria-pressed={!!it.finish} aria-label={t(`${it.name} à finir`, `Use up ${it.name}`)} onClick={() => toggleFinish(i)}>{t("À finir", "Use up")}</button>
+                    <button type="button" className="rm" aria-label={t(`Retirer ${it.name}`, `Remove ${it.name}`)} onClick={() => remove(i)}><Icon name="x" /></button>
                     </>}
                   </div>
                 ); })}
               </div>
             )}
-            <button type="button" className="add" onClick={() => navigate("/scan/ajouter")}><span className="rm"><Icon name="plus" /></span>Ajouter un ingrédient</button>
+            <button type="button" className="add" onClick={() => navigate("/scan/ajouter")}><span className="rm"><Icon name="plus" /></span>{t("Ajouter un ingrédient", "Add an ingredient")}</button>
           </div>
         </div>
         <button type="button" className="gobar" disabled={n === 0} onClick={go}>
-          <span><b>Continuer</b><small>Puis tu choisis ton menu</small></span>
+          <span><b>{t("Continuer", "Continue")}</b><small>{t("Puis tu choisis ton menu", "Then you pick your menu")}</small></span>
           <span className="go"><Icon name="arrow" /></span>
         </button>
       </div>

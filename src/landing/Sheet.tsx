@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from "react";
+import { t } from "../lib/i18n";
 
 // Feuille modale de la landing : bas de l'écran sur mobile, centrée sur ordinateur.
 // Échap ou un clic sur le voile la ferment, le défilement de la page est bloqué tant qu'elle est ouverte.
@@ -24,7 +25,7 @@ export function Sheet({ label, onClose, wide, children }: { label: string; onClo
   return (
     <div className="lp-veil" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
       <div ref={panel} className={wide ? "lp-sheet wide" : "lp-sheet"} role="dialog" aria-modal="true" aria-label={label} tabIndex={-1}>
-        <button className="lp-x" onClick={onClose} aria-label="Fermer">✕</button>
+        <button className="lp-x" onClick={onClose} aria-label={t("Fermer", "Close")}>✕</button>
         {children}
       </div>
     </div>

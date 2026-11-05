@@ -5,6 +5,7 @@
 import type { FridgeItem } from "./home";
 import { norm } from "./shopping";
 import { placeOf } from "./fridge";
+import { locale, t } from "./i18n";
 
 const DAY = 864e5;
 // Au frigo, une fois acheté : des durées prudentes. Le premier mot reconnu l'emporte (« steak haché » : 1 jour, pas 2).
@@ -64,18 +65,19 @@ export function dueSoon(x: FridgeItem, now = Date.now()): boolean {
 /** « aujourd'hui », « demain », « jeudi », « le 3 nov. » */
 export function dayWord(at: number, now = Date.now()): string {
   const d = daysTo(at, now);
-  if (d === 0) return "aujourd'hui";
-  if (d === 1) return "demain";
-  if (d > 1 && d < 7) return new Date(at).toLocaleDateString("fr-FR", { weekday: "long" });
-  return `le ${new Date(at).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}`;
+  if (d === 0) return t("aujourd'hui", "today");
+  if (d === 1) return t("demain", "tomorrow");
+  if (d > 1 && d < 7) return new Date(at).toLocaleDateString(locale, { weekday: "long" });
+  return t("le ", "on ") + new Date(at).toLocaleDateString(locale, { day: "numeric", month: "short" });
 }
 /** Ce qu'on écrit sous le produit : « à finir vers jeudi », « à finir demain » (estimation), « date : demain », « date passée », « à vérifier » */
 export function dueText(x: FridgeItem, now = Date.now()): { text: string; soon: boolean } | null {
   const d = dueOf(x);
   if (!d) return null;
   const n = daysTo(d.at, now);
-  if (n < 0) return { text: d.exact ? "date passée" : "à vérifier", soon: true };
-  return { text: d.exact ? `date : ${dayWord(d.at, now)}` : `à finir ${n <= 1 ? "" : "vers "}${dayWord(d.at, now)}`, soon: n <= 2 };
+  if (n < 0) return { text: d.exact ? t("date passée", "past its date") : t("à vérifier", "check it"), soon: true };
+  const w = dayWord(d.at, now);
+  return { text: d.exact ? t(`date : ${w}`, `date: ${w}`) : t(`à finir ${n <= 1 ? "" : "vers "}${w}`, `use ${n <= 1 ? w : `by around ${w.replace(/^on /, "")}`}`), soon: n <= 2 };
 }
 /** Une date choisie (« 2026-10-24 ») : à midi, pour ne pas changer de jour avec le fuseau */
 export const atNoon = (t: number) => { const d = new Date(t); d.setHours(12, 0, 0, 0); return d.getTime(); };

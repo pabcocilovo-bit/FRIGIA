@@ -1,0 +1,881 @@
+[
+ {
+  "q": "Macaroni with ham",
+  "a": [
+   "ham macaroni",
+   "macaroni ham and cheese",
+   "ham pasta"
+  ],
+  "fr": "Coquillettes au jambon",
+  "r": [
+   [
+    "Macaroni with ham",
+    "The classic",
+    "",
+    "The childhood comfort dish: buttery macaroni with ham and grated cheese.",
+    "",
+    15,
+    480,
+    "F",
+    "macaroni ham cheese",
+    "bf",
+    [
+     "macaroni|macaroni|400|g",
+     "cooked ham|cooked ham|4|slices",
+     "butter|butter|30|g",
+     "grated emmental|grated emmental|80|g"
+    ],
+    [
+     "Cook the macaroni in salted water.|Cooking|9",
+     "Cut the ham into small pieces.",
+     "Drain the pasta and toss with the butter and ham.",
+     "Sprinkle with emmental and serve straight away."
+    ]
+   ],
+   [
+    "Creamy ham macaroni",
+    "Creamy",
+    "With cream and mushrooms.",
+    "Creamy macaroni with ham and mushrooms.",
+    "",
+    20,
+    560,
+    "F",
+    "creamy ham pasta mushrooms",
+    "bf",
+    [
+     "macaroni|macaroni|400|g",
+     "cooked ham|cooked ham|4|slices",
+     "button mushroom|button mushrooms|150|g",
+     "crème fraîche|crème fraîche|15|cl",
+     "grated emmental|grated emmental|60|g"
+    ],
+    [
+     "Cook the macaroni.|Cooking|9",
+     "Fry the sliced mushrooms for 5 min.|Pan|5",
+     "Add the crème fraîche and the chopped ham.",
+     "Toss with the pasta and emmental."
+    ]
+   ],
+   [
+    "Risotto-style macaroni",
+    "Risotto-style",
+    "Cooked like a risotto, in stock, with parmesan.",
+    "The creamy bistro macaroni, cooked in stock.",
+    "",
+    25,
+    500,
+    "F",
+    "pasta risotto ham parmesan",
+    "f",
+    [
+     "macaroni|macaroni|400|g",
+     "cooked ham|cooked ham|4|slices",
+     "chicken stock|chicken stock|1|",
+     "parmesan|parmesan|60|g",
+     "butter|butter|20|g",
+     "shallot|shallots|1|"
+    ],
+    [
+     "Fry the shallot in the butter, add the macaroni and stir for 1 min.",
+     "Add the hot stock a ladle at a time, stirring, as for a risotto.|Cooking|12",
+     "Add the parmesan and diced ham.",
+     "Serve nice and creamy."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Soft-boiled eggs",
+  "a": [
+   "soft-boiled egg",
+   "eggs and soldiers",
+   "boiled egg with soldiers"
+  ],
+  "fr": "Œufs à la coque",
+  "r": [
+   [
+    "Soft-boiled eggs and soldiers",
+    "The classic",
+    "",
+    "Runny-yolk eggs with buttered toast soldiers for dipping.",
+    "",
+    10,
+    250,
+    "F",
+    "soft boiled eggs soldiers",
+    "vbf",
+    [
+     "egg|eggs|8|",
+     "sliced white bread|sliced white bread|6|slices",
+     "butter|butter|30|g",
+     "salt|salt||"
+    ],
+    [
+     "Bring a pan of water to the boil.",
+     "Gently lower in the eggs and time for 3 min.|Cooking|3",
+     "Meanwhile, toast the bread, butter it and cut into fingers.",
+     "Serve the eggs in egg cups with the soldiers."
+    ]
+   ],
+   [
+    "Soft-boiled eggs and asparagus",
+    "Asparagus",
+    "Green asparagus instead of soldiers.",
+    "A spring version, with asparagus for dipping.",
+    "",
+    15,
+    200,
+    "F",
+    "soft boiled eggs asparagus",
+    "vh",
+    [
+     "egg|eggs|8|",
+     "green asparagus|green asparagus|500|g",
+     "butter|butter|15|g",
+     "salt|salt||"
+    ],
+    [
+     "Cook the asparagus for 6 min in salted water.|Cooking|6",
+     "Lower the eggs into boiling water for 3 min.|Cooking|3",
+     "Serve the eggs with the buttered asparagus.",
+     "Add salt just before dipping."
+    ]
+   ],
+   [
+    "Soft-boiled eggs and ham soldiers",
+    "With ham",
+    "Soldiers wrapped in cured ham.",
+    "Tastier soldiers, wrapped in cured ham.",
+    "",
+    10,
+    300,
+    "F",
+    "eggs soldiers prosciutto",
+    "",
+    [
+     "egg|eggs|8|",
+     "sliced white bread|sliced white bread|6|slices",
+     "cured ham|cured ham|6|slices",
+     "butter|butter|20|g"
+    ],
+    [
+     "Toast the bread, butter it and cut into fingers.",
+     "Wrap half a slice of cured ham around each soldier.",
+     "Lower the eggs into boiling water for 3 min.|Cooking|3",
+     "Serve straight away."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Buckwheat galette",
+  "a": [
+   "buckwheat galettes",
+   "Breton galette",
+   "savoury crepes",
+   "galette complète"
+  ],
+  "fr": "Galette complète",
+  "r": [
+   [
+    "Galette complète",
+    "The classic",
+    "",
+    "The Breton buckwheat galette with ham, egg and emmental.",
+    "Breton speciality",
+    80,
+    450,
+    "F",
+    "galette complete buckwheat crepe",
+    "bf",
+    [
+     "buckwheat flour|buckwheat flour|250|g",
+     "egg|eggs|5|",
+     "cooked ham|cooked ham|4|slices",
+     "grated emmental|grated emmental|120|g",
+     "salted butter|salted butter|40|g",
+     "salt|salt||"
+    ],
+    [
+     "Mix the flour, 1 egg, a pinch of salt and 60 cl of cold water. Leave to rest for 1 h.|Rest|60",
+     "Cook a galette for 2 min in a buttered pan.|Pan|2",
+     "Turn it over, add the emmental and ham, and break an egg into the middle.",
+     "Fold the edges into a square and cook until the white is set.|Pan|3"
+    ]
+   ],
+   [
+    "Sausage galette",
+    "Sausage",
+    "Rolled around a grilled sausage.",
+    "The galette-saucisse from the Breton markets.",
+    "Breton speciality",
+    80,
+    520,
+    "F",
+    "galette saucisse",
+    "bf",
+    [
+     "buckwheat flour|buckwheat flour|250|g",
+     "egg|eggs|1|",
+     "toulouse sausage|toulouse sausages|4|",
+     "salted butter|salted butter|30|g",
+     "mustard|mustard|4|tsp"
+    ],
+    [
+     "Make the batter and leave to rest for 1 h.|Rest|60",
+     "Grill the sausages for 15 min.|Pan|15",
+     "Cook the galettes.|Pan|2",
+     "Spread with mustard and roll each galette around a sausage."
+    ]
+   ],
+   [
+    "Goat's cheese and spinach galette",
+    "Vegetarian",
+    "With goat's cheese, spinach and honey.",
+    "A vegetarian galette with melting goat's cheese.",
+    "",
+    80,
+    420,
+    "F",
+    "goat cheese spinach galette",
+    "v",
+    [
+     "buckwheat flour|buckwheat flour|250|g",
+     "egg|eggs|1|",
+     "goat's cheese log|goat's cheese logs|1|",
+     "baby spinach|baby spinach|150|g",
+     "honey|honey|2|tbsp",
+     "salted butter|salted butter|30|g"
+    ],
+    [
+     "Make the batter and leave to rest for 1 h.|Rest|60",
+     "Wilt the spinach for 2 min.|Pan|2",
+     "Cook a galette and top with spinach and slices of goat's cheese.",
+     "Fold in the edges, leave to melt for 2 min and drizzle with honey.|Pan|2"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Burger steak with mash",
+  "a": [
+   "homemade burger steak",
+   "burger steak and mash",
+   "steak and mash"
+  ],
+  "fr": "Steak haché purée",
+  "r": [
+   [
+    "Burger steak with mash",
+    "The classic",
+    "",
+    "Pan-fried minced beef steaks with homemade mashed potato.",
+    "",
+    30,
+    560,
+    "F",
+    "burger patty mashed potatoes",
+    "bf",
+    [
+     "minced beef steak|minced beef steaks|4|",
+     "potato|potatoes|1000|g",
+     "milk|milk|20|cl",
+     "butter|butter|40|g",
+     "salt|salt||"
+    ],
+    [
+     "Boil the potatoes for 20 min in salted water.|Cooking|20",
+     "Mash them with the warm milk and butter.",
+     "Cook the steaks for 2 to 4 min on each side, depending on how you like them.|Pan|6",
+     "Season with salt and pepper and serve with the mash."
+    ]
+   ],
+   [
+    "Homemade herby beef patties",
+    "Homemade",
+    "Shaped by hand with herbs and onion.",
+    "Tasty homemade beef patties.",
+    "",
+    25,
+    450,
+    "F",
+    "homemade beef patties herbs",
+    "bf",
+    [
+     "minced beef|minced beef|500|g",
+     "onion|onions|1|",
+     "parsley|parsley||",
+     "egg|eggs|1|",
+     "green bean|green beans|500|g"
+    ],
+    [
+     "Chop the onion and parsley and mix them with the beef and egg.",
+     "Shape into 4 patties.",
+     "Boil the green beans for 8 min.|Cooking|8",
+     "Brown the patties for 3 min on each side.|Pan|6"
+    ]
+   ],
+   [
+    "Burger steak with pepper sauce",
+    "Pepper sauce",
+    "With a creamy pepper sauce.",
+    "The bistro burger steak with pepper sauce.",
+    "",
+    25,
+    560,
+    "F",
+    "patty pepper sauce",
+    "",
+    [
+     "minced beef steak|minced beef steaks|4|",
+     "crème fraîche|crème fraîche|15|cl",
+     "crushed pepper|crushed pepper|1|tsp",
+     "shallot|shallots|1|",
+     "potato|potatoes|800|g"
+    ],
+    [
+     "Steam the potato wedges for 20 min.|Cooking|20",
+     "Cook the steaks and take them out of the pan.|Pan|6",
+     "Fry the shallot, add the crème fraîche and pepper, and reduce for 2 min.",
+     "Pour the sauce over the steaks."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Cream of tomato soup",
+  "a": [
+   "tomato soup",
+   "creamy tomato soup"
+  ],
+  "fr": "Velouté de tomates",
+  "r": [
+   [
+    "Cream of tomato soup",
+    "The classic",
+    "",
+    "A smooth, mild tomato soup with basil and a swirl of cream.",
+    "",
+    35,
+    160,
+    "F",
+    "tomato soup",
+    "vhbf",
+    [
+     "tomato|tomatoes|8|",
+     "onion|onions|1|",
+     "garlic|garlic|1|clove",
+     "vegetable stock cube|vegetable stock cubes|1|",
+     "crème fraîche|crème fraîche|2|tbsp",
+     "basil|basil||",
+     "sugar|sugar|1|tsp"
+    ],
+    [
+     "Fry the onion and garlic.",
+     "Add the quartered tomatoes, sugar, stock cube and 40 cl of water.",
+     "Cook for 20 min.|Cooking|20",
+     "Blend with the crème fraîche and basil."
+    ]
+   ],
+   [
+    "Roasted tomato soup",
+    "Roasted",
+    "The tomatoes are roasted before blending.",
+    "A more intense tomato soup, with oven-roasted tomatoes.",
+    "",
+    50,
+    170,
+    "F",
+    "roasted tomato soup",
+    "vohb",
+    [
+     "tomato|tomatoes|10|",
+     "red onion|red onions|1|",
+     "garlic|garlic|3|clove",
+     "olive oil|olive oil|3|tbsp",
+     "vegetable stock cube|vegetable stock cubes|1|",
+     "thyme|thyme||"
+    ],
+    [
+     "Preheat the oven to 200 °C.",
+     "Put the halved tomatoes, onion and garlic in a dish with the oil and thyme.",
+     "Bake for 35 min.|Oven|35",
+     "Blend with the stock cube and 30 cl of hot water."
+    ]
+   ],
+   [
+    "Tomato soup and cheese toasties",
+    "With toasties",
+    "Served with little cheese toasties for dipping.",
+    "Tomato soup and its melting cheese sandwich.",
+    "",
+    35,
+    420,
+    "F",
+    "tomato soup grilled cheese",
+    "vbf",
+    [
+     "chopped tomatoes|chopped tomatoes|800|g",
+     "onion|onions|1|",
+     "vegetable stock cube|vegetable stock cubes|1|",
+     "sliced white bread|sliced white bread|8|slices",
+     "cheddar|cheddar|8|slices",
+     "butter|butter|30|g"
+    ],
+    [
+     "Fry the onion, add the tomatoes, stock cube and 30 cl of water, and cook for 20 min.|Cooking|20",
+     "Blend the soup.",
+     "Fill the bread with cheddar, butter the outside and brown in a pan for 3 min on each side.|Pan|6",
+     "Cut into fingers and serve with the soup."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Pasta with tomato sauce",
+  "a": [
+   "tomato sauce",
+   "tomato pasta",
+   "spaghetti with tomato sauce",
+   "homemade tomato sauce"
+  ],
+  "fr": "Pâtes à la sauce tomate",
+  "r": [
+   [
+    "Pasta with homemade tomato sauce",
+    "The classic",
+    "",
+    "Pasta with a proper homemade tomato sauce, with garlic and basil.",
+    "",
+    25,
+    450,
+    "F",
+    "pasta tomato sauce",
+    "vhbf",
+    [
+     "pasta|pasta|400|g",
+     "chopped tomatoes|chopped tomatoes|800|g",
+     "onion|onions|1|",
+     "garlic|garlic|2|clove",
+     "olive oil|olive oil|3|tbsp",
+     "basil|basil||",
+     "parmesan|parmesan|40|g"
+    ],
+    [
+     "Fry the onion and garlic in the oil.",
+     "Add the tomatoes, season and simmer for 20 min.|Cooking|20",
+     "Cook the pasta.|Cooking|10",
+     "Toss with the sauce, basil and parmesan."
+    ]
+   ],
+   [
+    "Pasta with hidden-veg tomato sauce",
+    "Hidden veg",
+    "With vegetables blended into the sauce.",
+    "A tomato sauce full of vegetables that kids can't see.",
+    "",
+    35,
+    430,
+    "F",
+    "hidden veggie pasta sauce",
+    "vhbf",
+    [
+     "pasta|pasta|400|g",
+     "chopped tomatoes|chopped tomatoes|800|g",
+     "carrot|carrots|2|",
+     "courgette|courgettes|1|",
+     "red pepper|red peppers|1|",
+     "onion|onions|1|",
+     "olive oil|olive oil|2|tbsp"
+    ],
+    [
+     "Fry the diced onion, carrot, courgette and pepper for 5 min.",
+     "Add the tomatoes and simmer for 25 min.|Cooking|25",
+     "Blend the sauce.",
+     "Cook the pasta and toss with the sauce.|Cooking|10"
+    ]
+   ],
+   [
+    "Tuna and tomato pasta",
+    "Tuna",
+    "With tuna and capers.",
+    "A tomato sauce enriched with tuna.",
+    "",
+    25,
+    500,
+    "F",
+    "tuna tomato pasta",
+    "bf",
+    [
+     "pasta|pasta|400|g",
+     "chopped tomatoes|chopped tomatoes|800|g",
+     "tuna in water|tuna in water|200|g",
+     "garlic|garlic|2|clove",
+     "capers|capers|1|tbsp"
+    ],
+    [
+     "Fry the garlic, add the tomatoes and cook for 15 min.|Cooking|15",
+     "Add the tuna and capers.",
+     "Cook the pasta.|Cooking|10",
+     "Toss with the sauce."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Fish gratin",
+  "a": [
+   "white fish gratin",
+   "baked fish",
+   "cod gratin"
+  ],
+  "fr": "Gratin de poisson",
+  "r": [
+   [
+    "Fish gratin",
+    "The classic",
+    "",
+    "White fish in a béchamel sauce, topped with emmental and served with potatoes.",
+    "",
+    50,
+    450,
+    "F",
+    "fish gratin",
+    "obf",
+    [
+     "white fish fillet|white fish fillets|600|g",
+     "potato|potatoes|600|g",
+     "milk|milk|50|cl",
+     "flour|flour|40|g",
+     "butter|butter|40|g",
+     "grated emmental|grated emmental|100|g"
+    ],
+    [
+     "Preheat the oven to 200 °C. Boil the sliced potatoes for 10 min.|Cooking|10",
+     "Make a béchamel sauce with the butter, flour and milk.",
+     "Arrange the potatoes and the fish pieces in a dish.",
+     "Pour over the béchamel and top with emmental.",
+     "Bake for 25 min.|Oven|25"
+    ]
+   ],
+   [
+    "Fish and spinach gratin",
+    "Spinach",
+    "With creamy spinach.",
+    "A green fish gratin, with spinach.",
+    "",
+    40,
+    400,
+    "F",
+    "fish spinach gratin",
+    "oh",
+    [
+     "white fish fillet|white fish fillets|600|g",
+     "frozen spinach|frozen spinach|500|g",
+     "crème fraîche|crème fraîche|20|cl",
+     "parmesan|parmesan|50|g",
+     "nutmeg|nutmeg||"
+    ],
+    [
+     "Preheat the oven to 200 °C. Defrost the spinach and squeeze out the water.",
+     "Mix it with the crème fraîche and nutmeg.",
+     "Put the fish in a dish and cover with the spinach.",
+     "Sprinkle with parmesan and bake for 25 min.|Oven|25"
+    ]
+   ],
+   [
+    "Fish and tomato gratin",
+    "Tomato",
+    "With tomato sauce and mozzarella.",
+    "An Italian-style fish gratin.",
+    "",
+    40,
+    380,
+    "F",
+    "fish tomato mozzarella bake",
+    "oh",
+    [
+     "white fish fillet|white fish fillets|600|g",
+     "chopped tomatoes|chopped tomatoes|400|g",
+     "mozzarella|mozzarella|1|",
+     "black olive|black olives|50|g",
+     "basil|basil||"
+    ],
+    [
+     "Preheat the oven to 200 °C.",
+     "Spread the tomatoes in a dish and lay the fish on top.",
+     "Add the olives and sliced mozzarella.",
+     "Bake for 25 min and sprinkle with basil.|Oven|25"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Sausage rolls",
+  "a": [
+   "puff pastry sausage rolls",
+   "pigs in blankets",
+   "party sausage rolls"
+  ],
+  "fr": "Feuilletés à la saucisse",
+  "r": [
+   [
+    "Sausage rolls",
+    "The classic",
+    "",
+    "Little sausages rolled in puff pastry, perfect for nibbles.",
+    "",
+    30,
+    280,
+    "F",
+    "sausage rolls",
+    "oe",
+    [
+     "puff pastry|puff pastries|1|",
+     "cocktail sausage|cocktail sausages|24|",
+     "mustard|mustard|1|tbsp",
+     "egg|eggs|1|"
+    ],
+    [
+     "Preheat the oven to 200 °C.",
+     "Spread the pastry with mustard and cut into strips.",
+     "Roll each sausage in a strip of pastry.",
+     "Brush with beaten egg and bake for 18 min.|Oven|18"
+    ]
+   ],
+   [
+    "Meat puff pastry parcels",
+    "Parcels",
+    "Puff pastry parcels filled with sausage meat.",
+    "The bakery-style parcels, made at home.",
+    "",
+    45,
+    380,
+    "M",
+    "meat puff pastry friands",
+    "o",
+    [
+     "puff pastry|puff pastries|2|",
+     "sausage meat|sausage meat|400|g",
+     "onion|onions|1|",
+     "parsley|parsley||",
+     "egg|eggs|1|"
+    ],
+    [
+     "Preheat the oven to 200 °C.",
+     "Mix the sausage meat with the chopped onion and parsley.",
+     "Cut out rectangles of pastry, fill them, fold over and seal.",
+     "Brush with egg and bake for 25 min.|Oven|25"
+    ]
+   ],
+   [
+    "Cheese twists",
+    "Vegetarian",
+    "Cheesy puff pastry twists.",
+    "Cheese twists for nibbles.",
+    "",
+    25,
+    220,
+    "F",
+    "cheese straws puff pastry",
+    "voe",
+    [
+     "puff pastry|puff pastries|1|",
+     "grated emmental|grated emmental|80|g",
+     "egg|eggs|1|",
+     "paprika|paprika|1|tsp"
+    ],
+    [
+     "Preheat the oven to 200 °C.",
+     "Brush the pastry with egg and sprinkle with emmental and paprika.",
+     "Cut into strips and twist each strip.",
+     "Bake for 12 min.|Oven|12"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Savoury muffins",
+  "a": [
+   "savoury muffin",
+   "ham and cheese muffins",
+   "party muffins"
+  ],
+  "fr": "Muffins salés",
+  "r": [
+   [
+    "Ham and cheese savoury muffins",
+    "The classic",
+    "",
+    "Soft muffins with ham and emmental, for nibbles or a picnic.",
+    "",
+    35,
+    250,
+    "F",
+    "ham cheese savory muffins",
+    "obf",
+    [
+     "flour|flour|200|g",
+     "egg|eggs|3|",
+     "milk|milk|10|cl",
+     "oil|oil|8|cl",
+     "baking powder|baking powder|2|tsp",
+     "cooked ham|cooked ham|3|slices",
+     "grated emmental|grated emmental|100|g"
+    ],
+    [
+     "Preheat the oven to 180 °C.",
+     "Mix the flour, baking powder, eggs, milk and oil.",
+     "Add the diced ham and emmental.",
+     "Fill muffin tins and bake for 20 min.|Oven|20"
+    ]
+   ],
+   [
+    "Vegetable savoury muffins",
+    "Vegetable",
+    "With carrots and cheese.",
+    "Savoury muffins with grated vegetables.",
+    "",
+    35,
+    220,
+    "F",
+    "vegetable savory muffins",
+    "vobf",
+    [
+     "flour|flour|200|g",
+     "egg|eggs|3|",
+     "milk|milk|10|cl",
+     "oil|oil|8|cl",
+     "baking powder|baking powder|2|tsp",
+     "carrot|carrots|2|",
+     "grated emmental|grated emmental|80|g"
+    ],
+    [
+     "Preheat the oven to 180 °C.",
+     "Mix the flour, baking powder, eggs, milk and oil.",
+     "Add the grated carrots and emmental.",
+     "Fill the tins and bake for 20 min.|Oven|20"
+    ]
+   ],
+   [
+    "Chorizo and pepper savoury muffins",
+    "Chorizo",
+    "With chorizo and pepper.",
+    "Spicy muffins with chorizo.",
+    "",
+    35,
+    270,
+    "F",
+    "chorizo savory muffins",
+    "o",
+    [
+     "flour|flour|200|g",
+     "egg|eggs|3|",
+     "milk|milk|10|cl",
+     "olive oil|olive oil|8|cl",
+     "baking powder|baking powder|2|tsp",
+     "chorizo|chorizo|80|g",
+     "red pepper|red peppers|1|"
+    ],
+    [
+     "Preheat the oven to 180 °C.",
+     "Mix the flour, baking powder, eggs, milk and oil.",
+     "Add the chorizo and pepper, cut into small dice.",
+     "Fill the tins and bake for 20 min.|Oven|20"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Chicken broth",
+  "a": [
+   "chicken soup",
+   "chicken noodle soup",
+   "chicken stock soup"
+  ],
+  "fr": "Bouillon de poulet",
+  "r": [
+   [
+    "Chicken noodle soup",
+    "The classic",
+    "",
+    "The comforting chicken broth with carrots and vermicelli, for cold-sniffle evenings.",
+    "",
+    50,
+    280,
+    "F",
+    "chicken noodle soup",
+    "hbf",
+    [
+     "chicken thigh|chicken thighs|2|",
+     "carrot|carrots|3|",
+     "leek|leeks|1|",
+     "onion|onions|1|",
+     "vermicelli|vermicelli|80|g",
+     "bouquet garni|bouquets garnis|1|",
+     "parsley|parsley||"
+    ],
+    [
+     "Put the chicken, onion and bouquet garni in 1.5 litres of salted water and simmer for 30 min.|Cooking|30",
+     "Take out the chicken and shred it.",
+     "Add the sliced carrots and leek, and cook for 10 min.|Cooking|10",
+     "Add the vermicelli and chicken, and cook for 4 min.|Cooking|4",
+     "Sprinkle with parsley."
+    ]
+   ],
+   [
+    "Ginger chicken broth",
+    "Ginger",
+    "With ginger and lemongrass.",
+    "An Asian-style fragrant broth.",
+    "Asian inspired",
+    45,
+    240,
+    "F",
+    "ginger chicken broth",
+    "h",
+    [
+     "chicken breast|chicken breasts|2|",
+     "fresh ginger|fresh ginger|1|",
+     "lemongrass|lemongrass|1|",
+     "soy sauce|soy sauce|2|tbsp",
+     "rice noodle|rice noodles|100|g",
+     "spring onion|spring onions|2|"
+    ],
+    [
+     "Put the chicken, sliced ginger and lemongrass in 1.5 litres of water and simmer for 25 min.|Cooking|25",
+     "Take out the chicken and shred it.",
+     "Add the soy sauce and noodles, and cook for 4 min.|Cooking|4",
+     "Put the chicken back and sprinkle with spring onion."
+    ]
+   ],
+   [
+    "Chicken and rice soup",
+    "With rice",
+    "Rice instead of vermicelli.",
+    "A gentle chicken soup with rice and lemon.",
+    "",
+    45,
+    290,
+    "F",
+    "chicken rice soup lemon",
+    "hbf",
+    [
+     "chicken thigh|chicken thighs|2|",
+     "carrot|carrots|2|",
+     "onion|onions|1|",
+     "rice|rice|80|g",
+     "lemon|lemons|1|",
+     "parsley|parsley||"
+    ],
+    [
+     "Put the chicken and onion in 1.5 litres of salted water and simmer for 30 min.|Cooking|30",
+     "Take out the chicken and shred it.",
+     "Add the carrots and rice, and cook for 15 min.|Cooking|15",
+     "Put the chicken back, then add the lemon juice and parsley."
+    ]
+   ]
+  ]
+ }
+]

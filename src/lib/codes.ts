@@ -1,5 +1,6 @@
 // Codes ami et créateur, parrainage (api/code.ts).
 import { postApi } from "./api";
+import { t } from "./i18n";
 
 export type CodeVerdict =
   | { status: "ok"; perk: string; bonus?: number; /** Code créateur : 3 mois pour 13,98 € au premier abonnement mensuel */ offer?: boolean }
@@ -12,7 +13,7 @@ export type Referral = { code: string; months: number; invites: { name: string; 
 async function call<T>(body: unknown): Promise<T> {
   const r = await postApi("/api/code", body);
   const data = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error((data as { error?: string }).error || "Ça n'a pas marché. Réessaie.");
+  if (!r.ok) throw new Error((data as { error?: string }).error || t("Ça n'a pas marché. Réessaie.", "That didn't work. Try again."));
   return data as T;
 }
 

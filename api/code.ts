@@ -6,7 +6,9 @@
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { randomInt } from "node:crypto";
 import { notify } from "./_push.js";
-import { adminClient, authUser, plusWeek, preflight, type Req, type Res } from "./_shared.js";
+import {
+  adminClient, authUser, plusWeek, preflight, type Req, type Res, userLang, langOf, say,
+} from "./_shared.js";
 
 const ATTEMPTS = 20;
 const WINDOW_S = 3600;
@@ -67,6 +69,7 @@ async function myCode(admin: SupabaseClient, user: User): Promise<string | null>
 
 export default async function handler(req: Req, res: Res) {
   if (preflight(req, res)) return;
+  const tx = say(langOf(req));
   const { action, code: raw } = (req.body ?? {}) as { action?: string; code?: string };
   const admin = adminClient();
   const user = await authUser(req, admin);
@@ -74,7 +77,7 @@ export default async function handler(req: Req, res: Res) {
   if (action === "mine") {
     if (!user) return res.status(401).json({ error: "Invalid token" });
     const code = await myCode(admin, user);
-    if (!code) return res.status(503).json({ error: "Codes indisponibles" });
+    if (!code) return res.status(503).json({ error: tx("Codes indisponibles", "Codes unavailable") });
     const { data } = await admin.from("code_uses").select("user_id, used_at, subscribed_at, rewarded_at")
       .eq("referrer", user.id).order("used_at", { ascending: false }).limit(100);
     const rows = (data ?? []) as { user_id: string; used_at: string; subscribed_at: string | null; rewarded_at: string | null }[];
@@ -98,15 +101,15 @@ export default async function handler(req: Req, res: Res) {
 
   const ip = String(req.headers["x-forwarded-for"] ?? "").split(",")[0].trim() || "?";
   const { data: allowed, error: rlError } = await admin.rpc("check_code_attempt", { p_key: user ? `u:${user.id}` : `ip:${ip}`, p_limit: ATTEMPTS, p_window_seconds: WINDOW_S });
-  if (rlError) return res.status(503).json({ error: "Codes indisponibles" });
-  if (!allowed) return res.status(429).json({ error: "Trop d'essais. Réessaie dans une heure." });
+  if (rlError) return res.status(503).json({ error: tx("Codes indisponibles", "Codes unavailable") });
+  if (!allowed) return res.status(429).json({ error: tx("Trop d'essais. Réessaie dans une heure.", "Too many tries. Try again in an hour.") });
 
   const v = await verdict(admin, user, code);
   if (action === "check" || v.status !== "ok" || !user) {
     return res.json({ ...v, c: undefined });
   }
   const { data: status, error } = await admin.rpc("redeem_code", { p_user_id: user.id, p_code: code });
-  if (error) return res.status(503).json({ error: "Codes indisponibles" });
+  if (error) return res.status(503).json({ error: tx("Codes indisponibles", "Codes unavailable") });
   if (status !== "ok") return res.json({ status });
   // La semaine d'essai en plus : Plus jusqu'à cette date (le compte relit sa session pour la voir)
   const plusUntil = plusWeek(user);
@@ -116,10 +119,12 @@ export default async function handler(req: Req, res: Res) {
   if (v.c?.kind === "friend" && v.c.owner) {
     const meta = user.user_metadata ?? {};
     const name = (await firstName(admin, user.id)) || String(meta.first_name ?? meta.full_name ?? meta.name ?? "").trim().split(/\s+/)[0];
+    // Dans la langue de l'appli de celui qui a invité
+    const en = userLang((await admin.auth.admin.getUserById(v.c.owner)).data?.user) === "en";
     await notify(admin, v.c.owner, {
       kind: "referral", key: `ref-join:${user.id}`, url: "/parrainage",
-      title: `${name || "Un ami"} a rejoint Frigia avec ton lien`,
-      body: `Ton mois offert arrive dès que ${name || "ton ami"} passe à Plus.`,
+      title: en ? `${name || "A friend"} joined Frigia with your link` : `${name || "Un ami"} a rejoint Frigia avec ton lien`,
+      body: en ? `Your free month arrives as soon as ${name || "your friend"} gets Plus.` : `Ton mois offert arrive dès que ${name || "ton ami"} passe à Plus.`,
     });
   }
   res.json({ status: "ok", perk: v.perk, plusUntil, offer: (v.c?.plus_days ?? 0) > 0 });

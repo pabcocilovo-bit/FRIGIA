@@ -3,6 +3,7 @@
 import { useSyncExternalStore } from "react";
 import { supabase } from "../supabase";
 import { postApi } from "./api";
+import { t } from "./i18n";
 
 export type NotifKind = "evening" | "week" | "referral" | "scans" | "report" | "welcome" | "list";
 export type Notif = { id: string; kind: NotifKind; title: string; body: string; url: string | null; action: string | null; date: Date; read: boolean };
@@ -46,7 +47,7 @@ export function removeNotif(id: string) {
 /** « Bienvenue » : le seul message que le compte écrit lui-même, une fois */
 export async function addWelcome(userId: string) {
   await supabase.from("notifications").upsert(
-    { user_id: userId, kind: "welcome", key: "welcome", title: "Bienvenue", body: "Ton premier scan t'attend : ouvre ton frigo, on s'occupe du reste." },
+    { user_id: userId, kind: "welcome", key: "welcome", title: t("Bienvenue", "Welcome"), body: t("Ton premier scan t'attend : ouvre ton frigo, on s'occupe du reste.", "Your first scan is waiting: open your fridge, we'll handle the rest.") },
     { onConflict: "user_id,key", ignoreDuplicates: true },
   );
 }

@@ -2,6 +2,7 @@
 // Entrée ou ✓ enregistre, Échap annule ; toucher ailleurs enregistre aussi.
 import { useState } from "react";
 import { Icon } from "../../ui/components";
+import { t } from "../../lib/i18n";
 
 export function ItemEdit({ name, qty, focus, onSave, onCancel }: {
   name: string; qty: string; focus: "name" | "qty";
@@ -14,9 +15,9 @@ export function ItemEdit({ name, qty, focus, onSave, onCancel }: {
     <form className="ied" onSubmit={e => { e.preventDefault(); save(); }}
       onKeyDown={e => { if (e.key === "Escape") onCancel(); }}
       onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) save(); }}>
-      <input className="ied-n" value={n} onChange={e => setN(e.target.value)} aria-label="Nom" maxLength={60} autoFocus={focus === "name"} enterKeyHint="done" />
-      <input className="ied-q" value={q} onChange={e => setQ(e.target.value)} aria-label="Quantité" placeholder="Quantité" maxLength={30} autoFocus={focus === "qty"} enterKeyHint="done" />
-      <button type="submit" aria-label="Enregistrer"><Icon name="check" /></button>
+      <input className="ied-n" value={n} onChange={e => setN(e.target.value)} aria-label={t("Nom", "Name")} maxLength={60} autoFocus={focus === "name"} enterKeyHint="done" />
+      <input className="ied-q" value={q} onChange={e => setQ(e.target.value)} aria-label={t("Quantité", "Quantity")} placeholder={t("Quantité", "Quantity")} maxLength={30} autoFocus={focus === "qty"} enterKeyHint="done" />
+      <button type="submit" aria-label={t("Enregistrer", "Save")}><Icon name="check" /></button>
     </form>
   );
 }

@@ -1,0 +1,807 @@
+{
+"Crêpes": [
+15,
+"crepe",
+"crepes"
+],
+"Dairy-free crêpes": [
+15,
+"crepe",
+"crepes"
+],
+"Buckwheat galettes with ham, egg and emmental": [
+8,
+"galette",
+"galettes"
+],
+"Galette complète": [
+8,
+"galette",
+"galettes"
+],
+"Sausage galette": [
+8,
+"galette",
+"galettes"
+],
+"Goat's cheese and spinach galette": [
+8,
+"galette",
+"galettes"
+],
+"Waffles": [
+10,
+"waffle",
+"waffles"
+],
+"Liège waffles": [
+14,
+"waffle",
+"waffles"
+],
+"Light waffles": [
+8,
+"waffle",
+"waffles"
+],
+"Pancakes": [
+16,
+"pancake",
+"pancakes"
+],
+"Banana pancakes": [
+12,
+"pancake",
+"pancakes"
+],
+"Healthy oat pancakes": [
+10,
+"pancake",
+"pancakes"
+],
+"French toast": [
+8,
+"slice",
+"slices"
+],
+"Brioche French toast": [
+8,
+"slice",
+"slices"
+],
+"Savoury French toast": [
+8,
+"slice",
+"slices"
+],
+"Chocolate chip cookies": [
+16,
+"cookie",
+"cookies"
+],
+"Oatmeal cookies": [
+16,
+"cookie",
+"cookies"
+],
+"Double chocolate cookies": [
+16,
+"cookie",
+"cookies"
+],
+"Blueberry muffins": [
+12,
+"muffin",
+"muffins"
+],
+"Chocolate muffins": [
+12,
+"muffin",
+"muffins"
+],
+"Courgette and feta savoury muffins": [
+12,
+"muffin",
+"muffins"
+],
+"Ham and cheese savoury muffins": [
+12,
+"muffin",
+"muffins"
+],
+"Vegetable savoury muffins": [
+12,
+"muffin",
+"muffins"
+],
+"Chorizo and pepper savoury muffins": [
+12,
+"muffin",
+"muffins"
+],
+"Madeleines": [
+24,
+"madeleine",
+"madeleines"
+],
+"Chocolate madeleines": [
+24,
+"madeleine",
+"madeleines"
+],
+"Honey madeleines": [
+24,
+"madeleine",
+"madeleines"
+],
+"Almond financiers": [
+12,
+"financier",
+"financiers"
+],
+"Raspberry financiers": [
+12,
+"financier",
+"financiers"
+],
+"Chocolate financiers": [
+12,
+"financier",
+"financiers"
+],
+"Butter shortbread": [
+25,
+"shortbread biscuit",
+"shortbread biscuits"
+],
+"Lemon shortbread": [
+25,
+"shortbread biscuit",
+"shortbread biscuits"
+],
+"Chocolate shortbread": [
+25,
+"shortbread biscuit",
+"shortbread biscuits"
+],
+"Vanilla cupcakes": [
+12,
+"cupcake",
+"cupcakes"
+],
+"Chocolate cupcakes": [
+12,
+"cupcake",
+"cupcakes"
+],
+"Lemon cupcakes": [
+12,
+"cupcake",
+"cupcakes"
+],
+"Glazed doughnuts": [
+12,
+"doughnut",
+"doughnuts"
+],
+"Chocolate doughnuts": [
+12,
+"doughnut",
+"doughnuts"
+],
+"Baked doughnuts": [
+8,
+"doughnut",
+"doughnuts"
+],
+"Sugar doughnuts": [
+16,
+"beignet",
+"beignets"
+],
+"Banana fritters": [
+16,
+"beignet",
+"beignets"
+],
+"Apple fritters": [
+24,
+"beignet",
+"beignets"
+],
+"Churros": [
+24,
+"churro",
+"churros"
+],
+"Churros with chocolate sauce": [
+24,
+"churro",
+"churros"
+],
+"Baked churros": [
+20,
+"churro",
+"churros"
+],
+"Chocolate profiteroles": [
+20,
+"choux bun",
+"choux buns"
+],
+"Whipped cream choux buns": [
+20,
+"choux bun",
+"choux buns"
+],
+"Caramel profiteroles": [
+20,
+"choux bun",
+"choux buns"
+],
+"Chocolate éclairs": [
+12,
+"éclair",
+"éclairs"
+],
+"Coffee éclairs": [
+12,
+"éclair",
+"éclairs"
+],
+"Cream-filled éclairs": [
+12,
+"éclair",
+"éclairs"
+],
+"Comté gougères": [
+30,
+"gougère",
+"gougères"
+],
+"Ham gougères": [
+30,
+"gougère",
+"gougères"
+],
+"Herb gougères": [
+30,
+"gougère",
+"gougères"
+],
+"Homemade blinis": [
+24,
+"blini",
+"blinis"
+],
+"Goat's cheese blinis": [
+24,
+"blini",
+"blinis"
+],
+"Buckwheat blinis": [
+24,
+"blini",
+"blinis"
+],
+"Pork nems": [
+16,
+"spring roll",
+"spring rolls"
+],
+"Chicken nems": [
+16,
+"spring roll",
+"spring rolls"
+],
+"Baked vegetable nems": [
+16,
+"spring roll",
+"spring rolls"
+],
+"Prawn spring rolls": [
+8,
+"roll",
+"rolls"
+],
+"Tofu spring rolls": [
+8,
+"roll",
+"rolls"
+],
+"Chicken spring rolls": [
+8,
+"roll",
+"rolls"
+],
+"Beef samosas": [
+16,
+"samosa",
+"samosas"
+],
+"Vegetable samosas": [
+16,
+"samosa",
+"samosas"
+],
+"Tuna samosas": [
+16,
+"samosa",
+"samosas"
+],
+"Pork gyoza": [
+30,
+"gyoza",
+"gyozas"
+],
+"Vegetable gyoza": [
+30,
+"gyoza",
+"gyozas"
+],
+"Prawn gyoza": [
+30,
+"gyoza",
+"gyozas"
+],
+"Salt cod fritters": [
+30,
+"saltfish fritter",
+"saltfish fritters"
+],
+"Prawn fritters": [
+30,
+"saltfish fritter",
+"saltfish fritters"
+],
+"Vegetable fritters": [
+20,
+"saltfish fritter",
+"saltfish fritters"
+],
+"Falafel": [
+20,
+"falafel",
+"falafels"
+],
+"Baked falafel": [
+20,
+"falafel",
+"falafels"
+],
+"Beef meatballs in tomato sauce": [
+20,
+"meatball",
+"meatballs"
+],
+"Chicken meatballs": [
+20,
+"meatball",
+"meatballs"
+],
+"Oriental kofta": [
+16,
+"kofta",
+"koftas"
+],
+"Homemade chicken nuggets": [
+24,
+"nugget",
+"nuggets"
+],
+"Oven-baked chicken nuggets": [
+24,
+"nugget",
+"nuggets"
+],
+"Beef tacos": [
+12,
+"taco",
+"tacos"
+],
+"Chicken tacos": [
+12,
+"taco",
+"tacos"
+],
+"Fish tacos": [
+12,
+"taco",
+"tacos"
+],
+"Chicken fajitas": [
+8,
+"fajita",
+"fajitas"
+],
+"Beef fajitas": [
+8,
+"fajita",
+"fajitas"
+],
+"Vegetarian fajitas": [
+8,
+"fajita",
+"fajitas"
+],
+"Chicken quesadillas": [
+4,
+"quesadilla",
+"quesadillas"
+],
+"Cheese and bean quesadillas": [
+4,
+"quesadilla",
+"quesadillas"
+],
+"Ham quesadillas": [
+4,
+"quesadilla",
+"quesadillas"
+],
+"Beef burritos": [
+4,
+"burrito",
+"burritos"
+],
+"Chicken burritos": [
+4,
+"burrito",
+"burritos"
+],
+"Vegetarian burritos": [
+4,
+"burrito",
+"burritos"
+],
+"Chicken wrap": [
+4,
+"wrap",
+"wraps"
+],
+"Tuna wrap": [
+4,
+"wrap",
+"wraps"
+],
+"Hummus and vegetable wrap": [
+4,
+"wrap",
+"wraps"
+],
+"Falafel wrap": [
+4,
+"wrap",
+"wraps"
+],
+"Homemade burger": [
+4,
+"burger",
+"burgers"
+],
+"Crispy chicken burger": [
+4,
+"burger",
+"burgers"
+],
+"Veggie burger": [
+4,
+"burger",
+"burgers"
+],
+"Homemade hot dogs": [
+4,
+"hot dog",
+"hot dogs"
+],
+"Cheesy hot dogs": [
+4,
+"hot dog",
+"hot dogs"
+],
+"Vegetarian hot dogs": [
+4,
+"hot dog",
+"hot dogs"
+],
+"Salmon and cream cheese bagels": [
+4,
+"bagel",
+"bagels"
+],
+"Chicken and salad bagels": [
+4,
+"bagel",
+"bagels"
+],
+"Vegetarian bagels": [
+4,
+"bagel",
+"bagels"
+],
+"Homemade chicken kebab": [
+4,
+"pita",
+"pitas"
+],
+"Gyros": [
+4,
+"pita",
+"pitas"
+],
+"Vegetarian falafel kebab": [
+4,
+"pita",
+"pitas"
+],
+"Chicken shawarma": [
+4,
+"pita",
+"pitas"
+],
+"Cauliflower shawarma": [
+4,
+"pita",
+"pitas"
+],
+"Plain naan": [
+8,
+"naan",
+"naans"
+],
+"Cheese naan": [
+8,
+"naan",
+"naans"
+],
+"Garlic naan": [
+8,
+"naan",
+"naans"
+],
+"Beef empanadas": [
+12,
+"empanada",
+"empanadas"
+],
+"Chicken empanadas": [
+12,
+"empanada",
+"empanadas"
+],
+"Cheese empanadas": [
+12,
+"empanada",
+"empanadas"
+],
+"Arancini": [
+16,
+"arancini",
+"arancini"
+],
+"Bolognese arancini": [
+16,
+"arancini",
+"arancini"
+],
+"Baked arancini": [
+16,
+"arancini",
+"arancini"
+],
+"Spinach and ricotta cannelloni": [
+16,
+"cannelloni",
+"cannelloni"
+],
+"Meat cannelloni": [
+16,
+"cannelloni",
+"cannelloni"
+],
+"Salmon cannelloni": [
+16,
+"cannelloni",
+"cannelloni"
+],
+"Salmon maki": [
+40,
+"maki roll",
+"maki rolls"
+],
+"Vegetarian maki": [
+40,
+"maki roll",
+"maki rolls"
+],
+"California rolls": [
+32,
+"maki roll",
+"maki rolls"
+],
+"Stuffed tomatoes": [
+8,
+"stuffed tomato",
+"stuffed tomatoes"
+],
+"Vegetarian stuffed tomatoes": [
+8,
+"stuffed tomato",
+"stuffed tomatoes"
+],
+"Stuffed mushrooms": [
+12,
+"stuffed mushroom",
+"stuffed mushrooms"
+],
+"Sausage-stuffed mushrooms": [
+12,
+"stuffed mushroom",
+"stuffed mushrooms"
+],
+"Goat's cheese stuffed mushrooms": [
+12,
+"stuffed mushroom",
+"stuffed mushrooms"
+],
+"Eggs mimosa": [
+16,
+"devilled egg",
+"devilled eggs"
+],
+"Tuna eggs mimosa": [
+16,
+"devilled egg",
+"devilled eggs"
+],
+"Light eggs mimosa": [
+16,
+"devilled egg",
+"devilled eggs"
+],
+"Croque-monsieur": [
+4,
+"toastie",
+"toasties"
+],
+"Croque-madame": [
+4,
+"toastie",
+"toasties"
+],
+"Vegetarian croque-monsieur": [
+4,
+"toastie",
+"toasties"
+],
+"Club sandwich": [
+4,
+"club sandwich",
+"club sandwiches"
+],
+"Tuna club sandwich": [
+4,
+"club sandwich",
+"club sandwiches"
+],
+"Vegetarian club sandwich": [
+4,
+"club sandwich",
+"club sandwiches"
+],
+"Tomato and basil bruschetta": [
+8,
+"bruschetta",
+"bruschettas"
+],
+"Mozzarella and cured ham bruschetta": [
+8,
+"bruschetta",
+"bruschettas"
+],
+"Avocado and egg bruschetta": [
+4,
+"bruschetta",
+"bruschettas"
+],
+"Avocado toast": [
+4,
+"open sandwich",
+"open sandwiches"
+],
+"Poached egg avocado toast": [
+4,
+"open sandwich",
+"open sandwiches"
+],
+"Smoked salmon avocado toast": [
+4,
+"open sandwich",
+"open sandwiches"
+],
+"Sausage rolls": [
+24,
+"pastry",
+"pastries"
+],
+"Cheese twists": [
+20,
+"pastry",
+"pastries"
+],
+"Meat puff pastry parcels": [
+8,
+"sausage roll",
+"sausage rolls"
+],
+"Quick puff pastry turnovers": [
+8,
+"turnover",
+"turnovers"
+],
+"Homemade pizza margherita": [
+2,
+"pizza",
+"pizzas"
+],
+"Ham and mushroom pizza": [
+2,
+"pizza",
+"pizzas"
+],
+"Quick no-rise pizza": [
+1,
+"pizza",
+"pizzas"
+],
+"Mini strawberry pavlovas": [
+8,
+"mini pavlova",
+"mini pavlovas"
+],
+"Cocoa mug cake": [
+4,
+"mug cake",
+"mug cakes"
+],
+"Chicken satay skewers": [
+8,
+"skewer",
+"skewers"
+],
+"Marinated chicken skewers": [
+8,
+"skewer",
+"skewers"
+],
+"Yoghurt chicken skewers": [
+8,
+"skewer",
+"skewers"
+],
+"Honey chicken skewers": [
+8,
+"skewer",
+"skewers"
+],
+"Tandoori chicken skewers": [
+8,
+"skewer",
+"skewers"
+],
+"Baked marinated chicken wings": [
+20,
+"wing",
+"wings"
+],
+"Buffalo chicken wings": [
+20,
+"wing",
+"wings"
+],
+"Caramel chicken wings": [
+20,
+"wing",
+"wings"
+]
+}

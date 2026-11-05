@@ -1,0 +1,112 @@
+[
+ {"q":"Tuna pasta","a":["tuna tomato pasta","spaghetti with tuna"],"fr":"Pâtes au thon","r":[
+  ["Tuna and tomato pasta","The classic","","Pasta in a tomato sauce with tuna, garlic and capers: the dinner for busy evenings.","",20,520,"F","tuna tomato pasta","bf",
+   ["pasta|pasta|400|g","tuna in water|tuna in water|280|g","chopped tomato|chopped tomatoes|400|g","onion|onions|1|","garlic|garlic|2|clove","caper|capers|1|tbsp","olive oil|olive oil|2|tbsp"],
+   ["Cook the pasta.|Cooking|10","Fry the onion and the garlic in the oil.","Add the tomatoes and leave to simmer for 10 minutes.|Cooking|10","Add the flaked tuna and the capers, and mix with the pasta."]],
+  ["Creamy tuna pasta","Creamy","A lemon cream sauce instead of tomato.","Creamy tuna pasta with lemon and chives.","",20,580,"F","creamy tuna pasta","bf",
+   ["pasta|pasta|400|g","tuna in water|tuna in water|280|g","crème fraîche|crème fraîche|20|cl","lemon|lemons|1|","chive|chives||","parmesan|parmesan|30|g"],
+   ["Cook the pasta.|Cooking|10","Heat the cream with the lemon zest.","Add the flaked tuna and a little lemon juice.","Mix with the pasta, the chives and the parmesan."]],
+  ["Baked tuna pasta","Oven-baked","Baked in the oven with cheese.","A simple, family tuna pasta bake.","",35,600,"F","tuna pasta bake","obf",
+   ["pasta|pasta|350|g","tuna in water|tuna in water|280|g","chopped tomato|chopped tomatoes|400|g","mozzarella|mozzarella|1|","grated emmental|grated emmental|80|g"],
+   ["Preheat the oven to 200 °C. Cook the pasta for 2 minutes less than the packet says.|Cooking|8","Mix the pasta, the tomatoes and the tuna in a dish.","Cover with mozzarella and Emmental.","Bake for 20 minutes.|Oven|20"]]
+ ]},
+ {"q":"Chicken pasta","a":["creamy chicken pasta","chicken tagliatelle"],"fr":"Pâtes au poulet","r":[
+  ["Creamy chicken pasta","The classic","","Tagliatelle with browned chicken and a creamy mushroom sauce.","",30,620,"F","creamy chicken pasta","f",
+   ["tagliatelle|tagliatelle|400|g","chicken breast|chicken breasts|3|","button mushroom|button mushrooms|200|g","crème fraîche|crème fraîche|20|cl","shallot|shallots|1|","parmesan|parmesan|30|g"],
+   ["Cook the pasta.|Cooking|10","Brown the diced chicken for 6 minutes, then remove it.|Pan|6","Fry the shallot and the sliced mushrooms for 5 minutes.|Pan|5","Add the cream and the chicken, and leave for 3 minutes.","Mix with the pasta and sprinkle with parmesan."]],
+  ["Pesto chicken pasta","Pesto","With pesto and cherry tomatoes.","A light chicken pasta, with pesto.","",25,560,"F","pesto chicken pasta","",
+   ["pasta|pasta|400|g","chicken breast|chicken breasts|3|","pesto|pesto|4|tbsp","cherry tomato|cherry tomatoes|250|g","parmesan|parmesan|30|g"],
+   ["Cook the pasta.|Cooking|10","Brown the diced chicken for 6 minutes.|Pan|6","Add the halved cherry tomatoes and leave for 2 minutes.","Mix with the pasta, the pesto and the parmesan."]],
+  ["Lemon chicken pasta","Lemon","A light sauce with lemon and spinach.","Fresh pasta with chicken, lemon and spinach.","",25,520,"F","lemon chicken pasta spinach","h",
+   ["pasta|pasta|400|g","chicken breast|chicken breasts|3|","lemon|lemons|1|","baby spinach|baby spinach|100|g","garlic|garlic|2|clove","olive oil|olive oil|3|tbsp"],
+   ["Cook the pasta.|Cooking|10","Brown the diced chicken with the garlic in the oil.|Pan|6","Add the spinach, and the zest and juice of the lemon.","Mix with the pasta and a little of the cooking water."]]
+ ]},
+ {"q":"Spaghetti alle vongole","a":["clam spaghetti","spaghetti with clams","vongole","seafood pasta"],"fr":"Spaghetti alle vongole","r":[
+  ["Spaghetti with clams","The classic","","Italian spaghetti with clams, garlic, white wine and parsley.","Italian dish",30,480,"M","spaghetti alle vongole","",
+   ["spaghetti|spaghetti|400|g","clam|clams|1000|g","garlic|garlic|3|clove","white wine|white wine|10|cl","parsley|parsley||","olive oil|olive oil|4|tbsp","chilli|chillies|1|"],
+   ["Soak the clams for 30 minutes in salted water to get rid of the sand.","Cook the spaghetti.|Cooking|9","Fry the garlic and the chilli in the oil, add the clams and the wine, and cover.","Take off the heat as soon as they open.|Cooking|4","Mix the spaghetti with the clams and the parsley."]],
+  ["Seafood pasta","Seafood","With a mix of frozen seafood and tomato.","Easy seafood pasta in a tomato sauce.","",25,500,"F","seafood pasta","",
+   ["spaghetti|spaghetti|400|g","frozen seafood mix|frozen seafood mix|400|g","chopped tomato|chopped tomatoes|400|g","garlic|garlic|2|clove","white wine|white wine|10|cl","parsley|parsley||"],
+   ["Cook the spaghetti.|Cooking|9","Fry the garlic, add the seafood and the wine, and leave for 5 minutes.|Pan|5","Add the tomatoes and leave for 8 minutes.|Cooking|8","Mix with the pasta and sprinkle with parsley."]],
+  ["Spaghetti with mussels","With mussels","Mussels instead of clams.","The more affordable version, with mussels.","",30,480,"M","mussel spaghetti","b",
+   ["spaghetti|spaghetti|400|g","mussel|mussels|1000|g","garlic|garlic|3|clove","white wine|white wine|10|cl","cherry tomato|cherry tomatoes|200|g","parsley|parsley||"],
+   ["Cook the spaghetti.|Cooking|9","Open the mussels with the garlic and the wine, covered.|Cooking|5","Shell half of them and add the cherry tomatoes.","Mix with the spaghetti and the parsley."]]
+ ]},
+ {"q":"Cannelloni","a":["cannellonis","spinach and ricotta cannelloni","meat cannelloni"],"fr":"Cannellonis","r":[
+  ["Spinach and ricotta cannelloni","The classic","","Pasta tubes stuffed with ricotta and spinach, baked in tomato sauce.","Italian dish",60,520,"M","spinach ricotta cannelloni","vo",
+   ["cannelloni tube|cannelloni tubes|16|","ricotta|ricotta|500|g","frozen spinach|frozen spinach|400|g","egg|eggs|1|","chopped tomato|chopped tomatoes|600|g","mozzarella|mozzarella|1|","parmesan|parmesan|50|g"],
+   ["Preheat the oven to 180 °C. Defrost the spinach and squeeze it dry.","Mix it with the ricotta, the egg, half of the parmesan, salt and pepper.","Fill the cannelloni using a piping bag or a small spoon.","Spread half of the tomatoes in a dish, arrange the cannelloni on top and cover with the rest.","Add the mozzarella and the parmesan, and bake for 35 minutes.|Oven|35"]],
+  ["Meat cannelloni","With meat","Stuffed with minced beef in tomato, under béchamel.","Cannelloni like rolled-up lasagne, with meat.","",70,620,"M","meat cannelloni bechamel","of",
+   ["cannelloni tube|cannelloni tubes|16|","minced beef|minced beef|500|g","chopped tomato|chopped tomatoes|400|g","onion|onions|1|","milk|milk|50|cl","flour|flour|40|g","butter|butter|40|g","grated emmental|grated emmental|80|g"],
+   ["Fry the onion and the beef, add half of the tomatoes and leave for 10 minutes.|Cooking|10","Make a béchamel with the butter, the flour and the milk.","Fill the cannelloni with the meat and arrange them in a dish on the rest of the tomatoes.","Cover with the béchamel and the Emmental.","Bake for 35 minutes at 180 °C.|Oven|35"]],
+  ["Salmon cannelloni","With salmon","Stuffed with salmon and ricotta.","Delicate cannelloni with salmon and dill.","",60,540,"M","salmon cannelloni","o",
+   ["cannelloni tube|cannelloni tubes|16|","salmon fillet|salmon fillets|2|","ricotta|ricotta|400|g","dill|dill||","crème fraîche|crème fraîche|25|cl","parmesan|parmesan|50|g"],
+   ["Steam the salmon for 10 minutes and flake it.|Cooking|10","Mix it with the ricotta and the dill.","Fill the cannelloni and arrange them in a dish.","Cover with the cream and the parmesan, and bake for 30 minutes at 180 °C.|Oven|30"]]
+ ]},
+ {"q":"Aubergine parmigiana","a":["parmigiana","aubergine parmesan","eggplant parmesan","melanzane"],"fr":"Aubergines à la parmesane","r":[
+  ["Aubergine parmigiana","The classic","","Layers of grilled aubergine slices with tomato sauce, mozzarella and parmesan.","Italian dish",75,420,"M","eggplant parmigiana","vo",
+   ["aubergine|aubergines|3|","chopped tomato|chopped tomatoes|800|g","mozzarella|mozzarella|2|","parmesan|parmesan|80|g","basil|basil||","garlic|garlic|2|clove","olive oil|olive oil|5|tbsp"],
+   ["Slice the aubergines, brush with oil and roast them in the oven for 20 minutes at 200 °C.|Oven|20","Simmer the tomatoes with the garlic for 15 minutes.|Cooking|15","Layer in a dish: sauce, aubergines, mozzarella, parmesan and basil.","Finish with sauce, mozzarella and parmesan.","Bake for 30 minutes at 180 °C.|Oven|30"]],
+  ["Aubergine and meat bake","With meat","With a layer of minced beef.","A generous aubergine bake, like a quick moussaka.","",75,520,"M","eggplant beef bake","o",
+   ["aubergine|aubergines|3|","minced beef|minced beef|400|g","chopped tomato|chopped tomatoes|600|g","onion|onions|1|","mozzarella|mozzarella|1|","parmesan|parmesan|50|g"],
+   ["Roast the sliced aubergines in the oven for 20 minutes.|Oven|20","Fry the onion and the beef, then add the tomatoes and leave for 10 minutes.|Cooking|10","Layer the aubergines and the meat in a dish.","Cover with mozzarella and parmesan, and bake for 25 minutes at 180 °C.|Oven|25"]],
+  ["Italian stuffed aubergines","Stuffed","The halved aubergines are stuffed.","Aubergine halves filled with tomato and mozzarella.","",55,350,"F","stuffed eggplant italian","voh",
+   ["aubergine|aubergines|2|","tomato|tomatoes|3|","mozzarella|mozzarella|1|","parmesan|parmesan|40|g","garlic|garlic|1|clove","basil|basil||"],
+   ["Preheat the oven to 200 °C. Halve the aubergines and score the flesh.","Bake for 25 minutes, then scoop out half of the flesh.|Oven|25","Mix the flesh with the diced tomatoes, the garlic and the basil.","Fill the aubergines, cover with mozzarella and parmesan, and bake for 15 minutes.|Oven|15"]]
+ ]},
+ {"q":"Polenta","a":["creamy polenta","grilled polenta","polenta chips"],"fr":"Polenta","r":[
+  ["Creamy parmesan polenta","The classic","","A smooth polenta with parmesan and butter, to serve with a meat in sauce.","Italian dish",15,320,"F","creamy polenta","vbf",
+   ["instant polenta|instant polenta|250|g","milk|milk|50|cl","parmesan|parmesan|60|g","butter|butter|30|g","salt|salt||"],
+   ["Bring the milk to the boil with 50 cl of salted water.","Pour in the polenta in a thin stream, whisking.","Cook for 5 minutes, stirring.|Cooking|5","Stir in the parmesan and the butter off the heat."]],
+  ["Grilled polenta","Grilled","Cooled, cut into pieces and browned in a pan.","Crispy polenta pieces, with a tomato sauce.","",30,300,"F","grilled polenta squares","vbf",
+   ["instant polenta|instant polenta|250|g","parmesan|parmesan|50|g","olive oil|olive oil|3|tbsp","chopped tomato|chopped tomatoes|400|g"],
+   ["Cook the polenta in 1 litre of salted water for 5 minutes, then stir in the parmesan.|Cooking|5","Spread it 2 cm thick in a dish and leave to cool for 1 hour.","Cut into pieces and brown them in the oil in a pan.|Pan|8","Serve with the heated tomato sauce."]],
+  ["Mushroom polenta","Mushroom","With creamy pan-fried mushrooms.","A creamy polenta topped with mushrooms.","",25,420,"F","polenta mushrooms","vb",
+   ["instant polenta|instant polenta|250|g","button mushroom|button mushrooms|400|g","shallot|shallots|2|","crème fraîche|crème fraîche|15|cl","parmesan|parmesan|50|g","parsley|parsley||"],
+   ["Fry the shallots and the sliced mushrooms for 10 minutes, then add the cream.|Pan|10","Cook the polenta in 1 litre of salted water for 5 minutes.|Cooking|5","Stir the parmesan into the polenta.","Serve the polenta with the mushrooms and the parsley."]]
+ ]},
+ {"q":"Saltimbocca","a":["veal saltimbocca","saltimbocca alla romana"],"fr":"Saltimbocca","r":[
+  ["Veal saltimbocca","The classic","","Thin veal escalopes with cured ham and sage, pan-fried and deglazed with white wine.","Italian dish",25,380,"M","veal saltimbocca","",
+   ["veal escalope|veal escalopes|4|","cured ham|cured ham|4|slices","sage|sage|8|leaves","butter|butter|30|g","white wine|white wine|10|cl","flour|flour|1|tbsp"],
+   ["Flatten the escalopes and cut them in half.","Lay half a slice of ham and a sage leaf on each one, held with a cocktail stick.","Lightly flour the meat side.","Brown for 2 minutes on each side in the butter.|Pan|4","Deglaze with the white wine and leave to reduce for 2 minutes."]],
+  ["Chicken saltimbocca","With chicken","With flattened chicken breasts.","The chicken saltimbocca, cheaper and just as good.","",30,360,"F","chicken saltimbocca","",
+   ["chicken breast|chicken breasts|4|","cured ham|cured ham|4|slices","sage|sage|8|leaves","butter|butter|30|g","white wine|white wine|10|cl"],
+   ["Slice the chicken breasts in half and flatten them.","Lay on the ham and the sage, and hold with a cocktail stick.","Brown for 4 minutes on each side in the butter.|Pan|8","Deglaze with the white wine and leave to reduce."]],
+  ["Lemon turkey saltimbocca","Turkey and lemon","With turkey and a lemon sauce.","Turkey escalopes with cured ham, in a lemon sauce.","",25,320,"F","turkey saltimbocca lemon","h",
+   ["turkey escalope|turkey escalopes|4|","cured ham|cured ham|4|slices","sage|sage|8|leaves","lemon|lemons|1|","butter|butter|20|g"],
+   ["Lay the ham and the sage on the escalopes and hold with a cocktail stick.","Brown for 3 minutes on each side in the butter.|Pan|6","Add the lemon juice and 5 cl of water.","Leave to reduce for 1 minute and serve."]]
+ ]},
+ {"q":"Courgette pasta","a":["zucchini pasta","courgette and feta pasta","spaghetti with courgettes"],"fr":"Pâtes aux courgettes","r":[
+  ["Courgette and parmesan pasta","The classic","","Pasta with soft courgettes cooked with garlic, lemon and parmesan.","",25,450,"F","zucchini pasta","vhbf",
+   ["pasta|pasta|400|g","courgette|courgettes|3|","garlic|garlic|2|clove","lemon|lemons|1|","parmesan|parmesan|50|g","olive oil|olive oil|3|tbsp"],
+   ["Cook the pasta.|Cooking|10","Grate the courgettes or cut them into thin slices.","Soften them for 10 minutes with the garlic in the oil.|Pan|10","Mix with the pasta, the lemon zest and the parmesan."]],
+  ["Courgette and feta pasta","Feta","With feta and mint.","Fresh pasta with courgettes, feta and mint.","",25,470,"F","zucchini feta pasta","vh",
+   ["pasta|pasta|400|g","courgette|courgettes|3|","feta|feta|150|g","fresh mint|fresh mint||","garlic|garlic|1|clove","olive oil|olive oil|3|tbsp"],
+   ["Cook the pasta.|Cooking|10","Fry the diced courgettes with the garlic for 8 minutes.|Pan|8","Mix with the pasta.","Add the crumbled feta and the chopped mint."]],
+  ["Courgette and bacon pasta","Bacon","With bacon and cream.","Creamy pasta with courgettes and bacon.","",25,560,"F","zucchini bacon pasta","bf",
+   ["pasta|pasta|400|g","courgette|courgettes|2|","bacon lardon|bacon lardons|150|g","crème fraîche|crème fraîche|15|cl","parmesan|parmesan|30|g"],
+   ["Cook the pasta.|Cooking|10","Brown the bacon, then add the diced courgettes for 8 minutes.|Pan|8","Add the cream and leave for 2 minutes.","Mix with the pasta and the parmesan."]]
+ ]},
+ {"q":"Arancini","a":["rice balls","sicilian rice balls"],"fr":"Arancini","r":[
+  ["Arancini","The classic","","Sicilian risotto balls with a mozzarella centre, breaded and fried.","Sicilian speciality",90,420,"D","arancini","ve",
+   ["risotto rice|risotto rice|300|g","vegetable stock|vegetable stock|1|","parmesan|parmesan|60|g","mozzarella|mozzarella|1|","egg|eggs|2|","breadcrumb|breadcrumbs|100|g","frying oil|frying oil|100|cl"],
+   ["Make a risotto: toast the rice until translucent, then add the stock little by little for 18 minutes.|Cooking|18","Stir in the parmesan and leave to cool completely.","Shape into balls with a cube of mozzarella in the middle.","Dip them in the beaten eggs, then in the breadcrumbs.","Fry for 4 minutes in the hot oil.|Frying|4"]],
+  ["Bolognese arancini","With meat","With a bolognese sauce centre.","Meat-filled arancini, like in Sicily.","",100,480,"D","meat arancini","e",
+   ["risotto rice|risotto rice|300|g","vegetable stock|vegetable stock|1|","parmesan|parmesan|50|g","minced beef|minced beef|200|g","chopped tomato|chopped tomatoes|200|g","egg|eggs|2|","breadcrumb|breadcrumbs|100|g","frying oil|frying oil|100|cl"],
+   ["Make a parmesan risotto and leave it to cool.|Cooking|18","Make a small, thick bolognese with the beef and the tomatoes.|Cooking|15","Shape the rice into balls with a little bolognese in the middle.","Coat them in egg and breadcrumbs, and fry for 4 minutes.|Frying|4"]],
+  ["Baked arancini","Oven-baked","Baked in the oven rather than fried.","Lighter arancini, golden from the oven.","",80,350,"M","baked arancini","voe",
+   ["risotto rice|risotto rice|300|g","vegetable stock|vegetable stock|1|","parmesan|parmesan|60|g","mozzarella|mozzarella|1|","egg|eggs|2|","breadcrumb|breadcrumbs|100|g","olive oil|olive oil|3|tbsp"],
+   ["Make a parmesan risotto and leave it to cool.|Cooking|18","Shape into balls with a cube of mozzarella in the middle.","Coat them in egg and breadcrumbs, and drizzle with oil.","Bake for 25 minutes at 200 °C.|Oven|25"]]
+ ]},
+ {"q":"Four cheese pasta","a":["4 cheese pasta","quattro formaggi","four cheese penne"],"fr":"Pâtes aux quatre fromages","r":[
+  ["Four cheese pasta","The classic","","Pasta covered in a melting cream sauce with gorgonzola, mozzarella, parmesan and Emmental.","",20,700,"F","four cheese pasta","vf",
+   ["pasta|pasta|400|g","gorgonzola|gorgonzola|100|g","mozzarella|mozzarella|1|","parmesan|parmesan|40|g","grated emmental|grated emmental|60|g","single cream|single cream|20|cl"],
+   ["Cook the pasta.|Cooking|10","Heat the cream over a low heat.","Add the gorgonzola, the diced mozzarella, the Emmental and the parmesan, and stir until everything has melted.","Mix with the pasta and add pepper."]],
+  ["Baked four cheese pasta","Oven-baked","Finished in the oven.","A four cheese pasta bake, golden and stringy.","",35,720,"F","baked four cheese pasta","vof",
+   ["short pasta|short pasta|400|g","gorgonzola|gorgonzola|100|g","mozzarella|mozzarella|1|","parmesan|parmesan|40|g","grated emmental|grated emmental|80|g","single cream|single cream|20|cl"],
+   ["Preheat the oven to 200 °C. Cook the pasta for 2 minutes less than the packet says.|Cooking|8","Melt the gorgonzola and the parmesan in the cream.","Mix with the pasta in a dish and cover with mozzarella and Emmental.","Bake for 15 minutes.|Oven|15"]],
+  ["Mild three cheese pasta","Mild cheeses","No blue cheese, for kids.","A mild version with no blue cheese, using Emmental, mozzarella and parmesan.","",20,650,"F","mild cheese pasta","vbf",
+   ["pasta|pasta|400|g","mozzarella|mozzarella|1|","grated emmental|grated emmental|80|g","parmesan|parmesan|40|g","single cream|single cream|20|cl"],
+   ["Cook the pasta.|Cooking|10","Heat the cream and melt the cheeses in it.","Mix with the pasta.","Add pepper and serve straight away."]]
+ ]}
+]

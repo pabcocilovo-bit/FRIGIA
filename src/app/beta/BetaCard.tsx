@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Icon } from "../../ui/components";
 import type { User } from "../../lib/types";
+import { t } from "../../lib/i18n";
 import { answeredFeedback, shouldAskFeedback, snoozeFeedback } from "./survey";
 import "./beta.css";
 
@@ -23,13 +24,13 @@ export function BetaCard({ user, uses }: { user: User | null; uses: number }) {
   if (hidden || !user || !ask || checked !== user.id) return null;
   // Une seule ligne : l'accueil tient en un écran, la recette de la semaine rétrécit pour lui faire de la place
   return (
-    <section className="av-card" aria-label="Ton avis compte">
+    <section className="av-card" aria-label={t("Ton avis compte", "Your opinion matters")}>
       <button type="button" className="av-card-go" onClick={() => navigate("/avis?depuis=accueil")}>
         <span className="av-card-ic"><Icon name="msg" /></span>
-        <span className="tx"><b>Ton avis compte</b><span>2 minutes pour nous aider</span></span>
+        <span className="tx"><b>{t("Ton avis compte", "Your opinion matters")}</b><span>{t("2 minutes pour nous aider", "2 minutes to help us")}</span></span>
         <Icon name="next" />
       </button>
-      <button type="button" className="av-later" aria-label="Plus tard" onClick={() => { snoozeFeedback(user.id); setHidden(true); }}><Icon name="x" /></button>
+      <button type="button" className="av-later" aria-label={t("Plus tard", "Later")} onClick={() => { snoozeFeedback(user.id); setHidden(true); }}><Icon name="x" /></button>
     </section>
   );
 }

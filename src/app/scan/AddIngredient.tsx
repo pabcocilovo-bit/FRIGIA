@@ -9,11 +9,12 @@ import { showToast } from "../toast";
 import { CATALOG, type Cat, OFTEN, same, type Sug, typedSug } from "./catalog";
 import { communityIngredients, shareTyped } from "./community";
 import { getScan, setScan, useScan } from "./store";
+import { isEn, t } from "../../lib/i18n";
 import "./scan.css";
 
 const CAT: Record<Cat, [IconName, string]> = {
-  legume: ["sprout", "Légumes"], fruit: ["leaf", "Fruits"], herbe: ["leaf", "Herbes"], cremerie: ["milk", "Crèmerie"],
-  viande: ["utensils", "Boucherie"], poisson: ["fish", "Poissonnerie"], epicerie: ["wheat", "Épicerie"], libre: ["plus", "Ajouté à la main"],
+  legume: ["sprout", t("Légumes", "Vegetables")], fruit: ["leaf", t("Fruits", "Fruit")], herbe: ["leaf", t("Herbes", "Herbs")], cremerie: ["milk", t("Crèmerie", "Dairy & eggs")],
+  viande: ["utensils", t("Boucherie", "Meat")], poisson: ["fish", t("Poissonnerie", "Fish")], epicerie: ["wheat", t("Épicerie", "Pantry")], libre: ["plus", t("Ajouté à la main", "Added by hand")],
 };
 const norm = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
@@ -25,7 +26,7 @@ function Row({ it, q, on, onClick }: { it: Sug; q: string; on: boolean; onClick:
       <span className={"ai-ic c-" + it[1]}><Icon name={icon} /></span>
       <span className="tx">
         <b>{i >= 0 ? <>{it[0].slice(0, i)}<mark>{it[0].slice(i, i + q.length)}</mark>{it[0].slice(i + q.length)}</> : it[0]}</b>
-        <small>{it[1] === "libre" ? "Pas dans la liste : on l'ajoute, et tu le retrouveras ici" : it[3] === "toi" ? `${label} · ajouté par toi` : it[3] ? `${label} · ajouté par la communauté` : `${label} · ${it[2]}`}</small>
+        <small>{it[1] === "libre" ? t("Pas dans la liste : on l'ajoute, et tu le retrouveras ici", "Not in the list: we'll add it, and you'll find it here next time") : it[3] === "toi" ? `${label} · ${t("ajouté par toi", "added by you")}` : it[3] ? `${label} · ${t("ajouté par la communauté", "added by the community")}` : `${label} · ${it[2]}`}</small>
       </span>
       <span className="ai-pl"><Icon name={on ? "check" : "plus"} /></span>
     </button>
@@ -44,12 +45,13 @@ export function AddIngredient({ mine, onMine }: { mine: string[]; onMine: (names
   const input = useRef<HTMLInputElement>(null);
   useEffect(() => {
     let on = true;
-    void communityIngredients(n => setCommunity(n)).then(n => { if (on) setCommunity(n); });
+    // En anglais, pas de suggestions de la communauté : elles sont tapées en français
+    if (!isEn) void communityIngredients(n => setCommunity(n)).then(n => { if (on) setCommunity(n); });
     return () => { on = false; };
   }, []);
   useEffect(() => {
-    const t = setTimeout(() => { if (window.innerWidth > 700) input.current?.focus(); }, 350);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => { if (window.innerWidth > 700) input.current?.focus(); }, 350);
+    return () => clearTimeout(timer);
   }, []);
 
   const q = norm(raw.trim());
@@ -66,15 +68,15 @@ export function AddIngredient({ mine, onMine }: { mine: string[]; onMine: (names
 
   let rows: Sug[], sec: string, more = false;
   if (!q) {
-    sec = "Souvent ajoutés";
+    sec = t("Souvent ajoutés", "Often added");
     rows = all ? pool : pool.slice(0, 6);
     more = !all && pool.length > 6;
   } else {
     rows = pool.filter(it => norm(it[0]).includes(q)).sort((a, b) => norm(a[0]).indexOf(q) - norm(b[0]).indexOf(q));
-    sec = rows.length ? `${rows.length} résultat${rows.length > 1 ? "s" : ""}` : "Aucun résultat";
+    sec = rows.length ? `${rows.length} ${t("résultat", "result")}${rows.length > 1 ? "s" : ""}` : t("Aucun résultat", "No results");
     if (!rows.some(it => norm(it[0]) === q || same(it[0], raw))) {
-      const t = raw.trim();
-      rows = [...rows, [t.charAt(0).toUpperCase() + t.slice(1), "libre", ""]];
+      const typedName = raw.trim();
+      rows = [...rows, [typedName.charAt(0).toUpperCase() + typedName.slice(1), "libre", ""]];
     }
   }
 
@@ -89,7 +91,7 @@ export function AddIngredient({ mine, onMine }: { mine: string[]; onMine: (names
     onMine(added.filter((_, i) => picked[i][1] === "libre" || picked[i][3]).map(a => a.name));
     shareTyped(added.filter((_, i) => picked[i][1] === "libre").map(a => a.name));
     const n = added.length;
-    showToast(`${n} ingrédient${n > 1 ? "s" : ""} ajouté${n > 1 ? "s" : ""}`);
+    showToast(t(`${n} ingrédient${n > 1 ? "s" : ""} ajouté${n > 1 ? "s" : ""}`, `${n} ingredient${n > 1 ? "s" : ""} added`));
     if (typed) {
       // Sans photo lue : la liste part de zéro
       setScan({ ingredients: added, token: null, guests: 0, merge: true, off: [] });
@@ -101,34 +103,34 @@ export function AddIngredient({ mine, onMine }: { mine: string[]; onMine: (names
   };
 
   return (
-    <section className="fa scan-screen scr-addIng" aria-label="Ajouter un ingrédient">
+    <section className="fa scan-screen scr-addIng" aria-label={t("Ajouter un ingrédient", "Add an ingredient")}>
       <div className="ai-bg">{scan.photo && <img src={scan.photo} alt="" />}</div>
       <div className="ai-sheet">
         <span className="ai-grab" />
         <div className="ai-head">
-          <button type="button" onClick={() => navigate(-1)}>Annuler</button>
-          <b>Ajouter</b>
+          <button type="button" onClick={() => navigate(-1)}>{t("Annuler", "Cancel")}</button>
+          <b>{t("Ajouter", "Add")}</b>
           <button type="button" className="ai-ok" disabled={!picked.length} onClick={commit}>OK</button>
         </div>
         <label className="ai-search">
           <Icon name="search" />
-          <input ref={input} type="search" placeholder="Cherche un ingrédient" autoComplete="off" aria-label="Chercher un ingrédient" value={raw} onChange={e => setRaw(e.target.value)} />
-          {raw && <button type="button" aria-label="Effacer" onClick={e => { e.preventDefault(); setRaw(""); input.current?.focus(); }}><Icon name="x" /></button>}
+          <input ref={input} type="search" placeholder={t("Cherche un ingrédient", "Search for an ingredient")} autoComplete="off" aria-label={t("Chercher un ingrédient", "Search for an ingredient")} value={raw} onChange={e => setRaw(e.target.value)} />
+          {raw && <button type="button" aria-label={t("Effacer", "Clear")} onClick={e => { e.preventDefault(); setRaw(""); input.current?.focus(); }}><Icon name="x" /></button>}
         </label>
         <div className={"ai-picked" + (picked.length ? " has" : "")}>
-          {picked.length === 0 && <span className="ai-none">Rien de choisi pour l'instant</span>}
+          {picked.length === 0 && <span className="ai-none">{t("Rien de choisi pour l'instant", "Nothing picked yet")}</span>}
           {picked.map(it => (
-            <button key={it[0]} type="button" className="ai-chip" aria-label={`Retirer ${it[0]}`} onClick={() => toggle(it)}><span>{it[0]}</span><Icon name="x" /></button>
+            <button key={it[0]} type="button" className="ai-chip" aria-label={t(`Retirer ${it[0]}`, `Remove ${it[0]}`)} onClick={() => toggle(it)}><span>{it[0]}</span><Icon name="x" /></button>
           ))}
         </div>
         <div className="scroll"><div className="ai-list">
           <span className="ai-sec">{sec}</span>
           {rows.map(it => <Row key={it[1] + it[0]} it={it} q={q} on={isOn(it)} onClick={() => toggle(it)} />)}
-          {more && <button type="button" className="ai-more" onClick={() => setAll(true)}>Voir plus <Icon name="next" className="ai-down" /></button>}
+          {more && <button type="button" className="ai-more" onClick={() => setAll(true)}>{t("Voir plus", "See more")} <Icon name="next" className="ai-down" /></button>}
         </div></div>
         <div className="ai-foot">
           <button type="button" className="pill sage block" disabled={!picked.length} onClick={commit}>
-            {picked.length ? `Ajouter ${picked.length} ingrédient${picked.length > 1 ? "s" : ""}` : "Choisis un ou plusieurs ingrédients"}
+            {picked.length ? t(`Ajouter ${picked.length} ingrédient${picked.length > 1 ? "s" : ""}`, `Add ${picked.length} ingredient${picked.length > 1 ? "s" : ""}`) : t("Choisis un ou plusieurs ingrédients", "Pick one or more ingredients")}
           </button>
         </div>
       </div>

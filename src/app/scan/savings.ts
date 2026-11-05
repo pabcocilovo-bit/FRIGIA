@@ -5,10 +5,13 @@
 import type { SavedItem } from "../../lib/cooked";
 import type { DetectedIngredient, GeneratedRecipe } from "../../lib/types";
 import { inFridge, words } from "./portions";
+import { isEn } from "../../lib/i18n";
 
 // Pas du gaspillage évité : l'assaisonnement et le placard sec
 const SKIP = ["sel", "poivre", "eau", "epice", "pate", "penne", "spaghetti", "tagliatelle", "fusilli", "riz", "huile", "farine", "sucre",
-  "vinaigre", "moutarde", "bouillon", "coco", "cumin", "paprika", "curry", "cannelle", "muscade", "thym", "laurier", "origan", "levure", "maizena", "semoule"];
+  "vinaigre", "moutarde", "bouillon", "coco", "cumin", "paprika", "curry", "cannelle", "muscade", "thym", "laurier", "origan", "levure", "maizena", "semoule",
+  "salt", "water", "spice", "pasta", "noodle", "rice", "oil", "flour", "sugar", "vinegar", "mustard", "stock", "broth", "cinnamon", "nutmeg", "thyme",
+  "oregano", "yeast", "couscous"];
 
 // Grammes par pièce (« 2 courgettes »)
 const PIECE: [string, number][] = [
@@ -18,6 +21,10 @@ const PIECE: [string, number][] = [
   ["escalope", 150], ["filet", 150], ["blanc", 150], ["cuisse", 200], ["steak", 125], ["saucisse", 80], ["merguez", 70],
   ["yaourt", 125], ["mozzarella", 125], ["camembert", 250], ["patate", 150], ["navet", 120], ["fenouil", 250], ["mangue", 300],
   ["orange", 180], ["poire", 160], ["peche", 150], ["abricot", 50], ["tortilla", 40], ["pain", 250], ["ail", 5],
+  ["egg", 55], ["tomato", 120], ["tomatoe", 120], ["cherry", 15], ["onion", 100], ["shallot", 30], ["carrot", 100], ["apple", 150], ["potato", 150],
+  ["potatoe", 150], ["pepper", 160], ["avocado", 170], ["lemon", 100], ["banana", 120], ["cucumber", 300], ["leek", 200], ["mushroom", 20],
+  ["broccoli", 400], ["cabbage", 600], ["lettuce", 300], ["breast", 150], ["thigh", 200], ["sausage", 80], ["yogurt", 125], ["pear", 160],
+  ["peach", 150], ["apricot", 50], ["bread", 250], ["garlic", 5], ["mango", 300], ["fillet", 150],
 ];
 
 // Prix moyen au kilo en grande surface, TTC, année 2024 : Observatoire de la formation des prix et des marges
@@ -25,41 +32,47 @@ const PIECE: [string, number][] = [
 // on prend le prix publié le plus proche et le plus bas, pour ne jamais gonfler le chiffre (marqué « estimé »).
 // La première ligne qui correspond l'emporte. Troisième colonne : un mot qui doit aussi être là (« filet » de poulet).
 // words() retire le s final : « pois », « radis », « maïs » s'écrivent ici sans.
-const POULTRY = ["poulet", "dinde", "volaille"];
+const POULTRY = ["poulet", "dinde", "volaille", "chicken", "turkey"];
 const PRICE: [string[], number, string[]?][] = [
   // Lieu noir en découpe 11,74 ; les autres poissons, estimé au même prix
-  [["saumon", "thon", "cabillaud", "poisson", "crevette", "colin", "sardine", "maquereau", "truite", "lieu", "merlu", "moule"], 11.74],
+  [["saumon", "thon", "cabillaud", "poisson", "crevette", "colin", "sardine", "maquereau", "truite", "lieu", "merlu", "moule",
+    "salmon", "tuna", "cod", "fish", "prawn", "shrimp", "hake", "mackerel", "trout", "mussel"], 11.74],
   // Jambon cuit libre-service 14,26 ; lardons, bacon, chorizo estimés pareil
-  [["jambon", "lardon", "bacon", "chorizo"], 14.26],
+  [["jambon", "lardon", "bacon", "chorizo", "ham"], 14.26],
   // Poulet : escalope ou filet 11,02, cuisse 4,73, entier label rouge 6,46
-  [["filet", "escalope", "blanc", "aiguillette"], 11.02, POULTRY],
+  [["filet", "escalope", "blanc", "aiguillette", "breast", "fillet"], 11.02, POULTRY],
   [["escalope"], 11.02],
-  [["cuisse", "pilon"], 4.73, POULTRY],
+  [["cuisse", "pilon", "thigh", "drumstick", "leg"], 4.73, POULTRY],
   [POULTRY, 6.46],
   // Viande hachée de bœuf 15 % MG 13,41 ; les autres viandes rouges, estimé pareil
-  [["boeuf", "steak", "hache", "veau", "agneau", "viande", "canard", "magret"], 13.41],
+  [["boeuf", "steak", "hache", "veau", "agneau", "viande", "canard", "magret", "beef", "mince", "lamb", "veal", "meat", "duck"], 13.41],
   // Longe de porc 8,19 ; saucisses estimées pareil
-  [["porc", "longe", "echine", "saucisse", "merguez"], 8.19],
+  [["porc", "longe", "echine", "saucisse", "merguez", "pork", "sausage"], 8.19],
   // Fromage blanc, yaourt, crème : panier laitier 2,31 (estimé, l'Observatoire ne détaille pas leur prix)
   [["blanc", "frai"], 2.31, ["fromage"]],
-  [["yaourt", "creme", "skyr", "faisselle", "suisse"], 2.31],
+  [["yaourt", "creme", "skyr", "faisselle", "suisse", "yogurt", "yoghurt", "cream"], 2.31],
   // Bûchette de chèvre 11,30 ; les autres fromages, estimé pareil
   [["fromage", "parmesan", "emmental", "comte", "mozzarella", "feta", "chevre", "gruyere", "cheddar", "ricotta", "mascarpone",
-    "raclette", "reblochon", "camembert", "brie", "roquefort", "burrata", "halloumi"], 11.3],
-  [["beurre"], 9.82],
-  [["lait"], 1.09],
+    "raclette", "reblochon", "camembert", "brie", "roquefort", "burrata", "halloumi", "cheese"], 11.3],
+  [["beurre", "butter"], 9.82],
+  [["lait", "milk"], 1.09],
   // Œufs : estimé (l'Observatoire ne les suit pas), environ 0,27 € l'œuf
-  [["oeuf"], 5],
+  [["oeuf", "egg"], 5],
   // Pomme de terre 1,63
-  [["terre", "patate"], 1.63],
+  [["terre", "patate", "potato", "potatoe"], 1.63],
   // Panier de légumes 2,51 (avant les fruits : « tomate cerise » est un légume)
   [["tomate", "courgette", "oignon", "echalote", "carotte", "poivron", "aubergine", "concombre", "poireau", "champignon",
     "brocoli", "chou", "salade", "laitue", "epinard", "haricot", "poi", "radi", "navet", "fenouil", "potiron", "courge",
     "butternut", "betterave", "celeri", "legume", "persil", "basilic", "coriandre", "menthe", "ciboulette", "mai",
-    "endive", "artichaut", "asperge", "blette", "roquette", "mache", "panai"], 2.51],
+    "endive", "artichaut", "asperge", "blette", "roquette", "mache", "panai",
+    "tomato", "tomatoe", "courgette", "zucchini", "onion", "shallot", "carrot", "pepper", "aubergine", "eggplant", "cucumber", "leek", "mushroom",
+    "broccoli", "cabbage", "lettuce", "spinach", "bean", "pea", "radish", "turnip", "fennel", "pumpkin", "squash", "beetroot", "celery",
+    "vegetable", "parsley", "basil", "coriander", "mint", "chive", "corn", "asparagu", "rocket", "parsnip"], 2.51],
   // Panier de fruits 3,45
   [["pomme", "avocat", "citron", "banane", "mangue", "orange", "poire", "peche", "abricot", "fraise", "framboise", "fruit",
-    "kiwi", "raisin", "melon", "pasteque", "cerise", "clementine", "prune", "myrtille", "ananas"], 3.45],
+    "kiwi", "raisin", "melon", "pasteque", "cerise", "clementine", "prune", "myrtille", "ananas",
+    "apple", "avocado", "lemon", "lime", "banana", "mango", "pear", "peach", "apricot", "strawberrie", "raspberrie", "grape", "cherrie",
+    "plum", "blueberrie", "pineapple", "watermelon"], 3.45],
 ];
 const has = (w: string[], list: string[]) => w.some(x => list.includes(x));
 /** Prix au kilo d'un produit frais, null pour le reste (pas compté) */
@@ -132,5 +145,5 @@ export function countItem(name: string, qty: string): Amount {
 }
 
 /** « 4,20 € », « 0,9 kg » */
-export const euros = (n: number) => `${n.toFixed(2).replace(".", ",")} €`;
-export const kilos = (n: number) => `${String(Math.round(n * 10) / 10).replace(".", ",")} kg`;
+export const euros = (n: number) => (isEn ? `€${n.toFixed(2)}` : `${n.toFixed(2).replace(".", ",")} €`);
+export const kilos = (n: number) => `${isEn ? String(Math.round(n * 10) / 10) : String(Math.round(n * 10) / 10).replace(".", ",")} kg`;

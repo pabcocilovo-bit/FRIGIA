@@ -1,13 +1,14 @@
 // Les ingrédients proposés quand on en ajoute un à la main : ceux qu'on ajoute souvent d'abord, puis le reste de la liste,
 // rangé par rayon. Ce qu'on tape et qui n'y est pas est gardé sur le compte (Ma cuisine, mine) et revient aux prochains ajouts.
 import { aisleOf, norm as words } from "../../lib/shopping";
+import { isEn } from "../../lib/i18n";
 
 export type Cat = "legume" | "fruit" | "herbe" | "cremerie" | "viande" | "poisson" | "epicerie" | "libre";
 /** from : tapé un jour par la personne (« toi ») ou par plusieurs comptes (« communaute »), pas dans la liste */
 export type Sug = [name: string, cat: Cat, qty: string, from?: "toi" | "communaute"];
 
 /** Souvent ajoutés : en tête quand on n'a rien tapé */
-export const OFTEN: Sug[] = [
+const OFTEN_FR: Sug[] = [
   ["Fromage râpé", "cremerie", "1 sachet"], ["Oignons", "legume", "3"], ["Pommes de terre", "legume", "1 kg"], ["Jambon", "viande", "4 tranches"],
   ["Crème fraîche", "cremerie", "1 pot"], ["Poulet", "viande", "2 filets"], ["Beurre", "cremerie", "1 plaquette"], ["Citron", "fruit", "2"],
   ["Lardons", "viande", "1 barquette"], ["Mozzarella", "cremerie", "1 boule"], ["Saumon", "poisson", "2 pavés"], ["Thon en boîte", "poisson", "1 boîte"],
@@ -17,7 +18,7 @@ export const OFTEN: Sug[] = [
 ];
 
 /** Le reste : on les trouve en cherchant */
-const MORE: Sug[] = [
+const MORE_FR: Sug[] = [
   // Légumes
   ["Tomates", "legume", "4"], ["Tomates cerises", "legume", "1 barquette"], ["Carottes", "legume", "4"], ["Courgettes", "legume", "2"],
   ["Poivrons", "legume", "2"], ["Aubergines", "legume", "2"], ["Ail", "legume", "1 tête"], ["Échalotes", "legume", "2"], ["Champignons", "legume", "1 barquette"],
@@ -58,7 +59,51 @@ const MORE: Sug[] = [
   ["Amandes", "epicerie", "1 sachet"], ["Flocons d'avoine", "epicerie", "1 paquet"], ["Biscuits", "epicerie", "1 paquet"], ["Confiture", "epicerie", "1 pot"],
 ];
 
-export const CATALOG: Sug[] = [...OFTEN, ...MORE];
+// La même liste en anglais (l'appli en anglais, 4 novembre)
+const OFTEN_EN: Sug[] = [
+  ["Grated cheese", "cremerie", "1 bag"], ["Onions", "legume", "3"], ["Potatoes", "legume", "1 kg"], ["Ham", "viande", "4 slices"],
+  ["Crème fraîche", "cremerie", "1 pot"], ["Chicken", "viande", "2 breasts"], ["Butter", "cremerie", "1 block"], ["Lemon", "fruit", "2"],
+  ["Bacon lardons", "viande", "1 pack"], ["Mozzarella", "cremerie", "1 ball"], ["Salmon", "poisson", "2 fillets"], ["Tinned tuna", "poisson", "1 tin"],
+  ["Spinach", "legume", "1 bag"], ["Lettuce", "legume", "1"], ["Cucumber", "legume", "1"], ["Leeks", "legume", "2"], ["Apples", "fruit", "4"],
+  ["Parsley", "herbe", "1 bunch"], ["Basil", "herbe", "1 pot"], ["Plain yogurt", "cremerie", "4"], ["Puff pastry", "epicerie", "1 roll"],
+  ["Sliced bread", "epicerie", "1 loaf"], ["Lentils", "epicerie", "1 bag"], ["Peas", "legume", "1 tin"], ["Pizza dough", "epicerie", "1 roll"],
+];
+const MORE_EN: Sug[] = [
+  ["Tomatoes", "legume", "4"], ["Cherry tomatoes", "legume", "1 punnet"], ["Carrots", "legume", "4"], ["Courgettes", "legume", "2"],
+  ["Peppers", "legume", "2"], ["Aubergines", "legume", "2"], ["Garlic", "legume", "1 bulb"], ["Shallots", "legume", "2"], ["Mushrooms", "legume", "1 punnet"],
+  ["Broccoli", "legume", "1"], ["Cauliflower", "legume", "1"], ["Cabbage", "legume", "1"], ["Green beans", "legume", "500 g"], ["Avocados", "legume", "2"],
+  ["Sweet potatoes", "legume", "2"], ["Pumpkin", "legume", "1"], ["Butternut squash", "legume", "1"], ["Beetroot", "legume", "2"], ["Celery", "legume", "1"],
+  ["Fennel", "legume", "1"], ["Radishes", "legume", "1 bunch"], ["Turnips", "legume", "3"], ["Chicory", "legume", "4"], ["Asparagus", "legume", "1 bunch"],
+  ["Artichokes", "legume", "2"], ["Sweetcorn", "legume", "1 tin"], ["Rocket", "legume", "1 bag"], ["Lamb's lettuce", "legume", "1 bag"],
+  ["Ginger", "legume", "1 piece"], ["Chickpeas", "epicerie", "1 tin"], ["Kidney beans", "epicerie", "1 tin"],
+  ["Bananas", "fruit", "4"], ["Oranges", "fruit", "4"], ["Pears", "fruit", "4"], ["Strawberries", "fruit", "1 punnet"], ["Raspberries", "fruit", "1 punnet"],
+  ["Kiwis", "fruit", "4"], ["Grapes", "fruit", "1 bunch"], ["Mango", "fruit", "1"], ["Pineapple", "fruit", "1"], ["Clementines", "fruit", "6"],
+  ["Peaches", "fruit", "4"], ["Apricots", "fruit", "6"], ["Melon", "fruit", "1"], ["Lime", "fruit", "2"], ["Blueberries", "fruit", "1 punnet"],
+  ["Coriander", "herbe", "1 bunch"], ["Mint", "herbe", "1 bunch"], ["Chives", "herbe", "1 bunch"], ["Thyme", "herbe", "1 bunch"],
+  ["Rosemary", "herbe", "1 sprig"], ["Dill", "herbe", "1 bunch"],
+  ["Eggs", "cremerie", "6"], ["Milk", "cremerie", "1 l"], ["Single cream", "cremerie", "20 cl"], ["Emmental", "cremerie", "200 g"],
+  ["Parmesan", "cremerie", "1 piece"], ["Comté", "cremerie", "200 g"], ["Feta", "cremerie", "1 block"], ["Goat's cheese", "cremerie", "1 log"],
+  ["Ricotta", "cremerie", "1 tub"], ["Mascarpone", "cremerie", "1 tub"], ["Camembert", "cremerie", "1"], ["Cheddar", "cremerie", "200 g"],
+  ["Halloumi", "cremerie", "1"], ["Skyr", "cremerie", "1 tub"], ["Cottage cheese", "cremerie", "1 tub"], ["Burrata", "cremerie", "1"],
+  ["Beef mince", "viande", "500 g"], ["Burgers", "viande", "4"], ["Turkey escalopes", "viande", "2"], ["Sausages", "viande", "4"],
+  ["Merguez", "viande", "4"], ["Chorizo", "viande", "1"], ["Bacon", "viande", "1 pack"], ["Pork chops", "viande", "2"],
+  ["Chicken thighs", "viande", "4"], ["Braising beef", "viande", "800 g"], ["Duck breast", "viande", "1"], ["Prosciutto", "viande", "4 slices"],
+  ["Cod", "poisson", "2 fillets"], ["Prawns", "poisson", "1 pack"], ["Tinned sardines", "poisson", "1 tin"], ["Hake", "poisson", "2 fillets"],
+  ["Smoked salmon", "poisson", "4 slices"], ["Mussels", "poisson", "1 kg"], ["Mackerel", "poisson", "2"], ["Crab sticks", "poisson", "1 pack"],
+  ["Pasta", "epicerie", "500 g"], ["Spaghetti", "epicerie", "500 g"], ["Rice", "epicerie", "500 g"], ["Couscous", "epicerie", "500 g"],
+  ["Quinoa", "epicerie", "1 bag"], ["Bulgur", "epicerie", "1 bag"], ["Noodles", "epicerie", "1 pack"], ["Lasagne sheets", "epicerie", "1 pack"],
+  ["Gnocchi", "epicerie", "1 pack"], ["Flour", "epicerie", "1 kg"], ["Sugar", "epicerie", "1 kg"], ["Baking powder", "epicerie", "1 sachet"],
+  ["Olive oil", "epicerie", "1 bottle"], ["Oil", "epicerie", "1 bottle"], ["Vinegar", "epicerie", "1 bottle"], ["Mustard", "epicerie", "1 jar"],
+  ["Tomato sauce", "epicerie", "1 jar"], ["Chopped tomatoes", "epicerie", "1 tin"], ["Tomato purée", "epicerie", "1 tube"],
+  ["Coconut milk", "epicerie", "1 tin"], ["Stock cubes", "epicerie", "1 box"], ["Soy sauce", "epicerie", "1 bottle"], ["Curry powder", "epicerie", "1 jar"],
+  ["Paprika", "epicerie", "1 jar"], ["Cumin", "epicerie", "1 jar"], ["Honey", "epicerie", "1 jar"], ["Chocolate", "epicerie", "1 bar"],
+  ["Breadcrumbs", "epicerie", "1 pack"], ["Shortcrust pastry", "epicerie", "1 roll"], ["Tortilla wraps", "epicerie", "1 pack"], ["Bread", "epicerie", "1"],
+  ["Baguette", "epicerie", "1"], ["Olives", "epicerie", "1 jar"], ["Gherkins", "epicerie", "1 jar"], ["Walnuts", "epicerie", "1 bag"],
+  ["Almonds", "epicerie", "1 bag"], ["Oats", "epicerie", "1 pack"], ["Biscuits", "epicerie", "1 pack"], ["Jam", "epicerie", "1 jar"],
+];
+
+export const OFTEN: Sug[] = isEn ? OFTEN_EN : OFTEN_FR;
+export const CATALOG: Sug[] = [...OFTEN, ...(isEn ? MORE_EN : MORE_FR)];
 
 /** Même produit, à l'accent, à la casse et au pluriel près (« Pates » = « Pâtes ») */
 export const same = (a: string, b: string) => {

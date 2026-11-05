@@ -2,7 +2,9 @@
 // (migration de l'étape 8) et part par email à SUPPORT_EMAIL (contact@frigia.fr par défaut).
 // Répondre à cet email répond à la personne. Sans RESEND_API_KEY, le message est seulement gardé. 10 messages par heure.
 import { supportEmail } from "./_email.js";
-import { adminClient, authUser, errorMessage, preflight, type Req, type Res } from "./_shared.js";
+import {
+  adminClient, authUser, errorMessage, preflight, type Req, type Res, langOf, say,
+} from "./_shared.js";
 
 const KINDS = ["contact", "bug", "idea"] as const;
 const PER_HOUR = 10;
@@ -10,6 +12,7 @@ const text = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slic
 
 export default async function handler(req: Req, res: Res) {
   if (preflight(req, res)) return;
+  const tx = say(langOf(req));
   const admin = adminClient();
   const user = await authUser(req, admin);
   if (!user) return res.status(401).json({ error: "Invalid token" });
@@ -17,13 +20,13 @@ export default async function handler(req: Req, res: Res) {
   const body = (req.body ?? {}) as { kind?: unknown; topic?: unknown; message?: unknown; appInfo?: unknown };
   const kind = KINDS.find(k => k === body.kind);
   const message = text(body.message, 5000);
-  if (!kind || !message) return res.status(400).json({ error: "Message vide" });
+  if (!kind || !message) return res.status(400).json({ error: tx("Message vide", "Empty message") });
   const topic = text(body.topic, 60), appInfo = text(body.appInfo, 300);
 
   try {
     const { count } = await admin.from("support_messages").select("id", { count: "exact", head: true })
       .eq("user_id", user.id).gte("created_at", new Date(Date.now() - 3600e3).toISOString());
-    if ((count ?? 0) >= PER_HOUR) return res.status(429).json({ error: "Trop de messages" });
+    if ((count ?? 0) >= PER_HOUR) return res.status(429).json({ error: tx("Trop de messages", "Too many messages") });
     const { data, error } = await admin.from("support_messages")
       .insert({ user_id: user.id, email: user.email ?? null, kind, topic, message, app_info: appInfo || null })
       .select("id").single();
@@ -32,6 +35,6 @@ export default async function handler(req: Req, res: Res) {
     return res.json({ ok: true });
   } catch (e) {
     console.error("support:", errorMessage(e));
-    return res.status(500).json({ error: "Échec de l'envoi" });
+    return res.status(500).json({ error: tx("Échec de l'envoi", "Sending failed") });
   }
 }

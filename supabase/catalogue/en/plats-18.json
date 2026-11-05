@@ -1,0 +1,112 @@
+[
+ {"q":"Guacamole","a":["homemade guacamole","guac"],"fr":"Guacamole","r":[
+  ["Guacamole","The classic","","Mashed avocado with lime, tomato, onion and coriander.","Mexican recipe",10,180,"F","guacamole","vche",
+   ["avocado|avocados|3|","lime|limes|1|","tomato|tomatoes|1|","red onion|red onions|0.5|","coriander|coriander||","chilli|chillies|1|","salt|salt||"],
+   ["Mash the avocado flesh with a fork and the lime juice.","Add the finely diced tomato and finely chopped onion.","Add the chopped coriander and a little chilli.","Season with salt, mix and serve straight away with tortilla chips."]],
+  ["Mango guacamole","Mango","With diced mango.","A sweet and savoury guacamole, fresh and colourful.","",10,190,"F","mango guacamole","vche",
+   ["avocado|avocados|2|","mango|mangoes|1|","lime|limes|1|","red onion|red onions|0.5|","coriander|coriander||","salt|salt||"],
+   ["Mash the avocados with the lime juice.","Add the finely diced mango and the chopped onion.","Add the chopped coriander and season with salt.","Mix and serve cold."]],
+  ["Pea guacamole","Lighter","Half the avocados are replaced with peas.","A lighter guacamole that is just as green.","",15,120,"F","pea guacamole","vchbe",
+   ["avocado|avocados|1|","frozen pea|frozen peas|200|g","lime|limes|1|","red onion|red onions|0.5|","coriander|coriander||","salt|salt||"],
+   ["Cook the peas for 5 minutes and cool them under cold water.|Cooking|5","Roughly blend them with the avocado and the lime juice.","Add the chopped onion and the coriander.","Season with salt and serve cold."]]
+ ]},
+ {"q":"Tzatziki","a":["cucumber yoghurt dip","greek yoghurt dip"],"fr":"Tzatziki","r":[
+  ["Tzatziki","The classic","","Greek yoghurt with cucumber, garlic and dill, for nibbles or grilled meat.","Greek recipe",15,110,"F","tzatziki","vche",
+   ["greek yoghurt|greek yoghurts|2|","cucumber|cucumbers|1|","garlic|garlic|1|clove","dill|dill||","olive oil|olive oil|1|tbsp","lemon|lemons|0.5|","salt|salt||"],
+   ["Grate the cucumber, salt it and leave it to drain for 10 minutes.","Squeeze it well with your hands to remove the water.","Mix it with the yoghurt, crushed garlic, dill and the lemon juice.","Drizzle with olive oil and keep in the fridge."]],
+  ["Mint tzatziki","Mint","Mint replaces the dill.","A really fresh tzatziki with mint.","",15,110,"F","mint tzatziki","vche",
+   ["greek yoghurt|greek yoghurts|2|","cucumber|cucumbers|1|","garlic|garlic|1|clove","fresh mint|fresh mint||","lemon|lemons|0.5|","salt|salt||"],
+   ["Grate the cucumber, salt it and squeeze out the water.","Mix it with the yoghurt and crushed garlic.","Add the chopped mint and the lemon juice.","Keep in the fridge until serving."]],
+  ["Beetroot tzatziki","Beetroot","With grated beetroot, for a pink dip.","A colourful version of tzatziki, with beetroot.","",15,120,"F","beet tzatziki","vche",
+   ["greek yoghurt|greek yoghurts|2|","cooked beetroot|cooked beetroots|1|","garlic|garlic|1|clove","dill|dill||","lemon|lemons|0.5|","salt|salt||"],
+   ["Grate the beetroot.","Mix it into the yoghurt with the crushed garlic.","Add the chopped dill and the lemon juice, then season with salt.","Keep in the fridge."]]
+ ]},
+ {"q":"Nems","a":["pork spring rolls","vietnamese spring rolls","fried spring rolls"],"fr":"Nems","r":[
+  ["Pork nems","The classic","","Crispy fried rolls filled with pork, vermicelli and wood ear mushrooms.","Vietnamese recipe",60,350,"D","vietnamese spring rolls nem","e",
+   ["rice paper sheet|rice paper sheets|16|","minced pork|minced pork|300|g","rice vermicelli|rice vermicelli|50|g","dried wood ear mushroom|dried wood ear mushrooms|10|g","carrot|carrots|1|","egg|eggs|1|","fish sauce|fish sauce|2|tbsp","frying oil|frying oil|100|cl","green salad|green salad|1|"],
+   ["Soak the vermicelli and mushrooms in hot water for 10 minutes, then chop them.","Mix the pork, vermicelli, mushrooms, grated carrot, egg and fish sauce.","Dampen a rice paper sheet, put a spoonful of filling on it, fold in the edges and roll up tightly.","Fry the nems in hot oil for 6 minutes, until golden.|Frying|6","Serve with lettuce leaves, mint and fish sauce."]],
+  ["Chicken nems","With chicken","Chicken replaces the pork.","Crispy nems filled with chicken.","",60,330,"D","chicken spring rolls","e",
+   ["rice paper sheet|rice paper sheets|16|","minced chicken|minced chicken|300|g","rice vermicelli|rice vermicelli|50|g","carrot|carrots|1|","onion|onions|1|","egg|eggs|1|","soy sauce|soy sauce|2|tbsp","frying oil|frying oil|100|cl"],
+   ["Soak the vermicelli in hot water for 10 minutes, then chop them.","Mix the chicken, vermicelli, grated carrot, chopped onion, egg and soy sauce.","Roll the filling up in the dampened rice paper sheets.","Fry for 6 minutes in hot oil.|Frying|6"]],
+  ["Baked vegetable nems","Vegetarian, baked","Filled with vegetables and baked in the oven.","Lighter nems with vegetables and no frying.","",50,220,"M","baked vegetable spring rolls","voe",
+   ["rice paper sheet|rice paper sheets|16|","rice vermicelli|rice vermicelli|50|g","carrot|carrots|2|","chinese cabbage|chinese cabbages|0.25|","button mushroom|button mushrooms|150|g","soy sauce|soy sauce|3|tbsp","oil|oil|2|tbsp"],
+   ["Preheat the oven to 200 °C. Soak the vermicelli and chop them.","Fry the grated carrots, cabbage and sliced mushrooms for 5 minutes with the soy sauce.|Pan|5","Mix with the vermicelli and roll the filling up in the dampened rice paper sheets.","Brush with oil and bake for 20 minutes, turning them over halfway.|Oven|20"]]
+ ]},
+ {"q":"Spring rolls","a":["fresh spring rolls","summer rolls","rice paper rolls"],"fr":"Rouleaux de printemps","r":[
+  ["Prawn spring rolls","The classic","","Rice paper rolled up with prawns, vermicelli, lettuce and mint, with no cooking.","Vietnamese recipe",30,220,"M","fresh spring rolls shrimp","che",
+   ["rice paper sheet|rice paper sheets|8|","cooked prawn|cooked prawns|16|","rice vermicelli|rice vermicelli|80|g","green salad|green salad|1|","carrot|carrots|1|","fresh mint|fresh mint||","hoisin sauce|hoisin sauce|4|tbsp"],
+   ["Soak the vermicelli in hot water for 5 minutes and drain them.","Grate the carrot and peel the prawns.","Dip a rice paper sheet in lukewarm water for a few seconds and lay it flat.","Fill with lettuce, vermicelli, carrot and mint, then 2 prawns cut in half.","Fold in the sides and roll up tightly. Serve with the hoisin sauce."]],
+  ["Tofu spring rolls","Vegetarian","With grilled tofu instead of prawns.","Vegetarian fresh rolls, with golden tofu.","",30,210,"M","tofu fresh spring rolls","vche",
+   ["rice paper sheet|rice paper sheets|8|","firm tofu|firm tofu|200|g","rice vermicelli|rice vermicelli|80|g","green salad|green salad|1|","cucumber|cucumbers|1|","fresh mint|fresh mint||","soy sauce|soy sauce|3|tbsp"],
+   ["Cut the tofu into sticks and brown them with 1 tbsp of soy sauce.|Pan|6","Soak the vermicelli and cut the cucumber into sticks.","Dip a rice paper sheet in lukewarm water and fill with lettuce, vermicelli, cucumber, mint and tofu.","Roll up tightly and serve with the rest of the soy sauce."]],
+  ["Chicken spring rolls","With chicken","With chicken and a peanut sauce.","Fresh chicken rolls, with a peanut sauce.","",35,280,"M","chicken fresh spring rolls peanut sauce","ce",
+   ["rice paper sheet|rice paper sheets|8|","chicken breast|chicken breasts|2|","rice vermicelli|rice vermicelli|80|g","green salad|green salad|1|","carrot|carrots|1|","peanut butter|peanut butter|3|tbsp","soy sauce|soy sauce|2|tbsp"],
+   ["Fry the chicken in a pan for 10 minutes and cut it into strips.|Pan|10","Soak the vermicelli and grate the carrot.","Roll up the lettuce, vermicelli, carrot and chicken in the dampened rice paper sheets.","Mix the peanut butter, soy sauce and 3 tbsp of hot water to make the sauce."]]
+ ]},
+ {"q":"Samosas","a":["samoussas","samosa","beef samosas"],"fr":"Samoussas","r":[
+  ["Beef samosas","The classic","","Crispy triangles filled with spiced minced beef and peas.","Indian and Réunion-inspired",50,300,"M","beef samosas","oe",
+   ["brik pastry sheet|brik pastry sheets|8|","minced beef|minced beef|300|g","onion|onions|1|","frozen pea|frozen peas|100|g","curry powder|curry powder|2|tsp","coriander|coriander||","oil|oil|3|tbsp"],
+   ["Preheat the oven to 200 °C.","Fry the onion, then the beef and curry powder for 8 minutes. Add the peas and coriander.|Pan|8","Cut the brik sheets in half and fold each strip into a triangle around a spoonful of filling.","Brush with oil and bake for 15 minutes.|Oven|15"]],
+  ["Vegetable samosas","Vegetarian","Filled with potatoes and peas in curry.","Vegetarian samosas with a spicy filling.","",50,240,"M","vegetable samosas","voeb",
+   ["brik pastry sheet|brik pastry sheets|8|","potato|potatoes|3|","frozen pea|frozen peas|150|g","onion|onions|1|","curry powder|curry powder|2|tsp","oil|oil|3|tbsp"],
+   ["Boil the diced potatoes in water for 10 minutes.|Cooking|10","Fry the onion with the curry powder, then add the potatoes and peas.","Fold the filling into triangles in the brik strips.","Brush with oil and bake for 15 minutes at 200 °C.|Oven|15"]],
+  ["Tuna samosas","With tuna","Filled with tuna, onion and soft cheese.","Easy tuna samosas, great for nibbles.","",35,260,"F","tuna samosas","oeb",
+   ["brik pastry sheet|brik pastry sheets|8|","tuna in brine|tuna in brine|200|g","soft cheese|soft cheese|100|g","onion|onions|1|","parsley|parsley||","oil|oil|3|tbsp"],
+   ["Preheat the oven to 200 °C.","Mix the flaked tuna, soft cheese, chopped onion and parsley.","Fold the filling into triangles in the brik strips.","Brush with oil and bake for 12 minutes.|Oven|12"]]
+ ]},
+ {"q":"Salt cod fritters","a":["accras","accras de morue","accra"],"fr":"Accras de morue","r":[
+  ["Salt cod fritters","The classic","","Caribbean cod fritters, spiced up with chilli and spring onion.","Caribbean recipe",120,280,"M","salt cod fritters accras","e",
+   ["salt cod|salt cod|250|g","flour|flour|200|g","egg|eggs|1|","spring onion|spring onions|2|","garlic|garlic|2|clove","chilli|chillies|1|","baking powder|baking powder|1|tsp","frying oil|frying oil|100|cl"],
+   ["Soak the cod in cold water overnight, changing the water.","Poach it for 10 minutes in simmering water, then flake it.|Cooking|10","Mix the flour, baking powder, egg and 20 cl of water, then add the cod, chopped spring onion, garlic and chilli.","Leave to rest for 1 hour.|Rest|60","Fry small spoonfuls of batter for 3 minutes in hot oil.|Frying|3"]],
+  ["Prawn fritters","Prawns","Prawns replace the cod.","Quicker fritters, with prawns.","",45,270,"M","shrimp fritters","e",
+   ["peeled prawn|peeled prawns|250|g","flour|flour|200|g","egg|eggs|1|","spring onion|spring onions|2|","garlic|garlic|1|clove","chilli|chillies|1|","baking powder|baking powder|1|tsp","frying oil|frying oil|100|cl"],
+   ["Chop the prawns into small pieces.","Mix the flour, baking powder, egg and 20 cl of water.","Add the prawns and the chopped spring onion, garlic and chilli. Leave to rest for 30 minutes.|Rest|30","Fry small spoonfuls of batter for 3 minutes.|Frying|3"]],
+  ["Vegetable fritters","Vegetarian","With grated vegetables instead of fish.","Vegetarian fritters with courgette and carrot.","",40,230,"F","vegetable fritters","veb",
+   ["courgette|courgettes|1|","carrot|carrots|1|","flour|flour|150|g","egg|eggs|1|","spring onion|spring onions|2|","baking powder|baking powder|1|tsp","frying oil|frying oil|100|cl"],
+   ["Grate the courgette and carrot and squeeze out the water.","Mix the flour, baking powder, egg and 15 cl of water, then the vegetables and chopped spring onion.","Season with salt and pepper.","Fry small spoonfuls of batter for 3 minutes.|Frying|3"]]
+ ]},
+ {"q":"Gougères","a":["cheese puffs","french cheese puffs","gougeres"],"fr":"Gougères","r":[
+  ["Comté gougères","The classic","","Little golden, fluffy cheese puffs for nibbles.","Burgundy speciality",50,180,"M","gougeres cheese puffs","voe",
+   ["flour|flour|100|g","butter|butter|70|g","egg|eggs|3|","grated comté|grated comté|100|g","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 200 °C.","Bring 15 cl of water, the butter and a pinch of salt to the boil.","Add the flour all at once and stir until the dough comes away from the pan.","Off the heat, beat in the eggs one at a time, then three quarters of the comté and some pepper.","Spoon small mounds onto a baking tray and sprinkle with the rest of the comté.","Bake for 20 minutes without opening the oven.|Oven|20"]],
+  ["Ham gougères","With ham","With finely diced ham in the dough.","Richer gougères, with cheese and ham.","",50,200,"M","ham cheese puffs","oe",
+   ["flour|flour|100|g","butter|butter|70|g","egg|eggs|3|","grated emmental|grated emmental|80|g","cooked ham|cooked ham|2|slices","salt|salt||"],
+   ["Preheat the oven to 200 °C and make the choux pastry: bring the water, butter and salt to the boil, then add the flour and the eggs one at a time.","Add the emmental and the finely diced ham.","Spoon small mounds onto a baking tray.","Bake for 20 minutes.|Oven|20"]],
+  ["Herb gougères","With herbs","With chives and Parmesan.","Gougères flavoured with fresh herbs.","",50,175,"M","herb cheese puffs","voe",
+   ["flour|flour|100|g","butter|butter|70|g","egg|eggs|3|","parmesan|parmesan|60|g","chives|chives||","salt|salt||"],
+   ["Preheat the oven to 200 °C and make the choux pastry.","Add the grated Parmesan and the chopped chives.","Spoon small mounds onto a baking tray.","Bake for 20 minutes.|Oven|20"]]
+ ]},
+ {"q":"Miso soup","a":["tofu miso soup","soupe miso"],"fr":"Soupe miso","r":[
+  ["Tofu miso soup","The classic","","The Japanese miso broth, with tofu, seaweed and spring onion.","Japanese recipe",15,120,"F","miso soup tofu","vh",
+   ["miso paste|miso paste|4|tbsp","silken tofu|silken tofu|200|g","wakame seaweed|wakame seaweed|5|g","spring onion|spring onions|2|"],
+   ["Soak the seaweed in cold water for 5 minutes.","Bring 1 litre of water to a simmer, without letting it boil.","Dissolve the miso in a ladle of hot water and pour it into the pan.","Add the diced tofu, the drained seaweed and the sliced spring onion.","Serve straight away, without letting the miso boil."]],
+  ["Miso noodle soup","With noodles","With noodles and mushrooms to make it a meal.","A filling miso soup, with udon noodles.","",20,350,"F","miso noodle soup","vh",
+   ["miso paste|miso paste|4|tbsp","udon noodle|udon noodles|400|g","button mushroom|button mushrooms|150|g","baby spinach|baby spinach|100|g","spring onion|spring onions|2|"],
+   ["Bring 1.2 litres of water to a simmer with the sliced mushrooms.|Cooking|5","Add the noodles and cook following the packet instructions.","Dissolve the miso in a ladle of broth and stir it in.","Add the spinach and sliced spring onion, and serve at once."]],
+  ["Salmon miso soup","With salmon","With diced salmon poached in the broth.","A heartier miso soup, with salmon.","",20,230,"F","salmon miso soup","h",
+   ["miso paste|miso paste|4|tbsp","salmon fillet|salmon fillets|2|","silken tofu|silken tofu|150|g","spring onion|spring onions|2|","wakame seaweed|wakame seaweed|5|g"],
+   ["Soak the seaweed for 5 minutes.","Bring 1 litre of water to a simmer and poach the diced salmon for 4 minutes.|Cooking|4","Dissolve the miso in a ladle of broth and stir it in.","Add the tofu, seaweed and spring onion, then serve."]]
+ ]},
+ {"q":"Broccoli soup","a":["cream of broccoli soup","broccoli velouté"],"fr":"Velouté de brocoli","r":[
+  ["Broccoli soup","The classic","","A smooth, mild green soup, with a potato to make it creamy.","",30,150,"F","broccoli soup","vhbf",
+   ["broccoli|broccolis|1|","potato|potatoes|1|","onion|onions|1|","vegetable stock cube|vegetable stock cubes|1|","crème fraîche|crème fraîche|2|tbsp"],
+   ["Fry the sliced onion in a saucepan.","Add the broccoli florets, the diced potato, the stock cube and 80 cl of water.","Simmer for 20 minutes.|Cooking|20","Blend with the crème fraîche, then season with salt and pepper."]],
+  ["Cheesy broccoli soup","With cheese","With melted cheddar.","The creamy broccoli soup with cheddar that kids love.","",30,250,"F","broccoli cheddar soup","vbf",
+   ["broccoli|broccolis|1|","potato|potatoes|1|","onion|onions|1|","vegetable stock cube|vegetable stock cubes|1|","grated cheddar|grated cheddar|100|g","milk|milk|20|cl"],
+   ["Fry the onion, then add the broccoli, potato, stock cube and 60 cl of water.","Simmer for 20 minutes.|Cooking|20","Blend with the milk.","Add the cheddar and stir until it melts."]],
+  ["Coconut broccoli soup","Coconut","With coconut milk and ginger.","A vegan soup flavoured with ginger and coconut milk.","",30,200,"F","broccoli coconut soup","vhb",
+   ["broccoli|broccolis|1|","onion|onions|1|","ginger|ginger|1|tsp","coconut milk|coconut milk|20|cl","vegetable stock cube|vegetable stock cubes|1|"],
+   ["Fry the onion and ginger.","Add the broccoli, the stock cube and 70 cl of water, and simmer for 20 minutes.|Cooking|20","Blend with the coconut milk.","Season with salt and pepper."]]
+ ]},
+ {"q":"Split pea soup","a":["pea soup","yellow split pea soup"],"fr":"Soupe de pois cassés","r":[
+  ["Split pea soup","The classic","","The thick, comforting winter soup, with golden bacon lardons.","",70,380,"F","split pea soup","b",
+   ["split pea|split peas|300|g","carrot|carrots|2|","onion|onions|1|","bacon lardon|bacon lardons|150|g","vegetable stock cube|vegetable stock cubes|1|","crème fraîche|crème fraîche|2|tbsp"],
+   ["Rinse the split peas.","Fry the onion and the sliced carrots.","Add the peas, the stock cube and 1.2 litres of water, and simmer for 50 minutes.|Cooking|50","Blend with the crème fraîche.","Fry the bacon lardons until golden and scatter them over the soup.|Pan|5"]],
+  ["Vegetarian split pea soup","Vegetarian","No bacon, with cumin.","A vegan split pea soup flavoured with cumin.","",65,300,"F","vegan split pea soup","vhb",
+   ["split pea|split peas|300|g","carrot|carrots|2|","onion|onions|1|","cumin|cumin|1|tsp","vegetable stock cube|vegetable stock cubes|1|","olive oil|olive oil|2|tbsp"],
+   ["Fry the onion and carrots in the oil with the cumin.","Add the rinsed split peas, the stock cube and 1.2 litres of water.","Simmer for 50 minutes.|Cooking|50","Blend, then season with salt and pepper."]],
+  ["Ham split pea soup","With ham","With diced ham and croutons.","The split pea soup as a full meal.","",70,400,"F","split pea ham soup","b",
+   ["split pea|split peas|300|g","cooked ham|cooked ham|4|slices","carrot|carrots|2|","onion|onions|1|","vegetable stock cube|vegetable stock cubes|1|","sliced white bread|sliced white bread|2|slices"],
+   ["Fry the onion and carrots, add the rinsed peas, the stock cube and 1.2 litres of water.","Simmer for 50 minutes, then blend.|Cooking|50","Toast the bread and cut it into small croutons.","Serve with the diced ham and the croutons."]]
+ ]}
+]

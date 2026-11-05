@@ -1,0 +1,112 @@
+[
+ {"q":"Sole meunière","a":["sole","pan-fried sole","sole in butter"],"fr":"Sole meunière","r":[
+  ["Sole meunière","The classic","","Sole dusted in flour and fried golden in butter, with lemon and parsley.","French classic",25,380,"M","sole meuniere","",
+   ["sole|soles|2|","flour|flour|3|tbsp","butter|butter|80|g","lemon|lemons|1|","parsley|parsley||","potato|potatoes|600|g"],
+   ["Boil the potatoes in salted water for 20 min.|Cooking|20","Dip the soles in the flour and shake off the excess.","Fry them for 5 min on each side in 40 g of butter.|Pan|10","Add the rest of the butter and let it turn golden. Add the lemon juice and the parsley.","Spoon this butter over the soles and serve with the potatoes."]],
+  ["Dab fillets meunière","Fillets","Made with dab fillets, which are easier and cheaper.","The meunière recipe with fillets, so no bones.","",20,320,"F","fish fillet meuniere","b",
+   ["dab fillet|dab fillets|8|","flour|flour|3|tbsp","butter|butter|60|g","lemon|lemons|1|","parsley|parsley||","rice|rice|200|g"],
+   ["Cook the rice.|Cooking|12","Dip the fillets in the flour.","Fry them for 2 min on each side in the butter.|Pan|4","Add the lemon juice and the parsley, and spoon it over the fillets."]],
+  ["Baked sole","Oven-baked","Baked in the oven with white wine and shallots.","A lighter sole, with no frying.","",30,300,"F","baked sole white wine","oh",
+   ["sole|soles|2|","shallot|shallots|2|","white wine|white wine|10|cl","butter|butter|30|g","lemon|lemons|1|","parsley|parsley||"],
+   ["Preheat the oven to 200 °C.","Scatter chopped shallots in a dish and lay the soles on top.","Pour over the white wine and dot with the butter.","Bake for 15 min.|Oven|15","Squeeze over the lemon juice and sprinkle with parsley."]]
+ ]},
+ {"q":"Trout with almonds","a":["trout amandine","truite aux amandes","baked trout"],"fr":"Truite aux amandes","r":[
+  ["Trout with almonds","The classic","","Trout fried golden in butter with toasted flaked almonds.","French classic",25,450,"F","trout almonds","",
+   ["trout|trout|4|","flaked almond|flaked almonds|60|g","flour|flour|3|tbsp","butter|butter|60|g","lemon|lemons|1|","parsley|parsley||"],
+   ["Dust the trout lightly with flour.","Fry them for 5 min on each side in 40 g of butter.|Pan|10","Take them out and toast the almonds in the rest of the butter.|Pan|2","Add the lemon juice and pour over the trout with the parsley."]],
+  ["Trout in a parcel","In a parcel","Baked in the oven in a parcel with lemon and herbs.","A light, fragrant trout cooked in a parcel.","",30,320,"F","trout en papillote","oh",
+   ["trout|trout|4|","lemon|lemons|2|","dill|dill||","shallot|shallots|2|","olive oil|olive oil|2|tbsp"],
+   ["Preheat the oven to 200 °C.","Put each trout on a sheet of baking paper with lemon slices, shallot and dill.","Drizzle with oil, add salt and pepper, and close the parcels.","Bake for 20 min.|Oven|20"]],
+  ["Trout fillets in cream sauce","Fillets","Trout fillets with a lemon cream sauce.","Boneless fillets covered in a light cream sauce.","",20,380,"F","trout fillet cream sauce","",
+   ["trout fillet|trout fillets|4|","crème fraîche|crème fraîche|15|cl","lemon|lemons|1|","chive|chives||","butter|butter|20|g"],
+   ["Fry the fillets skin side down for 4 min in the butter, then 1 min on the other side.|Pan|5","Take them out and pour the cream and the lemon juice into the pan.","Let it reduce for 2 min.","Spoon the sauce over the fillets and sprinkle with chives."]]
+ ]},
+ {"q":"Fried calamari","a":["calamari","calamari rings","squid rings","fritto misto"],"fr":"Calamars à la romaine","r":[
+  ["Fried calamari","The classic","","Crispy battered squid rings, served with lemon.","",30,380,"M","fried calamari rings","e",
+   ["calamari ring|calamari rings|500|g","flour|flour|100|g","egg|eggs|1|","sparkling water|sparkling water|15|cl","lemon|lemons|1|","frying oil|frying oil|100|cl"],
+   ["Mix the flour, the egg and the very cold sparkling water into a smooth batter.","Dry the calamari well with kitchen paper.","Dip them in the batter.","Fry them for 2 to 3 min in the hot oil.|Frying|3","Drain, add salt and serve with lemon wedges."]],
+  ["Garlic and parsley calamari","Pan-fried","Pan-fried, with no deep frying.","Quick pan-fried calamari with garlic and parsley.","",20,220,"F","garlic sauteed calamari","h",
+   ["calamari ring|calamari rings|500|g","garlic|garlic|3|clove","parsley|parsley||","olive oil|olive oil|3|tbsp","lemon|lemons|1|"],
+   ["Dry the calamari well.","Fry them for 3 min over a very high heat in the oil.|Pan|3","Add the chopped garlic and the parsley, and cook for 1 min.","Squeeze over the lemon juice."]],
+  ["Calamari in tomato sauce","In tomato sauce","Simmered in a tomato sauce.","Tender squid in a tomato sauce.","",50,280,"F","calamari tomato stew","h",
+   ["calamari ring|calamari rings|600|g","chopped tomato|chopped tomatoes|400|g","onion|onions|1|","garlic|garlic|2|clove","white wine|white wine|10|cl","parsley|parsley||"],
+   ["Fry the onion and the garlic.","Add the calamari and fry them for 3 min.","Add the wine and the tomatoes, and simmer for 35 min.|Cooking|35","Sprinkle with parsley and serve with rice or pasta."]]
+ ]},
+ {"q":"Pan-seared scallops","a":["scallops","coquilles saint-jacques","seared scallops"],"fr":"Saint-Jacques poêlées","r":[
+  ["Pan-seared scallops","The classic","","Scallops seared in butter, golden outside and pearly inside.","",15,250,"M","seared scallops","h",
+   ["scallop|scallops|16|","butter|butter|30|g","lemon|lemons|1|","parsley|parsley||","salt|salt||"],
+   ["Dry the scallops well on kitchen paper.","Heat the butter until it foams.","Sear the scallops for 1 min 30 on each side without moving them.|Pan|3","Squeeze over the lemon juice, add salt and sprinkle with parsley."]],
+  ["Scallops in cream sauce","In cream sauce","With a shallot cream sauce.","Scallops covered in a delicate cream sauce.","",20,350,"M","scallops cream sauce","",
+   ["scallop|scallops|16|","shallot|shallots|2|","crème fraîche|crème fraîche|20|cl","white wine|white wine|5|cl","butter|butter|20|g"],
+   ["Sear the scallops for 1 min 30 on each side in the butter and take them out.|Pan|3","Fry the shallots, then add the white wine.","Add the cream and let it reduce for 3 min.|Cooking|3","Put the scallops back in the sauce for 30 seconds."]],
+  ["Scallops au gratin","Au gratin","In shells, with a sauce and breadcrumbs.","The baked scallop shells served at festive meals.","",40,380,"M","coquilles saint jacques gratinees","o",
+   ["scallop|scallops|12|","button mushroom|button mushrooms|150|g","shallot|shallots|1|","crème fraîche|crème fraîche|20|cl","breadcrumb|breadcrumbs|2|tbsp","butter|butter|30|g"],
+   ["Preheat the oven to its grill setting.","Fry the shallot and the sliced mushrooms for 5 min.|Pan|5","Add the cream and let it reduce for 3 min.","Cut the scallops in half and share them between 4 shells. Spoon over the sauce.","Sprinkle with breadcrumbs and dot with butter. Grill for 6 min.|Oven|6"]]
+ ]},
+ {"q":"Fish curry","a":["coconut fish curry","fish and coconut curry"],"fr":"Curry de poisson","r":[
+  ["Coconut fish curry","The classic","","White fish simmered in a coconut curry sauce, served with rice.","",30,420,"F","fish coconut curry","h",
+   ["white fish fillet|white fish fillets|600|g","coconut milk|coconut milk|40|cl","tomato|tomatoes|2|","onion|onions|1|","curry powder|curry powder|2|tsp","ginger|ginger|1|tsp","rice|rice|250|g","coriander|coriander||"],
+   ["Cook the rice.|Cooking|12","Fry the onion with the curry powder and the ginger.","Add the diced tomatoes and the coconut milk, and cook for 10 min.|Cooking|10","Add the fish in big pieces and cook for 6 min without stirring too much.|Cooking|6","Sprinkle with coriander."]],
+  ["Fish and prawn curry","With prawns","With some prawns added.","A richer seafood curry.","",30,450,"F","fish shrimp curry","",
+   ["white fish fillet|white fish fillets|400|g","peeled prawn|peeled prawns|200|g","coconut milk|coconut milk|40|cl","onion|onions|1|","curry powder|curry powder|2|tsp","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Fry the onion with the curry powder, then add the coconut milk.","Add the fish and the prawns, and cook for 6 min.|Cooking|6","Serve with the rice."]],
+  ["Tomato fish curry","No coconut","A spicy tomato sauce, with no coconut milk.","A lighter fish curry made with tomato.","",30,320,"F","fish tomato curry","hb",
+   ["white fish fillet|white fish fillets|600|g","chopped tomato|chopped tomatoes|400|g","onion|onions|1|","garlic|garlic|2|clove","curry powder|curry powder|2|tsp","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Fry the onion, the garlic and the curry powder.","Add the tomatoes and cook for 10 min.|Cooking|10","Add the fish and cook for 6 min.|Cooking|6"]]
+ ]},
+ {"q":"Tuna rillettes","a":["fish rillettes","sardine rillettes","salmon rillettes","tuna spread"],"fr":"Rillettes de thon","r":[
+  ["Tuna rillettes","The classic","","Tuna mashed with soft cheese and lemon, to spread on toast with drinks.","",10,180,"F","tuna rillettes","cbe",
+   ["tuna in brine|tuna in brine|280|g","soft cheese|soft cheese|150|g","lemon|lemons|1|","chive|chives||","pepper|pepper||"],
+   ["Drain the tuna.","Mash it with a fork and the soft cheese.","Add the lemon juice, the chopped chives and some pepper.","Keep it cold and serve with toasted bread."]],
+  ["Sardine rillettes","Sardines","Made with sardines in oil.","Sardine rillettes with butter and lemon.","",10,220,"F","sardine rillettes","cbe",
+   ["sardine in oil|sardines in oil|2|","soft cheese|soft cheese|100|g","lemon|lemons|1|","shallot|shallots|1|","parsley|parsley||"],
+   ["Drain the sardines and remove the central bone.","Mash them with the soft cheese.","Add the lemon juice, the chopped shallot and the parsley.","Keep it cold."]],
+  ["Salmon rillettes","Salmon","Made with fresh salmon and smoked salmon.","The salmon rillettes served with drinks at parties.","",25,220,"F","salmon rillettes","ce",
+   ["salmon fillet|salmon fillets|1|","smoked salmon|smoked salmon|2|slices","soft cheese|soft cheese|150|g","lemon|lemons|1|","dill|dill||"],
+   ["Steam the salmon for 8 min and let it cool.|Cooking|8","Flake it and cut the smoked salmon into small pieces.","Mix with the soft cheese, the lemon juice and the dill.","Chill for 1 h."]]
+ ]},
+ {"q":"Tuna steak","a":["seared tuna","grilled tuna","fresh tuna"],"fr":"Steak de thon","r":[
+  ["Sesame-seared tuna steak","The classic","","Tuna seared in sesame seeds, pink in the middle, with a soy sauce.","",15,320,"M","seared tuna steak sesame","h",
+   ["tuna steak|tuna steaks|4|","sesame seed|sesame seeds|4|tbsp","soy sauce|soy sauce|3|tbsp","lime|limes|1|","oil|oil|1|tbsp"],
+   ["Coat the steaks in sesame seeds.","Sear them for 1 min on each side over a very high heat.|Pan|2","Cut them into slices.","Serve with the soy sauce mixed with the lime juice."]],
+  ["Provençal tuna","In tomato sauce","Cooked in a tomato sauce with olives.","Tuna simmered with tomato, olives and capers.","",30,350,"F","tuna provencal tomato","h",
+   ["tuna steak|tuna steaks|4|","chopped tomato|chopped tomatoes|400|g","onion|onions|1|","black olive|black olives|60|g","caper|capers|1|tbsp","garlic|garlic|2|clove"],
+   ["Fry the onion and the garlic.","Add the tomatoes, the olives and the capers, and cook for 10 min.|Cooking|10","Sear the tuna for 1 min on each side, then add it to the sauce.","Cover and cook for 5 min.|Cooking|5"]],
+  ["Grilled tuna with mango","With mango","With a mango and avocado salsa.","A fresh, exotic grilled tuna.","",20,380,"F","grilled tuna mango salsa","h",
+   ["tuna steak|tuna steaks|4|","mango|mangoes|1|","avocado|avocados|1|","red onion|red onions|0.5|","lime|limes|1|","coriander|coriander||"],
+   ["Cut the mango, the avocado and the onion into small cubes.","Mix with the lime juice and the coriander.","Grill the tuna for 2 min on each side.|Pan|4","Serve with the salsa."]]
+ ]},
+ {"q":"Monkfish armoricaine","a":["monkfish","lotte à l'armoricaine","armoricaine sauce"],"fr":"Lotte à l'armoricaine","r":[
+  ["Monkfish armoricaine","The classic","","Monkfish in a tomato sauce with white wine and cognac, Breton style.","Breton speciality",45,380,"M","monkfish armoricaine","",
+   ["monkfish|monkfish|800|g","chopped tomato|chopped tomatoes|400|g","shallot|shallots|3|","garlic|garlic|2|clove","white wine|white wine|20|cl","cognac|cognac|3|tbsp","crème fraîche|crème fraîche|10|cl","rice|rice|250|g"],
+   ["Cook the rice.|Cooking|12","Cut the monkfish into medallions and brown them for 3 min. Flambé with the cognac.|Pan|3","Take out the monkfish and fry the shallots and the garlic.","Add the wine and the tomatoes, and let it reduce for 15 min.|Cooking|15","Add the cream, put the monkfish back and cook for 8 min.|Cooking|8"]],
+  ["Monkfish in saffron cream","Saffron","A saffron cream sauce, with no tomato.","Monkfish medallions in a golden saffron sauce.","",35,400,"M","monkfish saffron cream","",
+   ["monkfish|monkfish|800|g","shallot|shallots|2|","white wine|white wine|10|cl","crème fraîche|crème fraîche|20|cl","saffron|saffron||","butter|butter|20|g"],
+   ["Brown the monkfish medallions in the butter and take them out.|Pan|4","Fry the shallots, then add the white wine.","Add the cream and the saffron, and let it reduce for 5 min.|Cooking|5","Put the monkfish back and cook for 6 min.|Cooking|6"]],
+  ["Cod armoricaine","Cod","Cod replaces the monkfish.","Armoricaine sauce made with cod, which is cheaper.","",35,340,"F","cod tomato wine sauce","b",
+   ["cod fillet|cod fillets|4|","chopped tomato|chopped tomatoes|400|g","shallot|shallots|2|","white wine|white wine|15|cl","crème fraîche|crème fraîche|10|cl"],
+   ["Fry the shallots, then add the wine and the tomatoes.","Let it reduce for 15 min.|Cooking|15","Add the cream.","Put the cod in the sauce, cover and cook for 8 min.|Cooking|8"]]
+ ]},
+ {"q":"Grilled sardines","a":["sardines","baked sardines","plancha sardines"],"fr":"Sardines grillées","r":[
+  ["Grilled sardines","The classic","","Fresh sardines grilled on a hot plate, with lemon and coarse salt.","",20,320,"F","grilled sardines","hb",
+   ["fresh sardine|fresh sardines|16|","lemon|lemons|2|","olive oil|olive oil|2|tbsp","coarse salt|coarse salt||","parsley|parsley||"],
+   ["Gut and rinse the sardines, or ask the fishmonger to do it.","Brush them with oil.","Grill them for 3 min on each side on a hot plate or a very hot pan.|Pan|6","Serve with the coarse salt, the parsley and lemon wedges."]],
+  ["Baked sardines","Oven-baked","Baked in the oven on tomatoes and onions.","Roast sardines on a bed of vegetables.","",30,350,"F","baked sardines tomatoes","ohb",
+   ["fresh sardine|fresh sardines|16|","tomato|tomatoes|4|","onion|onions|1|","garlic|garlic|2|clove","olive oil|olive oil|3|tbsp","thyme|thyme||"],
+   ["Preheat the oven to 200 °C.","Spread the sliced tomatoes, the onion and the garlic in a dish.","Lay the sardines on top, drizzle with oil and sprinkle with thyme.","Bake for 15 min.|Oven|15"]],
+  ["Marinated sardine fillets","Marinated","Raw fillets marinated in lemon.","Marinated sardines to serve as a fresh starter.","",20,240,"M","marinated sardine fillets","che",
+   ["sardine fillet|sardine fillets|16|","lemon|lemons|3|","olive oil|olive oil|4|tbsp","shallot|shallots|1|","parsley|parsley||"],
+   ["Lay the fillets in a dish, skin side down.","Pour over the lemon juice and leave for 1 h in the fridge.","Drain and drizzle with olive oil.","Sprinkle with chopped shallot and parsley."]]
+ ]},
+ {"q":"Pollock fillet","a":["pollock","baked pollock","hake","pollock in cream sauce"],"fr":"Filet de colin","r":[
+  ["Pollock in cream sauce","The classic","","Pollock fillets cooked gently in a lemon cream sauce.","",25,320,"F","hake fillet cream sauce","hbf",
+   ["pollock fillet|pollock fillets|4|","crème fraîche|crème fraîche|20|cl","lemon|lemons|1|","shallot|shallots|1|","parsley|parsley||","rice|rice|200|g"],
+   ["Cook the rice.|Cooking|12","Fry the shallot, then add the cream and the lemon zest.","Lay the fillets in the sauce, cover and cook for 8 min over a low heat.|Cooking|8","Squeeze over the lemon juice and sprinkle with parsley."]],
+  ["Baked pollock with vegetables","Oven-baked","Baked in the oven with vegetables.","A complete dish of roast pollock with courgettes and tomatoes.","",35,280,"F","baked hake vegetables","ohb",
+   ["pollock fillet|pollock fillets|4|","courgette|courgettes|2|","cherry tomato|cherry tomatoes|250|g","lemon|lemons|1|","olive oil|olive oil|3|tbsp","herbes de provence|herbes de provence|1|tsp"],
+   ["Preheat the oven to 200 °C.","Put the sliced courgettes and the tomatoes in a dish with the oil and the herbs.","Bake for 15 min.|Oven|15","Add the pollock, squeeze over the lemon and bake for another 12 min.|Oven|12"]],
+  ["Breaded pollock","Breaded","Breaded fillets fried golden in a pan.","Homemade fish fingers that kids love.","",25,380,"F","breaded hake fillet","bf",
+   ["pollock fillet|pollock fillets|4|","egg|eggs|1|","breadcrumb|breadcrumbs|80|g","flour|flour|3|tbsp","oil|oil|4|tbsp","lemon|lemons|1|"],
+   ["Dip the fillets in the flour, then the beaten egg, then the breadcrumbs.","Fry them for 4 min on each side in the oil until golden.|Pan|8","Drain on kitchen paper.","Serve with lemon wedges."]]
+ ]}
+]

@@ -4,6 +4,7 @@
 // Appli store : notification programmée et Live Activity à brancher ici (notes/appli-store-a-faire.md du projet).
 import { useEffect, useState, useSyncExternalStore } from "react";
 import type { RecipeState } from "./Recipe";
+import { isEn } from "../../lib/i18n";
 
 /** Le minuteur d'une étape. En marche : end (heure de fin). En pause : left (secondes qui restent). */
 export type CookTimer = { step: number; label: string; seconds: number; left: number; end: number | null };
@@ -70,7 +71,7 @@ export function fireTimer() {
   navigator.vibrate?.([300, 150, 300, 150, 300]);
   // Appli en arrière-plan (Android surtout) : la notif du téléphone, si elles sont autorisées
   if (document.visibilityState === "hidden" && typeof Notification !== "undefined" && Notification.permission === "granted") {
-    void navigator.serviceWorker?.getRegistration().then(reg => reg?.showNotification("Minuteur terminé", {
+    void navigator.serviceWorker?.getRegistration().then(reg => reg?.showNotification(isEn ? "Timer done" : "Minuteur terminé", {
       body: `${t.label} · ${c.title}`, icon: "/icon-192.png", tag: "frigia-minuteur", data: { url: c.path },
     })).catch(() => undefined);
   }

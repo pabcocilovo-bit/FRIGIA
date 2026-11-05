@@ -20,33 +20,36 @@ import { useRecipePhoto } from "./photo";
 import { useOpenPaywall } from "./plus/subscription";
 import { inFridge, minutesOf } from "./scan/portions";
 import { plural } from "./format";
-import { minText, timeText } from "../lib/recipes";
+import { diffText, minText, timeText } from "../lib/recipes";
+import { t } from "../lib/i18n";
 
-const norm = (t: string) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/œ/g, "oe").trim();
+const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/œ/g, "oe").trim();
 const words = (r: GeneratedRecipe) => [r.title, ...(r.items?.map(i => i.name) ?? r.recipeIngredients?.map(i => i.name) ?? [])].join(" ");
 
 // Les catégories en haut : une recherche toute faite. Photos IA, comme le catalogue (Hugo, 28 octobre).
 const CATS: { label: string; q: string; img: string }[] = [
-  { label: "Toutes", q: "", img: catalogPhoto("penne-all-arrabbiata") },
-  { label: "Rapides", q: "recettes rapides", img: featuredPhoto("one-pot-pasta") },
-  { label: "Healthy", q: "recettes healthy", img: catalogPhoto("buddha-bowl-b1") },
-  { label: "Petit budget", q: "recettes petit budget", img: catalogPhoto("pates-a-la-creme-et-aux-champignons") },
-  { label: "Famille", q: "plats en famille qui plaisent aux enfants", img: featuredPhoto("pizza-tortilla") },
+  { label: t("Toutes", "All"), q: "", img: catalogPhoto("penne-all-arrabbiata") },
+  { label: t("Rapides", "Quick"), q: t("recettes rapides", "quick recipes"), img: featuredPhoto("one-pot-pasta") },
+  { label: "Healthy", q: t("recettes healthy", "healthy recipes"), img: catalogPhoto("buddha-bowl-b1") },
+  { label: t("Petit budget", "On a budget"), q: t("recettes petit budget", "budget recipes"), img: catalogPhoto("pates-a-la-creme-et-aux-champignons") },
+  { label: t("Famille", "Family"), q: t("plats en famille qui plaisent aux enfants", "family dishes kids love"), img: featuredPhoto("pizza-tortilla") },
   { label: "Desserts", q: "desserts", img: featuredPhoto("brownie-banane") },
 ];
 const TYPES = [
-  { label: "Entrées", q: "entrées", img: catalogPhoto("veloute-de-potiron-b1") },
-  { label: "Plats", q: "plats", img: catalogPhoto("b-uf-bourguignon-a1") },
+  { label: t("Entrées", "Starters"), q: t("entrées", "starters"), img: catalogPhoto("veloute-de-potiron-b1") },
+  { label: t("Plats", "Mains"), q: t("plats", "main dishes"), img: catalogPhoto("b-uf-bourguignon-a1") },
   { label: "Desserts", q: "desserts", img: featuredPhoto("brownie-banane") },
 ];
 // Recettes tendances : des plats qu'on cherche souvent. Toucher lance la recherche (la classique et ses variantes).
 const TRENDS: { label: string; img: string; time: string; q?: string }[] = [
-  { label: "Lasagnes", img: catalogPhoto("lasagnes-a-la-bolognaise"), time: "90 min" },
-  { label: "Wrap au poulet", img: catalogPhoto("wrap-au-poulet-f2"), time: "20 min" },
-  { label: "Soupe de légumes", img: catalogPhoto("soupe-de-legumes-b1"), time: "35 min" },
-  { label: "Pommes de terre smashées", q: "smashed potatoes", img: featuredPhoto("pommes-de-terre-smashees"), time: "35 min" },
-  { label: "Salade caprese", img: catalogPhoto("salade-caprese"), time: "10 min" },
+  { label: t("Lasagnes", "Lasagne"), img: catalogPhoto("lasagnes-a-la-bolognaise"), time: "90 min" },
+  { label: t("Wrap au poulet", "Chicken wrap"), img: catalogPhoto("wrap-au-poulet-f2"), time: "20 min" },
+  { label: t("Soupe de légumes", "Vegetable soup"), img: catalogPhoto("soupe-de-legumes-b1"), time: "35 min" },
+  { label: t("Pommes de terre smashées", "Smashed potatoes"), q: "smashed potatoes", img: featuredPhoto("pommes-de-terre-smashees"), time: "35 min" },
+  { label: t("Salade caprese", "Caprese salad"), img: catalogPhoto("salade-caprese"), time: "10 min" },
 ];
+/** « Facile » (catalogue, recettes en français) ou « Easy » */
+const isEasy = (d: string | undefined) => /^(facile|easy)/i.test(d ?? "");
 
 // Les réponses de l'IA, gardées 24 h sur le téléphone : revenir en arrière ne relance pas la recherche
 const CACHE = "frigia.explorer";
@@ -71,9 +74,9 @@ function Card({ recipe, fav, onOpen }: { recipe: GeneratedRecipe; fav: boolean; 
   const photo = useRecipePhoto(recipe.title, recipe.imageSearch);
   return (
     <button type="button" className="ex-card" onClick={onOpen}>
-      <span className="ex-img">{photo ? <img src={photo} alt="" loading="lazy" /> : null}{fav && <span className="sp-heart" aria-label="Favori"><Icon name="heart-f" /></span>}</span>
+      <span className="ex-img">{photo ? <img src={photo} alt="" loading="lazy" /> : null}{fav && <span className="sp-heart" aria-label={t("Favori", "Favourite")}><Icon name="heart-f" /></span>}</span>
       <b>{recipe.title}</b>
-      <span>{timeText(recipe.time)}{recipe.diff ? ` · ${recipe.diff}` : ""}</span>
+      <span>{timeText(recipe.time)}{recipe.diff ? ` · ${diffText(recipe.diff)}` : ""}</span>
     </button>
   );
 }
@@ -86,12 +89,12 @@ function Result({ recipe, fav, onOpen }: { recipe: GeneratedRecipe; fav: boolean
     <button type="button" className="ex-res" onClick={onOpen}>
       <span className="ex-res-img">{photo ? <img src={photo} alt="" /> : null}
         {recipe.variant && <span className="ex-var">{recipe.variant}</span>}
-        {fav && <span className="sp-heart" aria-label="Favori"><Icon name="heart-f" /></span>}
+        {fav && <span className="sp-heart" aria-label={t("Favori", "Favourite")}><Icon name="heart-f" /></span>}
       </span>
       <span className="ex-res-tx">
         <b>{recipe.title}</b>
         {recipe.change ? <span className="ex-chg">{recipe.change}</span> : recipe.intro ? <span className="ex-chg">{recipe.intro}</span> : null}
-        <span className="ex-meta">{timeText(recipe.time)} · {recipe.diff}{recipe.veg ? " · Végé" : ""}{recipe.items ? (toBuy ? ` · ${plural(toBuy, "ingrédient")} à acheter` : " · Tu as tout") : ""}</span>
+        <span className="ex-meta">{timeText(recipe.time)} · {diffText(recipe.diff)}{recipe.veg ? t(" · Végé", " · Veggie") : ""}{recipe.items ? (toBuy ? ` · ${plural(toBuy, "ingrédient", "ingredient")} ${t("à acheter", "to buy")}` : t(" · Tu as tout", " · You have it all")) : ""}</span>
       </span>
     </button>
   );
@@ -193,13 +196,13 @@ function Poster({ title, sub, image, fav, onOpen }: { title: string; sub: string
   return (
     <button ref={ref} type="button" className="ex-poster" onClick={onOpen}>
       {photo ? <img src={photo} alt="" loading="lazy" /> : null}
-      {fav && <span className="sp-heart" aria-label="Favori"><Icon name="heart-f" /></span>}
+      {fav && <span className="sp-heart" aria-label={t("Favori", "Favourite")}><Icon name="heart-f" /></span>}
       <span className="ex-pt"><b>{title}</b><small>{sub}</small></span>
     </button>
   );
 }
-const dishSub = (d: BrowseDish) => `${d.minutes ? minText(d.minutes) : ""}${d.minutes && d.difficulty ? " · " : ""}${d.difficulty}`;
-const recipeSub = (r: GeneratedRecipe) => `${timeText(r.time)}${r.diff ? ` · ${r.diff}` : ""}`;
+const dishSub = (d: BrowseDish) => `${d.minutes ? minText(d.minutes) : ""}${d.minutes && d.difficulty ? " · " : ""}${diffText(d.difficulty)}`;
+const recipeSub = (r: GeneratedRecipe) => `${timeText(r.time)}${r.diff ? ` · ${diffText(r.diff)}` : ""}`;
 
 /** La recette du jour, en grand */
 function Hero({ dish, onOpen }: { dish: BrowseDish; onOpen: () => void }) {
@@ -208,10 +211,10 @@ function Hero({ dish, onOpen }: { dish: BrowseDish; onOpen: () => void }) {
     <button type="button" className="ex-hero" onClick={onOpen}>
       {photo ? <img src={photo} alt="" /> : null}
       <span className="ex-hero-tx">
-        <small>La recette du jour</small>
+        <small>{t("La recette du jour", "Recipe of the day")}</small>
         <b>{dish.title}</b>
-        <span>{dishSub(dish)} · et ses variantes</span>
-        <span className="ex-hero-go">Voir la recette <Icon name="next" /></span>
+        <span>{dishSub(dish)}{t(" · et ses variantes", " · and its variations")}</span>
+        <span className="ex-hero-go">{t("Voir la recette", "See the recipe")} <Icon name="next" /></span>
       </span>
     </button>
   );
@@ -255,7 +258,7 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
     return [...week, ...favorites, ...history.flatMap(e => e.recipes)].filter(r => !seen.has(r.title) && !!seen.add(r.title));
   }, [week, favorites, history]);
   const isFav = (r: GeneratedRecipe) => favorites.some(f => f.title === r.title);
-  const pass = (r: GeneratedRecipe) => (!quick || (minutesOf(r) > 0 && minutesOf(r) <= 30)) && (!veg || !!r.veg) && (!easy || r.diff === "Facile");
+  const pass = (r: GeneratedRecipe) => (!quick || (minutesOf(r) > 0 && minutesOf(r) <= 30)) && (!veg || !!r.veg) && (!easy || isEasy(r.diff));
   // « Des idées selon tes ingrédients » : ce qu'il y a dans Ma cuisine (le plus récent d'abord)
   const mine = useMemo(() => [...new Set(kitchen.items.map(i => i.name))].slice(0, 8), [kitchen.items]);
   const picked = chip ?? mine[0] ?? null;
@@ -307,7 +310,7 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
     // Une fois par jour, ou quand Ma cuisine change
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sig, isPlus]);
-  const passDish = (d: BrowseDish) => (!quick || (d.minutes > 0 && d.minutes <= 30)) && (!veg || d.veg) && (!easy || d.difficulty === "Facile");
+  const passDish = (d: BrowseDish) => (!quick || (d.minutes > 0 && d.minutes <= 30)) && (!veg || d.veg) && (!easy || isEasy(d.difficulty));
   const withHave = (r: GeneratedRecipe) => (r.items ? { ...r, items: r.items.map(i => ({ ...i, have: inFridge(i.name, kitchen.items) })) } : r);
   // Les rangées de l'appli glissées entre celles du catalogue : la semaine, tes favoris, tes dernières recettes
   const allRows = useMemo<BrowseRow[]>(() => {
@@ -315,10 +318,10 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
     const list = [...browse.rows];
     const at = (i: number, row: BrowseRow) => { if (row.recipes?.length) list.splice(Math.min(i, list.length), 0, row); };
     const mineCount = list.filter(r => r.id.startsWith("ing-")).length;
-    at(1 + mineCount, { id: "semaine", title: "Recettes de la semaine", recipes: week });
-    at(5 + mineCount, { id: "favoris", title: "Tes favoris", recipes: favorites.slice(0, 12) });
+    at(1 + mineCount, { id: "semaine", title: t("Recettes de la semaine", "Recipes of the week"), recipes: week });
+    at(5 + mineCount, { id: "favoris", title: t("Tes favoris", "Your favourites"), recipes: favorites.slice(0, 12) });
     const seen = new Set<string>();
-    at(9 + mineCount, { id: "historique", title: "Tes dernières recettes",
+    at(9 + mineCount, { id: "historique", title: t("Tes dernières recettes", "Your recent recipes"),
       recipes: history.flatMap(e => e.recipes).filter(r => !seen.has(r.title) && !!seen.add(r.title)).slice(0, 12) });
     return list;
   }, [browse, week, favorites, history]);
@@ -338,7 +341,7 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
       if (!live) return;
       if (r.status === "ok") { remember(q, r.recipes); setFetched({ key, state: "ok", recipes: r.recipes }); }
       else if (r.status === "quota") openPaywall("def", "/explorer");
-      else setFetched({ key, state: "error", recipes: [], message: r.status === "error" ? (r.message ?? (r.rate ? "Beaucoup de recherches cette heure-ci. Réessaie un peu plus tard." : "La recherche n'a pas marché. Vérifie ta connexion et réessaie.")) : undefined });
+      else setFetched({ key, state: "error", recipes: [], message: r.status === "error" ? (r.message ?? (r.rate ? t("Beaucoup de recherches cette heure-ci. Réessaie un peu plus tard.", "Lots of searches this hour. Try again a bit later.") : t("La recherche n'a pas marché. Vérifie ta connexion et réessaie.", "The search didn't work. Check your connection and try again."))) : undefined });
     });
     return () => { live = false; };
     // Une recherche par adresse : le foyer est lu au moment de chercher
@@ -361,21 +364,21 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
   const local = q ? known.filter(r => norm(words(r)).includes(norm(q).replace(/s$/, ""))) : [];
 
   return (
-    <div className="fa fa-app" aria-label="Explorer">
-      <GreenHead title="Explorer" sub="Des idées pour tous les goûts" back={false} />
+    <div className="fa fa-app" aria-label={t("Explorer", "Explore")}>
+      <GreenHead title={t("Explorer", "Explore")} sub={t("Des idées pour tous les goûts", "Ideas for every taste")} back={false} />
       <div className="v3-body ex-body">
         {params.get("photos") === "1" && <PhotoFill />}
         {params.get("invitations") === "1" && <InviteFill />}
         <form ref={top} className="hm-search" role="search" onSubmit={submit}>
-          <label><Icon name="search" /><input type="search" enterKeyHint="search" autoComplete="off" placeholder="Rechercher une recette ou un ingrédient…"
-            aria-label="Rechercher une recette" value={text} onChange={e => setText(e.target.value)} /></label>
-          <button type="button" className={"hm-filter" + (filters || quick || veg || easy ? " on" : "")} aria-label="Filtres" aria-expanded={filters} onClick={() => setFilters(f => !f)}><Icon name="sliders" /></button>
+          <label><Icon name="search" /><input type="search" enterKeyHint="search" autoComplete="off" placeholder={t("Rechercher une recette ou un ingrédient…", "Search for a recipe or an ingredient…")}
+            aria-label={t("Rechercher une recette", "Search for a recipe")} value={text} onChange={e => setText(e.target.value)} /></label>
+          <button type="button" className={"hm-filter" + (filters || quick || veg || easy ? " on" : "")} aria-label={t("Filtres", "Filters")} aria-expanded={filters} onClick={() => setFilters(f => !f)}><Icon name="sliders" /></button>
         </form>
         {filters && (
           <div className="chips ex-filters">
-            <Chip on={quick} onClick={() => setQuick(v => !v)}>Moins de 30 min</Chip>
-            <Chip on={veg} onClick={() => setVeg(v => !v)}>Végé</Chip>
-            <Chip on={easy} onClick={() => setEasy(v => !v)}>Facile</Chip>
+            <Chip on={quick} onClick={() => setQuick(v => !v)}>{t("Moins de 30 min", "Under 30 min")}</Chip>
+            <Chip on={veg} onClick={() => setVeg(v => !v)}>{t("Végé", "Veggie")}</Chip>
+            <Chip on={easy} onClick={() => setEasy(v => !v)}>{t("Facile", "Easy")}</Chip>
           </div>
         )}
 
@@ -392,41 +395,41 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
         </div>
 
         {q ? <>
-          <div className="sp-hd"><h2 className="sp-sec">{cat || `« ${q} »`}</h2><button type="button" className="sp-all" onClick={() => { setText(""); go(""); }}>Effacer</button></div>
+          <div className="sp-hd"><h2 className="sp-sec">{cat || t(`« ${q} »`, `"${q}"`)}</h2><button type="button" className="sp-all" onClick={() => { setText(""); go(""); }}>{t("Effacer", "Clear")}</button></div>
           {search?.state === "loading" && (
             <div className="ex-wait" role="status">
               <span className="ex-dots" aria-hidden="true"><i /><i /><i /></span>
-              <b>Frigia prépare tes recettes…</b>
-              <span>{cat ? "Des idées rien que pour toi." : "La classique, et des variantes si le plat s'y prête."}</span>
+              <b>{t("Frigia prépare tes recettes…", "Frigia is preparing your recipes…")}</b>
+              <span>{cat ? t("Des idées rien que pour toi.", "Ideas just for you.") : t("La classique, et des variantes si le plat s'y prête.", "The classic, and variations if the dish suits it.")}</span>
             </div>
           )}
           {search?.state === "error" && (
             <div className="ex-wait">
-              <b>Pas de recette pour l'instant</b>
+              <b>{t("Pas de recette pour l'instant", "No recipe for now")}</b>
               <span>{search.message}</span>
-              <Pill tone="cream" onClick={() => again([])}>Réessayer</Pill>
+              <Pill tone="cream" onClick={() => again([])}>{t("Réessayer", "Try again")}</Pill>
             </div>
           )}
           {search?.state === "ok" && (
-            !found.length ? <p className="sp-hint">Pas de recette trouvée. Essaie un autre nom.</p>
+            !found.length ? <p className="sp-hint">{t("Pas de recette trouvée. Essaie un autre nom.", "No recipe found. Try another name.")}</p>
             : found.filter(pass).length
               ? <div className="ex-results">{found.filter(pass).map(r => <Result key={r.title} recipe={r} fav={isFav(r)} onOpen={() => onOpenRecipe(r)} />)}</div>
-              : <p className="sp-hint">Aucune recette ne passe les filtres. Enlève un filtre pour tout voir.</p>
+              : <p className="sp-hint">{t("Aucune recette ne passe les filtres. Enlève un filtre pour tout voir.", "No recipe matches the filters. Remove one to see everything.")}</p>
           )}
           {/* Une réserve du catalogue (6 recettes, pas de variante) : on peut en tirer d'autres */}
           {search?.state === "ok" && found.length >= 6 && found.every(r => !r.variant) && (
-            <div className="ex-more"><Pill tone="line" icon="sparkle" onClick={() => again(found.map(r => r.title))}>Autres idées</Pill></div>
+            <div className="ex-more"><Pill tone="line" icon="sparkle" onClick={() => again(found.map(r => r.title))}>{t("Autres idées", "More ideas")}</Pill></div>
           )}
           {local.filter(pass).length > 0 && <>
-            <div className="sp-hd"><h2 className="sp-sec">Dans tes recettes</h2></div>
+            <div className="sp-hd"><h2 className="sp-sec">{t("Dans tes recettes", "In your recipes")}</h2></div>
             <div className="ex-row">{local.filter(pass).map(r => <Card key={r.title} recipe={r} fav={isFav(r)} onOpen={() => onOpenRecipe(r)} />)}</div>
           </>}
         </> : openRow ? <>
-          <div className="sp-hd"><h2 className="sp-sec">{openRow.title}</h2><button type="button" className="sp-all" onClick={() => setParams({}, { replace: true })}>Fermer</button></div>
+          <div className="sp-hd"><h2 className="sp-sec">{openRow.title}</h2><button type="button" className="sp-all" onClick={() => setParams({}, { replace: true })}>{t("Fermer", "Close")}</button></div>
           {shown(openRow).length
             ? <div className="ex-grid">{shown(openRow).map(x => tile(x))}</div>
-            : <p className="sp-hint">Aucune recette ne passe les filtres. Enlève un filtre pour tout voir.</p>}
-          {openRow.q && <div className="ex-more"><Pill tone="line" icon="sparkle" onClick={() => go(openRow.q!, openRow.title)}>Autres idées</Pill></div>}
+            : <p className="sp-hint">{t("Aucune recette ne passe les filtres. Enlève un filtre pour tout voir.", "No recipe matches the filters. Remove one to see everything.")}</p>}
+          {openRow.q && <div className="ex-more"><Pill tone="line" icon="sparkle" onClick={() => go(openRow.q!, openRow.title)}>{t("Autres idées", "More ideas")}</Pill></div>}
         </> : browse ? <>
           {browse.hero && <Hero dish={browse.hero} onOpen={() => go(browse.hero!.q)} />}
           {allRows.map(row => {
@@ -435,7 +438,7 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
             return (
               <section key={row.id} className="ex-sec" aria-label={row.title}>
                 <div className="sp-hd"><h2 className="sp-sec">{row.title}</h2>
-                  {!row.top && items.length > 3 && <button type="button" className="sp-all" onClick={() => { setParams({ rang: row.id }); top.current?.scrollIntoView({ block: "start" }); }}>Tout voir</button>}</div>
+                  {!row.top && items.length > 3 && <button type="button" className="sp-all" onClick={() => { setParams({ rang: row.id }); top.current?.scrollIntoView({ block: "start" }); }}>{t("Tout voir", "See all")}</button>}</div>
                 <div className={cxRow(row)}>
                   {row.top
                     ? (items as BrowseDish[]).map((d, i) => (
@@ -446,17 +449,17 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
             );
           })}
         </> : isPlus && browse === undefined ? (
-          <div className="ex-skel" role="status" aria-label="Chargement des recettes">
+          <div className="ex-skel" role="status" aria-label={t("Chargement des recettes", "Loading recipes")}>
             <span className="ex-skel-hero" />
             {[0, 1].map(i => <span key={i} className="ex-skel-row"><i /><i /><i /></span>)}
           </div>
         ) : <>
-          <div className="sp-hd"><h2 className="sp-sec">Recettes de la semaine</h2></div>
+          <div className="sp-hd"><h2 className="sp-sec">{t("Recettes de la semaine", "Recipes of the week")}</h2></div>
           <div className="ex-row">{week.filter(pass).map(r => <Card key={r.title} recipe={r} fav={isFav(r)} onOpen={() => onOpenRecipe(r)} />)}</div>
 
           {mine.length > 0 && <>
-            <div className="sp-hd"><h2 className="sp-sec">Des idées selon tes ingrédients</h2>
-              {picked && <button type="button" className="sp-all" onClick={() => go(picked)}>Plus d'idées</button>}</div>
+            <div className="sp-hd"><h2 className="sp-sec">{t("Des idées selon tes ingrédients", "Ideas from your ingredients")}</h2>
+              {picked && <button type="button" className="sp-all" onClick={() => go(picked)}>{t("Plus d'idées", "More ideas")}</button>}</div>
             <div className="chips ex-chips">
               {mine.map(n => <Chip key={n} on={n === picked} onClick={() => setChip(n)}>{n}</Chip>)}
             </div>
@@ -465,28 +468,28 @@ export function Explore({ isPlus, history, favorites, kitchen, household, onOpen
               : picked && (fromCatalog || !isPlus) && (
                 <button type="button" className="sp-card sp-line" onClick={() => go(picked)}>
                   <span className="sp-ic"><Icon name="sparkle" /></span>
-                  <span className="tx"><b>Des recettes avec {picked.toLowerCase()}</b><span>Frigia t'en propose trois</span></span>
+                  <span className="tx"><b>{t(`Des recettes avec ${picked.toLowerCase()}`, `Recipes with ${picked.toLowerCase()}`)}</b><span>{t("Frigia t'en propose trois", "Frigia suggests three")}</span></span>
                   <Icon name="next" />
                 </button>
               )}
           </>}
 
-          <div className="sp-hd"><h2 className="sp-sec">Par type de plat</h2></div>
+          <div className="sp-hd"><h2 className="sp-sec">{t("Par type de plat", "By type of dish")}</h2></div>
           <div className="ex-types">
-            {TYPES.map(t => (
-              <button key={t.label} type="button" className="ex-type" onClick={() => go(t.q, t.label)}>
-                <img src={t.img} alt="" /><span>{t.label}</span>
+            {TYPES.map(ty => (
+              <button key={ty.label} type="button" className="ex-type" onClick={() => go(ty.q, ty.label)}>
+                <img src={ty.img} alt="" /><span>{ty.label}</span>
               </button>
             ))}
           </div>
 
-          <div className="sp-hd"><h2 className="sp-sec">Recettes tendances</h2></div>
+          <div className="sp-hd"><h2 className="sp-sec">{t("Recettes tendances", "Trending recipes")}</h2></div>
           <div className="ex-row">
-            {TRENDS.map(t => (
-              <button key={t.label} type="button" className="ex-card" onClick={() => go(t.q ?? t.label)}>
-                <span className="ex-img"><img src={t.img} alt="" loading="lazy" /></span>
-                <b>{t.label}</b>
-                <span>{timeText(t.time)} · et ses variantes</span>
+            {TRENDS.map(tr => (
+              <button key={tr.label} type="button" className="ex-card" onClick={() => go(tr.q ?? tr.label)}>
+                <span className="ex-img"><img src={tr.img} alt="" loading="lazy" /></span>
+                <b>{tr.label}</b>
+                <span>{timeText(tr.time)}{t(" · et ses variantes", " · and its variations")}</span>
               </button>
             ))}
           </div>

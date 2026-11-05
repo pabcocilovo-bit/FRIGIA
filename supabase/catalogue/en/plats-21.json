@@ -1,0 +1,112 @@
+[
+ {"q":"Porridge","a":["oatmeal","overnight oats"],"fr":"Porridge","r":[
+  ["Porridge","The classic","","Creamy oats cooked in milk, with banana and honey.","British breakfast",10,320,"F","oatmeal porridge banana","vdhbf",
+   ["rolled oat|rolled oats|200|g","milk|milk|80|cl","banana|bananas|2|","honey|honey|2|tbsp","cinnamon|cinnamon|1|tsp"],
+   ["Pour the oats and the milk into a saucepan.","Cook for 5 minutes over a low heat, stirring, until creamy.|Cooking|5","Add the cinnamon.","Serve in bowls with sliced banana and a drizzle of honey."]],
+  ["Overnight oats","No cooking","The oats soak overnight in the fridge.","Cold porridge made the night before, ready when you wake up.","",10,330,"F","overnight oats jar","vcdhbf",
+   ["rolled oat|rolled oats|200|g","milk|milk|40|cl","plain yoghurt|plain yoghurts|2|","chia seed|chia seeds|2|tbsp","mixed berries|mixed berries|200|g","honey|honey|2|tbsp"],
+   ["Mix the oats, milk, yoghurts, chia and honey.","Divide between 4 jars.","Close the jars and leave in the fridge overnight.","Add the berries just before serving."]],
+  ["Apple and cinnamon porridge","Apple","With pan-fried apples and cinnamon.","A winter porridge with caramelised apples.","",15,340,"F","apple cinnamon oatmeal","vdhbf",
+   ["rolled oat|rolled oats|200|g","milk|milk|80|cl","apple|apples|2|","cinnamon|cinnamon|1|tsp","brown sugar|brown sugar|2|tbsp","butter|butter|10|g"],
+   ["Cook the oats in the milk for 5 minutes, stirring.|Cooking|5","Dice the apples.","Brown them for 5 minutes in the butter with the sugar and cinnamon.|Pan|5","Serve the porridge with the apples on top."]]
+ ]},
+ {"q":"Granola","a":["homemade granola","muesli"],"fr":"Granola","r":[
+  ["Homemade granola","The classic","","Oats, nuts and honey roasted in the oven into crunchy clusters.","",40,250,"F","homemade granola","vodh",
+   ["rolled oat|rolled oats|300|g","almond|almonds|80|g","hazelnut|hazelnuts|50|g","honey|honey|5|tbsp","coconut oil|coconut oil|4|tbsp","cinnamon|cinnamon|1|tsp"],
+   ["Preheat the oven to 160 °C.","Mix the oats, the almonds, the crushed hazelnuts and the cinnamon.","Add the honey and the melted oil and mix well.","Spread on a baking tray and bake for 25 minutes, stirring every 10 minutes.|Oven|25","Leave to cool before putting in a jar."]],
+  ["Chocolate granola","Chocolate","With cocoa and chocolate chips.","A chocolatey granola for those with a sweet tooth.","",40,280,"F","chocolate granola","vodf",
+   ["rolled oat|rolled oats|300|g","hazelnut|hazelnuts|80|g","cocoa powder|cocoa powder|3|tbsp","honey|honey|5|tbsp","coconut oil|coconut oil|4|tbsp","chocolate chip|chocolate chips|60|g"],
+   ["Preheat the oven to 160 °C.","Mix the oats, the crushed hazelnuts and the cocoa, then the honey and the melted oil.","Spread on a baking tray and bake for 25 minutes, stirring.|Oven|25","Leave to cool and add the chocolate chips."]],
+  ["Coconut and dried fruit granola","Coconut","With coconut and dried fruit.","A tropical granola with coconut and dried apricots.","",40,260,"F","coconut granola","vodh",
+   ["rolled oat|rolled oats|300|g","desiccated coconut|desiccated coconut|50|g","almond|almonds|60|g","dried apricot|dried apricots|80|g","maple syrup|maple syrup|5|tbsp","coconut oil|coconut oil|3|tbsp"],
+   ["Preheat the oven to 160 °C.","Mix the oats, the coconut and the almonds, then the maple syrup and the melted oil.","Spread on a baking tray and bake for 25 minutes, stirring.|Oven|25","Leave to cool and add the chopped apricots."]]
+ ]},
+ {"q":"Smoothie","a":["fruit smoothie","smoothie bowl","milkshake"],"fr":"Smoothie","r":[
+  ["Banana and strawberry smoothie","The classic","","A smooth banana and strawberry smoothie, made with yoghurt.","",5,180,"F","strawberry banana smoothie","vcdhf",
+   ["banana|bananas|2|","strawberry|strawberries|300|g","plain yoghurt|plain yoghurts|2|","milk|milk|30|cl","honey|honey|1|tbsp"],
+   ["Hull the strawberries and cut the bananas into chunks.","Put everything in the blender with the yoghurt, the milk and the honey.","Blend until completely smooth.","Serve straight away, nice and cold."]],
+  ["Green smoothie","Green","With spinach, kiwi and apple.","A fresh, vitamin-packed smoothie, all green.","",5,140,"F","green smoothie","vcdh",
+   ["baby spinach|baby spinach|60|g","kiwi|kiwis|2|","apple|apples|1|","banana|bananas|1|","orange juice|orange juice|30|cl"],
+   ["Peel the kiwis and the banana, and cut up the apple.","Put everything in the blender with the spinach and the orange juice.","Blend until smooth.","Serve straight away."]],
+  ["Smoothie bowl","Bowl","Thicker, served in a bowl with toppings.","The smoothie you eat with a spoon, topped with fruit and granola.","",10,320,"F","acai smoothie bowl","vcdh",
+   ["frozen banana|frozen bananas|2|","frozen mixed berries|frozen mixed berries|300|g","greek yoghurt|greek yoghurts|2|","granola|granola|60|g","kiwi|kiwis|1|"],
+   ["Blend the frozen bananas, the berries and the yoghurt with no liquid, for a thick texture.","Pour into bowls.","Top with granola and sliced kiwi.","Serve right away."]]
+ ]},
+ {"q":"Bowl cake","a":["bowlcake","microwave bowl cake","mug cake"],"fr":"Bowl cake","r":[
+  ["Bowl cake","The classic","","The breakfast cake made with oats and banana, cooked in 2 minutes in the microwave.","",5,300,"F","oatmeal bowl cake","vdhb",
+   ["rolled oat|rolled oats|160|g","banana|bananas|2|","egg|eggs|4|","milk|milk|20|cl","baking powder|baking powder|1|tsp"],
+   ["Mash the bananas in 4 bowls.","Add 40 g of oats, 1 egg, 5 cl of milk and a pinch of baking powder to each bowl.","Mix well.","Cook each bowl for 2 minutes in the microwave.|Microwave|2"]],
+  ["Chocolate bowl cake","Chocolate","With cocoa and a square of chocolate in the middle.","A bowl cake with a gooey chocolate centre.","",5,350,"F","chocolate bowl cake","vdbf",
+   ["rolled oat|rolled oats|160|g","banana|bananas|2|","egg|eggs|4|","milk|milk|20|cl","cocoa powder|cocoa powder|2|tbsp","dark chocolate|dark chocolate|40|g"],
+   ["Mash the bananas in 4 bowls and add the oats, the eggs, the milk and the cocoa.","Mix well.","Push a square of chocolate into the middle of each bowl.","Cook each bowl for 2 minutes in the microwave.|Microwave|2"]],
+  ["Cocoa mug cake","Mug cake","A proper little chocolate cake, cooked in a mug.","The quick cake for a chocolate craving.","",5,380,"F","chocolate mug cake","vdbf",
+   ["flour|flour|100|g","sugar|sugar|80|g","cocoa powder|cocoa powder|4|tbsp","egg|eggs|2|","milk|milk|12|cl","sunflower oil|sunflower oil|6|tbsp"],
+   ["Mix the flour, the sugar and the cocoa.","Add the eggs, the milk and the oil and mix.","Divide between 4 mugs.","Cook each mug for 1 minute 30 in the microwave.|Microwave|2"]]
+ ]},
+ {"q":"Chia pudding","a":["chia seed pudding","chia"],"fr":"Chia pudding","r":[
+  ["Chia pudding","The classic","","Chia seeds soaked in coconut milk, served with fresh fruit.","",10,250,"F","chia pudding","vcdh",
+   ["chia seed|chia seeds|80|g","coconut milk|coconut milk|40|cl","maple syrup|maple syrup|2|tbsp","mango|mangoes|1|"],
+   ["Mix the chia seeds, the coconut milk and the maple syrup.","Stir again after 10 minutes to avoid lumps.","Leave to set for at least 4 hours in the fridge.","Serve with the diced mango."]],
+  ["Chocolate chia pudding","Cocoa","With cocoa in the milk.","A chia pudding that tastes like chocolate cream.","",10,260,"F","chocolate chia pudding","vcdh",
+   ["chia seed|chia seeds|80|g","almond milk|almond milk|40|cl","cocoa powder|cocoa powder|2|tbsp","maple syrup|maple syrup|3|tbsp","banana|bananas|1|"],
+   ["Mix the milk, the cocoa and the syrup, then the chia seeds.","Stir again after 10 minutes.","Leave to set for at least 4 hours in the fridge.","Serve with the sliced banana."]],
+  ["Berry chia pudding","Berries","With a berry sauce.","A fresh, tangy chia pudding.","",10,220,"F","berry chia pudding","vcdh",
+   ["chia seed|chia seeds|80|g","milk|milk|40|cl","honey|honey|2|tbsp","mixed berries|mixed berries|250|g"],
+   ["Mix the chia, the milk and the honey, and stir after 10 minutes.","Leave to set for at least 4 hours in the fridge.","Crush half of the berries into a sauce.","Serve the pudding with the sauce and the rest of the berries."]]
+ ]},
+ {"q":"Eggs Benedict","a":["eggs benedict","oeufs benedicte"],"fr":"Œufs Bénédicte","r":[
+  ["Eggs Benedict","The classic","","Poached eggs on toasted muffins and bacon, covered in hollandaise sauce.","American brunch",30,520,"D","eggs benedict","",
+   ["egg|eggs|7|","english muffin|english muffins|2|","bacon|bacon|4|slices","butter|butter|100|g","lemon|lemons|0.5|","white vinegar|white vinegar|2|tbsp"],
+   ["Melt the butter. Whisk 3 egg yolks with 2 tbsp of water over a bain-marie until they thicken.","Add the melted butter little by little, whisking, then the lemon juice. This is the hollandaise.","Toast the halved muffins and brown the bacon.|Pan|4","Poach the 4 eggs for 3 minutes in simmering water with vinegar.|Cooking|3","Build it: muffin, bacon, poached egg, then the sauce."]],
+  ["Eggs Royale","With salmon","With smoked salmon instead of bacon.","The royal version, with smoked salmon.","",30,500,"D","eggs royale salmon","",
+   ["egg|eggs|7|","english muffin|english muffins|2|","smoked salmon|smoked salmon|4|slices","butter|butter|100|g","lemon|lemons|0.5|","white vinegar|white vinegar|2|tbsp"],
+   ["Make the hollandaise over a bain-marie with 3 yolks, the melted butter and the lemon.","Toast the halved muffins.","Poach the 4 eggs for 3 minutes in water with vinegar.|Cooking|3","Build it: muffin, salmon, poached egg, then the sauce."]],
+  ["Eggs Florentine","Vegetarian","With wilted spinach.","The Florentine version, with spinach.","",30,450,"D","eggs florentine spinach","v",
+   ["egg|eggs|7|","english muffin|english muffins|2|","baby spinach|baby spinach|200|g","butter|butter|100|g","lemon|lemons|0.5|","white vinegar|white vinegar|2|tbsp"],
+   ["Make the hollandaise over a bain-marie with 3 yolks, the melted butter and the lemon.","Wilt the spinach for 2 minutes in a pan.|Pan|2","Toast the muffins and poach the 4 eggs for 3 minutes.|Cooking|3","Build it: muffin, spinach, poached egg, then the sauce."]]
+ ]},
+ {"q":"Baked eggs","a":["eggs en cocotte","oeufs cocotte","shirred eggs"],"fr":"Œufs cocotte","r":[
+  ["Baked eggs with cream","The classic","","Eggs baked in ramekins, with cream and chives.","",20,200,"F","baked eggs ramekin cream","vobf",
+   ["egg|eggs|4|","crème fraîche|crème fraîche|8|tbsp","chive|chives||","butter|butter|10|g","salt|salt||","pepper|pepper||"],
+   ["Preheat the oven to 180 °C. Butter 4 ramekins.","Put 1 tbsp of cream in the bottom, break in an egg, then add another 1 tbsp of cream.","Stand the ramekins in a dish with hot water halfway up the sides.","Bake for 10 minutes: the white should be set and the yolk runny.|Oven|10","Sprinkle with chives, salt and pepper."]],
+  ["Baked eggs with ham","With ham","With ham and cheese.","Hearty baked eggs with ham and Emmental.","",20,260,"F","baked eggs ham cheese","obf",
+   ["egg|eggs|4|","cooked ham|cooked ham|2|slices","crème fraîche|crème fraîche|4|tbsp","grated emmental|grated emmental|40|g"],
+   ["Preheat the oven to 180 °C.","Put the diced ham and the cream into 4 buttered ramekins.","Break an egg into each and sprinkle with Emmental.","Bake for 12 minutes in a bain-marie.|Oven|12"]],
+  ["Baked eggs with mushrooms","With mushrooms","With pan-fried mushrooms.","Woodland-style baked eggs, with mushrooms.","",25,220,"F","baked eggs mushrooms","vobf",
+   ["egg|eggs|4|","button mushroom|button mushrooms|200|g","shallot|shallots|1|","crème fraîche|crème fraîche|4|tbsp","parsley|parsley||"],
+   ["Preheat the oven to 180 °C.","Fry the sliced mushrooms and the shallot for 5 minutes.|Pan|5","Divide them between 4 ramekins with the cream and break an egg into each.","Bake for 12 minutes in a bain-marie and sprinkle with parsley.|Oven|12"]]
+ ]},
+ {"q":"Homemade bread","a":["bread","no-machine bread","white loaf"],"fr":"Pain maison","r":[
+  ["Homemade bread","The classic","","A crusty loaf made by hand, with no machine, baked in a casserole dish.","",210,250,"M","homemade bread loaf","vob",
+   ["flour|flour|500|g","fresh yeast|fresh yeast|5|g","salt|salt|10|g"],
+   ["Dissolve the yeast in 35 cl of lukewarm water.","Mix with the flour and the salt, and knead for 10 minutes.|Kneading|10","Leave to rise for 2 hours under a tea towel.|Rising|120","Preheat the oven to 240 °C with a cast-iron casserole dish inside.","Shape a ball, put it in the hot dish and bake for 30 minutes with the lid on, then 15 minutes with the lid off.|Oven|45"]],
+  ["No-knead bread","No kneading","The dough rises overnight and is not kneaded.","The simplest bread, made the day before.","",60,250,"F","no knead bread","vob",
+   ["flour|flour|500|g","fresh yeast|fresh yeast|2|g","salt|salt|10|g"],
+   ["Mix the flour, the salt, the yeast and 38 cl of lukewarm water, without kneading.","Cover and leave to rise for 12 to 18 hours at room temperature.","Preheat the oven to 240 °C with a cast-iron casserole dish inside.","Pour the dough into the hot dish and bake for 30 minutes with the lid on, then 15 minutes with the lid off.|Oven|45"]],
+  ["Seeded wholemeal bread","Wholemeal","With wholemeal flour and seeds.","A wholemeal loaf packed with seeds, for breakfast.","",210,270,"M","whole wheat seeded bread","vohb",
+   ["wholemeal flour|wholemeal flour|300|g","flour|flour|200|g","fresh yeast|fresh yeast|5|g","mixed seeds|mixed seeds|80|g","salt|salt|10|g"],
+   ["Dissolve the yeast in 37 cl of lukewarm water.","Mix with the flours, the salt and the seeds, and knead for 10 minutes.|Kneading|10","Leave to rise for 2 hours.|Rising|120","Shape and put in a loaf tin. Leave to rise for 45 minutes.|Rising|45","Bake for 40 minutes at 220 °C.|Oven|40"]]
+ ]},
+ {"q":"Frittata","a":["italian omelette","spanish tortilla","tortilla"],"fr":"Frittata","r":[
+  ["Vegetable frittata","The classic","","The thick Italian omelette, filled with vegetables and finished in the oven.","Italian dish",30,280,"F","vegetable frittata","vohbf",
+   ["egg|eggs|8|","courgette|courgettes|1|","red pepper|red peppers|1|","onion|onions|1|","parmesan|parmesan|40|g","olive oil|olive oil|2|tbsp"],
+   ["Preheat the oven to 180 °C.","Fry the onion, the pepper and the diced courgette for 8 minutes in an ovenproof frying pan.|Pan|8","Beat the eggs with the parmesan, add salt and pepper, and pour over the vegetables.","Cook for 3 minutes on the hob, then bake for 12 minutes.|Oven|12"]],
+  ["Spanish tortilla","Tortilla","With potatoes and onion.","The thick Spanish omelette with potatoes.","Spanish recipe",45,350,"M","spanish tortilla","vbf",
+   ["egg|eggs|6|","potato|potatoes|600|g","onion|onions|1|","olive oil|olive oil|10|cl","salt|salt||"],
+   ["Cut the potatoes into thin slices and the onion into strips.","Cook them for 20 minutes over a low heat in the oil, without browning them.|Pan|20","Drain them and mix with the beaten, salted eggs.","Put back in the pan and cook for 5 minutes, then flip with a plate and cook for 3 minutes.|Pan|8"]],
+  ["Spinach and feta frittata","Spinach and feta","With spinach and feta.","A green, melting frittata.","",25,290,"F","spinach feta frittata","vohb",
+   ["egg|eggs|8|","baby spinach|baby spinach|200|g","feta|feta|150|g","spring onion|spring onions|2|","olive oil|olive oil|2|tbsp"],
+   ["Preheat the oven to 180 °C.","Wilt the spinach with the spring onion for 3 minutes.|Pan|3","Pour in the beaten eggs and the crumbled feta.","Cook for 3 minutes, then bake for 12 minutes.|Oven|12"]]
+ ]},
+ {"q":"Welsh rarebit","a":["welsh","welsh rabbit","cheese on toast"],"fr":"Welsh","r":[
+  ["Welsh","The classic","","The dish from the north of France: bread and ham covered in cheddar melted with beer, topped with an egg.","Speciality of northern France",30,850,"F","welsh rarebit","o",
+   ["cheddar|cheddar|500|g","lager|lager|20|cl","mustard|mustard|1|tbsp","country bread|country bread|4|slices","cooked ham|cooked ham|4|slices","egg|eggs|4|"],
+   ["Preheat the oven to the grill setting.","Melt the cheddar pieces with the beer and the mustard over a low heat, stirring.","Put a slice of bread in each individual dish and add the ham.","Cover with melted cheddar and grill for 8 minutes.|Oven|8","Top each welsh with a fried egg."]],
+  ["Welsh without beer","Alcohol-free","The beer is replaced by milk.","A milder welsh, for the whole family.","",30,800,"F","cheddar toast melted cheese","of",
+   ["cheddar|cheddar|500|g","milk|milk|15|cl","mustard|mustard|1|tsp","country bread|country bread|4|slices","cooked ham|cooked ham|4|slices","egg|eggs|4|"],
+   ["Melt the cheddar with the milk and the mustard over a low heat.","Put the bread and the ham in individual dishes.","Cover with cheddar and grill for 8 minutes.|Oven|8","Add a fried egg."]],
+  ["Vegetarian welsh","Vegetarian","No ham, with mushrooms.","A meat-free welsh, with pan-fried mushrooms.","",30,760,"F","vegetarian welsh rarebit mushrooms","vo",
+   ["cheddar|cheddar|500|g","lager|lager|20|cl","mustard|mustard|1|tbsp","country bread|country bread|4|slices","button mushroom|button mushrooms|250|g","egg|eggs|4|"],
+   ["Fry the sliced mushrooms for 8 minutes.|Pan|8","Melt the cheddar with the beer and the mustard.","Put the bread and the mushrooms in dishes and cover with cheddar.","Grill for 8 minutes and add a fried egg.|Oven|8"]]
+ ]}
+]

@@ -5,19 +5,19 @@
 // Une recette d'une réserve (« Vite fait ») part entière : elle s'ouvre tout de suite.
 // Appelé par api/recipes.ts ({ browse: true }) : Vercel Hobby limite le nombre de fonctions (12).
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Req, Res } from "./_shared.js";
+import { langOf, say, type Req, type Res } from "./_shared.js";
 import { dishPhoto, type Prefs } from "./_ai.js";
-import { type CatalogRecipe, catalogKey, constraintsOf, fits, parts } from "./_catalog.js";
+import { type CatalogRecipe, catalogKey, constraintsOf, EN, fits, langKey, parts } from "./_catalog.js";
 import { str, strs } from "./_recipe.js";
 import { canGenerate, photograph } from "./_images.js";
 
 /** Un plat : la carte de sa recette classique */
 /** recipe : le titre de sa recette classique (la photo du plat est la sienne) */
-type DishCard = { q: string; title: string; recipe: string; minutes: number; difficulty: string; imageUrl?: string; imageSearch: string; veg: boolean };
-type Row = { id: string; title: string; top?: boolean; q?: string; dishes?: DishCard[]; recipes?: CatalogRecipe[] };
+type DishCard = { key: string; q: string; title: string; recipe: string; minutes: number; difficulty: string; imageUrl?: string; imageSearch: string; veg: boolean };
+type Row = { id: string; title: string; key?: string; top?: boolean; q?: string; dishes?: DishCard[]; recipes?: CatalogRecipe[] };
 type DishRow = { key: string; query: string; hits: number; title: string | null; minutes: number | null; difficulty: string | null;
   imageUrl: string | null; imageSearch: string | null; veg: boolean | null };
-type PoolRow = { key: string; query: string; recipes: CatalogRecipe[] };
+type PoolRow = { key: string; query: string; aliases?: string[] | null; recipes: CatalogRecipe[] };
 
 // Les réserves (supabase/catalogue, LISTS) : la clé, le titre de la rangée
 const POOLS: [string, string][] = [
@@ -78,6 +78,24 @@ const THEMES: [string, string, string[]][] = [
   ["apero", "Pour l'apéro", ["Guacamole", "Houmous", "Tzatziki", "Accras de morue", "Gougères", "Samoussas", "Bruschetta", "Focaccia",
     "Rillettes de thon", "Blinis", "Cake salé", "Muffins salés", "Feuilletés à la saucisse", "Arancini", "Rouleaux de printemps"]],
 ];
+// L'appli en anglais : les titres des rangées (les plats, eux, viennent du catalogue anglais, rangé sous les mêmes clés)
+const EN_TITLES: Record<string, string> = {
+  "Vite fait, bien fait": "Quick and easy", "Healthy et gourmand": "Healthy and tasty", "Petit budget": "On a budget",
+  "Les enfants adorent": "Kids love it", "100 % végé": "100% veggie", "Pour commencer": "Starters",
+  "Avec des pâtes": "With pasta", "Avec du riz": "With rice", "Avec des pommes de terre": "With potatoes", "Avec des œufs": "With eggs",
+  "Les grands classiques": "The great French classics", "Voyage en Italie": "A trip to Italy", "Saveurs d'Asie": "Flavours of Asia",
+  "Épices d'ailleurs": "Spices from afar", "Street food": "Street food", "Le tour de France": "A tour of France",
+  "Poissons et fruits de mer": "Fish and seafood", "Soupes et veloutés": "Soups", "Salades fraîcheur": "Fresh salads",
+  "Brunch du dimanche": "Sunday brunch", "L'heure du goûter": "Teatime treats", "Desserts gourmands": "Indulgent desserts",
+  "Pour recevoir": "For guests", "Petits plats mijotés": "Slow-cooked dishes", "Comme quand on était petit": "Childhood favourites",
+  "Les accompagnements": "Sides", "Pour l'apéro": "Nibbles and drinks",
+};
+const EN_ENVIES: Record<string, string> = {
+  poulet: "chicken", saumon: "salmon", "pâtes": "pasta", chocolat: "chocolate", courgette: "courgettes", "pomme de terre": "potatoes",
+  oeuf: "eggs", crevette: "prawns", avocat: "avocado", fromage: "cheese", citron: "lemon", champignon: "mushrooms", riz: "rice",
+  tomate: "tomatoes", boeuf: "beef", lentille: "lentils", curry: "curry", fraise: "strawberries", banane: "banana", poisson: "fish",
+};
+
 // Le Top 10 tant que les recherches ne suffisent pas : les plats préférés des Français
 const POPULAR = ["Lasagnes", "Pâtes carbonara", "Tartiflette", "Hachis parmentier", "Blanquette de veau", "Bœuf bourguignon", "Gratin dauphinois",
   "Poulet rôti", "Couscous", "Crêpes", "Raclette", "Quiche lorraine", "Spaghetti bolognaise", "Mousse au chocolat", "Burger maison"];
@@ -94,6 +112,15 @@ const ALSO: Record<string, string[]> = {
   "fruit de mer": ["crevette", "moule", "saint jacque", "calamar", "huitre", "crabe"],
   soja: ["soja", "tofu", "edamame", "miso"],
   sesame: ["sesame", "tahini"],
+};
+// Les mêmes mots en anglais, pour les recettes du catalogue anglais
+const ALSO_EN: Record<string, string[]> = {
+  arachide: ["peanut"], "fruit a coque": ["walnut", "hazelnut", "almond", "pistachio", "cashew", "pecan", "nut"],
+  lait: ["milk", "butter", "cream", "cheese", "yoghurt", "yogurt"], lactose: ["milk", "butter", "cream", "cheese", "yoghurt", "yogurt", "mozzarella", "parmesan"],
+  gluten: ["flour", "pasta", "bread", "semolina", "breadcrumb", "biscuit", "brioche", "noodle", "bulgur", "couscous", "pastry", "spaghetti", "tortilla"],
+  oeuf: ["egg", "yolk", "mayonnaise"], poisson: ["salmon", "tuna", "cod", "sardine", "anchovy", "trout", "sea bream", "monkfish", "sole", "fish", "haddock"],
+  crustace: ["prawn", "shrimp", "lobster", "langoustine", "crab"], "fruit de mer": ["prawn", "shrimp", "mussel", "scallop", "squid", "oyster", "crab"],
+  soja: ["soy", "tofu", "edamame", "miso"], sesame: ["sesame", "tahini"],
 };
 
 const DAY_MS = 24 * 3600 * 1000;
@@ -127,12 +154,12 @@ function safe(r: CatalogRecipe, constraints: string): boolean {
     if (c === "vegetarien" || c === "pescetarien" || c === "sans four") return fits(r, c);
     if (c === "vegan") return false;
     const word = c.replace(/^allergie /, "").replace(/^sans /, "");
-    return ![word, ...(ALSO[word] ?? [])].some(w => names.includes(catalogKey(w)));
+    return ![word, ...(ALSO[word] ?? []), ...(ALSO_EN[word] ?? [])].some(w => names.includes(catalogKey(w)));
   });
 }
 
 const dishCard = (d: DishRow): DishCard | null => (d.title ? {
-  q: d.query, title: d.query, recipe: d.title, minutes: Number(d.minutes) || 0, difficulty: d.difficulty ?? "",
+  key: d.key, q: d.query, title: d.query, recipe: d.title, minutes: Number(d.minutes) || 0, difficulty: d.difficulty ?? "",
   ...(d.imageUrl ? { imageUrl: d.imageUrl } : {}), imageSearch: d.imageSearch ?? d.title, veg: d.veg === true,
 } : null);
 
@@ -140,46 +167,54 @@ export async function browse(req: Req, res: Res, admin: SupabaseClient) {
   const body = (req.body ?? {}) as { prefs?: Prefs; eaters?: { allergies?: unknown }[]; ingredients?: unknown };
   const eaters = (Array.isArray(body.eaters) ? body.eaters : []).slice(0, 12);
   const constraints = constraintsOf(body.prefs, eaters.flatMap(e => strs(e?.allergies, 10, 30)));
+  // L'appli en anglais : le catalogue anglais, sous les mêmes clés précédées de « en: » (api/_catalog.ts)
+  const lang = langOf(req), en = lang === "en", tx = say(lang);
+  const K = (name: string) => langKey(lang, catalogKey(name));
+  const title = (fr: string) => (en ? EN_TITLES[fr] ?? fr : fr);
   // Ma cuisine, le plus récent d'abord : « Avec ce que tu as »
-  const kitchen = strs(body.ingredients, 8, 60).map(n => ({ name: str(n, 60), key: catalogKey(n) })).filter(k => k.key.length > 1);
+  const kitchen = strs(body.ingredients, 8, 60).map(n => ({ name: str(n, 60), key: K(n), parts: parts(catalogKey(n)).map(x => langKey(lang, x)) }))
+    .filter(k => catalogKey(k.name).length > 1);
   const day = today();
 
-  const kitchenKeys = kitchen.flatMap(k => [k.key, ...parts(k.key)]);
-  const poolKeys = [...new Set([...POOLS.map(p => catalogKey(p[0])), ...STAPLES.map(e => catalogKey(e[0])), ...ENVIES.map(e => catalogKey(e[0])), ...kitchenKeys])];
+  const kitchenKeys = kitchen.flatMap(k => [k.key, ...k.parts]);
+  const poolKeys = [...new Set([...POOLS.map(p => K(p[0])), ...STAPLES.map(e => K(e[0])), ...ENVIES.map(e => K(e[0])), ...kitchenKeys])];
+  // En anglais, un ingrédient de Ma cuisine (« chicken ») trouve sa réserve par son nom anglais (alias)
+  const poolFilter = poolKeys.map(k => `key.eq."${k}"`).concat(en ? kitchenKeys.map(k => `aliases.cs.{"${k}"}`) : []).join(",");
+  const dishQuery = admin.from("recipe_catalog")
+    .select("key, query, hits, title:recipes->0->>title, minutes:recipes->0->minutes, difficulty:recipes->0->>difficulty, imageUrl:recipes->0->>imageUrl, imageSearch:recipes->0->>imageSearch, veg:recipes->0->veg")
+    // Pas la réserve du scan (clés « frigo … », api/_fridge.ts) : Explorer garde ses plats
+    .eq("kind", "dish").not("key", "like", langKey(lang, "frigo %"));
   const [dishRes, poolRes] = await Promise.all([
-    admin.from("recipe_catalog")
-      .select("key, query, hits, title:recipes->0->>title, minutes:recipes->0->minutes, difficulty:recipes->0->>difficulty, imageUrl:recipes->0->>imageUrl, imageSearch:recipes->0->>imageSearch, veg:recipes->0->veg")
-      // Pas la réserve du scan (clés « frigo … », api/_fridge.ts) : Explorer garde ses plats
-      .eq("kind", "dish").not("key", "like", "frigo %").limit(3000),
-    // Les clés n'ont que des lettres, des chiffres et des espaces (catalogKey) : rien à échapper
-    admin.from("recipe_catalog").select("key, query, recipes").eq("kind", "list").or(poolKeys.map(k => `key.eq."${k}"`).join(",")),
+    (en ? dishQuery.like("key", `${EN}%`) : dishQuery.not("key", "like", `${EN}%`)).limit(3000),
+    // Les clés n'ont que des lettres, des chiffres, des espaces et « en: » (catalogKey, langKey), entre guillemets
+    admin.from("recipe_catalog").select("key, query, aliases, recipes").eq("kind", "list").or(poolFilter),
   ]);
   if (dishRes.error || poolRes.error) {
     console.error("browse:", dishRes.error?.message ?? poolRes.error?.message);
-    return res.status(502).json({ error: "Explorer ne répond pas. Réessaie." });
+    return res.status(502).json({ error: tx("Explorer ne répond pas. Réessaie.", "Explore is not responding. Try again.") });
   }
   const dishes = new Map((dishRes.data as unknown as DishRow[]).map(d => [d.key, d]));
-  const pools = new Map((poolRes.data as PoolRow[]).map(p => [p.key, p]));
-  const card = (name: string) => { const d = dishes.get(catalogKey(name)); return d ? dishCard(d) : null; };
+  const pools = new Map((poolRes.data as PoolRow[]).flatMap(p => [p.key, ...(en ? p.aliases ?? [] : [])].map(k => [k, p] as const)));
+  const card = (name: string) => { const d = dishes.get(K(name)); return d ? dishCard(d) : null; };
 
   const poolRow = (id: string, title: string, key: string): Row | null => {
     const pool = pools.get(key);
     if (!pool) return null;
     const recipes = shuffle(pool.recipes.filter(r => safe(r, constraints)), day + hash(id)).slice(0, 10);
-    return recipes.length >= 4 ? { id, title, q: pool.query, recipes } : null;
+    return recipes.length >= 4 ? { id, title, key: pool.key, q: pool.query, recipes } : null;
   };
 
   // Le Top 10 : les plats les plus cherchés, complétés par les préférés des Français
   const searched = [...dishes.values()].filter(d => d.hits > 0).sort((a, b) => b.hits - a.hits).map(d => d.key);
-  const topKeys = [...new Set([...searched, ...POPULAR.map(catalogKey)])].slice(0, 10);
+  const topKeys = [...new Set([...searched, ...POPULAR.map(K)])].slice(0, 10);
   const topCards = topKeys.map(k => dishes.get(k)).map(d => (d ? dishCard(d) : null)).filter(c => !!c);
   // Toujours 10 : complété par les grands classiques si un plat manque
-  for (const name of THEMES[0][2]) if (topCards.length < 10 && !topCards.some(c => catalogKey(c.q) === catalogKey(name))) { const c = card(name); if (c) topCards.push(c); }
-  const top: Row = { id: "top", title: "Top 10 du moment", top: true, dishes: topCards.slice(0, 10) };
+  for (const name of THEMES[0][2]) if (topCards.length < 10 && !topCards.some(c => c.key === K(name))) { const c = card(name); if (c) topCards.push(c); }
+  const top: Row = { id: "top", title: tx("Top 10 du moment", "Top 10 right now"), top: true, dishes: topCards.slice(0, 10) };
 
   // La recette du jour : un plat des thèmes, de préférence avec sa photo
   const themed = [...new Set(THEMES.flatMap(t => t[2]))].map(card).filter(c => !!c);
-  const withPhoto = themed.filter(c => c.imageUrl && !topKeys.includes(catalogKey(c.q)));
+  const withPhoto = themed.filter(c => c.imageUrl && !topKeys.includes(c.key));
   const heroPool = withPhoto.length >= 5 ? withPhoto : themed;
   const hero = heroPool.length ? heroPool[Math.floor(seeded(day)() * heroPool.length)] : null;
 
@@ -189,7 +224,7 @@ export async function browse(req: Req, res: Res, admin: SupabaseClient) {
   const lists: CatalogRecipe[][] = [];
   for (const k of kitchen) {
     if (lists.length >= 4) break;
-    const key = [k.key, ...parts(k.key)].find(x => pools.has(x) && !used.has(x) && !POOLS.some(p => catalogKey(p[0]) === x));
+    const key = [k.key, ...k.parts].map(x => pools.get(x)?.key).find(x => !!x && !used.has(x) && !POOLS.some(p => K(p[0]) === x));
     if (!key) continue;
     const found = shuffle(pools.get(key)!.recipes.filter(r => safe(r, constraints)), day + hash(key));
     if (found.length) { used.add(key); lists.push(found); }
@@ -199,14 +234,14 @@ export async function browse(req: Req, res: Res, admin: SupabaseClient) {
   for (let i = 0; mixed.length < 12 && lists.some(l => i < l.length); i++) {
     for (const l of lists) if (l[i] && mixed.length < 12 && !seenTitles.has(l[i].title)) { seenTitles.add(l[i].title); mixed.push(l[i]); }
   }
-  const mine: Row[] = mixed.length >= 4 ? [{ id: "ing-cuisine", title: "Avec ce que tu as", recipes: mixed }] : [];
-  const staples = STAPLES.map(([k, title]) => poolRow(`base-${catalogKey(k)}`, title, catalogKey(k))).filter((r): r is Row => !!r);
+  const mine: Row[] = mixed.length >= 4 ? [{ id: "ing-cuisine", title: tx("Avec ce que tu as", "With what you have"), recipes: mixed }] : [];
+  const staples = STAPLES.map(([k, name]) => poolRow(`base-${catalogKey(k)}`, title(name), K(k))).filter((r): r is Row => !!r);
   const envies = shuffle(ENVIES.filter(e => !STAPLES.some(b => b[0] === e[0])), day + 11).slice(0, 2)
-    .map(([k, label]) => poolRow(`envie-${catalogKey(k)}`, `Envie de ${label} ?`, catalogKey(k)));
-  const themes: Row[] = THEMES.map(([id, title, names]) => ({
-    id, title, dishes: shuffle(names.map(card).filter(c => !!c), day + hash(id)).slice(0, 12),
+    .map(([k, label]) => poolRow(`envie-${catalogKey(k)}`, en ? `Fancy some ${EN_ENVIES[k] ?? label}?` : `Envie de ${label} ?`, K(k)));
+  const themes: Row[] = THEMES.map(([id, name, names]) => ({
+    id, title: title(name), dishes: shuffle(names.map(card).filter(c => !!c), day + hash(id)).slice(0, 12),
   })).filter(r => r.dishes.length >= 4);
-  const rest = shuffle([...POOLS.map(([k, title]) => poolRow(`liste-${catalogKey(k)}`, title, catalogKey(k))), ...envies, ...themes]
+  const rest = shuffle([...POOLS.map(([k, name]) => poolRow(`liste-${catalogKey(k)}`, title(name), K(k))), ...envies, ...themes]
     .filter((r): r is Row => !!r), day + 3);
   // Les placards, une rangée sur trois parmi les premières
   staples.forEach((r, i) => rest.splice(i * 3, 0, r));
@@ -228,7 +263,7 @@ export async function browse(req: Req, res: Res, admin: SupabaseClient) {
 async function fillPhotos(admin: SupabaseClient, hero: DishCard | null, rows: Row[]) {
   const needDish = [hero, ...rows.flatMap(r => r.dishes ?? [])].filter((c): c is DishCard => !!c && !c.imageUrl);
   const needPool = rows.flatMap(r => (r.recipes ?? []).filter(x => !x.imageUrl).map(x => ({ row: r, recipe: x })));
-  const dishTodo = [...new Map(needDish.map(c => [catalogKey(c.q), c])).values()].slice(0, 8);
+  const dishTodo = [...new Map(needDish.map(c => [c.key, c])).values()].slice(0, 8);
   const poolTodo = needPool.slice(0, 12 - dishTodo.length);
   if (!dishTodo.length && !poolTodo.length) return;
   const [dishUrls, poolUrls] = await Promise.all([
@@ -238,8 +273,8 @@ async function fillPhotos(admin: SupabaseClient, hero: DishCard | null, rows: Ro
   const tasks: PromiseLike<unknown>[] = [];
   // Un plat : la photo de sa classique (recipes[0]), sur toutes ses cartes du jour
   const byKey = new Map<string, string>();
-  dishTodo.forEach((c, i) => { if (dishUrls[i]) byKey.set(catalogKey(c.q), dishUrls[i]!); });
-  for (const c of needDish) { const url = byKey.get(catalogKey(c.q)); if (url) c.imageUrl = url; }
+  dishTodo.forEach((c, i) => { if (dishUrls[i]) byKey.set(c.key, dishUrls[i]!); });
+  for (const c of needDish) { const url = byKey.get(c.key); if (url) c.imageUrl = url; }
   if (byKey.size) {
     const keys = [...byKey.keys()];
     tasks.push(admin.from("recipe_catalog").select("key, recipes").or(keys.map(k => `key.eq."${k}"`).join(",")).then(({ data }) =>
@@ -252,9 +287,9 @@ async function fillPhotos(admin: SupabaseClient, hero: DishCard | null, rows: Ro
   const byPool = new Map<string, Map<string, string>>();
   poolTodo.forEach((x, i) => {
     const url = poolUrls[i];
-    if (!url || !x.row.q) return;
+    if (!url || !x.row.key) return;
     x.recipe.imageUrl = url;
-    const key = catalogKey(x.row.q);
+    const key = x.row.key;
     byPool.set(key, (byPool.get(key) ?? new Map()).set(x.recipe.title, url));
   });
   for (const [key, found] of byPool) {

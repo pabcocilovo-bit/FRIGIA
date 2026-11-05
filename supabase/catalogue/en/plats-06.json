@@ -1,0 +1,112 @@
+[
+ {"q":"Chilli con carne","a":["chili con carne","chili","chilli"],"fr":"Chili con carne","r":[
+  ["Chilli con carne","The classic","","Minced beef, kidney beans and tomatoes, spiced with cumin and chilli.","Tex-Mex dish",50,560,"F","chili con carne","bf",
+   ["minced beef|minced beef|500|g","kidney bean|kidney beans|400|g","chopped tomato|chopped tomatoes|800|g","onion|onions|2|","red pepper|red peppers|1|","garlic|garlic|2|clove","cumin|cumin|2|tsp","chilli powder|chilli powder|0.5|tsp","olive oil|olive oil|2|tbsp","salt|salt||"],
+   ["Fry the onions, diced pepper and garlic in the oil for 5 minutes.|Cooking|5","Add the meat and spices, and brown for 5 minutes.|Cooking|5","Add the tomatoes, season with salt and simmer for 25 minutes.|Simmer|25","Add the drained kidney beans and cook for 10 minutes. Serve with rice.|Cooking|10"]],
+  ["Chilli sin carne","Vegetarian","The meat is replaced by lentils and more beans.","The all-veg chilli, with kidney beans, lentils and sweetcorn.","Tex-Mex dish",40,460,"F","vegetarian chili beans","vbh",
+   ["kidney bean|kidney beans|400|g","red lentil|red lentils|100|g","sweetcorn|sweetcorn|150|g","chopped tomato|chopped tomatoes|800|g","onion|onions|2|","red pepper|red peppers|1|","garlic|garlic|2|clove","cumin|cumin|2|tsp","smoked paprika|smoked paprika|1|tsp","olive oil|olive oil|2|tbsp","salt|salt||"],
+   ["Fry the onions, pepper and garlic in the oil for 5 minutes.|Cooking|5","Add the spices, the rinsed lentils, the tomatoes and 20 cl of water. Simmer for 20 minutes.|Simmer|20","Add the beans and sweetcorn, and cook for 5 minutes.|Cooking|5"]],
+  ["Mild chilli con carne","For kids","No chilli, with a little sweetcorn, served with grated cheese.","The chilli for the whole family, mild and tasty.","Tex-Mex dish",45,580,"F","mild chili kids","bf",
+   ["minced beef|minced beef|500|g","kidney bean|kidney beans|400|g","sweetcorn|sweetcorn|150|g","chopped tomato|chopped tomatoes|800|g","onion|onions|1|","cumin|cumin|1|tsp","grated cheddar|grated cheddar|60|g","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Fry the onion in the oil, then the meat with the cumin for 5 minutes.|Cooking|5","Add the tomatoes and simmer for 25 minutes.|Simmer|25","Add the beans and sweetcorn, cook for 5 minutes and serve with the cheddar.|Cooking|5"]]
+ ]},
+ {"q":"Chicken curry","a":["coconut chicken curry","curry de poulet"],"fr":"Curry de poulet","r":[
+  ["Chicken and coconut milk curry","The classic","","Tender chicken in a creamy coconut and curry sauce.","Indian-inspired",35,520,"F","chicken coconut curry","bf",
+   ["chicken breast|chicken breasts|4|","coconut milk|coconut milk|40|cl","onion|onions|1|","garlic|garlic|2|clove","curry powder|curry powder|2|tbsp","ginger|ginger|1|tsp","chopped tomato|chopped tomatoes|200|g","olive oil|olive oil|1|tbsp","coriander|coriander||","salt|salt||"],
+   ["Fry the onion, garlic and ginger in the oil for 3 minutes.|Cooking|3","Add the chopped chicken and the curry powder, and brown for 5 minutes.|Cooking|5","Pour in the tomatoes and coconut milk, season with salt and simmer for 20 minutes.|Simmer|20","Serve with rice and the coriander."]],
+  ["Light chicken curry","Lighter","The coconut milk is replaced by yoghurt and more vegetables.","A fragrant, light curry, full of vegetables.","Indian-inspired",35,380,"F","light chicken curry yogurt","bh",
+   ["chicken breast|chicken breasts|4|","plain yoghurt|plain yoghurts|2|","courgette|courgettes|1|","red pepper|red peppers|1|","onion|onions|1|","curry powder|curry powder|2|tbsp","chopped tomato|chopped tomatoes|400|g","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Fry the onion in the oil, then add the chopped chicken and the curry powder for 5 minutes.|Cooking|5","Add the courgette, pepper and tomatoes, and simmer for 20 minutes.|Simmer|20","Take off the heat, stir in the yoghurt and season with salt."]],
+  ["Chicken, vegetable and potato curry","With vegetables","Potatoes and peas make it a full meal.","A complete curry, with no need for rice.","Indian-inspired",40,500,"F","chicken potato curry","bf",
+   ["chicken breast|chicken breasts|3|","potato|potatoes|3|","pea|peas|150|g","coconut milk|coconut milk|40|cl","onion|onions|1|","curry powder|curry powder|2|tbsp","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Fry the onion and the chopped chicken with the curry powder for 5 minutes.|Cooking|5","Add the diced potatoes, the coconut milk and 10 cl of water. Cook for 20 minutes.|Cooking|20","Add the peas and cook for 5 minutes.|Cooking|5"]]
+ ]},
+ {"q":"Chicken tikka masala","a":["tikka masala","poulet tikka masala"],"fr":"Poulet tikka masala","r":[
+  ["Chicken tikka masala","The classic","","Chicken marinated in yoghurt and spices, in a creamy tomato sauce.","Indian dish",45,540,"M","chicken tikka masala","",
+   ["chicken breast|chicken breasts|4|","plain yoghurt|plain yoghurts|1|","garam masala|garam masala|2|tsp","paprika|paprika|1|tsp","chopped tomato|chopped tomatoes|400|g","crème fraîche|crème fraîche|15|cl","onion|onions|1|","garlic|garlic|2|clove","ginger|ginger|1|tsp","olive oil|olive oil|2|tbsp","salt|salt||"],
+   ["Cut the chicken into pieces and mix it with the yoghurt, half the spices and some salt. Leave to marinate for 15 minutes.|Marinate|15","Brown the chicken in the oil for 6 minutes. Set aside.|Pan|6","Fry the onion, garlic and ginger, add the rest of the spices, then the tomatoes. Cook for 10 minutes.|Cooking|10","Add the cream and the chicken, and simmer for 10 minutes. Serve with basmati rice.|Simmer|10"]],
+  ["Light chicken tikka masala","Lighter","The cream is replaced by yoghurt.","All the tikka spices, with a lighter sauce.","Indian dish",45,400,"M","light tikka masala","h",
+   ["chicken breast|chicken breasts|4|","plain yoghurt|plain yoghurts|2|","garam masala|garam masala|2|tsp","paprika|paprika|1|tsp","chopped tomato|chopped tomatoes|400|g","onion|onions|1|","garlic|garlic|2|clove","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Marinate the chopped chicken with one yoghurt and half the spices for 15 minutes.|Marinate|15","Brown it for 6 minutes, then add the onion, garlic, the rest of the spices and the tomatoes.|Pan|6","Simmer for 15 minutes, then stir in the second yoghurt off the heat.|Simmer|15"]],
+  ["Chickpea tikka masala","Vegetarian","The chicken is replaced by chickpeas and spinach.","The tikka sauce, with chickpeas and spinach.","Indian dish",30,420,"F","chickpea tikka masala","vbh",
+   ["chickpea|chickpeas|500|g","baby spinach|baby spinach|100|g","chopped tomato|chopped tomatoes|400|g","crème fraîche|crème fraîche|10|cl","garam masala|garam masala|2|tsp","onion|onions|1|","garlic|garlic|2|clove","olive oil|olive oil|2|tbsp","salt|salt||"],
+   ["Fry the onion and garlic in the oil with the spices for 3 minutes.|Cooking|3","Add the tomatoes and simmer for 10 minutes.|Simmer|10","Add the chickpeas, cream and spinach, and cook for 5 minutes.|Cooking|5"]]
+ ]},
+ {"q":"Butter chicken","a":["murgh makhani","poulet au beurre"],"fr":"Butter chicken","r":[
+  ["Butter chicken","The classic","","The Indian butter chicken: a mild, buttery, creamy tomato sauce.","Indian dish",45,620,"M","butter chicken","f",
+   ["chicken breast|chicken breasts|4|","plain yoghurt|plain yoghurts|1|","butter|butter|50|g","chopped tomato|chopped tomatoes|400|g","crème fraîche|crème fraîche|20|cl","onion|onions|1|","garlic|garlic|2|clove","ginger|ginger|1|tsp","garam masala|garam masala|2|tsp","salt|salt||"],
+   ["Marinate the chopped chicken with the yoghurt, 1 tsp of garam masala and some salt for 15 minutes.|Marinate|15","Brown the chicken in half the butter for 6 minutes. Set aside.|Pan|6","Soften the onion, garlic and ginger in the rest of the butter, add the spices and the tomatoes. Cook for 10 minutes, then blend.|Cooking|10","Add the cream and the chicken, and simmer for 10 minutes.|Simmer|10"]],
+  ["Quick butter chicken","Quick","No marinade and no blended sauce: ready in 25 minutes.","Butter chicken for busy evenings.","Indian dish",25,580,"F","quick butter chicken","bf",
+   ["chicken breast|chicken breasts|4|","butter|butter|40|g","passata|passata|40|cl","crème fraîche|crème fraîche|15|cl","garam masala|garam masala|2|tsp","garlic|garlic|2|clove","salt|salt||"],
+   ["Brown the chopped chicken in the butter with the garlic for 6 minutes.|Pan|6","Add the garam masala and the passata, and cook for 10 minutes.|Cooking|10","Add the cream, season with salt and let it thicken for 3 minutes.|Cooking|3"]],
+  ["Butter paneer","Vegetarian","The chicken is replaced by paneer, or halloumi.","The butter chicken sauce, with a cheese that holds its shape when cooked.","Indian dish",30,560,"F","paneer butter masala","v",
+   ["paneer|paneer|400|g","butter|butter|40|g","chopped tomato|chopped tomatoes|400|g","crème fraîche|crème fraîche|15|cl","onion|onions|1|","garlic|garlic|2|clove","garam masala|garam masala|2|tsp","salt|salt||"],
+   ["Cut the paneer into cubes and brown them for 4 minutes in half the butter.|Pan|4","Soften the onion and garlic in the rest of the butter, add the spices and the tomatoes, and cook for 10 minutes.|Cooking|10","Add the cream and the paneer and simmer for 5 minutes.|Simmer|5"]]
+ ]},
+ {"q":"Vegetable curry","a":["coconut vegetable curry","vegetarian curry","veggie curry"],"fr":"Curry de légumes","r":[
+  ["Vegetable and coconut milk curry","The classic","","Tender vegetables in a coconut sauce flavoured with curry.","Indian-inspired",35,380,"F","vegetable coconut curry","vbh",
+   ["potato|potatoes|2|","carrot|carrots|2|","courgette|courgettes|1|","cauliflower|cauliflowers|0.5|","chickpea|chickpeas|250|g","coconut milk|coconut milk|40|cl","onion|onions|1|","curry powder|curry powder|2|tbsp","olive oil|olive oil|2|tbsp","salt|salt||"],
+   ["Fry the onion in the oil with the curry powder for 3 minutes.|Cooking|3","Add the chopped potatoes and carrots, the coconut milk and 15 cl of water. Cook for 10 minutes.|Cooking|10","Add the cauliflower florets and the courgette, and cook for another 12 minutes.|Cooking|12","Add the chickpeas, season with salt and serve with rice."]],
+  ["Sweet potato and spinach curry","Sweet potato","Sweet potato and spinach replace the other vegetables.","A mild curry with soft sweet potato.","Indian-inspired",30,400,"F","sweet potato spinach curry","vbh",
+   ["sweet potato|sweet potatoes|2|","baby spinach|baby spinach|150|g","red lentil|red lentils|100|g","coconut milk|coconut milk|40|cl","onion|onions|1|","curry powder|curry powder|2|tbsp","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Fry the onion with the curry powder for 3 minutes.|Cooking|3","Add the diced sweet potato, the lentils, the coconut milk and 30 cl of water. Cook for 20 minutes.|Cooking|20","Add the spinach for 2 minutes and season with salt.|Cooking|2"]],
+  ["Green vegetable curry","Thai green","Green curry paste replaces the curry powder.","A fragrant Thai curry, with basil and lime.","Thai dish",30,360,"F","thai green vegetable curry","vh",
+   ["green curry paste|green curry paste|2|tbsp","coconut milk|coconut milk|40|cl","courgette|courgettes|1|","red pepper|red peppers|1|","green bean|green beans|150|g","mushroom|mushrooms|150|g","lime|limes|1|","basil|basil||","olive oil|olive oil|1|tbsp","soy sauce|soy sauce|1|tbsp"],
+   ["Fry the curry paste in the oil for 1 minute, then pour in the coconut milk.","Add the chopped vegetables and cook for 12 minutes.|Cooking|12","Add the soy sauce, the juice of the lime and the basil."]]
+ ]},
+ {"q":"Lentil dal","a":["dal","dhal","dahl","red lentil dal"],"fr":"Dal de lentilles","r":[
+  ["Red lentil dal","The classic","","Soft red lentils with coconut milk and mild spices.","Indian dish",30,380,"F","red lentil dal","vbh",
+   ["red lentil|red lentils|250|g","coconut milk|coconut milk|20|cl","chopped tomato|chopped tomatoes|400|g","onion|onions|1|","garlic|garlic|2|clove","ginger|ginger|1|tsp","curry powder|curry powder|1|tbsp","turmeric|turmeric|1|tsp","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Fry the onion, garlic and ginger in the oil with the spices for 3 minutes.|Cooking|3","Add the rinsed lentils, the tomatoes, the coconut milk and 50 cl of water.","Cook for 20 minutes, stirring, until creamy.|Cooking|20","Season with salt and serve with rice or naan bread."]],
+  ["Spinach dal","With spinach","Spinach is added at the end.","The creamy dal, with spinach for some green.","Indian dish",30,380,"F","spinach lentil dal","vbh",
+   ["red lentil|red lentils|250|g","spinach|spinach|200|g","coconut milk|coconut milk|20|cl","onion|onions|1|","garlic|garlic|2|clove","curry powder|curry powder|1|tbsp","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Fry the onion and garlic with the curry powder for 3 minutes.|Cooking|3","Add the lentils, the coconut milk and 60 cl of water. Cook for 20 minutes.|Cooking|20","Add the spinach and cook for 3 minutes.|Cooking|3"]],
+  ["Lentil and sweet potato dal","Sweet potato","Cubes of sweet potato make the dal more filling.","An even milder, more nourishing dal.","Indian dish",35,430,"F","sweet potato lentil dal","vbfh",
+   ["red lentil|red lentils|200|g","sweet potato|sweet potatoes|1|","coconut milk|coconut milk|20|cl","onion|onions|1|","curry powder|curry powder|1|tbsp","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Fry the onion with the curry powder for 3 minutes.|Cooking|3","Add the sweet potato in small cubes, the lentils, the coconut milk and 60 cl of water.","Cook for 25 minutes and season with salt.|Cooking|25"]]
+ ]},
+ {"q":"Fajitas","a":["chicken fajitas","fajita"],"fr":"Fajitas","r":[
+  ["Chicken fajitas","The classic","","Spiced strips of chicken and peppers, rolled in tortillas.","Tex-Mex dish",25,520,"F","chicken fajitas","f",
+   ["chicken breast|chicken breasts|3|","red pepper|red peppers|1|","green pepper|green peppers|1|","onion|onions|1|","tortilla|tortillas|8|","fajita seasoning|fajita seasoning|2|tbsp","crème fraîche|crème fraîche|10|cl","olive oil|olive oil|2|tbsp","salt|salt||"],
+   ["Cut the chicken, peppers and onion into strips.","Brown the chicken in the oil with the seasoning for 6 minutes.|Pan|6","Add the vegetables and cook for 6 minutes. They should stay crunchy.|Pan|6","Warm the tortillas and fill them with the cream and the fried mix."]],
+  ["Beef fajitas","With beef","Strips of beef replace the chicken.","Beef fajitas, with guacamole.","Tex-Mex dish",25,580,"F","beef fajitas","",
+   ["steak|steaks|500|g","red pepper|red peppers|2|","onion|onions|1|","tortilla|tortillas|8|","fajita seasoning|fajita seasoning|2|tbsp","avocado|avocados|1|","lime|limes|1|","olive oil|olive oil|2|tbsp","salt|salt||"],
+   ["Mash the avocado with the juice of the lime and some salt.","Sear the beef strips with the seasoning over a high heat for 3 minutes.|Pan|3","Add the peppers and onion and cook for 5 minutes.|Pan|5","Fill the warm tortillas with the beef, vegetables and avocado."]],
+  ["Vegetarian fajitas","Vegetarian","The chicken is replaced by black beans and mushrooms.","Fajitas full of vegetables and beans.","Tex-Mex dish",25,460,"F","vegetarian fajitas beans","vbh",
+   ["black bean|black beans|400|g","mushroom|mushrooms|200|g","red pepper|red peppers|2|","onion|onions|1|","tortilla|tortillas|8|","fajita seasoning|fajita seasoning|2|tbsp","greek yoghurt|greek yoghurts|1|","olive oil|olive oil|2|tbsp","salt|salt||"],
+   ["Fry the mushrooms, peppers and onion strips with the seasoning for 8 minutes.|Pan|8","Add the drained black beans for 2 minutes.|Pan|2","Fill the tortillas with the yoghurt and the fried mix."]]
+ ]},
+ {"q":"Tacos","a":["mexican tacos","taco"],"fr":"Tacos","r":[
+  ["Beef tacos","The classic","","Small tortillas filled with spiced beef, onion, coriander and lime.","Mexican dish",25,520,"F","beef tacos","f",
+   ["minced beef|minced beef|400|g","corn tortilla|corn tortillas|12|","onion|onions|1|","tomato|tomatoes|2|","coriander|coriander||","lime|limes|2|","cumin|cumin|1|tsp","paprika|paprika|1|tsp","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Fry half the onion in the oil, add the meat and spices and cook for 8 minutes.|Pan|8","Cut the tomatoes and the rest of the onion into small cubes.","Warm the tortillas in a dry pan.","Fill with the meat, tomato, onion and coriander, with a squeeze of lime."]],
+  ["Chicken tacos","With chicken","Chicken marinated in lime replaces the beef.","Light tacos with chicken and lime.","Mexican dish",25,460,"F","chicken tacos","fh",
+   ["chicken breast|chicken breasts|3|","corn tortilla|corn tortillas|12|","red cabbage|red cabbages|0.25|","lime|limes|2|","coriander|coriander||","paprika|paprika|1|tsp","greek yoghurt|greek yoghurts|1|","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Cut the chicken into strips and mix it with the juice of one lime, the paprika and some salt.","Brown it for 6 minutes in the oil.|Pan|6","Slice the cabbage finely.","Fill the warm tortillas with the chicken, cabbage, yoghurt and coriander."]],
+  ["Fish tacos","With fish","Breaded white fish replaces the meat.","Baja California tacos, with crispy fish.","Mexican dish",30,480,"F","fish tacos","",
+   ["cod fillet|cod fillets|400|g","corn tortilla|corn tortillas|12|","flour|flour|3|tbsp","white cabbage|white cabbages|0.25|","mayonnaise|mayonnaise|3|tbsp","lime|limes|2|","coriander|coriander||","olive oil|olive oil|3|tbsp","salt|salt||"],
+   ["Cut the fish into sticks, add salt and coat them in the flour.","Brown them in the oil for 5 minutes.|Pan|5","Mix the mayonnaise with the juice of one lime.","Fill the tortillas with shredded cabbage, fish, sauce and coriander."]]
+ ]},
+ {"q":"Burritos","a":["burrito"],"fr":"Burritos","r":[
+  ["Beef burritos","The classic","","Big tortillas filled with spiced beef, rice, beans and cheese.","Tex-Mex dish",35,680,"F","beef burrito","f",
+   ["minced beef|minced beef|400|g","rice|rice|150|g","kidney bean|kidney beans|250|g","tortilla|tortillas|4|","grated cheddar|grated cheddar|80|g","tomato|tomatoes|2|","onion|onions|1|","tex-mex seasoning|tex-mex seasoning|2|tsp","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Cook the rice.|Cooking|12","Fry the onion, meat and spices for 8 minutes, then add the beans for 2 minutes.|Pan|10","Fill each tortilla with rice, meat, diced tomato and cheddar.","Fold in the sides, then roll up tightly and brown for 2 minutes on each side in a pan.|Pan|4"]],
+  ["Chicken burritos","With chicken","Chicken replaces the beef, with avocado.","Loaded chicken and avocado burritos.","Tex-Mex dish",35,640,"F","chicken burrito avocado","",
+   ["chicken breast|chicken breasts|2|","rice|rice|150|g","black bean|black beans|250|g","tortilla|tortillas|4|","avocado|avocados|1|","sweetcorn|sweetcorn|100|g","tex-mex seasoning|tex-mex seasoning|2|tsp","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Cook the rice.|Cooking|12","Brown the chicken strips with the seasoning for 8 minutes.|Pan|8","Fill the tortillas with rice, chicken, beans, sweetcorn and avocado, then roll them up."]],
+  ["Vegetarian burritos","Vegetarian","Beans, rice, peppers and sweetcorn, with no meat.","Generous burritos, all veg.","Tex-Mex dish",30,560,"F","vegetarian bean burrito","vbh",
+   ["black bean|black beans|400|g","rice|rice|150|g","red pepper|red peppers|1|","sweetcorn|sweetcorn|150|g","tortilla|tortillas|4|","grated cheddar|grated cheddar|60|g","tex-mex seasoning|tex-mex seasoning|2|tsp","olive oil|olive oil|1|tbsp","salt|salt||"],
+   ["Cook the rice.|Cooking|12","Fry the diced pepper with the seasoning for 5 minutes, then add the beans and sweetcorn for 3 minutes.|Pan|8","Fill the tortillas with rice, vegetables and cheddar, roll up and brown for 2 minutes on each side.|Pan|4"]]
+ ]},
+ {"q":"Homemade burger","a":["burger","hamburger","cheeseburger"],"fr":"Burger maison","r":[
+  ["Homemade burger","The classic","","A juicy patty, melted cheddar, salad and a homemade sauce in a brioche bun.","American dish",25,720,"F","homemade cheeseburger","f",
+   ["burger bun|burger buns|4|","beef burger patty|beef burger patties|4|","cheddar|cheddar|4|slices","tomato|tomatoes|1|","red onion|red onions|1|","lettuce|lettuce|4|leaves","gherkin|gherkins|4|","ketchup|ketchup|2|tbsp","mayonnaise|mayonnaise|2|tbsp","salt|salt||","pepper|pepper||"],
+   ["Mix the ketchup and mayonnaise to make the sauce.","Toast the halved buns for 1 minute in a pan.|Pan|1","Cook the patties for 3 minutes on each side, season with salt and pepper, and put the cheddar on top at the end.|Pan|6","Build the burgers: sauce, lettuce, patty, tomato, onion and gherkins."]],
+  ["Crispy chicken burger","With chicken","A breaded chicken fillet replaces the patty.","The crispy chicken burger, with a honey and mustard sauce.","American dish",30,680,"F","crispy chicken burger","f",
+   ["burger bun|burger buns|4|","chicken breast|chicken breasts|2|","breadcrumb|breadcrumbs|80|g","egg|eggs|1|","flour|flour|3|tbsp","lettuce|lettuce|4|leaves","tomato|tomatoes|1|","mayonnaise|mayonnaise|2|tbsp","honey|honey|1|tbsp","mustard|mustard|1|tsp","olive oil|olive oil|4|tbsp","salt|salt||"],
+   ["Slice each chicken breast in two through the middle. Coat them in the flour, then the beaten egg, then the breadcrumbs.","Brown them in the oil for 4 minutes on each side.|Pan|8","Mix the mayonnaise, honey and mustard.","Build the burgers with the sauce, lettuce, chicken and tomato."]],
+  ["Veggie burger","Vegetarian","A kidney bean patty replaces the beef.","A tasty veggie burger with a bean patty.","",30,600,"F","veggie bean burger","vb",
+   ["burger bun|burger buns|4|","kidney bean|kidney beans|400|g","breadcrumb|breadcrumbs|50|g","egg|eggs|1|","onion|onions|1|","cumin|cumin|1|tsp","cheddar|cheddar|4|slices","lettuce|lettuce|4|leaves","tomato|tomatoes|1|","ketchup|ketchup|2|tbsp","olive oil|olive oil|2|tbsp","salt|salt||"],
+   ["Mash the drained beans with the chopped onion, egg, breadcrumbs, cumin and salt. Shape into 4 patties.","Brown them in the oil for 4 minutes on each side, adding the cheddar at the end.|Pan|8","Build the burgers with the ketchup, lettuce and tomato."]]
+ ]}
+]

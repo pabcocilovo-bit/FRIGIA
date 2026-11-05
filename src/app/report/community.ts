@@ -2,6 +2,7 @@
 // Deux totaux seulement, rien sur les comptes. Sans la fonction ou hors ligne : pas de compteur.
 import { useEffect, useState } from "react";
 import { supabase } from "../../supabase";
+import { isEn } from "../../lib/i18n";
 
 export type Community = { kg: number; households: number };
 
@@ -32,4 +33,4 @@ export function useCommunity(): Community | null {
 }
 
 /** « 12 480 » (espace fine), « 3,4 » sous 10 kg */
-export const cmFmt = (v: number) => (v < 10 ? String(Math.floor(v * 10) / 10).replace(".", ",") : Math.floor(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+export const cmFmt = (v: number) => (v < 10 ? String(Math.floor(v * 10) / 10).replace(".", isEn ? "." : ",") : Math.floor(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, isEn ? "," : " "));

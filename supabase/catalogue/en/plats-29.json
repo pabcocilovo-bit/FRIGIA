@@ -1,0 +1,896 @@
+[
+ {
+  "q": "Empanadas",
+  "a": [
+   "empanada",
+   "argentinian turnovers"
+  ],
+  "fr": "Empanadas",
+  "r": [
+   [
+    "Beef empanadas",
+    "The classic",
+    "",
+    "Golden Argentinian turnovers filled with beef, onions and paprika.",
+    "Argentinian recipe",
+    60,
+    380,
+    "M",
+    "beef empanadas",
+    "oe",
+    [
+     "shortcrust pastry|shortcrust pastries|2|",
+     "minced beef|minced beef|400|g",
+     "onion|onions|2|",
+     "red pepper|red peppers|1|",
+     "paprika|paprika|2|tsp",
+     "cumin|cumin|1|tsp",
+     "egg|eggs|2|"
+    ],
+    [
+     "Fry the diced onions and pepper, then add the beef and spices and cook for 8 min.|Pan|8",
+     "Hard-boil an egg for 10 min, chop it and add it to the filling.|Cooking|10",
+     "Preheat the oven to 200 °C. Cut 12 cm circles from the pastry.",
+     "Spoon the filling onto half of each circle, fold over and press the edges closed with a fork.",
+     "Brush with the second beaten egg and bake for 20 min.|Oven|20"
+    ]
+   ],
+   [
+    "Chicken empanadas",
+    "Chicken",
+    "Filled with chicken, sweetcorn and pepper.",
+    "Milder empanadas filled with chicken.",
+    "",
+    60,
+    350,
+    "M",
+    "chicken empanadas",
+    "oe",
+    [
+     "shortcrust pastry|shortcrust pastries|2|",
+     "chicken breast|chicken breasts|2|",
+     "sweetcorn|sweetcorn|140|g",
+     "red pepper|red peppers|1|",
+     "onion|onions|1|",
+     "paprika|paprika|1|tsp",
+     "egg|eggs|1|"
+    ],
+    [
+     "Fry the onion and pepper, then the diced chicken with the paprika.|Pan|8",
+     "Add the sweetcorn.",
+     "Spoon the filling onto circles of pastry, fold over and seal.",
+     "Brush with egg and bake for 20 min at 200 °C.|Oven|20"
+    ]
+   ],
+   [
+    "Cheese empanadas",
+    "Vegetarian",
+    "Filled with cheese and spinach.",
+    "Melting vegetarian empanadas.",
+    "",
+    50,
+    340,
+    "M",
+    "cheese spinach empanadas",
+    "voe",
+    [
+     "shortcrust pastry|shortcrust pastries|2|",
+     "baby spinach|baby spinach|200|g",
+     "mozzarella|mozzarella|1|",
+     "feta|feta|100|g",
+     "onion|onions|1|",
+     "egg|eggs|1|"
+    ],
+    [
+     "Soften the onion and spinach.|Pan|5",
+     "Mix with the diced mozzarella and crumbled feta.",
+     "Spoon the filling onto circles of pastry, fold over and seal.",
+     "Brush with egg and bake for 20 min at 200 °C.|Oven|20"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Quesadillas",
+  "a": [
+   "quesadilla",
+   "chicken quesadillas",
+   "cheese quesadillas"
+  ],
+  "fr": "Quesadillas",
+  "r": [
+   [
+    "Chicken quesadillas",
+    "The classic",
+    "",
+    "Tortillas crisped in a pan and filled with chicken, peppers and melted cheese.",
+    "Mexican recipe",
+    25,
+    480,
+    "F",
+    "chicken quesadillas",
+    "bf",
+    [
+     "wheat tortilla|wheat tortillas|8|",
+     "chicken breast|chicken breasts|2|",
+     "red pepper|red peppers|1|",
+     "grated cheddar|grated cheddar|150|g",
+     "paprika|paprika|1|tsp",
+     "crème fraîche|crème fraîche|4|tbsp"
+    ],
+    [
+     "Fry the sliced chicken with the pepper and paprika for 8 min.|Pan|8",
+     "Top 4 tortillas with cheese, chicken and more cheese.",
+     "Cover with a second tortilla.",
+     "Brown for 2 min on each side in a dry pan.|Pan|4",
+     "Cut into wedges and serve with the crème fraîche."
+    ]
+   ],
+   [
+    "Cheese and bean quesadillas",
+    "Vegetarian",
+    "With kidney beans and sweetcorn.",
+    "Melting vegetarian quesadillas.",
+    "",
+    20,
+    450,
+    "F",
+    "bean cheese quesadillas",
+    "vbf",
+    [
+     "wheat tortilla|wheat tortillas|8|",
+     "kidney beans|kidney beans|250|g",
+     "sweetcorn|sweetcorn|140|g",
+     "grated cheddar|grated cheddar|150|g",
+     "cumin|cumin|1|tsp"
+    ],
+    [
+     "Roughly mash the beans with the cumin.",
+     "Spread them over 4 tortillas, then add the sweetcorn and cheese.",
+     "Cover with a second tortilla.",
+     "Brown for 2 min on each side.|Pan|4"
+    ]
+   ],
+   [
+    "Ham quesadillas",
+    "Ham and cheese",
+    "With ham and cheese, like a croque.",
+    "The ham and cheese quesadilla that kids love.",
+    "",
+    15,
+    420,
+    "F",
+    "ham cheese quesadilla",
+    "bf",
+    [
+     "wheat tortilla|wheat tortillas|8|",
+     "cooked ham|cooked ham|4|slices",
+     "grated emmental|grated emmental|150|g",
+     "tomato|tomatoes|1|"
+    ],
+    [
+     "Top 4 tortillas with cheese, ham and diced tomato.",
+     "Cover with a second tortilla.",
+     "Brown for 2 min on each side.|Pan|4",
+     "Cut into wedges."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Enchiladas",
+  "a": [
+   "enchilada",
+   "chicken enchiladas"
+  ],
+  "fr": "Enchiladas",
+  "r": [
+   [
+    "Chicken enchiladas",
+    "The classic",
+    "",
+    "Tortillas rolled around chicken, covered in spicy tomato sauce and baked until golden.",
+    "Mexican recipe",
+    50,
+    560,
+    "F",
+    "chicken enchiladas",
+    "o",
+    [
+     "wheat tortilla|wheat tortillas|8|",
+     "chicken breast|chicken breasts|3|",
+     "chopped tomatoes|chopped tomatoes|600|g",
+     "onion|onions|1|",
+     "cumin|cumin|1|tsp",
+     "chilli|chillies|1|",
+     "grated cheddar|grated cheddar|150|g"
+    ],
+    [
+     "Poach the chicken in simmering water for 15 min, then shred it.|Cooking|15",
+     "Fry the onion, add the tomatoes, cumin and chilli, and leave for 10 min.|Cooking|10",
+     "Preheat the oven to 200 °C. Mix the chicken with a third of the sauce.",
+     "Roll the chicken up in the tortillas and arrange them in a dish.",
+     "Pour over the rest of the sauce, top with cheddar and bake for 20 min.|Oven|20"
+    ]
+   ],
+   [
+    "Beef enchiladas",
+    "Beef",
+    "Filled with minced beef and beans.",
+    "Generous beef enchiladas.",
+    "",
+    50,
+    620,
+    "F",
+    "beef enchiladas",
+    "o",
+    [
+     "wheat tortilla|wheat tortillas|8|",
+     "minced beef|minced beef|400|g",
+     "kidney beans|kidney beans|250|g",
+     "chopped tomatoes|chopped tomatoes|600|g",
+     "cumin|cumin|1|tsp",
+     "grated cheddar|grated cheddar|150|g"
+    ],
+    [
+     "Fry the beef with the cumin, then add the beans.|Pan|8",
+     "Heat the tomatoes for 10 min.|Cooking|10",
+     "Roll the filling up in the tortillas and arrange them in a dish.",
+     "Pour over the sauce, top with cheddar and bake for 20 min at 200 °C.|Oven|20"
+    ]
+   ],
+   [
+    "Vegetarian enchiladas",
+    "Vegetarian",
+    "Filled with sweet potato and black beans.",
+    "Sweet, spicy vegetarian enchiladas.",
+    "",
+    55,
+    500,
+    "F",
+    "vegetarian enchiladas sweet potato",
+    "vo",
+    [
+     "wheat tortilla|wheat tortillas|8|",
+     "sweet potato|sweet potatoes|2|",
+     "black beans|black beans|250|g",
+     "chopped tomatoes|chopped tomatoes|600|g",
+     "cumin|cumin|1|tsp",
+     "grated cheddar|grated cheddar|120|g"
+    ],
+    [
+     "Boil the diced sweet potato for 12 min.|Cooking|12",
+     "Mix it with the beans and cumin.",
+     "Roll up in the tortillas and arrange them in a dish.",
+     "Pour over the tomatoes, top with cheddar and bake for 20 min at 200 °C.|Oven|20"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Nachos",
+  "a": [
+   "loaded nachos",
+   "cheese nachos",
+   "tortilla chips"
+  ],
+  "fr": "Nachos",
+  "r": [
+   [
+    "Loaded nachos",
+    "The classic",
+    "",
+    "Tortilla chips baked with cheddar and topped with guacamole, salsa and soured cream.",
+    "Tex-mex inspired",
+    20,
+    520,
+    "F",
+    "loaded nachos",
+    "voe",
+    [
+     "tortilla chips|tortilla chips|200|g",
+     "grated cheddar|grated cheddar|150|g",
+     "tomato|tomatoes|2|",
+     "red onion|red onions|0.5|",
+     "avocado|avocados|1|",
+     "crème fraîche|crème fraîche|4|tbsp",
+     "jalapeño|jalapeños|1|"
+    ],
+    [
+     "Preheat the oven to 200 °C.",
+     "Spread the chips in a dish and cover with cheddar.",
+     "Bake for 8 min.|Oven|8",
+     "Mix the diced tomatoes with the onion to make a salsa, and mash the avocado.",
+     "Top the nachos with salsa, avocado, crème fraîche and jalapeño."
+    ]
+   ],
+   [
+    "Chilli nachos",
+    "Chilli",
+    "With spicy minced beef.",
+    "Nachos as a full meal, topped with beef chilli.",
+    "",
+    30,
+    650,
+    "F",
+    "beef chili nachos",
+    "oe",
+    [
+     "tortilla chips|tortilla chips|200|g",
+     "minced beef|minced beef|300|g",
+     "kidney beans|kidney beans|250|g",
+     "chopped tomatoes|chopped tomatoes|200|g",
+     "cumin|cumin|1|tsp",
+     "grated cheddar|grated cheddar|150|g"
+    ],
+    [
+     "Fry the beef with the cumin, add the beans and tomatoes, and leave for 10 min.|Cooking|10",
+     "Preheat the oven to 200 °C.",
+     "Spread the chips and cover with chilli and cheddar.",
+     "Bake for 8 min.|Oven|8"
+    ]
+   ],
+   [
+    "Chicken nachos",
+    "Chicken",
+    "With shredded chicken.",
+    "Baked nachos with chicken and sweetcorn.",
+    "",
+    30,
+    560,
+    "F",
+    "chicken nachos",
+    "oe",
+    [
+     "tortilla chips|tortilla chips|200|g",
+     "chicken breast|chicken breasts|2|",
+     "sweetcorn|sweetcorn|140|g",
+     "grated cheddar|grated cheddar|150|g",
+     "paprika|paprika|1|tsp",
+     "crème fraîche|crème fraîche|4|tbsp"
+    ],
+    [
+     "Cook the sliced chicken with the paprika.|Pan|8",
+     "Preheat the oven to 200 °C.",
+     "Spread the chips and add the chicken, sweetcorn and cheddar.",
+     "Bake for 8 min and serve with the crème fraîche.|Oven|8"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Hot dog",
+  "a": [
+   "hot dogs",
+   "homemade hot dog",
+   "hotdog"
+  ],
+  "fr": "Hot dog",
+  "r": [
+   [
+    "Homemade hot dogs",
+    "The classic",
+    "",
+    "Sausages in soft rolls, with fried onions, ketchup and mustard.",
+    "American recipe",
+    20,
+    480,
+    "F",
+    "hot dog",
+    "bf",
+    [
+     "hot dog roll|hot dog rolls|4|",
+     "frankfurter|frankfurters|4|",
+     "onion|onions|2|",
+     "ketchup|ketchup|4|tbsp",
+     "mustard|mustard|4|tsp",
+     "oil|oil|1|tbsp"
+    ],
+    [
+     "Brown the sliced onions in the oil for 10 min.|Pan|10",
+     "Heat the sausages for 5 min in simmering water.|Cooking|5",
+     "Warm the rolls in the oven.",
+     "Fill each roll with a sausage, onions, ketchup and mustard."
+    ]
+   ],
+   [
+    "Cheesy hot dogs",
+    "Baked with cheese",
+    "Baked in the oven with cheese.",
+    "The French-style hot dog, baked with emmental.",
+    "",
+    20,
+    560,
+    "F",
+    "cheese hot dog",
+    "obf",
+    [
+     "hot dog roll|hot dog rolls|4|",
+     "strasbourg sausage|strasbourg sausages|4|",
+     "grated emmental|grated emmental|100|g",
+     "mustard|mustard|4|tsp"
+    ],
+    [
+     "Preheat the oven to 200 °C.",
+     "Spread mustard in the rolls and put a sausage in each.",
+     "Cover with emmental.",
+     "Bake for 10 min.|Oven|10"
+    ]
+   ],
+   [
+    "Vegetarian hot dogs",
+    "Vegetarian",
+    "With vegetarian sausages.",
+    "The meat-free hot dog, with fresh crunchy toppings.",
+    "",
+    15,
+    420,
+    "F",
+    "veggie hot dog",
+    "vbf",
+    [
+     "hot dog roll|hot dog rolls|4|",
+     "vegetarian sausage|vegetarian sausages|4|",
+     "red onion|red onions|1|",
+     "gherkin|gherkins|4|",
+     "ketchup|ketchup|4|tbsp"
+    ],
+    [
+     "Brown the vegetarian sausages for 6 min in a pan.|Pan|6",
+     "Cut the onion and gherkins into small dice.",
+     "Fill the warm rolls.",
+     "Add the ketchup."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Bagels",
+  "a": [
+   "bagel",
+   "salmon bagel",
+   "homemade bagels"
+  ],
+  "fr": "Bagels",
+  "r": [
+   [
+    "Salmon and cream cheese bagels",
+    "The classic",
+    "",
+    "The New York bagel with cream cheese, smoked salmon, red onion and dill.",
+    "New York recipe",
+    10,
+    420,
+    "F",
+    "salmon cream cheese bagel",
+    "c",
+    [
+     "bagel|bagels|4|",
+     "cream cheese|cream cheese|150|g",
+     "smoked salmon|smoked salmon|4|slices",
+     "red onion|red onions|0.5|",
+     "dill|dill||",
+     "lemon|lemons|0.5|"
+    ],
+    [
+     "Cut the bagels in half and toast them.",
+     "Spread with cream cheese.",
+     "Add the salmon, sliced onion and dill.",
+     "Squeeze over a little lemon juice and close up."
+    ]
+   ],
+   [
+    "Chicken and salad bagels",
+    "Chicken",
+    "With chicken, lettuce and a yoghurt sauce.",
+    "A filling chicken bagel for lunch.",
+    "",
+    15,
+    450,
+    "F",
+    "chicken bagel sandwich",
+    "c",
+    [
+     "bagel|bagels|4|",
+     "cooked chicken breast|cooked chicken breasts|2|",
+     "lettuce|lettuce|1|",
+     "tomato|tomatoes|2|",
+     "greek yoghurt|greek yoghurts|1|",
+     "mustard|mustard|1|tsp"
+    ],
+    [
+     "Mix the yoghurt and mustard.",
+     "Cut the bagels in half and spread with the sauce.",
+     "Add the lettuce, sliced tomato and sliced chicken.",
+     "Close up."
+    ]
+   ],
+   [
+    "Vegetarian bagels",
+    "Vegetarian",
+    "With avocado, egg and cream cheese.",
+    "A vegetarian bagel with avocado and egg.",
+    "",
+    15,
+    430,
+    "F",
+    "avocado egg bagel",
+    "vc",
+    [
+     "bagel|bagels|4|",
+     "avocado|avocados|2|",
+     "egg|eggs|4|",
+     "cream cheese|cream cheese|100|g",
+     "rocket|rocket|40|g"
+    ],
+    [
+     "Boil the eggs for 9 min and slice them.|Cooking|9",
+     "Spread the toasted bagels with cream cheese.",
+     "Add the sliced avocado, egg and rocket.",
+     "Season with salt and pepper and close up."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Poutine",
+  "a": [
+   "Quebec poutine",
+   "chips with cheese and gravy"
+  ],
+  "fr": "Poutine",
+  "r": [
+   [
+    "Poutine",
+    "The classic",
+    "",
+    "The Quebec dish: chips, cheese curds and piping hot brown gravy.",
+    "Quebec recipe",
+    50,
+    750,
+    "F",
+    "poutine",
+    "f",
+    [
+     "potato|potatoes|1000|g",
+     "frying oil|frying oil|100|cl",
+     "cheddar|cheddar|200|g",
+     "beef stock cube|beef stock cubes|2|",
+     "cornflour|cornflour|2|tbsp",
+     "butter|butter|20|g"
+    ],
+    [
+     "Cut the potatoes into chips and fry them twice: 6 min at 160 °C, then 3 min at 180 °C.|Frying|9",
+     "Heat 40 cl of water with the stock cubes and butter.",
+     "Add the cornflour mixed with a little water and leave to thicken.|Cooking|3",
+     "Cut the cheddar into small pieces.",
+     "Put the chips on plates, add the cheese and pour over the boiling gravy."
+    ]
+   ],
+   [
+    "Oven-baked poutine",
+    "Oven chips",
+    "With oven chips.",
+    "A slightly lighter poutine with oven-baked chips.",
+    "",
+    50,
+    620,
+    "F",
+    "oven fries poutine",
+    "of",
+    [
+     "potato|potatoes|1000|g",
+     "olive oil|olive oil|3|tbsp",
+     "cheddar|cheddar|200|g",
+     "beef stock cube|beef stock cubes|2|",
+     "cornflour|cornflour|2|tbsp"
+    ],
+    [
+     "Preheat the oven to 220 °C. Cut the potatoes into chips and toss them with the oil.",
+     "Bake for 35 min, turning them over halfway.|Oven|35",
+     "Make the gravy with the stock and cornflour.|Cooking|3",
+     "Top the chips with cheese and pour over the gravy."
+    ]
+   ],
+   [
+    "Chicken poutine",
+    "Chicken",
+    "With shredded chicken.",
+    "Poutine as a full meal, with chicken.",
+    "",
+    55,
+    800,
+    "F",
+    "chicken poutine",
+    "",
+    [
+     "potato|potatoes|1000|g",
+     "frying oil|frying oil|100|cl",
+     "chicken breast|chicken breasts|2|",
+     "cheddar|cheddar|200|g",
+     "chicken stock cube|chicken stock cubes|2|",
+     "cornflour|cornflour|2|tbsp"
+    ],
+    [
+     "Cook the chicken for 15 min in the stock cubes dissolved in 40 cl of water, then shred it.|Cooking|15",
+     "Thicken the stock with the cornflour.|Cooking|3",
+     "Fry the chips in two stages.|Frying|9",
+     "Top the chips with the chicken and cheese, and pour over the gravy."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Goulash",
+  "a": [
+   "goulasch",
+   "paprika beef stew"
+  ],
+  "fr": "Goulash",
+  "r": [
+   [
+    "Goulash",
+    "The classic",
+    "",
+    "The Hungarian beef stew with paprika, onions and peppers.",
+    "Hungarian recipe",
+    150,
+    520,
+    "F",
+    "hungarian goulash",
+    "",
+    [
+     "braising beef|braising beef|1000|g",
+     "onion|onions|3|",
+     "red pepper|red peppers|2|",
+     "chopped tomatoes|chopped tomatoes|400|g",
+     "paprika|paprika|3|tbsp",
+     "cumin|cumin|1|tsp",
+     "potato|potatoes|4|"
+    ],
+    [
+     "Cut the beef into cubes and brown it in a casserole dish.|Cooking|10",
+     "Add the sliced onions and soften for 5 min.",
+     "Add the paprika, cumin, tomatoes and 50 cl of water.",
+     "Cover and simmer for 1 h 30.|Cooking|90",
+     "Add the peppers and diced potatoes, and cook for another 30 min.|Cooking|30"
+    ]
+   ],
+   [
+    "Pork goulash",
+    "Pork",
+    "With pork shoulder.",
+    "A more tender goulash made with pork shoulder.",
+    "",
+    90,
+    540,
+    "F",
+    "pork goulash",
+    "b",
+    [
+     "pork shoulder|pork shoulder|800|g",
+     "onion|onions|3|",
+     "red pepper|red peppers|2|",
+     "chopped tomatoes|chopped tomatoes|400|g",
+     "paprika|paprika|3|tbsp",
+     "crème fraîche|crème fraîche|10|cl"
+    ],
+    [
+     "Brown the cubed pork with the onions.|Cooking|10",
+     "Add the paprika, tomatoes and 30 cl of water.",
+     "Simmer for 50 min.|Cooking|50",
+     "Add the peppers and cook for 20 min, then stir in the crème fraîche.|Cooking|20"
+    ]
+   ],
+   [
+    "Vegetarian goulash",
+    "Vegetarian",
+    "With potatoes and kidney beans.",
+    "A comforting vegetarian goulash.",
+    "",
+    50,
+    380,
+    "F",
+    "vegetarian goulash",
+    "vhb",
+    [
+     "potato|potatoes|6|",
+     "kidney beans|kidney beans|400|g",
+     "onion|onions|2|",
+     "red pepper|red peppers|2|",
+     "chopped tomatoes|chopped tomatoes|400|g",
+     "paprika|paprika|3|tbsp"
+    ],
+    [
+     "Fry the onions and peppers.",
+     "Add the paprika, diced potatoes, tomatoes and 40 cl of water.",
+     "Simmer for 30 min.|Cooking|30",
+     "Add the beans and cook for 5 min.|Cooking|5"
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Beef Stroganoff",
+  "a": [
+   "stroganoff",
+   "beef stroganov"
+  ],
+  "fr": "Bœuf Stroganoff",
+  "r": [
+   [
+    "Beef Stroganoff",
+    "The classic",
+    "",
+    "Strips of beef seared in a creamy mushroom and paprika sauce.",
+    "Russian recipe",
+    30,
+    560,
+    "F",
+    "beef stroganoff",
+    "",
+    [
+     "fondue beef|fondue beef|600|g",
+     "button mushroom|button mushrooms|250|g",
+     "onion|onions|1|",
+     "crème fraîche|crème fraîche|20|cl",
+     "mustard|mustard|1|tsp",
+     "paprika|paprika|1|tsp",
+     "tagliatelle|tagliatelle|300|g"
+    ],
+    [
+     "Cook the tagliatelle.|Cooking|10",
+     "Cut the beef into strips and sear for 2 min over a high heat. Take it out.|Pan|2",
+     "Fry the sliced onion and mushrooms for 6 min.|Pan|6",
+     "Add the crème fraîche, mustard and paprika.",
+     "Put the beef back for 1 min and serve with the tagliatelle."
+    ]
+   ],
+   [
+    "Chicken Stroganoff",
+    "Chicken",
+    "Chicken instead of beef.",
+    "A milder, cheaper chicken Stroganoff.",
+    "",
+    30,
+    500,
+    "F",
+    "chicken stroganoff",
+    "bf",
+    [
+     "chicken breast|chicken breasts|4|",
+     "button mushroom|button mushrooms|250|g",
+     "onion|onions|1|",
+     "crème fraîche|crème fraîche|20|cl",
+     "paprika|paprika|1|tsp",
+     "rice|rice|250|g"
+    ],
+    [
+     "Cook the rice.|Cooking|12",
+     "Brown the chicken strips for 6 min.|Pan|6",
+     "Add the onion and mushrooms, and cook for 6 min.|Pan|6",
+     "Add the crème fraîche and paprika, and cook for 2 min."
+    ]
+   ],
+   [
+    "Mushroom Stroganoff",
+    "Vegetarian",
+    "Mushrooms only.",
+    "A rich vegetarian Stroganoff.",
+    "",
+    25,
+    400,
+    "F",
+    "mushroom stroganoff",
+    "vb",
+    [
+     "button mushroom|button mushrooms|600|g",
+     "onion|onions|1|",
+     "crème fraîche|crème fraîche|20|cl",
+     "mustard|mustard|1|tsp",
+     "paprika|paprika|1|tsp",
+     "tagliatelle|tagliatelle|300|g"
+    ],
+    [
+     "Cook the tagliatelle.|Cooking|10",
+     "Brown the quartered mushrooms for 8 min over a high heat.|Pan|8",
+     "Add the onion, then the crème fraîche, mustard and paprika.",
+     "Cook for 2 min and serve over the pasta."
+    ]
+   ]
+  ]
+ },
+ {
+  "q": "Shawarma",
+  "a": [
+   "chicken shawarma",
+   "shawarma wrap"
+  ],
+  "fr": "Shawarma",
+  "r": [
+   [
+    "Chicken shawarma",
+    "The classic",
+    "",
+    "Chicken marinated in Middle Eastern spices and rolled in pitta bread with garlic sauce.",
+    "Lebanese inspired",
+    50,
+    520,
+    "F",
+    "chicken shawarma wrap",
+    "",
+    [
+     "boneless chicken thigh|boneless chicken thighs|6|",
+     "pitta bread|pitta breads|4|",
+     "greek yoghurt|greek yoghurts|2|",
+     "garlic|garlic|3|clove",
+     "cumin|cumin|1|tsp",
+     "paprika|paprika|1|tsp",
+     "lemon|lemons|1|",
+     "tomato|tomatoes|2|",
+     "lettuce|lettuce|1|"
+    ],
+    [
+     "Marinate the chicken for 30 min with 1 yoghurt, 2 cloves of garlic, the spices and the lemon juice.|Rest|30",
+     "Brown it in a pan for 10 min, then slice it.|Pan|10",
+     "Mix the other yoghurt with the remaining crushed garlic.",
+     "Fill the warm pittas with chicken, lettuce, tomatoes and sauce."
+    ]
+   ],
+   [
+    "Chicken shawarma plate",
+    "On a plate",
+    "Served with rice and salad.",
+    "Shawarma served on a plate, with rice and hummus.",
+    "",
+    50,
+    560,
+    "F",
+    "chicken shawarma plate",
+    "",
+    [
+     "boneless chicken thigh|boneless chicken thighs|6|",
+     "rice|rice|250|g",
+     "hummus|hummus|200|g",
+     "cumin|cumin|1|tsp",
+     "paprika|paprika|1|tsp",
+     "lemon|lemons|1|",
+     "cucumber|cucumbers|1|"
+    ],
+    [
+     "Marinate the chicken with the spices and lemon for 30 min.|Rest|30",
+     "Cook the rice.|Cooking|12",
+     "Brown the chicken for 10 min and slice it.|Pan|10",
+     "Serve with the rice, hummus and cucumber."
+    ]
+   ],
+   [
+    "Cauliflower shawarma",
+    "Vegetarian",
+    "Roasted cauliflower with shawarma spices.",
+    "The vegetarian shawarma, with roasted cauliflower.",
+    "",
+    45,
+    380,
+    "F",
+    "cauliflower shawarma",
+    "voh",
+    [
+     "cauliflower|cauliflowers|1|",
+     "pitta bread|pitta breads|4|",
+     "greek yoghurt|greek yoghurts|1|",
+     "cumin|cumin|1|tsp",
+     "paprika|paprika|1|tsp",
+     "olive oil|olive oil|3|tbsp",
+     "garlic|garlic|1|clove"
+    ],
+    [
+     "Preheat the oven to 210 °C.",
+     "Toss the cauliflower florets with the oil and spices, and bake for 30 min.|Oven|30",
+     "Mix the yoghurt with the crushed garlic.",
+     "Fill the pittas with cauliflower and sauce."
+    ]
+   ]
+  ]
+ }
+]

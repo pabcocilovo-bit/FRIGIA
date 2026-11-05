@@ -5,16 +5,17 @@ import { Icon, Pill, Toast } from "../ui/components";
 import { LOGO_SYMBOL, LOGO_WORD, SPLASH_SCENE } from "./logo";
 import { isReallyOnline, useOfflineScreen } from "./offline";
 import { showToast, useToastMessage } from "./toast";
+import { t } from "../lib/i18n";
 import "./shell.css";
 
 /** Écran d'ouverture : le logo et la petite scène, 2,5 secondes. Le toucher passe directement à l'accueil. */
 function Splash({ onDone }: { onDone: () => void }) {
   useEffect(() => {
-    const t = setTimeout(onDone, 2500);
-    return () => clearTimeout(t);
+    const tm = setTimeout(onDone, 2500);
+    return () => clearTimeout(tm);
   }, [onDone]);
   return (
-    <section className="fa splash play" aria-label="Ouverture de l'app" onClick={onDone}>
+    <section className="fa splash play" aria-label={t("Ouverture de l'app", "Opening the app")} onClick={onDone}>
       <div className="sp-logo" dangerouslySetInnerHTML={{ __html: LOGO_SYMBOL + LOGO_WORD }} />
       <div className="sp-illu" dangerouslySetInnerHTML={{ __html: SPLASH_SCENE }} />
     </section>
@@ -32,35 +33,35 @@ function Offline({ onClose }: { onClose: () => void }) {
     const [online] = await Promise.all([isReallyOnline(), new Promise(r => setTimeout(r, 1200))]);
     setBusy(false);
     if (online) {
-      showToast("Te revoilà en ligne");
+      showToast(t("Te revoilà en ligne", "You're back online"));
       setTimeout(onClose, 500);
     } else {
       setNo(n => n + 1);
-      showToast("Toujours pas de réseau. Ta liste de courses reste dispo.");
+      showToast(t("Toujours pas de réseau. Ta liste de courses reste dispo.", "Still no connection. Your shopping list is still available."));
     }
   };
   return (
-    <section className="fa offline" aria-label="Pas de réseau">
-      <div className="fg-top"><button type="button" className="fg-x" aria-label="Fermer" onClick={onClose}><Icon name="x" /></button></div>
+    <section className="fa offline" aria-label={t("Pas de réseau", "No connection")}>
+      <div className="fg-top"><button type="button" className="fg-x" aria-label={t("Fermer", "Close")} onClick={onClose}><Icon name="x" /></button></div>
       <div className="of-body">
         <div className="of-art" aria-hidden="true">
           <svg className="of-waves" viewBox="0 0 160 80"><path className="w3" d="M14 70a80 80 0 0 1 132 0" /><path className="w2" d="M38 72a52 52 0 0 1 84 0" /><path className="w1" d="M60 74a26 26 0 0 1 40 0" /></svg>
           <span className="fg-tile of-tile" dangerouslySetInnerHTML={{ __html: LOGO_SYMBOL }} />
           <span className="of-badge"><svg viewBox="0 0 24 24"><path d="M5 9.5a10 10 0 0 1 14 0M8 13a5.5 5.5 0 0 1 8 0" /><circle cx="12" cy="17" r="1.2" /><path d="M4 4l16 16" /></svg></span>
         </div>
-        <h2>Pas de <em>réseau</em></h2>
-        <p>Pour l'instant, ton téléphone n'arrive pas à se connecter. Vérifie le wifi ou les données mobiles.</p>
+        <h2>{t(<>Pas de <em>réseau</em></>, <>No <em>connection</em></>)}</h2>
+        <p>{t("Pour l'instant, ton téléphone n'arrive pas à se connecter. Vérifie le wifi ou les données mobiles.", "Your phone can't connect right now. Check your wifi or mobile data.")}</p>
         <div className="of-card">
-          <span className="label">Sans réseau, tu gardes</span>
-          <button type="button" onClick={() => go("/courses")}><span><Icon name="cart" /></span><div><b>Ta liste de courses</b>Cochée au fil du magasin</div><Icon name="next" className="muted" /></button>
-          <button type="button" onClick={() => go("/planning")}><span><Icon name="cal" /></span><div><b>Ta semaine</b>Midis et soirs prévus</div><Icon name="next" className="muted" /></button>
-          <button type="button" onClick={() => go("/favoris")}><span><Icon name="heart" /></span><div><b>Tes favoris</b>Avec leurs étapes</div><Icon name="next" className="muted" /></button>
+          <span className="label">{t("Sans réseau, tu gardes", "Offline, you still have")}</span>
+          <button type="button" onClick={() => go("/courses")}><span><Icon name="cart" /></span><div><b>{t("Ta liste de courses", "Your shopping list")}</b>{t("Cochée au fil du magasin", "Tick it off as you shop")}</div><Icon name="next" className="muted" /></button>
+          <button type="button" onClick={() => go("/planning")}><span><Icon name="cal" /></span><div><b>{t("Ta semaine", "Your week")}</b>{t("Midis et soirs prévus", "Planned lunches and dinners")}</div><Icon name="next" className="muted" /></button>
+          <button type="button" onClick={() => go("/favoris")}><span><Icon name="heart" /></span><div><b>{t("Tes favoris", "Your favourites")}</b>{t("Avec leurs étapes", "With their steps")}</div><Icon name="next" className="muted" /></button>
         </div>
-        <p className="of-note">Seul le scan attend le retour du réseau.</p>
+        <p className="of-note">{t("Seul le scan attend le retour du réseau.", "Only scanning needs a connection.")}</p>
       </div>
       <div className="sf-foot">
         <Pill block icon="redo" key={no} className={["of-retry", busy && "busy", no > 0 && "no"].filter(Boolean).join(" ")} onClick={retry}>
-          <span>{busy ? "Connexion…" : "Réessayer"}</span>
+          <span>{busy ? t("Connexion…", "Connecting…") : t("Réessayer", "Try again")}</span>
         </Pill>
       </div>
     </section>
@@ -71,10 +72,10 @@ function Offline({ onClose }: { onClose: () => void }) {
  *  (orientation), mais l'iPhone ne le respecte pas : cet écran couvre tout tant que le téléphone est couché (shell.css). */
 function Rotate() {
   return (
-    <section className="fa rotate" aria-label="Tourne ton téléphone">
+    <section className="fa rotate" aria-label={t("Tourne ton téléphone", "Turn your phone")}>
       <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="20" y="8" width="24" height="44" rx="5" /><path d="M29 46h6" /><path className="ar" d="M50 22a20 20 0 0 1 4 12m0 0l3-4m-3 4l-4-3" /></svg>
-      <h2>Tourne ton <em>téléphone</em></h2>
-      <p>Frigia s'utilise à la verticale.</p>
+      <h2>{t(<>Tourne ton <em>téléphone</em></>, <>Turn your <em>phone</em></>)}</h2>
+      <p>{t("Frigia s'utilise à la verticale.", "Frigia works upright.")}</p>
     </section>
   );
 }

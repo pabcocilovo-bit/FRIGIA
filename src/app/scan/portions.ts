@@ -1,10 +1,11 @@
 // Portions et quantités : « Pour 4 personnes » (Gratuit), « 2,5 portions » (Plus, selon l'appétit de chacun),
 // et les quantités de la recette recalculées pour ce nombre.
 import type { DetectedIngredient, GeneratedRecipe, RecipeItem } from "../../lib/types";
-import { type Person, portionsOf } from "../../lib/household";
+import { type Person, portionsOf, portTxt } from "../../lib/household";
+import { isEn, t } from "../../lib/i18n";
 import type { ScanState } from "./store";
 
-export const num = (n: number) => String(n).replace(".", ",");
+export const num = (n: number) => (isEn ? String(n) : String(n).replace(".", ","));
 
 /** En Plus : ceux du foyer qui mangent là, et les invités. En Gratuit : « Pour combien ? ». */
 export const portions = (isPlus: boolean, s: Pick<ScanState, "servings" | "guests">, eaters: Person[]) => (isPlus ? portionsOf(eaters, s.guests) : s.servings);
@@ -19,9 +20,9 @@ export const toggleAway = (household: Person[], away: string[], id: string) => {
 };
 
 export const srvLabel = (isPlus: boolean, n: number) =>
-  isPlus ? `${num(n)} portion${n > 1 ? "s" : ""}` : `${n} personne${n > 1 ? "s" : ""}`;
+  isPlus ? portTxt(n) : t(`${n} personne${n > 1 ? "s" : ""}`, `${n} ${n > 1 ? "people" : "person"}`);
 
-const COUNTED = ["", "gousse", "gousses", "feuilles", "tranches", "tranche"];
+const COUNTED = ["", "gousse", "gousses", "feuilles", "tranches", "tranche", "clove", "cloves", "slice", "slices", "leaves"];
 
 /** « 200 g » / « 1 » / « ½ » et le nom au singulier ou au pluriel, pour n portions. */
 export function itemText(it: RecipeItem, factor: number): { q: string; n: string } {
@@ -42,13 +43,14 @@ export function itemText(it: RecipeItem, factor: number): { q: string; n: string
   let u = it.unit;
   if (u === "gousse" && r > 1) u = "gousses";
   if (u === "tranche" && r > 1) u = "tranches";
+  if ((u === "clove" || u === "slice") && r > 1) u += "s";
   return { q: u ? `${s} ${u}` : s, n: !it.unit && r > 1 ? it.plural : it.name };
 }
 
 // Anciennes recettes (avant l'étape 6) : l'IA ne disait pas ce qui était dans le frigo.
 // On compare les noms avec les ingrédients trouvés sur la photo ; sel, poivre et eau comptent comme là.
-const BASICS = ["sel", "poivre", "eau"];
-export const words = (s: string) => s.toLowerCase().replace(/œ/g, "oe").replace(/æ/g, "ae").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z ]/g, " ")
+const BASICS = ["sel", "poivre", "eau", "salt", "water"];
+export const words = (s: string) => s.toLowerCase().replace(/\b(black|ground|white|cracked) pepper/g, "poivre").replace(/œ/g, "oe").replace(/æ/g, "ae").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z ]/g, " ")
   .split(" ").filter(w => w.length > 2).map(w => w.replace(/[sx]$/, ""));
 export function inFridge(name: string, found: Pick<DetectedIngredient, "name">[]): boolean {
   const w = words(name);
@@ -77,7 +79,7 @@ export function recipeLines(r: GeneratedRecipe, servings: number, found?: Detect
 export function piecesText(r: GeneratedRecipe, servings: number): string | null {
   if (!r.makes) return null;
   const n = Math.max(1, Math.round(r.makes.n * servings / (r.serves || servings || 1)));
-  return `Environ ${n} ${n > 1 ? r.makes.many : r.makes.one}`;
+  return `${t("Environ", "About")} ${n} ${n > 1 ? r.makes.many : r.makes.one}`;
 }
 
 /** « 6 sur 8 » : ce que tu as déjà, sur le total (0 sur 0 quand on ne sait pas). */

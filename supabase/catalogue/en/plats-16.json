@@ -1,0 +1,112 @@
+[
+ {"q":"Panna cotta","a":["pannacotta","panna cotta with berry coulis"],"fr":"Panna cotta","r":[
+  ["Panna cotta with berry coulis","The classic","","The wobbly Italian cream, flavoured with vanilla, with a berry coulis.","Italian dessert",20,330,"F","panna cotta berry coulis","vcd",
+   ["whole liquid cream|whole liquid cream|50|cl","sugar|sugar|80|g","gelatine|gelatine|3|leaves","vanilla pod|vanilla pods|1|","frozen mixed berries|frozen mixed berries|250|g"],
+   ["Soften the gelatine in cold water.","Heat the cream with 60 g of sugar and the split vanilla pod, without boiling.|Cooking|5","Take off the heat, add the squeezed gelatine and stir.","Pour into glasses and leave to set in the fridge for 4 h.","Blend the berries with the rest of the sugar and pour over just before serving."]],
+  ["Mango panna cotta","Mango","With a fresh mango coulis.","A very gentle panna cotta under an exotic mango coulis.","",20,320,"F","mango panna cotta","vcd",
+   ["whole liquid cream|whole liquid cream|50|cl","sugar|sugar|60|g","gelatine|gelatine|3|leaves","mango|mangoes|1|","lime|limes|1|"],
+   ["Soften the gelatine in cold water.","Heat the cream with the sugar without boiling, then add the squeezed gelatine.|Cooking|5","Pour into glasses and leave to set in the fridge for 4 h.","Blend the mango with the lime juice and pour over the panna cottas."]],
+  ["Coconut milk panna cotta","With coconut milk","Coconut milk replaces some of the cream.","A lighter panna cotta with a coconut flavour.","",20,260,"F","coconut panna cotta","vcd",
+   ["coconut milk|coconut milk|40|cl","whole liquid cream|whole liquid cream|10|cl","sugar|sugar|60|g","gelatine|gelatine|3|leaves","pineapple|pineapples|1|"],
+   ["Soften the gelatine in cold water.","Heat the coconut milk, cream and sugar, then add the squeezed gelatine.|Cooking|5","Pour into glasses and leave to set in the fridge for 4 h.","Serve with the pineapple cut into small dice."]]
+ ]},
+ {"q":"Floating island","a":["île flottante","iles flottantes","oeufs a la neige"],"fr":"Île flottante","r":[
+  ["Floating island","The classic","","Poached meringues on a custard, with a drizzle of caramel.","French dessert",45,300,"M","floating island dessert","vcd",
+   ["egg|eggs|6|","milk|milk|75|cl","sugar|sugar|180|g","vanilla pod|vanilla pods|1|","salt|salt||"],
+   ["Heat the milk with the split vanilla pod. Whisk the yolks with 80 g of sugar.","Pour the hot milk over the yolks, then thicken over a low heat without boiling, stirring. It is ready when the custard coats the spoon.|Cooking|10","Whisk the whites to stiff peaks with a pinch of salt and 40 g of sugar.","Poach spoonfuls of the whites for 1 min on each side in simmering water.|Cooking|2","Make a caramel with the rest of the sugar and 2 tbsp of water.","Put the meringues on the cold custard and drizzle with caramel."]],
+  ["Microwave floating islands","Quick","The whites cook in the microwave in a few seconds.","The quick version, with shop-bought custard.","",15,250,"F","floating island bowl","vcdbf",
+   ["egg white|egg whites|4|","sugar|sugar|60|g","custard|custard|50|cl","liquid caramel|liquid caramel|4|tbsp"],
+   ["Whisk the whites to stiff peaks, adding the sugar at the end.","Spoon 4 mounds of whites into lightly oiled cups.","Cook them in the microwave for 30 seconds.","Turn out onto the custard and drizzle with caramel."]],
+  ["Floating island with pink pralines","Pink pralines","Sprinkled with crushed pink pralines.","The floating island from Lyon, crunchy and pink.","Lyon-inspired",45,330,"M","floating island pink pralines","vcd",
+   ["egg|eggs|6|","milk|milk|75|cl","sugar|sugar|130|g","vanilla pod|vanilla pods|1|","pink praline|pink pralines|60|g"],
+   ["Make the custard: pour the hot vanilla milk over the yolks whisked with 80 g of sugar, then thicken over a low heat.|Cooking|10","Leave to cool in the fridge.","Whisk the whites with the rest of the sugar.","Poach the whites for 1 min on each side in simmering water.|Cooking|2","Put them on the custard and sprinkle with crushed pralines."]]
+ ]},
+ {"q":"Profiteroles","a":["profiterole","cream puffs","choux pastry"],"fr":"Profiteroles","r":[
+  ["Chocolate profiteroles","The classic","","Choux buns filled with vanilla ice cream, covered with hot chocolate sauce.","French dessert",75,450,"D","profiteroles chocolate sauce","vod",
+   ["flour|flour|75|g","butter|butter|60|g","egg|eggs|2|","vanilla ice cream|vanilla ice cream|50|cl","dark chocolate|dark chocolate|150|g","liquid cream|liquid cream|15|cl","salt|salt||"],
+   ["Preheat the oven to 200 °C. Bring 12 cl of water, the butter and a pinch of salt to the boil.","Tip in the flour all at once and stir until the dough comes away from the pan.","Off the heat, beat in the eggs one by one.","Pipe small mounds on a baking tray and bake for 25 min without opening the oven.|Oven|25","Melt the chocolate in the hot cream.","Cut the cold buns open, fill them with ice cream and cover with the hot sauce."]],
+  ["Whipped cream choux buns","With whipped cream","Filled with whipped cream, no ice cream.","Light choux buns filled with homemade whipped cream.","",70,350,"D","cream puffs","vod",
+   ["flour|flour|75|g","butter|butter|60|g","egg|eggs|2|","whole liquid cream|whole liquid cream|30|cl","icing sugar|icing sugar|40|g","salt|salt||"],
+   ["Make the choux pastry: bring water, butter and salt to the boil, add the flour all at once, then beat in the eggs one by one.","Pipe small mounds on a baking tray and bake for 25 min at 200 °C.|Oven|25","Whip the very cold cream with the icing sugar.","Fill the cold buns and dust with icing sugar."]],
+  ["Caramel profiteroles","Caramel","Covered with a salted butter caramel sauce.","Profiteroles with a salted butter caramel instead of chocolate.","",75,470,"D","caramel profiteroles","vod",
+   ["flour|flour|75|g","butter|butter|60|g","egg|eggs|2|","vanilla ice cream|vanilla ice cream|50|cl","sugar|sugar|100|g","liquid cream|liquid cream|10|cl","salted butter|salted butter|30|g"],
+   ["Make the choux pastry and bake the buns for 25 min at 200 °C.|Oven|25","Melt the sugar on its own until it is a light caramel.","Off the heat, add the hot cream, then the salted butter.","Fill the buns with ice cream and cover with the warm caramel."]]
+ ]},
+ {"q":"Fruit salad","a":["fresh fruit salad","macedoine"],"fr":"Salade de fruits","r":[
+  ["Fresh fruit salad","The classic","","Chopped seasonal fruit with a light lemon syrup.","",20,150,"F","fresh fruit salad","vcdhbf",
+   ["apple|apples|2|","pear|pears|2|","banana|bananas|2|","orange|oranges|2|","grape|grapes|200|g","lemon|lemons|1|","sugar|sugar|2|tbsp"],
+   ["Squeeze the lemon and mix the juice with the sugar.","Peel the oranges, removing all the pith, and cut into pieces.","Dice the apples, pears and bananas.","Mix all the fruit with the grapes and the sweet juice.","Chill for 30 min before serving."]],
+  ["Tropical fruit salad","Tropical","Mango, pineapple and passion fruit.","A sunny fruit salad with tropical fruit.","",20,160,"F","tropical fruit salad","vcdhf",
+   ["mango|mangoes|1|","pineapple|pineapples|1|","kiwi|kiwis|3|","banana|bananas|2|","passion fruit|passion fruits|2|","lime|limes|1|"],
+   ["Peel the mango, pineapple and kiwis, and cut into dice.","Add the sliced bananas.","Pour over the lime juice and the passion fruit pulp.","Mix and chill for 30 min."]],
+  ["Berry and mint fruit salad","Berries","Berries with fresh mint.","A summer salad with strawberries, raspberries and mint.","",15,120,"F","berry salad mint","vcdhf",
+   ["strawberry|strawberries|500|g","raspberry|raspberries|125|g","blueberry|blueberries|125|g","fresh mint|fresh mint||","lemon|lemons|1|","sugar|sugar|1|tbsp"],
+   ["Wash and hull the strawberries, then cut them in half.","Mix them with the raspberries and blueberries.","Pour over the lemon juice mixed with the sugar.","Add the chopped mint and chill for 15 min."]]
+ ]},
+ {"q":"Apple compote","a":["stewed apples","applesauce","compote"],"fr":"Compote de pommes","r":[
+  ["Apple compote","The classic","","Very simple homemade compote, with just apples and a little cinnamon.","",30,120,"F","applesauce bowl","vcdhbf",
+   ["apple|apples|8|","sugar|sugar|2|tbsp","cinnamon|cinnamon|1|tsp"],
+   ["Peel and core the apples and cut them into pieces.","Put them in a pan with 10 cl of water, the sugar and the cinnamon.","Cook for 20 min with the lid on, stirring from time to time.|Cooking|20","Mash with a fork or blend, depending on the texture you like."]],
+  ["Apple and pear compote","Apples and pears","Half apples, half pears, with no added sugar.","A gentle compote, sweetened only by the fruit.","",30,100,"F","apple pear compote","vcdhbf",
+   ["apple|apples|4|","pear|pears|4|","cinnamon|cinnamon|1|tsp"],
+   ["Peel and core the fruit and cut into pieces.","Put it in a pan with 5 cl of water and the cinnamon.","Cook for 20 min with the lid on.|Cooking|20","Mash or blend, then leave to cool."]],
+  ["Apple and strawberry compote","Apples and strawberries","With strawberries added at the end of cooking.","A pink, fruity compote that kids love.","",30,110,"F","apple strawberry compote","vcdhbf",
+   ["apple|apples|6|","strawberry|strawberries|250|g","sugar|sugar|1|tbsp"],
+   ["Peel the apples and cut them into pieces.","Cook them for 15 min with the lid on, with 5 cl of water and the sugar.|Cooking|15","Add the hulled strawberries and cook for 5 min.|Cooking|5","Blend and leave to cool."]]
+ ]},
+ {"q":"Crème caramel","a":["caramel custard","flan","creme renversee"],"fr":"Crème caramel","r":[
+  ["Crème caramel","The classic","","The vanilla set custard, covered with its light caramel.","French dessert",70,250,"M","creme caramel","vodbf",
+   ["milk|milk|50|cl","egg|eggs|4|","sugar|sugar|180|g","vanilla pod|vanilla pods|1|"],
+   ["Preheat the oven to 160 °C.","Make a caramel with 100 g of sugar and 3 tbsp of water, and pour it into the bottom of the ramekins.","Heat the milk with the split vanilla pod.","Whisk the eggs and the rest of the sugar, then pour the hot milk over them.","Fill the ramekins and bake in a bain-marie for 40 min.|Oven|40","Leave to cool, then chill for 2 h before turning out."]],
+  ["Coconut crème caramel","Coconut","Coconut milk replaces some of the milk.","A set custard with the taste of the islands.","",70,280,"M","coconut flan","vodbf",
+   ["coconut milk|coconut milk|40|cl","milk|milk|10|cl","egg|eggs|4|","sugar|sugar|170|g"],
+   ["Preheat the oven to 160 °C and make a caramel with 100 g of sugar and a little water.","Pour it into the bottom of the ramekins.","Whisk the eggs with the rest of the sugar, then add the coconut milk and the milk.","Fill the ramekins and bake in a bain-marie for 40 min.|Oven|40","Chill for 2 h before turning out."]],
+  ["Pressure cooker crème caramel","No oven","Steamed in a pressure cooker.","Crème caramel without turning on the oven.","",40,250,"M","creme caramel ramekin","vcdbf",
+   ["milk|milk|50|cl","egg|eggs|4|","sugar|sugar|180|g","vanilla sugar|vanilla sugar|1|"],
+   ["Make a caramel with 100 g of sugar and a little water, and pour it into ramekins.","Whisk the eggs, the rest of the sugar and the vanilla sugar, then add the hot milk.","Fill the ramekins and cover them with foil.","Put them in the pressure cooker with 2 cm of water and cook for 6 min after it starts to whistle.|Cooking|6","Leave to cool, then chill for 2 h."]]
+ ]},
+ {"q":"Pears belle Hélène","a":["poires belle-hélène","poire belle helene","chocolate pears","poached pears"],"fr":"Poires belle-Hélène","r":[
+  ["Pears belle Hélène","The classic","","Pears poached in vanilla syrup, covered with hot chocolate.","French dessert",40,330,"F","poire belle helene","vcd",
+   ["pear|pears|4|","sugar|sugar|150|g","vanilla pod|vanilla pods|1|","dark chocolate|dark chocolate|150|g","liquid cream|liquid cream|15|cl","vanilla ice cream|vanilla ice cream|50|cl"],
+   ["Bring 1 litre of water to the boil with the sugar and the split vanilla pod.","Peel the pears, leaving the stalk on, and poach them in the syrup for 20 min.|Cooking|20","Leave them to cool in the syrup.","Melt the chocolate in the hot cream.","Serve each pear with a scoop of ice cream and the chocolate sauce."]],
+  ["Pears poached in red wine","In wine","Poached in spiced red wine.","Red, fragrant pears for a winter dessert.","",50,250,"F","poached pears red wine","vcd",
+   ["pear|pears|4|","red wine|red wine|75|cl","sugar|sugar|120|g","cinnamon stick|cinnamon sticks|1|","orange|oranges|1|"],
+   ["Bring the wine to the boil with the sugar, cinnamon and orange zest.","Peel the pears, leaving the stalk on.","Poach them for 30 min in the simmering wine, turning them over.|Cooking|30","Remove the pears and boil the wine down to a syrup.|Cooking|10","Serve warm or cold, covered with syrup."]],
+  ["Honey roast pears","Roasted","Roasted in the oven with honey, with no syrup.","Soft pears caramelised with honey.","",35,180,"F","roasted pears honey","vodhbf",
+   ["pear|pears|4|","honey|honey|3|tbsp","butter|butter|20|g","cinnamon|cinnamon|1|tsp"],
+   ["Preheat the oven to 200 °C.","Cut the pears in half and remove the cores.","Put them in a dish, drizzle with honey and dot with butter and cinnamon.","Bake for 25 min, basting halfway through.|Oven|25"]]
+ ]},
+ {"q":"Strawberry charlotte","a":["charlotte","charlotte aux fraises"],"fr":"Charlotte aux fraises","r":[
+  ["Strawberry charlotte","The classic","","Sponge fingers around a light strawberry mousse.","",40,350,"M","strawberry charlotte","vcd",
+   ["sponge finger|sponge fingers|24|","strawberry|strawberries|500|g","whole liquid cream|whole liquid cream|30|cl","fromage blanc|fromage blanc|250|g","sugar|sugar|80|g","gelatine|gelatine|4|leaves"],
+   ["Soften the gelatine in cold water. Blend half the strawberries with the sugar.","Warm a little of this coulis and melt the gelatine in it, then mix with the rest.","Whip the cream and fold it into the fromage blanc and the coulis.","Quickly dip the sponge fingers in sugar water and line a tin.","Layer the mousse and chopped strawberries, then cover with sponge fingers.","Leave to set in the fridge for 6 h before turning out."]],
+  ["Raspberry charlotte","Raspberries","With raspberries instead of strawberries.","The tangy raspberry charlotte.","",40,350,"M","raspberry charlotte","vcd",
+   ["sponge finger|sponge fingers|24|","raspberry|raspberries|400|g","whole liquid cream|whole liquid cream|30|cl","fromage blanc|fromage blanc|250|g","sugar|sugar|80|g","gelatine|gelatine|4|leaves"],
+   ["Soften the gelatine. Blend half the raspberries with the sugar and melt the gelatine in a little warm coulis.","Whip the cream and fold it into the fromage blanc and the coulis.","Line a tin with sponge fingers dipped in sugar water.","Layer the mousse and whole raspberries, then cover with sponge fingers.","Leave to set in the fridge for 6 h."]],
+  ["Chocolate charlotte","Chocolate","With a chocolate mousse.","The charlotte for those with a sweet tooth, filled with chocolate mousse.","",40,420,"M","chocolate charlotte","vcd",
+   ["sponge finger|sponge fingers|24|","dark chocolate|dark chocolate|200|g","egg|eggs|5|","sugar|sugar|40|g","milk|milk|10|cl"],
+   ["Melt the chocolate and leave to cool slightly, then add the egg yolks.","Whisk the whites to stiff peaks with the sugar and gently fold them into the chocolate.","Quickly dip the sponge fingers in the milk and line a tin.","Pour in the mousse and cover with sponge fingers.","Leave to set in the fridge for 6 h before turning out."]]
+ ]},
+ {"q":"Pavlova","a":["fruit pavlova","meringue with fruit"],"fr":"Pavlova","r":[
+  ["Berry pavlova","The classic","","A meringue that is crisp outside and soft inside, with whipped cream and berries.","Australian dessert",150,300,"M","berry pavlova","vod",
+   ["egg white|egg whites|4|","sugar|sugar|200|g","cornflour|cornflour|1|tsp","white vinegar|white vinegar|1|tsp","whole liquid cream|whole liquid cream|30|cl","mixed berries|mixed berries|300|g"],
+   ["Preheat the oven to 120 °C.","Whisk the whites to stiff peaks, then add the sugar little by little until you have a glossy meringue.","Add the cornflour and vinegar, and shape into a big disc on a baking tray.","Bake for 1 h 30, then leave to cool in the switched-off oven.|Oven|90","Whip the cream, spread it over the meringue and top with the berries."]],
+  ["Tropical pavlova","Tropical","With mango, kiwi and passion fruit.","The pavlova with tropical fruit, fresh and tangy.","",150,300,"M","tropical pavlova","vod",
+   ["egg white|egg whites|4|","sugar|sugar|200|g","cornflour|cornflour|1|tsp","whole liquid cream|whole liquid cream|30|cl","mango|mangoes|1|","kiwi|kiwis|2|","passion fruit|passion fruits|2|"],
+   ["Preheat the oven to 120 °C. Whisk the whites with the sugar into a glossy meringue, then add the cornflour.","Shape into a disc on a baking tray and bake for 1 h 30.|Oven|90","Leave to cool in the switched-off oven.","Cover with whipped cream, diced mango and kiwi, then the passion fruit pulp."]],
+  ["Mini strawberry pavlovas","Individual","As small individual meringues.","Little strawberry pavlovas, to serve on plates.","",110,280,"M","mini strawberry pavlovas","vod",
+   ["egg white|egg whites|3|","sugar|sugar|150|g","cornflour|cornflour|1|tsp","whole liquid cream|whole liquid cream|25|cl","strawberry|strawberries|300|g"],
+   ["Preheat the oven to 120 °C. Whisk the whites with the sugar into a meringue, then add the cornflour.","Shape 6 little nests on a baking tray.","Bake for 1 h and leave to cool in the oven.|Oven|60","Fill with whipped cream and sliced strawberries."]]
+ ]},
+ {"q":"Galette des rois","a":["frangipane galette","king cake","almond cream tart"],"fr":"Galette des rois","r":[
+  ["Frangipane galette des rois","The classic","","The puff pastry galette filled with frangipane, with the charm hidden inside.","French tradition",60,480,"M","galette des rois","vod",
+   ["puff pastry|puff pastries|2|","ground almond|ground almonds|125|g","sugar|sugar|100|g","soft butter|soft butter|80|g","egg|eggs|3|"],
+   ["Preheat the oven to 200 °C.","Mix the ground almonds, sugar, soft butter and 2 eggs.","Roll out one pastry on a baking tray, spread with frangipane leaving a 2 cm border, and place the charm.","Cover with the second pastry and seal the edges well.","Brush with the last beaten egg and draw patterns with the tip of a knife.","Bake for 30 min.|Oven|30"]],
+  ["Apple galette des rois","With apples","Compote and apples instead of frangipane.","A lighter galette, filled with apples.","",60,380,"M","apple galette des rois","vodb",
+   ["puff pastry|puff pastries|2|","apple|apples|3|","apple compote|apple compote|200|g","egg|eggs|1|","sugar|sugar|30|g"],
+   ["Preheat the oven to 200 °C.","Roll out one pastry, spread with compote, then add thin apple slices sprinkled with sugar, and place the charm.","Cover with the second pastry and seal the edges.","Brush with beaten egg and bake for 30 min.|Oven|30"]],
+  ["Chocolate and pear galette des rois","Chocolate and pear","Chocolate frangipane and pieces of pear.","The chocolate and pear duo, in a galette des rois.","",60,520,"M","chocolate pear galette","vod",
+   ["puff pastry|puff pastries|2|","ground almond|ground almonds|100|g","sugar|sugar|80|g","soft butter|soft butter|80|g","egg|eggs|3|","dark chocolate|dark chocolate|80|g","pear|pears|2|"],
+   ["Preheat the oven to 200 °C. Melt the chocolate.","Mix the ground almonds, sugar, butter, 2 eggs and the melted chocolate.","Roll out one pastry, spread with frangipane and diced pears, and place the charm.","Cover with the second pastry, seal the edges and brush with the last egg.","Bake for 30 min.|Oven|30"]]
+ ]}
+]

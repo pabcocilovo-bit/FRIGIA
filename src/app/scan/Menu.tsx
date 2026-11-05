@@ -13,9 +13,11 @@ import { madeKey, MAX_GUESTS, MEAL_WORDS, mealOf, menuOf, MENUS, type MenuId, pl
 import { Stepper } from "./Ingredients";
 import { eatersOf, portions, srvLabel } from "./portions";
 import { WhoGrid } from "./WhoGrid";
+import { t } from "../../lib/i18n";
 import "./scan.css";
 
-const ENVIES: [Envie, string][] = [["rapide", "Rapide"], ["healthy", "Healthy"], ["proteine", "Protéiné"], ["gourmand", "Gourmand"], ["enfants", "Enfants"], ["gaspi", "Anti-gaspi"]];
+const ENVIES: [Envie, string][] = [["rapide", t("Rapide", "Quick")], ["healthy", "Healthy"], ["proteine", t("Protéiné", "High-protein")], ["gourmand", t("Gourmand", "Indulgent")],
+  ["enfants", t("Enfants", "Kids")], ["gaspi", t("Anti-gaspi", "Zero waste")]];
 const ICON: Record<MenuId, IconName> = { plats: "pan", "plats-dessert": "utensils", "plat-dessert": "salad", desserts: "sparkle", semaine: "cal" };
 
 /** En Plus : qui mange (le foyer, chacun se retire d'un appui) et les invités, comptés comme des adultes. */
@@ -24,15 +26,15 @@ function Who({ household, avatar }: { household: Person[]; avatar: string | null
   const g = scan.guests;
   const eaters = eatersOf(household, scan);
   const toggle = (id: string) => setScan({ away: scan.away.includes(id) ? scan.away.filter(x => x !== id) : [...scan.away, id] });
-  const when = scan.meal === "m" ? "ce midi" : scan.meal === "w" ? "cette semaine" : scan.meal === "d" ? "pour le dessert" : "ce soir";
+  const when = scan.meal === "m" ? t("ce midi", "at lunch") : scan.meal === "w" ? t("cette semaine", "this week") : scan.meal === "d" ? t("pour le dessert", "for dessert") : t("ce soir", "tonight");
   return (
     <div className="opt">
       <span className="label">{MEAL_WORDS[scan.meal].qui}</span>
       <WhoGrid household={household} away={scan.away} avatar={avatar} onToggle={toggle} />
-      <div className="gst"><span className="gst-ic"><Icon name="users" /></span><div><b>Des invités ?</b><small>Comptés comme des adultes</small></div>
-        <Stepper value={g} min={0} max={MAX_GUESTS} label={["Un invité de moins", "Un invité de plus"]} onChange={n => setScan({ guests: n })} />
+      <div className="gst"><span className="gst-ic"><Icon name="users" /></span><div><b>{t("Des invités ?", "Guests?")}</b><small>{t("Comptés comme des adultes", "Counted as adults")}</small></div>
+        <Stepper value={g} min={0} max={MAX_GUESTS} label={t(["Un invité de moins", "Un invité de plus"], ["One guest fewer", "One more guest"])} onChange={n => setScan({ guests: n })} />
       </div>
-      <p className="whonote"><Icon name="users" /><span><b>{whoParts(eaters, g) || "Personne"}, soit {srvLabel(true, portions(true, scan, eaters))}.</b> {whoNote(eaters, when)}</span></p>
+      <p className="whonote"><Icon name="users" /><span><b>{whoParts(eaters, g) || t("Personne", "Nobody")}, {t("soit", "so")} {srvLabel(true, portions(true, scan, eaters))}.</b> {whoNote(eaters, when)}</span></p>
     </div>
   );
 }
@@ -46,9 +48,9 @@ export function CreateBar({ isPlus, household }: { isPlus: boolean; household: P
   const again = scan.made?.key === madeKey(scan) ? scan.made.id : null;
   return (
     <button type="button" className="gobar" onClick={() => navigate(again ? `/recettes/${again}` : "/scan/preparation")}>
-      {again ? <span><b>Revoir mes recettes</b><small>Déjà prêtes, sans utiliser de scan</small></span>
-        : <span><b>Créer mes {menu.n} recettes</b>
-          <small>Pour {srvLabel(isPlus, portions(isPlus, scan, eatersOf(household, scan)))}</small></span>}
+      {again ? <span><b>{t("Revoir mes recettes", "See my recipes again")}</b><small>{t("Déjà prêtes, sans utiliser de scan", "Already made, no scan used")}</small></span>
+        : <span><b>{t(`Créer mes ${menu.n} recettes`, `Make my ${menu.n} recipes`)}</b>
+          <small>{t("Pour", "For")} {srvLabel(isPlus, portions(isPlus, scan, eatersOf(household, scan)))}</small></span>}
       <span className="go"><Icon name="arrow" /></span>
     </button>
   );
@@ -80,22 +82,22 @@ export function Menu({ isPlus, household, avatar }: { isPlus: boolean; household
   };
 
   return (
-    <section className="fa scan-screen scr-menu" aria-label="Qu'est-ce qu'on cuisine ?">
+    <section className="fa scan-screen scr-menu" aria-label={t("Qu'est-ce qu'on cuisine ?", "What are we cooking?")}>
       <div className="mn-head">
-        <RoundButton icon="back" label="Retour" tone="dark" onClick={() => navigate(-1)} />
-        {empty ? <span className="label">Frigo vide</span> : (
+        <RoundButton icon="back" label={t("Retour", "Back")} tone="dark" onClick={() => navigate(-1)} />
+        {empty ? <span className="label">{t("Frigo vide", "Empty fridge")}</span> : (
           <button type="button" className="label mn-edit" onClick={() => navigate("/scan/ingredients")}>
-            {n} ingrédient{n > 1 ? "s" : ""} · <u>Modifier</u>
+            {n} {t("ingrédient", "ingredient")}{n > 1 ? "s" : ""} · <u>{t("Modifier", "Edit")}</u>
           </button>
         )}
-        <h2>Qu'est-ce qu'on <em>cuisine&nbsp;?</em></h2>
+        <h2>{t(<>Qu'est-ce qu'on <em>cuisine&nbsp;?</em></>, <>What are we <em>cooking?</em></>)}</h2>
       </div>
       <div className="mn-sheet">
         <div className="scroll">
           <div className="ingr-body">
             <div className="opt">
-              <span className="label">Le menu</span>
-              <div className="mn-list" role="radiogroup" aria-label="Le menu">
+              <span className="label">{t("Le menu", "The menu")}</span>
+              <div className="mn-list" role="radiogroup" aria-label={t("Le menu", "The menu")}>
                 {MENUS.map(m => {
                   const on = m.id === menu.id, locked = m.plus && !isPlus;
                   return (
@@ -109,7 +111,7 @@ export function Menu({ isPlus, household, avatar }: { isPlus: boolean; household
               </div>
             </div>
             <div className="opt">
-              <span className="label">Envie de</span>
+              <span className="label">{t("Envie de", "In the mood for")}</span>
               <Chips wrap>{ENVIES.map(([e, label]) => (
                 <Chip key={e} className="light" on={scan.envies.includes(e)}
                   onClick={() => setScan({ envies: scan.envies.includes(e) ? scan.envies.filter(x => x !== e) : [...scan.envies, e] })}>{label}</Chip>
@@ -118,18 +120,18 @@ export function Menu({ isPlus, household, avatar }: { isPlus: boolean; household
             {/* Zéro course : rien à acheter. Frigo vide : sans objet (on y fait une petite liste de courses). */}
             {!empty && (
               <div className="toggle-row">
-                <div><b>Zéro course</b><span>Rien à acheter : seulement ton frigo et tes placards.</span></div>
-                <button type="button" className="sw" role="switch" aria-checked={scan.noShop} aria-label="Zéro course" onClick={() => setScan({ noShop: !scan.noShop })} />
+                <div><b>{t("Zéro course", "No shopping")}</b><span>{t("Rien à acheter : seulement ton frigo et tes placards.", "Nothing to buy: just your fridge and cupboards.")}</span></div>
+                <button type="button" className="sw" role="switch" aria-checked={scan.noShop} aria-label={t("Zéro course", "No shopping")} onClick={() => setScan({ noShop: !scan.noShop })} />
               </div>
             )}
             {isPlus ? <Who household={household} avatar={avatar} /> : (
               <div className="opt">
-                <div className="forrow"><b>Pour combien ?</b>
-                  <Stepper value={scan.servings} min={1} max={MAX_GUESTS} label={["Moins", "Plus"]} onChange={s => setScan({ servings: s })} />
+                <div className="forrow"><b>{t("Pour combien ?", "For how many?")}</b>
+                  <Stepper value={scan.servings} min={1} max={MAX_GUESTS} label={t(["Moins", "Plus"], ["Fewer", "More"])} onChange={s => setScan({ servings: s })} />
                 </div>
                 <button type="button" className="famlock" onClick={() => openPaywall("famille")}>
                   <span className="ini"><Icon name="users" /></span>
-                  <div><b>Mode famille</b><span>Les goûts de chacun, les portions calculées</span></div>
+                  <div><b>{t("Mode famille", "Family mode")}</b><span>{t("Les goûts de chacun, les portions calculées", "Everyone's tastes, portions worked out")}</span></div>
                   <LockPill />
                 </button>
               </div>
@@ -139,7 +141,7 @@ export function Menu({ isPlus, household, avatar }: { isPlus: boolean; household
         {/* Puis « Tes placards » (pas après un scan des placards, ni frigo vide), ou tout de suite les recettes (et « Revoir ») */}
         {placardStep(scan) && scan.made?.key !== madeKey(scan) ? (
           <button type="button" className="gobar" onClick={() => navigate("/scan/placards")}>
-            <span><b>Continuer</b><small>Et dans tes placards ?</small></span>
+            <span><b>{t("Continuer", "Continue")}</b><small>{t("Et dans tes placards ?", "And in your cupboards?")}</small></span>
             <span className="go"><Icon name="arrow" /></span>
           </button>
         ) : <CreateBar isPlus={isPlus} household={household} />}

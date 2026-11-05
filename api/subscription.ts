@@ -7,7 +7,7 @@ import { finances } from "./_finances.js";
 import { readCapture } from "./_social.js";
 import { tiktokConnect, tiktokLink, tiktokReady, tiktokSync } from "./_tiktok.js";
 import {
-  adminClient, authUser, currentSubscription, errorMessage, founderSeatsLeft, hasCreatorOffer, periodEnd, planOf, plusOneMonth, preflight, stripeClient, type Req, type Res,
+  adminClient, authUser, currentSubscription, errorMessage, founderSeatsLeft, hasCreatorOffer, periodEnd, planOf, plusOneMonth, preflight, stripeClient, type Req, type Res, userLang, langOf, say,
 } from "./_shared.js";
 
 const YEAR_S = 365 * 24 * 3600;
@@ -65,7 +65,7 @@ async function pauseReminders(admin: SupabaseClient): Promise<number> {
     for (const u of data.users) {
       const until = u.app_metadata?.pause_until;
       if (u.email && typeof until === "number" && until >= now + 12 * HOUR_S && until < now + 37 * HOUR_S) {
-        if (await pauseEndEmail(u.email, until, `pause-end-${u.id}-${until}`)) sent++;
+        if (await pauseEndEmail(u.email, until, `pause-end-${u.id}-${until}`, userLang(u))) sent++;
       }
     }
     if (data.users.length < 1000) return sent;
@@ -83,6 +83,7 @@ export default async function handler(req: Req, res: Res) {
     }
   }
   if (preflight(req, res)) return;
+  const tx = say(langOf(req));
   const { action, reason } = (req.body ?? {}) as { action?: string; reason?: string };
 
   // Le dashboard de suivi (/admin) : l'argent encaissé (Stripe) et le coût de Claude, compte admin seulement
@@ -167,7 +168,7 @@ export default async function handler(req: Req, res: Res) {
     }
 
     if (action === "pause") {
-      if (!describe(sub, user).canPause) return res.status(409).json({ error: "La pause n'est possible qu'une fois par an." });
+      if (!describe(sub, user).canPause) return res.status(409).json({ error: tx("La pause n'est possible qu'une fois par an.", "You can only pause once a year.") });
       // Mensuel : le paiement suivant est sauté, Plus se met en veille un mois à partir de cette date.
       // Annuel : Plus se met en veille un mois tout de suite, et l'année est prolongée d'autant.
       const now = Math.floor(Date.now() / 1000);
@@ -206,7 +207,7 @@ export default async function handler(req: Req, res: Res) {
           try {
             await stripe.invoices.pay(invoice.id);
           } catch {
-            return res.status(402).json({ error: "Ta banque n'a pas validé le paiement.", code: "declined" });
+            return res.status(402).json({ error: tx("Ta banque n'a pas validé le paiement.", "Your bank didn't approve the payment."), code: "declined" });
           }
         }
       }
@@ -216,6 +217,6 @@ export default async function handler(req: Req, res: Res) {
     return res.json({ subscription: describe(sub, user) });
   } catch (e) {
     console.error("subscription:", errorMessage(e));
-    return res.status(500).json({ error: "Ça n'a pas marché. Réessaie." });
+    return res.status(500).json({ error: tx("Ça n'a pas marché. Réessaie.", "That didn't work. Try again.") });
   }
 }

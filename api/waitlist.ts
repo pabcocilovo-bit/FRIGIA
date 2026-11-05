@@ -6,7 +6,9 @@
 // les accès partent par vagues avec explorer?invitations=1.
 // { invite: true } (compte admin) : le lien aux inscrits qui ne l'ont pas encore, un paquet par appel.
 import { waitlistEmail } from "./_email.js";
-import { adminClient, authUser, errorMessage, preflight, siteOrigin, type Req, type Res } from "./_shared.js";
+import {
+  adminClient, authUser, errorMessage, langOf, preflight, siteOrigin, type Req, type Res, say,
+} from "./_shared.js";
 
 const PER_MINUTE = 30;
 const PER_IP_HOUR = 5;
@@ -20,13 +22,14 @@ const INVITE_BATCH = 8;
 
 export default async function handler(req: Req, res: Res) {
   if (preflight(req, res)) return;
+  const tx = say(langOf(req));
   const body = (req.body ?? {}) as { firstName?: unknown; email?: unknown; source?: unknown; website?: unknown; invite?: unknown };
   if (body.invite === true) return invite(req, res);
   if (text(body.website, 200)) return res.json({ status: "ok" });
   const email = text(body.email, 254).toLowerCase();
   const firstName = text(body.firstName, 40);
-  if (!EMAIL.test(email)) return res.status(400).json({ error: "Cette adresse email n'a pas l'air valide." });
-  if (!firstName) return res.status(400).json({ error: "Ton prénom manque." });
+  if (!EMAIL.test(email)) return res.status(400).json({ error: tx("Cette adresse email n'a pas l'air valide.", "This email address doesn't look valid.") });
+  if (!firstName) return res.status(400).json({ error: tx("Ton prénom manque.", "Your first name is missing.") });
   const source = text(body.source, 60) || null;
 
   const admin = adminClient();
@@ -34,27 +37,27 @@ export default async function handler(req: Req, res: Res) {
     // Par adresse IP aussi : sinon un robot remplit les 30 places de la minute et envoie des emails à n'importe qui
     const ip = String(req.headers["x-real-ip"] ?? req.headers["x-forwarded-for"] ?? "").split(",")[0].trim() || "?";
     const { data: allowed } = await admin.rpc("check_code_attempt", { p_key: `liste:${ip}`, p_limit: PER_IP_HOUR, p_window_seconds: 3600 });
-    if (allowed === false) return res.status(429).json({ error: "Trop d'inscriptions depuis cette connexion. Réessaie plus tard." });
+    if (allowed === false) return res.status(429).json({ error: tx("Trop d'inscriptions depuis cette connexion. Réessaie plus tard.", "Too many sign-ups from this connection. Try again later.") });
     // Pas d'email jetable (migration 20261103000000) : le mois offert irait à n'importe qui
     const { data: jetable } = await admin.rpc("email_jetable", { p_email: email });
-    if (jetable === true) return res.status(400).json({ error: "Les adresses email jetables ne sont pas acceptées. Prends ton adresse habituelle." });
+    if (jetable === true) return res.status(400).json({ error: tx("Les adresses email jetables ne sont pas acceptées. Prends ton adresse habituelle.", "Disposable email addresses aren't accepted. Use your usual address.") });
     const { count } = await admin.from("waitlist").select("id", { count: "exact", head: true })
       .gte("created_at", new Date(Date.now() - 60e3).toISOString());
-    if ((count ?? 0) >= PER_MINUTE) return res.status(429).json({ error: "Beaucoup d'inscriptions en ce moment. Réessaie dans une minute." });
+    if ((count ?? 0) >= PER_MINUTE) return res.status(429).json({ error: tx("Beaucoup d'inscriptions en ce moment. Réessaie dans une minute.", "Lots of sign-ups right now. Try again in a minute.") });
     const origin = siteOrigin(req);
     const { error } = await admin.from("waitlist").insert({ email, first_name: firstName, source, ...(INSTANT ? { invited_at: new Date().toISOString() } : {}) });
     if (error?.code === "23505") {
       // Déjà inscrit (mail perdu) : avec un accès, le lien repart
       const { data: row } = await admin.from("waitlist").select("first_name, invited_at").eq("email", email).maybeSingle();
-      if (row?.invited_at) await waitlistEmail(email, String(row.first_name ?? ""), accessLink(origin, email), `again-${Date.now()}`);
+      if (row?.invited_at) await waitlistEmail(email, String(row.first_name ?? ""), accessLink(origin, email), `again-${Date.now()}`, langOf(req));
       return res.json({ status: "already" });
     }
     if (error) throw error;
-    await waitlistEmail(email, firstName, INSTANT ? accessLink(origin, email) : undefined);
+    await waitlistEmail(email, firstName, INSTANT ? accessLink(origin, email) : undefined, "", langOf(req));
     return res.json({ status: "ok" });
   } catch (e) {
     console.error("waitlist:", errorMessage(e));
-    return res.status(500).json({ error: "L'inscription n'a pas marché. Réessaie." });
+    return res.status(500).json({ error: tx("L'inscription n'a pas marché. Réessaie.", "Sign-up didn't work. Try again.") });
   }
 }
 

@@ -7,7 +7,7 @@ export type Stock = { name: string; qty: string };
 type Amount = { v: number; u: string };
 
 // Le sel, le poivre, l'eau, l'huile, les épices : jamais comptés
-const BASICS = ["sel", "poivre", "eau", "huile", "epice"];
+const BASICS = ["sel", "poivre", "eau", "huile", "epice", "salt", "water", "oil", "spice"];
 
 /** « 1,5 kg » → 1500 g, « 25 cl » → 250 ml, « 3 tomates » → 3 pièces. null : pas de nombre au début. */
 export function amountOf(q: string, name = ""): Amount | null {

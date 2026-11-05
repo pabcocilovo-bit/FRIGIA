@@ -17,6 +17,7 @@ import { useBack } from "../nav";
 import { useOpenScan } from "../offline";
 import { useRecipePhoto } from "../photo";
 import { useOpenPaywall } from "../plus/subscription";
+import { t } from "../../lib/i18n";
 import "./library.css";
 
 const Plate = ({ title, search }: { title: string; search?: string }) => {
@@ -36,10 +37,10 @@ function ScanCard({ entry, cooked, planned, first, locked, old, onClick }: {
         <b>{scanDayTitle(entry.date, entry.meal)}</b>
         <span className="hs-date">{scanDateLine(entry.date, entry.ingredients.length)}</span>
         {cooked
-          ? <span className="hs-st ok"><Icon name="pan" /><span>Cuisiné : {cooked.title}</span></span>
-          : planned ? <span className="hs-st plan"><Icon name="cal" /><span>Au planning : {planned}</span></span>
-          : <span className="hs-st"><Icon name="clock" /><span>Pas encore cuisiné · {plural(entry.recipes.length, "idée")}</span></span>}
-        {first && <span className="hs-first">Ton premier scan</span>}
+          ? <span className="hs-st ok"><Icon name="pan" /><span>{t("Cuisiné : ", "Cooked: ")}{cooked.title}</span></span>
+          : planned ? <span className="hs-st plan"><Icon name="cal" /><span>{t("Au planning : ", "In the planner: ")}{planned}</span></span>
+          : <span className="hs-st"><Icon name="clock" /><span>{t("Pas encore cuisiné", "Not cooked yet")} · {plural(entry.recipes.length, "idée", "idea")}</span></span>}
+        {first && <span className="hs-first">{t("Ton premier scan", "Your first scan")}</span>}
       </span>
       <span className="hs-plates" aria-hidden="true">{entry.recipes.slice(0, 3).map(r => <Plate key={r.title} title={r.title} search={r.imageSearch} />)}</span>
     </button>
@@ -85,25 +86,25 @@ export function Scans({ history, cooked, week, isPlus, onDelete }: {
   const firstLocked = isPlus ? undefined : history.filter(shown).find(isOld)?.id;
 
   return (
-    <div className="fa fa-app" aria-label="Tes scans">
+    <div className="fa fa-app" aria-label={t("Tes scans", "Your scans")}>
       <ScreenHeader
-        title={<>Tes <em>scans</em></>}
-        sub={n ? `${plural(n, "scan")} · ${meals} repas cuisiné${meals > 1 ? "s" : ""}` : "Pas encore de scan"}
-        left={<RoundButton icon="back" label="Retour" big onClick={back} />}
-        right={<RoundButton icon="cam" label="Nouveau scan" big onClick={openScan} />}>
+        title={t(<>Tes <em>scans</em></>, <>Your <em>scans</em></>)}
+        sub={n ? `${plural(n, "scan")} · ${t(`${meals} repas cuisiné${meals > 1 ? "s" : ""}`, `${meals} meal${meals > 1 ? "s" : ""} cooked`)}` : t("Pas encore de scan", "No scans yet")}
+        left={<RoundButton icon="back" label={t("Retour", "Back")} big onClick={back} />}
+        right={<RoundButton icon="cam" label={t("Nouveau scan", "New scan")} big onClick={openScan} />}>
         {n > 0 && (
           <div className="hs-tabs" role="tablist">
-            {([["", "Tous"], ["cook", "Cuisinés"], ["todo", "Pas cuisinés"]] as const).map(([k, label]) => (
+            {([["", t("Tous", "All")], ["cook", t("Cuisinés", "Cooked")], ["todo", t("Pas cuisinés", "Not cooked")]] as const).map(([k, label]) => (
               <button key={k} type="button" role="tab" aria-selected={tab === k} className={tab === k ? "on" : undefined} onClick={() => setTab(k)}>{label}</button>
             ))}
           </div>
         )}
       </ScreenHeader>
       {n === 0 ? (
-        <EmptyState art={<ArtFridge />} title={<>Aucun <em>scan</em> pour l'instant</>}
-          text="Ouvre ton frigo et prends une photo. Tes scans arrivent ici, avec ce que tu as cuisiné."
+        <EmptyState art={<ArtFridge />} title={t(<>Aucun <em>scan</em> pour l'instant</>, <>No <em>scans</em> yet</>)}
+          text={t("Ouvre ton frigo et prends une photo. Tes scans arrivent ici, avec ce que tu as cuisiné.", "Open your fridge and take a photo. Your scans land here, with what you cooked.")}
           action={<>
-            <Pill icon="cam" onClick={openScan}>Scanner mon frigo</Pill>
+            <Pill icon="cam" onClick={openScan}>{t("Scanner mon frigo", "Scan my fridge")}</Pill>
           </>} />
       ) : (
         <div className="hs-list">
@@ -118,7 +119,7 @@ export function Scans({ history, cooked, week, isPlus, onDelete }: {
                   <Fragment key={e.id}>
                     {e.id === firstLocked && (
                       <button type="button" className="fv-lock" onClick={() => openPaywall("historique", "/scans")}>
-                        <LockPill /><span><b>Retrouve tes 50 derniers scans</b>En gratuit, tu vois ceux des 7 derniers jours.</span>
+                        <LockPill /><span><b>{t("Retrouve tes 50 derniers scans", "Get back your last 50 scans")}</b>{t("En gratuit, tu vois ceux des 7 derniers jours.", "On the free plan, you see the last 7 days.")}</span>
                       </button>
                     )}
                     <div className="hs-item">
@@ -133,10 +134,10 @@ export function Scans({ history, cooked, week, isPlus, onDelete }: {
           ))}
         </div>
       )}
-      <Dialog open={!!del} onClose={() => setDel(null)} icon="trash" title={<>Supprimer ce <em>scan ?</em></>} label="Supprimer ce scan">
-        <p>Ses ingrédients et ses idées de recettes sont effacés. Tes favoris et ce que tu as cuisiné restent.</p>
-        <Pill block tone="danger" onClick={() => { if (del) onDelete(del.id); setDel(null); }}>Supprimer</Pill>
-        <TextLink onClick={() => setDel(null)}>Annuler</TextLink>
+      <Dialog open={!!del} onClose={() => setDel(null)} icon="trash" title={t(<>Supprimer ce <em>scan ?</em></>, <>Delete this <em>scan?</em></>)} label={t("Supprimer ce scan", "Delete this scan")}>
+        <p>{t("Ses ingrédients et ses idées de recettes sont effacés. Tes favoris et ce que tu as cuisiné restent.", "Its ingredients and recipe ideas are deleted. Your favorites and what you cooked stay.")}</p>
+        <Pill block tone="danger" onClick={() => { if (del) onDelete(del.id); setDel(null); }}>{t("Supprimer", "Delete")}</Pill>
+        <TextLink onClick={() => setDel(null)}>{t("Annuler", "Cancel")}</TextLink>
       </Dialog>
       <AppTabBar active="home" isPlus={isPlus} />
     </div>

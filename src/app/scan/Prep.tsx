@@ -14,6 +14,7 @@ import { eatersOf, portions } from "./portions";
 import { apiEaters, type Person } from "../../lib/household";
 import "./scan.css";
 import { timeText } from "../../lib/recipes";
+import { t } from "../../lib/i18n";
 
 const ART = `<svg class="pr-svg" viewBox="0 0 300 270" aria-hidden="true">
 <ellipse cx="150" cy="252" rx="98" ry="10" fill="#1E4433" opacity=".45"/>
@@ -69,8 +70,11 @@ export function Prep({ isPlus, household, kitchen, onReady, onOutOfScans }: {
   const pantry = pantryFor(kitchen, { ...scan, empty });
   const menu = menuOf(scan.menu);
   const lines = empty
-    ? [pantry.length ? "Je regarde ce qu'il y a dans tes placards" : "Je pars de zéro", "Je fais une petite liste de courses", `Je choisis tes ${menu.n} recettes`]
-    : [`Je mélange tes ${n} ingrédient${n > 1 ? "s" : ""}`, pantry.length ? "J'ajoute ce qu'il y a dans tes placards" : "Je cherche ce qui va ensemble", `Je choisis tes ${menu.n} recettes`];
+    ? [pantry.length ? t("Je regarde ce qu'il y a dans tes placards", "Looking at what's in your cupboards") : t("Je pars de zéro", "Starting from scratch"),
+      t("Je fais une petite liste de courses", "Making a short shopping list"), t(`Je choisis tes ${menu.n} recettes`, `Picking your ${menu.n} recipes`)]
+    : [t(`Je mélange tes ${n} ingrédient${n > 1 ? "s" : ""}`, `Mixing your ${n} ingredient${n > 1 ? "s" : ""}`),
+      pantry.length ? t("J'ajoute ce qu'il y a dans tes placards", "Adding what's in your cupboards") : t("Je cherche ce qui va ensemble", "Finding what goes together"),
+      t(`Je choisis tes ${menu.n} recettes`, `Picking your ${menu.n} recipes`)];
 
   const finish = () => {
     const e = entry.current;
@@ -78,7 +82,8 @@ export function Prep({ isPlus, household, kitchen, onReady, onOutOfScans }: {
     entry.current = null;
     onReady(e);
     // Moins d'idées que promis (« Créer mes 3 recettes ») : on le dit, plutôt qu'un « Deux idées » sans explication
-    if (e.recipes.length < menu.n) showToast(`Frigia a trouvé ${e.recipes.length} idée${e.recipes.length > 1 ? "s" : ""} qui collent à ton frigo. « D'autres idées » en cherche d'autres.`);
+    if (e.recipes.length < menu.n) showToast(t(`Frigia a trouvé ${e.recipes.length} idée${e.recipes.length > 1 ? "s" : ""} qui collent à ton frigo. « D'autres idées » en cherche d'autres.`,
+      `Frigia found ${e.recipes.length} idea${e.recipes.length > 1 ? "s" : ""} that fit your fridge. "More ideas" looks for others.`));
     // fresh : la flèche des recettes ramène à l'accueil, pas sur le menu (qui referait les recettes)
     navigate(`/recettes/${e.id}`, { replace: true, state: { fresh: true } });
   };
@@ -86,8 +91,8 @@ export function Prep({ isPlus, household, kitchen, onReady, onOutOfScans }: {
   useEffect(() => {
     alive.current = true;
     if (!n && !empty) return;
-    const t = [setTimeout(() => setLine(1), 1100), setTimeout(() => setLine(2), 2200)];
-    if (started.current) return () => { alive.current = false; t.forEach(clearTimeout); };
+    const timers = [setTimeout(() => setLine(1), 1100), setTimeout(() => setLine(2), 2200)];
+    if (started.current) return () => { alive.current = false; timers.forEach(clearTimeout); };
     started.current = true;
     const eaters = eatersOf(household, scan);
     const servings = portions(isPlus, scan, eaters);
@@ -105,36 +110,36 @@ export function Prep({ isPlus, household, kitchen, onReady, onOutOfScans }: {
       } else if (r.status !== "signed-out") {
         if (!navigator.onLine) openOffline();
         else showToast(r.status === "error" && r.message ? r.message
-          : r.status === "error" && r.rate ? (scan.token ? "Beaucoup de demandes cette heure-ci. Réessaie un peu plus tard." : RATE_TEXT) : "Frigia ne répond pas. Réessaie dans un instant.");
+          : r.status === "error" && r.rate ? (scan.token ? t("Beaucoup de demandes cette heure-ci. Réessaie un peu plus tard.", "Lots of requests this hour. Try again a bit later.") : RATE_TEXT) : t("Frigia ne répond pas. Réessaie dans un instant.", "Frigia isn't responding. Try again in a moment."));
         navigate(-1);
       }
     });
-    return () => { alive.current = false; t.forEach(clearTimeout); };
+    return () => { alive.current = false; timers.forEach(clearTimeout); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Les recettes arrivent : les cartes se remplissent une par une, puis les recettes s'ouvrent
   useEffect(() => {
     if (!recipes) return;
-    const t = [0, 600, 1200].map((ms, i) => setTimeout(() => setFilled(i + 1), ms));
-    t.push(setTimeout(finish, 2100));
-    return () => t.forEach(clearTimeout);
+    const timers = [0, 600, 1200].map((ms, i) => setTimeout(() => setFilled(i + 1), ms));
+    timers.push(setTimeout(finish, 2100));
+    return () => timers.forEach(clearTimeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recipes]);
 
   if (!n && !empty) return <Navigate to="/scan" replace />;
 
   return (
-    <section className="fa scan-screen scr-prep" aria-label="Recettes en préparation" onClick={() => { if (recipes) finish(); }}>
-      <div className="pr-top"><RoundButton icon="x" label="Annuler" tone="glass" onClick={e => { e.stopPropagation(); navigate(-1); }} /></div>
+    <section className="fa scan-screen scr-prep" aria-label={t("Recettes en préparation", "Recipes on the way")} onClick={() => { if (recipes) finish(); }}>
+      <div className="pr-top"><RoundButton icon="x" label={t("Annuler", "Cancel")} tone="glass" onClick={e => { e.stopPropagation(); navigate(-1); }} /></div>
       <div className="pr-main">
         <div className="pr-art" dangerouslySetInnerHTML={{ __html: ART }} />
-        <h2>Ça mijote<em>…</em></h2>
+        <h2>{t(<>Ça mijote<em>…</em></>, <>Simmering<em>…</em></>)}</h2>
         <p className="pr-sub" aria-live="polite"><span key={line} className="swap">{lines[line]}</span></p>
         <div className="pr-dots">{[0, 1, 2].map(i => <i key={i} className={i <= line ? "on" : undefined} />)}</div>
       </div>
       <div className="pr-cards">
-        {Array.from({ length: recipes?.length || menu.n }, (_, i) => i).map(i => <Card key={i} i={i} recipe={recipes?.[i]} done={filled > i} from={!empty ? (recipes?.[i]?.items?.some(x => !x.have) ? "avec un peu de courses" : "avec ton frigo") : pantry.length ? "avec tes placards" : "avec quelques courses"} />)}
+        {Array.from({ length: recipes?.length || menu.n }, (_, i) => i).map(i => <Card key={i} i={i} recipe={recipes?.[i]} done={filled > i} from={!empty ? (recipes?.[i]?.items?.some(x => !x.have) ? t("avec un peu de courses", "with a little shopping") : t("avec ton frigo", "with your fridge")) : pantry.length ? t("avec tes placards", "with your cupboards") : t("avec quelques courses", "with some shopping")} />)}
       </div>
     </section>
   );

@@ -2,6 +2,7 @@
 // tout seul (son total), le reste s'ajoute à la main (marché, boucher). Demandé par Hugo le 22 octobre.
 // Colonne budget de home_data (migration 20261027000000_budget.sql), enregistrée de son côté comme le frigo.
 import type { Person } from "./household";
+import { isEn, locale } from "./i18n";
 
 /** Une dépense : le montant, le jour (du ticket, sinon de l'ajout), où (« Leclerc », « Marché »), et d'où elle vient. */
 export type Spend = { id: string; eur: number; at: number; label: string; from: "ticket" | "main" };
@@ -53,11 +54,11 @@ export function projection(spent: number, now = new Date()): number | null {
 export const daysLeft = (now = new Date()) => new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate() - now.getDate() + 1;
 
 /** « 62,40 € », « 600 € » */
-export const eur = (n: number) => `${n.toLocaleString("fr-FR", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 })} €`;
+export const eur = (n: number) => { const s = n.toLocaleString(locale, { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 }); return isEn ? `€${s}` : `${s} €`; };
 /** « octobre » */
-export const monthName = (d = new Date()) => d.toLocaleDateString("fr-FR", { month: "long" });
+export const monthName = (d = new Date()) => d.toLocaleDateString(locale, { month: "long" });
 /** « d'octobre », « de mai » */
-export const ofMonth = (d = new Date()) => { const m = monthName(d); return /^[aeiou]/.test(m) ? `d'${m}` : `de ${m}`; };
+export const ofMonth = (d = new Date()) => { const m = monthName(d); return isEn ? m : /^[aeiou]/.test(m) ? `d'${m}` : `de ${m}`; };
 /** Le jour d'un ticket (« 2026-10-21 ») : gardé seulement s'il est plausible (pas dans le futur, moins de 2 mois), sinon aujourd'hui */
 export function ticketDay(date: string | null, now = Date.now()): number {
   const m = date && /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);

@@ -5,13 +5,18 @@ import { useNavigate } from "react-router";
 import { DEFAULT_SETTINGS, fetchNotifSettings, pushState, saveNotifSettings, type NotifSettings, type PushState } from "../../lib/notify";
 import { Icon, Pill } from "../../ui/components";
 import { showToast } from "../toast";
+import { t } from "../../lib/i18n";
 import "./notifs.css";
 
-const ROWS: { k: keyof NotifSettings; title: string; sub: string; on: string; off: string }[] = [
+const ROWS: { k: keyof NotifSettings; title: string; sub: string; on: string; off: string }[] = t([
   { k: "evening", title: "L'idée du soir", sub: "Vers 18 h, ce que ton frigo permet", on: "L'idée du soir est activée", off: "Plus d'idée du soir" },
   { k: "week", title: "Ta semaine", sub: "Le dimanche, pour la préparer", on: "Le rappel du dimanche est activé", off: "Plus de rappel le dimanche" },
   { k: "news", title: "Nouveautés par email", sub: "Une fois par mois, pas plus", on: "Tu recevras les nouveautés", off: "Plus d'email de nouveautés" },
-];
+], [
+  { k: "evening", title: "Tonight's idea", sub: "Around 6 pm, what your fridge can make", on: "Tonight's idea is on", off: "No more evening idea" },
+  { k: "week", title: "Your week", sub: "On Sundays, to plan it", on: "The Sunday reminder is on", off: "No more Sunday reminder" },
+  { k: "news", title: "News by email", sub: "Once a month, no more", on: "You'll get the news", off: "No more news emails" },
+]);
 
 export function NotifSettingsCard({ userId }: { userId: string }) {
   const navigate = useNavigate();
@@ -27,7 +32,7 @@ export function NotifSettingsCard({ userId }: { userId: string }) {
     setS(next);
     showToast(msg);
     void saveNotifSettings(userId, next).then(ok => {
-      if (!ok) { setS(prev => ({ ...prev, [k]: !next[k] })); showToast("Pas enregistré. Réessaie dans un moment"); }
+      if (!ok) { setS(prev => ({ ...prev, [k]: !next[k] })); showToast(t("Pas enregistré. Réessaie dans un moment", "Not saved. Try again in a moment")); }
     });
   };
 
@@ -36,8 +41,8 @@ export function NotifSettingsCard({ userId }: { userId: string }) {
       {push && push !== "on" && (
         <div className="st-nfoff">
           <span><Icon name="bell" /></span>
-          <div><b>Coupées sur ce téléphone</b><small>Rien n'arrive tant que tu ne les actives pas</small></div>
-          <Pill onClick={() => navigate("/notifications/activer")}>Activer</Pill>
+          <div><b>{t("Coupées sur ce téléphone", "Off on this phone")}</b><small>{t("Rien n'arrive tant que tu ne les actives pas", "Nothing arrives until you turn them on")}</small></div>
+          <Pill onClick={() => navigate("/notifications/activer")}>{t("Activer", "Turn on")}</Pill>
         </div>
       )}
       {ROWS.map(r => (
