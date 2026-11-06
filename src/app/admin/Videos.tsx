@@ -15,14 +15,16 @@ const SCOPES: { id: Scope; label: string }[] = [{ id: "tous", label: "Tous les c
 const inScope = (scope: Scope, accounts: SocialAccount[]) => (v: Video) =>
   scope === "tous" || accounts.find(a => a.id === v.account_id)?.kind === scope;
 
-type Sort = "views" | "engagement" | "shares" | "v24" | "v7" | "recent";
+type Sort = "views" | "engagement" | "shares" | "v24" | "v7" | "recent" | "duration";
+type Dir = "desc" | "asc";
 const SORTS: { id: Sort; label: string; key: (v: Video) => number | null }[] = [
   { id: "views", label: "Vues", key: v => v.views },
   { id: "engagement", label: "Engagement", key: engagement },
   { id: "shares", label: "Partage", key: shareRate },
   { id: "v24", label: "Vues 24 h", key: v => v.views_24h },
   { id: "v7", label: "Vues 7 jours", key: v => v.views_7j },
-  { id: "recent", label: "Récentes", key: v => (v.published_at ? Date.parse(v.published_at) : null) },
+  { id: "recent", label: "Date", key: v => (v.published_at ? Date.parse(v.published_at) : null) },
+  { id: "duration", label: "Durée", key: v => v.duration },
 ];
 
 /** Le classement des vidéos : `account` pour celles d'un seul compte (fiche du compte) */
@@ -31,11 +33,25 @@ export function VideosPanel({ videos, accounts, wide, account, limit = 10 }: {
 }) {
   const [scope, setScope] = useState<Scope>("tous");
   const [sort, setSort] = useState<Sort>("views");
+  const [dir, setDir] = useState<Dir>("desc");
   const [shown, setShown] = useState(limit);
   const key = SORTS.find(s => s.id === sort)!.key;
-  // Les vidéos sans la mesure choisie (vues à 7 jours d'une vidéo trop récente…) passent à la fin
+  // Un clic sur le critère déjà choisi inverse l'ordre (décroissant ↔ croissant) ; un autre critère repart du plus grand
+  const pick = (id: Sort) => { if (id === sort) setDir(d => (d === "desc" ? "asc" : "desc")); else { setSort(id); setDir("desc"); } };
+  // Les vidéos sans la mesure choisie (vues à 7 jours d'une vidéo trop récente…) passent à la fin, dans les deux sens
   const list = videos.filter(account ? v => v.account_id === account.id : inScope(scope, accounts))
-    .sort((a, b) => (key(b) ?? -1) - (key(a) ?? -1));
+    .sort((a, b) => {
+      const x = key(a), y = key(b);
+      if (x == null || y == null) return x == null ? (y == null ? 0 : 1) : -1;
+      return dir === "desc" ? y - x : x - y;
+    });
+  const arrow = (id: Sort) => (sort === id ? (dir === "desc" ? " ↓" : " ↑") : "");
+  /** Un titre de colonne qui trie : clic = ce critère, re-clic = l'ordre inverse */
+  const th = (id: Sort, children: string) => (
+    <th key={id} aria-sort={sort === id ? (dir === "desc" ? "descending" : "ascending") : "none"}>
+      <button type="button" className={"adm-sort" + (sort === id ? " on" : "")} onClick={() => pick(id)}>{children}{arrow(id)}</button>
+    </th>
+  );
   const handle = (v: Video) => accounts.find(a => a.id === v.account_id)?.handle;
 
   return (
@@ -50,15 +66,19 @@ export function VideosPanel({ videos, accounts, wide, account, limit = 10 }: {
       <div className="adm-row adm-wrap adm-small">
         <span className="adm-muted">Trier par</span>
         <div className="adm-seg adm-seg-sm" role="radiogroup" aria-label="Trier par">
-          {SORTS.map(s => <button key={s.id} type="button" role="radio" aria-checked={sort === s.id} onClick={() => setSort(s.id)}>{s.label}</button>)}
+          {SORTS.map(s => <button key={s.id} type="button" role="radio" aria-checked={sort === s.id} onClick={() => pick(s.id)}>{s.label}{arrow(s.id)}</button>)}
         </div>
+        <button type="button" className="adm-btn line adm-btn-sm" onClick={() => setDir(d => (d === "desc" ? "asc" : "desc"))}>
+          {dir === "desc" ? "Du plus grand au plus petit" : "Du plus petit au plus grand"}
+        </button>
       </div>
       {list.length === 0
         ? <p className="adm-empty">Pas encore de vidéo : elles arrivent au premier relevé d'un compte lié.</p>
         : wide ? (
           <table className="adm-table adm-videos">
             <thead><tr>
-              <th>#</th><th>Vidéo</th><th>Durée</th><th>Vues</th><th>24 h</th><th>7 jours</th><th>Engagement</th><th>Partage</th>
+              <th>#</th>{th("recent", "Vidéo")}{th("duration", "Durée")}{th("views", "Vues")}{th("v24", "24 h")}{th("v7", "7 jours")}
+              {th("engagement", "Engagement")}{th("shares", "Partage")}
             </tr></thead>
             <tbody>
               {list.slice(0, shown).map((v, i) => (
