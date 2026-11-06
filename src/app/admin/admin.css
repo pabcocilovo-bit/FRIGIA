@@ -181,3 +181,8 @@ button.adm-kpi{width:100%}
 .adm-vcard{display:grid;grid-template-columns:18px 1fr;gap:4px 8px;padding:10px 0;border-top:1px solid var(--line)}
 .adm-vcard:first-child{border-top:0;padding-top:0}
 .adm-vnums{grid-column:2;display:flex;flex-wrap:wrap;gap:4px 12px}
+/* Vidéos : les titres de colonnes trient (re-clic = ordre inverse) */
+.adm-sort{all:unset;cursor:pointer;font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit;white-space:nowrap}
+.adm-sort:hover,.adm-sort.on{color:var(--text)}
+.adm-sort:focus-visible{outline:2px solid var(--sage);outline-offset:2px;border-radius:4px}
+.adm-btn.adm-btn-sm{padding:6px 12px;font-size:12.5px}
