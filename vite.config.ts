@@ -18,7 +18,8 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
-      VitePWA({
+      // Dans l'app mobile (npm run build:app), pas de service worker : l'app embarque déjà ses fichiers
+      mode !== 'app' && VitePWA({
         registerType: 'autoUpdate',
         includeAssets: ['logo.png', 'apple-touch-icon.png'],
         manifest: false,
