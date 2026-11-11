@@ -82,7 +82,7 @@ const metaFirstName = (u: User): string | null =>
   u.user_metadata?.given_name || (displayName(u).trim().split(/\s+/)[0] || null);
 const Landing = lazy(() => import("./Landing"));
 /** Le dashboard de suivi, chargé seulement pour l'admin */
-const Admin = lazy(() => import("./app/admin/Admin.tsx")) // idem : Admin.tsx et admin.ts;
+const Admin = lazy(() => import("./app/admin/Admin.tsx")); // idem : Admin.tsx et admin.ts
 /** Retour de TikTok après « Connecter TikTok » : ouvert aussi par les créateurs, sans compte Frigia */
 const SocialCallback = lazy(() => import("./app/admin/Callback"));
 /** Ouverts quand l'essai est fini : s'abonner, son compte, l'aide, les mentions */
