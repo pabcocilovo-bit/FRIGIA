@@ -6,6 +6,17 @@
 	<string>$(CAPACITOR_DEBUG)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>fr.frigia.app</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fr.frigia.app</string>
+			</array>
+		</dict>
+	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Frigia utilise l'appareil photo pour scanner ton frigo et tes placards.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

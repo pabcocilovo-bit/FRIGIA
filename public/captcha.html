@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Frigia</title>
+<!--
+  Anti-robot (Cloudflare Turnstile) pour l'app mobile.
+  Turnstile refuse les pages servies depuis le téléphone (capacitor://localhost, https://localhost) :
+  l'app charge cette page de frigia.fr dans un cadre invisible, qui lui renvoie les jetons (src/app/onboarding/captcha.tsx).
+-->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer onload="start()"></script>
+</head>
+<body style="margin:0;background:transparent">
+<div id="w"></div>
+<script>
+  var APP_ORIGINS = ["capacitor://localhost", "https://localhost"];
+  function send(msg) { APP_ORIGINS.forEach(function (o) { try { parent.postMessage(msg, o); } catch (e) {} }); }
+  var id;
+  function start() {
+    id = turnstile.render("#w", {
+      sitekey: "0x4AAAAAADcyx1Wtay8saMMq",
+      callback: function (token) { send({ frigiaCaptcha: "token", token: token }); },
+      "expired-callback": function () { send({ frigiaCaptcha: "expired" }); turnstile.reset(id); },
+      "error-callback": function (code) { send({ frigiaCaptcha: "error", code: String(code) }); }
+    });
+  }
+  window.addEventListener("message", function (e) {
+    if (APP_ORIGINS.indexOf(e.origin) < 0 || !e.data || e.data.frigiaCaptcha !== "reset") return;
+    if (window.turnstile && id !== undefined) turnstile.reset(id);
+  });
+</script>
+</body>
+</html>

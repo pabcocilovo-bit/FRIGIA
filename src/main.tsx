@@ -4,8 +4,10 @@ import { BrowserRouter } from 'react-router'
 import './index.css'
 import App from './App.tsx'
 import { setupNativeApp } from './lib/native'
+import { listenNativeOAuth } from './app/onboarding/oauth'
 
 setupNativeApp()
+listenNativeOAuth()
 
 
 if ('serviceWorker' in navigator) {

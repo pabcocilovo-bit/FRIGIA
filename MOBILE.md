@@ -35,9 +35,17 @@ Sources dans `assets/` (faites depuis le logo final). Pour les refaire :
 npx capacitor-assets generate --android --ios --iconBackgroundColor '#2D5E45' --splashBackgroundColor '#2D5E45' --splashBackgroundColorDark '#2D5E45'
 ```
 
+## Connexion
+
+- **Anti-robot** : Turnstile refuse les pages servies depuis le téléphone. L'app charge https://frigia.fr/captcha dans un cadre invisible, qui lui renvoie les jetons (`public/captcha.html`, `src/app/onboarding/captcha.tsx`). Cette page doit être en ligne sur frigia.fr.
+- **Google et Apple** : la page de connexion s'ouvre dans le navigateur du téléphone, qui revient dans l'app par `fr.frigia.app://auth` (`src/app/onboarding/oauth.ts`). Le bouton Apple n'apparaît que sur iPhone.
+
+À régler une fois dans Supabase (Authentication) :
+1. *URL Configuration › Redirect URLs* : ajouter `fr.frigia.app://auth`.
+2. *Sign In / Providers › Apple* : activer Apple (il faut le compte développeur Apple).
+
 ## Pas encore fait
 
-1. Connexion Google (passe par le navigateur du téléphone) et « Se connecter avec Apple ».
-2. Notifications natives (les notifications web ne marchent pas dans l'app).
-3. Achat de Frigia Plus masqué dans l'app (Apple et Google refusent Stripe).
-4. Fiches des stores.
+1. Notifications natives (les notifications web ne marchent pas dans l'app).
+2. Achat de Frigia Plus masqué dans l'app (Apple et Google refusent Stripe).
+3. Fiches des stores.
