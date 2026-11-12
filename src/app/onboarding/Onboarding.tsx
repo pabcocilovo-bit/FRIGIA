@@ -17,6 +17,7 @@ import { useCaptcha } from "./captcha";
 import { authMessage, isEmailNotConfirmed, JETABLE, looksLikeEmail } from "./errors";
 import { withApple, withGoogle } from "./oauth";
 import { Capacitor } from "@capacitor/core";
+import { isNativeApp } from "../../lib/native";
 import { accessEmail, signupOpen, WAITLIST_URL } from "../../lib/launch";
 import { trialPitch } from "../../lib/alpha";
 import { detectInAppBrowser, openInNativeBrowser } from "../../landing/browser";
@@ -546,7 +547,8 @@ export function Signup() {
     <Screen cls="ob" label={t("Crée ton compte", "Create your account")}>
       <ObHead from={60} to={72} label={t("Dernière étape", "Last step")} title={t(<>Crée ton <em>compte</em></>, <>Create your <em>account</em></>)} sub={t("Pour garder tes réponses et lancer ton premier scan.", "To keep your answers and start your first scan.")} />
       <div className="scroll"><div className="ob-body" style={{ paddingBottom: 28 }}>
-        {!codeOpen
+        {/* App mobile : pas de code qui débloque Plus (Apple, Google) */}
+        {isNativeApp ? null : !codeOpen
           ? <button type="button" className="ob-codetg" style={{ alignSelf: "center" }} onClick={() => { setCodeOpen(true); setTimeout(() => codeInput.current?.focus(), 50); }}><Icon name="gift" />{t("J'ai un code ami ou créateur", "I have a friend or creator code")}</button>
           : (
             <div className="ob-field">

@@ -17,6 +17,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Frigia utilise l'appareil photo pour scanner ton frigo et tes placards.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

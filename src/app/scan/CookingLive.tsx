@@ -30,6 +30,12 @@ export function CookingLive() {
   }, [running, tm?.end]);
 
   const open = (path: string, state: unknown) => navigate(path, { state });
+  // App mobile : notif du minuteur, écran verrouillé ou Dynamic Island touchés (cookingNative.ts)
+  useEffect(() => {
+    const on = () => { const cur = getCooking(); if (cur) navigate(cur.path, { state: cur.state }); };
+    window.addEventListener("frigia-open-cooking", on);
+    return () => window.removeEventListener("frigia-open-cooking", on);
+  }, [navigate]);
   const bubble = c && pathname !== c.path && !NO_BUBBLE.some(p => pathname === p || pathname.startsWith(p + "/"));
   const left = tm ? timeLeft(tm, now) : 0;
   const late = ring ? Math.floor((now - ring.end) / 60000) : 0;

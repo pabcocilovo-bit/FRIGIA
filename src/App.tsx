@@ -34,6 +34,7 @@ import {
 } from "./lib/profile";
 import { Camera, EmailSignup, Forgot, Login, QDiet, QFamily, QGoal, QTime, Ready, Signup, VerifyEmail, Welcome } from "./app/onboarding/Onboarding";
 import { oauthError, takeOAuthIntent } from "./app/onboarding/oauth";
+import { isNativeApp } from "./lib/native";
 import { resetAnswers, setSignupEmail } from "./app/onboarding/answers";
 import { firstName } from "./app/format";
 import { Favorites } from "./app/library/Favorites";
@@ -215,7 +216,8 @@ export default function Frigia() {
 
   // Renouvellement de Plus refusé (carte expirée…) : « Paiement refusé » une fois par visite, en arrivant sur l'accueil
   useEffect(() => {
-    if (!paymentFailed(user) || location.pathname !== "/") return;
+    // App mobile : pas de paiement dans l'app (Apple, Google), donc pas de « Paiement refusé »
+    if (isNativeApp || !paymentFailed(user) || location.pathname !== "/") return;
     try {
       if (sessionStorage.getItem("frigia_payfail_seen")) return;
       sessionStorage.setItem("frigia_payfail_seen", "1");
@@ -298,7 +300,7 @@ if (profileMissing && (!isPlus || trial)) {
 // L'essai est fini, sans abonnement : « Passe à Plus ». Restent ouverts le paiement, le compte, l'aide et les mentions.
 // Renouvellement refusé : « Paiement refusé », pour changer de carte.
 if (!isPlus && !WALL_OPEN.some(p => location.pathname === p || location.pathname.startsWith(p + "/"))) {
-  return <Navigate to={paymentFailed(user) ? "/plus/paiement?refus=1" : "/plus"} replace state={{ why: "fin" }} />;
+  return <Navigate to={paymentFailed(user) && !isNativeApp ? "/plus/paiement?refus=1" : "/plus"} replace state={{ why: "fin" }} />;
 }
 
 // ─── NOUVELLE APPLI (prototype V3) ───────────────────────────────────────────
@@ -394,7 +396,7 @@ return (
       ))}
       {/* Abonné : rien à choisir. En essai : on peut s'abonner (rien à payer avant la fin de l'essai). Essai fini : le mur. */}
       <Route path="/plus" element={isPlus && !trial ? <Navigate to="/" replace /> : <Paywall locked={!isPlus} trial={trial} onCode={() => void supabase.auth.refreshSession()} />} />
-      <Route path="/plus/paiement" element={<PayReturn />} />
+      <Route path="/plus/paiement" element={isNativeApp ? <Navigate to="/plus" replace /> : <PayReturn />} />
       <Route path="/plus/bienvenue" element={<PlusWelcome user={user} name={name} />} />
       <Route path="/resilier" element={<Cancel user={user} saved={totalSaved(cooked.meals).eur} />} />
       <Route path="/scan" element={

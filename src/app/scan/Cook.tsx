@@ -80,7 +80,7 @@ export function Cook({ history, isPlus, meals, onCooked, onUsed }: {
     if (!recipe || !steps.length) return;
     const cur = getCooking();
     if (cur?.path === path && cur.title === recipe.title) return;
-    setCooking({ path, state: state ? { recipe: state.recipe, servings: state.servings, from: state.from } : null, title: recipe.title, step: 0, steps: steps.length, timer: null, at: Date.now() });
+    setCooking({ path, state: state ? { recipe: state.recipe, servings: state.servings, from: state.from } : null, title: recipe.title, step: 0, steps: steps.length, stepText: recipe.steps?.[0], timer: null, at: Date.now() });
   }, [path, recipe, steps.length, state]);
   // Quitter tout de suite (première étape, pas de minuteur) : pas de recette en cours
   useEffect(() => () => {
@@ -109,7 +109,7 @@ export function Cook({ history, isPlus, meals, onCooked, onUsed }: {
   const used = counted && counted.used.kg > 0 ? counted.used : null;
   const badge = saved ? t(`${euros(saved.eur)} sauvés ${meal.toLowerCase()}`, `${euros(saved.eur)} saved ${meal.toLowerCase()}`) : t("Cuisiné avec mon frigo", "Cooked with my fridge");
 
-  const go = (i: number) => { setStep(i); patchCooking({ step: i }); };
+  const go = (i: number) => { setStep(i); patchCooking({ step: i, stepText: steps[i] }); };
   const finish = () => {
     setCooking(null);
     if (!counted) {

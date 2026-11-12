@@ -1,8 +1,10 @@
-// Notifications (étape 12, migration 20261021000000_notifications.sql) : le centre de notifications et l'envoi sur les téléphones (Web Push).
+// Notifications (étape 12, migration 20261021000000_notifications.sql) : le centre de notifications et l'envoi sur les téléphones
+// (Web Push ; l'app mobile passe par api/_native.ts).
 // Clés VAPID dans Vercel : VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY (npx web-push generate-vapid-keys). Sans elles : le centre marche, rien ne sonne.
 import type { SupabaseClient } from "@supabase/supabase-js";
 import webpush from "web-push";
 import { errorMessage } from "./_shared.js";
+import { nativeKind, sendNative } from "./_native.js";
 
 export type NotifKind = "evening" | "week" | "referral" | "scans" | "report" | "welcome";
 export type Notif = {
@@ -34,10 +36,19 @@ export const payloadOf = (n: Notif, id?: string): PushPayload => {
 
 /** Envoie sur ces téléphones. Un téléphone qui ne répond plus (désabonné, appli supprimée) est retiré. */
 export async function sendPush(admin: SupabaseClient, subs: Sub[], payload: PushPayload): Promise<number> {
-  if (!subs.length || !vapid()) return 0;
+  if (!subs.length) return 0;
   const body = JSON.stringify(payload);
+  const web = vapid();
   let sent = 0;
   await Promise.all(subs.map(async s => {
+    // Téléphone de l'app mobile (api/_native.ts)
+    if (nativeKind(s.endpoint)) {
+      const r = await sendNative(s.endpoint, payload);
+      if (r === "sent") sent++;
+      if (r === "gone") await admin.from("push_subscriptions").delete().eq("endpoint", s.endpoint);
+      return;
+    }
+    if (!web) return;
     try {
       await webpush.sendNotification({ endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } }, body, { TTL: 6 * 3600, urgency: "normal" });
       sent++;

@@ -1,7 +1,10 @@
 // Notifications (étape 12, migration 20261021000000_notifications.sql) :
 // le centre (table notifications), les réglages (notif_settings), ce téléphone (Web Push, api/notify.ts).
 import { useSyncExternalStore } from "react";
+import { Capacitor } from "@capacitor/core";
+import { PushNotifications } from "@capacitor/push-notifications";
 import { supabase } from "../supabase";
+import { isNativeApp } from "./native";
 import { postApi } from "./api";
 import { t } from "./i18n";
 
@@ -68,13 +71,14 @@ export async function saveNotifSettings(userId: string, s: NotifSettings): Promi
 /** on : il sonne. off : pas encore activées. denied : refusées dans le téléphone. unsupported : ce navigateur ne sait pas (iPhone hors écran d'accueil…) */
 export type PushState = "on" | "off" | "denied" | "unsupported";
 
-export const pushSupported = () => "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+export const pushSupported = () => isNativeApp || ("serviceWorker" in navigator && "PushManager" in window && "Notification" in window);
 export const isIOS = () => /iPhone|iPad|iPod/.test(navigator.userAgent);
 
 const withTimeout = <T,>(p: Promise<T>, ms: number) => Promise.race([p, new Promise<never>((_, no) => setTimeout(() => no(new Error("timeout")), ms))]);
 const registration = () => withTimeout(navigator.serviceWorker.ready, 8000);
 
 export async function pushState(): Promise<PushState> {
+  if (isNativeApp) return nativeState();
   if (!pushSupported()) return "unsupported";
   if (Notification.permission === "denied") return "denied";
   if (Notification.permission !== "granted") return "off";
@@ -105,6 +109,11 @@ async function register(quiet: boolean) {
 
 /** « Activer » : la fenêtre du téléphone, puis l'abonnement. error : autorisé, mais l'abonnement n'a pas pu se faire */
 export async function enablePush(): Promise<PushState | "error"> {
+  if (isNativeApp) {
+    const perm = await PushNotifications.requestPermissions();
+    if (perm.receive !== "granted") return perm.receive === "denied" ? "denied" : "off";
+    try { await registerNative(false); return "on"; } catch { return "error"; }
+  }
   if (!pushSupported()) return "unsupported";
   const perm = await Notification.requestPermission();
   if (perm !== "granted") return perm === "denied" ? "denied" : "off";
@@ -117,10 +126,47 @@ export async function resyncPush(userId: string) {
   try { if (localStorage.getItem(k) === today) return; } catch { /* navigation privée */ }
   if ((await pushState()) !== "on") return;
   try {
-    await register(true);
+    if (isNativeApp) await registerNative(true); else await register(true);
     try { localStorage.setItem(k, today); } catch { /* navigation privée */ }
   } catch { /* on réessaiera */ }
 }
+
+// ─── App mobile : notifications d'Apple (iPhone) et de Google (Android), envoyées par api/_native.ts ───
+// « on » dès que le téléphone les autorise : le jeton est redonné au serveur chaque jour (resyncPush).
+async function nativeState(): Promise<PushState> {
+  const { receive } = await PushNotifications.checkPermissions();
+  return receive === "granted" ? "on" : receive === "denied" ? "denied" : "off";
+}
+
+/** Demande son jeton au téléphone, puis le donne au serveur */
+async function registerNative(quiet: boolean) {
+  const token = await withTimeout(new Promise<string>((resolve, reject) => {
+    void PushNotifications.addListener("registration", t => resolve(t.value));
+    void PushNotifications.addListener("registrationError", e => reject(new Error(e.error)));
+    void PushNotifications.register();
+  }), 15000).finally(() => {
+    void PushNotifications.removeAllListeners().then(listenNativeTaps);
+  });
+  const res = await postApi("/api/notify", { action: "subscribe-native", token, platform: Capacitor.getPlatform(), tz: Intl.DateTimeFormat().resolvedOptions().timeZone, quiet });
+  if (!res.ok) throw new Error("subscribe failed");
+}
+
+// Notif touchée : son écran s'ouvre (src/app/notifs/sync.ts écoute « frigia-notif »)
+let tapsOn = false;
+function listenNativeTaps() {
+  tapsOn = true;
+  void PushNotifications.addListener("pushNotificationActionPerformed", ({ notification }) => {
+    const url = (notification.data as { url?: unknown } | undefined)?.url;
+    if (typeof url !== "string" || !url.startsWith("/")) return;
+    // App fermée : la notif l'ouvre avant que l'écran écoute, il la reprendra (takeNativeTap)
+    pendingTap = url;
+    window.dispatchEvent(new CustomEvent("frigia-notif", { detail: url }));
+  });
+}
+let pendingTap: string | null = null;
+export const takeNativeTap = () => { const u = pendingTap; pendingTap = null; return u; };
+/** À appeler une fois, au démarrage de l'app mobile */
+export function listenNativePush() { if (isNativeApp && !tapsOn) listenNativeTaps(); }
 
 // L'écran « On te fait signe au bon moment ? » après le premier repas cuisiné : une seule fois
 const ASKED = "frigia_nf_asked";

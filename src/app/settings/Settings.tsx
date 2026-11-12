@@ -15,6 +15,7 @@ import { authMessage } from "../onboarding/errors";
 import { AccountSheet, ContactSheet, DeleteSheet, ProfileDot, type AccountMode, type Dish, type SendMode } from "./sheets";
 import { NotifSettingsCard } from "../notifs/NotifSettings";
 import "./settings.css";
+import { isNativeApp } from "../../lib/native";
 
 
 /** Ce qui est commun aux deux écrans : le compte, et ce qu'on fait en le quittant. */
@@ -64,7 +65,7 @@ export function Settings({ user, name, avatar, isPlus, onSignOut, onDelete, onGo
           </button>
           {/* En essai (ou essai fini) : s'abonner ; abonné : gérer ou résilier */}
           <Row icon="sparkle" title={t("Abonnement", "Subscription")} value={trial ? trialText(trial) : isPlus ? "Plus" : t("Aucun", "None")} onClick={() => (isPlus && !trial ? navigate("/resilier") : openPaywall("def"))} />
-          {(trial || !isPlus) && <Row icon="gift" title={t("Utiliser un code", "Use a code")} value={t("7 jours en plus", "7 extra days")} onClick={() => navigate("/plus", { state: { why: "def", code: true } satisfies PaywallState })} />}
+          {(trial || !isPlus) && !isNativeApp && <Row icon="gift" title={t("Utiliser un code", "Use a code")} value={t("7 jours en plus", "7 extra days")} onClick={() => navigate("/plus", { state: { why: "def", code: true } satisfies PaywallState })} />}
         </div>
 
         <span className="st-sec">Notifications</span>
