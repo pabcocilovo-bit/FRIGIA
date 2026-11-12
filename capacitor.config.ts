@@ -13,6 +13,10 @@ const config: CapacitorConfig = {
   ios: {
     contentInset: 'never',
   },
+  plugins: {
+    // Une notif qui arrive pendant que l'app est ouverte s'affiche quand même (iPhone)
+    PushNotifications: { presentationOptions: ['badge', 'sound', 'alert'] },
+  },
 };
 
 export default config;

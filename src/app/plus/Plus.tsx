@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { supabase } from "../../supabase";
+import { isNativeApp } from "../../lib/native";
 import { checkoutUrl, expiredCardMonth, fetchOffers, isPlus, subscriptionAction, trialText, type PlanChoice, type Subscription } from "../../lib/billing";
 import type { User } from "../../lib/types";
 import { Icon, Pill, RoundButton } from "../../ui/components";
@@ -55,7 +56,8 @@ export function Paywall({ locked, trial, onCode }: {
   // Pendant l'essai, abonné maintenant : rien à payer avant sa fin (au moins 48 h avant, sinon Stripe débite tout de suite)
   const [now] = useState(() => Date.now());
   const later = trial && trial - now > 48 * 3600e3 ? DATE.format(new Date(trial)) : null;
-  const why = locked ? WHY.fin
+  const why = isNativeApp ? (locked ? t("Ton essai est terminé.", "Your trial has ended.") : t("Cette fonction fait partie de Frigia Plus.", "This feature is part of Frigia Plus."))
+    : locked ? WHY.fin
     : state.why && state.why !== "def" && state.why !== "fin" ? WHY[state.why as Why] ?? WHY.def
       : trial ? `${trialText(trial, now)}. ${later ? t(`Abonne-toi maintenant : rien à payer avant le ${later}.`, `Subscribe now: nothing to pay before ${later}.`) : t("Abonne-toi pour garder Frigia ensuite.", "Subscribe to keep Frigia afterwards.")}` : WHY.def;
   const [plan, setPlan] = useState<PlanChoice>("year");
@@ -125,6 +127,9 @@ export function Paywall({ locked, trial, onCode }: {
           <ul className="pw-feats">
             {FEATS.map(f => <li key={f}><Icon name="check" />{f}</li>)}
           </ul>
+          {/* App mobile : Apple et Google interdisent un autre paiement que le leur. Ni prix, ni code, ni bouton d'achat :
+              un compte Plus (pris sur le site) est reconnu, c'est tout. */}
+          {!isNativeApp && <>
           <div className="offers" role="radiogroup" aria-label={t("Formule", "Plan")}>
             <button type="button" role="radio" aria-checked={plan === "year"} className={cx("offer", plan === "year" && "on")} onClick={() => setPlan("year")}>
               <span className="rd" />
@@ -153,13 +158,22 @@ export function Paywall({ locked, trial, onCode }: {
             )}
             {codeOk && <div className="ok"><Icon name="check" /><span>{codeOk}</span></div>}
           </div>
+          </>}
         </div>
       </div>
+      {isNativeApp ? (
+        <div className="pw-foot">
+          <small>{t("Frigia Plus n'est pas disponible à l'achat dans l'app pour le moment.", "Frigia Plus can't be purchased in the app for now.")}</small>
+          <Pill tone="cream" disabled={busy} onClick={() => { setBusy(true); void supabase.auth.refreshSession().finally(() => setBusy(false)); }}>{t("J'ai déjà Plus : actualiser", "I already have Plus: refresh")}</Pill>
+          {locked && <button type="button" className="link pw-acct" onClick={() => navigate("/reglages")}>{t("Mon compte", "My account")}</button>}
+        </div>
+      ) : (
       <div className="pw-foot">
         <Pill tone="cream" disabled={busy} onClick={pay}>{t("Passer à Plus", "Upgrade to Plus")} · {plan === "year" ? yearPrice : offer ? t("13,98 € pour 3 mois", "€13.98 for 3 months") : t("6,99 €/mois", "€6.99/month")}</Pill>
         <small>{later ? t(`Rien à payer avant le ${later}. `, `Nothing to pay before ${later}. `) : ""}{t("Sans engagement. Paiement sécurisé par Stripe.", "No commitment. Secure payment by Stripe.")}</small>
         {locked && <button type="button" className="link pw-acct" onClick={() => navigate("/reglages")}>{t("Mon compte", "My account")}</button>}
       </div>
+      )}
       <CodeSheet problem={problem}
         onFix={() => { setProblem(null); setTimeout(() => { codeRef.current?.focus(); codeRef.current?.select(); }, 350); }}
         onSkip={() => { setProblem(null); setCodeIn(""); setCodeOpen(false); }} />

@@ -44,8 +44,28 @@ npx capacitor-assets generate --android --ios --iconBackgroundColor '#2D5E45' --
 1. *URL Configuration › Redirect URLs* : ajouter `fr.frigia.app://auth`.
 2. *Sign In / Providers › Apple* : activer Apple (il faut le compte développeur Apple).
 
+## Notifications
+
+L'app reçoit les notifications d'Apple (iPhone) et de Google (Android), envoyées par `api/_native.ts`.
+Les jetons des téléphones sont rangés avec les abonnements web, dans `push_subscriptions` (`apns:…` ou `fcm:…`).
+
+À régler une fois :
+1. **iPhone** (compte développeur Apple nécessaire) :
+   - Dans Xcode, cible **App** › *Signing & Capabilities* › **+ Capability** › *Push Notifications*.
+   - Sur developer.apple.com › *Keys* : crée une clé avec *Apple Push Notifications service (APNs)*, télécharge le fichier `.p8`.
+   - Dans Vercel : `APNS_KEY` (tout le texte du `.p8`), `APNS_KEY_ID` (l'identifiant de la clé), `APNS_TEAM_ID` (ton Team ID).
+2. **Android** :
+   - Sur console.firebase.google.com : crée un projet, ajoute une app Android `fr.frigia.app`, télécharge `google-services.json` dans `android/app/`.
+     Sans ce fichier, l'app Android plante quand on active les notifications.
+   - Firebase › Paramètres du projet › *Comptes de service* › *Générer une clé privée* : dans Vercel, `FCM_SERVICE_ACCOUNT` (tout le texte du JSON).
+
+## Achat de Frigia Plus
+
+Apple et Google interdisent un autre paiement que le leur dans une app. Dans l'app : ni prix, ni bouton d'achat, ni code
+qui débloque Plus. Un compte Plus pris sur le site est reconnu. « J'ai déjà Plus : actualiser » relit le compte.
+Résilier ou mettre en pause reste possible.
+
 ## Pas encore fait
 
-1. Notifications natives (les notifications web ne marchent pas dans l'app).
-2. Achat de Frigia Plus masqué dans l'app (Apple et Google refusent Stripe).
-3. Fiches des stores.
+1. Fiches des stores.
+2. Le minuteur de cuisine ne sonne pas quand l'app est en arrière-plan (il passait par le service worker).

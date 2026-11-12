@@ -2,7 +2,7 @@
 // Le centre se recharge à chaque retour dans l'appli ; une notif touchée sur le téléphone ouvre son écran et passe en lue.
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { addWelcome, markRead, refreshNotifs, resyncPush } from "../../lib/notify";
+import { addWelcome, markRead, refreshNotifs, resyncPush, takeNativeTap } from "../../lib/notify";
 import type { User } from "../../lib/types";
 
 const NEW_ACCOUNT_MS = 3 * 864e5;
@@ -37,6 +37,15 @@ export function useNotifSync(user: User | null) {
     };
     navigator.serviceWorker.addEventListener("message", on);
     return () => navigator.serviceWorker.removeEventListener("message", on);
+  }, [navigate]);
+
+  // App mobile : notif touchée (src/lib/notify.ts)
+  useEffect(() => {
+    const waiting = takeNativeTap();
+    if (waiting) navigate(waiting);
+    const on = (e: Event) => { takeNativeTap(); navigate((e as CustomEvent<string>).detail); };
+    window.addEventListener("frigia-notif", on);
+    return () => window.removeEventListener("frigia-notif", on);
   }, [navigate]);
 
   // …?notif=<id> : ouverte depuis le téléphone, donc lue

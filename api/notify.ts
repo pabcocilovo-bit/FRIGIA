@@ -203,7 +203,7 @@ export default async function handler(req: Req, res: Res) {
   }
 
   if (preflight(req, res)) return;
-  const { action, sub, tz, endpoint, quiet } = (req.body ?? {}) as { action?: string; quiet?: boolean; sub?: { endpoint?: unknown; keys?: { p256dh?: unknown; auth?: unknown } }; tz?: unknown; endpoint?: unknown };
+  const { action, sub, tz, endpoint, quiet, token, platform } = (req.body ?? {}) as { action?: string; quiet?: boolean; sub?: { endpoint?: unknown; keys?: { p256dh?: unknown; auth?: unknown } }; tz?: unknown; endpoint?: unknown; token?: unknown; platform?: unknown };
   if (action === "key") {
     const key = vapidPublicKey();
     return key ? res.json({ key }) : res.status(503).json({ error: "Notifications indisponibles" });
@@ -225,6 +225,22 @@ export default async function handler(req: Req, res: Res) {
     // Une fois par jour l'appli redit son abonnement (quiet) : pas de notif alors
     if (quiet) return res.json({ ok: true, sent: 0 });
     const sent = await sendPush(admin, [{ endpoint: e, p256dh: p, auth: a }], payloadOf({ kind: "welcome", key: "on", ...(langOf(req) === "en"
+      ? { title: "It's on", body: "We'll nudge you at the right time. You choose which ones in Settings." }
+      : { title: "C'est activé", body: "On te fait signe au bon moment. Tu choisis lesquelles dans les réglages." }) }));
+    return res.json({ ok: true, sent });
+  }
+
+  // App mobile : le jeton du téléphone (Apple ou Google), rangé avec les abonnements web (api/_native.ts)
+  if (action === "subscribe-native") {
+    if (typeof token !== "string" || !/^[\w:.-]{20,900}$/.test(token) || (platform !== "ios" && platform !== "android")) {
+      return res.status(400).json({ error: "Abonnement invalide" });
+    }
+    const e = `${platform === "ios" ? "apns" : "fcm"}:${token}`;
+    const { error } = await admin.from("push_subscriptions").upsert({ endpoint: e, user_id: user.id, p256dh: "native", auth: "native" }, { onConflict: "endpoint" });
+    if (error) return res.status(503).json({ error: "Notifications indisponibles" });
+    await admin.from("notif_settings").upsert({ user_id: user.id, tz: safeTz(tz), updated_at: new Date().toISOString() }, { onConflict: "user_id" });
+    if (quiet) return res.json({ ok: true, sent: 0 });
+    const sent = await sendPush(admin, [{ endpoint: e, p256dh: "native", auth: "native" }], payloadOf({ kind: "welcome", key: "on", ...(langOf(req) === "en"
       ? { title: "It's on", body: "We'll nudge you at the right time. You choose which ones in Settings." }
       : { title: "C'est activé", body: "On te fait signe au bon moment. Tu choisis lesquelles dans les réglages." }) }));
     return res.json({ ok: true, sent });

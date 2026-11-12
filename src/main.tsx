@@ -5,9 +5,11 @@ import './index.css'
 import App from './App.tsx'
 import { setupNativeApp } from './lib/native'
 import { listenNativeOAuth } from './app/onboarding/oauth'
+import { listenNativePush } from './lib/notify'
 
 setupNativeApp()
 listenNativeOAuth()
+listenNativePush()
 
 
 if ('serviceWorker' in navigator) {
