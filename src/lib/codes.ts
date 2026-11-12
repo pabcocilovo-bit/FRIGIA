@@ -1,3 +1,4 @@
+import { SITE_ORIGIN } from "./native";
 // Codes ami et créateur, parrainage (api/code.ts).
 import { postApi } from "./api";
 import { t } from "./i18n";
@@ -41,4 +42,4 @@ export const inviteCode = () => get(INVITE);
 export const clearInviteCode = () => set(INVITE, null);
 
 /** frigia.fr/i/cami-r7q4 */
-export const inviteLink = (code: string) => `${window.location.origin}/i/${code.toLowerCase()}`;
+export const inviteLink = (code: string) => `${SITE_ORIGIN}/i/${code.toLowerCase()}`;

@@ -1,4 +1,6 @@
 // Compte : données gardées sur le téléphone, profil, mot de passe, suppression.
+import { isNativeApp } from "./native";
+import { APP_CALLBACK, openInBrowser } from "../app/onboarding/oauth";
 import { supabase } from "../supabase";
 import type { Prefs, User } from "./types";
 import { postApi } from "./api";
@@ -96,6 +98,12 @@ export async function confirmEmailChange(email: string, token: string) {
 // ─── Google relié au compte (Supabase : « Manual linking » activé) ───
 export const hasGoogle = (u: User) => !!u.identities?.some(i => i.provider === "google");
 export async function linkGoogle() {
+  if (isNativeApp) {
+    const { data, error } = await supabase.auth.linkIdentity({ provider: "google", options: { redirectTo: APP_CALLBACK, skipBrowserRedirect: true } });
+    if (error) throw error;
+    if (data.url) await openInBrowser(data.url);
+    return;
+  }
   const { error } = await supabase.auth.linkIdentity({ provider: "google", options: { redirectTo: `${window.location.origin}/reglages/compte` } });
   if (error) throw error;
 }

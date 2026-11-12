@@ -7,6 +7,9 @@ export type Req = IncomingMessage & { body?: unknown; query?: Record<string, str
 export type Res = ServerResponse & { status: (code: number) => Res; json: (body: unknown) => void };
 
 const ALLOWED_ORIGINS = ["https://frigia.fr", "https://www.frigia.fr", "https://frigia-ten.vercel.app", "http://localhost:5173"];
+// App mobile (Capacitor) : Android sert les pages depuis https://localhost, iOS depuis capacitor://localhost.
+// Acceptées pour les appels, jamais utilisées pour fabriquer un lien (paiement, e-mail) : ceux-là visent le site.
+const APP_ORIGINS = ["https://localhost", "capacitor://localhost"];
 // Aperçus Vercel des branches (ex. frigia-git-nouveau-design-app-pablo-s-projects16.vercel.app)
 const PREVIEW_ORIGIN = /^https:\/\/frigia-[a-z0-9-]+-pablo-s-projects16\.vercel\.app$/;
 
@@ -18,7 +21,8 @@ export function siteOrigin(req: Req): string {
 
 /** En-têtes CORS. Renvoie true si la requête est déjà traitée (OPTIONS ou méthode refusée). */
 export function preflight(req: Req, res: Res, methods = "POST"): boolean {
-  res.setHeader("Access-Control-Allow-Origin", siteOrigin(req));
+  const origin = req.headers.origin;
+  res.setHeader("Access-Control-Allow-Origin", origin && APP_ORIGINS.includes(origin) ? origin : siteOrigin(req));
   res.setHeader("Access-Control-Allow-Methods", `${methods}, OPTIONS`);
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Frigia-Lang");
   if (req.method === "OPTIONS") { res.status(200).end(); return true; }

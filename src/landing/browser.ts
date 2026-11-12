@@ -1,3 +1,4 @@
+import { isNativeApp } from "../lib/native";
 // Repérage du navigateur, repris de l'ancienne landing.
 
 export type InApp = { isGoogleApp: boolean; isSocialApp: boolean; isIos: boolean; isAndroid: boolean };
@@ -45,6 +46,8 @@ export function detectBrowser(): Browser {
 
 export function isStandalone() {
   if (typeof window === "undefined") return false;
+  // L'app mobile se comporte comme l'appli installée : pas de page de présentation
+  if (isNativeApp) return true;
   return window.matchMedia("(display-mode: standalone)").matches || (navigator as Navigator & { standalone?: boolean }).standalone === true;
 }
 

@@ -6,11 +6,19 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && node scripts/prerender.mjs",
+    "build:app": "tsc -b && vite build --mode app && cap sync",
+    "android": "npm run build:app && cap open android",
+    "ios": "npm run build:app && cap open ios",
     "lint": "eslint .",
     "preview": "vite preview",
     "catalogue": "rolldown scripts/catalogue.ts -p node -f esm -e @supabase/supabase-js -o node_modules/.cache/catalogue.mjs && node node_modules/.cache/catalogue.mjs"
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.0",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/browser": "^8.0.5",
+    "@capacitor/core": "^8.6.0",
+    "@capacitor/ios": "^8.6.0",
     "@marsidev/react-turnstile": "^1.5.2",
     "@supabase/supabase-js": "^2.106.1",
     "@vercel/analytics": "^2.0.1",
@@ -23,6 +31,8 @@
     "web-push": "^3.6.7"
   },
   "devDependencies": {
+    "@capacitor/assets": "^4.0.0",
+    "@capacitor/cli": "^8.6.0",
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",

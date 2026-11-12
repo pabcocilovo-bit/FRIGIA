@@ -15,7 +15,8 @@ import { type Member, setPendingFamily } from "../../lib/home";
 import { APPETITE, appetiteOf } from "../../lib/household";
 import { useCaptcha } from "./captcha";
 import { authMessage, isEmailNotConfirmed, JETABLE, looksLikeEmail } from "./errors";
-import { withGoogle } from "./oauth";
+import { withApple, withGoogle } from "./oauth";
+import { Capacitor } from "@capacitor/core";
 import { accessEmail, signupOpen, WAITLIST_URL } from "../../lib/launch";
 import { trialPitch } from "../../lib/alpha";
 import { detectInAppBrowser, openInNativeBrowser } from "../../landing/browser";
@@ -24,6 +25,9 @@ import { CodeSheet, type CodeProblem } from "../plus/CodeSheet";
 import { allergyName, ALLERGY_KEYS } from "../../lib/allergens";
 import { isEn, t } from "../../lib/i18n";
 import "./ob.css";
+
+// iPhone (app) : Apple exige « Se connecter avec Apple » dès qu'une app propose Google
+const APPLE = Capacitor.getPlatform() === "ios";
 
 const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).join(" ");
 
@@ -512,16 +516,16 @@ export function Signup() {
   const [codeOpen, setCodeOpen] = useState(() => !!inviteCode());
   const [codeOk, setCodeOk] = useState<string | null>(null);
   const [problem, setProblem] = useState<CodeProblem | null>(null);
-  const [next, setNext] = useState<"google" | "email">("email");
+  const [next, setNext] = useState<"google" | "apple" | "email">("email");
   const [busy, setBusy] = useState(false);
   const codeInput = useRef<HTMLInputElement>(null);
 
-  const go = (to: "google" | "email") => {
+  const go = (to: "google" | "apple" | "email") => {
     setPendingProfile(a);
-    if (to === "google") void withGoogle("signup"); else navigate("/compte/email");
+    if (to === "google") void withGoogle("signup"); else if (to === "apple") void withApple("signup"); else navigate("/compte/email");
   };
   // Un code tapé : on le vérifie d'abord. Refusé : la petite feuille, sans continuer.
-  const start = async (to: "google" | "email") => {
+  const start = async (to: "google" | "apple" | "email") => {
     const typed = cleanCode(code);
     if (!typed) { setPendingCode(null); go(to); return; }
     setNext(to);
@@ -554,6 +558,7 @@ export function Signup() {
               {codeOk && <span className="ob-codeok"><Icon name="check" /><span>{codeOk}</span></span>}
             </div>
           )}
+        {APPLE && <button type="button" className="ob-btn white" disabled={busy} onClick={() => void start("apple")}><Icon name="apple" />{t("Continuer avec Apple", "Continue with Apple")}</button>}
         <button type="button" className="ob-btn white" disabled={busy} onClick={() => void start("google")}><Icon name="google" />{t("Continuer avec Google", "Continue with Google")}</button>
         <div className="ob-or">{t("ou", "or")}</div>
         <button type="button" className="ob-btn sage" disabled={busy} onClick={() => void start("email")}><Icon name="mail" />{t("Continuer avec un email", "Continue with email")}</button>
@@ -727,6 +732,7 @@ export function Login() {
         <button type="button" className="lm-x" aria-label={t("Fermer", "Close")} onClick={back}><Icon name="x" /></button>
         <form className="scroll" onSubmit={e => { e.preventDefault(); void submit(); }}><div className="lm-body">
           <h2>{t(<>Content de te <em>revoir</em></>, <>Good to see you <em>again</em></>)}</h2>
+          {APPLE && <button type="button" className="ob-btn white" onClick={() => void withApple("login")}><Icon name="apple" />{t("Continuer avec Apple", "Continue with Apple")}</button>}
           <button type="button" className="ob-btn white" onClick={() => void withGoogle("login")}><Icon name="google" />{t("Continuer avec Google", "Continue with Google")}</button>
           <div className="ob-or">{t("ou avec ton email", "or with your email")}</div>
           <ObField label="Email" icon="mail" type="email" autoComplete="email" inputMode="email" value={email} onChange={e => setEmail(e.target.value)} />
