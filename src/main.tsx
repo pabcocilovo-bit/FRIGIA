@@ -6,10 +6,12 @@ import App from './App.tsx'
 import { setupNativeApp } from './lib/native'
 import { listenNativeOAuth } from './app/onboarding/oauth'
 import { listenNativePush } from './lib/notify'
+import { listenNativeCooking } from './app/scan/cookingNative'
 
 setupNativeApp()
 listenNativeOAuth()
 listenNativePush()
+listenNativeCooking()
 
 
 if ('serviceWorker' in navigator) {

@@ -65,7 +65,19 @@ Apple et Google interdisent un autre paiement que le leur dans une app. Dans l'a
 qui débloque Plus. Un compte Plus pris sur le site est reconnu. « J'ai déjà Plus : actualiser » relit le compte.
 Résilier ou mettre en pause reste possible.
 
+## Recette en cours hors de l'app
+
+Pendant une recette (`src/app/scan/cookingNative.ts`) :
+- le minuteur sonne même app fermée ou téléphone verrouillé (notification programmée dans le téléphone) ;
+- **iPhone** : l'étape, le texte de l'étape et le minuteur sur l'écran verrouillé et dans la Dynamic Island (Activité en direct) ;
+- **Android** : une notification qui reste, avec l'étape et l'heure de fin du minuteur.
+
+L'Activité en direct demande une cible en plus dans Xcode, à créer une fois :
+1. Xcode › *File* › *New* › *Target…* › **Widget Extension** › *Next*.
+2. Nom : `FrigiaLive`. Coche **Include Live Activity**, décoche le reste (*Configuration App Intent*, *Control*). *Finish*, puis *Activate*.
+3. Dans le Terminal : `npm run live-activity` (met l'affichage de Frigia à la place des fichiers d'exemple).
+4. ▶. Lance une recette avec un minuteur, puis verrouille le téléphone.
+
 ## Pas encore fait
 
 1. Fiches des stores.
-2. Le minuteur de cuisine ne sonne pas quand l'app est en arrière-plan (il passait par le service worker).

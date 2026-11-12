@@ -1,10 +1,11 @@
 // La recette en cours, d'un écran à l'autre (demandé par Hugo le 23 octobre) : l'étape où on en est et le minuteur.
 // Gardée sur le téléphone : le minuteur continue si on quitte le mode cuisine, et même si l'appli se ferme.
 // À la fin du minuteur : sonnerie, vibration et « Minuteur terminé » sur n'importe quel écran (CookingLive.tsx).
-// Appli store : notification programmée et Live Activity à brancher ici (notes/appli-store-a-faire.md du projet).
+// App mobile : alarme programmée, écran verrouillé et Dynamic Island (cookingNative.ts).
 import { useEffect, useState, useSyncExternalStore } from "react";
 import type { RecipeState } from "./Recipe";
 import { isEn } from "../../lib/i18n";
+import { isNativeApp } from "../../lib/native";
 
 /** Le minuteur d'une étape. En marche : end (heure de fin). En pause : left (secondes qui restent). */
 export type CookTimer = { step: number; label: string; seconds: number; left: number; end: number | null };
@@ -12,6 +13,8 @@ export type Cooking = {
   /** L'écran du mode cuisine, et ce qu'il faut pour le rouvrir */
   path: string; state: RecipeState | null;
   title: string; step: number; steps: number;
+  /** Le texte de l'étape, pour l'écran verrouillé de l'app mobile */
+  stepText?: string;
   timer: CookTimer | null;
   at: number;
 };
@@ -45,6 +48,8 @@ export function patchCooking(patch: Partial<Cooking>) {
   if (cooking) setCooking({ ...cooking, ...patch, at: Date.now() });
 }
 export const useCooking = () => useSyncExternalStore(subscribe, () => cooking);
+/** Prévenu à chaque changement de la recette en cours (app mobile : cookingNative.ts) */
+export const onCookingChange = subscribe;
 export const useRing = () => useSyncExternalStore(subscribe, () => ring);
 
 /** Secondes qui restent */
@@ -69,8 +74,9 @@ export function fireTimer() {
   setCooking({ ...c, timer: null });
   stopSound = playAlarm();
   navigator.vibrate?.([300, 150, 300, 150, 300]);
-  // Appli en arrière-plan (Android surtout) : la notif du téléphone, si elles sont autorisées
-  if (document.visibilityState === "hidden" && typeof Notification !== "undefined" && Notification.permission === "granted") {
+  // Appli en arrière-plan (Android surtout) : la notif du téléphone, si elles sont autorisées.
+  // App mobile : l'alarme est déjà programmée dans le téléphone (cookingNative.ts).
+  if (!isNativeApp && document.visibilityState === "hidden" && typeof Notification !== "undefined" && Notification.permission === "granted") {
     void navigator.serviceWorker?.getRegistration().then(reg => reg?.showNotification(isEn ? "Timer done" : "Minuteur terminé", {
       body: `${t.label} · ${c.title}`, icon: "/icon-192.png", tag: "frigia-minuteur", data: { url: c.path },
     })).catch(() => undefined);
